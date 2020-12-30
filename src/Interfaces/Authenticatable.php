@@ -1,0 +1,68 @@
+<?php
+
+namespace CodeIgniter\Shield\Interfaces;
+
+interface Authenticatable
+{
+	/**
+	 * Returns the name of the column used to
+	 * uniquely identify this user, typically 'id'.
+	 *
+	 * @return string
+	 */
+	public function getAuthIdColumn(): string;
+
+	/**
+	 * Returns the unique identifier of
+	 * the object for authentication purposes.
+	 * Typically the user's id.
+	 *
+	 * @return mixed
+	 */
+	public function getAuthId();
+
+	/**
+	 * Returns the name of the column with the
+	 * email address of this user.
+	 *
+	 * @return string
+	 */
+	public function getAuthEmailColumn(): string;
+
+	/**
+	 * Returns the email address for this user.
+	 *
+	 * @return string|null
+	 */
+	public function getAuthEmail();
+
+	/**
+	 * Get the password for the user.
+	 *
+	 * @return string|null
+	 */
+	public function getAuthPassword();
+
+	/**
+	 * Returns the "remember me" token for this user.
+	 *
+	 * @return string|null
+	 */
+	public function getRememberToken();
+
+	/**
+	 * Sets the "remmeber me" token.
+	 *
+	 * @param string $value
+	 *
+	 * @return mixed
+	 */
+	public function setRememberToken(string $value);
+
+	/**
+	 * Returns the column name that stores the remember-me value.
+	 *
+	 * @return string
+	 */
+	public function getRememberColumn(): string;
+}
