@@ -85,7 +85,7 @@ class CreateAuthTables extends Migration
 			],
 		]);
 
-		$this->forge->addKey('id', true);
+		$this->forge->addPrimaryKey('id');
 		$this->forge->addUniqueKey('email');
 		$this->forge->addUniqueKey('username');
 
@@ -123,14 +123,14 @@ class CreateAuthTables extends Migration
 				'constraint' => 1,
 			],
 		]);
-		$this->forge->addKey('id', true);
+		$this->forge->addPrimaryKey('id');
 		$this->forge->addKey('email');
 		$this->forge->addKey('user_id');
 		// NOTE: Do NOT delete the user_id or email when the user is deleted for security audits
 		$this->forge->createTable('auth_logins', true);
 
 		/*
-		 * Auth Tokens
+		 * Auth Tokens  (Remember Me)
 		 * @see https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence
 		 */
 		$this->forge->addField([
@@ -154,11 +154,19 @@ class CreateAuthTables extends Migration
 				'unsigned'   => true,
 			],
 			'expires'         => ['type' => 'datetime'],
+			'created_at'      => [
+				'type' => 'datetime',
+				'null' => false,
+			],
+			'updated_at'      => [
+				'type' => 'datetime',
+				'null' => false,
+			],
 		]);
-		$this->forge->addKey('id', true);
-		$this->forge->addKey('selector');
+		$this->forge->addPrimaryKey('id');
+		$this->forge->addUniqueKey('selector');
 		$this->forge->addForeignKey('user_id', 'users', 'id', false, 'CASCADE');
-		$this->forge->createTable('auth_tokens', true);
+		$this->forge->createTable('auth_remember_tokens', true);
 
 		/*
 		 * Password Reset Table
@@ -192,7 +200,7 @@ class CreateAuthTables extends Migration
 				'null' => false,
 			],
 		]);
-		$this->forge->addKey('id', true);
+		$this->forge->addPrimaryKey('id');
 		$this->forge->createTable('auth_reset_attempts');
 
 		/*
@@ -223,8 +231,53 @@ class CreateAuthTables extends Migration
 				'null' => false,
 			],
 		]);
-		$this->forge->addKey('id', true);
+		$this->forge->addPrimaryKey('id');
 		$this->forge->createTable('auth_activation_attempts');
+
+		/*
+		 * Access Tokens
+		 */
+		$this->forge->addField([
+			'id'           => [
+				'type'           => 'int',
+				'constraint'     => 11,
+				'unsigned'       => true,
+				'auto_increment' => true,
+			],
+			'user_id'      => [
+				'type'       => 'int',
+				'constraint' => 11,
+				'unsigned'   => true,
+			],
+			'name'         => [
+				'type'       => 'varchar',
+				'constraint' => 255,
+			],
+			'token'        => [
+				'type'       => 'varchar',
+				'constraint' => 64,
+			],
+			'last_used_at' => [
+				'type' => 'datetime',
+				'null' => true,
+			],
+			'scopes'       => [
+				'type' => 'text',
+				'null' => true,
+			],
+			'created_at'   => [
+				'type' => 'datetime',
+				'null' => true,
+			],
+			'updated_at'   => [
+				'type' => 'datetime',
+				'null' => true,
+			],
+		]);
+
+		$this->forge->addPrimaryKey('id');
+		$this->forge->addUniqueKey('token');
+		$this->forge->createTable('auth_access_tokens');
 	}
 
 	//--------------------------------------------------------------------
@@ -234,13 +287,14 @@ class CreateAuthTables extends Migration
 		// drop constraints first to prevent errors
 		if ($this->db->DBDriver !== 'SQLite3')
 		{
-			$this->forge->dropForeignKey('auth_tokens', 'auth_tokens_user_id_foreign');
+			$this->forge->dropForeignKey('auth_remember_tokens', 'auth_remember_tokens_user_id_foreign');
 		}
 
 		$this->forge->dropTable('users', true);
 		$this->forge->dropTable('auth_logins', true);
-		$this->forge->dropTable('auth_tokens', true);
+		$this->forge->dropTable('auth_remember_tokens', true);
 		$this->forge->dropTable('auth_reset_attempts', true);
 		$this->forge->dropTable('auth_activation_attempts', true);
+		$this->forge->dropTable('auth_access_tokens', true);
 	}
 }
