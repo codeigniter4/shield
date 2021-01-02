@@ -65,7 +65,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 			'success' => true,
 		]);
 
-		$this->dontSeeInDatabase('auth_tokens', [
+		$this->dontSeeInDatabase('auth_remember_tokens', [
 			'user_id' => $user->id,
 		]);
 	}
@@ -85,7 +85,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 			'success' => true,
 		]);
 
-		$this->seeInDatabase('auth_tokens', [
+		$this->seeInDatabase('auth_remember_tokens', [
 			'user_id' => $user->id,
 		]);
 
@@ -99,12 +99,12 @@ class SessionHandlerTest extends CIDatabaseTestCase
 		$user = fake(UserModel::class);
 		$this->auth->login($user, true);
 
-		$this->seeInDatabase('auth_tokens', ['user_id' => $user->id]);
+		$this->seeInDatabase('auth_remember_tokens', ['user_id' => $user->id]);
 
 		$this->auth->logout();
 
 		$this->assertFalse(isset($_SESSION['logged_in']));
-		$this->dontSeeInDatabase('auth_tokens', ['user_id' => $user->id]);
+		$this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $user->id]);
 	}
 
 	public function testLoginByIdBadUser()
@@ -123,7 +123,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 
 		$this->assertEquals($user->id, $_SESSION['logged_in']);
 
-		$this->dontSeeInDatabase('auth_tokens', ['user_id' => $user->id]);
+		$this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $user->id]);
 	}
 
 	public function testLoginByIdRemember()
@@ -134,7 +134,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 
 		$this->assertEquals($user->id, $_SESSION['logged_in']);
 
-		$this->seeInDatabase('auth_tokens', ['user_id' => $user->id]);
+		$this->seeInDatabase('auth_remember_tokens', ['user_id' => $user->id]);
 	}
 
 	public function testForgetCurrentUser()
@@ -143,11 +143,11 @@ class SessionHandlerTest extends CIDatabaseTestCase
 		$this->auth->loginById($user->id, true);
 		$this->assertEquals($user->id, $_SESSION['logged_in']);
 
-		$this->seeInDatabase('auth_tokens', ['user_id' => $user->id]);
+		$this->seeInDatabase('auth_remember_tokens', ['user_id' => $user->id]);
 
 		$this->auth->forget();
 
-		$this->dontSeeInDatabase('auth_tokens', ['user_id' => $user->id]);
+		$this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $user->id]);
 	}
 
 	public function testForgetAnotherUser()
@@ -155,17 +155,17 @@ class SessionHandlerTest extends CIDatabaseTestCase
 		$user = fake(UserModel::class);
 		fake(RememberModel::class, ['user_id' => $user->id]);
 
-		$this->seeInDatabase('auth_tokens', ['user_id' => $user->id]);
+		$this->seeInDatabase('auth_remember_tokens', ['user_id' => $user->id]);
 
 		$this->auth->forget($user->id);
 
-		$this->dontSeeInDatabase('auth_tokens', ['user_id' => $user->id]);
+		$this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $user->id]);
 	}
 
 	public function testCheckNoPassword()
 	{
 		$result = $this->auth->check([
-			'email' => 'johnsmith@example.com'
+			'email' => 'johnsmith@example.com',
 		]);
 
 		$this->assertInstanceOf(Result::class, $result);
@@ -176,8 +176,8 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testCheckCannotFindUser()
 	{
 		$result = $this->auth->check([
-			'email' => 'johnsmith@example.com',
-			'password' => 'secret'
+			'email'    => 'johnsmith@example.com',
+			'password' => 'secret',
 		]);
 
 		$this->assertInstanceOf(Result::class, $result);
@@ -192,8 +192,8 @@ class SessionHandlerTest extends CIDatabaseTestCase
 		]);
 
 		$result = $this->auth->check([
-			'email' => $user->email,
-			'password' => 'secret'
+			'email'    => $user->email,
+			'password' => 'secret',
 		]);
 
 		$this->assertInstanceOf(Result::class, $result);
@@ -208,8 +208,8 @@ class SessionHandlerTest extends CIDatabaseTestCase
 		]);
 
 		$result = $this->auth->check([
-			'email' => $user->email,
-			'password' => 'secret123'
+			'email'    => $user->email,
+			'password' => 'secret123',
 		]);
 
 		$this->assertInstanceOf(Result::class, $result);
@@ -222,8 +222,8 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testAttemptCanotFindUser()
 	{
 		$result = $this->auth->attempt([
-			'email' => 'johnsmith@example.com',
-			'password' => 'secret'
+			'email'    => 'johnsmith@example.com',
+			'password' => 'secret',
 		]);
 
 		$this->assertInstanceOf(Result::class, $result);
@@ -232,7 +232,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 
 		// A login attempt should have always been recorded
 		$this->seeInDatabase('auth_logins', [
-			'email' => 'johnsmith@example.com',
+			'email'   => 'johnsmith@example.com',
 			'success' => 0,
 		]);
 	}
@@ -246,8 +246,8 @@ class SessionHandlerTest extends CIDatabaseTestCase
 		$this->assertFalse(isset($_SESSION['logged_in']));
 
 		$result = $this->auth->attempt([
-			'email' => $user->email,
-			'password' => 'secret123'
+			'email'    => $user->email,
+			'password' => 'secret123',
 		]);
 
 		$this->assertInstanceOf(Result::class, $result);
@@ -261,8 +261,8 @@ class SessionHandlerTest extends CIDatabaseTestCase
 
 		// A login attempt should have been recorded
 		$this->seeInDatabase('auth_logins', [
-			'email' => $user->email,
-			'success' => 1
+			'email'   => $user->email,
+			'success' => 1,
 		]);
 	}
 }

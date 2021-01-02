@@ -7,7 +7,7 @@ use Faker\Generator;
 
 class RememberModel extends Model
 {
-	protected $table      = 'auth_tokens';
+	protected $table      = 'auth_remember_tokens';
 	protected $primaryKey = 'id';
 
 	protected $returnType     = 'object';
@@ -20,7 +20,7 @@ class RememberModel extends Model
 		'expires',
 	];
 
-	protected $useTimestamps = false;
+	protected $useTimestamps = true;
 
 	/**
 	 * Stores a remember-me token for the user.
@@ -91,7 +91,7 @@ class RememberModel extends Model
 	}
 
 	/**
-	 * Purges the 'auth_tokens' table of any records that are past
+	 * Purges the 'auth_remember_tokens' table of any records that are past
 	 * their expiration date already.
 	 */
 	public function purgeOldRememberTokens()
