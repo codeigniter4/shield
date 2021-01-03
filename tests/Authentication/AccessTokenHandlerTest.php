@@ -146,6 +146,7 @@ class AccessTokenHandlerTest extends CIDatabaseTestCase
 	{
 		$user  = fake(UserModel::class);
 		$token = $user->generateAccessToken('foo');
+		$this->setRequestHeader($token->raw_token);
 
 		$result = $this->auth->attempt([
 			'token' => $token->raw_token,
@@ -156,7 +157,9 @@ class AccessTokenHandlerTest extends CIDatabaseTestCase
 
 		$foundUser = $result->extraInfo();
 		$this->assertInstanceOf(User::class, $foundUser);
-		$this->assertEquals($user, $foundUser);
+		$this->assertEquals($user->id, $foundUser->id);
+		$this->assertInstanceOf(AccessToken::class, $foundUser->currentAccessToken());
+		$this->assertEquals($token->token, $foundUser->currentAccessToken()->token);
 
 		// A login attempt should have been recorded
 		$this->seeInDatabase('auth_logins', [

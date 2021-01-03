@@ -62,7 +62,12 @@ class AccessTokens implements AuthenticatorInterface
 			return $result;
 		}
 
-		$this->login($result->extraInfo());
+		$user = $result->extraInfo();
+		$user->withAccessToken(
+			$user->getAccessToken($this->getBearerToken())
+		);
+
+		$this->login($user);
 
 		$this->loginModel->recordLoginAttempt('token: ' . ($credentials['token'] ?? ''), true, $ipAddress, $this->user->id);
 
