@@ -2,6 +2,7 @@
 
 namespace CodeIgniter\Shield;
 
+use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\User;
 use CodeIgniter\Shield\Authentication\Authentication;
 
@@ -26,19 +27,26 @@ class Auth
 	 */
 	protected $user;
 
+	/**
+	 * @var \CodeIgniter\Shield\Interfaces\UserProvider
+	 */
+	protected $userProvider;
+
 	public function __construct(Authentication $authenticate)
 	{
-		$this->authenticate = $authenticate;
+		$this->authenticate = $authenticate->setProvider($this->getProvider());
 	}
 
 	/**
 	 * Sets the handler that should be used for this request.
 	 *
-	 * @param string $handler
+	 * @param string|null $handler
 	 */
-	public function withHandler(string $handler)
+	public function withHandler(string $handler = null)
 	{
 		$this->handler = $handler;
+
+		return $this;
 	}
 
 	/**
@@ -116,5 +124,25 @@ class Auth
 
 	public function authorize($entity, string $permission)
 	{
+	}
+
+	public function getProvider()
+	{
+		if ($this->userProvider !== null)
+		{
+			return $this->userProvider;
+		}
+
+		$config = config('Auth');
+
+		if (! property_exists($config, 'userProvider'))
+		{
+			throw AuthenticationException::forUnknownUserProvider();
+		}
+
+		$className          = $config->userProvider;
+		$this->userProvider = new $className();
+
+		return $this->userProvider;
 	}
 }

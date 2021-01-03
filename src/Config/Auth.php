@@ -4,6 +4,7 @@ namespace CodeIgniter\Shield\Config;
 
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Shield\Authentication\Handlers\Session;
+use CodeIgniter\Shield\Authentication\Handlers\AccessTokens;
 
 class Auth extends BaseConfig
 {
@@ -15,7 +16,7 @@ class Auth extends BaseConfig
 	 */
 	public $authenticators = [
 		'session' => Session::class,
-		'api'     => '\CodeIgniter\Shield\Authenticators\ApiTokens',
+		'tokens'  => AccessTokens::class,
 	];
 
 	public $authorizers = [

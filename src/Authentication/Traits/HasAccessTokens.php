@@ -11,18 +11,10 @@ use CodeIgniter\Shield\Models\AccessTokenModel;
  * Provides functionality needed to generate, revoke,
  * and retrieve Personal Access Tokens.
  *
- * Intended to be used with User models.
+ * Intended to be used with User entities.
  */
 trait HasAccessTokens
 {
-	/**
-	 * Set during authentication as the
-	 * access token that was used.
-	 *
-	 * @var \CodeIgniter\Shield\Entities\AccessToken
-	 */
-	protected $activeToken;
-
 	/**
 	 * Generates a new personal access token for this user.
 	 *
@@ -95,8 +87,13 @@ trait HasAccessTokens
 	 *
 	 * @return \CodeIgniter\Shield\Entities\AccessToken|null
 	 */
-	public function getAccessToken(string $token)
+	public function getAccessToken(?string $token)
 	{
+		if (empty($token))
+		{
+			return null;
+		}
+
 		$tokens = model(AccessTokenModel::class);
 
 		return $tokens->where('user_id', $this->id)
@@ -131,12 +128,12 @@ trait HasAccessTokens
 	 */
 	public function tokenCan(string $scope): bool
 	{
-		if (! $this->activeToken instanceof AccessToken)
+		if (! $this->currentAccessToken() instanceof AccessToken)
 		{
 			return false;
 		}
 
-		return $this->activeToken->can($scope);
+		return $this->currentAccessToken()->can($scope);
 	}
 
 	/**
@@ -150,11 +147,35 @@ trait HasAccessTokens
 	 */
 	public function tokenCant(string $scope): bool
 	{
-		if (! $this->activeToken instanceof AccessToken)
+		if (! $this->currentAccessToken() instanceof AccessToken)
 		{
 			return true;
 		}
 
-		return $this->activeToken->cant($scope);
+		return $this->currentAccessToken()->cant($scope);
+	}
+
+	/**
+	 * Returns the current access token for the user.
+	 *
+	 * @return \CodeIgniter\Shield\Entities\AccessToken
+	 */
+	public function currentAccessToken()
+	{
+		return $this->attributes['activeAccessToken'] ?? null;
+	}
+
+	/**
+	 * Sets the current active token for this user.
+	 *
+	 * @param \CodeIgniter\Shield\Entities\AccessToken $accessToken
+	 *
+	 * @return $this
+	 */
+	public function withAccessToken(?AccessToken $accessToken)
+	{
+		$this->attributes['activeAccessToken'] = $accessToken;
+
+		return $this;
 	}
 }

@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Authentication;
 
 use CodeIgniter\Shield\Config\Auth as AuthConfig;
+use CodeIgniter\Shield\Interfaces\UserProvider;
 
 class Authentication
 {
@@ -66,31 +67,22 @@ class Authentication
 			? $this->config->$property
 			: $this->config;
 
-		$this->instances[$handler] = new $className($localConfig, $this->getProvider());
+		$this->instances[$handler] = new $className($localConfig, $this->userProvider);
 
 		return $this->instances[$handler];
 	}
 
 	/**
-	 * Returns a shared instance of the User Provider.
+	 * Sets the User provider to use
 	 *
-	 * @return \CodeIgniter\Shield\Interfaces\UserProvider|mixed
+	 * @param \CodeIgniter\Shield\Interfaces\UserProvider $provider
+	 *
+	 * @return $this
 	 */
-	protected function getProvider()
+	public function setProvider(UserProvider $provider)
 	{
-		if ($this->userProvider !== null)
-		{
-			return $this->userProvider;
-		}
+		$this->userProvider = $provider;
 
-		if (! property_exists($this->config, 'userProvider'))
-		{
-			throw AuthenticationException::forUnknownUserProvider();
-		}
-
-		$className          = $this->config->userProvider;
-		$this->userProvider = new $className();
-
-		return $this->userProvider;
+		return $this;
 	}
 }
