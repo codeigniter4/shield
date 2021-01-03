@@ -2,6 +2,7 @@
 
 namespace CodeIgniter\Shield\Authentication\Traits;
 
+use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Models\AccessTokenModel;
 
 /**
@@ -14,6 +15,14 @@ use CodeIgniter\Shield\Models\AccessTokenModel;
  */
 trait HasAccessTokens
 {
+	/**
+	 * Set during authentication as the
+	 * access token that was used.
+	 *
+	 * @var \CodeIgniter\Shield\Entities\AccessToken
+	 */
+	protected $activeToken;
+
 	/**
 	 * Generates a new personal access token for this user.
 	 *
@@ -109,5 +118,43 @@ trait HasAccessTokens
 		return $tokens->where('user_id', $this->id)
 					  ->where('id', $id)
 					  ->first();
+	}
+
+	/**
+	 * Determines whether the user's token grants permissions to $scope.
+	 * First checks against $this->activeToken, which is set during
+	 * authentication. If it hasn't been set, returns false.
+	 *
+	 * @param string $scope
+	 *
+	 * @return boolean
+	 */
+	public function tokenCan(string $scope): bool
+	{
+		if (! $this->activeToken instanceof AccessToken)
+		{
+			return false;
+		}
+
+		return $this->activeToken->can($scope);
+	}
+
+	/**
+	 * Determines whether the user's token does NOT grant permissions to $scope.
+	 * First checks against $this->activeToken, which is set during
+	 * authentication. If it hasn't been set, returns true.
+	 *
+	 * @param string $scope
+	 *
+	 * @return boolean
+	 */
+	public function tokenCant(string $scope): bool
+	{
+		if (! $this->activeToken instanceof AccessToken)
+		{
+			return true;
+		}
+
+		return $this->activeToken->cant($scope);
 	}
 }

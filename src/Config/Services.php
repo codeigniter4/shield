@@ -31,7 +31,7 @@ class Services extends BaseService
 	/**
 	 * Password utilities.
 	 *
-	 * @param bool $getShared
+	 * @param boolean $getShared
 	 *
 	 * @return \CodeIgniter\Shield\Authentication\Passwords|mixed
 	 */
