@@ -21,6 +21,23 @@ class AccessToken extends Entity
 	];
 
 	/**
+	 * Returns the user associated with this token.
+	 *
+	 * @return mixed
+	 */
+	public function user()
+	{
+		if (empty($this->attributes['user']))
+		{
+			helper('auth');
+			$users                    = auth()->getProvider();
+			$this->attributes['user'] = $users->findById($this->user_id);
+		}
+
+		return $this->attributes['user'];
+	}
+
+	/**
 	 * Determines whether this token grants
 	 * permission to the $scope
 	 *

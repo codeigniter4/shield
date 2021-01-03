@@ -28,8 +28,9 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	{
 		parent::setUp();
 
-		$config     = new Auth();
-		$auth       = new Authentication($config);
+		$config = new Auth();
+		$auth   = new Authentication($config);
+		$auth->setProvider(model(UserModel::class));
 		$this->auth = $auth->factory('session');
 
 		$this->events = new MockEvents();
