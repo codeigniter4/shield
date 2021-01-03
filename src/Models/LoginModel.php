@@ -32,21 +32,21 @@ class LoginModel extends Model
 	protected $skipValidation     = false;
 
 	/**
-	 * @param string      $email
+	 * @param string       $email
 	 *                          * @param bool        $success
-	 * @param string|null $ipAddress
-	 * @param int|null    $userID
+	 * @param string|null  $ipAddress
+	 * @param integer|null $userID
 	 *
-	 * @return \CodeIgniter\Database\BaseResult|false|int|object|string
+	 * @return \CodeIgniter\Database\BaseResult|false|integer|object|string
 	 */
-	public function recordLoginAttempt(string $email, bool $success, string $ipAddress=null, int $userID=null)
+	public function recordLoginAttempt(string $email, bool $success, string $ipAddress = null, int $userID = null)
 	{
 		return $this->insert([
 			'ip_address' => $ipAddress,
-			'email' => $email,
-			'user_id' => $userID,
-			'date' => date('Y-m-d H:i:s'),
-			'success' => (int)$success
+			'email'      => $email,
+			'user_id'    => $userID,
+			'date'       => date('Y-m-d H:i:s'),
+			'success'    => (int)$success,
 		]);
 	}
 }

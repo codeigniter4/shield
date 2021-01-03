@@ -50,15 +50,15 @@ class Session implements AuthenticatorInterface
 	 * Attempts to authenticate a user with the given $credentials.
 	 * Logs the user in with a successful check.
 	 *
-	 * @param array $credentials
-	 * @param bool  $remember
+	 * @param array   $credentials
+	 * @param boolean $remember
 	 *
 	 * @return Result
 	 */
-	public function attempt(array $credentials, bool $remember=false)
+	public function attempt(array $credentials, bool $remember = false)
 	{
 		$ipAddress = service('request')->getIPAddress();
-		$result = $this->check($credentials);
+		$result    = $this->check($credentials);
 
 		if (! $result->isOK())
 		{
@@ -96,7 +96,7 @@ class Session implements AuthenticatorInterface
 		{
 			return new Result([
 				'success' => false,
-				'reason' => lang('Auth.badAttempt'),
+				'reason'  => lang('Auth.badAttempt'),
 			]);
 		}
 
@@ -112,7 +112,7 @@ class Session implements AuthenticatorInterface
 		{
 			return new Result([
 				'success' => false,
-				'reason' => lang('Auth.badAttempt'),
+				'reason'  => lang('Auth.badAttempt'),
 			]);
 		}
 
@@ -123,7 +123,7 @@ class Session implements AuthenticatorInterface
 		{
 			return new Result([
 				'success' => false,
-				'reason' => lang('Auth.invalidPassword')
+				'reason'  => lang('Auth.invalidPassword'),
 			]);
 		}
 
@@ -138,8 +138,8 @@ class Session implements AuthenticatorInterface
 		}
 
 		return new Result([
-			'success' => true,
-			'extraInfo' => $user
+			'success'   => true,
+			'extraInfo' => $user,
 		]);
 	}
 
@@ -267,11 +267,11 @@ class Session implements AuthenticatorInterface
 	/**
 	 * Removes any remember-me tokens, if applicable.
 	 *
-	 * @param int|null $id  ID of user to forget.
+	 * @param integer|null $id ID of user to forget.
 	 *
 	 * @return void
 	 */
-	public function forget(?int $id=null)
+	public function forget(?int $id = null)
 	{
 		if (empty($id))
 		{

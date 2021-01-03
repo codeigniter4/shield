@@ -11,13 +11,13 @@ interface AuthenticatorInterface
 	 * Attempts to authenticate a user with the given $credentials.
 	 * Logs the user in with a successful check.
 	 *
-	 * @param array $credentials
-	 * @param bool  $remember
+	 * @param array   $credentials
+	 * @param boolean $remember
 	 *
 	 * @return mixed
 	 * @throws \CodeIgniter\Shield\Authentication\AuthenticationException
 	 */
-	public function attempt(array $credentials, bool $remember=false);
+	public function attempt(array $credentials, bool $remember = false);
 
 	/**
 	 * Checks a user's $credentials to see if they match an
@@ -66,7 +66,7 @@ interface AuthenticatorInterface
 	/**
 	 * Removes any remember-me tokens, if applicable.
 	 *
-	 * @param int|null $id
+	 * @param integer|null $id
 	 *
 	 * @return mixed
 	 */

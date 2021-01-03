@@ -33,22 +33,21 @@ class Passwords
 	 */
 	public function hash(string $password)
 	{
-		if (
-			(defined('PASSWORD_ARGON2I') && $this->config->hashAlgorithm == PASSWORD_ARGON2I)
+		if ((defined('PASSWORD_ARGON2I') && $this->config->hashAlgorithm === PASSWORD_ARGON2I)
 			||
-			(defined('PASSWORD_ARGON2ID') && $this->config->hashAlgorithm == PASSWORD_ARGON2ID)
+			(defined('PASSWORD_ARGON2ID') && $this->config->hashAlgorithm === PASSWORD_ARGON2ID)
 		)
 		{
 			$hashOptions = [
 				'memory_cost' => $this->config->hashMemoryCost,
 				'time_cost'   => $this->config->hashTimeCost,
-				'threads'     => $this->config->hashThreads
+				'threads'     => $this->config->hashThreads,
 			];
 		}
 		else
 		{
 			$hashOptions = [
-				'cost' => $this->config->hashCost
+				'cost' => $this->config->hashCost,
 			];
 		}
 
@@ -63,8 +62,8 @@ class Passwords
 	/**
 	 * Verifies a password against a previously hashed password.
 	 *
-	 * @param string $password  The password we're checking
-	 * @param string $hash      The previously hashed password
+	 * @param string $password The password we're checking
+	 * @param string $hash     The previously hashed password
 	 */
 	public function verify(string $password, string $hash)
 	{
@@ -78,7 +77,7 @@ class Passwords
 	 *
 	 * @param string $hashedPassword
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function needsRehash(string $hashedPassword)
 	{

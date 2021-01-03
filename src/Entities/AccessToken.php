@@ -19,4 +19,54 @@ class AccessToken extends Entity
 		'scopes'       => 'array',
 		'expires'      => 'datetime',
 	];
+
+	/**
+	 * Determines whether this token grants
+	 * permission to the $scope
+	 *
+	 * @param string $scope
+	 *
+	 * @return boolean
+	 */
+	public function can(string $scope): bool
+	{
+		if (empty($this->scopes))
+		{
+			return false;
+		}
+
+		// Wildcard present
+		if (in_array('*', $this->scopes))
+		{
+			return true;
+		}
+
+		// Check stored scopes
+		return in_array($scope, $this->scopes);
+	}
+
+	/**
+	 * Determines whether this token does NOT
+	 * grant permission to $scope.
+	 *
+	 * @param string $scope
+	 *
+	 * @return boolean
+	 */
+	public function cant(string $scope): bool
+	{
+		if (empty($this->scopes))
+		{
+			return true;
+		}
+
+		// Wildcard present
+		if (in_array('*', $this->scopes))
+		{
+			return false;
+		}
+
+		// Check stored scopes
+		return ! in_array($scope, $this->scopes);
+	}
 }

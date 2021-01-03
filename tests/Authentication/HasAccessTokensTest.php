@@ -102,4 +102,32 @@ class HasAccessTokensTest extends CIDatabaseTestCase
 
 		$this->assertCount(0, $this->user->accessTokens());
 	}
+
+	public function testTokenCanNoTokenSet()
+	{
+		$this->assertFalse($this->user->tokenCan('foo'));
+	}
+
+	public function testTokenCan()
+	{
+		$token = $this->user->generateAccessToken('foo', ['foo:bar']);
+		$this->setPrivateProperty($this->user, 'activeToken', $token);
+
+		$this->assertTrue($this->user->tokenCan('foo:bar'));
+		$this->assertFalse($this->user->tokenCan('foo:baz'));
+	}
+
+	public function testTokenCantNoTokenSet()
+	{
+		$this->assertTrue($this->user->tokenCant('foo'));
+	}
+
+	public function testTokenCant()
+	{
+		$token = $this->user->generateAccessToken('foo', ['foo:bar']);
+		$this->setPrivateProperty($this->user, 'activeToken', $token);
+
+		$this->assertFalse($this->user->tokenCant('foo:bar'));
+		$this->assertTrue($this->user->tokenCant('foo:baz'));
+	}
 }

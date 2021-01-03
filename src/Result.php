@@ -5,7 +5,7 @@ namespace CodeIgniter\Shield;
 class Result
 {
 	/**
-	 * @var bool
+	 * @var boolean
 	 */
 	protected $success = false;
 
@@ -29,7 +29,7 @@ class Result
 
 	public function __construct(array $details)
 	{
-		foreach($details as $key => $value)
+		foreach ($details as $key => $value)
 		{
 			if (property_exists($this, $key))
 			{
@@ -41,7 +41,7 @@ class Result
 	/**
 	 * Was the result a success?
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function isOK()
 	{
