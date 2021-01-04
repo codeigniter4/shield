@@ -4,7 +4,7 @@ Shield provides a flexible, secure, authentication system for your web apps and 
 
 ## Available Handlers
 
-Shield ships with 3 handlers to handle several typicaly situations within web app development. 
+Shield ships with 2 handlers to handle several typical situations within web app development. 
 
 ### Session Handler
 
@@ -13,19 +13,24 @@ on their device. This is the standard password-based login used in most web site
 secure remember me feature, and more. This can also be used to handle authentication for 
 single page applications (SPAs).
 
+
+
+
+---
+
 ### Token Handler 
 
-The Token handler supports the use of revokable API tokens without using OAuth. These are commonly 
+The Token handler supports the use of revoke-able API tokens without using OAuth. These are commonly 
 used to provide third-party developers access to your API. These tokens typically have a very long 
 expiration time, often years. 
 
 These are also suitable for use with mobile applications. In this case, the user would register/sign-in
 with their email/password. The application would create a new access token for them, with a recognizable
-name, like Lonnie's iPhone 12, and return it to the mobile application, where it is stored and used
+name, like John's iPhone 12, and return it to the mobile application, where it is stored and used
 in all future requests.
 
 
-## Using Tokens
+## Access Token/API Authentication 
 
 Using the access tokens requires that you either use/extend `CodeIgniter\Shield\Models\UserModel` or 
 use the `CodeIgniter\Shield\Authentication\Traits\HasAccessTokens` on your own user model. This trait

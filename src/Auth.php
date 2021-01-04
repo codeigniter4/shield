@@ -56,7 +56,9 @@ class Auth
 	 */
 	public function user()
 	{
-		return $this->user;
+		return $this->authenticate
+		->factory($this->handler)
+		->getUser();
 	}
 
 	/**
@@ -66,7 +68,11 @@ class Auth
 	 */
 	public function id()
 	{
-		return $this->user->id ?? null;
+		return $this->authenticate
+		   ->factory($this->handler)
+		   ->getUser()
+		   ->id
+			   ?? null;
 	}
 
 	public function authenticate(array $credentials): bool
@@ -88,6 +94,13 @@ class Auth
 		return $this->authenticate
 			->factory($this->handler)
 			->check($credentials);
+	}
+
+	public function loggedIn(): bool
+	{
+		return $this->authenticate
+			->factory($this->handler)
+			->loggedIn();
 	}
 
 	public function login(User $user)
