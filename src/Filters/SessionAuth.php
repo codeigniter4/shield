@@ -33,7 +33,7 @@ class SessionAuth implements FilterInterface
 	 */
 	public function before(RequestInterface $request, $arguments = null)
 	{
-		helper('Auth');
+		helper('auth');
 
 		if (! auth('session')->loggedIn())
 		{
