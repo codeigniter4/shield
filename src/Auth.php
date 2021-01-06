@@ -75,18 +75,18 @@ class Auth
 			   ?? null;
 	}
 
-	public function authenticate(array $credentials): bool
+	public function authenticate(array $credentials)
 	{
 		$response = $this->authenticate
 			->factory($this->handler)
-			->authenticate($credentials);
+			->attempt($credentials);
 
 		if ($response->isOk())
 		{
-			$this->user = $response->user;
+			$this->user = $response->extraInfo();
 		}
 
-		return $response->isOk();
+		return $response;
 	}
 
 	public function check(array $credentials): bool

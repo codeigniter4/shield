@@ -63,7 +63,8 @@ class AccessTokens implements AuthenticatorInterface
 		}
 
 		$user = $result->extraInfo();
-		$user->withAccessToken(
+
+		$user = $user->withAccessToken(
 			$user->getAccessToken($this->getBearerToken())
 		);
 
@@ -93,6 +94,11 @@ class AccessTokens implements AuthenticatorInterface
 				'success' => false,
 				'reason'  => lang('Auth.noToken'),
 			]);
+		}
+
+		if (strpos($credentials['token'], 'Bearer') === 0)
+		{
+			$credentials['token'] = trim(substr($credentials['token'], 6));
 		}
 
 		$tokens = model(AccessTokenModel::class);
@@ -197,7 +203,7 @@ class AccessTokens implements AuthenticatorInterface
 		return $this->user;
 	}
 
-	protected function getBearerToken()
+	public function getBearerToken()
 	{
 		$request = service('request');
 
