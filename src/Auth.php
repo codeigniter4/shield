@@ -89,48 +89,6 @@ class Auth
 		return $response;
 	}
 
-	public function check(array $credentials): bool
-	{
-		return $this->authenticate
-			->factory($this->handler)
-			->check($credentials);
-	}
-
-	public function loggedIn(): bool
-	{
-		return $this->authenticate
-			->factory($this->handler)
-			->loggedIn();
-	}
-
-	public function login(User $user)
-	{
-		return $this->authenticate
-			->factory($this->handler)
-			->login($user);
-	}
-
-	public function loginById(int $userId)
-	{
-		return $this->authenticate
-			->factory($this->handler)
-			->loginById($userId);
-	}
-
-	public function logout()
-	{
-		return $this->authenticate
-			->factory($this->handler)
-			->logout();
-	}
-
-	public function forget()
-	{
-		return $this->authenticate
-			->factory($this->handler)
-			->forget();
-	}
-
 	public function routes(array $config = null)
 	{
 	}
@@ -158,4 +116,15 @@ class Auth
 
 		return $this->userProvider;
 	}
+
+	/**
+     * Dynamically call the handler instance.
+     *
+     * @param string $method
+     * @param array $arguments
+     */
+    public function __call($method, $arguments)
+    {
+        return $this->authenticate->factory($this->handler)->{$method}(...$arguments);
+    }
 }
