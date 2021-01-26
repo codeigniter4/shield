@@ -11,13 +11,12 @@ interface AuthenticatorInterface
 	 * Attempts to authenticate a user with the given $credentials.
 	 * Logs the user in with a successful check.
 	 *
-	 * @param array   $credentials
-	 * @param boolean $remember
+	 * @param array $credentials
 	 *
 	 * @return mixed
 	 * @throws \CodeIgniter\Shield\Authentication\AuthenticationException
 	 */
-	public function attempt(array $credentials, bool $remember = false);
+	public function attempt(array $credentials);
 
 	/**
 	 * Checks a user's $credentials to see if they match an
@@ -40,21 +39,19 @@ interface AuthenticatorInterface
 	 * Logs the given user in.
 	 *
 	 * @param Authenticatable $user
-	 * @param boolean         $remember
 	 *
 	 * @return mixed
 	 */
-	public function login(Authenticatable $user, bool $remember = false);
+	public function login(Authenticatable $user);
 
 	/**
 	 * Logs a user in based on their ID.
 	 *
 	 * @param integer $userId
-	 * @param boolean $remember
 	 *
 	 * @return mixed
 	 */
-	public function loginById(int $userId, bool $remember = false);
+	public function loginById(int $userId);
 
 	/**
 	 * Logs the current user out.
@@ -62,15 +59,6 @@ interface AuthenticatorInterface
 	 * @return mixed
 	 */
 	public function logout();
-
-	/**
-	 * Removes any remember-me tokens, if applicable.
-	 *
-	 * @param integer|null $id
-	 *
-	 * @return mixed
-	 */
-	public function forget(?int $id);
 
 	/**
 	 * Returns the currently logged in user.

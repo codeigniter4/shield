@@ -89,48 +89,6 @@ class Auth
 		return $response;
 	}
 
-	public function check(array $credentials): bool
-	{
-		return $this->authenticate
-			->factory($this->handler)
-			->check($credentials);
-	}
-
-	public function loggedIn(): bool
-	{
-		return $this->authenticate
-			->factory($this->handler)
-			->loggedIn();
-	}
-
-	public function login(User $user)
-	{
-		return $this->authenticate
-			->factory($this->handler)
-			->login($user);
-	}
-
-	public function loginById(int $userId)
-	{
-		return $this->authenticate
-			->factory($this->handler)
-			->loginById($userId);
-	}
-
-	public function logout()
-	{
-		return $this->authenticate
-			->factory($this->handler)
-			->logout();
-	}
-
-	public function forget()
-	{
-		return $this->authenticate
-			->factory($this->handler)
-			->forget();
-	}
-
 	public function routes(array $config = null)
 	{
 	}
@@ -139,6 +97,12 @@ class Auth
 	{
 	}
 
+	/**
+	 * Returns the Model that is responsible for getting users.
+	 *
+	 * @return \CodeIgniter\Shield\Interfaces\UserProvider|mixed
+	 * @throws \CodeIgniter\Shield\Authentication\AuthenticationException
+	 */
 	public function getProvider()
 	{
 		if ($this->userProvider !== null)
@@ -157,5 +121,26 @@ class Auth
 		$this->userProvider = new $className();
 
 		return $this->userProvider;
+	}
+
+	/**
+	 * Provide magic function-access to handlers to save use
+	 * from repeating code here, and to allow them have their
+	 * own, additional, features on top of the required ones,
+	 * like "remember-me" functionality.
+	 *
+	 * @param $method
+	 * @param $args
+	 *
+	 * @throws \CodeIgniter\Shield\Authentication\AuthenticationException
+	 */
+	public function __call($method, $args)
+	{
+		$authenticate = $this->authenticate->factory($this->handler);
+
+		if (method_exists($authenticate, $method))
+		{
+			return $authenticate->{$method}(...$args);
+		}
 	}
 }

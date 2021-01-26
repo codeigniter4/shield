@@ -55,7 +55,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	{
 		$user = fake(UserModel::class);
 
-		$this->assertTrue($this->auth->login($user, false));
+		$this->assertTrue($this->auth->login($user));
 
 		$this->assertEquals($user->id, $_SESSION['logged_in']);
 
@@ -75,7 +75,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	{
 		$user = fake(UserModel::class);
 
-		$this->assertTrue($this->auth->login($user, true));
+		$this->assertTrue($this->auth->remember()->login($user));
 
 		$this->assertEquals($user->id, $_SESSION['logged_in']);
 
@@ -98,7 +98,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testLogout()
 	{
 		$user = fake(UserModel::class);
-		$this->auth->login($user, true);
+		$this->auth->remember()->login($user);
 
 		$this->seeInDatabase('auth_remember_tokens', ['user_id' => $user->id]);
 
@@ -131,7 +131,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	{
 		$user = fake(UserModel::class);
 
-		$this->auth->loginById($user->id, true);
+		$this->auth->remember()->loginById($user->id);
 
 		$this->assertEquals($user->id, $_SESSION['logged_in']);
 
@@ -141,7 +141,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testForgetCurrentUser()
 	{
 		$user = fake(UserModel::class);
-		$this->auth->loginById($user->id, true);
+		$this->auth->remember()->loginById($user->id);
 		$this->assertEquals($user->id, $_SESSION['logged_in']);
 
 		$this->seeInDatabase('auth_remember_tokens', ['user_id' => $user->id]);
