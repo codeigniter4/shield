@@ -215,6 +215,9 @@ class Session implements AuthenticatorInterface
 		if ($this->shouldRemember && $this->config['allowRemembering'])
 		{
 			$this->rememberUser($this->user->id);
+
+			// Reset so it doesn't mess up future calls.
+			$this->shouldRemember = false;
 		}
 
 		// We'll give a 20% chance to need to do a purge since we
