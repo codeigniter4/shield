@@ -13,10 +13,86 @@ on their device. This is the standard password-based login used in most web site
 secure remember me feature, and more. This can also be used to handle authentication for 
 single page applications (SPAs).
 
+#### attempt()
+
+When a user attempts to login with their email and password, you would call the `attempt()` method
+on the auth class, passing in their credentials.
+
+```
+$credentials = [
+    'email' => $this->request->getPost('email'), 
+    'password' => $this->request->getPost('password')
+];
+
+$loginAttempt = auth()->attempt($credentials); 
+
+if (! $loginAttempt->isOK())
+{
+    return redirect()->back()->with('error', $loginAttempt->reason());
+}
+```
+
+Upon a successful `attempt()`, the user is logged in. If the attempt fails a `failedLoginAttempt` 
+event is triggered with the credentials array as the only parameter. Whether or not they pass,
+a login attempt is recorded in the `auth_logins` table.
+
+If `allowRemembering` is `true` in the `Auth` config file, you can tell the Session Handler
+to set a secure remember-me cookie. 
+
+```
+$loginAttempt = auth()->remember()->attempt($credentials);
+```
+
+#### check()
+
+If you would like to check a user's credentials without logging them in, you can use the `check()`
+method.
+
+```
+$credentials = [
+    'email' => $this->request->getPost('email'), 
+    'password' => $this->request->getPost('password')
+];
+
+$validCreds? = auth()->check($credentials); 
+
+if (! $validCreds->isOK())
+{
+    return redirect()->back()->with('error', $loginAttempt->reason());
+}
+```
+
+#### loggedIn()
+
+You can determine if a user is currently logged in with the aptly titled method, `loggedIn()`.
+
+```
+if (auth()->loggedIn()) 
+{
+    // Do something.
+}
+```
+
+#### logout()
+
+You can call the `logout()` method to log the user out of the current session. This will destroy and
+regenerate the current session, purge any remember-me tokens current for this user, and trigger a 
+`logout` event.
+
+```
+auth()->logout();
+```
+
+#### forget()
+
+The `forget` method will purge all remember-me tokens for the current user, making it so they 
+will not be remembered on the next visit to the site.
 
 
 
 ---
+
+
 
 ### Token Handler 
 
