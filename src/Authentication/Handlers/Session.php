@@ -34,6 +34,13 @@ class Session implements AuthenticatorInterface
 	protected $loginModel;
 
 	/**
+	 * Should the user be remembered?
+	 *
+	 * @var boolean
+	 */
+	protected $shouldRemember = false;
+
+	/**
 	 * @var RememberModel
 	 */
 	protected $rememberModel;
@@ -47,15 +54,28 @@ class Session implements AuthenticatorInterface
 	}
 
 	/**
+	 * Sets the $shouldRemember flag
+	 *
+	 * @param boolean $shouldRemember
+	 *
+	 * @return $this
+	 */
+	public function remember(bool $shouldRemember = true)
+	{
+		$this->shouldRemember = $shouldRemember;
+
+		return $this;
+	}
+
+	/**
 	 * Attempts to authenticate a user with the given $credentials.
 	 * Logs the user in with a successful check.
 	 *
-	 * @param array   $credentials
-	 * @param boolean $remember
+	 * @param array $credentials
 	 *
 	 * @return Result
 	 */
-	public function attempt(array $credentials, bool $remember = false)
+	public function attempt(array $credentials)
 	{
 		$ipAddress = service('request')->getIPAddress();
 		$result    = $this->check($credentials);
@@ -74,7 +94,7 @@ class Session implements AuthenticatorInterface
 			return $result;
 		}
 
-		$this->login($result->extraInfo(), $remember);
+		$this->login($result->extraInfo());
 
 		$this->loginModel->recordLoginAttempt($credentials['email'] ?? $credentials['username'], true, $ipAddress, $this->user->id ?? null);
 
@@ -169,11 +189,10 @@ class Session implements AuthenticatorInterface
 	 * Logs the given user in.
 	 *
 	 * @param Authenticatable $user
-	 * @param boolean         $remember
 	 *
 	 * @return mixed
 	 */
-	public function login(Authenticatable $user, bool $remember = false)
+	public function login(Authenticatable $user)
 	{
 		$this->user = $user;
 
@@ -193,7 +212,7 @@ class Session implements AuthenticatorInterface
 		// When logged in, ensure cache control headers are in place
 		service('response')->noCache();
 
-		if ($remember && $this->config['allowRemembering'])
+		if ($this->shouldRemember && $this->config['allowRemembering'])
 		{
 			$this->rememberUser($this->user->id);
 		}
@@ -216,11 +235,10 @@ class Session implements AuthenticatorInterface
 	 * Logs a user in based on their ID.
 	 *
 	 * @param integer $userId
-	 * @param boolean $remember
 	 *
 	 * @return mixed
 	 */
-	public function loginById(int $userId, bool $remember = false)
+	public function loginById(int $userId)
 	{
 		$user = $this->provider->findById($userId);
 
@@ -229,7 +247,7 @@ class Session implements AuthenticatorInterface
 			throw AuthenticationException::forInvalidUser();
 		}
 
-		return $this->login($user, $remember);
+		return $this->login($user);
 	}
 
 	/**
