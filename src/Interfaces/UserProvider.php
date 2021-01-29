@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeIgniter\Shield\Interfaces;
+namespace Sparks\Shield\Interfaces;
 
 interface UserProvider
 {
@@ -9,7 +9,7 @@ interface UserProvider
 	 *
 	 * @param integer $id
 	 *
-	 * @return \CodeIgniter\Shield\Interfaces\Authenticatable|null
+	 * @return \Sparks\Shield\Interfaces\Authenticatable|null
 	 */
 	public function findById(int $id);
 
@@ -18,7 +18,7 @@ interface UserProvider
 	 *
 	 * @param array $credentials
 	 *
-	 * @return \CodeIgniter\Shield\Interfaces\Authenticatable|null
+	 * @return \Sparks\Shield\Interfaces\Authenticatable|null
 	 */
 	public function findByCredentials(array $credentials);
 
@@ -28,7 +28,7 @@ interface UserProvider
 	 * @param integer $id
 	 * @param string  $token
 	 *
-	 * @return \CodeIgniter\Shield\Interfaces\Authenticatable|null
+	 * @return \Sparks\Shield\Interfaces\Authenticatable|null
 	 */
 	public function findByRememberToken(int $id, string $token);
 

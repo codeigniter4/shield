@@ -2,25 +2,25 @@
 
 namespace Test\Authentication;
 
-use CodeIgniter\Shield\Authentication\Authentication;
-use CodeIgniter\Shield\Authentication\AuthenticationException;
-use CodeIgniter\Shield\Config\Auth;
-use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Shield\Result;
+use Sparks\Shield\Authentication\Authentication;
+use Sparks\Shield\Authentication\AuthenticationException;
+use Sparks\Shield\Config\Auth;
+use Sparks\Shield\Entities\User;
+use Sparks\Shield\Models\UserModel;
+use Sparks\Shield\Result;
 use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
-use CodeIgniter\Shield\Models\RememberModel;
+use Sparks\Shield\Models\RememberModel;
 
 class SessionHandlerTest extends CIDatabaseTestCase
 {
 	/**
-	 * @var \CodeIgniter\Shield\Authentication\Handlers\Session
+	 * @var \Sparks\Shield\Authentication\Handlers\Session
 	 */
 	protected $auth;
 
-	protected $namespace = '\CodeIgniter\Shield';
+	protected $namespace = '\Sparks\Shield';
 
 	protected $events;
 

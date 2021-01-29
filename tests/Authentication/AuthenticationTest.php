@@ -2,16 +2,16 @@
 
 namespace Test\Authentication;
 
-use CodeIgniter\Shield\Authentication\Authentication;
-use CodeIgniter\Shield\Authentication\AuthenticationException;
-use CodeIgniter\Shield\Config\Auth;
+use Sparks\Shield\Authentication\Authentication;
+use Sparks\Shield\Authentication\AuthenticationException;
+use Sparks\Shield\Config\Auth;
 use Tests\Support\TestCase;
-use CodeIgniter\Shield\Authentication\Handlers\Session;
+use Sparks\Shield\Authentication\Handlers\Session;
 
 class AuthenticationTest extends TestCase
 {
 	/**
-	 * @var \CodeIgniter\Shield\Authentication\Authentication
+	 * @var \Sparks\Shield\Authentication\Authentication
 	 */
 	protected $auth;
 

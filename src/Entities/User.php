@@ -1,12 +1,12 @@
 <?php
 
-namespace CodeIgniter\Shield\Entities;
+namespace Sparks\Shield\Entities;
 
 use CodeIgniter\Entity;
-use CodeIgniter\Shield\Authentication\Traits\Authenticatable;
-use CodeIgniter\Shield\Authentication\Traits\HasAccessTokens;
+use Sparks\Shield\Authentication\Traits\Authenticatable;
+use Sparks\Shield\Authentication\Traits\HasAccessTokens;
 
-class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticatable
+class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
 {
 	use Authenticatable;
 	use HasAccessTokens;

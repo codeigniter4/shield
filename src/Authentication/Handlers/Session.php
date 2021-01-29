@@ -1,15 +1,15 @@
 <?php
 
-namespace CodeIgniter\Shield\Authentication\Handlers;
+namespace Sparks\Shield\Authentication\Handlers;
 
 use CodeIgniter\Events\Events;
-use CodeIgniter\Shield\Authentication\AuthenticationException;
-use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
-use CodeIgniter\Shield\Interfaces\Authenticatable;
+use Sparks\Shield\Authentication\AuthenticationException;
+use Sparks\Shield\Authentication\AuthenticatorInterface;
+use Sparks\Shield\Interfaces\Authenticatable;
 use Config\App;
-use \CodeIgniter\Shield\Models\LoginModel;
-use \CodeIgniter\Shield\Models\RememberModel;
-use CodeIgniter\Shield\Result;
+use \Sparks\Shield\Models\LoginModel;
+use \Sparks\Shield\Models\RememberModel;
+use Sparks\Shield\Result;
 
 class Session implements AuthenticatorInterface
 {
@@ -24,7 +24,7 @@ class Session implements AuthenticatorInterface
 	protected $provider;
 
 	/**
-	 * @var \CodeIgniter\Shield\Interfaces\Authenticatable
+	 * @var \Sparks\Shield\Interfaces\Authenticatable
 	 */
 	protected $user;
 
@@ -310,7 +310,7 @@ class Session implements AuthenticatorInterface
 	/**
 	 * Returns the current user instance.
 	 *
-	 * @return \CodeIgniter\Shield\Interfaces\Authenticatable|null
+	 * @return \Sparks\Shield\Interfaces\Authenticatable|null
 	 */
 	public function getUser()
 	{

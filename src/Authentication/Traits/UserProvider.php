@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeIgniter\Shield\Authentication\Traits;
+namespace Sparks\Shield\Authentication\Traits;
 
 trait UserProvider
 {
@@ -9,7 +9,7 @@ trait UserProvider
 	 *
 	 * @param integer $id
 	 *
-	 * @return \CodeIgniter\Shield\Interfaces\Authenticatable|null
+	 * @return \Sparks\Shield\Interfaces\Authenticatable|null
 	 */
 	public function findById(int $id)
 	{
@@ -21,7 +21,7 @@ trait UserProvider
 	 *
 	 * @param array $credentials
 	 *
-	 * @return \CodeIgniter\Shield\Interfaces\Authenticatable|null
+	 * @return \Sparks\Shield\Interfaces\Authenticatable|null
 	 */
 	public function findByCredentials(array $credentials)
 	{
@@ -34,7 +34,7 @@ trait UserProvider
 	 * @param integer $id
 	 * @param string  $token
 	 *
-	 * @return \CodeIgniter\Shield\Interfaces\Authenticatable|null
+	 * @return \Sparks\Shield\Interfaces\Authenticatable|null
 	 */
 	public function findByRememberToken(int $id, string $token)
 	{

@@ -1,14 +1,14 @@
 <?php
 
-namespace CodeIgniter\Shield\Authentication\Handlers;
+namespace Sparks\Shield\Authentication\Handlers;
 
-use CodeIgniter\Shield\Authentication\AuthenticationException;
-use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
-use CodeIgniter\Shield\Config\Auth;
-use CodeIgniter\Shield\Interfaces\Authenticatable;
-use CodeIgniter\Shield\Models\AccessTokenModel;
-use CodeIgniter\Shield\Models\LoginModel;
-use CodeIgniter\Shield\Result;
+use Sparks\Shield\Authentication\AuthenticationException;
+use Sparks\Shield\Authentication\AuthenticatorInterface;
+use Sparks\Shield\Config\Auth;
+use Sparks\Shield\Interfaces\Authenticatable;
+use Sparks\Shield\Models\AccessTokenModel;
+use Sparks\Shield\Models\LoginModel;
+use Sparks\Shield\Result;
 
 class AccessTokens implements AuthenticatorInterface
 {
@@ -23,12 +23,12 @@ class AccessTokens implements AuthenticatorInterface
 	protected $provider;
 
 	/**
-	 * @var \CodeIgniter\Shield\Interfaces\Authenticatable
+	 * @var \Sparks\Shield\Interfaces\Authenticatable
 	 */
 	protected $user;
 
 	/**
-	 * @var \CodeIgniter\Shield\Models\LoginModel
+	 * @var \Sparks\Shield\Models\LoginModel
 	 */
 	protected $loginModel;
 
@@ -47,7 +47,7 @@ class AccessTokens implements AuthenticatorInterface
 	 * @param boolean $remember
 	 *
 	 * @return mixed
-	 * @throws \CodeIgniter\Shield\Authentication\AuthenticationException
+	 * @throws \Sparks\Shield\Authentication\AuthenticationException
 	 */
 	public function attempt(array $credentials, bool $remember = false)
 	{
