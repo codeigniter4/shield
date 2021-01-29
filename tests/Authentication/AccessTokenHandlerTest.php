@@ -2,12 +2,12 @@
 
 namespace Test\Authentication;
 
-use CodeIgniter\Shield\Authentication\Authentication;
-use CodeIgniter\Shield\Config\Auth;
-use CodeIgniter\Shield\Entities\AccessToken;
-use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Shield\Result;
+use Sparks\Shield\Authentication\Authentication;
+use Sparks\Shield\Config\Auth;
+use Sparks\Shield\Entities\AccessToken;
+use Sparks\Shield\Entities\User;
+use Sparks\Shield\Models\UserModel;
+use Sparks\Shield\Result;
 use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
@@ -15,11 +15,11 @@ use Config\Services;
 class AccessTokenHandlerTest extends CIDatabaseTestCase
 {
 	/**
-	 * @var \CodeIgniter\Shield\Authentication\Handlers\Session
+	 * @var \Sparks\Shield\Authentication\Handlers\Session
 	 */
 	protected $auth;
 
-	protected $namespace = '\CodeIgniter\Shield';
+	protected $namespace = '\Sparks\Shield';
 
 	public function setUp(): void
 	{

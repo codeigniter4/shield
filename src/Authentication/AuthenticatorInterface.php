@@ -1,9 +1,9 @@
 <?php
 
-namespace CodeIgniter\Shield\Authentication;
+namespace Sparks\Shield\Authentication;
 
-use CodeIgniter\Shield\Config\Auth as AuthConfig;
-use CodeIgniter\Shield\Interfaces\Authenticatable;
+use Sparks\Shield\Config\Auth as AuthConfig;
+use Sparks\Shield\Interfaces\Authenticatable;
 
 interface AuthenticatorInterface
 {
@@ -14,7 +14,7 @@ interface AuthenticatorInterface
 	 * @param array $credentials
 	 *
 	 * @return mixed
-	 * @throws \CodeIgniter\Shield\Authentication\AuthenticationException
+	 * @throws \Sparks\Shield\Authentication\AuthenticationException
 	 */
 	public function attempt(array $credentials);
 

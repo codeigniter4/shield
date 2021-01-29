@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeIgniter\Shield\Filters;
+namespace Sparks\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\IncomingRequest;

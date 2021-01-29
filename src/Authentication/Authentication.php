@@ -1,9 +1,9 @@
 <?php
 
-namespace CodeIgniter\Shield\Authentication;
+namespace Sparks\Shield\Authentication;
 
-use CodeIgniter\Shield\Config\Auth as AuthConfig;
-use CodeIgniter\Shield\Interfaces\UserProvider;
+use Sparks\Shield\Config\Auth as AuthConfig;
+use Sparks\Shield\Interfaces\UserProvider;
 
 class Authentication
 {
@@ -16,12 +16,12 @@ class Authentication
 	protected $instances = [];
 
 	/**
-	 * @var \CodeIgniter\Shield\Interfaces\UserProvider
+	 * @var \Sparks\Shield\Interfaces\UserProvider
 	 */
 	protected $userProvider;
 
 	/**
-	 * @var \CodeIgniter\Shield\Config\Auth
+	 * @var \Sparks\Shield\Config\Auth
 	 */
 	protected $config;
 
@@ -41,10 +41,10 @@ class Authentication
 	 *
 	 * @return mixed
 	 */
-	public function factory(string $handler = 'default')
+	public function factory(?string $handler = 'default')
 	{
 		// Determine actual handler name
-		$handler = $handler === 'default'
+		$handler = $handler === 'default' || $handler === null
 			? key($this->config->authenticators)
 			: $handler;
 
@@ -75,7 +75,7 @@ class Authentication
 	/**
 	 * Sets the User provider to use
 	 *
-	 * @param \CodeIgniter\Shield\Interfaces\UserProvider $provider
+	 * @param \Sparks\Shield\Interfaces\UserProvider $provider
 	 *
 	 * @return $this
 	 */

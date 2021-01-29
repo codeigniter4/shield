@@ -2,17 +2,17 @@
 
 namespace Test\Authentication;
 
-use CodeIgniter\Shield\Entities\AccessToken;
-use CodeIgniter\Shield\Models\AccessTokenModel;
-use CodeIgniter\Shield\Models\UserModel;
+use Sparks\Shield\Entities\AccessToken;
+use Sparks\Shield\Models\AccessTokenModel;
+use Sparks\Shield\Models\UserModel;
 use CodeIgniter\Test\CIDatabaseTestCase;
 
 class HasAccessTokensTest extends CIDatabaseTestCase
 {
-	protected $namespace = '\CodeIgniter\Shield';
+	protected $namespace = '\Sparks\Shield';
 
 	/**
-	 * @var \CodeIgniter\Shield\Entities\User
+	 * @var \Sparks\Shield\Entities\User
 	 */
 	protected $user;
 

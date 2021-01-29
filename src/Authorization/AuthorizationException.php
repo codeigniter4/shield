@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeIgniter\Shield\Authentication;
+namespace Sparks\Shield\Authentication;
 
 class AuthorizationException extends \Exception
 {

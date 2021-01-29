@@ -1,9 +1,9 @@
 <?php
 
-namespace CodeIgniter\Shield\Authentication\Traits;
+namespace Sparks\Shield\Authentication\Traits;
 
-use CodeIgniter\Shield\Entities\AccessToken;
-use CodeIgniter\Shield\Models\AccessTokenModel;
+use Sparks\Shield\Entities\AccessToken;
+use Sparks\Shield\Models\AccessTokenModel;
 
 /**
  * Trait HasAccessTokens
@@ -85,7 +85,7 @@ trait HasAccessTokens
 	 *
 	 * @param string $token
 	 *
-	 * @return \CodeIgniter\Shield\Entities\AccessToken|null
+	 * @return \Sparks\Shield\Entities\AccessToken|null
 	 */
 	public function getAccessToken(?string $token)
 	{
@@ -106,7 +106,7 @@ trait HasAccessTokens
 	 *
 	 * @param integer $id
 	 *
-	 * @return \CodeIgniter\Shield\Entities\AccessToken|null
+	 * @return \Sparks\Shield\Entities\AccessToken|null
 	 */
 	public function getAccessTokenById(int $id)
 	{
@@ -158,7 +158,7 @@ trait HasAccessTokens
 	/**
 	 * Returns the current access token for the user.
 	 *
-	 * @return \CodeIgniter\Shield\Entities\AccessToken
+	 * @return \Sparks\Shield\Entities\AccessToken
 	 */
 	public function currentAccessToken()
 	{
@@ -168,7 +168,7 @@ trait HasAccessTokens
 	/**
 	 * Sets the current active token for this user.
 	 *
-	 * @param \CodeIgniter\Shield\Entities\AccessToken $accessToken
+	 * @param \Sparks\Shield\Entities\AccessToken $accessToken
 	 *
 	 * @return $this
 	 */

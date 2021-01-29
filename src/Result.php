@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeIgniter\Shield;
+namespace Sparks\Shield;
 
 class Result
 {

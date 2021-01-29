@@ -3,8 +3,8 @@
 namespace Test\Authentication;
 
 use CodeIgniter\Config\Factories;
-use CodeIgniter\Shield\Filters\SessionAuth;
-use CodeIgniter\Shield\Models\UserModel;
+use Sparks\Shield\Filters\SessionAuth;
+use Sparks\Shield\Models\UserModel;
 use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\FeatureTestTrait;
 
@@ -12,7 +12,7 @@ class SessionFilterTest extends CIDatabaseTestCase
 {
 	use FeatureTestTrait;
 
-	protected $namespace = 'CodeIgniter\Shield';
+	protected $namespace = 'Sparks\Shield';
 
 	public function setUp(): void
 	{

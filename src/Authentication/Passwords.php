@@ -1,8 +1,10 @@
 <?php
 
-namespace CodeIgniter\Shield\Authentication;
+namespace Sparks\Shield\Authentication;
 
-use CodeIgniter\Shield\Config\Auth;
+use Sparks\Shield\Config\Auth;
+use Sparks\Shield\Entities\User;
+use Sparks\Shield\Result;
 
 /**
  * Class Passwords
@@ -10,12 +12,12 @@ use CodeIgniter\Shield\Config\Auth;
  * Provides a central location to handle password
  * related tasks like hashing, verifying, validating, etc.
  *
- * @package CodeIgniter\Shield\Authentication
+ * @package Sparks\Shield\Authentication
  */
 class Passwords
 {
 	/**
-	 * @var \CodeIgniter\Shield\Config\Auth
+	 * @var \Sparks\Shield\Config\Auth
 	 */
 	protected $config;
 
@@ -82,5 +84,49 @@ class Passwords
 	public function needsRehash(string $hashedPassword)
 	{
 		return password_needs_rehash($hashedPassword, $this->config->hashAlgorithm);
+	}
+
+	/**
+	 * Checks a password against all of the Validators specified
+	 * in `$passwordValidators` setting in Config\Auth.php.
+	 *
+	 * @param string                            $password
+	 * @param \Sparks\Shield\Entities\User|null $user
+	 *
+	 * @return \Sparks\Shield\Result
+	 * @throws \Sparks\Shield\Authentication\AuthenticationException
+	 */
+	public function check(string $password, User $user = null): Result
+	{
+		if (is_null($user))
+		{
+			throw AuthenticationException::forNoEntityProvided();
+		}
+
+		$password = trim($password);
+
+		if (empty($password))
+		{
+			return new Result([
+				'success' => false,
+				'error'   => lang('Auth.errorPasswordEmpty'),
+			]);
+		}
+
+		foreach ($this->config->passwordValidators as $className)
+		{
+			$class = new $className();
+			$class->setConfig($this->config);
+
+			$result = $class->check($password, $user);
+			if (! $result->isOk())
+			{
+				return $result;
+			}
+		}
+
+		return new Result([
+			'success' => true,
+		]);
 	}
 }

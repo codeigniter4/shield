@@ -3,9 +3,9 @@
 namespace Test\Authentication;
 
 use CodeIgniter\Config\Factories;
-use CodeIgniter\Shield\Entities\AccessToken;
-use CodeIgniter\Shield\Filters\TokenAuth;
-use CodeIgniter\Shield\Models\UserModel;
+use Sparks\Shield\Entities\AccessToken;
+use Sparks\Shield\Filters\TokenAuth;
+use Sparks\Shield\Models\UserModel;
 use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\FeatureTestTrait;
 
@@ -13,7 +13,7 @@ class TokenFilterTest extends CIDatabaseTestCase
 {
 	use FeatureTestTrait;
 
-	protected $namespace = 'CodeIgniter\Shield';
+	protected $namespace = 'Sparks\Shield';
 
 	public function setUp(): void
 	{

@@ -1,9 +1,9 @@
 <?php
 
-namespace CodeIgniter\Shield\Models;
+namespace Sparks\Shield\Models;
 
 use CodeIgniter\Model;
-use CodeIgniter\Shield\Entities\AccessToken;
+use Sparks\Shield\Entities\AccessToken;
 use Faker\Generator;
 
 /**
@@ -11,7 +11,7 @@ use Faker\Generator;
  *
  * Provides database access to personal access tokens.
  *
- * @package CodeIgniter\Shield\Models
+ * @package Sparks\Shield\Models
  */
 class AccessTokenModel extends Model
 {

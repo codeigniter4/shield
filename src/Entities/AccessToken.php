@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeIgniter\Shield\Entities;
+namespace Sparks\Shield\Entities;
 
 use CodeIgniter\Entity;
 
@@ -10,7 +10,7 @@ use CodeIgniter\Entity;
  * Represents a single Personal Access Token, used
  * for authenticating users for an API.
  *
- * @package CodeIgniter\Shield\Entities
+ * @package Sparks\Shield\Entities
  */
 class AccessToken extends Entity
 {
