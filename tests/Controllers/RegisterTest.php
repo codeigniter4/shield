@@ -26,6 +26,24 @@ class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 		CodeIgniter\Config\Config::injectMock('Validation', $config);
 	}
 
+	public function testRegisterActionSuccess()
+	{
+		$result = $this->post('/register', [
+			'username'     => 'JohnDoe',
+			'email'        => 'john.doe@example.com',
+			'password'     => 'secret things might happen here',
+			'pass_confirm' => 'secret things might happen here',
+		]);
+
+		$result->assertStatus(302);
+		$result->assertRedirect();
+		$this->assertEquals(site_url(), $result->getRedirectUrl());
+		$this->seeInDatabase('users', [
+			'username' => 'JohnDoe',
+			'email'    => 'john.doe@example.com',
+		]);
+	}
+
 	public function testRegisterDisplaysForm()
 	{
 		$result = $this->get('/register');
@@ -64,21 +82,5 @@ class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 
 		$result->assertStatus(302);
 		$this->assertCount(4, session('errors'));
-	}
-
-	public function testRegisterActionSuccess()
-	{
-		$result = $this->post('/register', [
-			'username'              => 'JohnDoe',
-			'email'                 => 'john.doe@example.com',
-			'password'              => 'secret things might happen here',
-			'password_confirmation' => 'secret things might happen here',
-		]);
-
-		$result->assertStatus(302);
-		$this->seeInDatabase('users', [
-			'username' => 'JohnDoe',
-			'email'    => 'john.doe@example.com',
-		]);
 	}
 }

@@ -20,6 +20,14 @@ class RegisterController extends Controller
 	 */
 	protected $config;
 
+	/**
+	 * Default URI to redirect to after
+	 * successfully registering.
+	 *
+	 * @var string
+	 */
+	protected $redirectURL = '/';
+
 	public function __construct()
 	{
 		$this->config = config('Auth');
@@ -58,7 +66,6 @@ class RegisterController extends Controller
 
 		if (! $this->validate($rules))
 		{
-			dd($this->request->getPost());
 			return redirect()->back()->withInput()->with('errors', service('validation')->getErrors());
 		}
 
@@ -66,6 +73,8 @@ class RegisterController extends Controller
 		$allowedPostFields = array_merge(['password'], $this->config->validFields, $this->config->personalFields);
 		$user              = $this->getUserEntity();
 		$user->fill($this->request->getPost($allowedPostFields));
+		// Password must be done separately to call the setter and hash it.
+		$user->password = $this->request->getPost('password');
 
 		if (! $users->save($user))
 		{
@@ -73,7 +82,8 @@ class RegisterController extends Controller
 		}
 
 		// Success!
-		return redirect()->route('login')->with('message', lang('Auth.registerSuccess'));
+		$redirectURL = $this->getRedirectURL();
+		return redirect()->to($redirectURL)->with('message', lang('Auth.registerSuccess'));
 	}
 
 	/**
@@ -109,5 +119,18 @@ class RegisterController extends Controller
 			'password'     => 'required|strong_password',
 			'pass_confirm' => 'required|matches[password]',
 		];
+	}
+
+	/**
+	 * Returns the URL the user should be redirected to
+	 * after a successful registration.
+	 *
+	 * @return string
+	 */
+	protected function getRedirectURL()
+	{
+		return strpos($this->redirectURL, 'http') === 0
+			? $this->redirectURL
+			: rtrim(site_url($this->redirectURL), '/ ');
 	}
 }
