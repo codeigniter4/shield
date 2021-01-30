@@ -15,4 +15,14 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
 		'active'           => 'boolean',
 		'force_pass_reset' => 'boolean',
 	];
+
+	/**
+	 * Setter for passwords that automatically hashes them.
+	 *
+	 * @param string $password
+	 */
+	public function setPassword(string $password)
+	{
+		$this->password_hash = service('passwords')->hash($password);
+	}
 }
