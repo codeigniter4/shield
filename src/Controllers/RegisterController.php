@@ -70,16 +70,21 @@ class RegisterController extends Controller
 		}
 
 		// Save the user
-		$allowedPostFields = array_merge(['password'], $this->config->validFields, $this->config->personalFields);
+		$allowedPostFields = array_merge($this->config->validFields, $this->config->personalFields);
 		$user              = $this->getUserEntity();
+
 		$user->fill($this->request->getPost($allowedPostFields));
-		// Password must be done separately to call the setter and hash it.
-		$user->password = $this->request->getPost('password');
 
 		if (! $users->save($user))
 		{
 			return redirect()->back()->withInput()->with('errors', $users->errors());
 		}
+
+		// Get the updated user so we have the ID...
+		$user = $users->find($users->getInsertID());
+
+		// Store the email/password identity for this user.
+		$user->createEmailIdentity($this->request->getPost(['email', 'password']));
 
 		// Success!
 		$redirectURL = $this->getRedirectURL();
@@ -115,7 +120,7 @@ class RegisterController extends Controller
 	{
 		return [
 			'username'     => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
-			'email'        => 'required|valid_email|is_unique[users.email]',
+			'email'        => 'required|valid_email|is_unique[auth_identities.secret]',
 			'password'     => 'required|strong_password',
 			'pass_confirm' => 'required|matches[password]',
 		];

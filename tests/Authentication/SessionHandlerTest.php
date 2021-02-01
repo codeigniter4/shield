@@ -35,6 +35,8 @@ class SessionHandlerTest extends CIDatabaseTestCase
 
 		$this->events = new MockEvents();
 		Services::injectMock('events', $this->events);
+
+		$this->db->table('auth_identities')->truncate();
 	}
 
 	public function testLoggedIn()
@@ -54,6 +56,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testLoginNoRemember()
 	{
 		$user = fake(UserModel::class);
+		$user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
 		$this->assertTrue($this->auth->login($user));
 
@@ -74,6 +77,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testLoginWithRemember()
 	{
 		$user = fake(UserModel::class);
+		$user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
 		$this->assertTrue($this->auth->remember()->login($user));
 
@@ -98,6 +102,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testLogout()
 	{
 		$user = fake(UserModel::class);
+		$user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 		$this->auth->remember()->login($user);
 
 		$this->seeInDatabase('auth_remember_tokens', ['user_id' => $user->id]);
@@ -119,6 +124,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testLoginById()
 	{
 		$user = fake(UserModel::class);
+		$user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
 		$this->auth->loginById($user->id);
 
@@ -130,6 +136,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testLoginByIdRemember()
 	{
 		$user = fake(UserModel::class);
+		$user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
 		$this->auth->remember()->loginById($user->id);
 
@@ -141,6 +148,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testForgetCurrentUser()
 	{
 		$user = fake(UserModel::class);
+		$user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 		$this->auth->remember()->loginById($user->id);
 		$this->assertEquals($user->id, $_SESSION['logged_in']);
 
@@ -188,8 +196,10 @@ class SessionHandlerTest extends CIDatabaseTestCase
 
 	public function testCheckBadPassword()
 	{
-		$user = fake(UserModel::class, [
-			'password_hash' => service('passwords')->hash('secret123'),
+		$user = fake(UserModel::class);
+		$user->createEmailIdentity([
+			'email'    => 'foo@example.com',
+			'password' => 'secret123',
 		]);
 
 		$result = $this->auth->check([
@@ -204,8 +214,10 @@ class SessionHandlerTest extends CIDatabaseTestCase
 
 	public function testCheckSuccess()
 	{
-		$user = fake(UserModel::class, [
-			'password_hash' => service('passwords')->hash('secret123'),
+		$user = fake(UserModel::class);
+		$user->createEmailIdentity([
+			'email'    => 'foo@example.com',
+			'password' => 'secret123',
 		]);
 
 		$result = $this->auth->check([
@@ -217,10 +229,10 @@ class SessionHandlerTest extends CIDatabaseTestCase
 		$this->assertTrue($result->isOK());
 
 		$foundUser = $result->extraInfo();
-		$this->assertEquals($user, $foundUser);
+		$this->assertEquals($user->id, $foundUser->id);
 	}
 
-	public function testAttemptCanotFindUser()
+	public function testAttemptCannotFindUser()
 	{
 		$result = $this->auth->attempt([
 			'email'    => 'johnsmith@example.com',
@@ -240,8 +252,10 @@ class SessionHandlerTest extends CIDatabaseTestCase
 
 	public function testAttemptSuccess()
 	{
-		$user = fake(UserModel::class, [
-			'password_hash' => service('passwords')->hash('secret123'),
+		$user = fake(UserModel::class);
+		$user->createEmailIdentity([
+			'email'    => 'foo@example.com',
+			'password' => 'secret123',
 		]);
 
 		$this->assertFalse(isset($_SESSION['logged_in']));
@@ -255,7 +269,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 		$this->assertTrue($result->isOK());
 
 		$foundUser = $result->extraInfo();
-		$this->assertEquals($user, $foundUser);
+		$this->assertEquals($user->id, $foundUser->id);
 
 		$this->assertTrue(isset($_SESSION['logged_in']));
 		$this->assertEquals($user->id, $_SESSION['logged_in']);
