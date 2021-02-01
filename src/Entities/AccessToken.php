@@ -16,8 +16,12 @@ class AccessToken extends Entity
 {
 	protected $casts = [
 		'last_used_at' => 'datetime',
-		'scopes'       => 'array',
+		'extra'        => 'array',
 		'expires'      => 'datetime',
+	];
+
+	protected $datamap = [
+		'scopes' => 'extra',
 	];
 
 	/**
@@ -47,19 +51,19 @@ class AccessToken extends Entity
 	 */
 	public function can(string $scope): bool
 	{
-		if (empty($this->scopes))
+		if (empty($this->extra))
 		{
 			return false;
 		}
 
 		// Wildcard present
-		if (in_array('*', $this->scopes))
+		if (in_array('*', $this->extra))
 		{
 			return true;
 		}
 
 		// Check stored scopes
-		return in_array($scope, $this->scopes);
+		return in_array($scope, $this->extra);
 	}
 
 	/**
@@ -72,18 +76,19 @@ class AccessToken extends Entity
 	 */
 	public function cant(string $scope): bool
 	{
-		if (empty($this->scopes))
+		if (empty($this->extra))
 		{
 			return true;
 		}
 
 		// Wildcard present
-		if (in_array('*', $this->scopes))
+		if (in_array('*', $this->extra))
 		{
 			return false;
 		}
 
 		// Check stored scopes
-		return ! in_array($scope, $this->scopes);
+		return ! in_array($scope, $this->extra);
 	}
+
 }

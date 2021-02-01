@@ -4,6 +4,7 @@ namespace Test\Authentication;
 
 use Sparks\Shield\Entities\AccessToken;
 use Sparks\Shield\Models\AccessTokenModel;
+use Sparks\Shield\Models\UserIdentityModel;
 use Sparks\Shield\Models\UserModel;
 use CodeIgniter\Test\CIDatabaseTestCase;
 
@@ -21,6 +22,7 @@ class HasAccessTokensTest extends CIDatabaseTestCase
 		parent::setUp();
 
 		$this->user = fake(UserModel::class);
+		$this->db->table('auth_identities')->truncate();
 	}
 
 	public function testGenerateToken()
@@ -34,7 +36,7 @@ class HasAccessTokensTest extends CIDatabaseTestCase
 		// When newly created, should have the raw, plain-text token as well
 		// so it can be shown to users.
 		$this->assertNotNull($token->raw_token);
-		$this->assertEquals($token->token, hash('sha256', $token->raw_token));
+		$this->assertEquals($token->secret, hash('sha256', $token->raw_token));
 
 		// All scopes are assigned by default via wildcard
 		$this->assertEquals(['*'], $token->scopes);
@@ -46,8 +48,8 @@ class HasAccessTokensTest extends CIDatabaseTestCase
 		$this->assertEquals([], $this->user->accessTokens());
 
 		// Give the user a couple of access tokens
-		$token1 = fake(AccessTokenModel::class, ['user_id' => $this->user->id]);
-		$token2 = fake(AccessTokenModel::class, ['user_id' => $this->user->id]);
+		$token1 = fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
+		$token2 = fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
 
 		$tokens = $this->user->accessTokens();
 		$this->assertCount(2, $tokens);

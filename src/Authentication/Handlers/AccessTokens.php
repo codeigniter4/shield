@@ -5,9 +5,11 @@ namespace Sparks\Shield\Authentication\Handlers;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\AuthenticatorInterface;
 use Sparks\Shield\Config\Auth;
+use Sparks\Shield\Entities\AccessToken;
 use Sparks\Shield\Interfaces\Authenticatable;
 use Sparks\Shield\Models\AccessTokenModel;
 use Sparks\Shield\Models\LoginModel;
+use Sparks\Shield\Models\UserIdentityModel;
 use Sparks\Shield\Result;
 
 class AccessTokens implements AuthenticatorInterface
@@ -101,8 +103,12 @@ class AccessTokens implements AuthenticatorInterface
 			$credentials['token'] = trim(substr($credentials['token'], 6));
 		}
 
-		$tokens = model(AccessTokenModel::class);
-		$token  = $tokens->where('token', hash('sha256', $credentials['token']))->first();
+		$identities = model(UserIdentityModel::class);
+		$token      = $identities
+			->where('type', 'access_token')
+			->where('secret', hash('sha256', $credentials['token']))
+			->asObject(AccessToken::class)
+			->first();
 
 		if ($token === null)
 		{
@@ -203,6 +209,11 @@ class AccessTokens implements AuthenticatorInterface
 		return $this->user;
 	}
 
+	/**
+	 * Returns the Bearer token from the Authorization header
+	 *
+	 * @return string|null
+	 */
 	public function getBearerToken()
 	{
 		$request = service('request');

@@ -40,7 +40,12 @@ class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 		$this->assertEquals(site_url(), $result->getRedirectUrl());
 		$this->seeInDatabase('users', [
 			'username' => 'JohnDoe',
-			'email'    => 'john.doe@example.com',
+		]);
+		$user = model('UserModel')->where('username', 'JohnDoe')->first();
+		$this->seeInDatabase('auth_identities', [
+			'user_id' => $user->id,
+			'type'    => 'email_password',
+			'secret'  => 'john.doe@example.com',
 		]);
 	}
 
