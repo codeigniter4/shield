@@ -33,10 +33,17 @@ trait UserProvider
 		{
 			$this->select('users.*, auth_identities.secret as email, auth_identities.secret2 as password_hash')
 				->join('auth_identities', 'auth_identities.user_id = users.id')
-				->where('auth_identities.type', 'email_password');
+				->where('auth_identities.type', 'email_password')
+				->where('LOWER(auth_identities.secret)', strtolower($email));
 		}
 
-		return $this->where($credentials)->first();
+		// any of the credentials used should be case-insensitive
+		foreach ($credentials as $key => $value)
+		{
+			$this->where("LOWER(users.{$key})", strtolower($value));
+		}
+
+		return $this->first();
 	}
 
 	/**

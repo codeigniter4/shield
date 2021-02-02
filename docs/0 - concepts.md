@@ -55,8 +55,8 @@ appropriate for your application. The following Validators are available:
     uses a third-party site, [Have I Been Pwned](https://haveibeenpwned.com/Passwords) to check
     against a list of over 500 million leaked passwords from many data dumps across the web. 
     The search is done securely, and provides more information than the simple dictionary version.
-    However, this does require an API call to a third-party which not every appliation will 
-    find acceptable. You should either this validator or the `DictionaryValidator`, not both. 
+    However, this does require an API call to a third-party which not every application will 
+    find acceptable. You should use either this validator or the `DictionaryValidator`, not both. 
     This is disabled by default.  
 
 You can choose which validators are used in `Config\Auth->passwordValidators`:

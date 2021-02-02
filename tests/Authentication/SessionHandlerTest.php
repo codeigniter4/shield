@@ -280,4 +280,66 @@ class SessionHandlerTest extends CIDatabaseTestCase
 			'success' => 1,
 		]);
 	}
+
+	public function testAttemptCaseInsensitive()
+	{
+		$user = fake(UserModel::class);
+		$user->createEmailIdentity([
+			'email'    => 'FOO@example.com',
+			'password' => 'secret123',
+		]);
+
+		$this->assertFalse(isset($_SESSION['logged_in']));
+
+		$result = $this->auth->attempt([
+			'email'    => 'foo@example.COM',
+			'password' => 'secret123',
+		]);
+
+		$this->assertInstanceOf(Result::class, $result);
+		$this->assertTrue($result->isOK());
+
+		$foundUser = $result->extraInfo();
+		$this->assertEquals($user->id, $foundUser->id);
+
+		$this->assertTrue(isset($_SESSION['logged_in']));
+		$this->assertEquals($user->id, $_SESSION['logged_in']);
+
+		// A login attempt should have been recorded
+		$this->seeInDatabase('auth_logins', [
+			'email'   => $user->email,
+			'success' => 1,
+		]);
+	}
+
+	public function testAttemptUsernameOnly()
+	{
+		$user = fake(UserModel::class, ['username' => 'foorog']);
+		$user->createEmailIdentity([
+			'email'    => 'FOO@example.com',
+			'password' => 'secret123',
+		]);
+
+		$this->assertFalse(isset($_SESSION['logged_in']));
+
+		$result = $this->auth->attempt([
+			'username' => 'fooROG',
+			'password' => 'secret123',
+		]);
+
+		$this->assertInstanceOf(Result::class, $result);
+		$this->assertTrue($result->isOK());
+
+		$foundUser = $result->extraInfo();
+		$this->assertEquals($user->id, $foundUser->id);
+
+		$this->assertTrue(isset($_SESSION['logged_in']));
+		$this->assertEquals($user->id, $_SESSION['logged_in']);
+
+		// A login attempt should have been recorded
+		$this->seeInDatabase('auth_logins', [
+			'email'   => $user->email,
+			'success' => 1,
+		]);
+	}
 }
