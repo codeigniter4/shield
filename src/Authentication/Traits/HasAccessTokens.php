@@ -1,9 +1,10 @@
 <?php
 
-namespace CodeIgniter\Shield\Authentication\Traits;
+namespace Sparks\Shield\Authentication\Traits;
 
-use CodeIgniter\Shield\Entities\AccessToken;
-use CodeIgniter\Shield\Models\AccessTokenModel;
+use Sparks\Shield\Entities\AccessToken;
+use Sparks\Shield\Entities\UserIdentity;
+use Sparks\Shield\Models\UserIdentityModel;
 
 /**
  * Trait HasAccessTokens
@@ -23,17 +24,20 @@ trait HasAccessTokens
 	 */
 	public function generateAccessToken(string $name, array $scopes = ['*'])
 	{
-		$tokens = model(AccessTokenModel::class);
+		$identities = model(UserIdentityModel::class);
 		helper('text');
 
-		$tokens->insert([
+		$identities->insert([
+			'type'    => 'access_token',
 			'user_id' => $this->id,
 			'name'    => $name,
-			'token'   => hash('sha256', $rawToken = random_string('crypto', 64)),
-			'scopes'  => $scopes,
+			'secret'  => hash('sha256', $rawToken = random_string('crypto', 64)),
+			'extra'   => $scopes,
 		]);
 
-		$token = $tokens->find($tokens->insertId());
+		$token = $identities
+			->asObject(AccessToken::class)
+			->find($identities->insertId());
 
 		$token->raw_token = $rawToken;
 
@@ -48,11 +52,11 @@ trait HasAccessTokens
 	 */
 	public function revokeAccessToken(string $token)
 	{
-		$tokens = model(AccessTokenModel::class);
-
-		return $tokens->where('user_id', $this->id)
-					  ->where('token', hash('sha256', $token))
-					  ->delete();
+		return model(UserIdentityModel::class)
+			->where('user_id', $this->id)
+			->where('type', 'access_token')
+			->where('secret', hash('sha256', $token))
+			->delete();
 	}
 
 	/**
@@ -60,10 +64,10 @@ trait HasAccessTokens
 	 */
 	public function revokeAllAccessTokens()
 	{
-		$tokens = model(AccessTokenModel::class);
-
-		return $tokens->where('user_id', $this->id)
-					  ->delete();
+		return model(UserIdentityModel::class)
+			->where('user_id', $this->id)
+			->where('type', 'access_token')
+			->delete();
 	}
 
 	/**
@@ -73,10 +77,11 @@ trait HasAccessTokens
 	 */
 	public function accessTokens(): array
 	{
-		$tokens = model(AccessTokenModel::class);
-
-		return $tokens->where('user_id', $this->id)
-					  ->find();
+		return model(UserIdentityModel::class)
+			->where('user_id', $this->id)
+			->where('type', 'access_token')
+			->asObject(AccessToken::class)
+			->find();
 	}
 
 	/**
@@ -85,7 +90,7 @@ trait HasAccessTokens
 	 *
 	 * @param string $token
 	 *
-	 * @return \CodeIgniter\Shield\Entities\AccessToken|null
+	 * @return \Sparks\Shield\Entities\AccessToken|null
 	 */
 	public function getAccessToken(?string $token)
 	{
@@ -94,10 +99,12 @@ trait HasAccessTokens
 			return null;
 		}
 
-		$tokens = model(AccessTokenModel::class);
+		$identities = model(UserIdentityModel::class);
 
-		return $tokens->where('user_id', $this->id)
-			->where('token', hash('sha256', $token))
+		return $identities->where('user_id', $this->id)
+			->where('type', 'access_token')
+			->where('secret', hash('sha256', $token))
+			->asObject(AccessToken::class)
 			->first();
 	}
 
@@ -106,14 +113,16 @@ trait HasAccessTokens
 	 *
 	 * @param integer $id
 	 *
-	 * @return \CodeIgniter\Shield\Entities\AccessToken|null
+	 * @return \Sparks\Shield\Entities\AccessToken|null
 	 */
 	public function getAccessTokenById(int $id)
 	{
-		$tokens = model(AccessTokenModel::class);
+		$tokens = model(UserIdentityModel::class);
 
 		return $tokens->where('user_id', $this->id)
+					  ->where('type', 'access_token')
 					  ->where('id', $id)
+					  ->asObject(AccessToken::class)
 					  ->first();
 	}
 
@@ -158,7 +167,7 @@ trait HasAccessTokens
 	/**
 	 * Returns the current access token for the user.
 	 *
-	 * @return \CodeIgniter\Shield\Entities\AccessToken
+	 * @return \Sparks\Shield\Entities\AccessToken
 	 */
 	public function currentAccessToken()
 	{
@@ -168,7 +177,7 @@ trait HasAccessTokens
 	/**
 	 * Sets the current active token for this user.
 	 *
-	 * @param \CodeIgniter\Shield\Entities\AccessToken $accessToken
+	 * @param \Sparks\Shield\Entities\AccessToken $accessToken
 	 *
 	 * @return $this
 	 */

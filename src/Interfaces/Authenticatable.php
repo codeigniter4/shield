@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeIgniter\Shield\Interfaces;
+namespace Sparks\Shield\Interfaces;
 
 interface Authenticatable
 {

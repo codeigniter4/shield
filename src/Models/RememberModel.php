@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeIgniter\Shield\Models;
+namespace Sparks\Shield\Models;
 
 use CodeIgniter\Model;
 use Faker\Generator;

@@ -1,10 +1,11 @@
 <?php
 
-namespace CodeIgniter\Shield;
+namespace Sparks\Shield;
 
-use CodeIgniter\Shield\Authentication\AuthenticationException;
-use CodeIgniter\Shield\User;
-use CodeIgniter\Shield\Authentication\Authentication;
+use CodeIgniter\Router\RouteCollection;
+use Sparks\Shield\Authentication\AuthenticationException;
+use Sparks\Shield\User;
+use Sparks\Shield\Authentication\Authentication;
 
 class Auth
 {
@@ -28,7 +29,7 @@ class Auth
 	protected $user;
 
 	/**
-	 * @var \CodeIgniter\Shield\Interfaces\UserProvider
+	 * @var \Sparks\Shield\Interfaces\UserProvider
 	 */
 	protected $userProvider;
 
@@ -52,7 +53,7 @@ class Auth
 	/**
 	 * Returns the current user, if logged in.
 	 *
-	 * @return \CodeIgniter\Shield\User
+	 * @return \Sparks\Shield\User
 	 */
 	public function user()
 	{
@@ -89,8 +90,33 @@ class Auth
 		return $response;
 	}
 
-	public function routes(array $config = null)
+	/**
+	 * Will set the routes in your application to use
+	 * the Shield auth routes.
+	 *
+	 * Usage (in Config/Routes.php):
+	 *      - auth()->routes($routes);
+	 *      - auth()->routes($routes, ['except' => ['login', 'register']])
+	 *
+	 * @param \CodeIgniter\Router\RouteCollection $routes
+	 * @param array                               $config
+	 */
+	public function routes(RouteCollection &$routes, array $config = [])
 	{
+		$authRoutes = config('AuthRoutes')->routes;
+
+		$routes->group('/', ['namespace' => 'Sparks\Shield\Controllers'], function ($routes) use ($authRoutes) {
+			foreach ($authRoutes as $name => $row)
+			{
+				if (! isset($config['except']) || (isset($config['except']) && ! array_key_exists($name, $config['except'])))
+				{
+					foreach ($row as $params)
+					{
+						$routes->{$params[0]}($params[1], $params[2]);
+					}
+				}
+			}
+		});
 	}
 
 	public function authorize($entity, string $permission)
@@ -100,8 +126,8 @@ class Auth
 	/**
 	 * Returns the Model that is responsible for getting users.
 	 *
-	 * @return \CodeIgniter\Shield\Interfaces\UserProvider|mixed
-	 * @throws \CodeIgniter\Shield\Authentication\AuthenticationException
+	 * @return \Sparks\Shield\Interfaces\UserProvider|mixed
+	 * @throws \Sparks\Shield\Authentication\AuthenticationException
 	 */
 	public function getProvider()
 	{
@@ -132,7 +158,7 @@ class Auth
 	 * @param $method
 	 * @param $args
 	 *
-	 * @throws \CodeIgniter\Shield\Authentication\AuthenticationException
+	 * @throws \Sparks\Shield\Authentication\AuthenticationException
 	 */
 	public function __call($method, $args)
 	{

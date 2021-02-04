@@ -1,5 +1,5 @@
 {
-	"name": "codeigniter4-projects/shield",
+	"name": "lonnieezell/codigniter-shield",
 	"type": "library",
 	"description": "Authentication and Authorization for CodeIgniter 4",
 	"keywords": [
@@ -30,7 +30,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"CodeIgniter\\Shield\\": "src"
+			"Sparks\\Shield\\": "src"
 		}
 	},
 	"autoload-dev": {

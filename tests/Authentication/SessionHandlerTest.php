@@ -2,25 +2,25 @@
 
 namespace Test\Authentication;
 
-use CodeIgniter\Shield\Authentication\Authentication;
-use CodeIgniter\Shield\Authentication\AuthenticationException;
-use CodeIgniter\Shield\Config\Auth;
-use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Shield\Result;
+use Sparks\Shield\Authentication\Authentication;
+use Sparks\Shield\Authentication\AuthenticationException;
+use Sparks\Shield\Config\Auth;
+use Sparks\Shield\Entities\User;
+use Sparks\Shield\Models\UserModel;
+use Sparks\Shield\Result;
 use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
-use CodeIgniter\Shield\Models\RememberModel;
+use Sparks\Shield\Models\RememberModel;
 
 class SessionHandlerTest extends CIDatabaseTestCase
 {
 	/**
-	 * @var \CodeIgniter\Shield\Authentication\Handlers\Session
+	 * @var \Sparks\Shield\Authentication\Handlers\Session
 	 */
 	protected $auth;
 
-	protected $namespace = '\CodeIgniter\Shield';
+	protected $namespace = '\Sparks\Shield';
 
 	protected $events;
 
@@ -35,6 +35,8 @@ class SessionHandlerTest extends CIDatabaseTestCase
 
 		$this->events = new MockEvents();
 		Services::injectMock('events', $this->events);
+
+		$this->db->table('auth_identities')->truncate();
 	}
 
 	public function testLoggedIn()
@@ -54,6 +56,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testLoginNoRemember()
 	{
 		$user = fake(UserModel::class);
+		$user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
 		$this->assertTrue($this->auth->login($user));
 
@@ -74,6 +77,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testLoginWithRemember()
 	{
 		$user = fake(UserModel::class);
+		$user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
 		$this->assertTrue($this->auth->remember()->login($user));
 
@@ -98,6 +102,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testLogout()
 	{
 		$user = fake(UserModel::class);
+		$user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 		$this->auth->remember()->login($user);
 
 		$this->seeInDatabase('auth_remember_tokens', ['user_id' => $user->id]);
@@ -119,6 +124,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testLoginById()
 	{
 		$user = fake(UserModel::class);
+		$user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
 		$this->auth->loginById($user->id);
 
@@ -130,6 +136,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testLoginByIdRemember()
 	{
 		$user = fake(UserModel::class);
+		$user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
 		$this->auth->remember()->loginById($user->id);
 
@@ -141,6 +148,7 @@ class SessionHandlerTest extends CIDatabaseTestCase
 	public function testForgetCurrentUser()
 	{
 		$user = fake(UserModel::class);
+		$user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 		$this->auth->remember()->loginById($user->id);
 		$this->assertEquals($user->id, $_SESSION['logged_in']);
 
@@ -188,8 +196,10 @@ class SessionHandlerTest extends CIDatabaseTestCase
 
 	public function testCheckBadPassword()
 	{
-		$user = fake(UserModel::class, [
-			'password_hash' => service('passwords')->hash('secret123'),
+		$user = fake(UserModel::class);
+		$user->createEmailIdentity([
+			'email'    => 'foo@example.com',
+			'password' => 'secret123',
 		]);
 
 		$result = $this->auth->check([
@@ -204,8 +214,10 @@ class SessionHandlerTest extends CIDatabaseTestCase
 
 	public function testCheckSuccess()
 	{
-		$user = fake(UserModel::class, [
-			'password_hash' => service('passwords')->hash('secret123'),
+		$user = fake(UserModel::class);
+		$user->createEmailIdentity([
+			'email'    => 'foo@example.com',
+			'password' => 'secret123',
 		]);
 
 		$result = $this->auth->check([
@@ -217,10 +229,10 @@ class SessionHandlerTest extends CIDatabaseTestCase
 		$this->assertTrue($result->isOK());
 
 		$foundUser = $result->extraInfo();
-		$this->assertEquals($user, $foundUser);
+		$this->assertEquals($user->id, $foundUser->id);
 	}
 
-	public function testAttemptCanotFindUser()
+	public function testAttemptCannotFindUser()
 	{
 		$result = $this->auth->attempt([
 			'email'    => 'johnsmith@example.com',
@@ -240,8 +252,10 @@ class SessionHandlerTest extends CIDatabaseTestCase
 
 	public function testAttemptSuccess()
 	{
-		$user = fake(UserModel::class, [
-			'password_hash' => service('passwords')->hash('secret123'),
+		$user = fake(UserModel::class);
+		$user->createEmailIdentity([
+			'email'    => 'foo@example.com',
+			'password' => 'secret123',
 		]);
 
 		$this->assertFalse(isset($_SESSION['logged_in']));
@@ -255,7 +269,69 @@ class SessionHandlerTest extends CIDatabaseTestCase
 		$this->assertTrue($result->isOK());
 
 		$foundUser = $result->extraInfo();
-		$this->assertEquals($user, $foundUser);
+		$this->assertEquals($user->id, $foundUser->id);
+
+		$this->assertTrue(isset($_SESSION['logged_in']));
+		$this->assertEquals($user->id, $_SESSION['logged_in']);
+
+		// A login attempt should have been recorded
+		$this->seeInDatabase('auth_logins', [
+			'email'   => $user->email,
+			'success' => 1,
+		]);
+	}
+
+	public function testAttemptCaseInsensitive()
+	{
+		$user = fake(UserModel::class);
+		$user->createEmailIdentity([
+			'email'    => 'FOO@example.com',
+			'password' => 'secret123',
+		]);
+
+		$this->assertFalse(isset($_SESSION['logged_in']));
+
+		$result = $this->auth->attempt([
+			'email'    => 'foo@example.COM',
+			'password' => 'secret123',
+		]);
+
+		$this->assertInstanceOf(Result::class, $result);
+		$this->assertTrue($result->isOK());
+
+		$foundUser = $result->extraInfo();
+		$this->assertEquals($user->id, $foundUser->id);
+
+		$this->assertTrue(isset($_SESSION['logged_in']));
+		$this->assertEquals($user->id, $_SESSION['logged_in']);
+
+		// A login attempt should have been recorded
+		$this->seeInDatabase('auth_logins', [
+			'email'   => $user->email,
+			'success' => 1,
+		]);
+	}
+
+	public function testAttemptUsernameOnly()
+	{
+		$user = fake(UserModel::class, ['username' => 'foorog']);
+		$user->createEmailIdentity([
+			'email'    => 'FOO@example.com',
+			'password' => 'secret123',
+		]);
+
+		$this->assertFalse(isset($_SESSION['logged_in']));
+
+		$result = $this->auth->attempt([
+			'username' => 'fooROG',
+			'password' => 'secret123',
+		]);
+
+		$this->assertInstanceOf(Result::class, $result);
+		$this->assertTrue($result->isOK());
+
+		$foundUser = $result->extraInfo();
+		$this->assertEquals($user->id, $foundUser->id);
 
 		$this->assertTrue(isset($_SESSION['logged_in']));
 		$this->assertEquals($user->id, $_SESSION['logged_in']);

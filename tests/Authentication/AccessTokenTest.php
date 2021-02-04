@@ -2,23 +2,25 @@
 
 namespace Test\Authentication;
 
-use CodeIgniter\Shield\Models\AccessTokenModel;
+use Sparks\Shield\Entities\AccessToken;
 use CodeIgniter\Test\CIDatabaseTestCase;
 
 class AccessTokenTest extends CIDatabaseTestCase
 {
-	protected $namespace = '\CodeIgniter\Shield';
+	protected $namespace = '\Sparks\Shield';
 
 	public function testCanNoScopes()
 	{
-		$token = fake(AccessTokenModel::class);
+		$token = new AccessToken();
 
 		$this->assertFalse($token->can('foo'));
 	}
 
 	public function testCanWildcard()
 	{
-		$token = fake(AccessTokenModel::class, ['scopes' => ['*']]);
+		$token = new AccessToken([
+			'extra' => ['*'],
+		]);
 
 		$this->assertTrue($token->can('foo'));
 		$this->assertTrue($token->can('bar'));
@@ -26,7 +28,9 @@ class AccessTokenTest extends CIDatabaseTestCase
 
 	public function testCanSuccess()
 	{
-		$token = fake(AccessTokenModel::class, ['scopes' => ['foo']]);
+		$token = new AccessToken([
+			'extra' => ['foo'],
+		]);
 
 		$this->assertTrue($token->can('foo'));
 		$this->assertFalse($token->can('bar'));
@@ -34,14 +38,16 @@ class AccessTokenTest extends CIDatabaseTestCase
 
 	public function testCantNoScopes()
 	{
-		$token = fake(AccessTokenModel::class);
+		$token = new AccessToken();
 
 		$this->assertTrue($token->cant('foo'));
 	}
 
 	public function testCantWildcard()
 	{
-		$token = fake(AccessTokenModel::class, ['scopes' => ['*']]);
+		$token = new AccessToken([
+			'extra' => ['*'],
+		]);
 
 		$this->assertFalse($token->cant('foo'));
 		$this->assertFalse($token->cant('bar'));
@@ -49,7 +55,9 @@ class AccessTokenTest extends CIDatabaseTestCase
 
 	public function testCantSuccess()
 	{
-		$token = fake(AccessTokenModel::class, ['scopes' => ['foo']]);
+		$token = new AccessToken([
+			'extra' => ['foo'],
+		]);
 
 		$this->assertFalse($token->cant('foo'));
 		$this->assertTrue($token->cant('bar'));

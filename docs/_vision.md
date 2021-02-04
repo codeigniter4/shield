@@ -65,12 +65,12 @@ Configuration is handled within the `Config/Auth.php` class, which would look so
 class Auth extends BaseConfig
 {
     public $authenticators = [
-        'session' => \CodeIgniter\Shield\Authenticators\Session',
-        'api' => \CodeIgniter\Shield\Authenticators\ApiTokens',
+        'session' => \Sparks\Shield\Authenticators\Session',
+        'api' => \Sparks\Shield\Authenticators\ApiTokens',
     ];
 
     public $authorizers = [
-        '\CodeIgniter\Shield\Authorizors\Policy',
+        '\Sparks\Shield\Authorizors\Policy',
     ];
 
     //
