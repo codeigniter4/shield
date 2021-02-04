@@ -24,6 +24,21 @@ class Auth extends BaseConfig
 
 	/**
 	 * --------------------------------------------------------------------
+	 * Redirect urLs
+	 * --------------------------------------------------------------------
+	 * The default URL that a user will be redirected to after
+	 * various auth actions. If you need more flexibility you
+	 * should extend the appropriate controller and overrider the
+	 * `getRedirect()` methods to apply any logic you may need.
+	 */
+	public $redirects = [
+		'register' => '/',
+		'login'    => '/',
+		'logout'   => 'login',
+	];
+
+	/**
+	 * --------------------------------------------------------------------
 	 * Authenticators
 	 * --------------------------------------------------------------------
 	 * The available authentication systems, listed
@@ -90,7 +105,7 @@ class Auth extends BaseConfig
 
 	/**
 	 * --------------------------------------------------------------------
-	 * Additional Fields for "Nothing Personal"
+	 * Valid login fields
 	 * --------------------------------------------------------------------
 	 * Fields that are available to be used as credentials for login.
 	 */

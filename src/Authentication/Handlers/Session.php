@@ -200,6 +200,9 @@ class Session implements AuthenticatorInterface
 		$ipAddress = service('request')->getIPAddress();
 		$this->recordLoginAttempt($user->getAuthEmail(), true, $ipAddress, $user->getAuthId() ?? null);
 
+		// Update the user's last used date on their password identity.
+		$this->user->touchIdentity($this->user->getEmailIdentity());
+
 		// Regenerate the session ID to help protect against session fixation
 		if (ENVIRONMENT !== 'testing')
 		{
