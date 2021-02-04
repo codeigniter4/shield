@@ -20,14 +20,6 @@ class RegisterController extends Controller
 	 */
 	protected $config;
 
-	/**
-	 * Default URI to redirect to after
-	 * successfully registering.
-	 *
-	 * @var string
-	 */
-	protected $redirectURL = '/';
-
 	public function __construct()
 	{
 		$this->config = config('Auth');
@@ -134,8 +126,10 @@ class RegisterController extends Controller
 	 */
 	protected function getRedirectURL()
 	{
-		return strpos($this->redirectURL, 'http') === 0
-			? $this->redirectURL
-			: rtrim(site_url($this->redirectURL), '/ ');
+		$url = config('Auth')->redirects['register'];
+
+		return strpos($url, 'http') === 0
+			? $url
+			: rtrim(site_url($url), '/ ');
 	}
 }

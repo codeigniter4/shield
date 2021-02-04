@@ -103,32 +103,7 @@ class Auth
 	 */
 	public function routes(RouteCollection &$routes, array $config = [])
 	{
-		$authRoutes = [
-			'register' => [
-				[
-					'get',
-					'register',
-					'RegisterController::registerView',
-				],
-				[
-					'post',
-					'register',
-					'RegisterController::registerAction',
-				],
-			],
-			'login'    => [
-				[
-					'get',
-					'login',
-					'LoginController::loginView',
-				],
-				[
-					'post',
-					'login',
-					'LoginController::loginAction',
-				],
-			],
-		];
+		$authRoutes = config('AuthRoutes')->routes;
 
 		$routes->group('/', ['namespace' => 'Sparks\Shield\Controllers'], function ($routes) use ($authRoutes) {
 			foreach ($authRoutes as $name => $row)

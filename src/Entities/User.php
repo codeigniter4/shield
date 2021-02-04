@@ -87,6 +87,18 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
 	}
 
 	/**
+	 * Update the last used at date for an identity record.
+	 *
+	 * @param \Sparks\Shield\Entities\UserIdentity $identity
+	 */
+	public function touchIdentity(UserIdentity $identity)
+	{
+		$identity->last_used_at = date('Y-m-d H:i:s');
+
+		model(UserIdentityModel::class)->save($identity);
+	}
+
+	/**
 	 * Accessor method to grab the user's email address.
 	 * Will cache it in $this->attributes, since it has
 	 * to hit the database the first time to get it, most likely.
