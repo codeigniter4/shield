@@ -5,6 +5,7 @@ namespace Sparks\Shield\Authentication\Handlers;
 use CodeIgniter\Events\Events;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\AuthenticatorInterface;
+use Sparks\Shield\Config\Auth;
 use Sparks\Shield\Interfaces\Authenticatable;
 use Config\App;
 use \Sparks\Shield\Models\LoginModel;
@@ -45,9 +46,9 @@ class Session implements AuthenticatorInterface
 	 */
 	protected $rememberModel;
 
-	public function __construct(array $config, $provider)
+	public function __construct(Auth $config, $provider)
 	{
-		$this->config        = $config;
+		$this->config        = $config->sessionConfig;
 		$this->provider      = $provider;
 		$this->loginModel    = model(LoginModel::class);
 		$this->rememberModel = model(RememberModel::class);

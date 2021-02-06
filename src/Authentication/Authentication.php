@@ -63,12 +63,7 @@ class Authentication
 
 		$className = $this->config->authenticators[$handler];
 
-		$property    = "{$handler}Config";
-		$localConfig = property_exists($this->config, $property)
-			? $this->config->$property
-			: $this->config;
-
-		$this->instances[$handler] = new $className($localConfig, $this->userProvider);
+		$this->instances[$handler] = new $className($this->config, $this->userProvider);
 
 		return $this->instances[$handler];
 	}
