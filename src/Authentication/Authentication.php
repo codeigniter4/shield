@@ -37,15 +37,16 @@ class Authentication
 	 * will return an instance of the first handler specified
 	 * in the Auth config file.
 	 *
-	 * @param string $handler
+	 * @param string|null $handler
 	 *
 	 * @return mixed
+	 * @throws \Sparks\Shield\Authentication\AuthenticationException
 	 */
-	public function factory(?string $handler = 'default')
+	public function factory(?string $handler = null)
 	{
 		// Determine actual handler name
-		$handler = $handler === 'default' || $handler === null
-			? key($this->config->authenticators)
+		$handler = $handler === null
+			? $this->config->defaultAuthenticator
 			: $handler;
 
 		// Return the cached instance if we have it
