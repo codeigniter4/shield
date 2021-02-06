@@ -3,6 +3,7 @@
 namespace Sparks\Shield\Config;
 
 use CodeIgniter\Config\BaseConfig;
+use Sparks\Shield\Authentication\Handlers\Pipeline;
 use Sparks\Shield\Authentication\Handlers\Session;
 use Sparks\Shield\Authentication\Handlers\AccessTokens;
 
@@ -47,8 +48,9 @@ class Auth extends BaseConfig
 	 *      auth('api')->attempt($credentials);
 	 */
 	public $authenticators = [
-		'session' => Session::class,
-		'tokens'  => AccessTokens::class,
+		'tokens'   => AccessTokens::class,
+		'session'  => Session::class,
+		'pipeline' => Pipeline::class,
 	];
 
 	/**

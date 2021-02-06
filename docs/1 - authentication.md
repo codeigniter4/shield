@@ -236,3 +236,18 @@ if ($user->tokenCant('forums:manage'))
 }
 ```
 
+## Pipeline Handler
+
+The Pipeline handler is a unique case. It does not have any of its own logic. Instead, it runs the 
+desired method called through each of the other specified handlers, until it either gets a successful 
+result or they all fail. When it fails it only returns the result from the last handler, so you may want
+to re-order the handlers within the the configuration file to provide the error that is most helpful
+for your application.
+
+This can be useful when you want to share a set of API calls between your SPA, which uses the Session
+handler, and a mobile application, which might use Access Tokens. By using the pipeline on these calls
+you can ensure the user is logged in no matter where the call came from. 
+
+It is not recommended to set this handler as the default authenticator since, though it can be done
+as long as one is very careful about methods like the login method, as that would only log the user
+into the first handler, and not both as you might expect.  
