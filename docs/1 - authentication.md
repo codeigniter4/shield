@@ -4,7 +4,37 @@ Shield provides a flexible, secure, authentication system for your web apps and 
 
 ## Available Handlers
 
-Shield ships with 2 handlers to handle several typical situations within web app development. 
+Shield ships with 2 handlers to handle several typical situations within web app development, the
+Session handler, which uses username/email/password to authenticate against and stores it in the session, 
+and Access Tokens handler which uses private access tokens passed in the headers.
+
+The available handlers are defined in `Config\Auth`: 
+
+```
+public $authenticators = [
+		'session' => Session::class,
+		'tokens'  => AccessTokens::class,
+	];
+```
+
+The default handler is also defined in the configuration file, and uses the alias given above:
+
+```
+public $defaultAuthenticator = 'session';
+```
+
+### Auth Helper
+
+The auth functionality is designed to be used with the `auth_helper` that comes with Shield. This 
+helper method provides the `auth()` command which returns a convenient interface to the most frequently
+used functionality within the auth libraries. This must be loaded before it can be used. 
+
+```
+helper('auth');
+
+// get the current user
+auth()->user();
+```
 
 ### Session Handler
 

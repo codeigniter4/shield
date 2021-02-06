@@ -51,6 +51,27 @@ class Auth
 	}
 
 	/**
+	 * Returns the handler name.
+	 *
+	 * @return string
+	 */
+	public function getHandler()
+	{
+		return $this->handler;
+	}
+
+	/**
+	 * Returns the current authentication class.
+	 *
+	 * @return \Sparks\Shield\Authentication\Authentication
+	 */
+	public function getAuthenticator()
+	{
+		return $this->authenticate
+			->factory($this->handler);
+	}
+
+	/**
 	 * Returns the current user, if logged in.
 	 *
 	 * @return \Sparks\Shield\User

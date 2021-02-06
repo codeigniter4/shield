@@ -53,6 +53,15 @@ class Auth extends BaseConfig
 
 	/**
 	 * --------------------------------------------------------------------
+	 * Default Authenticator
+	 * --------------------------------------------------------------------
+	 * The authentication handler to use when none is specified.
+	 * Uses the $key from the $authenticators array above.
+	 */
+	public $defaultAuthenticator = 'session';
+
+	/**
+	 * --------------------------------------------------------------------
 	 * Allow Registration
 	 * --------------------------------------------------------------------
 	 * Determines whether users can register for the site.
