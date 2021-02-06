@@ -4,7 +4,37 @@ Shield provides a flexible, secure, authentication system for your web apps and 
 
 ## Available Handlers
 
-Shield ships with 2 handlers to handle several typical situations within web app development. 
+Shield ships with 2 handlers to handle several typical situations within web app development, the
+Session handler, which uses username/email/password to authenticate against and stores it in the session, 
+and Access Tokens handler which uses private access tokens passed in the headers.
+
+The available handlers are defined in `Config\Auth`: 
+
+```
+public $authenticators = [
+		'session' => Session::class,
+		'tokens'  => AccessTokens::class,
+	];
+```
+
+The default handler is also defined in the configuration file, and uses the alias given above:
+
+```
+public $defaultAuthenticator = 'session';
+```
+
+### Auth Helper
+
+The auth functionality is designed to be used with the `auth_helper` that comes with Shield. This 
+helper method provides the `auth()` command which returns a convenient interface to the most frequently
+used functionality within the auth libraries. This must be loaded before it can be used. 
+
+```
+helper('auth');
+
+// get the current user
+auth()->user();
+```
 
 ### Session Handler
 
@@ -206,3 +236,18 @@ if ($user->tokenCant('forums:manage'))
 }
 ```
 
+## Pipeline Handler
+
+The Pipeline handler is a unique case. It does not have any of its own logic. Instead, it runs the 
+desired method called through each of the other specified handlers, until it either gets a successful 
+result or they all fail. When it fails it only returns the result from the last handler, so you may want
+to re-order the handlers within the the configuration file to provide the error that is most helpful
+for your application.
+
+This can be useful when you want to share a set of API calls between your SPA, which uses the Session
+handler, and a mobile application, which might use Access Tokens. By using the pipeline on these calls
+you can ensure the user is logged in no matter where the call came from. 
+
+It is not recommended to set this handler as the default authenticator since, though it can be done
+as long as one is very careful about methods like the login method, as that would only log the user
+into the first handler, and not both as you might expect.  
