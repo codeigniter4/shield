@@ -274,10 +274,19 @@ class CreateAuthTables extends Migration
 	public function down()
 	{
 		// drop constraints first to prevent errors
-		$this->forge->dropForeignKey('auth_remember_tokens', 'auth_remember_tokens_user_id_foreign');
-		$this->forge->dropForeignKey('auth_identities', 'auth_identities_user_id_foreign');
-		$this->db->query('DROP INDEX ?', ['users_username']);
-		$this->db->query('DROP INDEX ?', ['auth_identities_user_id']);
+		if ($this->db->tableExists('auth_remember_tokens'))
+		{
+			$this->forge->dropForeignKey('auth_remember_tokens', 'auth_remember_tokens_user_id_foreign');
+		}
+		if ($this->db->tableExists('auth_identities'))
+		{
+			$this->forge->dropForeignKey('auth_identities', 'auth_identities_user_id_foreign');
+			$this->db->query('DROP INDEX ?', ['auth_identities_user_id']);
+		}
+		if ($this->db->tableExists('users'))
+		{
+			$this->db->query('DROP INDEX ?', ['users_username']);
+		}
 
 		$this->forge->dropTable('users', true);
 		$this->forge->dropTable('auth_logins', true);
