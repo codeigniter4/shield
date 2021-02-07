@@ -66,7 +66,7 @@ class AccessTokens implements AuthenticatorInterface
 
 		$user = $result->extraInfo();
 
-		$user = $user->withAccessToken(
+		$user = $user->setAccessToken(
 			$user->getAccessToken($this->getBearerToken())
 		);
 
@@ -170,7 +170,7 @@ class AccessTokens implements AuthenticatorInterface
 			throw AuthenticationException::forInvalidUser();
 		}
 
-		$user->withAccessToken(
+		$user->setAccessToken(
 			$user->getAccessToken($this->getBearerToken())
 		);
 

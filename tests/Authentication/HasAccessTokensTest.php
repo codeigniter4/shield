@@ -113,7 +113,7 @@ class HasAccessTokensTest extends CIDatabaseTestCase
 	public function testTokenCanBasics()
 	{
 		$token = $this->user->generateAccessToken('foo', ['foo:bar']);
-		$this->user->withAccessToken($token);
+		$this->user->setAccessToken($token);
 
 		$this->assertTrue($this->user->tokenCan('foo:bar'));
 		$this->assertFalse($this->user->tokenCan('foo:baz'));
@@ -127,7 +127,7 @@ class HasAccessTokensTest extends CIDatabaseTestCase
 	public function testTokenCant()
 	{
 		$token = $this->user->generateAccessToken('foo', ['foo:bar']);
-		$this->user->withAccessToken($token);
+		$this->user->setAccessToken($token);
 
 		$this->assertFalse($this->user->tokenCant('foo:bar'));
 		$this->assertTrue($this->user->tokenCant('foo:baz'));

@@ -34,7 +34,7 @@ class AuthenticationTest extends TestCase
 	public function testFactoryLoadsDefault()
 	{
 		$shield1 = $this->auth->factory();
-		$shield2 = $this->auth->factory('default');
+		$shield2 = $this->auth->factory('session');
 
 		$this->assertInstanceOf(Session::class, $shield1);
 		$this->assertSame($shield1, $shield2);

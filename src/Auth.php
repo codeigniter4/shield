@@ -21,7 +21,7 @@ class Auth
 	 *
 	 * @var string
 	 */
-	protected $handler = 'default';
+	protected $handler;
 
 	/**
 	 * @var User
@@ -43,7 +43,7 @@ class Auth
 	 *
 	 * @param string|null $handler
 	 */
-	public function withHandler(string $handler = null)
+	public function setHandler(string $handler = null)
 	{
 		$this->handler = $handler;
 
