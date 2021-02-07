@@ -8,6 +8,6 @@ if (! defined('auth'))
 	 */
 	function auth(string $authenticator = null)
 	{
-		return service('auth')->withHandler($authenticator);
+		return service('auth')->setHandler($authenticator);
 	}
 }

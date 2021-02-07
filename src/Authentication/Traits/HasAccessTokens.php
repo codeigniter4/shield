@@ -181,7 +181,7 @@ trait HasAccessTokens
 	 *
 	 * @return $this
 	 */
-	public function withAccessToken(?AccessToken $accessToken)
+	public function setAccessToken(?AccessToken $accessToken)
 	{
 		$this->attributes['activeAccessToken'] = $accessToken;
 
