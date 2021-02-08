@@ -3,7 +3,6 @@
 namespace Sparks\Shield\Config;
 
 use CodeIgniter\Config\BaseConfig;
-use Sparks\Shield\Authentication\Handlers\Pipeline;
 use Sparks\Shield\Authentication\Handlers\Session;
 use Sparks\Shield\Authentication\Handlers\AccessTokens;
 
@@ -48,9 +47,8 @@ class Auth extends BaseConfig
 	 *      auth('api')->attempt($credentials);
 	 */
 	public $authenticators = [
-		'tokens'   => AccessTokens::class,
-		'session'  => Session::class,
-		'pipeline' => Pipeline::class,
+		'tokens'  => AccessTokens::class,
+		'session' => Session::class,
 	];
 
 	/**
@@ -61,6 +59,19 @@ class Auth extends BaseConfig
 	 * Uses the $key from the $authenticators array above.
 	 */
 	public $defaultAuthenticator = 'session';
+
+	/**
+	 * --------------------------------------------------------------------
+	 * Authentication Chain
+	 * --------------------------------------------------------------------
+	 * The authentication handlers to test logged in status against
+	 * when using the 'chain' filter. Each handler listed will be checked.
+	 * If no match is found, then the next in the chain will be checked.
+	 */
+	public $authenticationChain = [
+		'session',
+		'tokens',
+	];
 
 	/**
 	 * --------------------------------------------------------------------

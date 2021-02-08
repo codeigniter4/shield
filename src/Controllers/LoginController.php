@@ -33,7 +33,7 @@ class LoginController extends Controller
 		$remember                = (bool)$this->request->getPost('remember');
 
 		// Attempt to login
-		$result = auth()->remember($remember)->attempt($credentials);
+		$result = auth('session')->remember($remember)->attempt($credentials);
 		if (! $result->isOK())
 		{
 			return redirect()->route('login')->withInput()->with('error', $result->reason());

@@ -45,7 +45,10 @@ class Auth
 	 */
 	public function setHandler(string $handler = null)
 	{
-		$this->handler = $handler;
+		if (! empty($handler))
+		{
+			$this->handler = $handler;
+		}
 
 		return $this;
 	}

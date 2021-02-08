@@ -23,7 +23,7 @@ class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 		// Ensure password validation rule is present
 		$config = config('Validation');
 		array_push($config->ruleSets, ValidationRules::class);
-		CodeIgniter\Config\Config::injectMock('Validation', $config);
+		\CodeIgniter\Config\Factories::injectMock('config', 'Validation', $config);
 	}
 
 	public function testRegisterActionSuccess()
@@ -87,5 +87,12 @@ class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 
 		$result->assertStatus(302);
 		$this->assertCount(4, session('errors'));
+	}
+
+	protected function setupConfig()
+	{
+		$config = config('Validation');
+		array_push($config->ruleSets, ValidationRules::class);
+		\CodeIgniter\Config\Factories::injectMock('config', 'Validation', $config);
 	}
 }
