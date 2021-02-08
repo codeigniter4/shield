@@ -273,6 +273,9 @@ class CreateAuthTables extends Migration
 
 	public function down()
 	{
+		$prefix = $this->db->getPrefix();
+		$prefix = empty($prefix) ? $prefix : $prefix . '_';
+
 		// drop constraints first to prevent errors
 		if ($this->db->tableExists('auth_remember_tokens'))
 		{
@@ -281,11 +284,11 @@ class CreateAuthTables extends Migration
 		if ($this->db->tableExists('auth_identities'))
 		{
 			$this->forge->dropForeignKey('auth_identities', 'auth_identities_user_id_foreign');
-			$this->db->query('DROP INDEX IF EXISTS ?', ['auth_identities_user_id']);
+			$this->db->query('DROP INDEX IF EXISTS ?', [$prefix . 'auth_identities_user_id']);
 		}
 		if ($this->db->tableExists('users'))
 		{
-			$this->db->query('DROP INDEX IF EXISTS ?', ['users_username']);
+			$this->db->query('DROP INDEX IF EXISTS ?', [$prefix . 'users_username']);
 		}
 
 		$this->forge->dropTable('users', true);
