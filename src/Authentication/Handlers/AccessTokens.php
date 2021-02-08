@@ -127,14 +127,20 @@ class AccessTokens implements AuthenticatorInterface
 	/**
 	 * Checks if the user is currently logged in.
 	 * Since AccessToken usage is inherently stateless,
-	 * returns simply whether a user has been
-	 * authenticated or not.
+	 * it runs $this->attempt on each usage.
 	 *
 	 * @return boolean
 	 */
 	public function loggedIn(): bool
 	{
-		return $this->user instanceof Authenticatable;
+		if (! empty($this->user))
+		{
+			return true;
+		}
+
+		return $this->attempt([
+			'token' => service('request')->getHeaderLine('Authorization'),
+		])->isOK();
 	}
 
 	/**
