@@ -297,5 +297,6 @@ class CreateAuthTables extends Migration
 		$this->forge->dropTable('auth_reset_attempts', true);
 		$this->forge->dropTable('auth_activation_attempts', true);
 		$this->forge->dropTable('auth_access_tokens', true);
+		$this->forge->dropTable('auth_identities', true);
 	}
 }
