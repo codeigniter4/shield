@@ -38,4 +38,7 @@ return [
    'passwordChangeSuccess'     => 'Password changed successfully',
    'userDoesNotExist'          => 'Password was not changed. User does not exist',
    'resetTokenExpired'         => 'Sorry. Your reset token has expired.',
+
+	// 2FA
+   'email2FATitle'             => 'Two Factor Authentication',
 ];

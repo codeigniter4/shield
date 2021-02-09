@@ -15,11 +15,14 @@ class Auth extends BaseConfig
 	 */
 
 	public $views = [
-		'login'          => '\Sparks\Shield\Views\login',
-		'register'       => 'Sparks\Shield\Views\register',
-		'forgotPassword' => '\Sparks\Shield\Views\forgot_password',
-		'resetPassword'  => '\Sparks\Shield\Views\reset_password',
-		'layout'         => '\Sparks\Shield\Views\layout',
+		'login'                    => '\Sparks\Shield\Views\login',
+		'register'                 => '\Sparks\Shield\Views\register',
+		'forgotPassword'           => '\Sparks\Shield\Views\forgot_password',
+		'resetPassword'            => '\Sparks\Shield\Views\reset_password',
+		'layout'                   => '\Sparks\Shield\Views\layout',
+		'action_email_2fa'         => '\Sparks\Shield\Views\email_2fa_show',
+		'action_email_2fa_confirm' => '\Sparks\Shield\Views\email_2fa_confirm',
+		'action_email_2fa_verify'  => '\Sparks\Shield\Views\email_2fa_verify',
 	];
 
 	/**
@@ -35,6 +38,22 @@ class Auth extends BaseConfig
 		'register' => '/',
 		'login'    => '/',
 		'logout'   => 'login',
+	];
+
+	/**
+	 * --------------------------------------------------------------------
+	 * Authentication Actions
+	 * --------------------------------------------------------------------
+	 * Specifies the class that represents an action to take after
+	 * the user logs in or registers a new account at the site.
+	 *
+	 * Available actions with Shield:
+	 * - login:    Shield\Authentication\Actions\Email2FA
+	 * - register: Shield\Authentication\Actions\EmailActivate
+	 */
+	public $actions = [
+		'login'    => null,
+		'register' => null,
 	];
 
 	/**
