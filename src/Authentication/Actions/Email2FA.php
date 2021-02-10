@@ -1,6 +1,8 @@
 <?php namespace Sparks\Shield\Authentication\Actions;
 
 use CodeIgniter\HTTP\IncomingRequest;
+use Sparks\Shield\Controllers\LoginController;
+use Sparks\Shield\Models\UserIdentityModel;
 
 /**
  * Class Email2FA
@@ -33,6 +35,39 @@ class Email2FA implements ActionInterface
 	 */
 	public function handle(IncomingRequest $request)
 	{
+		$email = $request->getPost('email');
+		$user  = auth()->user();
+
+		if (empty($email) || $email !== $user->email)
+		{
+			return redirect()->to('/auth/a/show')->with('error', lang('Auth.invalidEmail'));
+		}
+
+		// Delete any previous email_2fa identities
+		$identities = new UserIdentityModel();
+		$identities->where('user_id', $user->id)
+			->where('type', 'email_2fa')
+			->delete();
+
+		// Generate the code and save it as an identity
+		helper('text');
+		$code = random_string('nozero', 6);
+
+		$identities->insert([
+			'user_id' => $user->id,
+			'type'    => 'email_2fa',
+			'secret'  => $code,
+		]);
+
+		// Send the user an email with the code
+		$email = service('email');
+		$email->setFrom(config('Email')->fromEmail, config('Email')->fromName)
+			->setTo($user->email)
+			->setSubject(lang('Auth.email2FASubject'))
+			->setMessage(view(config('Auth')->views['action_email_2fa_email'], ['code' => $code]))
+			->send();
+
+		echo view(config('Auth')->views['action_email_2fa_verify']);
 	}
 
 	/**
@@ -44,5 +79,29 @@ class Email2FA implements ActionInterface
 	 */
 	public function verify(IncomingRequest $request)
 	{
+		$token    = $request->getPost('token');
+		$user     = auth()->user();
+		$identity = $user->getIdentity('email_2fa');
+
+		// Token mismatch? Let them try again...
+		if (empty($token) || $token !== $identity->secret)
+		{
+			$_SESSION['error'] = lang('Auth.invalid2FAToken');
+			return view(config('Auth')->views['action_email_2fa_verify']);
+		}
+
+		// On success - remove the identity and clean up session
+		model(UserIdentityModel::class)
+			->where('user_id', $user->id)
+			->where('type', 'email_2fa')
+			->delete();
+
+		// Clean up our session
+		unset($_SESSION['auth_action']);
+
+		// Get our login redirect url
+		$loginController = new LoginController();
+
+		return redirect()->to($loginController->getLoginRedirect($user));
 	}
 }

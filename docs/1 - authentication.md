@@ -244,7 +244,7 @@ use to protect your routes, `session`, `tokens`, and `chained`. The first two co
 to see if the user is logged in through either of authenticators, allowing a single API endpoint to 
 work for both an SPA using session auth, and a mobile app using access tokens.
 
-Before you can use the filters you must define their aliases in `app/Config/Validation.php`:
+Before you can use the filters you must define their aliases in `app/Config/Filters.php`:
 
 ```
 public $aliases = [

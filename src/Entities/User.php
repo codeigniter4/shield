@@ -58,6 +58,20 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
 	}
 
 	/**
+	 * Returns the first identity of the given $type for this user.
+	 *
+	 * @param string $type
+	 *
+	 * @return mixed|null
+	 */
+	public function getIdentity(string $type)
+	{
+		$identities = $this->identitiesOfType($type);
+
+		return count($identities) ? array_shift($identities) : null;
+	}
+
+	/**
 	 * Creates a new identity for this user with an email/password
 	 * combination.
 	 *

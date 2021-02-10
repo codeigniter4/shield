@@ -66,7 +66,7 @@ class LoginController extends Controller
 	 *
 	 * @return string
 	 */
-	protected function getLoginRedirect($user)
+	public function getLoginRedirect($user)
 	{
 		$url = config('Auth')->redirects['login'];
 
