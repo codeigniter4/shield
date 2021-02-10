@@ -50,7 +50,7 @@ class AuthRoutes extends BaseConfig
 				'ActionController::handle',
 			],
 			[
-				'get',
+				'post',
 				'auth/a/verify',
 				'ActionController::verify',
 			],
