@@ -39,6 +39,14 @@ class LoginController extends Controller
 			return redirect()->route('login')->withInput()->with('error', $result->reason());
 		}
 
+		// If an action has been defined for login, start it up.
+		$actionClass = $this->config->actions['login'] ?? null;
+		if (! empty($actionClass))
+		{
+			$_SESSION['auth_action'] = $actionClass;
+			return redirect()->to('auth/a/show');
+		}
+
 		$user = $result->extraInfo();
 
 		return redirect()->to($this->getLoginRedirect($user));
