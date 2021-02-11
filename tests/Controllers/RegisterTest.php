@@ -11,9 +11,12 @@ class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 
 	public function setUp(): void
 	{
+		\Config\Services::reset();
+
 		parent::setUp();
 
 		helper('auth');
+		\CodeIgniter\Config\Factories::reset();
 
 		// Add auth routes
 		$routes = service('routes');
@@ -21,7 +24,7 @@ class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 		\Config\Services::injectMock('routes', $routes);
 
 		// Ensure password validation rule is present
-		$config             = new \Config\Validation();
+		$config             = config('Validation');
 		$config->ruleSets[] = ValidationRules::class;
 		$config->ruleSets   = array_reverse($config->ruleSets);
 		\CodeIgniter\Config\Factories::injectMock('config', 'Validation', $config);
