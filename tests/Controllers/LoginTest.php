@@ -1,5 +1,6 @@
 <?php
 
+use CodeIgniter\Config\Factories;
 use CodeIgniter\Test\FeatureTestTrait;
 use Sparks\Shield\Models\UserModel;
 
@@ -93,5 +94,29 @@ class LoginTest extends \CodeIgniter\Test\CIDatabaseTestCase
 		$this->assertEquals(site_url(config('Auth')->redirects['logout']), $result->getRedirectUrl());
 
 		$this->assertNull(session('logged_in'));
+	}
+
+	public function testLoginRedirectsToActionIfDefined()
+	{
+		// Ensure our action is defined
+		$config                   = config('Auth');
+		$config->actions['login'] = \Sparks\Shield\Authentication\Actions\Email2FA::class;
+		Factories::injectMock('config', 'Auth', $config);
+
+		$user = fake(UserModel::class);
+		$user->createEmailIdentity([
+			'email'    => 'foo@example.com',
+			'password' => 'secret123',
+		]);
+
+		$result = $this->post('/login', [
+			'email'    => 'foo@example.com',
+			'password' => 'secret123',
+		]);
+
+		// Should have been redirected to the action's page.
+		$result->assertStatus(302);
+		$result->assertRedirect();
+		$this->assertEquals(base_url('auth/a/show'), $result->getRedirectUrl());
 	}
 }
