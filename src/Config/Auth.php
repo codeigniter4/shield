@@ -15,14 +15,16 @@ class Auth extends BaseConfig
 	 */
 
 	public $views = [
-		'login'                   => '\Sparks\Shield\Views\login',
-		'register'                => '\Sparks\Shield\Views\register',
-		'forgotPassword'          => '\Sparks\Shield\Views\forgot_password',
-		'resetPassword'           => '\Sparks\Shield\Views\reset_password',
-		'layout'                  => '\Sparks\Shield\Views\layout',
-		'action_email_2fa'        => '\Sparks\Shield\Views\email_2fa_show',
-		'action_email_2fa_verify' => '\Sparks\Shield\Views\email_2fa_verify',
-		'action_email_2fa_email'  => '\Sparks\Shield\Views\email_2fa_email',
+		'login'                       => '\Sparks\Shield\Views\login',
+		'register'                    => '\Sparks\Shield\Views\register',
+		'forgotPassword'              => '\Sparks\Shield\Views\forgot_password',
+		'resetPassword'               => '\Sparks\Shield\Views\reset_password',
+		'layout'                      => '\Sparks\Shield\Views\layout',
+		'action_email_2fa'            => '\Sparks\Shield\Views\email_2fa_show',
+		'action_email_2fa_verify'     => '\Sparks\Shield\Views\email_2fa_verify',
+		'action_email_2fa_email'      => '\Sparks\Shield\Views\email_2fa_email',
+		'action_email_activate_email' => '\Sparks\Shield\Views\email_activate_email',
+		'action_email_activate_show'  => '\Sparks\Shield\Views\email_activate_show',
 	];
 
 	/**

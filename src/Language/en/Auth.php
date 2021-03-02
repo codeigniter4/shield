@@ -47,4 +47,8 @@ return [
    'emailConfirmCode'          => 'Enter the 6-digit code we just sent to your email address.',
    'email2FASubject'           => 'Confirm your email address',
    'invalid2FAToken'           => 'The token was incorrect.',
+
+	// Activate
+   'emailActivateTitle'        => 'Email Activation',
+   'emailActivateSubject'      => 'Confirm your Email',
 ];

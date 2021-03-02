@@ -148,4 +148,48 @@ class ActionsTest extends \CodeIgniter\Test\CIDatabaseTestCase
 		// Session should have been cleared
 		$result->assertSessionMissing('auth_action');
 	}
+
+	public function testEmailActivateShow()
+	{
+		$result = $this->actingAs($this->user)
+					   ->withSession([
+						   'auth_action' => \Sparks\Shield\Authentication\Actions\EmailActivator::class,
+					   ])->get('/auth/a/show');
+
+		$result->assertStatus(200);
+
+		// Should have sent an email with the link....
+		$this->assertTrue(strpos(service('email')->archive['body'], 'Please click the link below to activate your account') !== false);
+		$this->assertTrue(strpos(service('email')->archive['body'], '/auth/a/verify?c=') !== false);
+	}
+
+	public function testEmailActivateVerify()
+	{
+		// An identity with Email activation info would have been stored previously
+		$identities = model(UserIdentityModel::class);
+		$identities->insert([
+			'user_id' => $this->user->id,
+			'type'    => 'email_activate',
+			'secret'  => '123456',
+		]);
+
+		$result = $this->actingAs($this->user)
+		   ->withSession([
+			   'auth_action' => \Sparks\Shield\Authentication\Actions\EmailActivator::class,
+		   ])->post('/auth/a/verify', [
+			   'token' => '123456',
+		   ]);
+
+		$result->assertRedirect();
+		$this->assertEquals(site_url(), $result->getRedirectUrl());
+
+		// Identity should have been removed
+		$this->dontSeeInDatabase('auth_identities', [
+			'user_id' => $this->user->id,
+			'type'    => 'email_2fa',
+		]);
+
+		// Session should have been cleared
+		$result->assertSessionMissing('auth_action');
+	}
 }
