@@ -11,9 +11,12 @@ class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 
 	public function setUp(): void
 	{
+		\Config\Services::reset();
+
 		parent::setUp();
 
 		helper('auth');
+		\CodeIgniter\Config\Factories::reset();
 
 		// Add auth routes
 		$routes = service('routes');
@@ -21,14 +24,15 @@ class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 		\Config\Services::injectMock('routes', $routes);
 
 		// Ensure password validation rule is present
-		$config = config('Validation');
-		array_push($config->ruleSets, ValidationRules::class);
+		$config             = config('Validation');
+		$config->ruleSets[] = ValidationRules::class;
+		$config->ruleSets   = array_reverse($config->ruleSets);
 		\CodeIgniter\Config\Factories::injectMock('config', 'Validation', $config);
 	}
 
 	public function testRegisterActionSuccess()
 	{
-		$result = $this->post('/register', [
+		$result = $this->withSession()->post('/register', [
 			'username'     => 'JohnDoe',
 			'email'        => 'john.doe@example.com',
 			'password'     => 'secret things might happen here',
@@ -51,7 +55,7 @@ class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 
 	public function testRegisterDisplaysForm()
 	{
-		$result = $this->get('/register');
+		$result = $this->withSession()->get('/register');
 
 		$result->assertStatus(200);
 		$result->assertSee(lang('Auth.register'));
@@ -63,7 +67,7 @@ class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 		$config->allowRegistration = false;
 		CodeIgniter\Config\Config::injectMock('Auth', $config);
 
-		$result = $this->get('/register');
+		$result = $this->withSession()->get('/register');
 
 		$result->assertStatus(302);
 		$result->assertRedirect();
@@ -75,7 +79,7 @@ class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 		$config->allowRegistration = false;
 		CodeIgniter\Config\Config::injectMock('Auth', $config);
 
-		$result = $this->post('/register');
+		$result = $this->withSession()->post('/register');
 
 		$result->assertStatus(302);
 		$result->assertRedirect();
@@ -83,7 +87,7 @@ class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 
 	public function testRegisterActionInvalidData()
 	{
-		$result = $this->post('/register');
+		$result = $this->withSession()->post('/register');
 
 		$result->assertStatus(302);
 		$this->assertCount(4, session('errors'));

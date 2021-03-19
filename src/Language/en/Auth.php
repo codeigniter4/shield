@@ -11,6 +11,7 @@ return [
    'noToken'                   => 'Every request must have a bearer token in the Authorization header.',
    'badToken'                  => 'The access token is invalid.',
    'noUserEntity'              => 'User Entity must be provided for password validation.',
+   'invalidEmail'              => 'Unable to verify the email address matches the email on record.',
 
    'register'                  => 'Register',
    'email'                     => 'Email Address',
@@ -18,6 +19,7 @@ return [
    'password'                  => 'Password',
    'passwordConfirm'           => 'Password (again)',
    'haveAccount'               => 'Already have an account?',
+   'confirm'                   => 'Confirm',
 
 	// Login
    'login'                     => 'Login',
@@ -38,4 +40,15 @@ return [
    'passwordChangeSuccess'     => 'Password changed successfully',
    'userDoesNotExist'          => 'Password was not changed. User does not exist',
    'resetTokenExpired'         => 'Sorry. Your reset token has expired.',
+
+	// 2FA
+   'email2FATitle'             => 'Two Factor Authentication',
+   'emailEnterCode'            => 'Confirm your Email',
+   'emailConfirmCode'          => 'Enter the 6-digit code we just sent to your email address.',
+   'email2FASubject'           => 'Confirm your email address',
+   'invalid2FAToken'           => 'The token was incorrect.',
+
+	// Activate
+   'emailActivateTitle'        => 'Email Activation',
+   'emailActivateSubject'      => 'Confirm your Email',
 ];

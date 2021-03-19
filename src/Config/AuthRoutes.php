@@ -7,7 +7,7 @@ use CodeIgniter\Config\BaseConfig;
 class AuthRoutes extends BaseConfig
 {
 	public $routes = [
-		'register' => [
+		'register'     => [
 			[
 				'get',
 				'register',
@@ -19,7 +19,7 @@ class AuthRoutes extends BaseConfig
 				'RegisterController::registerAction',
 			],
 		],
-		'login'    => [
+		'login'        => [
 			[
 				'get',
 				'login',
@@ -31,11 +31,28 @@ class AuthRoutes extends BaseConfig
 				'LoginController::loginAction',
 			],
 		],
-		'logout'   => [
+		'logout'       => [
 			[
 				'get',
 				'logout',
 				'LoginController::logoutAction',
+			],
+		],
+		'auth-actions' => [
+			[
+				'get',
+				'auth/a/show',
+				'ActionController::show',
+			],
+			[
+				'post',
+				'auth/a/handle',
+				'ActionController::handle',
+			],
+			[
+				'post',
+				'auth/a/verify',
+				'ActionController::verify',
 			],
 		],
 	];
