@@ -32,7 +32,7 @@ trait HasAccessTokens
 			'user_id' => $this->id,
 			'name'    => $name,
 			'secret'  => hash('sha256', $rawToken = random_string('crypto', 64)),
-			'extra'   => $scopes,
+			'extra'   => serialize($scopes),
 		]);
 
 		$token = $identities
