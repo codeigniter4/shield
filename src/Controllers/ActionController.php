@@ -2,7 +2,7 @@
 
 namespace Sparks\Shield\Controllers;
 
-use CodeIgniter\Controller;
+use App\Controllers\BaseController;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use Sparks\Shield\Authentication\Actions\ActionInterface;
 
@@ -13,7 +13,7 @@ use Sparks\Shield\Authentication\Actions\ActionInterface;
  *
  * @package Sparks\Shield\Controllers
  */
-class ActionController extends Controller
+class ActionController extends BaseController
 {
 	/**
 	 * @var \Sparks\Shield\Authentication\Actions\ActionInterface
