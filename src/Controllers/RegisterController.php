@@ -2,7 +2,7 @@
 
 namespace Sparks\Shield\Controllers;
 
-use CodeIgniter\Controller;
+use App\Controllers\BaseController;
 use Sparks\Shield\Entities\User;
 
 /**
@@ -13,7 +13,7 @@ use Sparks\Shield\Entities\User;
  *
  * @package Sparks\Shield\Controllers
  */
-class RegisterController extends Controller
+class RegisterController extends BaseController
 {
 	/**
 	 * @var \Sparks\Shield\Config\Auth
