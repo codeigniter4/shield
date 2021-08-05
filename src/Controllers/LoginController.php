@@ -1,8 +1,8 @@
 <?php namespace Sparks\Shield\Controllers;
 
-use CodeIgniter\Controller;
+use App\Controllers\BaseController;
 
-class LoginController extends Controller
+class LoginController extends BaseController
 {
 	/**
 	 * @var \Sparks\Shield\Config\Auth
