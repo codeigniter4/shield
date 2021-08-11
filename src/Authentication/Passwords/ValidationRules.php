@@ -49,11 +49,11 @@ class ValidationRules
 		{
 			if (empty($data))
 			{
-				$error1 = $result->error;
+				$error1 = $result->reason();
 			}
 			else
 			{
-				$error2 = $result->error;
+				$error2 = $result->reason();
 			}
 		}
 
