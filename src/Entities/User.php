@@ -141,4 +141,26 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
 
 		return $this->attributes['password_hash'];
 	}
+
+	/**
+	 * Returns the last login information for this
+	 * user as
+	 *
+	 * @param boolean $allowFailed
+	 */
+	public function lastLogin(bool $allowFailed = false)
+	{
+		$logins = model('LoginModel');
+
+		if (! $allowFailed)
+		{
+			$logins->where('success', 1)
+				->where('user_id', $this->attributes['id'] ?? null);
+		}
+
+		return $logins
+			->where('email', $this->getAuthEmail())
+			->orderBy('date', 'desc')
+			->first();
+	}
 }
