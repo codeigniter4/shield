@@ -1,12 +1,16 @@
 <?php
 
-use CodeIgniter\Test\CIDatabaseTestCase;
+use Tests\Support\TestCase;
 use Sparks\Shield\Models\UserModel;
 use Sparks\Shield\Entities\UserIdentity;
 use Sparks\Shield\Models\UserIdentityModel;
+use Sparks\Shield\Models\LoginModel;
+use CodeIgniter\Test\DatabaseTestTrait;
 
-class UserTest extends CIDatabaseTestCase
+class UserTest extends TestCase
 {
+	use DatabaseTestTrait;
+
 	protected $namespace = '\Sparks\Shield';
 
 	protected $refresh = true;
@@ -66,5 +70,22 @@ class UserTest extends CIDatabaseTestCase
 
 		$identities = $user->identities;
 		$this->assertCount(2, $identities);
+	}
+
+	public function testLastLogin()
+	{
+		$user          = fake(UserModel::class);
+		$emailIdentity = fake(UserIdentityModel::class, ['user_id' => $user->id, 'type' => 'email_password', 'secret' => 'foo@example.com']);
+
+		// No logins found.
+		$this->assertNull($user->lastLogin());
+
+		$login    = fake(LoginModel::class, ['email' => $user->email, 'user_id' => $user->id]);
+		$badLogin = fake(LoginModel::class, ['email' => $user->email, 'user_id' => $user->id, 'success' => false]);
+
+		$last = $user->lastLogin();
+		$this->assertInstanceOf(\Sparks\Shield\Entities\Login::class, $last);
+		$this->assertEquals($login->id, $last->id);
+		$this->assertInstanceOf(\CodeIgniter\I18n\Time::class, $last->date);
 	}
 }

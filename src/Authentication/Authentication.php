@@ -2,7 +2,7 @@
 
 namespace Sparks\Shield\Authentication;
 
-use Sparks\Shield\Config\Auth as AuthConfig;
+use CodeIgniter\Config\BaseConfig as AuthConfig;
 use Sparks\Shield\Interfaces\UserProvider;
 
 class Authentication

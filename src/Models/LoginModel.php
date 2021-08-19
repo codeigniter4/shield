@@ -2,14 +2,17 @@
 
 namespace Sparks\Shield\Models;
 
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
+use Faker\Generator;
+use Sparks\Shield\Entities\Login;
 
 class LoginModel extends Model
 {
 	protected $table      = 'auth_logins';
 	protected $primaryKey = 'id';
 
-	protected $returnType     = 'object';
+	protected $returnType     = Login::class;
 	protected $useSoftDeletes = false;
 
 	protected $allowedFields = [
@@ -48,5 +51,24 @@ class LoginModel extends Model
 			'date'       => date('Y-m-d H:i:s'),
 			'success'    => (int)$success,
 		]);
+	}
+
+	/**
+	 * Generate a fake login for testing
+	 *
+	 * @param Generator $faker
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
+	public function fake(Generator &$faker)
+	{
+		return [
+			'ip_address' => $faker->ipv4,
+			'email'      => $faker->email,
+			'user_id'    => null,
+			'date'       => Time::parse('-1 day')->toDateTimeString(),
+			'success'    => true,
+		];
 	}
 }
