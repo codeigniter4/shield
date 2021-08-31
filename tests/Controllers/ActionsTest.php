@@ -72,7 +72,7 @@ class ActionsTest extends \CodeIgniter\Test\CIDatabaseTestCase
 		   ]);
 
 		$result->assertRedirect();
-		$result->assertEquals(base_url('/auth/a/show'), $result->getRedirectUrl());
+		$result->assertEquals(site_url('/auth/a/show'), $result->getRedirectUrl());
 		$result->assertSessionHas('error', lang('Auth.invalidEmail'));
 	}
 
