@@ -117,6 +117,6 @@ class LoginTest extends \CodeIgniter\Test\CIDatabaseTestCase
 		// Should have been redirected to the action's page.
 		$result->assertStatus(302);
 		$result->assertRedirect();
-		$this->assertEquals(base_url('auth/a/show'), $result->getRedirectUrl());
+		$this->assertEquals(site_url('auth/a/show'), $result->getRedirectUrl());
 	}
 }
