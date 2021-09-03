@@ -150,13 +150,13 @@ class AccessTokens implements AuthenticatorInterface
 	 * @param Authenticatable $user
 	 * @param boolean         $remember
 	 *
-	 * @return mixed
+	 * @return bool
 	 */
 	public function login(Authenticatable $user, bool $remember = false)
 	{
 		$this->user = $user;
 
-		return $this;
+		return true;
 	}
 
 	/**
@@ -165,7 +165,9 @@ class AccessTokens implements AuthenticatorInterface
 	 * @param integer $userId
 	 * @param boolean $remember
 	 *
-	 * @return mixed
+	 * @throws AuthenticationException
+	 *
+	 * @return bool
 	 */
 	public function loginById(int $userId, bool $remember = false)
 	{
@@ -186,11 +188,13 @@ class AccessTokens implements AuthenticatorInterface
 	/**
 	 * Logs the current user out.
 	 *
-	 * @return mixed
+	 * @return bool
 	 */
 	public function logout()
 	{
 		$this->user = null;
+
+		return true;
 	}
 
 	/**
