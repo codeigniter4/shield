@@ -37,6 +37,9 @@ interface AuthenticatorInterface
 
 	/**
 	 * Logs the given user in.
+	 * On success this must trigger the "login" Event.
+	 *
+	 * @see https://codeigniter4.github.io/CodeIgniter4/extending/authentication.html
 	 *
 	 * @param Authenticatable $user
 	 *
@@ -46,6 +49,9 @@ interface AuthenticatorInterface
 
 	/**
 	 * Logs a user in based on their ID.
+	 * On success this must trigger the "login" Event.
+	 *
+	 * @see https://codeigniter4.github.io/CodeIgniter4/extending/authentication.html
 	 *
 	 * @param integer $userId
 	 *
@@ -55,6 +61,9 @@ interface AuthenticatorInterface
 
 	/**
 	 * Logs the current user out.
+	 * On success this must trigger the "logout" Event.
+	 *
+	 * @see https://codeigniter4.github.io/CodeIgniter4/extending/authentication.html
 	 *
 	 * @return mixed
 	 */

@@ -3,9 +3,9 @@
 namespace Sparks\Shield;
 
 use CodeIgniter\Router\RouteCollection;
-use Sparks\Shield\Authentication\AuthenticationException;
-use Sparks\Shield\User;
 use Sparks\Shield\Authentication\Authentication;
+use Sparks\Shield\Authentication\AuthenticationException;
+use Sparks\Shield\Interfaces\Authenticatable;
 
 class Auth
 {
@@ -77,27 +77,25 @@ class Auth
 	/**
 	 * Returns the current user, if logged in.
 	 *
-	 * @return \Sparks\Shield\User
+	 * @return Authenticatable
 	 */
 	public function user()
 	{
-		return $this->authenticate
-		->factory($this->handler)
-		->getUser();
+		return $this->getAuthenticator()->loggedIn()
+			? $this->getAuthenticator()->getUser()
+			: null;
 	}
 
 	/**
 	 * Returns the current user's id, if logged in.
 	 *
-	 * @return |null
+	 * @return mixed|null
 	 */
 	public function id()
 	{
-		return $this->authenticate
-		   ->factory($this->handler)
-		   ->getUser()
-		   ->id
-			   ?? null;
+		return ($user = $this->user())
+			? $user->getAuthId()
+			: null;
 	}
 
 	public function authenticate(array $credentials)
