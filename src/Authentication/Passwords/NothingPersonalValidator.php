@@ -29,12 +29,12 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
 	 * If true is returned the password will be passed to next validator.
 	 * If false is returned the validation process will be immediately stopped.
 	 *
-	 * @param string                   $password
-	 * @param \CodeIgniter\Entity|null $user
+	 * @param string $password
+	 * @param mixed  $user
 	 *
 	 * @return \Sparks\Shield\Result
 	 */
-	public function check(string $password, Entity $user = null): Result
+	public function check(string $password, $user = null): Result
 	{
 		$password = \strtolower($password);
 

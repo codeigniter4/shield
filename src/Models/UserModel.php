@@ -24,6 +24,7 @@ class UserModel extends Model implements UserProvider
 		'status_message',
 		'active',
 		'deleted_at',
+		'permissions',
 	];
 
 	protected $useTimestamps = true;
