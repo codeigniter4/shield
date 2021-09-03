@@ -5,14 +5,20 @@ namespace Test\Authentication;
 use Config\Services;
 use CodeIgniter\Test\CIUnitTestCase;
 use Sparks\Shield\Authentication\AuthenticationException;
+use Sparks\Shield\Models\UserModel;
 
 class AuthHelperTest extends CIUnitTestCase
 {
-	public function __construct()
+	public static function setUpBeforeClass(): void
 	{
-		parent::__construct();
+		parent::setUpBeforeClass();
 
-		helper('auth');
+		helper(['auth']);
+	}
+
+	public function setUp(): void
+	{
+		parent::setUp();
 
 		$this->setPrivateProperty(auth(), 'handler', null);
 	}
@@ -37,5 +43,20 @@ class AuthHelperTest extends CIUnitTestCase
 		$this->expectExceptionMessage(lang('Auth.unknownHandler', ['foo']));
 
 		auth('foo')->user();
+	}
+
+	public function testUserIdReturnsNull()
+	{
+		$this->assertFalse(auth()->loggedIn());
+		$this->assertNull(user_id());
+	}
+
+	public function testUserIdReturnsId()
+	{
+		$user = fake(UserModel::class, [], false);
+		$this->setPrivateProperty(auth()->getAuthenticator(), 'user', $user);
+
+		$this->assertTrue(auth()->loggedIn());
+		$this->assertSame($user->id, user_id());
 	}
 }

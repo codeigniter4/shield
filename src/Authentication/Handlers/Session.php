@@ -191,7 +191,7 @@ class Session implements AuthenticatorInterface
 	 *
 	 * @param Authenticatable $user
 	 *
-	 * @return mixed
+	 * @return bool
 	 */
 	public function login(Authenticatable $user)
 	{
@@ -232,10 +232,8 @@ class Session implements AuthenticatorInterface
 			$this->rememberModel->purgeOldRememberTokens();
 		}
 
-		// trigger login event, in case anyone cares
-		Events::trigger('login', $user);
-
-		return true;
+		// Trigger login event, in case anyone cares
+		return Events::trigger('login', $user);
 	}
 
 	/**
@@ -260,7 +258,7 @@ class Session implements AuthenticatorInterface
 	/**
 	 * Logs the current user out.
 	 *
-	 * @return mixed
+	 * @return bool
 	 */
 	public function logout()
 	{
@@ -283,10 +281,12 @@ class Session implements AuthenticatorInterface
 		// Take care of any remember me functionality
 		$this->rememberModel->purgeRememberTokens($this->user->id ?? null);
 
-		// trigger logout event
-		Events::trigger('logout', $this->user);
+		// Trigger logout event
+		$result = Events::trigger('logout', $this->user);
 
 		$this->user = null;
+
+		return $result;
 	}
 
 	/**
