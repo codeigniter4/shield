@@ -51,4 +51,10 @@ return [
 	// Activate
    'emailActivateTitle'        => 'Email Activation',
    'emailActivateSubject'      => 'Confirm your Email',
+
+	// Groups
+   'unknownGroup'              => '{0} is not a valid group.',
+
+	// Permissions
+   'unknownPermission'         => '{0} is not a valid permission.',
 ];
