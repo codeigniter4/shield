@@ -39,6 +39,10 @@ class CreateAuthTables extends Migration
 				'null'       => 0,
 				'default'    => 0,
 			],
+			'permissions'    => [
+				'type' => 'text',
+				'null' => true,
+			],
 			'created_at'     => [
 				'type' => 'datetime',
 				'null' => true,
@@ -267,6 +271,62 @@ class CreateAuthTables extends Migration
 		]);
 		$this->forge->addPrimaryKey('id');
 		$this->forge->createTable('auth_activation_attempts', true);
+
+		/*
+		 * Groups Users Table
+		 */
+		$this->forge->addField([
+			'id'         => [
+				'type'           => 'int',
+				'constraint'     => 11,
+				'unsigned'       => true,
+				'auto_increment' => true,
+			],
+			'user_id'    => [
+				'type'       => 'int',
+				'constraint' => 11,
+				'unsigned'   => true,
+			],
+			'groups'     => [
+				'type' => 'text',
+				'null' => true,
+			],
+			'created_at' => [
+				'type' => 'datetime',
+				'null' => false,
+			],
+		]);
+		$this->forge->addPrimaryKey('id');
+		$this->forge->addForeignKey('user_id', 'users', 'id', false, 'CASCADE');
+		$this->forge->createTable('auth_groups_users', true);
+
+		/*
+		 * Users Permissions Table
+		 */
+		$this->forge->addField([
+			'id'          => [
+				'type'           => 'int',
+				'constraint'     => 11,
+				'unsigned'       => true,
+				'auto_increment' => true,
+			],
+			'user_id'     => [
+				'type'       => 'int',
+				'constraint' => 11,
+				'unsigned'   => true,
+			],
+			'permissions' => [
+				'type' => 'text',
+				'null' => true,
+			],
+			'created_at'  => [
+				'type' => 'datetime',
+				'null' => false,
+			],
+		]);
+		$this->forge->addPrimaryKey('id');
+		$this->forge->addForeignKey('user_id', 'users', 'id', false, 'CASCADE');
+		$this->forge->createTable('auth_permissions_users', true);
 	}
 
 	//--------------------------------------------------------------------

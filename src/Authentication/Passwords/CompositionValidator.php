@@ -1,6 +1,6 @@
 <?php namespace Sparks\Shield\Authentication\Passwords;
 
-use CodeIgniter\Entity;
+use CodeIgniter\Entity\Entity;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Result;
 
@@ -24,12 +24,11 @@ class CompositionValidator extends BaseValidator implements ValidatorInterface
 	 * The password will be passed to any remaining validators.
 	 * False will immediately stop validation process
 	 *
-	 * @param string                   $password
-	 * @param \CodeIgniter\Entity|null $user
+	 * @param string $password
 	 *
 	 * @return \Sparks\Shield\Result
 	 */
-	public function check(string $password, Entity $user = null): Result
+	public function check(string $password, $user = null): Result
 	{
 		if (empty($this->config->minimumPasswordLength))
 		{

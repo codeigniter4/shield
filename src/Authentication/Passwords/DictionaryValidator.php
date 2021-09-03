@@ -28,12 +28,12 @@ class DictionaryValidator extends BaseValidator implements ValidatorInterface
 	 * If true is returned the password will be passed to next validator.
 	 * If false is returned the validation process will be immediately stopped.
 	 *
-	 * @param string                   $password
-	 * @param \CodeIgniter\Entity|null $user
+	 * @param string $password
+	 * @param mixed  $user
 	 *
 	 * @return \Sparks\Shield\Result
 	 */
-	public function check(string $password, Entity $user = null): Result
+	public function check(string $password, $user = null): Result
 	{
 		// Loop over our file
 		$fp = fopen(__DIR__ . '/_dictionary.txt', 'r');
