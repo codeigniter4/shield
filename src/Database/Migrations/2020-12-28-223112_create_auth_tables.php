@@ -126,7 +126,7 @@ class CreateAuthTables extends Migration
 		]);
 		$this->forge->addPrimaryKey('id');
 		$this->forge->addKey('user_id');
-		$this->forge->addForeignKey('user_id', 'users', 'id', false, 'CASCADE');
+		$this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
 		$this->forge->createTable('auth_identities', true);
 
 		/*
@@ -203,7 +203,7 @@ class CreateAuthTables extends Migration
 		]);
 		$this->forge->addPrimaryKey('id');
 		$this->forge->addUniqueKey('selector');
-		$this->forge->addForeignKey('user_id', 'users', 'id', false, 'CASCADE');
+		$this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
 		$this->forge->createTable('auth_remember_tokens', true);
 
 		/*
@@ -297,7 +297,7 @@ class CreateAuthTables extends Migration
 			],
 		]);
 		$this->forge->addPrimaryKey('id');
-		$this->forge->addForeignKey('user_id', 'users', 'id', false, 'CASCADE');
+		$this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
 		$this->forge->createTable('auth_groups_users', true);
 
 		/*
@@ -325,7 +325,7 @@ class CreateAuthTables extends Migration
 			],
 		]);
 		$this->forge->addPrimaryKey('id');
-		$this->forge->addForeignKey('user_id', 'users', 'id', false, 'CASCADE');
+		$this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
 		$this->forge->createTable('auth_permissions_users', true);
 	}
 

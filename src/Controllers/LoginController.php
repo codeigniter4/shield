@@ -70,7 +70,7 @@ class LoginController extends BaseController
 	 * Returns the URL that a user should be redirected
 	 * to after a successful login.
 	 *
-	 * @param $user
+	 * @param mixed $user
 	 *
 	 * @return string
 	 */
@@ -87,7 +87,7 @@ class LoginController extends BaseController
 	 * Returns the URL that a user should be redirected
 	 * to after they are logged out.
 	 *
-	 * @param $user
+	 * @param mixed $user
 	 *
 	 * @return string
 	 */

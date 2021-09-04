@@ -3,13 +3,15 @@
 namespace Sparks\Shield\Authentication\Handlers;
 
 use CodeIgniter\Events\Events;
+use Config\App;
+use InvalidArgumentException;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\AuthenticatorInterface;
 use Sparks\Shield\Config\Auth;
+use Sparks\Shield\Entities\User;
 use Sparks\Shield\Interfaces\Authenticatable;
-use Config\App;
-use \Sparks\Shield\Models\LoginModel;
-use \Sparks\Shield\Models\RememberModel;
+use Sparks\Shield\Models\LoginModel;
+use Sparks\Shield\Models\RememberModel;
 use Sparks\Shield\Result;
 
 class Session implements AuthenticatorInterface
@@ -25,7 +27,7 @@ class Session implements AuthenticatorInterface
 	protected $provider;
 
 	/**
-	 * @var \Sparks\Shield\Interfaces\Authenticatable
+	 * @var Authenticatable|null
 	 */
 	protected $user;
 
@@ -97,7 +99,7 @@ class Session implements AuthenticatorInterface
 
 		$this->login($result->extraInfo());
 
-		$this->loginModel->recordLoginAttempt($credentials['email'] ?? $credentials['username'], true, $ipAddress, $this->user->id ?? null);
+		$this->loginModel->recordLoginAttempt($credentials['email'] ?? $credentials['username'], true, $ipAddress, $this->user->getAuthId());
 
 		return $result;
 	}
@@ -195,11 +197,19 @@ class Session implements AuthenticatorInterface
 	 */
 	public function login(Authenticatable $user)
 	{
+		/**
+		 * @todo Authenticatable should define getEmailIdentity() or this should require User
+		 */	
+		if (! $user instanceof User)
+		{
+			throw new InvalidArgumentException(get_class() . '::login() only accepts Shield User');
+		}
+
 		$this->user = $user;
 
 		// Always record a login attempt
 		$ipAddress = service('request')->getIPAddress();
-		$this->recordLoginAttempt($user->getAuthEmail(), true, $ipAddress, $user->getAuthId() ?? null);
+		$this->recordLoginAttempt($user->getAuthEmail(), true, $ipAddress, $user->getAuthId());
 
 		// Update the user's last used date on their password identity.
 		$this->user->touchIdentity($this->user->getEmailIdentity());
@@ -211,14 +221,14 @@ class Session implements AuthenticatorInterface
 		}
 
 		// Let the session know we're logged in
-		session()->set($this->config['field'], $this->user->id);
+		session()->set($this->config['field'], $this->user->getAuthId());
 
 		// When logged in, ensure cache control headers are in place
 		service('response')->noCache();
 
 		if ($this->shouldRemember && $this->config['allowRemembering'])
 		{
-			$this->rememberUser($this->user->id);
+			$this->rememberUser($this->user->getAuthId());
 
 			// Reset so it doesn't mess up future calls.
 			$this->shouldRemember = false;
@@ -279,7 +289,7 @@ class Session implements AuthenticatorInterface
 		session()->regenerate(true);
 
 		// Take care of any remember me functionality
-		$this->rememberModel->purgeRememberTokens($this->user->id ?? null);
+		$this->rememberModel->purgeRememberTokens($this->user->getAuthId());
 
 		// Trigger logout event
 		$result = Events::trigger('logout', $this->user);
@@ -305,7 +315,7 @@ class Session implements AuthenticatorInterface
 				return;
 			}
 
-			$id = $this->user->id;
+			$id = $this->user->getAuthId();
 		}
 
 		$this->rememberModel->purgeRememberTokens($id);

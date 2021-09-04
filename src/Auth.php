@@ -5,6 +5,7 @@ namespace Sparks\Shield;
 use CodeIgniter\Router\RouteCollection;
 use Sparks\Shield\Authentication\Authentication;
 use Sparks\Shield\Authentication\AuthenticationException;
+use Sparks\Shield\Authentication\AuthenticatorInterface;
 use Sparks\Shield\Interfaces\Authenticatable;
 
 class Auth
@@ -24,7 +25,7 @@ class Auth
 	protected $handler;
 
 	/**
-	 * @var User
+	 * @var Authenticatable
 	 */
 	protected $user;
 
@@ -66,7 +67,7 @@ class Auth
 	/**
 	 * Returns the current authentication class.
 	 *
-	 * @return \Sparks\Shield\Authentication\Authentication
+	 * @return AuthenticatorInterface
 	 */
 	public function getAuthenticator()
 	{
@@ -77,7 +78,7 @@ class Auth
 	/**
 	 * Returns the current user, if logged in.
 	 *
-	 * @return Authenticatable
+	 * @return Authenticatable|null
 	 */
 	public function user()
 	{
@@ -127,7 +128,7 @@ class Auth
 	{
 		$authRoutes = config('AuthRoutes')->routes;
 
-		$routes->group('/', ['namespace' => 'Sparks\Shield\Controllers'], function ($routes) use ($authRoutes) {
+		$routes->group('/', ['namespace' => 'Sparks\Shield\Controllers'], function ($routes) use ($authRoutes, $config) {
 			foreach ($authRoutes as $name => $row)
 			{
 				if (! isset($config['except']) || (isset($config['except']) && ! array_key_exists($name, $config['except'])))
@@ -177,10 +178,10 @@ class Auth
 	 * own, additional, features on top of the required ones,
 	 * like "remember-me" functionality.
 	 *
-	 * @param $method
-	 * @param $args
+	 * @param string $method
+	 * @param array $args
 	 *
-	 * @throws \Sparks\Shield\Authentication\AuthenticationException
+	 * @throws AuthenticationException
 	 */
 	public function __call($method, $args)
 	{
