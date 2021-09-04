@@ -2,7 +2,9 @@
 
 namespace Sparks\Shield\Authentication;
 
-use CodeIgniter\Config\BaseConfig as AuthConfig;
+use Sparks\Shield\Config\Auth as AuthConfig;
+use Sparks\Shield\Authentication\AuthenticationException;
+use Sparks\Shield\Authentication\AuthenticatorInterface;
 use Sparks\Shield\Interfaces\UserProvider;
 
 class Authentication
@@ -16,12 +18,12 @@ class Authentication
 	protected $instances = [];
 
 	/**
-	 * @var \Sparks\Shield\Interfaces\UserProvider
+	 * @var UserProvider
 	 */
 	protected $userProvider;
 
 	/**
-	 * @var \Sparks\Shield\Config\Auth
+	 * @var AuthConfig
 	 */
 	protected $config;
 
@@ -39,15 +41,14 @@ class Authentication
 	 *
 	 * @param string|null $handler
 	 *
-	 * @return mixed
-	 * @throws \Sparks\Shield\Authentication\AuthenticationException
+	 * @throws AuthenticationException
+	 *
+	 * @return AuthenticatorInterface
 	 */
 	public function factory(?string $handler = null)
 	{
 		// Determine actual handler name
-		$handler = $handler === null
-			? $this->config->defaultAuthenticator
-			: $handler;
+		$handler = $handler ?? $this->config->defaultAuthenticator;
 
 		// Return the cached instance if we have it
 		if (! empty($this->instances[$handler]))

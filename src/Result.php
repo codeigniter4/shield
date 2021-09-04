@@ -57,7 +57,7 @@ class Result
 	}
 
 	/**
-	 * @return string
+	 * @return mixed
 	 */
 	public function extraInfo()
 	{

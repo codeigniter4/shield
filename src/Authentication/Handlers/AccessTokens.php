@@ -4,7 +4,7 @@ namespace Sparks\Shield\Authentication\Handlers;
 
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\AuthenticatorInterface;
-use Sparks\Shield\Config\Auth;
+use Sparks\Shield\Config\Auth as AuthConfig;
 use Sparks\Shield\Entities\AccessToken;
 use Sparks\Shield\Interfaces\Authenticatable;
 use Sparks\Shield\Models\AccessTokenModel;
@@ -15,7 +15,7 @@ use Sparks\Shield\Result;
 class AccessTokens implements AuthenticatorInterface
 {
 	/**
-	 * @var array
+	 * @var AuthConfig
 	 */
 	protected $config;
 
@@ -25,16 +25,16 @@ class AccessTokens implements AuthenticatorInterface
 	protected $provider;
 
 	/**
-	 * @var \Sparks\Shield\Interfaces\Authenticatable
+	 * @var Authenticatable|null
 	 */
 	protected $user;
 
 	/**
-	 * @var \Sparks\Shield\Models\LoginModel
+	 * @var LoginModel
 	 */
 	protected $loginModel;
 
-	public function __construct(Auth $config, $provider)
+	public function __construct(AuthConfig $config, $provider)
 	{
 		$this->config     = $config;
 		$this->provider   = $provider;
@@ -48,8 +48,9 @@ class AccessTokens implements AuthenticatorInterface
 	 * @param array   $credentials
 	 * @param boolean $remember
 	 *
+	 * @throws AuthenticationException
+	 *
 	 * @return mixed
-	 * @throws \Sparks\Shield\Authentication\AuthenticationException
 	 */
 	public function attempt(array $credentials, bool $remember = false)
 	{
@@ -72,7 +73,7 @@ class AccessTokens implements AuthenticatorInterface
 
 		$this->login($user);
 
-		$this->loginModel->recordLoginAttempt('token: ' . ($credentials['token'] ?? ''), true, $ipAddress, $this->user->id);
+		$this->loginModel->recordLoginAttempt('token: ' . ($credentials['token'] ?? ''), true, $ipAddress, $this->user->getAuthId());
 
 		return $result;
 	}
