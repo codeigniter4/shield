@@ -45,7 +45,7 @@ class SessionFilterTest extends CIDatabaseTestCase
 	{
 		$result = $this->call('get', 'protected-route');
 
-		$result->assertRedirect('/login');
+		$result->assertRedirectTo('/login');
 
 		$result = $this->get('open-route');
 		$result->assertStatus(200);

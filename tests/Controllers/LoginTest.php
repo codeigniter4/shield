@@ -1,12 +1,17 @@
 <?php
 
 use CodeIgniter\Config\Factories;
+use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Sparks\Shield\Models\UserModel;
+use Tests\Support\FakeUser;
+use Tests\Support\TestCase;
 
-class LoginTest extends \CodeIgniter\Test\CIDatabaseTestCase
+class LoginTest extends TestCase
 {
+	use DatabaseTestTrait;
 	use FeatureTestTrait;
+	use FakeUser;
 
 	protected $namespace = '\Sparks\Shield';
 
@@ -24,8 +29,7 @@ class LoginTest extends \CodeIgniter\Test\CIDatabaseTestCase
 
 	public function testLoginBadEmail()
 	{
-		$user = fake(UserModel::class);
-		$user->createEmailIdentity([
+		$this->user->createEmailIdentity([
 			'email'    => 'foo@example.com',
 			'password' => 'secret123',
 		]);
@@ -52,8 +56,7 @@ class LoginTest extends \CodeIgniter\Test\CIDatabaseTestCase
 
 	public function testLoginActionEmailSuccess()
 	{
-		$user = fake(UserModel::class);
-		$user->createEmailIdentity([
+		$this->user->createEmailIdentity([
 			'email'    => 'foo@example.com',
 			'password' => 'secret123',
 		]);
@@ -70,23 +73,22 @@ class LoginTest extends \CodeIgniter\Test\CIDatabaseTestCase
 		// Login should have been recorded successfully
 		$this->seeInDatabase('auth_logins', [
 			'email'   => 'foo@example.com',
-			'user_id' => $user->id,
+			'user_id' => $this->user->id,
 			'success' => true,
 		]);
 		// Last Used date should have been set
-		$identity = $user->getEmailIdentity();
+		$identity = $this->user->getEmailIdentity();
 		$this->assertCloseEnough($identity->last_used_at->getTimestamp(), \CodeIgniter\I18n\Time::now()->getTimestamp());
 
 		// Session should have `logged_in` value with user's id
-		$this->assertEquals($user->id, session('logged_in'));
+		$this->assertEquals($this->user->id, session('logged_in'));
 	}
 
 	public function testLogoutAction()
 	{
-		$user = fake(UserModel::class);
 
 		// log them in
-		session()->set('logged_in', $user->id);
+		session()->set('logged_in', $this->user->id);
 
 		$result = $this->get('logout');
 
@@ -103,8 +105,7 @@ class LoginTest extends \CodeIgniter\Test\CIDatabaseTestCase
 		$config->actions['login'] = \Sparks\Shield\Authentication\Actions\Email2FA::class;
 		Factories::injectMock('config', 'Auth', $config);
 
-		$user = fake(UserModel::class);
-		$user->createEmailIdentity([
+		$this->user->createEmailIdentity([
 			'email'    => 'foo@example.com',
 			'password' => 'secret123',
 		]);

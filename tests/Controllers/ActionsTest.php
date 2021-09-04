@@ -1,22 +1,22 @@
 <?php
 
+use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Sparks\Shield\Authentication\Passwords\ValidationRules;
 use Sparks\Shield\Test\AuthenticationTesting;
 use Sparks\Shield\Models\UserModel;
 use Sparks\Shield\Models\UserIdentityModel;
+use Tests\Support\FakeUser;
+use Tests\Support\TestCase;
 
-class ActionsTest extends \CodeIgniter\Test\CIDatabaseTestCase
+class ActionsTest extends TestCase
 {
+	use DatabaseTestTrait;
 	use FeatureTestTrait;
 	use AuthenticationTesting;
+	use FakeUser;
 
 	protected $namespace = '\Sparks\Shield';
-
-	/**
-	 * @var User
-	 */
-	protected $user;
 
 	public function setUp(): void
 	{
@@ -36,7 +36,6 @@ class ActionsTest extends \CodeIgniter\Test\CIDatabaseTestCase
 
 		$_SESSION = [];
 
-		$this->user = fake(UserModel::class);
 		$this->user->createEmailIdentity(['email' => 'johnsmith@example.com', 'password' => 'secret123']);
 	}
 
