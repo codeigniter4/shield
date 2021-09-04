@@ -6,6 +6,7 @@ use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\AuthenticatorInterface;
 use Sparks\Shield\Config\Auth as AuthConfig;
 use Sparks\Shield\Entities\AccessToken;
+use Sparks\Shield\Entities\User;
 use Sparks\Shield\Interfaces\Authenticatable;
 use Sparks\Shield\Models\AccessTokenModel;
 use Sparks\Shield\Models\LoginModel;
@@ -25,7 +26,13 @@ class AccessTokens implements AuthenticatorInterface
 	protected $provider;
 
 	/**
-	 * @var Authenticatable|null
+	 * AccessTokens requires HasAccessTokens trait but there is no interface
+	 * for this so the workaround is restricting this class to work with
+	 * the native User instead of Authenticatable
+	 *
+	 * @todo Fix interface issue described above
+	 *
+	 * @var User|null
 	 */
 	protected $user;
 
@@ -148,8 +155,8 @@ class AccessTokens implements AuthenticatorInterface
 	 * Logs the given user in by saving them to the class.
 	 * Since AccessTokens are stateless, $remember has no functionality.
 	 *
-	 * @param Authenticatable $user
-	 * @param boolean         $remember
+	 * @param User $user
+	 * @param bool $remember
 	 *
 	 * @return bool
 	 */
@@ -213,7 +220,7 @@ class AccessTokens implements AuthenticatorInterface
 	/**
 	 * Returns the currently logged in user.
 	 *
-	 * @return Authenticatable|null
+	 * @return User|null
 	 */
 	public function getUser()
 	{

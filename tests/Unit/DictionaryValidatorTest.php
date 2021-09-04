@@ -7,7 +7,7 @@ use Sparks\Shield\Config\Auth as AuthConfig;
 class DictionaryValidatorTest extends CIUnitTestCase
 {
 	/**
-	 * @var CompositionValidator
+	 * @var DictionaryValidator
 	 */
 	protected $validator;
 
