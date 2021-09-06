@@ -111,6 +111,15 @@ is thrown.
 $user->removePermission('users.delete');
 ```
 
+**syncPermissions()**
+
+Updates the user's permissions to only include the permissions in the given list. Any existing permissions on that user
+not in this list will be removed.
+
+```php
+$user->syncPermissions(['admin.access', 'beta.access']);
+```
+
 ## Managing User Groups
 
 **addGroup()**
@@ -129,4 +138,13 @@ is thrown.
 
 ```php
 $user->removeGroup('admin', 'beta');
+```
+
+**syncGroups()**
+
+Updates the user's groups to only include the groups in the given list. Any existing groups on that user
+not in this list will be removed.
+
+```php
+$user->syncGroups(['admin', 'beta']);
 ```

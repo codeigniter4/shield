@@ -84,6 +84,37 @@ trait Authorizable
 	}
 
 	/**
+	 * Given an array of groups, will update the database
+	 * so only those groups are valid for this user, removing
+	 * all groups not in this list.
+	 *
+	 * @param array $groups
+	 *
+	 * @return $this
+	 * @throws AuthorizationException
+	 */
+	public function syncGroups(array $groups)
+	{
+		$this->populateGroups();
+		$configGroups = function_exists('setting')
+			? array_keys(setting('AuthGroups.groups'))
+			: array_keys(config('AuthGroups')->groups);
+
+		foreach ($groups as $group)
+		{
+			if (! in_array($group, $configGroups))
+			{
+				throw AuthorizationException::forUnknownGroup($group);
+			}
+		}
+
+		$this->groupCache = $groups;
+		$this->saveGroupsOrPermissions('groups');
+
+		return $this;
+	}
+
+	/**
 	 * Returns all groups this user is a part of.
 	 *
 	 * @return array|null
@@ -172,6 +203,37 @@ trait Authorizable
 		$this->permissionsCache = array_diff($this->permissionsCache, $permissions);
 
 		// Update the database.
+		$this->saveGroupsOrPermissions('permissions');
+
+		return $this;
+	}
+
+	/**
+	 * Given an array of permissions, will update the database
+	 * so only those permissions are valid for this user, removing
+	 * all permissions not in this list.
+	 *
+	 * @param array $permissions
+	 *
+	 * @return $this
+	 * @throws AuthorizationException
+	 */
+	public function syncPermissions(array $permissions)
+	{
+		$this->populatePermissions();
+		$configPermissions = function_exists('setting')
+			? array_keys(setting('AuthGroups.permissions'))
+			: array_keys(config('AuthGroups')->permissions);
+
+		foreach ($permissions as $permission)
+		{
+			if (! in_array($permission, $configPermissions))
+			{
+				throw AuthorizationException::forUnknownPermission($permission);
+			}
+		}
+
+		$this->permissionsCache = $permissions;
 		$this->saveGroupsOrPermissions('permissions');
 
 		return $this;

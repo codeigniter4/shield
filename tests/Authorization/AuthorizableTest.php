@@ -100,6 +100,22 @@ class AuthorizableTest extends TestCase
 		]);
 	}
 
+	public function testSyncGroups()
+	{
+		$this->hasInDatabase('auth_groups_users', [
+			'user_id'    => $this->user->id,
+			'groups'     => serialize(['admin', 'superadmin']),
+			'created_at' => Time::now()->toDateTimeString(),
+		]);
+
+		$this->user->syncGroups(['admin', 'beta']);
+		$this->assertEquals(['admin', 'beta'], $this->user->getGroups());
+		$this->seeInDatabase('auth_groups_users', [
+			'user_id' => $this->user->id,
+			'groups'  => serialize(['admin', 'beta']),
+		]);
+	}
+
 	public function testAddPermissionWithNoExistingPermissions()
 	{
 		$this->user->addPermission('admin.access', 'beta.access');
@@ -163,6 +179,22 @@ class AuthorizableTest extends TestCase
 		$this->dontSeeInDatabase('auth_permissions_users', [
 			'user_id'     => $this->user->id,
 			'permissions' => serialize(['admin.access']),
+		]);
+	}
+
+	public function testSyncPermissions()
+	{
+		$this->hasInDatabase('auth_permissions_users', [
+			'user_id'     => $this->user->id,
+			'permissions' => serialize(['admin.access', 'superadmin.access']),
+			'created_at'  => Time::now()->toDateTimeString(),
+		]);
+
+		$this->user->syncPermissions(['admin.access', 'beta.access']);
+		$this->assertEquals(['admin.access', 'beta.access'], $this->user->getPermissions());
+		$this->seeInDatabase('auth_permissions_users', [
+			'user_id'     => $this->user->id,
+			'permissions' => serialize(['admin.access', 'beta.access']),
 		]);
 	}
 
