@@ -23,7 +23,7 @@ class ActionController extends BaseController
 	/**
 	 * Perform an initial check if we have a valid action or not.
 	 *
-	 * @param $method
+	 * @param string $method
 	 * @param mixed  ...$params
 	 */
 	public function _remap($method, ...$params)

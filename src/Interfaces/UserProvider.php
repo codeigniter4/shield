@@ -37,7 +37,7 @@ interface UserProvider
 	 * in the database. This is often a User entity
 	 * that already has the correct values set.
 	 *
-	 * @param $data
+	 * @param array|object $data
 	 */
 	public function save($data);
 }

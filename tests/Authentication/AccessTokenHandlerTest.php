@@ -3,6 +3,7 @@
 namespace Test\Authentication;
 
 use Sparks\Shield\Authentication\Authentication;
+use Sparks\Shield\Authentication\Handlers\AccessTokens;
 use Sparks\Shield\Config\Auth;
 use Sparks\Shield\Entities\AccessToken;
 use Sparks\Shield\Entities\User;
@@ -15,7 +16,7 @@ use Config\Services;
 class AccessTokenHandlerTest extends CIDatabaseTestCase
 {
 	/**
-	 * @var \Sparks\Shield\Authentication\Handlers\Session
+	 * @var AccessTokens
 	 */
 	protected $auth;
 
@@ -28,10 +29,12 @@ class AccessTokenHandlerTest extends CIDatabaseTestCase
 		$config = new Auth();
 		$auth   = new Authentication($config);
 		$auth->setProvider(model(UserModel::class));
-		$this->auth = $auth->factory('tokens');
 
-		$this->events = new MockEvents();
-		Services::injectMock('events', $this->events);
+		/** @var AccessTokens $handler */
+		$handler = $auth->factory('tokens');
+		$this->auth = $handler;
+
+		Services::injectMock('events', new MockEvents());
 	}
 
 	public function testLogin()
@@ -42,7 +45,7 @@ class AccessTokenHandlerTest extends CIDatabaseTestCase
 
 		// Stores the user
 		$this->assertInstanceOf(User::class, $this->auth->getUser());
-		$this->assertEquals($user->id, $this->auth->getUser()->id);
+		$this->assertEquals($user->id, $this->auth->getUser()->getAuthId());
 	}
 
 	public function testLogout()
@@ -71,6 +74,7 @@ class AccessTokenHandlerTest extends CIDatabaseTestCase
 
 	public function testLoginByIdWithToken()
 	{
+		/** @var User $user */
 		$user  = fake(UserModel::class);
 		$token = $user->generateAccessToken('foo');
 
@@ -85,6 +89,7 @@ class AccessTokenHandlerTest extends CIDatabaseTestCase
 
 	public function testLoginByIdWithMultipleTokens()
 	{
+		/** @var User $user */
 		$user   = fake(UserModel::class);
 		$token1 = $user->generateAccessToken('foo');
 		$token2 = $user->generateAccessToken('bar');
@@ -116,6 +121,7 @@ class AccessTokenHandlerTest extends CIDatabaseTestCase
 
 	public function testCheckSuccess()
 	{
+		/** @var User $user */
 		$user   = fake(UserModel::class);
 		$token  = $user->generateAccessToken('foo');
 		$result = $this->auth->check(['token' => $token->raw_token]);
@@ -144,6 +150,7 @@ class AccessTokenHandlerTest extends CIDatabaseTestCase
 
 	public function testAttemptSuccess()
 	{
+		/** @var User $user */
 		$user  = fake(UserModel::class);
 		$token = $user->generateAccessToken('foo');
 		$this->setRequestHeader($token->raw_token);

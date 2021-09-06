@@ -4,8 +4,9 @@ namespace Sparks\Shield\Authentication\Handlers;
 
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\AuthenticatorInterface;
-use Sparks\Shield\Config\Auth;
+use Sparks\Shield\Config\Auth as AuthConfig;
 use Sparks\Shield\Entities\AccessToken;
+use Sparks\Shield\Entities\User;
 use Sparks\Shield\Interfaces\Authenticatable;
 use Sparks\Shield\Models\AccessTokenModel;
 use Sparks\Shield\Models\LoginModel;
@@ -15,7 +16,7 @@ use Sparks\Shield\Result;
 class AccessTokens implements AuthenticatorInterface
 {
 	/**
-	 * @var array
+	 * @var AuthConfig
 	 */
 	protected $config;
 
@@ -25,16 +26,22 @@ class AccessTokens implements AuthenticatorInterface
 	protected $provider;
 
 	/**
-	 * @var \Sparks\Shield\Interfaces\Authenticatable
+	 * AccessTokens requires HasAccessTokens trait but there is no interface
+	 * for this so the workaround is restricting this class to work with
+	 * the native User instead of Authenticatable
+	 *
+	 * @todo Fix interface issue described above
+	 *
+	 * @var User|null
 	 */
 	protected $user;
 
 	/**
-	 * @var \Sparks\Shield\Models\LoginModel
+	 * @var LoginModel
 	 */
 	protected $loginModel;
 
-	public function __construct(Auth $config, $provider)
+	public function __construct(AuthConfig $config, $provider)
 	{
 		$this->config     = $config;
 		$this->provider   = $provider;
@@ -48,8 +55,9 @@ class AccessTokens implements AuthenticatorInterface
 	 * @param array   $credentials
 	 * @param boolean $remember
 	 *
+	 * @throws AuthenticationException
+	 *
 	 * @return mixed
-	 * @throws \Sparks\Shield\Authentication\AuthenticationException
 	 */
 	public function attempt(array $credentials, bool $remember = false)
 	{
@@ -72,7 +80,7 @@ class AccessTokens implements AuthenticatorInterface
 
 		$this->login($user);
 
-		$this->loginModel->recordLoginAttempt('token: ' . ($credentials['token'] ?? ''), true, $ipAddress, $this->user->id);
+		$this->loginModel->recordLoginAttempt('token: ' . ($credentials['token'] ?? ''), true, $ipAddress, $this->user->getAuthId());
 
 		return $result;
 	}
@@ -147,8 +155,8 @@ class AccessTokens implements AuthenticatorInterface
 	 * Logs the given user in by saving them to the class.
 	 * Since AccessTokens are stateless, $remember has no functionality.
 	 *
-	 * @param Authenticatable $user
-	 * @param boolean         $remember
+	 * @param User $user
+	 * @param bool $remember
 	 *
 	 * @return bool
 	 */
@@ -212,7 +220,7 @@ class AccessTokens implements AuthenticatorInterface
 	/**
 	 * Returns the currently logged in user.
 	 *
-	 * @return Authenticatable|null
+	 * @return User|null
 	 */
 	public function getUser()
 	{

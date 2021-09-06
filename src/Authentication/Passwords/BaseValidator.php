@@ -1,12 +1,19 @@
 <?php namespace Sparks\Shield\Authentication\Passwords;
 
+use Sparks\Shield\Config\Auth as AuthConfig;
+
 class BaseValidator
 {
+	/**
+	 * @var AuthConfig
+	 */
 	protected $config;
+
 	/**
 	 * @var string
 	 */
 	protected $error;
+
 	/**
 	 * @var string
 	 */
@@ -15,7 +22,7 @@ class BaseValidator
 	/**
 	 * Allows for setting a config file on the Validator.
 	 *
-	 * @param $config
+	 * @param AuthConfig $config
 	 *
 	 * @return $this
 	 */

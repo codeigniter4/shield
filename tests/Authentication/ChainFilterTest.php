@@ -3,15 +3,21 @@
 namespace Test\Authentication;
 
 use CodeIgniter\Config\Factories;
+use CodeIgniter\Test\CIUnitTestCase;
+use CodeIgniter\Test\DatabaseTestTrait;
+use CodeIgniter\Test\FeatureTestTrait;
 use Sparks\Shield\Entities\AccessToken;
+use Sparks\Shield\Entities\User;
 use Sparks\Shield\Filters\ChainAuth;
 use Sparks\Shield\Models\UserModel;
-use CodeIgniter\Test\CIDatabaseTestCase;
-use CodeIgniter\Test\FeatureTestTrait;
+use Tests\Support\FakeUser;
+use Tests\Support\TestCase;
 
-class ChainFilterTest extends CIDatabaseTestCase
+class ChainFilterTest extends TestCase
 {
+	use DatabaseTestTrait;
 	use FeatureTestTrait;
+	use FakeUser;
 
 	protected $namespace = 'Sparks\Shield';
 
@@ -46,7 +52,7 @@ class ChainFilterTest extends CIDatabaseTestCase
 	{
 		$result = $this->call('get', 'protected-route');
 
-		$result->assertRedirect('/login');
+		$result->assertRedirectTo('/login');
 
 		$result = $this->get('open-route');
 		$result->assertStatus(200);
@@ -55,23 +61,21 @@ class ChainFilterTest extends CIDatabaseTestCase
 
 	public function testFilterSuccessSeession()
 	{
-		$user                  = fake(UserModel::class);
-		$_SESSION['logged_in'] = $user->id;
+		$_SESSION['logged_in'] = $this->user->id;
 
-		$result = $this->withSession(['logged_in' => $user->id])
+		$result = $this->withSession(['logged_in' => $this->user->id])
 					   ->get( 'protected-route');
 
 		$result->assertStatus(200);
 		$result->assertSee('Protected');
 
-		$this->assertEquals($user->id, auth()->id());
-		$this->assertEquals($user->id, auth()->user()->id);
+		$this->assertEquals($this->user->id, auth()->id());
+		$this->assertEquals($this->user->id, auth()->user()->id);
 	}
 
 	public function testFilterSuccessTokens()
 	{
-		$user  = fake(UserModel::class);
-		$token = $user->generateAccessToken('foo');
+		$token = $this->user->generateAccessToken('foo');
 
 		$result = $this->withHeaders(['Authorization' => 'Bearer ' . $token->raw_token])
 					   ->get( 'protected-route');
@@ -79,8 +83,8 @@ class ChainFilterTest extends CIDatabaseTestCase
 		$result->assertStatus(200);
 		$result->assertSee('Protected');
 
-		$this->assertEquals($user->id, auth()->id());
-		$this->assertEquals($user->id, auth()->user()->id);
+		$this->assertEquals($this->user->id, auth()->id());
+		$this->assertEquals($this->user->id, auth()->user()->id);
 
 		// User should have the current token set.
 		$this->assertInstanceOf(AccessToken::class, auth('tokens')->user()->currentAccessToken());

@@ -1,36 +1,45 @@
-name: PHPUnit
+# When a PR is opened or a push is made, perform
+# a static analysis check on the code using PHPStan.
+name: PHPStan
 
 on:
   pull_request:
     branches:
-      - develop
+      - 'develop'
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'composer.**'
+      - 'phpstan*'
+      - '.github/workflows/analyze.yml'
   push:
     branches:
-      - develop
+      - 'develop'
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'composer.**'
+      - 'phpstan*'
+      - '.github/workflows/analyze.yml'
 
 jobs:
-  main:
-    name: PHP ${{ matrix.php-versions }} Unit Tests
-
+  build:
+    name: PHP ${{ matrix.php-versions }} Static Analysis
+    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         php-versions: ['7.3', '7.4', '8.0']
-
-    runs-on: ubuntu-latest
-
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup PHP, with composer and extensions
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           tools: composer, pecl, phpunit
           extensions: intl, json, mbstring, gd, mysqlnd, xdebug, xml, sqlite3
-          coverage: xdebug
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -38,12 +47,25 @@ jobs:
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
+      - name: Create composer cache directory
+        run: mkdir -p ${{ steps.composer-cache.outputs.dir }}
+
       - name: Cache composer dependencies
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
+
+      - name: Create PHPStan cache directory
+        run: mkdir -p build/phpstan
+
+      - name: Cache PHPStan results
+        uses: actions/cache@v2
+        with:
+          path: build/phpstan
+          key: ${{ runner.os }}-phpstan-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-phpstan-
 
       - name: Install dependencies (limited)
         if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name }}
@@ -55,7 +77,5 @@ jobs:
         env:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
 
-      - name: Test with PHPUnit
-        run: vendor/bin/phpunit --verbose --coverage-text
-        env:
-          TERM: xterm-256color
+      - name: Run static analysis
+        run: vendor/bin/phpstan analyze

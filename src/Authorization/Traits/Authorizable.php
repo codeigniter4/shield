@@ -11,6 +11,7 @@ trait Authorizable
 	 * @var array|null
 	 */
 	protected $groupCache;
+
 	/**
 	 * @var array|null
 	 */

@@ -4,6 +4,7 @@ namespace Test\Authentication;
 
 use CodeIgniter\Config\Factories;
 use Sparks\Shield\Entities\AccessToken;
+use Sparks\Shield\Entities\User;
 use Sparks\Shield\Filters\TokenAuth;
 use Sparks\Shield\Models\UserModel;
 use CodeIgniter\Test\CIDatabaseTestCase;
@@ -46,7 +47,7 @@ class TokenFilterTest extends CIDatabaseTestCase
 	{
 		$result = $this->call('get', 'protected-route');
 
-		$result->assertRedirect('/login');
+		$result->assertRedirectTo('/login');
 
 		$result = $this->get('open-route');
 		$result->assertStatus(200);
@@ -55,6 +56,7 @@ class TokenFilterTest extends CIDatabaseTestCase
 
 	public function testFilterSuccess()
 	{
+		/** @var User $user */
 		$user  = fake(UserModel::class);
 		$token = $user->generateAccessToken('foo');
 
