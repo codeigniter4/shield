@@ -22,6 +22,9 @@ trait AuthenticationTesting
 	 */
 	public function actingAs(User $user)
 	{
+		// Ensure the helper is loaded during tests.
+		helper('auth');
+
 		auth('session')->login($user);
 
 		return $this;
