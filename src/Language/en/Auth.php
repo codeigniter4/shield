@@ -24,6 +24,7 @@ return [
 	// Login
    'login'                     => 'Login',
    'needAccount'               => 'Need an account?',
+   'rememberMe'                => 'Remember me?',
 
 	// Passwords
    'errorPasswordLength'       => 'Passwords must be at least {0, number} characters long.',
