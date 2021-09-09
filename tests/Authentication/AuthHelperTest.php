@@ -3,11 +3,11 @@
 namespace Test\Authentication;
 
 use Config\Services;
-use CodeIgniter\Test\CIUnitTestCase;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Models\UserModel;
+use Tests\Support\TestCase;
 
-class AuthHelperTest extends CIUnitTestCase
+class AuthHelperTest extends TestCase
 {
 	public static function setUpBeforeClass(): void
 	{
@@ -16,7 +16,7 @@ class AuthHelperTest extends CIUnitTestCase
 		helper(['auth']);
 	}
 
-	public function setUp(): void
+	protected function setUp(): void
 	{
 		parent::setUp();
 
