@@ -274,6 +274,11 @@ class Session implements AuthenticatorInterface
 	 */
 	public function logout()
 	{
+		if ($this->user === null)
+		{
+			return true;
+		}
+
 		helper('cookie');
 
 		// Destroy the session data - but ensure a session is still
