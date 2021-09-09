@@ -17,6 +17,7 @@ class LoginModel extends Model
 
 	protected $allowedFields = [
 		'ip_address',
+		'user_agent',
 		'email',
 		'user_id',
 		'date',
@@ -28,6 +29,7 @@ class LoginModel extends Model
 	protected $validationRules    = [
 		'ip_address' => 'required',
 		'email'      => 'required',
+		'user_agent' => 'permit_empty|string',
 		'user_id'    => 'permit_empty|integer',
 		'date'       => 'required|valid_date',
 	];
