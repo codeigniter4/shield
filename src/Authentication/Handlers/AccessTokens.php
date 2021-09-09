@@ -61,13 +61,15 @@ class AccessTokens implements AuthenticatorInterface
 	 */
 	public function attempt(array $credentials, bool $remember = false)
 	{
-		$ipAddress = service('request')->getIPAddress();
+		$request   = service('request');
+		$ipAddress = $request->getIPAddress();
+		$userAgent = $request->getUserAgent();
 		$result    = $this->check($credentials);
 
 		if (! $result->isOK())
 		{
 			// Always record a login attempt, whether success or not.
-			$this->loginModel->recordLoginAttempt('token: ' . ($credentials['token'] ?? ''), false, $ipAddress, null);
+			$this->loginModel->recordLoginAttempt('token: ' . ($credentials['token'] ?? ''), false, $ipAddress, $userAgent);
 
 			return $result;
 		}
@@ -80,7 +82,7 @@ class AccessTokens implements AuthenticatorInterface
 
 		$this->login($user);
 
-		$this->loginModel->recordLoginAttempt('token: ' . ($credentials['token'] ?? ''), true, $ipAddress, $this->user->getAuthId());
+		$this->loginModel->recordLoginAttempt('token: ' . ($credentials['token'] ?? ''), true, $ipAddress, $userAgent, $this->user->getAuthId());
 
 		return $result;
 	}
@@ -155,10 +157,10 @@ class AccessTokens implements AuthenticatorInterface
 	 * Logs the given user in by saving them to the class.
 	 * Since AccessTokens are stateless, $remember has no functionality.
 	 *
-	 * @param User $user
-	 * @param bool $remember
+	 * @param User    $user
+	 * @param boolean $remember
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function login(Authenticatable $user, bool $remember = false)
 	{
@@ -175,7 +177,7 @@ class AccessTokens implements AuthenticatorInterface
 	 *
 	 * @throws AuthenticationException
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function loginById(int $userId, bool $remember = false)
 	{
@@ -196,7 +198,7 @@ class AccessTokens implements AuthenticatorInterface
 	/**
 	 * Logs the current user out.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function logout()
 	{
