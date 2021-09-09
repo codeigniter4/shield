@@ -1,6 +1,8 @@
 # CodeIgniter Shield
 
-[![Build Status](https://github.com/lonnieezell/codigniter-shield/workflows/PHPUnit/badge.svg)](https://github.com/lonnieezell/codigniter-shield/actions?query=workflow%3A%22PHPUnit%22)
+[![Unit Tests](https://github.com/lonnieezell/codigniter-shield/workflows/PHPUnit/badge.svg)](https://github.com/lonnieezell/codigniter-shield/actions/workflows/test.yml)
+[![Static Analysis](https://github.com/lonnieezell/codigniter-shield/workflows/PHPStan/badge.svg)](https://github.com/lonnieezell/codigniter-shield/actions/workflows/analyze.yml)
+[![Architecture](https://github.com/lonnieezell/codigniter-shield/workflows/Deptrac/badge.svg)](https://github.com/lonnieezell/codigniter-shield/actions/workflows/inspect.yml)
 [![Coverage Status](https://coveralls.io/repos/github/lonnieezell/codigniter-shield/badge.svg?branch=develop)](https://coveralls.io/github/lonnieezell/codigniter-shield?branch=develop)
 
 Shield is an authentication and authorization framework for CodeIgniter 4. While it does provide a base set of tools
