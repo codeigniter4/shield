@@ -90,6 +90,7 @@
 
 		<!-- Database configuration -->
 		<env name="database.tests.strictOn" value="true"/>
+		<env name="database.tests.DBPrefix" value=""/>
 		<!-- Uncomment to use alternate testing database configuration
 		<env name="database.tests.hostname" value="localhost"/>
 		<env name="database.tests.database" value="tests"/>
