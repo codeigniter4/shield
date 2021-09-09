@@ -6,47 +6,47 @@ use CodeIgniter\HTTP\Exceptions\HTTPException;
 
 class AuthenticationException extends \Exception
 {
-	protected $code = 403;
+    protected $code = 403;
 
-	public static function forUnknownHandler(string $handler)
-	{
-		return new self(lang('Auth.unknownHandler', [$handler]));
-	}
+    public static function forUnknownHandler(string $handler)
+    {
+        return new self(lang('Auth.unknownHandler', [$handler]));
+    }
 
-	public static function forUnknownUserProvider()
-	{
-		return new self(lang('Auth.unknownUserProvider'));
-	}
+    public static function forUnknownUserProvider()
+    {
+        return new self(lang('Auth.unknownUserProvider'));
+    }
 
-	public static function forInvalidUser()
-	{
-		return new self(lang('Auth.invalidUser'));
-	}
+    public static function forInvalidUser()
+    {
+        return new self(lang('Auth.invalidUser'));
+    }
 
-	public static function forNoEntityProvided()
-	{
-		return new self(lang('Auth.noUserEntity'), 500);
-	}
+    public static function forNoEntityProvided()
+    {
+        return new self(lang('Auth.noUserEntity'), 500);
+    }
 
-	/**
-	 * Fires when no minimumPasswordLength has been set
-	 * in the Auth config file.
-	 *
-	 * @return self
-	 */
-	public static function forUnsetPasswordLength()
-	{
-		return new self(lang('Auth.unsetPasswordLength'), 500);
-	}
+    /**
+     * Fires when no minimumPasswordLength has been set
+     * in the Auth config file.
+     *
+     * @return self
+     */
+    public static function forUnsetPasswordLength()
+    {
+        return new self(lang('Auth.unsetPasswordLength'), 500);
+    }
 
-	/**
-	 * When the cURL request (to Have I Been Pwned) in PwnedValidator
-	 * throws a HTTPException it is re-thrown as this one
-	 *
-	 * @return self
-	 */
-	public static function forHIBPCurlFail(HTTPException $e)
-	{
-		return new self($e->getMessage(), $e->getCode(), $e);
-	}
+    /**
+     * When the cURL request (to Have I Been Pwned) in PwnedValidator
+     * throws a HTTPException it is re-thrown as this one
+     *
+     * @return self
+     */
+    public static function forHIBPCurlFail(HTTPException $e)
+    {
+        return new self($e->getMessage(), $e->getCode(), $e);
+    }
 }

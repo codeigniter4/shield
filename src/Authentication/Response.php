@@ -4,35 +4,33 @@ namespace Sparks\Shield\Authentication;
 
 class Response
 {
-	protected $error;
+    protected $error;
 
-	protected $extraInfo;
+    protected $extraInfo;
 
-	protected $user;
+    protected $user;
 
-	/**
-	 * Was the user successfully authenticated?
-	 *
-	 * @return boolean
-	 */
-	public function isOk()
-	{
-		return $this->user !== null;
-	}
+    /**
+     * Was the user successfully authenticated?
+     *
+     * @return bool
+     */
+    public function isOk()
+    {
+        return $this->user !== null;
+    }
 
-	public function __set(string $key, $value = null)
-	{
-		if (property_exists($this, $key))
-		{
-			$this->$key = $value;
-		}
-	}
+    public function __set(string $key, $value = null)
+    {
+        if (property_exists($this, $key)) {
+            $this->{$key} = $value;
+        }
+    }
 
-	public function __get(string $key)
-	{
-		if (property_exists($this, $key))
-		{
-			return $this->$key;
-		}
-	}
+    public function __get(string $key)
+    {
+        if (property_exists($this, $key)) {
+            return $this->{$key};
+        }
+    }
 }

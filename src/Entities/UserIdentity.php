@@ -17,32 +17,28 @@ use CodeIgniter\Entity;
  * OAUTH or JWT tokens, etc. A user can have multiple of each,
  * though a handler may want to enforce only one exists for that
  * user, like a password.
- *
- * @package Sparks\Shield\Entities
  */
 class UserIdentity extends Entity
 {
-	protected $casts = [
-		'force_reset' => 'boolean',
-	];
+    protected $casts = [
+        'force_reset' => 'boolean',
+    ];
 
-	protected $dates = [
-		'expires',
-		'last_used_at',
-	];
+    protected $dates = [
+        'expires',
+        'last_used_at',
+    ];
 
-	/**
-	 * Uses password-strength hashing to hash
-	 * a given value for the 'secret'.
-	 *
-	 * @param string $value
-	 *
-	 * @return \Sparks\Shield\Entities\UserIdentity
-	 */
-	public function hashSecret(string $value)
-	{
-		$this->attributes['secret'] = service('passwords')->hash($value);
+    /**
+     * Uses password-strength hashing to hash
+     * a given value for the 'secret'.
+     *
+     * @return \Sparks\Shield\Entities\UserIdentity
+     */
+    public function hashSecret(string $value)
+    {
+        $this->attributes['secret'] = service('passwords')->hash($value);
 
-		return $this;
-	}
+        return $this;
+    }
 }
