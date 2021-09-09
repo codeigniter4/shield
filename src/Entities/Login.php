@@ -6,9 +6,8 @@ use CodeIgniter\Entity;
 
 class Login extends Entity
 {
-	protected $casts = [
-		'date'    => 'datetime',
-		'success' => 'boolean',
-	];
-
+    protected $casts = [
+        'date'    => 'datetime',
+        'success' => 'boolean',
+    ];
 }

@@ -3,74 +3,77 @@
 namespace Test\Authentication;
 
 use CodeIgniter\Config\Factories;
+use CodeIgniter\Test\CIDatabaseTestCase;
+use CodeIgniter\Test\FeatureTestTrait;
 use Sparks\Shield\Entities\AccessToken;
 use Sparks\Shield\Entities\User;
 use Sparks\Shield\Filters\TokenAuth;
 use Sparks\Shield\Models\UserModel;
-use CodeIgniter\Test\CIDatabaseTestCase;
-use CodeIgniter\Test\FeatureTestTrait;
 
-class TokenFilterTest extends CIDatabaseTestCase
+/**
+ * @internal
+ */
+final class TokenFilterTest extends CIDatabaseTestCase
 {
-	use FeatureTestTrait;
+    use FeatureTestTrait;
 
-	protected $namespace = 'Sparks\Shield';
+    protected $namespace = 'Sparks\Shield';
 
-	public function setUp(): void
-	{
-		\Config\Services::reset();
+    protected function setUp(): void
+    {
+        \Config\Services::reset();
 
-		parent::setUp();
+        parent::setUp();
 
-		$_SESSION = [];
+        $_SESSION = [];
 
-		// Register our filter
-		$filterConfig                       = config('Filters');
-		$filterConfig->aliases['tokenAuth'] = TokenAuth::class;
-		Factories::injectMock('filters', 'filters', $filterConfig);
+        // Register our filter
+        $filterConfig                       = config('Filters');
+        $filterConfig->aliases['tokenAuth'] = TokenAuth::class;
+        Factories::injectMock('filters', 'filters', $filterConfig);
 
-		// Add a test route that we can visit to trigger.
-		$routes = service('routes');
-		$routes->group('/', ['filter' => 'tokenAuth'], function ($routes) {
-			$routes->get('protected-route', function () {
-				echo 'Protected';
-			});
-		});
-		$routes->get('open-route', function () {
-			echo 'Open';
-		});
-		$routes->get('login', 'AuthController::login', ['as' => 'login']);
-		\Config\Services::injectMock('routes', $routes);
-	}
+        // Add a test route that we can visit to trigger.
+        $routes = service('routes');
+        $routes->group('/', ['filter' => 'tokenAuth'], static function ($routes) {
+            $routes->get('protected-route', static function () {
+                echo 'Protected';
+            });
+        });
+        $routes->get('open-route', static function () {
+            echo 'Open';
+        });
+        $routes->get('login', 'AuthController::login', ['as' => 'login']);
+        \Config\Services::injectMock('routes', $routes);
+    }
 
-	public function testFilterNotAuthorized()
-	{
-		$result = $this->call('get', 'protected-route');
+    public function testFilterNotAuthorized()
+    {
+        $result = $this->call('get', 'protected-route');
 
-		$result->assertRedirectTo('/login');
+        $result->assertRedirectTo('/login');
 
-		$result = $this->get('open-route');
-		$result->assertStatus(200);
-		$result->assertSee('Open');
-	}
+        $result = $this->get('open-route');
+        $result->assertStatus(200);
+        $result->assertSee('Open');
+    }
 
-	public function testFilterSuccess()
-	{
-		/** @var User $user */
-		$user  = fake(UserModel::class);
-		$token = $user->generateAccessToken('foo');
+    public function testFilterSuccess()
+    {
+        /** @var User $user */
+        $user  = fake(UserModel::class);
+        $token = $user->generateAccessToken('foo');
 
-		$result = $this->withHeaders(['Authorization' => 'Bearer ' . $token->raw_token])
-					   ->get( 'protected-route');
+        $result = $this->withHeaders(['Authorization' => 'Bearer ' . $token->raw_token])
+            ->get('protected-route');
 
-		$result->assertStatus(200);
-		$result->assertSee('Protected');
+        $result->assertStatus(200);
+        $result->assertSee('Protected');
 
-		$this->assertEquals($user->id, auth('tokens')->id());
-		$this->assertEquals($user->id, auth('tokens')->user()->id);
+        $this->assertSame($user->id, auth('tokens')->id());
+        $this->assertSame($user->id, auth('tokens')->user()->id);
 
-		// User should have the current token set.
-		$this->assertInstanceOf(AccessToken::class, auth('tokens')->user()->currentAccessToken());
-		$this->assertEquals($token->id, auth('tokens')->user()->currentAccessToken()->id);
-	}
+        // User should have the current token set.
+        $this->assertInstanceOf(AccessToken::class, auth('tokens')->user()->currentAccessToken());
+        $this->assertSame($token->id, auth('tokens')->user()->currentAccessToken()->id);
+    }
 }

@@ -1,13 +1,18 @@
-<?php namespace Tests\Support;
+<?php
+
+namespace Tests\Support;
 
 use CodeIgniter\Test\CIUnitTestCase;
 
-class TestCase extends CIUnitTestCase
+/**
+ * @internal
+ */
+abstract class TestCase extends CIUnitTestCase
 {
-	protected function setUp(): void
-	{
-		$this->resetServices();
+    protected function setUp(): void
+    {
+        $this->resetServices();
 
-		parent::setUp();
-	}
+        parent::setUp();
+    }
 }

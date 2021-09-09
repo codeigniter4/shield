@@ -1,6 +1,7 @@
-<?php namespace Sparks\Shield\Authentication\Passwords;
+<?php
 
-use Config\Services;
+namespace Sparks\Shield\Authentication\Passwords;
+
 use Sparks\Shield\Entities\User;
 
 /**
@@ -10,98 +11,86 @@ use Sparks\Shield\Entities\User;
  *
  * To use, add this class to Config/Validation.php, in the
  * $rulesets array.
- *
- * @package Sparks\Shield\Authentication\Passwords
  */
 class ValidationRules
 {
-	/**
-	 * A validation helper method to check if the passed in
-	 * password will pass all of the validators currently defined.
-	 *
-	 * Handy for use in validation, but you will get a slightly
-	 * better security if this is done manually, since you can
-	 * personalize based on a specific user at that point.
-	 *
-	 * @param string $value  Field value
-	 * @param string $error1 Error that will be returned (for call without validation data array)
-	 * @param array  $data   Validation data array
-	 * @param string $error2 Error that will be returned (for call with validation data array)
-	 *
-	 * @return boolean
-	 */
-	public function strong_password(string $value, string &$error1 = null, array $data = [], string &$error2 = null)
-	{
-		$checker = service('passwords');
+    /**
+     * A validation helper method to check if the passed in
+     * password will pass all of the validators currently defined.
+     *
+     * Handy for use in validation, but you will get a slightly
+     * better security if this is done manually, since you can
+     * personalize based on a specific user at that point.
+     *
+     * @param string $value  Field value
+     * @param string $error1 Error that will be returned (for call without validation data array)
+     * @param array  $data   Validation data array
+     * @param string $error2 Error that will be returned (for call with validation data array)
+     *
+     * @return bool
+     */
+    public function strong_password(string $value, ?string &$error1 = null, array $data = [], ?string &$error2 = null)
+    {
+        $checker = service('passwords');
 
-		if (function_exists('auth') && auth()->user())
-		{
-			$user = auth()->user();
-		}
-		else
-		{
-			$user = empty($data) ? $this->buildUserFromRequest() : $this->buildUserFromData($data);
-		}
+        if (function_exists('auth') && auth()->user()) {
+            $user = auth()->user();
+        } else {
+            $user = empty($data) ? $this->buildUserFromRequest() : $this->buildUserFromData($data);
+        }
 
-		$result = $checker->check($value, $user);
+        $result = $checker->check($value, $user);
 
-		if (! $result->isOk())
-		{
-			if (empty($data))
-			{
-				$error1 = $result->reason();
-			}
-			else
-			{
-				$error2 = $result->reason();
-			}
-		}
+        if (! $result->isOk()) {
+            if (empty($data)) {
+                $error1 = $result->reason();
+            } else {
+                $error2 = $result->reason();
+            }
+        }
 
-		return $result->isOk();
-	}
+        return $result->isOk();
+    }
 
-	/**
-	 * Builds a new user instance from the global request.
-	 *
-	 * @return \Sparks\Shield\Entities\User
-	 */
-	protected function buildUserFromRequest()
-	{
-		$fields = $this->prepareValidFields();
+    /**
+     * Builds a new user instance from the global request.
+     *
+     * @return \Sparks\Shield\Entities\User
+     */
+    protected function buildUserFromRequest()
+    {
+        $fields = $this->prepareValidFields();
 
-		$data = service('request')->getPost($fields);
+        $data = service('request')->getPost($fields);
 
-		return new User($data);
-	}
+        return new User($data);
+    }
 
-	/**
-	 * Builds a new user instance from assigned data..
-	 *
-	 * @param array $data Assigned data
-	 *
-	 * @return \Sparks\Shield\Entities\User
-	 */
-	protected function buildUserFromData(array $data = [])
-	{
-		$fields = $this->prepareValidFields();
+    /**
+     * Builds a new user instance from assigned data..
+     *
+     * @param array $data Assigned data
+     *
+     * @return \Sparks\Shield\Entities\User
+     */
+    protected function buildUserFromData(array $data = [])
+    {
+        $fields = $this->prepareValidFields();
 
-		$data = array_intersect_key($data, array_fill_keys($fields, null));
+        $data = array_intersect_key($data, array_fill_keys($fields, null));
 
-		return new User($data);
-	}
+        return new User($data);
+    }
 
-	/**
-	 * Prepare valid user fields
-	 *
-	 * @return array
-	 */
-	protected function prepareValidFields(): array
-	{
-		$config   = config('Auth');
-		$fields   = array_merge($config->validFields, $config->personalFields);
-		$fields[] = 'password';
+    /**
+     * Prepare valid user fields
+     */
+    protected function prepareValidFields(): array
+    {
+        $config   = config('Auth');
+        $fields   = array_merge($config->validFields, $config->personalFields);
+        $fields[] = 'password';
 
-		return $fields;
-	}
-
+        return $fields;
+    }
 }
