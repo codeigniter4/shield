@@ -42,10 +42,11 @@ class LoginModel extends Model
 	 *
 	 * @return \CodeIgniter\Database\BaseResult|false|integer|object|string
 	 */
-	public function recordLoginAttempt(string $email, bool $success, string $ipAddress = null, int $userID = null)
+	public function recordLoginAttempt(string $email, bool $success, string $ipAddress = null, string $userAgent = null, int $userID = null)
 	{
 		return $this->insert([
 			'ip_address' => $ipAddress,
+			'user_agent' => $userAgent,
 			'email'      => $email,
 			'user_id'    => $userID,
 			'date'       => date('Y-m-d H:i:s'),

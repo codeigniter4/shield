@@ -144,6 +144,11 @@ class CreateAuthTables extends Migration
 				'constraint' => 255,
 				'null'       => true,
 			],
+			'user_agent' => [
+				'type'       => 'varchar',
+				'constraint' => 255,
+				'null'       => true,
+			],
 			'email'      => [
 				'type'       => 'varchar',
 				'constraint' => 255,
@@ -227,6 +232,7 @@ class CreateAuthTables extends Migration
 			'user_agent' => [
 				'type'       => 'varchar',
 				'constraint' => 255,
+				'null'       => true,
 			],
 			'token'      => [
 				'type'       => 'varchar',

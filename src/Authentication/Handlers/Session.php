@@ -80,13 +80,15 @@ class Session implements AuthenticatorInterface
 	 */
 	public function attempt(array $credentials)
 	{
-		$ipAddress = service('request')->getIPAddress();
+		$request   = service('request');
+		$ipAddress = $request->getIPAddress();
+		$userAgent = $request->getUserAgent();
 		$result    = $this->check($credentials);
 
 		if (! $result->isOK())
 		{
 			// Always record a login attempt, whether success or not.
-			$this->loginModel->recordLoginAttempt($credentials['email'] ?? $credentials['username'], false, $ipAddress, null);
+			$this->loginModel->recordLoginAttempt($credentials['email'] ?? $credentials['username'], false, $ipAddress, $userAgent);
 
 			$this->user = null;
 
@@ -99,7 +101,7 @@ class Session implements AuthenticatorInterface
 
 		$this->login($result->extraInfo());
 
-		$this->loginModel->recordLoginAttempt($credentials['email'] ?? $credentials['username'], true, $ipAddress, $this->user->getAuthId());
+		$this->loginModel->recordLoginAttempt($credentials['email'] ?? $credentials['username'], true, $ipAddress, $userAgent, $this->user->getAuthId());
 
 		return $result;
 	}
@@ -193,13 +195,13 @@ class Session implements AuthenticatorInterface
 	 *
 	 * @param Authenticatable $user
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function login(Authenticatable $user)
 	{
 		/**
 		 * @todo Authenticatable should define getEmailIdentity() or this should require User
-		 */	
+		 */
 		if (! $user instanceof User)
 		{
 			throw new InvalidArgumentException(get_class() . '::login() only accepts Shield User');
@@ -268,7 +270,7 @@ class Session implements AuthenticatorInterface
 	/**
 	 * Logs the current user out.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function logout()
 	{
