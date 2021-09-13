@@ -7,387 +7,356 @@ use Sparks\Shield\Authorization\AuthorizationException;
 
 trait Authorizable
 {
-	/**
-	 * @var array|null
-	 */
-	protected $groupCache;
+    /**
+     * @var array|null
+     */
+    protected $groupCache;
 
-	/**
-	 * @var array|null
-	 */
-	protected $permissionsCache;
+    /**
+     * @var array|null
+     */
+    protected $permissionsCache;
 
-	/**
-	 * Adds one or more groups to the current User.
-	 *
-	 * @param string ...$groups
-	 */
-	public function addGroup(string ...$groups)
-	{
-		$this->populateGroups();
-		$configGroups = function_exists('setting')
-			? array_keys(setting('AuthGroups.groups'))
-			: array_keys(config('AuthGroups')->groups);
+    /**
+     * Adds one or more groups to the current User.
+     *
+     * @param string ...$groups
+     */
+    public function addGroup(string ...$groups)
+    {
+        $this->populateGroups();
+        $configGroups = function_exists('setting')
+            ? array_keys(setting('AuthGroups.groups'))
+            : array_keys(config('AuthGroups')->groups);
 
-		$groupCount = count($this->groupCache);
+        $groupCount = count($this->groupCache);
 
-		foreach ($groups as $group)
-		{
-			$group = strtolower($group);
+        foreach ($groups as $group) {
+            $group = strtolower($group);
 
-			// don't allow dupes
-			if (in_array($group, $this->groupCache))
-			{
-				continue;
-			}
+            // don't allow dupes
+            if (in_array($group, $this->groupCache, true)) {
+                continue;
+            }
 
-			// make sure it's a valid group
-			if (! in_array($group, $configGroups))
-			{
-				throw AuthorizationException::forUnknownGroup($group);
-			}
+            // make sure it's a valid group
+            if (! in_array($group, $configGroups, true)) {
+                throw AuthorizationException::forUnknownGroup($group);
+            }
 
-			$this->groupCache[] = $group;
-		}
+            $this->groupCache[] = $group;
+        }
 
-		// Only save the results if there's anything new.
-		if (count($this->groupCache) > $groupCount)
-		{
-			$this->saveGroupsOrPermissions('groups');
-		}
+        // Only save the results if there's anything new.
+        if (count($this->groupCache) > $groupCount) {
+            $this->saveGroupsOrPermissions('groups');
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Removes one or more groups from the user.
-	 *
-	 * @param string ...$groups
-	 *
-	 * @return self
-	 */
-	public function removeGroup(string ...$groups)
-	{
-		$this->populateGroups();
-		foreach ($groups as &$group)
-		{
-			$group = strtolower($group);
-		}
+    /**
+     * Removes one or more groups from the user.
+     *
+     * @param string ...$groups
+     *
+     * @return self
+     */
+    public function removeGroup(string ...$groups)
+    {
+        $this->populateGroups();
 
-		// Remove from local cache
-		$this->groupCache = array_diff($this->groupCache, $groups);
+        foreach ($groups as &$group) {
+            $group = strtolower($group);
+        }
 
-		// Update the database.
-		$this->saveGroupsOrPermissions('groups');
+        // Remove from local cache
+        $this->groupCache = array_diff($this->groupCache, $groups);
 
-		return $this;
-	}
+        // Update the database.
+        $this->saveGroupsOrPermissions('groups');
 
-	/**
-	 * Given an array of groups, will update the database
-	 * so only those groups are valid for this user, removing
-	 * all groups not in this list.
-	 *
-	 * @param array $groups
-	 *
-	 * @return $this
-	 * @throws AuthorizationException
-	 */
-	public function syncGroups(array $groups)
-	{
-		$this->populateGroups();
-		$configGroups = function_exists('setting')
-			? array_keys(setting('AuthGroups.groups'))
-			: array_keys(config('AuthGroups')->groups);
+        return $this;
+    }
 
-		foreach ($groups as $group)
-		{
-			if (! in_array($group, $configGroups))
-			{
-				throw AuthorizationException::forUnknownGroup($group);
-			}
-		}
+    /**
+     * Given an array of groups, will update the database
+     * so only those groups are valid for this user, removing
+     * all groups not in this list.
+     *
+     * @throws AuthorizationException
+     *
+     * @return $this
+     */
+    public function syncGroups(array $groups)
+    {
+        $this->populateGroups();
+        $configGroups = function_exists('setting')
+            ? array_keys(setting('AuthGroups.groups'))
+            : array_keys(config('AuthGroups')->groups);
 
-		$this->groupCache = $groups;
-		$this->saveGroupsOrPermissions('groups');
+        foreach ($groups as $group) {
+            if (! in_array($group, $configGroups, true)) {
+                throw AuthorizationException::forUnknownGroup($group);
+            }
+        }
 
-		return $this;
-	}
+        $this->groupCache = $groups;
+        $this->saveGroupsOrPermissions('groups');
 
-	/**
-	 * Returns all groups this user is a part of.
-	 *
-	 * @return array|null
-	 */
-	public function getGroups()
-	{
-		$this->populateGroups();
+        return $this;
+    }
 
-		return $this->groupCache;
-	}
+    /**
+     * Returns all groups this user is a part of.
+     *
+     * @return array|null
+     */
+    public function getGroups()
+    {
+        $this->populateGroups();
 
-	/**
-	 * Returns all permissions this user has
-	 * assigned directly to them.
-	 *
-	 * @return array|null
-	 */
-	public function getPermissions()
-	{
-		$this->populatePermissions();
+        return $this->groupCache;
+    }
 
-		return $this->permissionsCache;
-	}
+    /**
+     * Returns all permissions this user has
+     * assigned directly to them.
+     *
+     * @return array|null
+     */
+    public function getPermissions()
+    {
+        $this->populatePermissions();
 
-	/**
-	 * Adds one or more permissions to the current user.
-	 *
-	 * @param string ...$permissions
-	 *
-	 * @return $this
-	 * @throws AuthorizationException
-	 */
-	public function addPermission(string ...$permissions)
-	{
-		$this->populatePermissions();
-		$configPermissions = function_exists('setting')
-			? array_keys(setting('AuthGroups.permissions'))
-			: array_keys(config('AuthGroups')->permissions);
+        return $this->permissionsCache;
+    }
 
-		$permissionCount = count($this->permissionsCache);
+    /**
+     * Adds one or more permissions to the current user.
+     *
+     * @param string ...$permissions
+     *
+     * @throws AuthorizationException
+     *
+     * @return $this
+     */
+    public function addPermission(string ...$permissions)
+    {
+        $this->populatePermissions();
+        $configPermissions = function_exists('setting')
+            ? array_keys(setting('AuthGroups.permissions'))
+            : array_keys(config('AuthGroups')->permissions);
 
-		foreach ($permissions as $permission)
-		{
-			$permission = strtolower($permission);
+        $permissionCount = count($this->permissionsCache);
 
-			// don't allow dupes
-			if (in_array($permission, $this->permissionsCache))
-			{
-				continue;
-			}
+        foreach ($permissions as $permission) {
+            $permission = strtolower($permission);
 
-			// make sure it's a valid group
-			if (! in_array($permission, $configPermissions))
-			{
-				throw AuthorizationException::forUnknownPermission($permission);
-			}
+            // don't allow dupes
+            if (in_array($permission, $this->permissionsCache, true)) {
+                continue;
+            }
 
-			$this->permissionsCache[] = $permission;
-		}
+            // make sure it's a valid group
+            if (! in_array($permission, $configPermissions, true)) {
+                throw AuthorizationException::forUnknownPermission($permission);
+            }
 
-		// Only save the results if there's anything new.
-		if (count($this->permissionsCache) > $permissionCount)
-		{
-			$this->saveGroupsOrPermissions('permissions');
-		}
+            $this->permissionsCache[] = $permission;
+        }
 
-		return $this;
-	}
+        // Only save the results if there's anything new.
+        if (count($this->permissionsCache) > $permissionCount) {
+            $this->saveGroupsOrPermissions('permissions');
+        }
 
-	/**
-	 * Removes one or more permissions from the current user.
-	 *
-	 * @param string ...$permissions
-	 *
-	 * @return $this
-	 */
-	public function removePermission(string ...$permissions)
-	{
-		$this->populatePermissions();
-		foreach ($permissions as &$permission)
-		{
-			$permission = strtolower($permission);
-		}
+        return $this;
+    }
 
-		// Remove from local cache
-		$this->permissionsCache = array_diff($this->permissionsCache, $permissions);
+    /**
+     * Removes one or more permissions from the current user.
+     *
+     * @param string ...$permissions
+     *
+     * @return $this
+     */
+    public function removePermission(string ...$permissions)
+    {
+        $this->populatePermissions();
 
-		// Update the database.
-		$this->saveGroupsOrPermissions('permissions');
+        foreach ($permissions as &$permission) {
+            $permission = strtolower($permission);
+        }
 
-		return $this;
-	}
+        // Remove from local cache
+        $this->permissionsCache = array_diff($this->permissionsCache, $permissions);
 
-	/**
-	 * Given an array of permissions, will update the database
-	 * so only those permissions are valid for this user, removing
-	 * all permissions not in this list.
-	 *
-	 * @param array $permissions
-	 *
-	 * @return $this
-	 * @throws AuthorizationException
-	 */
-	public function syncPermissions(array $permissions)
-	{
-		$this->populatePermissions();
-		$configPermissions = function_exists('setting')
-			? array_keys(setting('AuthGroups.permissions'))
-			: array_keys(config('AuthGroups')->permissions);
+        // Update the database.
+        $this->saveGroupsOrPermissions('permissions');
 
-		foreach ($permissions as $permission)
-		{
-			if (! in_array($permission, $configPermissions))
-			{
-				throw AuthorizationException::forUnknownPermission($permission);
-			}
-		}
+        return $this;
+    }
 
-		$this->permissionsCache = $permissions;
-		$this->saveGroupsOrPermissions('permissions');
+    /**
+     * Given an array of permissions, will update the database
+     * so only those permissions are valid for this user, removing
+     * all permissions not in this list.
+     *
+     * @throws AuthorizationException
+     *
+     * @return $this
+     */
+    public function syncPermissions(array $permissions)
+    {
+        $this->populatePermissions();
+        $configPermissions = function_exists('setting')
+            ? array_keys(setting('AuthGroups.permissions'))
+            : array_keys(config('AuthGroups')->permissions);
 
-		return $this;
-	}
+        foreach ($permissions as $permission) {
+            if (! in_array($permission, $configPermissions, true)) {
+                throw AuthorizationException::forUnknownPermission($permission);
+            }
+        }
 
-	/**
-	 * Checks user permissions and their group permissions
-	 * to see if the user has a specific permission.
-	 *
-	 * @param string $permission
-	 *
-	 * @return boolean
-	 */
-	public function can(string $permission): bool
-	{
-		$this->populatePermissions();
-		$permission = strtolower($permission);
+        $this->permissionsCache = $permissions;
+        $this->saveGroupsOrPermissions('permissions');
 
-		// Check user's permissions
-		if (in_array($permission, $this->permissionsCache))
-		{
-			return true;
-		}
+        return $this;
+    }
 
-		// Check the groups the user belongs to
-		$this->populateGroups();
+    /**
+     * Checks user permissions and their group permissions
+     * to see if the user has a specific permission.
+     */
+    public function can(string $permission): bool
+    {
+        $this->populatePermissions();
+        $permission = strtolower($permission);
 
-		if (! count($this->groupCache))
-		{
-			return false;
-		}
+        // Check user's permissions
+        if (in_array($permission, $this->permissionsCache, true)) {
+            return true;
+        }
 
-		$matrix = function_exists('setting')
-			? setting('AuthGroups.matrix')
-			: config('AuthGroups')->matrix;
+        // Check the groups the user belongs to
+        $this->populateGroups();
 
-		foreach ($this->groupCache as $group)
-		{
-			// Check exact match
-			if (isset($matrix[$group]) && in_array($permission, $matrix[$group]))
-			{
-				return true;
-			}
+        if (! count($this->groupCache)) {
+            return false;
+        }
 
-			// Check wildcard match
-			$check = substr($permission, 0, strpos($permission, '.')) . '.*';
-			if (isset($matrix[$group]) && in_array($check, $matrix[$group]))
-			{
-				return true;
-			}
-		}
+        $matrix = function_exists('setting')
+            ? setting('AuthGroups.matrix')
+            : config('AuthGroups')->matrix;
 
-		return false;
-	}
+        foreach ($this->groupCache as $group) {
+            // Check exact match
+            if (isset($matrix[$group]) && in_array($permission, $matrix[$group], true)) {
+                return true;
+            }
 
-	/**
-	 * Checks to see if the user is a member of one
-	 * of the groups passed in.
-	 *
-	 * @param string ...$groups
-	 */
-	public function inGroup(string ...$groups): bool
-	{
-		$this->populateGroups();
+            // Check wildcard match
+            $check = substr($permission, 0, strpos($permission, '.')) . '.*';
+            if (isset($matrix[$group]) && in_array($check, $matrix[$group], true)) {
+                return true;
+            }
+        }
 
-		foreach ($groups as $group)
-		{
-			if (in_array($group, $this->groupCache))
-			{
-				return true;
-			}
-		}
+        return false;
+    }
 
-		return false;
-	}
+    /**
+     * Checks to see if the user is a member of one
+     * of the groups passed in.
+     *
+     * @param string ...$groups
+     */
+    public function inGroup(string ...$groups): bool
+    {
+        $this->populateGroups();
 
-	/**
-	 * Used internally to populate the User groups
-	 * so we hit the database as little as possible.
-	 */
-	private function populateGroups()
-	{
-		if (is_array($this->groupCache))
-		{
-			return;
-		}
+        foreach ($groups as $group) {
+            if (in_array($group, $this->groupCache, true)) {
+                return true;
+            }
+        }
 
-		$groups = db_connect()->table('auth_groups_users')
-			->where('user_id', $this->id)
-			->get()
-			->getFirstRow('array');
+        return false;
+    }
 
-		$this->groupCache = $groups !== null && $groups['groups'] !== null
-			? unserialize($groups['groups'])
-			: [];
-	}
+    /**
+     * Used internally to populate the User groups
+     * so we hit the database as little as possible.
+     */
+    private function populateGroups()
+    {
+        if (is_array($this->groupCache)) {
+            return;
+        }
 
-	/**
-	 * Used internally to populate the User permissions
-	 * so we hit the database as little as possible.
-	 */
-	private function populatePermissions()
-	{
-		if (is_array($this->permissionsCache))
-		{
-			return;
-		}
+        $groups = db_connect()->table('auth_groups_users')
+            ->where('user_id', $this->id)
+            ->get()
+            ->getFirstRow('array');
 
-		$permissions = db_connect()->table('auth_permissions_users')
-			->where('user_id', $this->id)
-			->get()
-			->getFirstRow('array');
+        $this->groupCache = $groups !== null && $groups['groups'] !== null
+            ? unserialize($groups['groups'])
+            : [];
+    }
 
-		$this->permissionsCache = $permissions !== null && $permissions['permissions'] !== null
-			? unserialize($permissions['permissions'])
-			: [];
-	}
+    /**
+     * Used internally to populate the User permissions
+     * so we hit the database as little as possible.
+     */
+    private function populatePermissions()
+    {
+        if (is_array($this->permissionsCache)) {
+            return;
+        }
 
-	/**
-	 * Inserts or Updates either the current groups
-	 * or the current permissions.
-	 *
-	 * @param string $type
-	 *
-	 * @throws \Exception
-	 */
-	private function saveGroupsOrPermissions(string $type)
-	{
-		$table = $type === 'groups'
-			? 'auth_groups_users'
-			: 'auth_permissions_users';
-		$cache = $type === 'groups'
-			? $this->groupCache
-			: $this->permissionsCache;
+        $permissions = db_connect()->table('auth_permissions_users')
+            ->where('user_id', $this->id)
+            ->get()
+            ->getFirstRow('array');
 
-		$record = db_connect()->table($table)
-			->where('user_id', $this->id)
-			->get()
-			->getFirstRow('array');
+        $this->permissionsCache = $permissions !== null && $permissions['permissions'] !== null
+            ? unserialize($permissions['permissions'])
+            : [];
+    }
 
-		if (is_array($record))
-		{
-			db_connect()->table($table)
-				->where('id', $record['id'])
-				->update([$type => serialize($cache)]);
-		}
-		else
-		{
-			db_connect()->table($table)
-				->insert([
-					'user_id'    => $this->id,
-					$type        => serialize($cache),
-					'created_at' => Time::now()->toDateTimeString(),
-				]);
-		}
-	}
+    /**
+     * Inserts or Updates either the current groups
+     * or the current permissions.
+     *
+     * @throws \Exception
+     */
+    private function saveGroupsOrPermissions(string $type)
+    {
+        $table = $type === 'groups'
+            ? 'auth_groups_users'
+            : 'auth_permissions_users';
+        $cache = $type === 'groups'
+            ? $this->groupCache
+            : $this->permissionsCache;
+
+        $record = db_connect()->table($table)
+            ->where('user_id', $this->id)
+            ->get()
+            ->getFirstRow('array');
+
+        if (is_array($record)) {
+            db_connect()->table($table)
+                ->where('id', $record['id'])
+                ->update([$type => serialize($cache)]);
+        } else {
+            db_connect()->table($table)
+                ->insert([
+                    'user_id'    => $this->id,
+                    $type        => serialize($cache),
+                    'created_at' => Time::now()->toDateTimeString(),
+                ]);
+        }
+    }
 }

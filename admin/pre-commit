@@ -47,7 +47,7 @@ if [ "$FILES" != "" ]; then
 	./vendor/bin/php-cs-fixer fix --verbose --dry-run --using-cache=no --diff
 
     if [ $? != 0 ]; then
-        echo "Some files are not following the coding standards. Please fix them before commit."
+        echo "Some files are not following the coding standards. Please fix them before commit (try 'composer style')."
         exit 1
     fi
 fi
