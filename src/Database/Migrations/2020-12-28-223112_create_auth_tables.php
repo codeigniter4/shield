@@ -338,6 +338,12 @@ class CreateAuthTables extends Migration
             $this->forge->dropForeignKey('auth_identities', 'auth_identities_user_id_foreign');
             $this->db->query('DROP INDEX IF EXISTS ?', [$prefix . 'auth_identities_user_id']);
         }
+        if ($this->db->tableExists('auth_groups_users')) {
+            $this->forge->dropForeignKey('auth_groups_users', 'auth_groups_users_user_id_foreign');
+        }
+        if ($this->db->tableExists('auth_permissions_users')) {
+            $this->forge->dropForeignKey('auth_permissions_users', 'auth_permissions_users_user_id_foreign');
+        }
         if ($this->db->tableExists('users')) {
             $this->db->query('DROP INDEX IF EXISTS ?', [$prefix . 'users_username']);
         }
@@ -349,5 +355,7 @@ class CreateAuthTables extends Migration
         $this->forge->dropTable('auth_activation_attempts', true);
         $this->forge->dropTable('auth_access_tokens', true);
         $this->forge->dropTable('auth_identities', true);
+        $this->forge->dropTable('auth_groups_users', true);
+        $this->forge->dropTable('auth_permissions_users', true);
     }
 }
