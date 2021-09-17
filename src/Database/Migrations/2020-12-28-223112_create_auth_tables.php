@@ -41,6 +41,10 @@ class CreateAuthTables extends Migration
 				'type' => 'text',
 				'null' => true,
 			],
+			'last_active'    => [
+				'type' => 'datetime',
+				'null' => true,
+			],
 			'created_at'     => [
 				'type' => 'datetime',
 				'null' => true,
