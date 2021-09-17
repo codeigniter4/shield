@@ -18,7 +18,7 @@ final class AuthorizableTest extends TestCase
 	use FakeUser;
 
 	protected $refresh   = true;
-	protected $namespace = 'Sparks\Shield';
+	protected $namespace = null;
 
 	/**
 	 * @var UserModel
