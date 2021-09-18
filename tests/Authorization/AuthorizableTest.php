@@ -278,6 +278,14 @@ final class AuthorizableTest extends TestCase
 		]);
 	}
 
+	public function testHasPermission()
+	{
+		$this->user->addPermission('admin.access');
+
+		$this->assertTrue($this->user->hasPermission('admin.access'));
+		$this->assertFalse($this->user->hasPermission('beta.access'));
+	}
+
 	public function testCanCascadesToGroupsSimple()
 	{
 		$this->user->addGroup('admin');
