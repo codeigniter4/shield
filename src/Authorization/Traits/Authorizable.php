@@ -241,6 +241,23 @@ trait Authorizable
 	}
 
 	/**
+	 * Checks to see if the user has the permission set
+	 * directly on themselves. This disregards any groups
+	 * they are part of.
+	 *
+	 * @param string $permission
+	 *
+	 * @return boolean
+	 */
+	public function hasPermission(string $permission): bool
+	{
+		$this->populatePermissions();
+		$permission = strtolower($permission);
+
+		return in_array($permission, $this->permissionsCache, true);
+	}
+
+	/**
 	 * Checks user permissions and their group permissions
 	 * to see if the user has a specific permission.
 	 */
