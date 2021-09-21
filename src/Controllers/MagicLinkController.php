@@ -78,7 +78,17 @@ class MagicLinkController extends BaseController
             ->setMessage(view(setting('Auth.views')['magic-link-email'], ['token' => $token]))
             ->send();
 
-        echo view(setting('Auth.views')['magic-link-message']);
+        echo $this->displayMessage();
+    }
+
+    /**
+     * Display the "What's happening/next" message to the user.
+     *
+     * @return string
+     */
+    protected function displayMessage()
+    {
+        return view(setting('Auth.views')['magic-link-message']);
     }
 
     /**
