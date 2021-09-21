@@ -18,6 +18,8 @@ class ActionController extends BaseController
      */
     protected $action;
 
+    protected $helpers = ['setting'];
+
     /**
      * Perform an initial check if we have a valid action or not.
      *

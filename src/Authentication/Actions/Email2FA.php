@@ -26,7 +26,7 @@ class Email2FA implements ActionInterface
 
     /**
      * Generates the random number, saves it as a temp identity
-     * with the user, and first off an email to the user with the code,
+     * with the user, and fires off an email to the user with the code,
      * then displays the form to accept the 6 digits
      *
      * @return mixed

@@ -25,6 +25,13 @@ return [
     'login'       => 'Login',
     'needAccount' => 'Need an account?',
     'rememberMe'  => 'Remember me?',
+    'forgotPassword' => 'Forgot your password?',
+    'useMagicLink' => 'Use a Login Link',
+    'magicLinkSubject'  => 'Your Login Link',
+    'magicTokenNotFound' => 'Unable to verify the link.',
+    'magicLinkExpired' => 'Sorry, link has expired.',
+    'checkYourEmail' => 'Check your email',
+    'magicLinkDetails' => 'We just sent you an email with a Login link inside. It is only valid for {0} minutes.',
 
     // Passwords
     'errorPasswordLength'       => 'Passwords must be at least {0, number} characters long.',

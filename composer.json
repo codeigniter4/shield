@@ -17,15 +17,15 @@
 		}
 	],
 	"require": {
-        "php": "^7.3 || ^8.0"
-	},
+        "php": "^7.3 || ^8.0",
+        "codeigniter4/settings": "dev-develop"
+    },
 	"provide": {
 		"codeigniter4/authentication-implementation": "1.0"
 	},
 	"require-dev": {
 		"codeigniter4/codeigniter4": "dev-develop",
 		"codeigniter/coding-standard": "^1.1",
-		"codeigniter4/settings": "dev-develop",
 		"fakerphp/faker": "^1.9",
         "friendsofphp/php-cs-fixer": "^3.0",
 		"phpstan/phpstan": "^0.12.98",

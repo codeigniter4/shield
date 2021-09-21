@@ -17,6 +17,7 @@ parameters:
 		- CodeIgniter\Entity
 		- CodeIgniter\Entity\Entity
 		- Faker\Generator
+		- Sparks\Shield\Interfaces\Authenticatable
 	scanDirectories:
 		- vendor/codeigniter4/codeigniter4/system/Helpers
 		- vendor/codeigniter4/settings/src/Helpers
