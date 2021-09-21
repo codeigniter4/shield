@@ -26,7 +26,7 @@ class MagicLinkController extends BaseController
     public function __construct()
     {
         helper('setting');
-        $providerClass = setting('Auth.userProvider');
+        $providerClass  = setting('Auth.userProvider');
         $this->provider = new $providerClass();
     }
 
@@ -47,7 +47,7 @@ class MagicLinkController extends BaseController
     public function loginAction()
     {
         $email = $this->request->getPost('email');
-        $user = $this->provider->findByCredentials(['email' => $email]);
+        $user  = $this->provider->findByCredentials(['email' => $email]);
 
         if (empty($email) || $user === null) {
             return redirect()->route('magic-link')->with('error', lang('Auth.invalidEmail'));
@@ -56,27 +56,27 @@ class MagicLinkController extends BaseController
         // Delete any previous magic-link identities
         $identities = new UserIdentityModel();
         $identities->where('user_id', $user->id)
-                   ->where('type', 'magic-link')
-                   ->delete();
+            ->where('type', 'magic-link')
+            ->delete();
 
         // Generate the code and save it as an identity
         helper('text');
         $token = random_string('crypto', 20);
 
         $identities->insert([
-                                'user_id' => $user->id,
-                                'type'    => 'magic-link',
-                                'secret'  => $token,
-                                'expires' => Time::now()->addSeconds(setting('Auth.magicLinkLifetime'))->toDateTimeString(),
-                            ]);
+            'user_id' => $user->id,
+            'type'    => 'magic-link',
+            'secret'  => $token,
+            'expires' => Time::now()->addSeconds(setting('Auth.magicLinkLifetime'))->toDateTimeString(),
+        ]);
 
         // Send the user an email with the code
         $email = service('email');
         $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName'))
-              ->setTo($user->email)
-              ->setSubject(lang('Auth.magicLinkSubject'))
-              ->setMessage(view(setting('Auth.views')['magic-link-email'], ['token' => $token]))
-              ->send();
+            ->setTo($user->email)
+            ->setSubject(lang('Auth.magicLinkSubject'))
+            ->setMessage(view(setting('Auth.views')['magic-link-email'], ['token' => $token]))
+            ->send();
 
         echo view(setting('Auth.views')['magic-link-message']);
     }
@@ -88,15 +88,15 @@ class MagicLinkController extends BaseController
      */
     public function verify()
     {
-        $token    = $this->request->getGet('token');
+        $token      = $this->request->getGet('token');
         $identities = model(UserIdentityModel::class);
-        $identity = $identities
+        $identity   = $identities
             ->where('type', 'magic-link')
             ->where('secret', $token)
             ->first();
 
         // No token found?
-        if($identity === null) {
+        if ($identity === null) {
             return redirect()->route('magic-link')->with('error', lang('Auth.magicTokenNotFound'));
         }
 

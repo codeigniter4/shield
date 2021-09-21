@@ -20,9 +20,9 @@ final class MagicLinkTest extends TestCase
     use FeatureTestTrait;
 
     protected $refresh = true;
-    protected $namespace = null;
+    protected $namespace;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -45,7 +45,7 @@ final class MagicLinkTest extends TestCase
     public function testMagicLinkSubmitNoEmail()
     {
         $result = $this->post(route_to('magic-link'), [
-            'email' => ''
+            'email' => '',
         ]);
 
         $result->assertRedirectTo(route_to('magic-link'));
@@ -55,7 +55,7 @@ final class MagicLinkTest extends TestCase
     public function testMagicLinkSubmitBadEmail()
     {
         $result = $this->post(route_to('magic-link'), [
-            'email' => 'foo@example.com'
+            'email' => 'foo@example.com',
         ]);
 
         $result->assertRedirectTo(route_to('magic-link'));
@@ -71,7 +71,7 @@ final class MagicLinkTest extends TestCase
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
 
         $result = $this->post(route_to('magic-link'), [
-            'email' => 'foo@example.com'
+            'email' => 'foo@example.com',
         ]);
 
         $result->assertOK();
@@ -79,7 +79,7 @@ final class MagicLinkTest extends TestCase
 
         $this->seeInDatabase('auth_identities', [
             'user_id' => $user->id,
-            'type' => 'magic-link'
+            'type'    => 'magic-link',
         ]);
     }
 
@@ -101,12 +101,12 @@ final class MagicLinkTest extends TestCase
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $identities->insert([
             'user_id' => $user->id,
-            'type' => 'magic-link',
-            'secret' => 'abasdasdf',
-            'expires' => Time::now()->subDays(5)
+            'type'    => 'magic-link',
+            'secret'  => 'abasdasdf',
+            'expires' => Time::now()->subDays(5),
         ]);
 
-        $result = $this->get(route_to('verify-magic-link').'?token='. 'abasdasdf');
+        $result = $this->get(route_to('verify-magic-link') . '?token=' . 'abasdasdf');
 
         $result->assertRedirectTo(route_to('magic-link'));
         $result->assertSessionHas('error', lang('Auth.magicLinkExpired'));
@@ -121,13 +121,13 @@ final class MagicLinkTest extends TestCase
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $identities->insert([
-                                'user_id' => $user->id,
-                                'type' => 'magic-link',
-                                'secret' => 'abasdasdf',
-                                'expires' => Time::now()->addMinutes(60)
-                            ]);
+            'user_id' => $user->id,
+            'type'    => 'magic-link',
+            'secret'  => 'abasdasdf',
+            'expires' => Time::now()->addMinutes(60),
+        ]);
 
-        $result = $this->get(route_to('verify-magic-link').'?token='. 'abasdasdf');
+        $result = $this->get(route_to('verify-magic-link') . '?token=' . 'abasdasdf');
 
         $result->assertRedirectTo(site_url());
         $result->assertSessionHas('logged_in', $user->id);
