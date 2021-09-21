@@ -11,6 +11,8 @@ class LoginController extends BaseController
      */
     protected $config;
 
+    protected $helpers = ['setting'];
+
     public function __construct()
     {
         $this->config = config('Auth');

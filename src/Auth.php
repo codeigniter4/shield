@@ -125,7 +125,10 @@ class Auth
             foreach ($authRoutes as $name => $row) {
                 if (! isset($config['except']) || (isset($config['except']) && ! array_key_exists($name, $config['except']))) {
                     foreach ($row as $params) {
-                        $routes->{$params[0]}($params[1], $params[2]);
+                        $options = isset($params[3])
+                            ? ['as' => $params[3]]
+                            : null;
+                        $routes->{$params[0]}($params[1], $params[2], $options);
                     }
                 }
             }
