@@ -38,14 +38,14 @@ class EmailActivator implements ActionInterface
 
         // Send the email
         $email = service('email');
-        $email->setFrom(config('Email')->fromEmail, config('Email')->fromName)
+        $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName'))
             ->setTo($user->email)
             ->setSubject(lang('Auth.emailActivateSubject'))
-            ->setMessage(view(config('Auth')->views['action_email_activate_email'], ['code' => $code]))
+            ->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]))
             ->send();
 
         // Display the info page
-        echo view(config('Auth')->views['action_email_activate_show'], ['user' => $user]);
+        echo view(setting('Auth.views')['action_email_activate_show'], ['user' => $user]);
     }
 
     /**
@@ -74,7 +74,7 @@ class EmailActivator implements ActionInterface
         if ($identity->secret !== $token) {
             $_SESSION['error'] = lang('Auth.invalidActivateToken');
 
-            return view(config('Auth')->views['action_email_activate_show']);
+            return view(setting('Auth.views')['action_email_activate_show']);
         }
 
         // Remove the identity

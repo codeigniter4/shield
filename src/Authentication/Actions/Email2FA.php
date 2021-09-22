@@ -21,7 +21,7 @@ class Email2FA implements ActionInterface
      */
     public function show()
     {
-        echo view(config('Auth')->views['action_email_2fa']);
+        echo view(setting('Auth.views')['action_email_2fa']);
     }
 
     /**
@@ -58,13 +58,13 @@ class Email2FA implements ActionInterface
 
         // Send the user an email with the code
         $email = service('email');
-        $email->setFrom(config('Email')->fromEmail, config('Email')->fromName)
+        $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName'))
             ->setTo($user->email)
             ->setSubject(lang('Auth.email2FASubject'))
-            ->setMessage(view(config('Auth')->views['action_email_2fa_email'], ['code' => $code]))
+            ->setMessage(view(setting('Auth.views')['action_email_2fa_email'], ['code' => $code]))
             ->send();
 
-        echo view(config('Auth')->views['action_email_2fa_verify']);
+        echo view(setting('Auth.views')['action_email_2fa_verify']);
     }
 
     /**
@@ -82,7 +82,7 @@ class Email2FA implements ActionInterface
         if (empty($token) || $token !== $identity->secret) {
             $_SESSION['error'] = lang('Auth.invalid2FAToken');
 
-            return view(config('Auth')->views['action_email_2fa_verify']);
+            return view(setting('Auth.views')['action_email_2fa_verify']);
         }
 
         // On success - remove the identity and clean up session

@@ -10,7 +10,7 @@ final class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 {
     use FeatureTestTrait;
 
-    protected $namespace = '\Sparks\Shield';
+    protected $namespace;
 
     protected function setUp(): void
     {

@@ -15,7 +15,7 @@ final class LoginTest extends TestCase
     use FeatureTestTrait;
     use FakeUser;
 
-    protected $namespace = '\Sparks\Shield';
+    protected $namespace;
 
     protected function setUp(): void
     {

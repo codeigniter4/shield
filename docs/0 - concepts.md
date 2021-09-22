@@ -2,6 +2,13 @@
 
 This document covers some of the base concepts used throughout the library.
 
+## Settings
+
+In place of the CodeIgniter `config()` helper, Shield uses the official 
+[Settings](https://github.com/codeigniter4/settings) library. This provides a way to save any 
+Config class values to the database if you want to modify them, but falls back on the 
+standard Config class if nothing is found in the database. 
+
 ## User Providers
 
 To make the system as flexible as possible, you can define which class should be able to interact
