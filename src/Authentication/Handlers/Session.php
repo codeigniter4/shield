@@ -4,11 +4,9 @@ namespace Sparks\Shield\Authentication\Handlers;
 
 use CodeIgniter\Events\Events;
 use CodeIgniter\I18n\Time;
-use Config\App;
 use InvalidArgumentException;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\AuthenticatorInterface;
-use Sparks\Shield\Config\Auth;
 use Sparks\Shield\Entities\User;
 use Sparks\Shield\Interfaces\Authenticatable;
 use Sparks\Shield\Models\LoginModel;
@@ -17,11 +15,6 @@ use Sparks\Shield\Result;
 
 class Session implements AuthenticatorInterface
 {
-    /**
-     * @var array
-     */
-    protected $config;
-
     /**
      * The persistence engine
      */
@@ -49,9 +42,9 @@ class Session implements AuthenticatorInterface
      */
     protected $rememberModel;
 
-    public function __construct(Auth $config, $provider)
+    public function __construct($provider)
     {
-        $this->config        = $config->sessionConfig;
+        helper('setting');
         $this->provider      = $provider;
         $this->loginModel    = model(LoginModel::class);
         $this->rememberModel = model(RememberModel::class);
@@ -167,7 +160,7 @@ class Session implements AuthenticatorInterface
             return true;
         }
 
-        if ($userId = session($this->config['field'])) {
+        if ($userId = session(setting('Auth.sessionConfig')['field'])) {
             $this->user = $this->provider->findById($userId);
 
             return $this->user instanceof Authenticatable;
@@ -205,12 +198,12 @@ class Session implements AuthenticatorInterface
         }
 
         // Let the session know we're logged in
-        session()->set($this->config['field'], $this->user->getAuthId());
+        session()->set(setting('Auth.sessionConfig')['field'], $this->user->getAuthId());
 
         // When logged in, ensure cache control headers are in place
         service('response')->noCache();
 
-        if ($this->shouldRemember && $this->config['allowRemembering']) {
+        if ($this->shouldRemember && setting('Auth.sessionConfig')['allowRemembering']) {
             $this->rememberUser($this->user->getAuthId());
 
             // Reset so it doesn't mess up future calls.
@@ -354,7 +347,7 @@ class Session implements AuthenticatorInterface
     {
         $selector  = bin2hex(random_bytes(12));
         $validator = bin2hex(random_bytes(20));
-        $expires   = date('Y-m-d H:i:s', time() + $this->config['rememberLength']);
+        $expires   = date('Y-m-d H:i:s', time() + setting('Auth.sessionConfig')['rememberLength']);
 
         $token = $selector . ':' . $validator;
 
@@ -362,17 +355,16 @@ class Session implements AuthenticatorInterface
         $this->rememberModel->rememberUser($userID, $selector, hash('sha256', $validator), $expires);
 
         // Save it to the user's browser in a cookie.
-        $appConfig = new App();
-        $response  = service('response');
+        $response = service('response');
 
         // Create the cookie
         $response->setCookie(
-            $this->config['rememberCookieName'],
-            $token,                             // Value
-            $this->config['rememberLength'],    // # Seconds until it expires
-            $appConfig->cookieDomain,
-            $appConfig->cookiePath,
-            $appConfig->cookiePrefix,
+            setting('Auth.sessionConfig')['rememberCookieName'],
+            $token,                                             // Value
+            setting('Auth.sessionConfig')['rememberLength'],    // # Seconds until it expires
+            setting('App.cookieDomain'),
+            setting('App.cookiePath'),
+            setting('App.cookiePrefix'),
             false,                          // Only send over HTTPS?
             true                            // Hide from Javascript?
         );

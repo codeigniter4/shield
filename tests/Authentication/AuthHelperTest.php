@@ -2,6 +2,7 @@
 
 namespace Test\Authentication;
 
+use CodeIgniter\Test\DatabaseTestTrait;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Models\UserModel;
 use Tests\Support\TestCase;
@@ -11,6 +12,11 @@ use Tests\Support\TestCase;
  */
 final class AuthHelperTest extends TestCase
 {
+    use DatabaseTestTrait;
+
+    protected $refresh = true;
+    protected $namespace;
+
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();

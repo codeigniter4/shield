@@ -58,7 +58,7 @@ class Authentication
 
         $className = $this->config->authenticators[$handler];
 
-        $this->instances[$handler] = new $className($this->config, $this->userProvider);
+        $this->instances[$handler] = new $className($this->userProvider);
 
         return $this->instances[$handler];
     }

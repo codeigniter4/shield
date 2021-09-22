@@ -5,7 +5,6 @@ namespace Sparks\Shield\Authentication\Handlers;
 use CodeIgniter\I18n\Time;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\AuthenticatorInterface;
-use Sparks\Shield\Config\Auth as AuthConfig;
 use Sparks\Shield\Entities\AccessToken;
 use Sparks\Shield\Entities\User;
 use Sparks\Shield\Interfaces\Authenticatable;
@@ -15,11 +14,6 @@ use Sparks\Shield\Result;
 
 class AccessTokens implements AuthenticatorInterface
 {
-    /**
-     * @var AuthConfig
-     */
-    protected $config;
-
     /**
      * The persistence engine
      */
@@ -41,9 +35,9 @@ class AccessTokens implements AuthenticatorInterface
      */
     protected $loginModel;
 
-    public function __construct(AuthConfig $config, $provider)
+    public function __construct($provider)
     {
-        $this->config     = $config;
+        helper('session');
         $this->provider   = $provider;
         $this->loginModel = model(LoginModel::class);
     }

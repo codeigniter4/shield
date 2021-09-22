@@ -29,7 +29,7 @@ final class SessionHandlerTest extends TestCase
      */
     protected $auth;
 
-    protected $namespace = '\Sparks\Shield';
+    protected $namespace;
 
     protected $events;
 

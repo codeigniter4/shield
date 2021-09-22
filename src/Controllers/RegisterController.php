@@ -13,17 +13,7 @@ use Sparks\Shield\Entities\User;
  */
 class RegisterController extends BaseController
 {
-    /**
-     * @var \Sparks\Shield\Config\Auth
-     */
-    protected $config;
-
     protected $helpers = ['setting'];
-
-    public function __construct()
-    {
-        $this->config = config('Auth');
-    }
 
     /**
      * Displays the registration form.
@@ -31,11 +21,11 @@ class RegisterController extends BaseController
     public function registerView()
     {
         // Check if registration is allowed
-        if (! $this->config->allowRegistration) {
+        if (! setting('Auth.allowRegistration')) {
             return redirect()->back()->withInput()->with('error', lang('Auth.registerDisabled'));
         }
 
-        echo view(config('Auth')->views['register']);
+        echo view(setting('Auth.views')['register']);
     }
 
     /**
@@ -44,7 +34,7 @@ class RegisterController extends BaseController
     public function registerAction()
     {
         // Check if registration is allowed
-        if (! $this->config->allowRegistration) {
+        if (! setting('Auth.allowRegistration')) {
             return redirect()->back()->withInput()->with('error', lang('Auth.registerDisabled'));
         }
 
@@ -59,7 +49,7 @@ class RegisterController extends BaseController
         }
 
         // Save the user
-        $allowedPostFields = array_merge($this->config->validFields, $this->config->personalFields);
+        $allowedPostFields = array_merge(setting('Auth.validFields'), setting('Auth.personalFields'));
         $user              = $this->getUserEntity();
 
         $user->fill($this->request->getPost($allowedPostFields));
@@ -123,7 +113,7 @@ class RegisterController extends BaseController
      */
     protected function getRedirectURL()
     {
-        $url = config('Auth')->redirects['register'];
+        $url = setting('Auth.redirects')['register'];
 
         return strpos($url, 'http') === 0
             ? $url

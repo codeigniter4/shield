@@ -17,7 +17,7 @@ final class ActionsTest extends TestCase
     use AuthenticationTesting;
     use FakeUser;
 
-    protected $namespace = '\Sparks\Shield';
+    protected $namespace;
 
     protected function setUp(): void
     {

@@ -6,24 +6,14 @@ use App\Controllers\BaseController;
 
 class LoginController extends BaseController
 {
-    /**
-     * @var \Sparks\Shield\Config\Auth
-     */
-    protected $config;
-
     protected $helpers = ['setting'];
-
-    public function __construct()
-    {
-        $this->config = config('Auth');
-    }
 
     /**
      * Displays the form the login to the site.
      */
     public function loginView()
     {
-        echo view($this->config->views['login']);
+        echo view(setting('Auth.views')['login']);
     }
 
     /**
@@ -31,7 +21,7 @@ class LoginController extends BaseController
      */
     public function loginAction()
     {
-        $credentials             = $this->request->getPost($this->config->validFields);
+        $credentials             = $this->request->getPost(setting('Auth.validFields'));
         $credentials             = array_filter($credentials);
         $credentials['password'] = $this->request->getPost('password');
         $remember                = (bool) $this->request->getPost('remember');
@@ -43,7 +33,7 @@ class LoginController extends BaseController
         }
 
         // If an action has been defined for login, start it up.
-        $actionClass = $this->config->actions['login'] ?? null;
+        $actionClass = setting('Auth.actions')['login'] ?? null;
         if (! empty($actionClass)) {
             $_SESSION['auth_action'] = $actionClass;
 
@@ -79,7 +69,7 @@ class LoginController extends BaseController
      */
     public function getLoginRedirect($user)
     {
-        $url = config('Auth')->redirects['login'];
+        $url = setting('Auth.redirects')['login'];
 
         return strpos($url, 'http') === 0
             ? $url
@@ -96,7 +86,7 @@ class LoginController extends BaseController
      */
     protected function getLogoutRedirect($user)
     {
-        $url = config('Auth')->redirects['logout'];
+        $url = setting('Auth.redirects')['logout'];
 
         return strpos($url, 'http') === 0
             ? $url
