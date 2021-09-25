@@ -67,4 +67,12 @@ final class GroupTest extends TestCase
         $permissions = $group->permissions();
         $this->assertFalse(in_array('users.edit', $permissions, true));
     }
+
+    public function testCan()
+    {
+        $group = $this->groups->info('admin');
+
+        $this->assertTrue($group->can('users.edit'));
+        $this->assertFalse($group->can('foo.bar'));
+    }
 }

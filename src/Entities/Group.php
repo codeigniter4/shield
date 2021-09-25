@@ -73,6 +73,16 @@ class Group extends Entity
     }
 
     /**
+     * Determines if the group has the given permission
+     */
+    public function can(string $permission): bool
+    {
+        $this->populatePermissions();
+
+        return in_array(strtolower($permission), $this->permissions, true);
+    }
+
+    /**
      * Loads our permissions for this group.
      */
     private function populatePermissions()
