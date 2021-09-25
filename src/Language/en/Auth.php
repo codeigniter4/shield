@@ -62,6 +62,7 @@ return [
 
     // Groups
     'unknownGroup' => '{0} is not a valid group.',
+    'missingTitle' => 'Groups must have a title.',
 
     // Permissions
     'unknownPermission' => '{0} is not a valid permission.',
