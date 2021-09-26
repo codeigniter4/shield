@@ -13,13 +13,16 @@ return [
     'noUserEntity'        => 'User Entity must be provided for password validation.',
     'invalidEmail'        => 'Unable to verify the email address matches the email on record.',
 
-    'register'        => 'Register',
     'email'           => 'Email Address',
     'username'        => 'Username',
     'password'        => 'Password',
     'passwordConfirm' => 'Password (again)',
     'haveAccount'     => 'Already have an account?',
     'confirm'         => 'Confirm',
+
+    // Registration
+    'register'        => 'Register',
+    'registerDisabled' => 'Registration is not currently allowed.',
 
     // Login
     'login'              => 'Login',
