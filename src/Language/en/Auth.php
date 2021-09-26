@@ -21,7 +21,7 @@ return [
     'confirm'         => 'Confirm',
 
     // Registration
-    'register'        => 'Register',
+    'register'         => 'Register',
     'registerDisabled' => 'Registration is not currently allowed.',
 
     // Login

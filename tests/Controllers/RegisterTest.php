@@ -1,5 +1,6 @@
 <?php
 
+use CodeIgniter\Config\Factories;
 use CodeIgniter\Test\FeatureTestTrait;
 use Sparks\Shield\Authentication\Passwords\ValidationRules;
 
@@ -94,6 +95,24 @@ final class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 
         $result->assertStatus(302);
         $this->assertCount(4, session('errors'));
+    }
+
+    public function testRegisterRedirectsToActionIfDefined()
+    {
+        // Ensure our action is defined
+        $config                      = config('Auth');
+        $config->actions['register'] = \Sparks\Shield\Authentication\Actions\EmailActivator::class;
+        Factories::injectMock('config', 'Auth', $config);
+
+        $result = $this->post('/register', [
+            'email'        => 'foo@example.com',
+            'username'     => 'foo',
+            'password'     => 'abkdhflkjsdflkjasd;lkjf',
+            'pass_confirm' => 'abkdhflkjsdflkjasd;lkjf',
+        ]);
+
+        // Should have been redirected to the action's page.
+        $result->assertRedirectTo('/auth/a/show');
     }
 
     protected function setupConfig()
