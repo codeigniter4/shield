@@ -3,6 +3,7 @@
 namespace Sparks\Shield\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\Events\Events;
 
 class LoginController extends BaseController
 {
@@ -29,8 +30,15 @@ class LoginController extends BaseController
         // Attempt to login
         $result = auth('session')->remember($remember)->attempt($credentials);
         if (! $result->isOK()) {
+            unset($credentials['password'], $credentials['password_confirm']);
+            Events::trigger('failedLogin', $credentials);
+
             return redirect()->route('login')->withInput()->with('error', $result->reason());
         }
+
+        $user = $result->extraInfo();
+
+        Events::trigger('didLogin', $user);
 
         // If an action has been defined for login, start it up.
         $actionClass = setting('Auth.actions')['login'] ?? null;
@@ -39,8 +47,6 @@ class LoginController extends BaseController
 
             return redirect()->to('auth/a/show');
         }
-
-        $user = $result->extraInfo();
 
         return redirect()->to($this->getLoginRedirect($user));
     }

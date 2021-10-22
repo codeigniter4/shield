@@ -3,6 +3,7 @@
 namespace Sparks\Shield\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\Events\Events;
 use Sparks\Shield\Entities\User;
 
 /**
@@ -72,6 +73,8 @@ class RegisterController extends BaseController
 
         // Store the email/password identity for this user.
         $user->createEmailIdentity($this->request->getPost(['email', 'password']));
+
+        Events::trigger('didRegister', $user);
 
         // Success!
         $redirectURL = $this->getRedirectURL();
