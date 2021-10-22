@@ -99,6 +99,22 @@ class UserModel extends Model implements UserProvider
         return $data;
     }
 
+    /**
+     * Adds a user to the default group.
+     * Used during registration.
+     */
+    public function addToDefaultGroup(User $user)
+    {
+        $defaultGroup  = setting('AuthGroups.defaultGroup');
+        $allowedGroups = array_keys(setting('AuthGroups.groups'));
+
+        if (empty($defaultGroup) || ! in_array($defaultGroup, $allowedGroups, true)) {
+            throw new \InvalidArgumentException(lang('Auth.unknownGroup', [$defaultGroup ?? '--not found--']));
+        }
+
+        $user->addGroup($defaultGroup);
+    }
+
     public function fake(Generator &$faker)
     {
         return [

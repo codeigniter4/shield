@@ -8,6 +8,14 @@ class AuthGroups extends BaseConfig
 {
     /**
      * --------------------------------------------------------------------
+     * Default Group
+     * --------------------------------------------------------------------
+     * The group that a newly registered user is added to.
+     */
+    public $defaultGroup = 'user';
+
+    /**
+     * --------------------------------------------------------------------
      * Groups
      * --------------------------------------------------------------------
      * The available authentication systems, listed

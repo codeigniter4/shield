@@ -46,15 +46,20 @@ final class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
         $result->assertStatus(302);
         $result->assertRedirect();
         $this->assertSame(site_url(), $result->getRedirectUrl());
+        // User saved to DB
         $this->seeInDatabase('users', [
             'username' => 'JohnDoe',
         ]);
+        // User has email/password identity
         $user = model('UserModel')->where('username', 'JohnDoe')->first();
         $this->seeInDatabase('auth_identities', [
             'user_id' => $user->id,
             'type'    => 'email_password',
             'secret'  => 'john.doe@example.com',
         ]);
+        // User added to default group
+        $this->assertTrue($user->inGroup(config('AuthGroups')->defaultGroup));
+        $this->assertFalse($user->inGroup('admin'));
     }
 
     public function testRegisterDisplaysForm()
