@@ -74,6 +74,9 @@ class RegisterController extends BaseController
         // Store the email/password identity for this user.
         $user->createEmailIdentity($this->request->getPost(['email', 'password']));
 
+        // Add to default group
+        $users->addToDefaultGroup($user);
+
         Events::trigger('didRegister', $user);
 
         // Success!

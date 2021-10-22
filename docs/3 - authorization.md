@@ -22,6 +22,15 @@ The key of the `$groups` array is the common term of the role. This is what you 
 role elsewhere, like checking if `$user->inGroup('superadmin')`. By default, the following groups are available: 
 `superadmin`, `admin`, `developer`, `user`, and `beta`.
 
+### Default User Group
+
+When a user is first registered on the site, they are assigned to a default user group. This group is defined in
+`app/config/AuthGroups::defaultGroup`, and must match the name of one of the defined groups.
+
+```php
+public $defaultGroup = 'users';
+```
+
 ## Defining Available Permissions
 
 All permissions must be added to the `AuthGroups` config file, also. A permission is simply a string consisting of
