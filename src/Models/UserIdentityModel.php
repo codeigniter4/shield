@@ -8,13 +8,11 @@ use Sparks\Shield\Entities\UserIdentity;
 
 class UserIdentityModel extends Model
 {
-    protected $table      = 'auth_identities';
-    protected $primaryKey = 'id';
-
+    protected $table          = 'auth_identities';
+    protected $primaryKey     = 'id';
     protected $returnType     = UserIdentity::class;
     protected $useSoftDeletes = false;
-
-    protected $allowedFields = [
+    protected $allowedFields  = [
         'user_id',
         'type',
         'name',
@@ -25,7 +23,6 @@ class UserIdentityModel extends Model
         'force_reset',
         'last_used_at',
     ];
-
     protected $useTimestamps = true;
 
     public function fake(Generator &$faker)

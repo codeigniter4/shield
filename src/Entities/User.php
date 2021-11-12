@@ -20,7 +20,6 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
         'deleted_at',
         'last_active',
     ];
-
     protected $casts = [
         'active'           => 'boolean',
         'force_pass_reset' => 'boolean',

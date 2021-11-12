@@ -15,7 +15,6 @@ final class GroupTest extends TestCase
 
     protected $refresh = true;
     protected $namespace;
-
     protected $groups;
 
     protected function setUp(): void

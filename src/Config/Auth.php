@@ -266,8 +266,9 @@ class Auth extends BaseConfig
      * cost. This makes the hashing process takes longer.
      */
     public $hashMemoryCost = 2048;  // PASSWORD_ARGON2_DEFAULT_MEMORY_COST;
-    public $hashTimeCost   = 4;       // PASSWORD_ARGON2_DEFAULT_TIME_COST;
-    public $hashThreads    = 4;        // PASSWORD_ARGON2_DEFAULT_THREADS;
+
+    public $hashTimeCost = 4;       // PASSWORD_ARGON2_DEFAULT_TIME_COST;
+    public $hashThreads  = 4;        // PASSWORD_ARGON2_DEFAULT_THREADS;
 
     /**
      * --------------------------------------------------------------------

@@ -12,13 +12,11 @@ class UserModel extends Model implements UserProvider
 {
     use UserProviderTrait;
 
-    protected $table      = 'users';
-    protected $primaryKey = 'id';
-
+    protected $table          = 'users';
+    protected $primaryKey     = 'id';
     protected $returnType     = User::class;
     protected $useSoftDeletes = true;
-
-    protected $allowedFields = [
+    protected $allowedFields  = [
         'username',
         'status',
         'status_message',
@@ -27,10 +25,8 @@ class UserModel extends Model implements UserProvider
         'deleted_at',
         'permissions',
     ];
-
     protected $useTimestamps = true;
-
-    protected $afterFind = ['fetchIdentities'];
+    protected $afterFind     = ['fetchIdentities'];
 
     /**
      * Whether identity records should be included

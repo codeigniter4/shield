@@ -16,6 +16,7 @@ class DictionaryValidator extends BaseValidator implements ValidatorInterface
      * @var string
      */
     protected $error;
+
     /**
      * @var string
      */
