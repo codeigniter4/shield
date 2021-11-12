@@ -30,7 +30,6 @@ final class SessionHandlerTest extends TestCase
     protected $auth;
 
     protected $namespace;
-
     protected $events;
 
     protected function setUp(): void

@@ -17,7 +17,6 @@ class AccessToken extends Entity
         'extra'        => 'array',
         'expires'      => 'datetime',
     ];
-
     protected $datamap = [
         'scopes' => 'extra',
     ];

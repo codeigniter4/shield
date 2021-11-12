@@ -23,7 +23,6 @@ class UserIdentity extends Entity
     protected $casts = [
         'force_reset' => 'boolean',
     ];
-
     protected $dates = [
         'expires',
         'last_used_at',
