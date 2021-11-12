@@ -18,7 +18,7 @@
 	],
 	"require": {
         "php": "^7.3 || ^8.0",
-        "codeigniter4/settings": "dev-develop"
+        "codeigniter4/settings": "^1.0"
     },
 	"provide": {
 		"codeigniter4/authentication-implementation": "1.0"
@@ -50,10 +50,6 @@
 		{
 			"type": "vcs",
 			"url": "https://github.com/codeigniter4/CodeIgniter4"
-		},
-		{
-			"type": "vcs",
-			"url": "https://github.com/codeigniter4/settings"
 		}
 	],
 	"minimum-stability": "dev",
