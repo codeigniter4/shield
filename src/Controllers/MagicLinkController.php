@@ -55,7 +55,7 @@ class MagicLinkController extends BaseController
 
         // Delete any previous magic-link identities
         $identities = new UserIdentityModel();
-        $identities->where('user_id', $user->id)
+        $identities->where('user_id', $user->getAuthId())
             ->where('type', 'magic-link')
             ->delete();
 
@@ -64,7 +64,7 @@ class MagicLinkController extends BaseController
         $token = random_string('crypto', 20);
 
         $identities->insert([
-            'user_id' => $user->id,
+            'user_id' => $user->getAuthId(),
             'type'    => 'magic-link',
             'secret'  => $token,
             'expires' => Time::now()->addSeconds(setting('Auth.magicLinkLifetime'))->toDateTimeString(),
@@ -73,7 +73,7 @@ class MagicLinkController extends BaseController
         // Send the user an email with the code
         $email = service('email');
         $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName'))
-            ->setTo($user->email)
+            ->setTo($user->getAuthEmail())
             ->setSubject(lang('Auth.magicLinkSubject'))
             ->setMessage(view(setting('Auth.views')['magic-link-email'], ['token' => $token]))
             ->send();

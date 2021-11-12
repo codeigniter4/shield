@@ -144,7 +144,7 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function lastLogin(bool $allowFailed = false)
     {
-        $logins = model('LoginModel');
+        $logins = model('LoginModel'); // @phpstan-ignore-line
 
         if (! $allowFailed) {
             $logins->where('success', 1)

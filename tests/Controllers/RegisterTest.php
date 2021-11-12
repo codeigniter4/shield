@@ -51,7 +51,7 @@ final class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
             'username' => 'JohnDoe',
         ]);
         // User has email/password identity
-        $user = model('UserModel')->where('username', 'JohnDoe')->first();
+        $user = model('UserModel')->where('username', 'JohnDoe')->first(); // @phpstan-ignore-line
         $this->seeInDatabase('auth_identities', [
             'user_id' => $user->id,
             'type'    => 'email_password',
