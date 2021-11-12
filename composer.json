@@ -17,32 +17,35 @@
 		}
 	],
 	"require": {
-        "php": "^7.3 || ^8.0",
-        "codeigniter4/settings": "^1.0"
-    },
+		"php": "^7.3 || ^8.0",
+		"codeigniter4/settings": "^1.0"
+	},
 	"provide": {
 		"codeigniter4/authentication-implementation": "1.0"
 	},
 	"require-dev": {
-		"codeigniter4/codeigniter4": "dev-develop",
 		"codeigniter/coding-standard": "^1.1",
+		"codeigniter4/codeigniter4": "dev-develop",
 		"fakerphp/faker": "^1.9",
-        "friendsofphp/php-cs-fixer": "^3.0",
-		"phpstan/phpstan": "^0.12.98",
-        "phpunit/phpunit": "^9.3",
+		"friendsofphp/php-cs-fixer": "^3.0",
 		"mockery/mockery": "^1.0",
-        "nexusphp/cs-config": "^3.1",
-        "nexusphp/tachycardia": "^1.0",
-        "php-coveralls/php-coveralls": "^2.4"
+		"nexusphp/cs-config": "^3.1",
+		"nexusphp/tachycardia": "^1.0",
+		"php-coveralls/php-coveralls": "^2.4",
+		"phpstan/phpstan": "^1.0",
+		"phpunit/phpunit": "^9.3"
 	},
 	"autoload": {
 		"psr-4": {
 			"Sparks\\Shield\\": "src"
-		}
+		},
+		"exclude-from-classmap": [
+			"**/Database/Migrations/**"
+		]
 	},
 	"autoload-dev": {
 		"psr-4": {
-            "Tests\\": "tests",
+			"Tests\\": "tests",
 			"Tests\\Support\\": "tests/_support"
 		}
 	},
@@ -58,10 +61,19 @@
 		"post-update-cmd": [
 			"bash admin/setup.sh"
 		],
-        "analyze": "phpstan analyze",
-        "inspect": "deptrac analyze --cache-file=build/deptrac.cache",
-        "mutate": "infection --threads=2 --skip-initial-tests --coverage=build/phpunit",
-        "style": "php-cs-fixer fix --verbose --ansi",
-        "test": "phpunit"
+		"analyze": "phpstan analyze",
+		"ci": [
+			"Composer\\Config::disableProcessTimeout",
+			"@deduplicate",
+			"@analyze",
+			"@test",
+			"@inspect",
+			"@style"
+		],
+		"deduplicate": "phpcpd app/ src/",
+		"inspect": "deptrac analyze --cache-file=build/deptrac.cache",
+		"mutate": "infection --threads=2 --skip-initial-tests --coverage=build/phpunit",
+		"style": "php-cs-fixer fix --verbose --ansi --using-cache=no",
+		"test": "phpunit"
 	}
 }

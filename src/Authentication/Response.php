@@ -5,9 +5,7 @@ namespace Sparks\Shield\Authentication;
 class Response
 {
     protected $error;
-
     protected $extraInfo;
-
     protected $user;
 
     /**

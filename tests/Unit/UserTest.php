@@ -17,8 +17,7 @@ final class UserTest extends TestCase
     use FakeUser;
 
     protected $namespace = '\Sparks\Shield';
-
-    protected $refresh = true;
+    protected $refresh   = true;
 
     public function testGetIdentitiesNone()
     {
@@ -56,7 +55,7 @@ final class UserTest extends TestCase
         $tokenIdentity = fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
 
         // Grab the user again, using the model's identity helper
-        $users = model(UserModel::class)->withIdentities()->findAll();
+        $users = model(UserModel::class)->withIdentities()->findAll(); // @phpstan-ignore-line
 
         $identities = $this->user->identities;
         $this->assertCount(2, $identities);

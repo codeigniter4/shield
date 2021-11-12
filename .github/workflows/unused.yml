@@ -1,6 +1,6 @@
-# When a PR is opened or a push is made, perform an
-# architectural inspection on the code using Deptrac.
-name: Deptrac
+# When a PR is opened or a push is made, check code
+# for unused packages with Composer Unused.
+name: Unused
 
 on:
   pull_request:
@@ -9,22 +9,18 @@ on:
     paths:
       - 'src/**'
       - 'tests/**'
-      - 'composer.**'
-      - 'depfile.yaml'
-      - '.github/workflows/inspect.yml'
+      - '.github/workflows/unused.yml'
   push:
     branches:
       - 'develop'
     paths:
       - 'src/**'
       - 'tests/**'
-      - 'composer.**'
-      - 'depfile.yaml'
-      - '.github/workflows/inspect.yml'
+      - '.github/workflows/unused.yml'
 
 jobs:
   build:
-    name: Architectural Inspection
+    name: Unused Package Detection
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,7 +30,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
-          tools: composer, pecl, phive
+          tools: composer, composer-unused
           extensions: intl, json, mbstring, xml
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -43,25 +39,12 @@ jobs:
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: Create composer cache directory
-        run: mkdir -p ${{ steps.composer-cache.outputs.dir }}
-
       - name: Cache composer dependencies
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
-
-      - name: Create Deptrac cache directory
-        run: mkdir -p build/
-
-      - name: Cache Deptrac results
-        uses: actions/cache@v2
-        with:
-          path: build
-          key: ${{ runner.os }}-deptrac-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-deptrac-
 
       - name: Install dependencies (limited)
         if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name }}
@@ -73,7 +56,5 @@ jobs:
         env:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
 
-      - name: Run architectural inspection
-        run: |
-          sudo phive --no-progress install --global --trust-gpg-keys B8F640134AB1782E,A98E898BB53EB748 qossmic/deptrac
-          deptrac analyze --cache-file=build/deptrac.cache
+      - name: Detect unused packages
+        run: composer-unused -vvv --profile --ansi --no-interaction --no-progress --excludePackage=php

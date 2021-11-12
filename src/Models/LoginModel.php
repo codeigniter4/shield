@@ -9,13 +9,11 @@ use Sparks\Shield\Entities\Login;
 
 class LoginModel extends Model
 {
-    protected $table      = 'auth_logins';
-    protected $primaryKey = 'id';
-
+    protected $table          = 'auth_logins';
+    protected $primaryKey     = 'id';
     protected $returnType     = Login::class;
     protected $useSoftDeletes = false;
-
-    protected $allowedFields = [
+    protected $allowedFields  = [
         'ip_address',
         'user_agent',
         'email',
@@ -23,9 +21,7 @@ class LoginModel extends Model
         'date',
         'success',
     ];
-
-    protected $useTimestamps = false;
-
+    protected $useTimestamps   = false;
     protected $validationRules = [
         'ip_address' => 'required',
         'email'      => 'required',

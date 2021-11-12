@@ -314,7 +314,7 @@ trait Authorizable
             ->get()
             ->getResultArray();
 
-        $this->groupCache = array_column($groups, 'group') ?? [];
+        $this->groupCache = array_column($groups, 'group');
     }
 
     /**
@@ -332,7 +332,7 @@ trait Authorizable
             ->get()
             ->getResultArray();
 
-        $this->permissionsCache = array_column($permissions, 'permission') ?? [];
+        $this->permissionsCache = array_column($permissions, 'permission');
     }
 
     /**

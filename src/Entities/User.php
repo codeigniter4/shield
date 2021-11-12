@@ -20,7 +20,6 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
         'deleted_at',
         'last_active',
     ];
-
     protected $casts = [
         'active'           => 'boolean',
         'force_pass_reset' => 'boolean',
@@ -144,7 +143,7 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function lastLogin(bool $allowFailed = false)
     {
-        $logins = model('LoginModel');
+        $logins = model('LoginModel'); // @phpstan-ignore-line
 
         if (! $allowFailed) {
             $logins->where('success', 1)

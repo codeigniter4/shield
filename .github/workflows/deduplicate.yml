@@ -7,16 +7,18 @@ on:
     branches:
       - 'develop'
     paths:
+      - 'app/**'
       - 'src/**'
       - 'tests/**'
-      - '.github/workflows/test-phpcpd.yml'
+      - '.github/workflows/deduplicate.yml'
   push:
     branches:
       - 'develop'
     paths:
+      - 'app/**'
       - 'src/**'
       - 'tests/**'
-      - '.github/workflows/test-phpcpd.yml'
+      - '.github/workflows/deduplicate.yml'
 
 jobs:
   build:
@@ -30,10 +32,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
-          tools: phive
-          extensions: intl, json, mbstring, xml
+          tools: phpcpd
+          extensions: dom, mbstring
 
       - name: Detect code duplication
-        run: |
-            sudo phive --no-progress install --global --trust-gpg-keys 4AA394086372C20A phpcpd 
-            phpcpd src/ tests/
+        run: phpcpd app/ src/ tests/

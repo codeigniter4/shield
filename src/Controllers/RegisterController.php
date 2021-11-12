@@ -92,7 +92,7 @@ class RegisterController extends BaseController
      */
     protected function getUserProvider()
     {
-        return model('UserModel');
+        return model('UserModel'); // @phpstan-ignore-line
     }
 
     /**

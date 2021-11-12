@@ -6,19 +6,16 @@ use CodeIgniter\Model;
 
 class RememberModel extends Model
 {
-    protected $table      = 'auth_remember_tokens';
-    protected $primaryKey = 'id';
-
+    protected $table          = 'auth_remember_tokens';
+    protected $primaryKey     = 'id';
     protected $returnType     = 'object';
     protected $useSoftDeletes = false;
-
-    protected $allowedFields = [
+    protected $allowedFields  = [
         'selector',
         'hashedValidator',
         'user_id',
         'expires',
     ];
-
     protected $useTimestamps = true;
 
     /**
