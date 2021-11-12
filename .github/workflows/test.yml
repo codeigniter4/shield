@@ -28,7 +28,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: composer, pecl, phpunit
+          tools: composer, infection, pecl, phive, phpunit
           extensions: intl, json, mbstring, gd, mysqlnd, xdebug, xml, sqlite3
           coverage: xdebug
         env:
@@ -64,13 +64,15 @@ jobs:
       - if: matrix.php-versions == '8.0'
         name: Mutate with Infection
         run: |
-          composer global require infection/infection
           git fetch --depth=1 origin $GITHUB_BASE_REF
           infection --threads=2 --skip-initial-tests --coverage=build/phpunit --git-diff-base=origin/$GITHUB_BASE_REF --git-diff-filter=AM --logger-github --ignore-msi-with-no-mutations
 
       - if: matrix.php-versions == '8.0'
         name: Run Coveralls
-        run: vendor/bin/php-coveralls --verbose --coverage_clover=build/phpunit/clover.xml --json_path build/phpunit/coveralls-upload.json
+        continue-on-error: true
+        run: |
+          sudo phive --no-progress install --global --trust-gpg-keys E82B2FB314E9906E php-coveralls
+          php-coveralls --verbose --coverage_clover=build/phpunit/clover.xml --json_path build/phpunit/coveralls-upload.json
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_PARALLEL: true

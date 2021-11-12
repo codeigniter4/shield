@@ -6,4 +6,3 @@ phpunit
 composer.lock
 .DS_Store
 .idea/
-.phpunit.result.cache
