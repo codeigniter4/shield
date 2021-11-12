@@ -14,7 +14,7 @@ use Sparks\Shield\Authentication\Actions\ActionInterface;
 class ActionController extends BaseController
 {
     /**
-     * @var \Sparks\Shield\Authentication\Actions\ActionInterface
+     * @var ActionInterface|null
      */
     protected $action;
 

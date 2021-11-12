@@ -33,7 +33,7 @@ trait HasAccessTokens
 
         $token = $identities
             ->asObject(AccessToken::class)
-            ->find($identities->insertId());
+            ->find($identities->getInsertID());
 
         $token->raw_token = $rawToken;
 
