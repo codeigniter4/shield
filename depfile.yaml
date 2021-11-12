@@ -109,6 +109,7 @@ ruleset:
     - Entity
     - Service
     - Vendor Config
+    - Vendor Entity
     - Vendor Model
   Service:
     - Config
@@ -116,6 +117,7 @@ ruleset:
 
   # Ignore anything in the Vendor layers
   Vendor Model:
+    - Config
     - Service
     - Vendor Config
     - Vendor Controller
@@ -130,6 +132,7 @@ ruleset:
     - Vendor Model
     - Vendor View
   Vendor Config:
+    - Config
     - Service
     - Vendor Config
     - Vendor Controller
