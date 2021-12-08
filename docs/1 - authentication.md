@@ -10,7 +10,7 @@ and Access Tokens handler which uses private access tokens passed in the headers
 
 The available handlers are defined in `Config\Auth`: 
 
-```
+```php
 public $authenticators = [
 		'session' => Session::class,
 		'tokens'  => AccessTokens::class,
@@ -19,7 +19,7 @@ public $authenticators = [
 
 The default handler is also defined in the configuration file, and uses the alias given above:
 
-```
+```php
 public $defaultAuthenticator = 'session';
 ```
 
@@ -29,7 +29,7 @@ The auth functionality is designed to be used with the `auth_helper` that comes 
 helper method provides the `auth()` command which returns a convenient interface to the most frequently
 used functionality within the auth libraries. This must be loaded before it can be used. 
 
-```
+```php
 helper('auth');
 
 // get the current user
@@ -48,7 +48,7 @@ single page applications (SPAs).
 When a user attempts to login with their email and password, you would call the `attempt()` method
 on the auth class, passing in their credentials.
 
-```
+```php
 $credentials = [
     'email' => $this->request->getPost('email'), 
     'password' => $this->request->getPost('password')
@@ -69,7 +69,7 @@ a login attempt is recorded in the `auth_logins` table.
 If `allowRemembering` is `true` in the `Auth` config file, you can tell the Session Handler
 to set a secure remember-me cookie. 
 
-```
+```php
 $loginAttempt = auth()->remember()->attempt($credentials);
 ```
 
@@ -78,7 +78,7 @@ $loginAttempt = auth()->remember()->attempt($credentials);
 If you would like to check a user's credentials without logging them in, you can use the `check()`
 method.
 
-```
+```php
 $credentials = [
     'email' => $this->request->getPost('email'), 
     'password' => $this->request->getPost('password')
@@ -96,7 +96,7 @@ if (! $validCreds->isOK())
 
 You can determine if a user is currently logged in with the aptly titled method, `loggedIn()`.
 
-```
+```php
 if (auth()->loggedIn()) 
 {
     // Do something.
@@ -109,7 +109,7 @@ You can call the `logout()` method to log the user out of the current session. T
 regenerate the current session, purge any remember-me tokens current for this user, and trigger a 
 `logout` event.
 
-```
+```php
 auth()->logout();
 ```
 
@@ -150,7 +150,7 @@ Access tokens are created through the `generateAccessToken()` method on the user
 give to the token as the first argument. The name is used to display it to the user so they can 
 differentiate between multiple tokens. 
 
-```
+```php
 $token = $user->generateAccessToken('Work Laptop');
 ```  
 
@@ -162,7 +162,7 @@ The plain text version should be displayed to the user immediately so they can c
 their use. If a user loses it, they cannot see the raw version anymore, but they can generate 
 a new token to use.
 
-```
+```php
 $token = $user->generateAccessToken('Work Laptop');
 
 // Only available immediately after creation.
@@ -174,7 +174,7 @@ echo $token->raw_token;
 Access tokens can be revoked through the `revokeAccessToken()` method. This takes the plain-text
 access token as the only argument. Revoking simply deletes the record from the database.
 
-```
+```php
 $user->revokeAccessToken($token);
 ```
 
@@ -184,7 +184,7 @@ token, you would need to get the user's access tokens and delete them manually.
 
 You can revoke all access tokens with the `revokeAllAccessTokens()` method.
 
-```
+```php
 $user->revokeAllAccessTokens($token);
 ```
 
@@ -192,7 +192,7 @@ $user->revokeAllAccessTokens($token);
 
 The following methods are available to help you retrieve a user's access tokens: 
 
-```
+```php
 // Retrieve a single token by plain text token
 $token = $user->getAccessToken($rawToken);
 
@@ -209,14 +209,14 @@ Each token can be given one or more scopes they can be used within. These can be
 permissions the token grants to the user. Scopes are provided when the token is generated and
 cannot be modified afterword.
 
-```
+```php
 $token = $user->gererateAccessToken('Work Laptop', ['posts:manage', 'forums:manage']);
 ```
 
 By default a user is granted a wildcard scope which provides access to all scopes. This is the
 same as:
 
-```
+```php
 $token = $user->gererateAccessToken('Work Laptop', ['*']);
 ``` 
 
@@ -224,7 +224,7 @@ During authentication, the token the user used is stored on the user. Once authe
 can use the `tokenCan()` and `tokenCant()` methods on the user to determine if they have access
 to the specified scope.
 
-```
+```php
 if ($user->tokenCan('posts:manage')) 
 {
     // do something....
@@ -246,7 +246,7 @@ work for both an SPA using session auth, and a mobile app using access tokens.
 
 Before you can use the filters you must define their aliases in `app/Config/Filters.php`:
 
-```
+```php
 public $aliases = [
     'csrf'     => CSRF::class,
     'toolbar'  => DebugToolbar::class,
