@@ -16,7 +16,7 @@ with your chosen persistence system to get the user records. Typically this is g
 and one is provided for you, at `Sparks\Shield\Models\UserModel`. This is defined in 
 `Config\Auth->userProvider`.
 
-```
+```php
 public $userProvider = 'Sparks\Shield\Models\UserModel';
 ```
 
@@ -68,7 +68,7 @@ appropriate for your application. The following Validators are available:
 
 You can choose which validators are used in `Config\Auth->passwordValidators`:
 
-```
+```php
 public $passwordValidators = [
 		'Sparks\Shield\Authentication\Passwords\CompositionValidator',
 		'Sparks\Shield\Authentication\Passwords\NothingPersonalValidator',

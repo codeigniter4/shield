@@ -7,7 +7,7 @@ All common authentication/authorization tasks should be immediately available th
 Note that Shield does not enforce specific authorization methods, but provides a Policy-based authorization system
 for use out of the box. Example functions would be: 
 
-```
+```php
 #
 # AUTHENTICATION
 #
@@ -61,7 +61,7 @@ auth()->authorize($entity/$model, 'action')
 
 Configuration is handled within the `Config/Auth.php` class, which would look something like this:
 
-```
+```php
 class Auth extends BaseConfig
 {
     public $authenticators = [

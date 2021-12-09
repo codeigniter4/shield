@@ -12,7 +12,7 @@ Shield ships with two actions you can use, and makes it simple for you to define
 
 Actions are setup in the `Auth` config file, with the `$actions` variable. 
 
-```
+```php
 public $actions = [
     'login'    => null,
     'register' => null,
@@ -21,7 +21,7 @@ public $actions = [
 
 To define an action to happen you will specify the class name as the value for the appropriate task:
 
-```
+```php
 public $actions = [
     'login'    => \Shield\Authentication\Actions\Email2FA::class,
     'register' => \Shield\Authentication\Actions\EmailActivate::class,
@@ -31,7 +31,7 @@ public $actions = [
 Once configured, everything should work out of the box. The routes are added with the basic `auth()->routes($routes)` 
 call, but can be manually added if you choose not to use this helper method. 
 
-```
+```php
 $routes->get('auth/a/show', 'ActionController::show');
 $routes->post('auth/a/handle', 'ActionController::handle');
 $routes->post('auth/a/verify', 'ActionController::verify');
