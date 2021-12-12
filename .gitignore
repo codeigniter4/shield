@@ -6,3 +6,7 @@ phpunit
 composer.lock
 .DS_Store
 .idea/
+node_modules
+docs/.vuepress/*
+!docs/.vuepress/config.js
+dist
