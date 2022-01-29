@@ -43,7 +43,7 @@ class AccessToken extends Entity
      */
     public function can(string $scope): bool
     {
-        if (empty($this->extra)) {
+        if ($this->extra === []) {
             return false;
         }
 
@@ -62,7 +62,7 @@ class AccessToken extends Entity
      */
     public function cant(string $scope): bool
     {
-        if (empty($this->extra)) {
+        if ($this->extra === []) {
             return true;
         }
 

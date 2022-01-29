@@ -25,16 +25,18 @@ trait UserProvider
         $email = $credentials['email'] ?? null;
         unset($credentials['email']);
 
+        $prefix = $this->db->DBPrefix;
+
         if (! empty($email)) {
             $this->select('users.*, auth_identities.secret as email, auth_identities.secret2 as password_hash')
                 ->join('auth_identities', 'auth_identities.user_id = users.id')
                 ->where('auth_identities.type', 'email_password')
-                ->where('LOWER(auth_identities.secret)', strtolower($email));
+                ->where("LOWER({$prefix}auth_identities.secret)", strtolower($email));
         }
 
         // any of the credentials used should be case-insensitive
         foreach ($credentials as $key => $value) {
-            $this->where("LOWER(users.{$key})", strtolower($value));
+            $this->where("LOWER({$prefix}users.{$key})", strtolower($value));
         }
 
         return $this->first();

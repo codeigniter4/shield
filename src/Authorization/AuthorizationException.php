@@ -2,7 +2,9 @@
 
 namespace Sparks\Shield\Authorization;
 
-class AuthorizationException extends \Exception
+use Exception;
+
+class AuthorizationException extends Exception
 {
     protected $code = 401;
 

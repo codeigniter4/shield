@@ -31,7 +31,7 @@ final class AccessTokenHandlerTest extends CIDatabaseTestCase
 
         $config = new Auth();
         $auth   = new Authentication($config);
-        $auth->setProvider(model(UserModel::class)); // @phpstan-ignore-line
+        $auth->setProvider(model(UserModel::class));
 
         /** @var AccessTokens $handler */
         $handler    = $auth->factory('tokens');

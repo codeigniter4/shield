@@ -44,7 +44,7 @@ class Authentication
     public function factory(?string $handler = null)
     {
         // Determine actual handler name
-        $handler = $handler ?? $this->config->defaultAuthenticator;
+        $handler ??= $this->config->defaultAuthenticator;
 
         // Return the cached instance if we have it
         if (! empty($this->instances[$handler])) {

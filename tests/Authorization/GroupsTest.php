@@ -3,6 +3,7 @@
 namespace Tests\Authorization;
 
 use CodeIgniter\Test\DatabaseTestTrait;
+use RuntimeException;
 use Sparks\Shield\Authorization\Groups;
 use Sparks\Shield\Entities\Group;
 use Tests\Support\TestCase;
@@ -71,7 +72,7 @@ final class GroupsTest extends TestCase
 
     public function testSaveGroupThrowsOnMissingTitle()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(lang('Auth.missingTitle'));
 
         $group = new Group([

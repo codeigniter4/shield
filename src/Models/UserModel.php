@@ -4,6 +4,7 @@ namespace Sparks\Shield\Models;
 
 use CodeIgniter\Model;
 use Faker\Generator;
+use InvalidArgumentException;
 use Sparks\Shield\Authentication\Traits\UserProvider as UserProviderTrait;
 use Sparks\Shield\Entities\User;
 use Sparks\Shield\Interfaces\UserProvider;
@@ -105,7 +106,7 @@ class UserModel extends Model implements UserProvider
         $allowedGroups = array_keys(setting('AuthGroups.groups'));
 
         if (empty($defaultGroup) || ! in_array($defaultGroup, $allowedGroups, true)) {
-            throw new \InvalidArgumentException(lang('Auth.unknownGroup', [$defaultGroup ?? '--not found--']));
+            throw new InvalidArgumentException(lang('Auth.unknownGroup', [$defaultGroup ?? '--not found--']));
         }
 
         $user->addGroup($defaultGroup);
