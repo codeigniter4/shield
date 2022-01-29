@@ -3,6 +3,7 @@
 namespace Sparks\Shield\Authorization\Traits;
 
 use CodeIgniter\I18n\Time;
+use Exception;
 use Sparks\Shield\Authorization\AuthorizationException;
 
 trait Authorizable
@@ -339,7 +340,7 @@ trait Authorizable
      * Inserts or Updates either the current groups
      * or the current permissions.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     private function saveGroupsOrPermissions(string $type)
     {

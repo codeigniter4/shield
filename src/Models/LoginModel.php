@@ -4,6 +4,7 @@ namespace Sparks\Shield\Models;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
+use Exception;
 use Faker\Generator;
 use Sparks\Shield\Entities\Login;
 
@@ -52,7 +53,7 @@ class LoginModel extends Model
     /**
      * Generate a fake login for testing
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return array
      */

@@ -18,7 +18,7 @@
 	],
 	"require": {
 		"php": "^7.3 || ^8.0",
-		"codeigniter4/settings": "^1.0"
+		"codeigniter4/settings": "^2.0"
 	},
 	"provide": {
 		"codeigniter4/authentication-implementation": "1.0"
@@ -33,7 +33,7 @@
 		"nexusphp/tachycardia": "^1.0",
 		"php-coveralls/php-coveralls": "^2.4",
 		"phpstan/phpstan": "^1.0",
-		"phpunit/phpunit": "^9.3"
+		"phpunit/phpunit": "^9.1"
 	},
 	"autoload": {
 		"psr-4": {

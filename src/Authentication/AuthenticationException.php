@@ -3,8 +3,9 @@
 namespace Sparks\Shield\Authentication;
 
 use CodeIgniter\HTTP\Exceptions\HTTPException;
+use Exception;
 
-class AuthenticationException extends \Exception
+class AuthenticationException extends Exception
 {
     protected $code = 403;
 

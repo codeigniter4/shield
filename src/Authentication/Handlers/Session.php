@@ -4,6 +4,7 @@ namespace Sparks\Shield\Authentication\Handlers;
 
 use CodeIgniter\Events\Events;
 use CodeIgniter\I18n\Time;
+use Exception;
 use InvalidArgumentException;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\AuthenticatorInterface;
@@ -46,8 +47,8 @@ class Session implements AuthenticatorInterface
     {
         helper('setting');
         $this->provider      = $provider;
-        $this->loginModel    = model(LoginModel::class); // @phpstan-ignore-line
-        $this->rememberModel = model(RememberModel::class); // @phpstan-ignore-line
+        $this->loginModel    = model(LoginModel::class);
+        $this->rememberModel = model(RememberModel::class);
     }
 
     /**
@@ -341,7 +342,7 @@ class Session implements AuthenticatorInterface
      *
      * @see https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function rememberUser(int $userID)
     {

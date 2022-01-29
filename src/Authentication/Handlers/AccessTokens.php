@@ -3,6 +3,7 @@
 namespace Sparks\Shield\Authentication\Handlers;
 
 use CodeIgniter\I18n\Time;
+use InvalidArgumentException;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\AuthenticatorInterface;
 use Sparks\Shield\Entities\AccessToken;
@@ -39,7 +40,7 @@ class AccessTokens implements AuthenticatorInterface
     {
         helper('session');
         $this->provider   = $provider;
-        $this->loginModel = model(LoginModel::class); // @phpstan-ignore-line
+        $this->loginModel = model(LoginModel::class);
     }
 
     /**
@@ -230,7 +231,7 @@ class AccessTokens implements AuthenticatorInterface
     public function recordActive()
     {
         if (! $this->user instanceof User) {
-            throw new \InvalidArgumentException(__CLASS__ . '::recordActive() requires logged in user before calling.');
+            throw new InvalidArgumentException(__CLASS__ . '::recordActive() requires logged in user before calling.');
         }
 
         $this->user->last_active = Time::now();

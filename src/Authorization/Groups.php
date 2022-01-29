@@ -2,6 +2,7 @@
 
 namespace Sparks\Shield\Authorization;
 
+use RuntimeException;
 use Sparks\Shield\Entities\Group;
 
 /**
@@ -41,7 +42,7 @@ class Groups
     public function save(Group $group)
     {
         if (empty($group->title)) {
-            throw new \RuntimeException(lang('Auth.missingTitle'));
+            throw new RuntimeException(lang('Auth.missingTitle'));
         }
 
         $groups = setting('AuthGroups.groups');

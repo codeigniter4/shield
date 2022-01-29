@@ -3,6 +3,7 @@
 namespace Sparks\Shield\Models;
 
 use CodeIgniter\Model;
+use DateTime;
 
 class RememberModel extends Model
 {
@@ -25,7 +26,7 @@ class RememberModel extends Model
      */
     public function rememberUser(int $userID, string $selector, string $validator, string $expires)
     {
-        $expires = new \DateTime($expires);
+        $expires = new DateTime($expires);
 
         return $this->insert([
             'user_id'         => $userID,
