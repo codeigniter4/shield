@@ -57,7 +57,8 @@ class Email2FA implements ActionInterface
         ]);
 
         // Send the user an email with the code
-        $email = service('email');
+        helper('email');
+        $email = emailer();
         $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName'))
             ->setTo($user->email)
             ->setSubject(lang('Auth.email2FASubject'))
