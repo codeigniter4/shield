@@ -37,7 +37,8 @@ class EmailActivator implements ActionInterface
         ]);
 
         // Send the email
-        $email = service('email');
+        helper('email');
+        $email = emailer();
         $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName'))
             ->setTo($user->email)
             ->setSubject(lang('Auth.emailActivateSubject'))
