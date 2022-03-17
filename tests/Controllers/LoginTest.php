@@ -86,6 +86,36 @@ final class LoginTest extends TestCase
         $this->assertSame($this->user->id, session('logged_in'));
     }
 
+    public function testLoginActionUsernameSuccess()
+    {
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $result = $this->post('/login', [
+            'username' => $this->user->username,
+            'password' => 'secret123',
+        ]);
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $this->assertSame(site_url(), $result->getRedirectUrl());
+
+        // Login should have been recorded successfully
+        $this->seeInDatabase('auth_logins', [
+            'email'   => 'foo@example.com',
+            'user_id' => $this->user->id,
+            'success' => true,
+        ]);
+        // Last Used date should have been set
+        $identity = $this->user->getEmailIdentity();
+        $this->assertCloseEnough($identity->last_used_at->getTimestamp(), \CodeIgniter\I18n\Time::now()->getTimestamp());
+
+        // Session should have `logged_in` value with user's id
+        $this->assertSame($this->user->id, session('logged_in'));
+    }
+
     public function testLogoutAction()
     {
 
