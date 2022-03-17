@@ -22,10 +22,11 @@ class LoginController extends BaseController
      */
     public function loginAction()
     {
-        $credentials             = $this->request->getPost(setting('Auth.validFields'));
+        $request                 = service('request');
+        $credentials             = $request->getPost(setting('Auth.validFields'));
         $credentials             = array_filter($credentials);
-        $credentials['password'] = $this->request->getPost('password');
-        $remember                = (bool) $this->request->getPost('remember');
+        $credentials['password'] = $request->getPost('password');
+        $remember                = (bool) $request->getPost('remember');
 
         // Attempt to login
         $result = auth('session')->remember($remember)->attempt($credentials);
