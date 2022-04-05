@@ -317,22 +317,6 @@ class Session implements AuthenticatorInterface
     }
 
     /**
-     * Record a login attempt
-     *
-     * @return bool|int|string
-     */
-    protected function recordLoginAttempt(string $email, bool $success, ?string $ipAddress = null, ?int $userID = null)
-    {
-        return $this->loginModel->insert([
-            'ip_address' => $ipAddress,
-            'email'      => $email,
-            'user_id'    => $userID,
-            'date'       => date('Y-m-d H:i:s'),
-            'success'    => (int) $success,
-        ]);
-    }
-
-    /**
      * Generates a timing-attack safe remember me token
      * and stores the necessary info in the db and a cookie.
      *
