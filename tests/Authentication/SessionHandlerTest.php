@@ -38,7 +38,7 @@ final class SessionHandlerTest extends TestCase
 
         $config = new Auth();
         $auth   = new Authentication($config);
-        $auth->setProvider(model(UserModel::class));
+        $auth->setProvider(model(UserModel::class)); // @phpstan-ignore-line
 
         /** @var Session $handler */
         $handler    = $auth->factory('session');
