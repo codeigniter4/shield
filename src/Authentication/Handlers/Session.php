@@ -186,10 +186,6 @@ class Session implements AuthenticatorInterface
 
         $this->user = $user;
 
-        // Always record a login attempt
-        $ipAddress = service('request')->getIPAddress();
-        $this->recordLoginAttempt($user->getAuthEmail(), true, $ipAddress, $user->getAuthId());
-
         // Update the user's last used date on their password identity.
         $this->user->touchIdentity($this->user->getEmailIdentity());
 
@@ -318,22 +314,6 @@ class Session implements AuthenticatorInterface
         $this->user->last_active = Time::now();
 
         $this->provider->save($this->user);
-    }
-
-    /**
-     * Record a login attempt
-     *
-     * @return bool|int|string
-     */
-    protected function recordLoginAttempt(string $email, bool $success, ?string $ipAddress = null, ?int $userID = null)
-    {
-        return $this->loginModel->insert([
-            'ip_address' => $ipAddress,
-            'email'      => $email,
-            'user_id'    => $userID,
-            'date'       => date('Y-m-d H:i:s'),
-            'success'    => (int) $success,
-        ]);
     }
 
     /**
