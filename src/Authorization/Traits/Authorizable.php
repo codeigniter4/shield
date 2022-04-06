@@ -20,8 +20,6 @@ trait Authorizable
 
     /**
      * Adds one or more groups to the current User.
-     *
-     * @param string ...$groups
      */
     public function addGroup(string ...$groups)
     {
@@ -58,8 +56,6 @@ trait Authorizable
 
     /**
      * Removes one or more groups from the user.
-     *
-     * @param string ...$groups
      *
      * @return self
      */
@@ -136,8 +132,6 @@ trait Authorizable
     /**
      * Adds one or more permissions to the current user.
      *
-     * @param string ...$permissions
-     *
      * @throws AuthorizationException
      *
      * @return $this
@@ -177,8 +171,6 @@ trait Authorizable
 
     /**
      * Removes one or more permissions from the current user.
-     *
-     * @param string ...$permissions
      *
      * @return $this
      */
@@ -284,8 +276,6 @@ trait Authorizable
     /**
      * Checks to see if the user is a member of one
      * of the groups passed in.
-     *
-     * @param string ...$groups
      */
     public function inGroup(string ...$groups): bool
     {
@@ -375,7 +365,7 @@ trait Authorizable
         }
 
         // Insert new ones
-        if (count($new)) {
+        if ($new !== []) {
             $inserts = [];
 
             foreach ($new as $item) {

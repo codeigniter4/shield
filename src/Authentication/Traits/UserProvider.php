@@ -2,12 +2,14 @@
 
 namespace Sparks\Shield\Authentication\Traits;
 
+use Sparks\Shield\Interfaces\Authenticatable;
+
 trait UserProvider
 {
     /**
      * Locates an identity object by ID.
      *
-     * @return \Sparks\Shield\Interfaces\Authenticatable|null
+     * @return Authenticatable|null
      */
     public function findById(int $id)
     {
@@ -17,7 +19,7 @@ trait UserProvider
     /**
      * Locate a user by the given credentials.
      *
-     * @return \Sparks\Shield\Interfaces\Authenticatable|null
+     * @return Authenticatable|null
      */
     public function findByCredentials(array $credentials)
     {
@@ -45,7 +47,7 @@ trait UserProvider
     /**
      * Find a user by their ID and "remember-me" token.
      *
-     * @return \Sparks\Shield\Interfaces\Authenticatable|null
+     * @return Authenticatable|null
      */
     public function findByRememberToken(int $id, string $token)
     {

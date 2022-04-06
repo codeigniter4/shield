@@ -1,13 +1,18 @@
 <?php
 
+namespace Tests\Controllers;
+
 use CodeIgniter\Config\Factories;
+use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\FeatureTestTrait;
+use Config\Services;
+use Sparks\Shield\Authentication\Actions\EmailActivator;
 use Sparks\Shield\Authentication\Passwords\ValidationRules;
 
 /**
  * @internal
  */
-final class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
+final class RegisterTest extends CIDatabaseTestCase
 {
     use FeatureTestTrait;
 
@@ -15,23 +20,23 @@ final class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
 
     protected function setUp(): void
     {
-        \Config\Services::reset();
+        Services::reset();
 
         parent::setUp();
 
         helper('auth');
-        \CodeIgniter\Config\Factories::reset();
+        Factories::reset();
 
         // Add auth routes
         $routes = service('routes');
         auth()->routes($routes);
-        \Config\Services::injectMock('routes', $routes);
+        Services::injectMock('routes', $routes);
 
         // Ensure password validation rule is present
         $config             = config('Validation');
         $config->ruleSets[] = ValidationRules::class;
         $config->ruleSets   = array_reverse($config->ruleSets);
-        \CodeIgniter\Config\Factories::injectMock('config', 'Validation', $config);
+        Factories::injectMock('config', 'Validation', $config);
     }
 
     public function testRegisterActionSuccess()
@@ -106,7 +111,7 @@ final class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
     {
         // Ensure our action is defined
         $config                      = config('Auth');
-        $config->actions['register'] = \Sparks\Shield\Authentication\Actions\EmailActivator::class;
+        $config->actions['register'] = EmailActivator::class;
         Factories::injectMock('config', 'Auth', $config);
 
         $result = $this->post('/register', [
@@ -124,6 +129,6 @@ final class RegisterTest extends \CodeIgniter\Test\CIDatabaseTestCase
     {
         $config             = config('Validation');
         $config->ruleSets[] = ValidationRules::class;
-        \CodeIgniter\Config\Factories::injectMock('config', 'Validation', $config);
+        Factories::injectMock('config', 'Validation', $config);
     }
 }

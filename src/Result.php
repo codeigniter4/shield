@@ -4,19 +4,14 @@ namespace Sparks\Shield;
 
 class Result
 {
-    /**
-     * @var bool
-     */
-    protected $success = false;
+    protected bool $success = false;
 
     /**
      * Provides a simple explanation of
      * the error that happened.
      * Typically a single sentence.
-     *
-     * @var string
      */
-    protected $reason;
+    protected ?string $reason = null;
 
     /**
      * Extra information available to describe

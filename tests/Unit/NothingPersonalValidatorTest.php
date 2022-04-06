@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Unit;
+
 use CodeIgniter\Test\CIUnitTestCase;
 use Sparks\Shield\Authentication\Passwords\NothingPersonalValidator;
 use Sparks\Shield\Config\Auth;
@@ -10,10 +12,7 @@ use Sparks\Shield\Entities\User;
  */
 final class NothingPersonalValidatorTest extends CIUnitTestCase
 {
-    /**
-     * @var NothingPersonalValidator
-     */
-    protected $validator;
+    protected NothingPersonalValidator $validator;
 
     protected function setUp(): void
     {
@@ -43,7 +42,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
 
     public function testFalseOnPasswordIsUsernameBackwards()
     {
-        $user = new \Sparks\Shield\Entities\User([
+        $user = new User([
             'email'    => 'JoeSmith@example.com',
             'username' => 'Joe Smith',
         ]);
@@ -59,7 +58,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
 
     public function testFalseOnPasswordAndUsernameTheSame()
     {
-        $user = new \Sparks\Shield\Entities\User([
+        $user = new User([
             'email'    => 'vampire@example.com',
             'username' => 'Vlad the Impaler',
         ]);
@@ -75,7 +74,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
 
     public function testTrueWhenPasswordHasNothingPersonal()
     {
-        $config                 = new \Sparks\Shield\Config\Auth();
+        $config                 = new Auth();
         $config->maxSimilarity  = 50;
         $config->personalFields = [
             'firstname',
@@ -83,7 +82,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         ];
         $this->validator->setConfig($config);
 
-        $user = new \Sparks\Shield\Entities\User([
+        $user = new User([
             'email'     => 'jsmith@example.com',
             'username'  => 'JoeS',
             'firstname' => 'Joseph',
@@ -114,18 +113,18 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
      */
     public function testIsNotPersonalFalsePositivesCaughtByIsNotSimilar($password)
     {
-        $user = new \Sparks\Shield\Entities\User([
+        new User([
             'username' => 'CaptainJoe',
             'email'    => 'JosephSmith@example.com',
         ]);
 
-        $config                = new \Sparks\Shield\Config\Auth();
+        $config                = new Auth();
         $config->maxSimilarity = 50;
         $this->validator->setConfig($config);
 
-        $isNotPersonal = $this->getPrivateMethodInvoker($this->validator, 'isNotPersonal', [$password, $user]); // @phpstan-ignore-line
+        $isNotPersonal = $this->getPrivateMethodInvoker($this->validator, 'isNotPersonal'); // @phpstan-ignore-line
 
-        $isNotSimilar = $this->getPrivateMethodInvoker($this->validator, 'isNotSimilar', [$password, $user]); // @phpstan-ignore-line
+        $isNotSimilar = $this->getPrivateMethodInvoker($this->validator, 'isNotSimilar'); // @phpstan-ignore-line
 
         $this->assertNotSame($isNotPersonal, $isNotSimilar);
     }
@@ -153,7 +152,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
      */
     public function testConfigPersonalFieldsValues($firstName, $lastName, $expected)
     {
-        $config                 = new \Sparks\Shield\Config\Auth();
+        $config                 = new Auth();
         $config->maxSimilarity  = 66;
         $config->personalFields = [
             'firstname',
@@ -161,7 +160,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         ];
         $this->validator->setConfig($config);
 
-        $user = new \Sparks\Shield\Entities\User([
+        $user = new User([
             'username'  => 'Vlad the Impaler',
             'email'     => 'vampire@example.com',
             'firstname' => $firstName,
@@ -209,11 +208,11 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
      */
     public function testMaxSimilarityZeroTurnsOffSimilarityCalculation($maxSimilarity, $expected)
     {
-        $config                = new \Sparks\Shield\Config\Auth();
+        $config                = new Auth();
         $config->maxSimilarity = $maxSimilarity;
         $this->validator->setConfig($config);
 
-        $user = new \Sparks\Shield\Entities\User([
+        $user = new User([
             'username' => 'CaptainJoe',
             'email'    => 'joseph@example.com',
         ]);

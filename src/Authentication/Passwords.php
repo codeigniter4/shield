@@ -14,10 +14,7 @@ use Sparks\Shield\Result;
  */
 class Passwords
 {
-    /**
-     * @var \Sparks\Shield\Config\Auth
-     */
-    protected $config;
+    protected Auth $config;
 
     public function __construct(Auth $config)
     {
@@ -81,7 +78,7 @@ class Passwords
      * Checks a password against all of the Validators specified
      * in `$passwordValidators` setting in Config\Auth.php.
      *
-     * @throws \Sparks\Shield\Authentication\AuthenticationException
+     * @throws AuthenticationException
      */
     public function check(string $password, ?User $user = null): Result
     {

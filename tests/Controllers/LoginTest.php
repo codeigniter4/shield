@@ -1,8 +1,13 @@
 <?php
 
+namespace Tests\Controllers;
+
 use CodeIgniter\Config\Factories;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
+use Config\Services;
+use Sparks\Shield\Authentication\Actions\Email2FA;
 use Tests\Support\FakeUser;
 use Tests\Support\TestCase;
 
@@ -26,7 +31,7 @@ final class LoginTest extends TestCase
         // Add auth routes
         $routes = service('routes');
         auth()->routes($routes);
-        \Config\Services::injectMock('routes', $routes);
+        Services::injectMock('routes', $routes);
     }
 
     public function testLoginBadEmail()
@@ -52,7 +57,7 @@ final class LoginTest extends TestCase
             'success' => 0,
         ]);
 
-        $this->assertTrue(! empty(session('error')));
+        $this->assertNotEmpty(session('error'));
         $this->assertSame(lang('Auth.badAttempt'), session('error'));
     }
 
@@ -80,7 +85,7 @@ final class LoginTest extends TestCase
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();
-        $this->assertCloseEnough($identity->last_used_at->getTimestamp(), \CodeIgniter\I18n\Time::now()->getTimestamp());
+        $this->assertCloseEnough($identity->last_used_at->getTimestamp(), Time::now()->getTimestamp());
 
         // Session should have `logged_in` value with user's id
         $this->assertSame($this->user->id, session('logged_in'));
@@ -110,7 +115,7 @@ final class LoginTest extends TestCase
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();
-        $this->assertCloseEnough($identity->last_used_at->getTimestamp(), \CodeIgniter\I18n\Time::now()->getTimestamp());
+        $this->assertCloseEnough($identity->last_used_at->getTimestamp(), Time::now()->getTimestamp());
 
         // Session should have `logged_in` value with user's id
         $this->assertSame($this->user->id, session('logged_in'));
@@ -134,7 +139,7 @@ final class LoginTest extends TestCase
     {
         // Ensure our action is defined
         $config                   = config('Auth');
-        $config->actions['login'] = \Sparks\Shield\Authentication\Actions\Email2FA::class;
+        $config->actions['login'] = Email2FA::class;
         Factories::injectMock('config', 'Auth', $config);
 
         $this->user->createEmailIdentity([

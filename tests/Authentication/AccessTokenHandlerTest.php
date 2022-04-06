@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Authentication;
+namespace Tests\Authentication;
 
 use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\Mock\MockEvents;
@@ -18,11 +18,7 @@ use Sparks\Shield\Result;
  */
 final class AccessTokenHandlerTest extends CIDatabaseTestCase
 {
-    /**
-     * @var AccessTokens
-     */
-    protected $auth;
-
+    protected AccessTokens $auth;
     protected $namespace = '\Sparks\Shield';
 
     protected function setUp(): void
@@ -31,7 +27,7 @@ final class AccessTokenHandlerTest extends CIDatabaseTestCase
 
         $config = new Auth();
         $auth   = new Authentication($config);
-        $auth->setProvider(model(UserModel::class));
+        $auth->setProvider(model(UserModel::class)); // @phpstan-ignore-line
 
         /** @var AccessTokens $handler */
         $handler    = $auth->factory('tokens');
@@ -95,7 +91,7 @@ final class AccessTokenHandlerTest extends CIDatabaseTestCase
         /** @var User $user */
         $user   = fake(UserModel::class);
         $token1 = $user->generateAccessToken('foo');
-        $token2 = $user->generateAccessToken('bar');
+        $user->generateAccessToken('bar');
 
         $this->setRequestHeader($token1->raw_token);
 

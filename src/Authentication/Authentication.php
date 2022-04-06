@@ -10,20 +10,11 @@ class Authentication
     /**
      * Instantiated handler objects,
      * stored by handler alias.
-     *
-     * @var array
      */
-    protected $instances = [];
+    protected array $instances = [];
 
-    /**
-     * @var UserProvider
-     */
-    protected $userProvider;
-
-    /**
-     * @var AuthConfig
-     */
-    protected $config;
+    protected ?UserProvider $userProvider = null;
+    protected AuthConfig $config;
 
     public function __construct(AuthConfig $config)
     {

@@ -1,4 +1,4 @@
-name: Unused
+name: PHPCSFixer
 
 on:
   pull_request:
@@ -6,32 +6,33 @@ on:
       - develop
     paths:
       - '**.php'
-      - 'composer.*'
-      - '.github/workflows/unused.yml'
+      - '.github/workflows/phpcsfixer.yml'
   push:
     branches:
       - develop
     paths:
       - '**.php'
-      - 'composer.*'
-      - '.github/workflows/unused.yml'
+      - '.github/workflows/phpcsfixer.yml'
 
 jobs:
   build:
-    name: Unused Package Detection
+    name: PHP ${{ matrix.php-versions }} Coding Standards
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['7.4', '8.0', '8.1']
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup PHP
+      - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
-          tools: composer, composer-unused
-          extensions: intl, json, mbstring, xml
+          php-version: ${{ matrix.php-versions }}
+          extensions: json, tokenizer
           coverage: none
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -56,5 +57,5 @@ jobs:
             composer update --no-progress --no-interaction --prefer-dist --optimize-autoloader
           fi
 
-      - name: Detect unused packages
-        run: composer-unused -vvv --output-format=github --ansi --no-interaction --no-progress
+      - name: Check code for standards compliance
+        run: vendor/bin/php-cs-fixer fix --verbose --ansi --dry-run --using-cache=no --diff

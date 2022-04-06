@@ -1,10 +1,11 @@
 <?php
 
-namespace Test\Authentication;
+namespace Tests\Authentication;
 
 use CodeIgniter\Config\Factories;
 use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\FeatureTestTrait;
+use Config\Services;
 use Sparks\Shield\Filters\SessionAuth;
 use Sparks\Shield\Models\UserModel;
 
@@ -19,7 +20,7 @@ final class SessionFilterTest extends CIDatabaseTestCase
 
     protected function setUp(): void
     {
-        \Config\Services::reset();
+        Services::reset();
 
         parent::setUp();
 
@@ -41,7 +42,7 @@ final class SessionFilterTest extends CIDatabaseTestCase
             echo 'Open';
         });
         $routes->get('login', 'AuthController::login', ['as' => 'login']);
-        \Config\Services::injectMock('routes', $routes);
+        Services::injectMock('routes', $routes);
     }
 
     public function testFilterNotAuthorized()

@@ -1,4 +1,4 @@
-name: Unused
+name: Infection
 
 on:
   pull_request:
@@ -7,18 +7,20 @@ on:
     paths:
       - '**.php'
       - 'composer.*'
-      - '.github/workflows/unused.yml'
+      - 'phpunit*'
+      - '.github/workflows/infection.yml'
   push:
     branches:
       - develop
     paths:
       - '**.php'
       - 'composer.*'
-      - '.github/workflows/unused.yml'
+      - 'phpunit*'
+      - '.github/workflows/infection.yml'
 
 jobs:
-  build:
-    name: Unused Package Detection
+  main:
+    name: Mutation Testing
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
@@ -26,15 +28,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup PHP
+      - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
-          tools: composer, composer-unused
-          extensions: intl, json, mbstring, xml
-          coverage: none
+          tools: infection, phpunit
+          extensions: intl, json, mbstring, gd, xml, sqlite3
+          coverage: xdebug
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up problem matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Configure matchers
+        uses: mheap/phpunit-matcher-action@v1
 
       - name: Get composer cache directory
         id: composer-cache
@@ -56,5 +64,10 @@ jobs:
             composer update --no-progress --no-interaction --prefer-dist --optimize-autoloader
           fi
 
-      - name: Detect unused packages
-        run: composer-unused -vvv --output-format=github --ansi --no-interaction --no-progress
+      - name: Test with PHPUnit
+        run: vendor/bin/phpunit --teamcity
+
+      - name: Mutate with Infection
+        run: |
+          git fetch --depth=1 origin $GITHUB_BASE_REF
+          infection --threads=2 --skip-initial-tests --coverage=build/phpunit --git-diff-base=origin/$GITHUB_BASE_REF --git-diff-filter=AM --logger-github --ignore-msi-with-no-mutations

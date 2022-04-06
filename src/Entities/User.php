@@ -99,8 +99,6 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
 
     /**
      * Update the last used at date for an identity record.
-     *
-     * @param \Sparks\Shield\Entities\UserIdentity $identity
      */
     public function touchIdentity(UserIdentity $identity)
     {

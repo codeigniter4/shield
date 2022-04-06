@@ -111,9 +111,9 @@ class RegisterController extends BaseController
     protected function getValidationRules()
     {
         return [
-            'username'     => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
-            'email'        => 'required|valid_email|is_unique[auth_identities.secret]',
-            'password'     => 'required|strong_password',
+            'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
+            'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
+            'password'         => 'required|strong_password',
             'password_confirm' => 'required|matches[password]',
         ];
     }

@@ -1,10 +1,11 @@
 <?php
 
-namespace Test\Authentication;
+namespace Tests\Authentication;
 
 use CodeIgniter\Config\Factories;
 use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\FeatureTestTrait;
+use Config\Services;
 use Sparks\Shield\Entities\AccessToken;
 use Sparks\Shield\Entities\User;
 use Sparks\Shield\Filters\TokenAuth;
@@ -21,7 +22,7 @@ final class TokenFilterTest extends CIDatabaseTestCase
 
     protected function setUp(): void
     {
-        \Config\Services::reset();
+        Services::reset();
 
         parent::setUp();
 
@@ -43,7 +44,7 @@ final class TokenFilterTest extends CIDatabaseTestCase
             echo 'Open';
         });
         $routes->get('login', 'AuthController::login', ['as' => 'login']);
-        \Config\Services::injectMock('routes', $routes);
+        Services::injectMock('routes', $routes);
     }
 
     public function testFilterNotAuthorized()

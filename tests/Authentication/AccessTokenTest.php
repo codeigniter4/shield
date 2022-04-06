@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Authentication;
+namespace Tests\Authentication;
 
 use CodeIgniter\Test\CIDatabaseTestCase;
 use Sparks\Shield\Entities\AccessToken;

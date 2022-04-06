@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Unit;
+
 use CodeIgniter\Test\CIUnitTestCase;
 use Sparks\Shield\Authentication\Passwords\DictionaryValidator;
 use Sparks\Shield\Config\Auth as AuthConfig;
@@ -9,10 +11,7 @@ use Sparks\Shield\Config\Auth as AuthConfig;
  */
 final class DictionaryValidatorTest extends CIUnitTestCase
 {
-    /**
-     * @var DictionaryValidator
-     */
-    protected $validator;
+    protected DictionaryValidator $validator;
 
     protected function setUp(): void
     {

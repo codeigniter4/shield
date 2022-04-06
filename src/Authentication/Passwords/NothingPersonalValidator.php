@@ -13,16 +13,6 @@ use Sparks\Shield\Result;
 class NothingPersonalValidator extends BaseValidator implements ValidatorInterface
 {
     /**
-     * @var string
-     */
-    protected $error;
-
-    /**
-     * @var string
-     */
-    protected $suggestion;
-
-    /**
      * Returns true if $password contains no part of the username
      * or the user's email. Otherwise, it returns false.
      * If true is returned the password will be passed to next validator.

@@ -26,21 +26,16 @@ class AccessTokens implements AuthenticatorInterface
      * the native User instead of Authenticatable
      *
      * @todo Fix interface issue described above
-     *
-     * @var User|null
      */
-    protected $user;
+    protected ?User $user = null;
 
-    /**
-     * @var LoginModel
-     */
-    protected $loginModel;
+    protected LoginModel $loginModel;
 
     public function __construct($provider)
     {
         helper('session');
         $this->provider   = $provider;
-        $this->loginModel = model(LoginModel::class);
+        $this->loginModel = model(LoginModel::class); // @phpstan-ignore-line
     }
 
     /**
@@ -231,7 +226,7 @@ class AccessTokens implements AuthenticatorInterface
     public function recordActive()
     {
         if (! $this->user instanceof User) {
-            throw new InvalidArgumentException(__CLASS__ . '::recordActive() requires logged in user before calling.');
+            throw new InvalidArgumentException(self::class . '::recordActive() requires logged in user before calling.');
         }
 
         $this->user->last_active = Time::now();

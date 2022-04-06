@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Authentication;
+namespace Tests\Authentication;
 
 use CodeIgniter\Test\DatabaseTestTrait;
 use Sparks\Shield\Authentication\AuthenticationException;
