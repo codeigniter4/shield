@@ -59,15 +59,6 @@ class RegisterController extends BaseController
             return redirect()->back()->withInput()->with('errors', $users->errors());
         }
 
-        // If an action has been defined for login, start it up.
-        $actionClass = setting('Auth.actions')['register'] ?? null;
-
-        if (! empty($actionClass)) {
-            $_SESSION['auth_action'] = $actionClass;
-
-            return redirect()->to('auth/a/show');
-        }
-
         // Get the updated user so we have the ID...
         $user = $users->find($users->getInsertID());
 
@@ -79,10 +70,17 @@ class RegisterController extends BaseController
 
         Events::trigger('didRegister', $user);
 
-        // Success!
-        $redirectURL = $this->getRedirectURL();
+        // If an action has been defined for login, start it up.
+        $actionClass = setting('Auth.actions')['register'] ?? null;
 
-        return redirect()->to($redirectURL)->with('message', lang('Auth.registerSuccess'));
+        if (! empty($actionClass)) {
+            session()->set('auth_action',$actionClass);
+
+            return redirect()->to('auth/a/show');
+        }
+
+        // Success!
+        return redirect()->to($this->getRedirectURL())->with('message', lang('Auth.registerSuccess'));
     }
 
     /**
