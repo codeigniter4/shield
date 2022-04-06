@@ -44,7 +44,7 @@ class LoginController extends BaseController
         // If an action has been defined for login, start it up.
         $actionClass = setting('Auth.actions')['login'] ?? null;
         if (! empty($actionClass)) {
-            $_SESSION['auth_action'] = $actionClass;
+            session('auth_action', $actionClass);
 
             return redirect()->to('auth/a/show');
         }
