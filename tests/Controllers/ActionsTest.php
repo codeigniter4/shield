@@ -1,7 +1,14 @@
 <?php
 
+namespace Tests\Controllers;
+
+use CodeIgniter\Config\Factories;
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
+use Config\Services;
+use Sparks\Shield\Authentication\Actions\Email2FA;
+use Sparks\Shield\Authentication\Actions\EmailActivator;
 use Sparks\Shield\Models\UserIdentityModel;
 use Sparks\Shield\Test\AuthenticationTesting;
 use Tests\Support\FakeUser;
@@ -27,13 +34,13 @@ final class ActionsTest extends TestCase
 
         // Ensure our actions are registered with the system
         $config                   = config('Auth');
-        $config->actions['login'] = \Sparks\Shield\Authentication\Actions\Email2FA::class;
-        \CodeIgniter\Config\Factories::injectMock('config', 'Auth', $config);
+        $config->actions['login'] = Email2FA::class;
+        Factories::injectMock('config', 'Auth', $config);
 
         // Add auth routes
         $routes = service('routes');
         auth()->routes($routes);
-        \Config\Services::injectMock('routes', $routes);
+        Services::injectMock('routes', $routes);
 
         $_SESSION = [];
 
@@ -42,7 +49,7 @@ final class ActionsTest extends TestCase
 
     public function testActionShowNoneAvailable()
     {
-        $this->expectException(\CodeIgniter\Exceptions\PageNotFoundException::class);
+        $this->expectException(PageNotFoundException::class);
 
         $result = $this->withSession([])->get('/auth/a/show');
 
@@ -54,7 +61,7 @@ final class ActionsTest extends TestCase
     {
         $result = $this->actingAs($this->user)
             ->withSession([
-                'auth_action' => \Sparks\Shield\Authentication\Actions\Email2FA::class,
+                'auth_action' => Email2FA::class,
             ])->get('/auth/a/show');
 
         $result->assertStatus(200);
@@ -66,7 +73,7 @@ final class ActionsTest extends TestCase
     {
         $result = $this->actingAs($this->user)
             ->withSession([
-                'auth_action' => \Sparks\Shield\Authentication\Actions\Email2FA::class,
+                'auth_action' => Email2FA::class,
             ])->post('/auth/a/handle', [
                 'email' => 'foo@example.com',
             ]);
@@ -80,7 +87,7 @@ final class ActionsTest extends TestCase
     {
         $result = $this->actingAs($this->user)
             ->withSession([
-                'auth_action' => \Sparks\Shield\Authentication\Actions\Email2FA::class,
+                'auth_action' => Email2FA::class,
             ])->post('/auth/a/handle', [
                 'email' => $this->user->email,
             ]);
@@ -95,7 +102,7 @@ final class ActionsTest extends TestCase
         ]);
 
         // Should have sent an email with the code....
-        $this->assertTrue(strpos(service('email')->archive['body'], 'Your authentication token is:') !== false);
+        $this->assertContains('Your authentication token is:', service('email')->archive['body']);
     }
 
     public function testEmail2FAVerifyFails()
@@ -110,7 +117,7 @@ final class ActionsTest extends TestCase
 
         $result = $this->actingAs($this->user)
             ->withSession([
-                'auth_action' => \Sparks\Shield\Authentication\Actions\Email2FA::class,
+                'auth_action' => Email2FA::class,
             ])->post('/auth/a/verify', [
                 'token' => '234567',
             ]);
@@ -131,7 +138,7 @@ final class ActionsTest extends TestCase
 
         $result = $this->actingAs($this->user)
             ->withSession([
-                'auth_action' => \Sparks\Shield\Authentication\Actions\Email2FA::class,
+                'auth_action' => Email2FA::class,
             ])->post('/auth/a/verify', [
                 'token' => '123456',
             ]);
@@ -153,14 +160,14 @@ final class ActionsTest extends TestCase
     {
         $result = $this->actingAs($this->user)
             ->withSession([
-                'auth_action' => \Sparks\Shield\Authentication\Actions\EmailActivator::class,
+                'auth_action' => EmailActivator::class,
             ])->get('/auth/a/show');
 
         $result->assertStatus(200);
 
         // Should have sent an email with the link....
-        $this->assertTrue(strpos(service('email')->archive['body'], 'Please click the link below to activate your account') !== false);
-        $this->assertTrue(strpos(service('email')->archive['body'], '/auth/a/verify?c=') !== false);
+        $this->assertContains('Please click the link below to activate your account', service('email')->archive['body']);
+        $this->assertContains('/auth/a/verify?c=', service('email')->archive['body']);
     }
 
     public function testEmailActivateVerify()
@@ -175,7 +182,7 @@ final class ActionsTest extends TestCase
 
         $result = $this->actingAs($this->user)
             ->withSession([
-                'auth_action' => \Sparks\Shield\Authentication\Actions\EmailActivator::class,
+                'auth_action' => EmailActivator::class,
             ])->post('/auth/a/verify', [
                 'token' => '123456',
             ]);

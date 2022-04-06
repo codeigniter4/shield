@@ -31,7 +31,7 @@ final class GroupTest extends TestCase
         $permissions = $group->permissions();
 
         $this->assertIsArray($permissions);
-        $this->assertTrue(in_array('users.create', $permissions, true));
+        $this->assertContains('users.create', $permissions);
     }
 
     public function testSavePermissions()
@@ -44,7 +44,7 @@ final class GroupTest extends TestCase
         $group->setPermissions($permissions);
         $permissions = $group->permissions();
 
-        $this->assertFalse(in_array('users.create', $permissions, true));
+        $this->assertNotContains('users.create', $permissions);
     }
 
     public function testAddPermission()
@@ -54,7 +54,7 @@ final class GroupTest extends TestCase
         $group->addPermission('foo.bar');
 
         $permissions = $group->permissions();
-        $this->assertTrue(in_array('foo.bar', $permissions, true));
+        $this->assertContains('foo.bar', $permissions);
     }
 
     public function testRemovePermission()
@@ -64,7 +64,7 @@ final class GroupTest extends TestCase
         $group->removePermission('users.edit');
 
         $permissions = $group->permissions();
-        $this->assertFalse(in_array('users.edit', $permissions, true));
+        $this->assertNotContains('users.edit', $permissions);
     }
 
     public function testCan()

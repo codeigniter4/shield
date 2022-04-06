@@ -3,8 +3,8 @@
 namespace Sparks\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
-use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
 
 /**
@@ -24,8 +24,7 @@ class TokenAuth implements FilterInterface
      * sent back to the client, allowing for error pages,
      * redirects, etc.
      *
-     * @param IncomingRequest|RequestInterface $request
-     * @param array|null                       $arguments
+     * @param array|null $arguments
      *
      * @return mixed
      */
@@ -45,9 +44,8 @@ class TokenAuth implements FilterInterface
     /**
      * We don't have anything to do here.
      *
-     * @param IncomingRequest|RequestInterface             $request
-     * @param \CodeIgniter\HTTP\Response|ResponseInterface $response
-     * @param array|null                                   $arguments
+     * @param Response|ResponseInterface $response
+     * @param array|null                 $arguments
      *
      * @return mixed
      */

@@ -74,6 +74,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // Are there files or rules you need to skip?
     $parameters->set(Option::SKIP, [
+        __DIR__ . '/src/Config/Auth.php',
         __DIR__ . '/src/Views',
 
         JsonThrowOnErrorRector::class,
@@ -90,6 +91,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // Ignore files that should not be namespaced
         NormalizeNamespaceByPSR4ComposerAutoloadRector::class => [
             __DIR__ . '/src/Helpers',
+            __DIR__ . '/tests/_support',
         ],
 
         // May load view files directly when detecting classes

@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Authentication;
+namespace Tests\Authentication;
 
 use Sparks\Shield\Authentication\Authentication;
 use Sparks\Shield\Authentication\AuthenticationException;
@@ -13,10 +13,7 @@ use Tests\Support\TestCase;
  */
 final class AuthenticationTest extends TestCase
 {
-    /**
-     * @var \Sparks\Shield\Authentication\Authentication
-     */
-    protected $auth;
+    protected Authentication $auth;
 
     protected function setUp(): void
     {

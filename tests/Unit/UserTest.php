@@ -1,6 +1,10 @@
 <?php
 
+namespace Tests\Unit;
+
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Test\DatabaseTestTrait;
+use Sparks\Shield\Entities\Login;
 use Sparks\Shield\Entities\UserIdentity;
 use Sparks\Shield\Models\LoginModel;
 use Sparks\Shield\Models\UserIdentityModel;
@@ -27,8 +31,8 @@ final class UserTest extends TestCase
 
     public function testGetIdentitiesSome()
     {
-        $passIdentity  = fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
-        $tokenIdentity = fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
 
         $identities = $this->user->identities;
         $this->assertCount(2, $identities);
@@ -36,8 +40,8 @@ final class UserTest extends TestCase
 
     public function testGetIdentitiesByType()
     {
-        $passIdentity  = fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
-        $tokenIdentity = fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
 
         $identities = $this->user->identitiesOfType('access_token');
         $this->assertCount(1, $identities);
@@ -49,13 +53,13 @@ final class UserTest extends TestCase
 
     public function testModelWithIdentities()
     {
-        $user2 = fake(UserModel::class);
+        fake(UserModel::class);
 
-        $passIdentity  = fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
-        $tokenIdentity = fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
 
         // Grab the user again, using the model's identity helper
-        $users = model(UserModel::class)->withIdentities()->findAll(); // @phpstan-ignore-line
+        model(UserModel::class)->withIdentities()->findAll(); // @phpstan-ignore-line
 
         $identities = $this->user->identities;
         $this->assertCount(2, $identities);
@@ -63,17 +67,17 @@ final class UserTest extends TestCase
 
     public function testLastLogin()
     {
-        $emailIdentity = fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'email_password', 'secret' => 'foo@example.com']);
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'email_password', 'secret' => 'foo@example.com']);
 
         // No logins found.
         $this->assertNull($this->user->lastLogin());
 
-        $login    = fake(LoginModel::class, ['email' => $this->user->email, 'user_id' => $this->user->id]);
-        $badLogin = fake(LoginModel::class, ['email' => $this->user->email, 'user_id' => $this->user->id, 'success' => false]);
+        $login = fake(LoginModel::class, ['email' => $this->user->email, 'user_id' => $this->user->id]);
+        fake(LoginModel::class, ['email' => $this->user->email, 'user_id' => $this->user->id, 'success' => false]);
 
         $last = $this->user->lastLogin();
-        $this->assertInstanceOf(\Sparks\Shield\Entities\Login::class, $last);
+        $this->assertInstanceOf(Login::class, $last);
         $this->assertSame($login->id, $last->id);
-        $this->assertInstanceOf(\CodeIgniter\I18n\Time::class, $last->date);
+        $this->assertInstanceOf(Time::class, $last->date);
     }
 }

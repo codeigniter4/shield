@@ -7,32 +7,20 @@ use Sparks\Shield\Authentication\Authentication;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\AuthenticatorInterface;
 use Sparks\Shield\Interfaces\Authenticatable;
+use Sparks\Shield\Interfaces\UserProvider;
 
 class Auth
 {
-    /**
-     * @var Authentication
-     */
-    protected $authenticate;
-
+    protected Authentication $authenticate;
     protected $authorize;
 
     /**
      * The handler to use for this request.
-     *
-     * @var string
      */
-    protected $handler;
+    protected ?string $handler = null;
 
-    /**
-     * @var Authenticatable
-     */
-    protected $user;
-
-    /**
-     * @var \Sparks\Shield\Interfaces\UserProvider
-     */
-    protected $userProvider;
+    protected ?Authenticatable $user      = null;
+    protected ?UserProvider $userProvider = null;
 
     public function __construct(Authentication $authenticate)
     {
@@ -142,9 +130,9 @@ class Auth
     /**
      * Returns the Model that is responsible for getting users.
      *
-     * @throws \Sparks\Shield\Authentication\AuthenticationException
+     * @throws AuthenticationException
      *
-     * @return mixed|\Sparks\Shield\Interfaces\UserProvider
+     * @return mixed|UserProvider
      */
     public function getProvider()
     {

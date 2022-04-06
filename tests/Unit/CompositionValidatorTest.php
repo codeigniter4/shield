@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Unit;
+
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\Passwords\CompositionValidator;
 use Sparks\Shield\Config\Auth;
@@ -10,15 +12,8 @@ use Tests\Support\TestCase;
  */
 final class CompositionValidatorTest extends TestCase
 {
-    /**
-     * @var CompositionValidator
-     */
-    protected $validator;
-
-    /**
-     * @var \Sparks\Shield\Config\Auth
-     */
-    protected $config;
+    protected CompositionValidator $validator;
+    protected Auth $config;
 
     protected function setUp(): void
     {
@@ -40,7 +35,7 @@ final class CompositionValidatorTest extends TestCase
         $this->config->minimumPasswordLength = 0;
         $this->validator->setConfig($this->config);
 
-        $result = $this->validator->check($password);
+        $this->validator->check($password);
     }
 
     public function testCheckFalse()

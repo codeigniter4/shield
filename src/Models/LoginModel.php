@@ -2,6 +2,7 @@
 
 namespace Sparks\Shield\Models;
 
+use CodeIgniter\Database\BaseResult;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
 use Exception;
@@ -36,7 +37,7 @@ class LoginModel extends Model
     /**
      *                          * @param bool        $success
      *
-     * @return \CodeIgniter\Database\BaseResult|false|int|object|string
+     * @return BaseResult|false|int|object|string
      */
     public function recordLoginAttempt(string $email, bool $success, ?string $ipAddress = null, ?string $userAgent = null, ?int $userID = null)
     {

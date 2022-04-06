@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Authentication;
+namespace Tests\Authentication;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Test\DatabaseTestTrait;

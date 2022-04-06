@@ -55,7 +55,7 @@ class ValidationRules
     /**
      * Builds a new user instance from the global request.
      *
-     * @return \Sparks\Shield\Entities\User
+     * @return User
      */
     protected function buildUserFromRequest()
     {
@@ -71,7 +71,7 @@ class ValidationRules
      *
      * @param array $data Assigned data
      *
-     * @return \Sparks\Shield\Entities\User
+     * @return User
      */
     protected function buildUserFromData(array $data = [])
     {
