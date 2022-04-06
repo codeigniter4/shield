@@ -30,14 +30,16 @@ class TokenAuth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        helper('auth');
-
         $result = auth('tokens')->authenticate([
-            'token' => $request->getHeaderLine('Authorization'),
+            'token' => $request->getHeaderLine(setting('Auth.authenticatorHeader')['tokens'] ?? 'Authorization'),
         ]);
 
         if (! $result->isOK()) {
             return redirect()->to('/login');
+        }
+        
+       if (setting('Auth.recordActiveDate')) {
+            auth('session')->recordActive();
         }
     }
 
