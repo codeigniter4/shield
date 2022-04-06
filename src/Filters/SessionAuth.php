@@ -30,8 +30,6 @@ class SessionAuth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        helper(['auth', 'setting']);
-
         if (! auth('session')->loggedIn()) {
             return redirect()->to('/login');
         }
