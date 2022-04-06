@@ -93,7 +93,7 @@ class Email2FA implements ActionInterface
             ->delete();
 
         // Clean up our session
-        unset($_SESSION['auth_action']);
+        session()->remove('auth_action');
 
         // Get our login redirect url
         $loginController = new LoginController();
