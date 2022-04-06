@@ -1,4 +1,4 @@
-name: Unused
+name: Rector
 
 on:
   pull_request:
@@ -7,30 +7,36 @@ on:
     paths:
       - '**.php'
       - 'composer.*'
-      - '.github/workflows/unused.yml'
+      - 'rector.php'
+      - '.github/workflows/rector.yml'
   push:
     branches:
       - develop
     paths:
       - '**.php'
       - 'composer.*'
-      - '.github/workflows/unused.yml'
+      - 'rector.php'
+      - '.github/workflows/rector.yml'
 
 jobs:
   build:
-    name: Unused Package Detection
+    name: PHP ${{ matrix.php-versions }} Rector Analysis
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['7.4', '8.0', '8.1']
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup PHP
+      - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
-          tools: composer, composer-unused
+          php-version: ${{ matrix.php-versions }}
+          tools: phpstan
           extensions: intl, json, mbstring, xml
           coverage: none
         env:
@@ -56,5 +62,7 @@ jobs:
             composer update --no-progress --no-interaction --prefer-dist --optimize-autoloader
           fi
 
-      - name: Detect unused packages
-        run: composer-unused -vvv --output-format=github --ansi --no-interaction --no-progress
+      - name: Analyze for refactoring
+        run: |
+          composer global require --dev rector/rector:^0.12.16
+          rector process --dry-run --no-progress-bar

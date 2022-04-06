@@ -1,4 +1,4 @@
-name: Unused
+name: PHPStan
 
 on:
   pull_request:
@@ -7,20 +7,26 @@ on:
     paths:
       - '**.php'
       - 'composer.*'
-      - '.github/workflows/unused.yml'
+      - 'phpstan*'
+      - '.github/workflows/phpstan.yml'
   push:
     branches:
       - develop
     paths:
       - '**.php'
       - 'composer.*'
-      - '.github/workflows/unused.yml'
+      - 'phpstan*'
+      - '.github/workflows/phpstan.yml'
 
 jobs:
   build:
-    name: Unused Package Detection
+    name: PHP ${{ matrix.php-versions }} Static Analysis
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['7.4', '8.0', '8.1']
 
     steps:
       - name: Checkout
@@ -29,8 +35,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
-          tools: composer, composer-unused
+          php-version: ${{ matrix.php-versions }}
+          tools: phpstan, phpunit
           extensions: intl, json, mbstring, xml
           coverage: none
         env:
@@ -47,6 +53,16 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
+      - name: Create PHPStan cache directory
+        run: mkdir -p build/phpstan
+
+      - name: Cache PHPStan results
+        uses: actions/cache@v2
+        with:
+          path: build/phpstan
+          key: ${{ runner.os }}-phpstan-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-phpstan-
+
       - name: Install dependencies
         run: |
           composer -q config -g github-oauth.github.com "${{ secrets.GITHUB_TOKEN }}"
@@ -56,5 +72,5 @@ jobs:
             composer update --no-progress --no-interaction --prefer-dist --optimize-autoloader
           fi
 
-      - name: Detect unused packages
-        run: composer-unused -vvv --output-format=github --ansi --no-interaction --no-progress
+      - name: Run static analysis
+        run: vendor/bin/phpstan analyze
