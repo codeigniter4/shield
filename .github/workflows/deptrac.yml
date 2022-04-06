@@ -1,4 +1,4 @@
-name: Unused
+name: Deptrac
 
 on:
   pull_request:
@@ -7,18 +7,20 @@ on:
     paths:
       - '**.php'
       - 'composer.*'
-      - '.github/workflows/unused.yml'
+      - 'depfile.yaml'
+      - '.github/workflows/deptrac.yml'
   push:
     branches:
       - develop
     paths:
       - '**.php'
       - 'composer.*'
-      - '.github/workflows/unused.yml'
+      - 'depfile.yaml'
+      - '.github/workflows/deptrac.yml'
 
 jobs:
   build:
-    name: Unused Package Detection
+    name: Dependency Tracing
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
@@ -26,11 +28,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup PHP
+      - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
-          tools: composer, composer-unused
+          tools: phive
           extensions: intl, json, mbstring, xml
           coverage: none
         env:
@@ -47,6 +49,16 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
+      - name: Create Deptrac cache directory
+        run: mkdir -p build/
+
+      - name: Cache Deptrac results
+        uses: actions/cache@v2
+        with:
+          path: build
+          key: ${{ runner.os }}-deptrac-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-deptrac-
+
       - name: Install dependencies
         run: |
           composer -q config -g github-oauth.github.com "${{ secrets.GITHUB_TOKEN }}"
@@ -56,5 +68,7 @@ jobs:
             composer update --no-progress --no-interaction --prefer-dist --optimize-autoloader
           fi
 
-      - name: Detect unused packages
-        run: composer-unused -vvv --output-format=github --ansi --no-interaction --no-progress
+      - name: Trace dependencies
+        run: |
+          sudo phive --no-progress install --global --trust-gpg-keys B8F640134AB1782E,A98E898BB53EB748 qossmic/deptrac
+          deptrac analyze --cache-file=build/deptrac.cache
