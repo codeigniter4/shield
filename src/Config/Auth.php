@@ -76,6 +76,16 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Name of Authenticator Header
+     * --------------------------------------------------------------------
+     * The name of Header that
+     */
+    public $authenticatorHeader = [
+        'tokens' => 'Authorization',
+    ];
+
+    /**
+     * --------------------------------------------------------------------
      * Default Authenticator
      * --------------------------------------------------------------------
      * The authentication handler to use when none is specified.
