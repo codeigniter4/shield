@@ -47,8 +47,8 @@ class Session implements AuthenticatorInterface
     {
         helper('setting');
         $this->provider      = $provider;
-        $this->loginModel    = model(LoginModel::class);
-        $this->rememberModel = model(RememberModel::class);
+        $this->loginModel    = model(LoginModel::class); // @phpstan-ignore-line
+        $this->rememberModel = model(RememberModel::class); // @phpstan-ignore-line
     }
 
     /**

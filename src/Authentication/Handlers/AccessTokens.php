@@ -40,7 +40,7 @@ class AccessTokens implements AuthenticatorInterface
     {
         helper('session');
         $this->provider   = $provider;
-        $this->loginModel = model(LoginModel::class);
+        $this->loginModel = model(LoginModel::class); // @phpstan-ignore-line
     }
 
     /**
