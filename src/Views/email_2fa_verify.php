@@ -20,7 +20,8 @@
 
 				<!-- Code -->
 				<div class="mb-2">
-					<input type="text" class="form-control" name="code" autocomplete="code" placeholder="000000" required />
+					<input type="number" class="form-control" name="token" autocomplete="token" placeholder="000000" 
+                           inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" required />
 				</div>
 
 				<div class="d-grid col-8 mx-auto m-3">
