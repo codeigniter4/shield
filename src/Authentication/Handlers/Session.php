@@ -21,27 +21,15 @@ class Session implements AuthenticatorInterface
      */
     protected $provider;
 
-    /**
-     * @var Authenticatable|null
-     */
-    protected $user;
-
-    /**
-     * @var LoginModel
-     */
-    protected $loginModel;
+    protected ?Authenticatable $user = null;
+    protected LoginModel $loginModel;
 
     /**
      * Should the user be remembered?
-     *
-     * @var bool
      */
-    protected $shouldRemember = false;
+    protected bool $shouldRemember = false;
 
-    /**
-     * @var RememberModel
-     */
-    protected $rememberModel;
+    protected RememberModel $rememberModel;
 
     public function __construct($provider)
     {
@@ -181,7 +169,7 @@ class Session implements AuthenticatorInterface
          * @todo Authenticatable should define getEmailIdentity() or this should require User
          */
         if (! $user instanceof User) {
-            throw new InvalidArgumentException(__CLASS__ . '::login() only accepts Shield User');
+            throw new InvalidArgumentException(self::class . '::login() only accepts Shield User');
         }
 
         $this->user = $user;
@@ -210,7 +198,7 @@ class Session implements AuthenticatorInterface
         // We'll give a 20% chance to need to do a purge since we
         // don't need to purge THAT often, it's just a maintenance issue.
         // to keep the table from getting out of control.
-        if (mt_rand(1, 100) <= 20) {
+        if (random_int(1, 100) <= 20) {
             $this->rememberModel->purgeOldRememberTokens();
         }
 
@@ -250,7 +238,7 @@ class Session implements AuthenticatorInterface
         // Destroy the session data - but ensure a session is still
         // available for flash messages, etc.
         if (isset($_SESSION)) {
-            foreach ($_SESSION as $key => $value) {
+            foreach (array_keys($_SESSION) as $key) {
                 $_SESSION[$key] = null;
                 unset($_SESSION[$key]);
             }
@@ -293,7 +281,7 @@ class Session implements AuthenticatorInterface
     /**
      * Returns the current user instance.
      *
-     * @return \Sparks\Shield\Interfaces\Authenticatable|null
+     * @return Authenticatable|null
      */
     public function getUser()
     {
@@ -308,7 +296,7 @@ class Session implements AuthenticatorInterface
     public function recordActive()
     {
         if (! $this->user instanceof User) {
-            throw new InvalidArgumentException(__CLASS__ . '::recordActive() requires logged in user before calling.');
+            throw new InvalidArgumentException(self::class . '::recordActive() requires logged in user before calling.');
         }
 
         $this->user->last_active = Time::now();

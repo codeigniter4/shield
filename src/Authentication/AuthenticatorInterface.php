@@ -10,7 +10,7 @@ interface AuthenticatorInterface
      * Attempts to authenticate a user with the given $credentials.
      * Logs the user in with a successful check.
      *
-     * @throws \Sparks\Shield\Authentication\AuthenticationException
+     * @throws AuthenticationException
      *
      * @return mixed
      */

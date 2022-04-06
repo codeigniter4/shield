@@ -13,16 +13,6 @@ use Sparks\Shield\Result;
 class DictionaryValidator extends BaseValidator implements ValidatorInterface
 {
     /**
-     * @var string
-     */
-    protected $error;
-
-    /**
-     * @var string
-     */
-    protected $suggestion;
-
-    /**
      * Checks the password against the words in the file and returns false
      * if a match is found. Returns true if no match is found.
      * If true is returned the password will be passed to next validator.

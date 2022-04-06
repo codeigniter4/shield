@@ -1,10 +1,11 @@
 <?php
 
-namespace Test\Authentication;
+namespace Tests\Authentication;
 
 use CodeIgniter\Config\Factories;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
+use Config\Services;
 use Sparks\Shield\Entities\AccessToken;
 use Sparks\Shield\Entities\User;
 use Sparks\Shield\Filters\ChainAuth;
@@ -24,7 +25,7 @@ final class ChainFilterTest extends TestCase
 
     protected function setUp(): void
     {
-        \Config\Services::reset();
+        Services::reset();
 
         parent::setUp();
 
@@ -46,7 +47,7 @@ final class ChainFilterTest extends TestCase
             echo 'Open';
         });
         $routes->get('login', 'AuthController::login', ['as' => 'login']);
-        \Config\Services::injectMock('routes', $routes);
+        Services::injectMock('routes', $routes);
     }
 
     public function testFilterNotAuthorized()

@@ -6,7 +6,7 @@ use CodeIgniter\Config\BaseConfig;
 
 class AuthRoutes extends BaseConfig
 {
-    public $routes = [
+    public array $routes = [
         'register' => [
             [
                 'get',

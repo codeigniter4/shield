@@ -1,9 +1,10 @@
 <?php
 
-namespace Test\Authentication;
+namespace Tests\Authentication;
 
 use CodeIgniter\Test\CIDatabaseTestCase;
 use Sparks\Shield\Entities\AccessToken;
+use Sparks\Shield\Entities\User;
 use Sparks\Shield\Models\UserIdentityModel;
 use Sparks\Shield\Models\UserModel;
 
@@ -13,11 +14,7 @@ use Sparks\Shield\Models\UserModel;
 final class HasAccessTokensTest extends CIDatabaseTestCase
 {
     protected $namespace = '\Sparks\Shield';
-
-    /**
-     * @var \Sparks\Shield\Entities\User
-     */
-    protected $user;
+    protected User $user;
 
     protected function setUp(): void
     {
@@ -97,8 +94,8 @@ final class HasAccessTokensTest extends CIDatabaseTestCase
 
     public function testRevokeAllAccessTokens()
     {
-        $token1 = $this->user->generateAccessToken('foo');
-        $token2 = $this->user->generateAccessToken('foo');
+        $this->user->generateAccessToken('foo');
+        $this->user->generateAccessToken('foo');
 
         $this->assertCount(2, $this->user->accessTokens());
 

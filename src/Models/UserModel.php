@@ -32,10 +32,8 @@ class UserModel extends Model implements UserProvider
     /**
      * Whether identity records should be included
      * when user records are fetched from the database.
-     *
-     * @var bool
      */
-    protected $fetchIdentities = false;
+    protected bool $fetchIdentities = false;
 
     /**
      * Mark the next find* query to include identities

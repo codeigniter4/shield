@@ -365,7 +365,7 @@ trait Authorizable
         }
 
         // Insert new ones
-        if (count($new)) {
+        if ($new !== []) {
             $inserts = [];
 
             foreach ($new as $item) {

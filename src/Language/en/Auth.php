@@ -1,5 +1,7 @@
 <?php
 
+namespace Sparks\Shield\Language\en;
+
 return [
     // Exceptions
     'unknownHandler'      => '{0} is not a valid auth handler.',

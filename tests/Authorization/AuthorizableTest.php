@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Authorization;
+namespace Tests\Authorization;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Test\DatabaseTestTrait;
@@ -19,11 +19,7 @@ final class AuthorizableTest extends TestCase
 
     protected $refresh = true;
     protected $namespace;
-
-    /**
-     * @var UserModel
-     */
-    protected $model;
+    protected UserModel $model;
 
     protected function setUp(): void
     {

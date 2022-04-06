@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Authentication;
+namespace Tests\Authentication;
 
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\Mock\MockEvents;
@@ -24,11 +24,7 @@ final class SessionHandlerTest extends TestCase
     use DatabaseTestTrait;
     use FakeUser;
 
-    /**
-     * @var Session
-     */
-    protected $auth;
-
+    protected Session $auth;
     protected $namespace;
     protected $events;
 
@@ -116,7 +112,7 @@ final class SessionHandlerTest extends TestCase
 
         $this->auth->logout();
 
-        $this->assertFalse(isset($_SESSION['logged_in']));
+        $this->assertArrayNotHasKey('logged_in', $_SESSION);
         $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
     }
 
@@ -258,7 +254,7 @@ final class SessionHandlerTest extends TestCase
             'password' => 'secret123',
         ]);
 
-        $this->assertFalse(isset($_SESSION['logged_in']));
+        $this->assertArrayNotHasKey('logged_in', $_SESSION);
 
         $result = $this->auth->attempt([
             'email'    => $this->user->email,
@@ -271,7 +267,7 @@ final class SessionHandlerTest extends TestCase
         $foundUser = $result->extraInfo();
         $this->assertSame($this->user->id, $foundUser->id);
 
-        $this->assertTrue(isset($_SESSION['logged_in']));
+        $this->assertArrayHasKey('logged_in', $_SESSION);
         $this->assertSame($this->user->id, $_SESSION['logged_in']);
 
         // A login attempt should have been recorded
@@ -288,7 +284,7 @@ final class SessionHandlerTest extends TestCase
             'password' => 'secret123',
         ]);
 
-        $this->assertFalse(isset($_SESSION['logged_in']));
+        $this->assertArrayNotHasKey('logged_in', $_SESSION);
 
         $result = $this->auth->attempt([
             'email'    => 'foo@example.COM',
@@ -301,7 +297,7 @@ final class SessionHandlerTest extends TestCase
         $foundUser = $result->extraInfo();
         $this->assertSame($this->user->id, $foundUser->id);
 
-        $this->assertTrue(isset($_SESSION['logged_in']));
+        $this->assertArrayHasKey('logged_in', $_SESSION);
         $this->assertSame($this->user->id, $_SESSION['logged_in']);
 
         // A login attempt should have been recorded
@@ -320,7 +316,7 @@ final class SessionHandlerTest extends TestCase
             'password' => 'secret123',
         ]);
 
-        $this->assertFalse(isset($_SESSION['logged_in']));
+        $this->assertArrayNotHasKey('logged_in', $_SESSION);
 
         $result = $this->auth->attempt([
             'username' => 'fooROG',
@@ -333,7 +329,7 @@ final class SessionHandlerTest extends TestCase
         $foundUser = $result->extraInfo();
         $this->assertSame($user->id, $foundUser->id);
 
-        $this->assertTrue(isset($_SESSION['logged_in']));
+        $this->assertArrayHasKey('logged_in', $_SESSION);
         $this->assertSame($user->id, $_SESSION['logged_in']);
 
         // A login attempt should have been recorded

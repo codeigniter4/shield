@@ -22,26 +22,12 @@ use Sparks\Shield\Result;
 class PwnedValidator extends BaseValidator implements ValidatorInterface
 {
     /**
-     * Error message.
-     *
-     * @var string
-     */
-    protected $error;
-
-    /**
-     * Suggestion message.
-     *
-     * @var string
-     */
-    protected $suggestion;
-
-    /**
      * Checks the password against the online database and
      * returns false if a match is found. Returns true if no match is found.
      * If true is returned the password will be passed to next validator.
      * If false is returned the validation process will be immediately stopped.
      *
-     * @throws \Sparks\Shield\Authentication\AuthenticationException
+     * @throws AuthenticationException
      */
     public function check(string $password, ?Entity $user = null): Result
     {
@@ -75,12 +61,7 @@ class PwnedValidator extends BaseValidator implements ValidatorInterface
 
         $startPos += 36; // right after the delimiter (:)
         $endPos = strpos($range, "\r\n", $startPos);
-        if ($endPos !== false) {
-            $hits = (int) substr($range, $startPos, $endPos - $startPos);
-        } else {
-            // match is the last item in the range which does not end with "\r\n"
-            $hits = (int) substr($range, $startPos);
-        }
+        $hits   = $endPos !== false ? (int) substr($range, $startPos, $endPos - $startPos) : (int) substr($range, $startPos);
 
         $wording = $hits > 1 ? 'databases' : 'a database';
 

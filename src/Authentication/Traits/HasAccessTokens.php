@@ -82,7 +82,7 @@ trait HasAccessTokens
      *
      * @param string $token
      *
-     * @return \Sparks\Shield\Entities\AccessToken|null
+     * @return AccessToken|null
      */
     public function getAccessToken(?string $token)
     {
@@ -102,7 +102,7 @@ trait HasAccessTokens
     /**
      * Given the ID, returns the given access token.
      *
-     * @return \Sparks\Shield\Entities\AccessToken|null
+     * @return AccessToken|null
      */
     public function getAccessTokenById(int $id)
     {
@@ -146,7 +146,7 @@ trait HasAccessTokens
     /**
      * Returns the current access token for the user.
      *
-     * @return \Sparks\Shield\Entities\AccessToken
+     * @return AccessToken
      */
     public function currentAccessToken()
     {
@@ -156,7 +156,7 @@ trait HasAccessTokens
     /**
      * Sets the current active token for this user.
      *
-     * @param \Sparks\Shield\Entities\AccessToken $accessToken
+     * @param AccessToken $accessToken
      *
      * @return $this
      */
