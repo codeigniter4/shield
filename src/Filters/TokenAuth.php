@@ -37,8 +37,8 @@ class TokenAuth implements FilterInterface
         if (! $result->isOK()) {
             return redirect()->to('/login');
         }
-        
-       if (setting('Auth.recordActiveDate')) {
+
+        if (setting('Auth.recordActiveDate')) {
             auth('session')->recordActive();
         }
     }
