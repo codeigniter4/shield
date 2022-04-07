@@ -62,16 +62,19 @@ class AuthRoutes extends BaseConfig
                 'get',
                 'auth/a/show',
                 'ActionController::show',
+                'auth-action-show',
             ],
             [
                 'post',
                 'auth/a/handle',
                 'ActionController::handle',
+                'auth-action-handle',
             ],
             [
                 'post',
                 'auth/a/verify',
                 'ActionController::verify',
+                'auth-action-verify',
             ],
         ],
     ];
