@@ -46,7 +46,7 @@ class LoginController extends BaseController
         if (! empty($actionClass)) {
             session()->set('auth_action', $actionClass);
 
-            return redirect()->to('auth/a/show');
+            return redirect()->to(route_to('auth-action-show'));
         }
 
         return redirect()->to($this->getLoginRedirect($user));
