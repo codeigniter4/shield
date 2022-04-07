@@ -102,7 +102,7 @@ final class ActionsTest extends TestCase
         ]);
 
         // Should have sent an email with the code....
-        $this->assertContains('Your authentication token is:', service('email')->archive['body']);
+        $this->assertStringContainsString('Your authentication token is:', service('email')->archive['body']);
     }
 
     public function testEmail2FAVerifyFails()
@@ -166,8 +166,8 @@ final class ActionsTest extends TestCase
         $result->assertStatus(200);
 
         // Should have sent an email with the link....
-        $this->assertContains('Please click the link below to activate your account', service('email')->archive['body']);
-        $this->assertContains('/auth/a/verify?c=', service('email')->archive['body']);
+        $this->assertStringContainsString('Please click the link below to activate your account', service('email')->archive['body']);
+        $this->assertStringContainsString('/auth/a/verify?c=', service('email')->archive['body']);
     }
 
     public function testEmailActivateVerify()

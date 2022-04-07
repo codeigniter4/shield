@@ -67,13 +67,6 @@ final class SessionHandlerTest extends TestCase
 
         $this->assertSame($this->user->id, $_SESSION['logged_in']);
 
-        // Login attempt should have been recorded
-        $this->seeInDatabase('auth_logins', [
-            'user_id' => $this->user->id,
-            'email'   => $this->user->email,
-            'success' => true,
-        ]);
-
         $this->dontSeeInDatabase('auth_remember_tokens', [
             'user_id' => $this->user->id,
         ]);
@@ -86,13 +79,6 @@ final class SessionHandlerTest extends TestCase
         $this->assertTrue($this->auth->remember()->login($this->user));
 
         $this->assertSame($this->user->id, $_SESSION['logged_in']);
-
-        // Login attempt should have been recorded
-        $this->seeInDatabase('auth_logins', [
-            'user_id' => $this->user->id,
-            'email'   => $this->user->email,
-            'success' => true,
-        ]);
 
         $this->seeInDatabase('auth_remember_tokens', [
             'user_id' => $this->user->id,
@@ -302,7 +288,7 @@ final class SessionHandlerTest extends TestCase
 
         // A login attempt should have been recorded
         $this->seeInDatabase('auth_logins', [
-            'email'   => $this->user->email,
+            'email'   => 'foo@example.COM',
             'success' => 1,
         ]);
     }
@@ -334,7 +320,7 @@ final class SessionHandlerTest extends TestCase
 
         // A login attempt should have been recorded
         $this->seeInDatabase('auth_logins', [
-            'email'   => $user->email,
+            'email'   => 'fooROG',
             'success' => 1,
         ]);
     }

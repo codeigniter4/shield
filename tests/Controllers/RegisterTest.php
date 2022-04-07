@@ -45,12 +45,14 @@ final class RegisterTest extends CIDatabaseTestCase
             'username'     => 'JohnDoe',
             'email'        => 'john.doe@example.com',
             'password'     => 'secret things might happen here',
-            'pass_confirm' => 'secret things might happen here',
+            'password_confirm' => 'secret things might happen here',
         ]);
 
         $result->assertStatus(302);
         $result->assertRedirect();
+
         $this->assertSame(site_url(), $result->getRedirectUrl());
+
         // User saved to DB
         $this->seeInDatabase('users', [
             'username' => 'JohnDoe',
@@ -79,7 +81,7 @@ final class RegisterTest extends CIDatabaseTestCase
     {
         $config                    = config('Auth');
         $config->allowRegistration = false;
-        CodeIgniter\Config\Config::injectMock('Auth', $config);
+        Factories::injectMock('config', 'Auth', $config);
 
         $result = $this->withSession()->get('/register');
 
@@ -91,7 +93,7 @@ final class RegisterTest extends CIDatabaseTestCase
     {
         $config                    = config('Auth');
         $config->allowRegistration = false;
-        CodeIgniter\Config\Config::injectMock('Auth', $config);
+        Factories::injectMock('config', 'Auth', $config);
 
         $result = $this->withSession()->post('/register');
 
@@ -118,7 +120,7 @@ final class RegisterTest extends CIDatabaseTestCase
             'email'        => 'foo@example.com',
             'username'     => 'foo',
             'password'     => 'abkdhflkjsdflkjasd;lkjf',
-            'pass_confirm' => 'abkdhflkjsdflkjasd;lkjf',
+            'password_confirm' => 'abkdhflkjsdflkjasd;lkjf',
         ]);
 
         // Should have been redirected to the action's page.
