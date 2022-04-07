@@ -74,7 +74,7 @@ class RegisterController extends BaseController
         $actionClass = setting('Auth.actions')['register'] ?? null;
 
         if (! empty($actionClass)) {
-            session()->set('auth_action',$actionClass);
+            session()->set('auth_action', $actionClass);
 
             return redirect()->to('auth/a/show');
         }
