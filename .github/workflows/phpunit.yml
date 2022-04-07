@@ -66,6 +66,7 @@ jobs:
         env:
           TERM: xterm-256color
           TACHYCARDIA_MONITOR_GA: enabled
+          continue-on-error: ${{matrix.php-versions == '8.1' }}
 
       - if: matrix.php-versions == '8.0'
         name: Run Coveralls
