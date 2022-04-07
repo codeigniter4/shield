@@ -39,7 +39,7 @@ class EmailActivator implements ActionInterface
         // Send the email
         helper('email');
         $email = emailer();
-        $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName'))
+        $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
             ->setTo($user->email)
             ->setSubject(lang('Auth.emailActivateSubject'))
             ->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]))
@@ -67,7 +67,7 @@ class EmailActivator implements ActionInterface
      */
     public function verify(IncomingRequest $request)
     {
-        $token    = $request->getVar('token', FILTER_SANITIZE_STRING);
+        $token    = $request->getVar('token');
         $user     = auth()->user();
         $identity = $user->getIdentity('email_activate');
 
