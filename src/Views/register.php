@@ -9,9 +9,11 @@
             <div class="card-body">
                 <h5 class="card-title mb-5"><?= lang('Auth.register') ?></h5>
 
-			<?php if (session('error') !== null) : ?>
-			<div class="alert alert-danger"><?= session('error') ?></div>
-			<?php endif ?>
+                <?php if (session('error') !== null) : ?>
+                    <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+                <?php elseif (session('errors') !== null) : ?>
+                    <?= session('errors') ?>
+                <?php endif ?>
 
                 <form action="<?= route_to('register') ?>" method="post">
                     <?= csrf_field() ?>
