@@ -122,9 +122,9 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $config->maxSimilarity = 50;
         $this->validator->setConfig($config);
 
-        $isNotPersonal = $this->getPrivateMethodInvoker($this->validator, 'isNotPersonal'); // @phpstan-ignore-line
+        $isNotPersonal = $this->getPrivateMethodInvoker($this->validator, 'isNotPersonal');
 
-        $isNotSimilar = $this->getPrivateMethodInvoker($this->validator, 'isNotSimilar'); // @phpstan-ignore-line
+        $isNotSimilar = $this->getPrivateMethodInvoker($this->validator, 'isNotSimilar');
 
         $this->assertNotSame($isNotPersonal, $isNotSimilar);
     }

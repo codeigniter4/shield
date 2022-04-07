@@ -42,9 +42,9 @@ final class RegisterTest extends CIDatabaseTestCase
     public function testRegisterActionSuccess()
     {
         $result = $this->withSession()->post('/register', [
-            'username'     => 'JohnDoe',
-            'email'        => 'john.doe@example.com',
-            'password'     => 'secret things might happen here',
+            'username'         => 'JohnDoe',
+            'email'            => 'john.doe@example.com',
+            'password'         => 'secret things might happen here',
             'password_confirm' => 'secret things might happen here',
         ]);
 
@@ -117,9 +117,9 @@ final class RegisterTest extends CIDatabaseTestCase
         Factories::injectMock('config', 'Auth', $config);
 
         $result = $this->post('/register', [
-            'email'        => 'foo@example.com',
-            'username'     => 'foo',
-            'password'     => 'abkdhflkjsdflkjasd;lkjf',
+            'email'            => 'foo@example.com',
+            'username'         => 'foo',
+            'password'         => 'abkdhflkjsdflkjasd;lkjf',
             'password_confirm' => 'abkdhflkjsdflkjasd;lkjf',
         ]);
 
