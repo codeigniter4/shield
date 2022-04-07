@@ -8,6 +8,10 @@
 		<div class="card col-5 shadow-sm">
 			<div class="card-body">
 				<h5 class="card-title mb-5"><?= lang('Auth.login') ?></h5>
+                
+			    <?php if (session('error') !== null) : ?>
+			    <div class="alert alert-danger"><?= session('error') ?></div>
+			    <?php endif ?>
 
 				<form action="<?= route_to('login') ?>" method="post">
 					<?= csrf_field() ?>
