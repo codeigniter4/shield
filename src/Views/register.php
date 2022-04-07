@@ -9,27 +9,31 @@
             <div class="card-body">
                 <h5 class="card-title mb-5"><?= lang('Auth.register') ?></h5>
 
+			<?php if (session('error') !== null) : ?>
+			<div class="alert alert-danger"><?= session('error') ?></div>
+			<?php endif ?>
+
                 <form action="<?= route_to('register') ?>" method="post">
                     <?= csrf_field() ?>
 
                     <!-- Email -->
                     <div class="mb-2">
-                        <input type="email" class="form-control" name="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required />
+                        <input type="email" class="form-control" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required />
                     </div>
 
                     <!-- Username -->
                     <div class="mb-4">
-                        <input type="text" class="form-control" name="username" autocomplete="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" required />
+                        <input type="text" class="form-control" name="username" inputmode="text" autocomplete="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" required />
                     </div>
 
                     <!-- Password -->
                     <div class="mb-2">
-                        <input type="password" class="form-control" name="password" autocomplete="password" placeholder="<?= lang('Auth.password') ?>" required />
+                        <input type="password" class="form-control" name="password" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.password') ?>" required />
                     </div>
 
                     <!-- Password (Again) -->
                     <div class="mb-5">
-                        <input type="password" class="form-control" name="password_confirm" autocomplete="password_confirm" placeholder="<?= lang('Auth.passwordConfirm') ?>" required />
+                        <input type="password" class="form-control" name="password_confirm" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.passwordConfirm') ?>" required />
                     </div>
 
                     <div class="d-grid col-8 mx-auto m-3">
