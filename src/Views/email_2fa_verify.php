@@ -20,7 +20,7 @@
 
 				<!-- Code -->
 				<div class="mb-2">
-					<input type="number" class="form-control" name="token" autocomplete="token" placeholder="000000" 
+					<input type="number" class="form-control" name="token" placeholder="000000" 
                            inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" required />
 				</div>
 
