@@ -109,7 +109,7 @@ final class LoginTest extends TestCase
 
         // Login should have been recorded successfully
         $this->seeInDatabase('auth_logins', [
-            'email'   => 'foo@example.com',
+            'email'   => $this->user->username,
             'user_id' => $this->user->id,
             'success' => true,
         ]);
