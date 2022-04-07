@@ -15,7 +15,7 @@
 			<div class="alert alert-danger"><?= session('error') ?></div>
 			<?php endif ?>
 
-			<form action="<?= site_url('auth/a/verify') ?>" method="post">
+			<form action="<?= site_url(route_to('auth-action-verify')) ?>" method="post">
 				<?= csrf_field() ?>
 
 				<!-- Code -->
