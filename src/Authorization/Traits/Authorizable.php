@@ -282,7 +282,7 @@ trait Authorizable
         $this->populateGroups();
 
         foreach ($groups as $group) {
-            if (in_array($group, $this->groupCache, true)) {
+            if (in_array(strtolower($group), $this->groupCache, true)) {
                 return true;
             }
         }
