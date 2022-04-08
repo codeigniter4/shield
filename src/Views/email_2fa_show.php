@@ -14,7 +14,7 @@
 
                 <!-- Email -->
                 <div class="mb-2">
-                    <input type="email" class="form-control" name="email" 
+                    <input type="email" class="form-control" name="email"
                            inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
                            value="<?= old('email', auth()->user()->email ?? null) ?>" required />
                 </div>
