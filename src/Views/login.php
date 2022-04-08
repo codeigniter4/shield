@@ -8,18 +8,22 @@
 		<div class="card col-5 shadow-sm">
 			<div class="card-body">
 				<h5 class="card-title mb-5"><?= lang('Auth.login') ?></h5>
+                
+			    <?php if (session('error') !== null) : ?>
+			    <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+			    <?php endif ?>
 
 				<form action="<?= route_to('login') ?>" method="post">
 					<?= csrf_field() ?>
 
 					<!-- Email -->
 					<div class="mb-2">
-						<input type="email" class="form-control" name="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required />
+						<input type="email" class="form-control" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required />
 					</div>
 
 					<!-- Password -->
 					<div class="mb-2">
-						<input type="password" class="form-control" name="password" autocomplete="off" placeholder="<?= lang('Auth.password') ?>" required />
+						<input type="password" class="form-control" name="password" inputmode="text" autocomplete="current-password" placeholder="<?= lang('Auth.password') ?>" required />
 					</div>
 
 					<div class="d-grid col-8 mx-auto m-3">

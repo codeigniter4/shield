@@ -9,12 +9,13 @@
         <div class="card-body">
             <h5 class="card-title mb-5"><?= lang('Auth.login') ?></h5>
 
-            <form action="<?= site_url('auth/a/handle') ?>" method="post">
+            <form action="<?= site_url(route_to('auth-action-handle')) ?>" method="post">
                 <?= csrf_field() ?>
 
                 <!-- Email -->
                 <div class="mb-2">
-                    <input type="email" class="form-control" name="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
+                    <input type="email" class="form-control" name="email" 
+                           inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
                            value="<?= old('email', auth()->user()->email ?? null) ?>" required />
                 </div>
 
