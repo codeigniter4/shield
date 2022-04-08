@@ -18,7 +18,7 @@ final class TokenFilterTest extends CIDatabaseTestCase
 {
     use FeatureTestTrait;
 
-    protected $namespace = 'Sparks\Shield';
+    protected $namespace;
 
     protected function setUp(): void
     {
