@@ -13,7 +13,7 @@ The primary goals for Shield are:
 2. It must have security at its core. It is an auth lib after all.
 3. To cover many auth needs right out of the box, but be simple to add additional functionality to.
 
-## Authentication
+## Authentication Methods
 
 Shield provides two primary methods of authentication out of the box: 
 
@@ -29,7 +29,43 @@ These are much like the access codes that GitHub uses, where they are unique to 
 can have more than one. This can be used for API authentication of third-party users, and even for allowing 
 access for a mobile application that you build. 
 
-## Further Reading (or "Our Inspirations")
+## Getting Started
+
+### Prerequisites
+
+Usage of Shield requires the following:
+
+- A [CodeIgniter 4](https://github.com/codeigniter4/CodeIgniter4/)-based project
+- [Composer](https://getcomposer.org/) for package management
+- PHP 7.4+
+
+### Installation
+
+Installation is done through Composer.
+
+    > composer require lonnieezell/codeigniter-shield
+
+See the [docs](docs) folder more specific instructions on installation and usage recommendations.
+
+## Contributing
+
+Shield does accept and encourage contributions from the community in any shape. It doesn't matter 
+whether you can code, write documentation, or help find bugs, all contributions are welcome.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## Acknowledgements
+
+Every open-source project depends on it's contributors to be a success. The following users have 
+contributed in one manner or another in making Shield: 
+
+<a href="https://github.com/lonnieezell/codeigniter-shield/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=lonnieezell/codeigniter-shield" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
 
 The following articles/sites have been fundamental in shaping the security and best practices used
 within this library, in no particular order: 
@@ -37,4 +73,3 @@ within this library, in no particular order:
 - [Google Cloud: 12 Best Practices For User Accounts](https://cloud.google.com/blog/products/gcp/12-best-practices-for-user-account)
 - [NIST Digital Identity Guidelines](https://pages.nist.gov/800-63-3/sp800-63b.html)
 - [Implementing Secure User Authentication in PHP Applications with Long-Term Persistence (Login with "Remember Me" Cookies) ](https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence)
--  
