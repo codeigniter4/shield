@@ -123,10 +123,6 @@ class Auth
         });
     }
 
-    public function authorize($entity, string $permission)
-    {
-    }
-
     /**
      * Returns the Model that is responsible for getting users.
      *

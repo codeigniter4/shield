@@ -2,19 +2,20 @@
 
 This document covers some of the base concepts used throughout the library.
 
+## Repository State
+
+Shield is designed so that the initial setup of your application can all happen in code with nothing required to be saved in the database. This means you do not have to create large seeder files that need
+to run within each environment. Instead, it can be placed under version control, though the Settings library allows those settings to be easily
+stored in the database if you create an interface for the user to update those settings at. 
+
 ## Settings
 
 In place of the CodeIgniter `config()` helper, Shield uses the official 
-[Settings](https://github.com/codeigniter4/settings) library. This provides a way to save any 
-Config class values to the database if you want to modify them, but falls back on the 
-standard Config class if nothing is found in the database. 
+[Settings](https://github.com/codeigniter4/settings) library. This provides a way to save any Config class values to the database if you want to modify them, but falls back on the standard Config class if nothing is found in the database. 
 
 ## User Providers
 
-To make the system as flexible as possible, you can define which class should be able to interact
-with your chosen persistence system to get the user records. Typically this is going to be a Model, 
-and one is provided for you, at `Sparks\Shield\Models\UserModel`. This is defined in 
-`Config\Auth->userProvider`.
+To make the system as flexible as possible, you can define which class should be able to interact with your chosen persistence system to get the user records. Typically this is going to be a Model, and one is provided for you, at `Sparks\Shield\Models\UserModel`. This is defined in `Config\Auth->userProvider`.
 
 ```php
 public $userProvider = 'Sparks\Shield\Models\UserModel';
@@ -22,26 +23,16 @@ public $userProvider = 'Sparks\Shield\Models\UserModel';
 
 ## Identities
 
-User accounts are stored separately from the information needed to identify that user. These identifying 
-pieces of data we call User Identifiers. By default, the library has two types of identifiers: one for 
-standard email/password information, and one for access tokens. 
+User accounts are stored separately from the information needed to identify that user. These identifying pieces of data we call User Identifiers. By default, the library has two types of identifiers: one for standard email/password information, and one for access tokens. 
 
-By keeping the identity information loosely coupled from the user account itself, it frees the system up
-to more easily integrate third-party sign-in systems, JWT systems, and more, all on a single user. With 
-small overrides you could even allow a single user to have multiple email/password combinations if your
-needs demands the functionality. 
+By keeping the identity information loosely coupled from the user account itself, it frees the system up to more easily integrate third-party sign-in systems, JWT systems, and more, all on a single user. With small overrides you could even allow a single user to have multiple email/password combinations if your needs demands the functionality. 
 
-While this has the potential to make the system more complex, the `email` and `password` fields are
-automatically looked up for you when attempting to access from the User entity. Caution should be used to
-craft queries that will pull in the `email` field when you need to display it to the user, as you could
-easily run into some n+1 slow queries otherwise.
+While this has the potential to make the system more complex, the `email` and `password` fields are automatically looked up for you when attempting to access from the User entity. Caution should be used to craft queries that will pull in the `email` field when you need to display it to the user, as you could easily run into some n+1 slow queries otherwise.
 
 ## Password Validators
 
-When registering a user account, the user's password must be validated to ensure it matches the security
-requirements of your application. To make the system as flexible as possible Shield uses a pipeline of 
-Validators to handle the validation. This allows you turn on or off any validation systems that are 
-appropriate for your application. The following Validators are available:
+When registering a user account, the user's password must be validated to ensure it matches the security requirements of your application. To make the system as flexible as possible Shield uses a pipeline of 
+Validators to handle the validation. This allows you turn on or off any validation systems that are appropriate for your application. The following Validators are available:
 
 - **CompositionValidator** validates the makeup of the password itself. This used to include things
     like ensuring it contained a symbol, a number, etc. According to the current 

@@ -2,7 +2,7 @@
 
 Shield provides a flexible role-based access control that allows users to belong to multiple groups at once. 
 Groups can be thought of as traditional roles (admin, moderator, user, etc), but can also group people together
-around features, like Beta access, or used to provide discrete groups of users within a forum, etc. 
+around features, like Beta feature access, or used to provide discrete groups of users within a forum, etc. 
 
 ## Defining Available Groups
 
@@ -73,7 +73,7 @@ public $matrix = [
 
 When the `Authorization` trait is applied to the user model, it provides the following methods to authorize your users. 
 
-**can()**
+#### can()
 
 Allows you to check if a user is permitted to do a specific action. The only argument is the permission string. Returns 
 boolean `true`/`false`. Will check the user's direct permissions first, and then check against all of the user's groups
@@ -85,7 +85,7 @@ if ($user->can('users.create')) {
 }
 ```
 
-**inGroup()**
+#### inGroup()
 
 Checks if the user is in one of the groups passed in. Returns boolean `true`/`false`.
 
@@ -102,7 +102,7 @@ override the group, so it's possible that a user can perform an action that thei
 
 None of the changes are saved on the User entity until you `save()` with the `UserModel`.
 
-**addPermission()**
+#### addPermission()
 
 Adds one or more permissions to the user. If a permission doesn't exist, a `Sparks\Shield\Authorization\AuthorizationException` 
 is thrown. 
@@ -111,7 +111,7 @@ is thrown.
 $user->addPermission('users.create', 'users.edit');
 ```
 
-**removePermission()**
+#### removePermission()
 
 Removes one or more permissions from a user. If a permission doesn't exist, a `Sparks\Shield\Authorization\AuthorizationException`
 is thrown. 
@@ -120,7 +120,7 @@ is thrown.
 $user->removePermission('users.delete');
 ```
 
-**syncPermissions()**
+#### syncPermissions()
 
 Updates the user's permissions to only include the permissions in the given list. Any existing permissions on that user
 not in this list will be removed.
@@ -131,7 +131,7 @@ $user->syncPermissions(['admin.access', 'beta.access']);
 
 ## Managing User Groups
 
-**addGroup()**
+#### addGroup()
 
 Adds one or more groups to a user. If a group doesn't exist, a `Sparks\Shield\Authorization\AuthorizationException`
 is thrown. 
@@ -140,7 +140,7 @@ is thrown.
 $user->addGroup('admin', 'beta');
 ```
 
-**removeGroup()**
+#### removeGroup()
 
 Removes one or more groups from a user. If a group doesn't exist, a `Sparks\Shield\Authorization\AuthorizationException`
 is thrown.
@@ -149,7 +149,7 @@ is thrown.
 $user->removeGroup('admin', 'beta');
 ```
 
-**syncGroups()**
+#### syncGroups()
 
 Updates the user's groups to only include the groups in the given list. Any existing groups on that user
 not in this list will be removed.
