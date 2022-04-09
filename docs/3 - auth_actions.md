@@ -32,6 +32,8 @@ Once configured, everything should work out of the box. The routes are added wit
 call, but can be manually added if you choose not to use this helper method. 
 
 ```php
+use Sparks\Shield\Controllers\ActionController;
+
 $routes->get('auth/a/show', 'ActionController::show');
 $routes->post('auth/a/handle', 'ActionController::handle');
 $routes->post('auth/a/verify', 'ActionController::verify');

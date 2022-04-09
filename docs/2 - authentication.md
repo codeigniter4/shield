@@ -4,7 +4,7 @@ Shield provides a flexible, secure, authentication system for your web apps and 
 
 ## Available Handlers
 
-Shield ships with 2 handlers to handle several typical situations within web app development, the
+Shield ships with 2 handlers that will serve several typical situations within web app development: the
 Session handler, which uses username/email/password to authenticate against and stores it in the session, 
 and Access Tokens handler which uses private access tokens passed in the headers.
 
@@ -27,14 +27,38 @@ public $defaultAuthenticator = 'session';
 
 The auth functionality is designed to be used with the `auth_helper` that comes with Shield. This 
 helper method provides the `auth()` command which returns a convenient interface to the most frequently
-used functionality within the auth libraries. This must be loaded before it can be used. 
+used functionality within the auth libraries. This must be loaded before it can be used.
 
 ```php
 helper('auth');
 
 // get the current user
 auth()->user();
+
+// get the current user's id
+user_id() 
+// or
+auth()->id()
 ```
+
+### Handler Responses
+
+Many of the handler methods will return a `Sparks\Shield\Result` class. This provides a consistent
+way of checking the results and can have additional information return along with it. The class
+has the following methods: 
+
+#### isOK()
+
+Returns a boolean value stating whether the check was successful or not. 
+
+#### reason()
+
+Returns a message that can be displayed to the user when the check fails.
+
+#### extraInfo() 
+
+Can return a custom bit of information. These will be detailed in the method descriptions below.
+
 
 ### Session Handler
 
@@ -62,9 +86,20 @@ if (! $loginAttempt->isOK())
 }
 ```
 
-Upon a successful `attempt()`, the user is logged in. If the attempt fails a `failedLoginAttempt` 
-event is triggered with the credentials array as the only parameter. Whether or not they pass,
-a login attempt is recorded in the `auth_logins` table.
+Upon a successful `attempt()`, the user is logged in. The Response object returned will provide
+the user that was logged in as `extraInfo()`.
+
+```php
+$result = auth()->attempt($credentials);
+
+if($result->isOK())
+{
+    $user = $result->extraInfo());
+}
+```
+
+If the attempt fails a `failedLoginAttempt` event is triggered with the credentials array as 
+the only parameter. Whether or not they pass, a login attempt is recorded in the `auth_logins` table.
 
 If `allowRemembering` is `true` in the `Auth` config file, you can tell the Session Handler
 to set a secure remember-me cookie. 
@@ -91,6 +126,8 @@ if (! $validCreds->isOK())
     return redirect()->back()->with('error', $loginAttempt->reason());
 }
 ```
+
+The Result instance returned contains the logged in user as `extraInfo()`.
 
 #### loggedIn()
 
@@ -138,7 +175,7 @@ in all future requests.
 
 ## Access Token/API Authentication 
 
-Using the access tokens requires that you either use/extend `Sparks\Shield\Models\UserModel` or 
+Using access tokens requires that you either use/extend `Sparks\Shield\Models\UserModel` or 
 use the `Sparks\Shield\Authentication\Traits\HasAccessTokens` on your own user model. This trait
 provides all of the custom methods needed to implement access tokens in your application. The necessary
 database table, `auth_access_tokens`, is created in Shield's only migration class, which must be ran 
@@ -158,8 +195,8 @@ This creates the token using a cryptographically secure random string. The token
 is hashed (sha256) before saving it to the database. The method returns an instance of 
 `CodeIgniters\Shield\Authentication\Entities\AccessToken`. The only time a plain text
 version of the token is available is in the `AccessToken` returned immediately after creation.
-The plain text version should be displayed to the user immediately so they can copy it for 
-their use. If a user loses it, they cannot see the raw version anymore, but they can generate 
+**The plain text version should be displayed to the user immediately so they can copy it for 
+their use.** If a user loses it, they cannot see the raw version anymore, but they can generate 
 a new token to use.
 
 ```php
@@ -210,7 +247,7 @@ permissions the token grants to the user. Scopes are provided when the token is 
 cannot be modified afterword.
 
 ```php
-$token = $user->gererateAccessToken('Work Laptop', ['posts:manage', 'forums:manage']);
+$token = $user->gererateAccessToken('Work Laptop', ['posts.manage', 'forums.manage']);
 ```
 
 By default a user is granted a wildcard scope which provides access to all scopes. This is the
@@ -225,12 +262,12 @@ can use the `tokenCan()` and `tokenCant()` methods on the user to determine if t
 to the specified scope.
 
 ```php
-if ($user->tokenCan('posts:manage')) 
+if ($user->tokenCan('posts.manage')) 
 {
     // do something....
 }
 
-if ($user->tokenCant('forums:manage')) 
+if ($user->tokenCant('forums.manage')) 
 {
     // do something....
 }
@@ -244,7 +281,7 @@ use to protect your routes, `session`, `tokens`, and `chained`. The first two co
 to see if the user is logged in through either of authenticators, allowing a single API endpoint to 
 work for both an SPA using session auth, and a mobile app using access tokens.
 
-Before you can use the filters you must define their aliases in `app/Config/Filters.php`:
+These filters are already loaded for you by the registrar class located at `src/Config/Registrar.php`.
 
 ```php
 public $aliases = [
@@ -258,4 +295,4 @@ public $aliases = [
 ];
 ```
 
-These can then be used in any of the normal validation config settings, or within the routes file.
+These can be used in any of the normal validation config settings, or within the routes file.
