@@ -20,8 +20,8 @@ final class UserTest extends TestCase
     use DatabaseTestTrait;
     use FakeUser;
 
-    protected $namespace = '\Sparks\Shield';
-    protected $refresh   = true;
+    protected $namespace;
+    protected $refresh = true;
 
     public function testGetIdentitiesNone()
     {
