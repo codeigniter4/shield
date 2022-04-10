@@ -78,11 +78,22 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * Name of Authenticator Header
      * --------------------------------------------------------------------
-     * The name of Header that
+     * The name of Header that the Authorization token should be found.
+     * According to the specs, this should be `Authorization`, but rare
+     * circumstances might need a different header.
      */
     public $authenticatorHeader = [
         'tokens' => 'Authorization',
     ];
+
+    /**
+     * --------------------------------------------------------------------
+     * Unused Token Lifetime
+     * --------------------------------------------------------------------
+     * Determines the amount of time, in seconds, that an unused
+     * access token can be used.
+     */
+    public $unusedTokenLifetime = YEAR;
 
     /**
      * --------------------------------------------------------------------

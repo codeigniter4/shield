@@ -12,6 +12,7 @@ return [
     'invalidPassword'     => 'Unable to log you in. Please check your password.',
     'noToken'             => 'Every request must have a bearer token in the Authorization header.',
     'badToken'            => 'The access token is invalid.',
+    'oldToken'            => 'The access token has expired.',
     'noUserEntity'        => 'User Entity must be provided for password validation.',
     'invalidEmail'        => 'Unable to verify the email address matches the email on record.',
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Authentication;
 
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
@@ -10,6 +11,7 @@ use Sparks\Shield\Authentication\Handlers\AccessTokens;
 use Sparks\Shield\Config\Auth;
 use Sparks\Shield\Entities\AccessToken;
 use Sparks\Shield\Entities\User;
+use Sparks\Shield\Models\UserIdentityModel;
 use Sparks\Shield\Models\UserModel;
 use Sparks\Shield\Result;
 
@@ -116,6 +118,21 @@ final class AccessTokenHandlerTest extends CIDatabaseTestCase
 
         $this->assertFalse($result->isOK());
         $this->assertSame(lang('Auth.badToken'), $result->reason());
+    }
+
+    public function testCheckOldToken()
+    {
+        /** @var User $user */
+        $user                = fake(UserModel::class);
+        $identities          = model(UserIdentityModel::class);
+        $token               = $user->generateAccessToken('foo');
+        $token->last_used_at = Time::now()->subYears(1)->subMinutes(1);
+        $identities->save($token);
+
+        $result = $this->auth->check(['token' => $token->raw_token]);
+
+        $this->assertFalse($result->isOK());
+        $this->assertSame(lang('Auth.oldToken'), $result->reason());
     }
 
     public function testCheckSuccess()

@@ -109,6 +109,14 @@ class AccessTokens implements AuthenticatorInterface
             ]);
         }
 
+        // Hasn't been used in a long time
+        if ($token->last_used_at && $token->last_used_at->isBefore(Time::now()->subSeconds(config('Auth')->unusedTokenLifetime))) {
+            return new Result([
+                'success' => false,
+                'reason'  => lang('Auth.oldToken'),
+            ]);
+        }
+
         $token->last_used_at = Time::now()->toDateTimeString();
         $identities->save($token);
 
