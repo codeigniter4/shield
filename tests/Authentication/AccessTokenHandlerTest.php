@@ -121,13 +121,23 @@ final class AccessTokenHandlerTest extends CIDatabaseTestCase
     public function testCheckSuccess()
     {
         /** @var User $user */
-        $user   = fake(UserModel::class);
-        $token  = $user->generateAccessToken('foo');
+        $user  = fake(UserModel::class);
+        $token = $user->generateAccessToken('foo');
+
+        $this->seeInDatabase('auth_identities', [
+            'user_id'      => $user->id,
+            'type'         => 'access_token',
+            'last_used_at' => null,
+        ]);
+
         $result = $this->auth->check(['token' => $token->raw_token]);
 
         $this->assertTrue($result->isOK());
         $this->assertInstanceOf(User::class, $result->extraInfo());
         $this->assertSame($user->id, $result->extraInfo()->id);
+
+        $updatedToken = $result->extraInfo()->currentAccessToken();
+        $this->assertNotEmpty($updatedToken->last_used_at);
     }
 
     public function testAttemptCannotFindUser()

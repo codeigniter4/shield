@@ -109,9 +109,16 @@ class AccessTokens implements AuthenticatorInterface
             ]);
         }
 
+        $token->last_used_at = Time::now()->toDateTimeString();
+        $identities->save($token);
+
+        // Ensure the token is set as the current token
+        $user = $token->user();
+        $user->setAccessToken($token);
+
         return new Result([
             'success'   => true,
-            'extraInfo' => $token->user(),
+            'extraInfo' => $user,
         ]);
     }
 
@@ -127,7 +134,7 @@ class AccessTokens implements AuthenticatorInterface
         }
 
         return $this->attempt([
-            'token' => service('request')->getHeaderLine('Authorization'),
+            'token' => service('request')->getHeaderLine(config('Auth')->authenticatorHeader['tokens']),
         ])->isOK();
     }
 
@@ -209,7 +216,7 @@ class AccessTokens implements AuthenticatorInterface
     {
         $request = service('request');
 
-        $header = $request->getHeaderLine('Authorization');
+        $header = $request->getHeaderLine(config('Auth')->authenticatorHeader['tokens']);
 
         if (empty($header)) {
             return null;
