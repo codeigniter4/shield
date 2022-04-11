@@ -53,7 +53,7 @@ class Auth extends BaseConfig
      *
      * Available actions with Shield:
      * - login:    Sparks\Shield\Authentication\Actions\Email2FA
-     * - register: Sparks\Shield\Authentication\Actions\EmailActivate
+     * - register: Sparks\Shield\Authentication\Actions\EmailActivator
      */
     public $actions = [
         'login'    => null,
