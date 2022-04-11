@@ -149,7 +149,7 @@ class Session implements AuthenticatorInterface
             return true;
         }
 
-        if ($userId = session(setting('Auth.sessionConfig')['field'])) {
+        if ($userId = session(setting('Auth.sessionConfig')['fieldUser'])) {
             $this->user = $this->provider->findById($userId);
 
             return $this->user instanceof Authenticatable;
@@ -183,7 +183,7 @@ class Session implements AuthenticatorInterface
         }
 
         // Let the session know we're logged in
-        session()->set(setting('Auth.sessionConfig')['field'], $this->user->getAuthId());
+        session()->set(setting('Auth.sessionConfig')['fieldUser'], $this->user->getAuthId());
 
         // When logged in, ensure cache control headers are in place
         service('response')->noCache();
