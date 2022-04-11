@@ -13,7 +13,7 @@
 			    <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
 			    <?php endif ?>
 
-				<form action="<?= route_to('login') ?>" method="post">
+				<form action="<?= route_to('auth-login') ?>" method="post">
 					<?= csrf_field() ?>
 
 					<!-- Email -->
