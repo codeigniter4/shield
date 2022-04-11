@@ -186,7 +186,7 @@ class Auth extends BaseConfig
      */
     public $sessionConfig = [
         'fieldUser'          => 'logged_in',
-        'field2Fa'           => 'logged_2fa'
+        'field2Fa'           => 'logged_2fa',
         'allowRemembering'   => true,
         'rememberCookieName' => 'remember',
         'rememberLength'     => 30 * DAY,
