@@ -62,6 +62,24 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Email2FA with link login
+     * --------------------------------------------------------------------
+     * Allows to pass 2FA OTP code in link
+     */
+
+    public $allowEmail2FALoginWithLink = true;
+
+    /**
+     * --------------------------------------------------------------------
+     * Email2FA with link login
+     * --------------------------------------------------------------------
+     * GET name of the field in Email2FA link login
+     */
+
+    public $allowEmail2FALoginFieldName = 'otp';
+    
+    /**
+     * --------------------------------------------------------------------
      * Authenticators
      * --------------------------------------------------------------------
      * The available authentication systems, listed
