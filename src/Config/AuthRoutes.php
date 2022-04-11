@@ -12,6 +12,7 @@ class AuthRoutes extends BaseConfig
                 'get',
                 'register',
                 'RegisterController::registerView',
+                'auth-register',
             ],
             [
                 'post',
@@ -24,6 +25,7 @@ class AuthRoutes extends BaseConfig
                 'get',
                 'login',
                 'LoginController::loginView',
+                'auth-login',
             ],
             [
                 'post',
@@ -55,6 +57,7 @@ class AuthRoutes extends BaseConfig
                 'get',
                 'logout',
                 'LoginController::logoutAction',
+                'auth-logout',
             ],
         ],
         'auth-actions' => [
