@@ -76,17 +76,18 @@ class Email2FA implements ActionInterface
     public function verify(IncomingRequest $request)
     {
         $token    = $request->getPost('token');
-
-        if(setting('Auth.allowEmail2FALoginWithLink') && $request->getGet(setting('Auth.allowEmail2FALoginFieldName'))) {
-            $token = $request->getGet(setting('Auth.allowEmail2FALoginFieldName'));
-        }
-
         $user     = auth()->user();
         $identity = $user->getIdentity('email_2fa');
 
+        // token === null and if login with link is available look for it in $_GET
+        if($token === null && setting('Auth.allowEmail2FALoginWithLink') && $request->getGet(setting('Auth.allowEmail2FALoginFieldName'))) {
+            $token = $request->getGet(setting('Auth.allowEmail2FALoginFieldName'));
+        }
+
         // Token mismatch? Let them try again...
         if (empty($token) || $token !== $identity->secret) {
-            session()->set('error',lang('Auth.invalid2FAToken'));
+            session()->set('error', lang('Auth.invalid2FAToken'));
+            
             redirect()->to(route_to('auth-action-handle'));
         }
 
