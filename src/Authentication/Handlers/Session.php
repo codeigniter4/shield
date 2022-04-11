@@ -163,7 +163,7 @@ class Session implements AuthenticatorInterface
      */
     public function logged2Fa(): bool
     {
-        if (setting('Auth.sessionConfig')['actions']['login'] instanceof ActionInterface) {
+        if (setting('Auth.actions')['login'] instanceof ActionInterface) {
             return session(setting('Auth.sessionConfig')['field2Fa']) === true;
         }
 
