@@ -9,7 +9,7 @@
         <div class="card-body">
             <h5 class="card-title mb-5"><?= lang('Auth.login') ?></h5>
 
-            <form action="<?= site_url(route_to('auth-action-handle')) ?>" method="post">
+            <form action="<?= route_to('auth-action-handle') ?>" method="post">
                 <?= csrf_field() ?>
 
                 <!-- Email -->
