@@ -159,6 +159,18 @@ class Session implements AuthenticatorInterface
     }
 
     /**
+     * Checks if the user needs to proceed with 2FA.
+     */
+    public function logged2Fa(): bool
+    {
+        if (setting('Auth.sessionConfig')['actions']['login'] instanceof ActionInterface) {
+            return session(setting('Auth.sessionConfig')['field2Fa']) === true;
+        }
+
+        return true;
+    }
+    
+    /**
      * Logs the given user in.
      *
      * @return bool
