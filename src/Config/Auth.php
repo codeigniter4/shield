@@ -167,7 +167,8 @@ class Auth extends BaseConfig
      * - rememberLength         The length of time, in seconds, to remember a user.
      */
     public $sessionConfig = [
-        'field'              => 'logged_in',
+        'fieldUser'          => 'logged_in',
+        'field2Fa'           => 'logged_2fa'
         'allowRemembering'   => true,
         'rememberCookieName' => 'remember',
         'rememberLength'     => 30 * DAY,
