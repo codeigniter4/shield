@@ -37,7 +37,7 @@ class Email2FA implements ActionInterface
         $user  = auth()->user();
 
         if (empty($email) || $email !== $user->email) {
-            return redirect()->to('/auth/a/show')->with('error', lang('Auth.invalidEmail'));
+            return redirect()->to(route_to('auth-action-show'))->with('error', lang('Auth.invalidEmail'));
         }
 
         // Delete any previous email_2fa identities
@@ -76,14 +76,18 @@ class Email2FA implements ActionInterface
     public function verify(IncomingRequest $request)
     {
         $token    = $request->getPost('token');
+
+        if(setting('Auth.allowEmail2FALoginWithLink') && $request->getGet(setting('Auth.allowEmail2FALoginFieldName'))) {
+            $token = $request->getGet(setting('Auth.allowEmail2FALoginFieldName'));
+        }
+
         $user     = auth()->user();
         $identity = $user->getIdentity('email_2fa');
 
         // Token mismatch? Let them try again...
         if (empty($token) || $token !== $identity->secret) {
-            $_SESSION['error'] = lang('Auth.invalid2FAToken');
-
-            return view(setting('Auth.views')['action_email_2fa_verify']);
+            session()->set('error',lang('Auth.invalid2FAToken'));
+            redirect()->to(route_to('auth-action-handle'));
         }
 
         // On success - remove the identity and clean up session
