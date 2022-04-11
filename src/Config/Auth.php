@@ -70,12 +70,12 @@ class Auth extends BaseConfig
      */
     
     public $actionAcceptedRoutes = [
-        'login'    => [
+        'login' => [
             'auth-login',
             'auth-action-show',
             'auth-action-handle',
             'auth-action-verify',
-            'action-logout'
+            'action-logout',
         ],
     ];
     /**
