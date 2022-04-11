@@ -86,6 +86,8 @@ class Email2FA implements ActionInterface
             return view(setting('Auth.views')['action_email_2fa_verify']);
         }
 
+        session()->set(setting('Auth.sessionConfig')['field2Fa'], true);
+        
         // On success - remove the identity and clean up session
         model(UserIdentityModel::class)
             ->where('user_id', $user->id)
