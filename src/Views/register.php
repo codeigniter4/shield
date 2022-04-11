@@ -15,7 +15,7 @@
                     <?= session('errors') ?>
                 <?php endif ?>
 
-                <form action="<?= route_to('register') ?>" method="post">
+                <form action="<?= route_to('auth-register') ?>" method="post">
                     <?= csrf_field() ?>
 
                     <!-- Email -->
