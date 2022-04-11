@@ -31,20 +31,35 @@ class ChainAuth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        helper(['auth', 'settings']);
+        helper(['auth', 'setting']);
 
-        $chain = config('Auth')->authenticationChain;
+        $chain = setting('Auth.authenticationChain');
 
         foreach ($chain as $handler) {
             if (auth($handler)->loggedIn()) {
-                // Make sure Auth uses this handler
+                // If Auth login is defined and user is not 2FA logged.
+                if (! empty(setting('Auth.actions')['login']) && ! auth($handler)->logged2Fa()) {
+                    // Make sure route is on available list;
+                    foreach (setting('Auth.actionAcceptedRoutes')['login'] as $value) {
+                        if ('/' . $request->getUri()->getPath() === route_to($value)) {
+                            // Make sure Auth uses this handler
+                            auth()->setHandler($handler);
+
+                            return;
+                        }
+                    }
+                    // In other case redirect to 2FA request page.
+                    return redirect()->route('auth-login');
+                }
+
+                // Make sure Auth uses this handler / No need to check 2FA.
                 auth()->setHandler($handler);
 
                 return;
             }
         }
 
-        return redirect()->route('login');
+        return redirect()->route('auth-login');
     }
 
     /**
