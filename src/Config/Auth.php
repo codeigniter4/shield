@@ -62,6 +62,24 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Authentication Action Accepted Routes
+     * --------------------------------------------------------------------
+     * Specifies the routes available for user in case user do not want to
+     * proceed with specified actions.
+     * HTTP Method won't be checked.
+     */
+    
+    public $actionAcceptedRoutes = [
+        'login'    => [
+            'auth-login',
+            'auth-action-show',
+            'auth-action-handle',
+            'auth-action-verify',
+            'action-logout'
+        ],
+    ];
+    /**
+     * --------------------------------------------------------------------
      * Authenticators
      * --------------------------------------------------------------------
      * The available authentication systems, listed
