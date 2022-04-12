@@ -75,6 +75,7 @@ class RegisterController extends BaseController
 
         if (! empty($actionClass)) {
             session()->set('auth_action', $actionClass);
+            session()->setFlashdata('registered_id', $user->id);
 
             return redirect()->to('auth/a/show');
         }
