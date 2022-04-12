@@ -75,9 +75,9 @@ class RegisterController extends BaseController
 
         if (! empty($actionClass)) {
             session()->set('auth_action', $actionClass);
-            session()->setFlashdata('registered_id', $user->id);
+            session()->set('registered_id', $user->id);
 
-            return redirect()->to('auth/a/show');
+            return redirect()->to(route_to('auth-action-show'));
         }
 
         // Success!
@@ -91,7 +91,7 @@ class RegisterController extends BaseController
      */
     protected function getUserProvider()
     {
-        return model('UserModel'); // @phpstan-ignore-line
+        return model(setting('Auth.userProvider')); // @phpstan-ignore-line
     }
 
     /**
