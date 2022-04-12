@@ -161,15 +161,19 @@ class Auth extends BaseConfig
      * These settings only apply if you are using the Session Handler
      * for authentication.
      *
-     * - field                  The name of the key the logged in user is stored in session
+     * - fieldUser              The name of the key the logged in user is stored in session
+     * - field2Fa               Stores info if user is already 2fa authorized (if it is required)
+     * - fieldRegister          The name of the key the new user is storred in session
      * - allowRemembering       Does the system allow use of "remember-me"
      * - rememberCookieName     The name of the cookie to use for "remember-me"
      * - rememberLength         The length of time, in seconds, to remember a user.
      */
     public $sessionConfig = [
-        'field'              => 'logged_in',
+        'fieldUser'          => 'logged_in',
+        'field2Fa'           => 'logged_2fa',
+        'fieldRegister'      => 'registered_in',
         'allowRemembering'   => true,
-        'rememberCookieName' => 'remember',
+        'rememberCookieName' => 'SUR',
         'rememberLength'     => 30 * DAY,
     ];
 
