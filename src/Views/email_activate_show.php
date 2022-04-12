@@ -16,8 +16,8 @@
 
                 <!-- Code -->
                 <div class="mb-2">
-                    <input type="text" class="form-control" name="code" autocomplete="code" placeholder="<?= lang('Auth.code') ?>"
-                           value="<?= old('token') ?>" required />
+                    <input type="text" class="form-control" name="token" placeholder="000000" placeholder="<?= lang('Auth.code') ?>"
+                       inputmode="numeric" pattern="\d{6}" autocomplete="one-time-code" value="<?= old('token') ?>" required />
                 </div>
 
                 <div class="d-grid col-8 mx-auto m-3">
