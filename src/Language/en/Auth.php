@@ -65,6 +65,8 @@ return [
     // Activate
     'emailActivateTitle'   => 'Email Activation',
     'emailActivateSubject' => 'Confirm your Email',
+    'invalidActivateToken' => 'Invalid activate token.',
+    'activationLinkIsNotLongerValid' => 'Activation link is not longer valid.',
 
     // Groups
     'unknownGroup' => '{0} is not a valid group.',
