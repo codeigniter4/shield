@@ -18,7 +18,7 @@ class EmailActivator implements ActionInterface
      */
     public function show()
     {
-        $userId = session()->getFlashdata('registered_id');
+        $userId = session()->get(setting('Auth.sessionConfig')['fieldRegister']);
 
         //  Create an identity for our activation hash
         $identities = new UserIdentityModel();
@@ -69,8 +69,17 @@ class EmailActivator implements ActionInterface
      */
     public function verify(IncomingRequest $request)
     {
-        $token    = $request->getVar('token');
-        $user     = auth()->user();
+        $token = $request->getVar('token');
+        
+        if(!($userId = session()->get(setting('Auth.sessionConfig')['fieldRegister']))) {
+            session()->set('error', lang('Auth.activationLinkIsNotLongerValid'));
+            // Get our login redirect url
+            $loginController = new LoginController();
+            
+            return redirect()->to($loginController->getLoginRedirect());
+        }
+
+        $user = model(setting('Auth.userProvider'))->find($userId);
         $identity = $user->getIdentity('email_activate');
 
         // No match - let them try again.
