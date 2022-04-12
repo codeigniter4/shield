@@ -321,6 +321,8 @@ class Auth extends BaseConfig
      * works with any of the database engines supported by CodeIgniter.
      * You can change it as long as they adhere to the
      * Sparks\Shield\Interfaces\UserProvider.
+     *
+     * @var class-string<\Sparks\Shield\Interfaces\UserProvider>
      */
     public $userProvider = 'Sparks\Shield\Models\UserModel';
 }
