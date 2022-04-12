@@ -18,11 +18,11 @@ class EmailActivator implements ActionInterface
      */
     public function show()
     {
-        $user = auth()->user();
+        $userId = session()->getFlashdata('registered_id');
 
         //  Create an identity for our activation hash
         $identities = new UserIdentityModel();
-        $identities->where('user_id', $user->id)
+        $identities->where('user_id', $userId)
             ->where('type', 'email_activate')
             ->delete();
 
@@ -31,16 +31,18 @@ class EmailActivator implements ActionInterface
         $code = random_string('nozero', 6);
 
         $identities->insert([
-            'user_id' => $user->id,
+            'user_id' => $userId,
             'type'    => 'email_activate',
             'secret'  => $code,
         ]);
 
+        $user = model(setting('Auth.userProvider'))->find($userId);
+        
         // Send the email
         helper('email');
         $email = emailer();
         $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
-            ->setTo($user->email)
+            ->setTo($user->email, $user->username)
             ->setSubject(lang('Auth.emailActivateSubject'))
             ->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]))
             ->send();
