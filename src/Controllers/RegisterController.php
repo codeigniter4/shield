@@ -90,7 +90,7 @@ class RegisterController extends BaseController
      */
     protected function getUserProvider()
     {
-        return model(setting('Auth.userProvider')); // @phpstan-ignore-line
+        return model(setting('Auth.userProvider')); 
     }
 
     /**
