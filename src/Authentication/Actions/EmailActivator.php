@@ -84,7 +84,7 @@ class EmailActivator implements ActionInterface
 
         // No match - let them try again.
         if ($identity->secret !== $token) {
-            $_SESSION['error'] = lang('Auth.invalidActivateToken');
+            session()->set('error', lang('Auth.invalidActivateToken'));
 
             return view(setting('Auth.views')['action_email_activate_show']);
         }
@@ -94,7 +94,8 @@ class EmailActivator implements ActionInterface
         $identities->delete($identity->id);
 
         // Clean up our session
-        unset($_SESSION['auth_action']);
+        session()->remove('auth_action');
+        session()->remove(setting('Auth.sessionConfig')['fieldRegister']);
 
         // Get our login redirect url
         $loginController = new LoginController();
