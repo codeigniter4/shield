@@ -16,14 +16,12 @@
             "role": "Developer"
         }
     ],
-    "config": {
-        "allow-plugins": {
-            "phpstan/extension-installer": true
-        }
-    },
     "require": {
         "php": "^7.4 || ^8.0",
         "codeigniter4/settings": "^2.0"
+    },
+    "provide": {
+        "codeigniter4/authentication-implementation": "1.0"
     },
     "require-dev": {
         "codeigniter/coding-standard": "^1.1",
@@ -36,6 +34,11 @@
         "php-coveralls/php-coveralls": "^2.4",
         "phpstan/phpstan": "^1.0",
         "phpunit/phpunit": "^9.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
     },
     "autoload": {
         "psr-4": {
@@ -51,6 +54,12 @@
             "Tests\\Support\\": "tests/_support"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/codeigniter4/CodeIgniter4"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
@@ -71,16 +80,6 @@
         "inspect": "deptrac analyze --cache-file=build/deptrac.cache",
         "mutate": "infection --threads=2 --skip-initial-tests --coverage=build/phpunit",
         "style": "php-cs-fixer fix --verbose --ansi --using-cache=no",
-        "test": "phpunit",
-        "retool": "retool"
-    },
-    "provide": {
-        "codeigniter4/authentication-implementation": "1.0"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/codeigniter4/CodeIgniter4"
-        }
-    ]
+        "test": "phpunit"
+    }
 }
