@@ -45,7 +45,7 @@ class SessionAuth implements FilterInterface
         // ensure they must finish it first.
         $identity = auth('session')->user()->getIdentity('email_2fa');
         if ($identity instanceof UserIdentity) {
-            $action = config('Auth')->actions['login'];
+            $action = setting('Auth.actions')['login'];
 
             if ($action) {
                 session()->set('auth_action', $action);
