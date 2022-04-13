@@ -156,6 +156,29 @@ final class ActionsTest extends TestCase
         $result->assertSessionMissing('auth_action');
     }
 
+    public function testEmail2FACannotBeBypassed()
+    {
+        // Ensure filter is enabled for all routes
+        $config                      = config('Filters');
+        $config->globals['before'][] = 'session';
+        Factories::injectMock('config', 'Filters', $config);
+
+        // An identity with 2FA info would have been stored previously
+        $identities = model(UserIdentityModel::class);
+        $identities->insert([
+            'user_id' => $this->user->id,
+            'type'    => 'email_2fa',
+            'secret'  => '123456',
+        ]);
+
+        // Try to visit any other page, skipping the 2FA
+        $result = $this->actingAs($this->user)
+            ->get('/');
+
+        $result->assertRedirect();
+        $this->assertSame(site_url('/auth/a/show'), $result->getRedirectUrl());
+    }
+
     public function testEmailActivateShow()
     {
         $result = $this->actingAs($this->user)

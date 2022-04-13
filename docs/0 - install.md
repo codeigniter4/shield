@@ -39,7 +39,22 @@ This requires that all of your controllers extend the `BaseController`, but that
 3. **Routes Setup** The default auth routes can be setup with a single call in `app/Config/Routes.php`: 
 
 ```php
-auth()->routes($routes);
+service('auth')->routes($routes);
+```
+
+4. (If you are running CodeIgniter v4.2.0 or higher you can skip this step). Add the new password validation rules
+by editing `app/Config/Validation.php`: 
+
+```php
+use Sparks\Shield\Authentication\Passwords\ValidationRules as PasswordRules;
+
+public $ruleSets = [
+        Rules::class,
+        FormatRules::class,
+        FileRules::class,
+        CreditCardRules::class,
+        PasswordRules::class     // <!-- add this line
+    ];
 ```
 
 ## Further Customization

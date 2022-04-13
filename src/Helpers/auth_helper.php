@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('auth')) {
+if (! function_exists('auth')) {
     /**
      * Provides convenient access to the main Auth class
      * for CodeIgniter Shield.

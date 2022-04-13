@@ -28,6 +28,18 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
     ];
 
     /**
+     * Returns the first identity of the given $type for this user.
+     *
+     * @return mixed|null
+     */
+    public function getIdentity(string $type)
+    {
+        $identities = $this->identitiesOfType($type);
+
+        return count($identities) ? array_shift($identities) : null;
+    }
+
+    /**
      * Accessor method for this user's UserIdentity records.
      * Will populate if they don't exist.
      */
@@ -56,18 +68,6 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
         }
 
         return $identities;
-    }
-
-    /**
-     * Returns the first identity of the given $type for this user.
-     *
-     * @return mixed|null
-     */
-    public function getIdentity(string $type)
-    {
-        $identities = $this->identitiesOfType($type);
-
-        return count($identities) ? array_shift($identities) : null;
     }
 
     /**
