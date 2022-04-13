@@ -43,7 +43,6 @@ class SessionAuth implements FilterInterface
 
         // If user is in middle of an action flow
         // ensure they must finish it first.
-        $user     = auth('session')->user();
         $identity = auth('session')->user()->getIdentity('email_2fa');
         if ($identity instanceof UserIdentity) {
             $action = config('Auth')->actions['login'];
