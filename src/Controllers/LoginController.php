@@ -7,7 +7,7 @@ use CodeIgniter\Events\Events;
 
 class LoginController extends BaseController
 {
-    protected $helpers = ['setting'];
+    protected $helpers = ['auth', 'setting'];
 
     /**
      * Displays the form the login to the site.

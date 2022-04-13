@@ -61,6 +61,7 @@ return [
     'emailConfirmCode' => 'Enter the 6-digit code we just sent to your email address.',
     'email2FASubject'  => 'Confirm your email address',
     'invalid2FAToken'  => 'The token was incorrect.',
+    'need2FA'          => 'You must complete a two-factor verification.',
 
     // Activate
     'emailActivateTitle'   => 'Email Activation',
