@@ -2,8 +2,8 @@ parameters:
 	tmpDir: build/phpstan
 	level: 5
 	paths:
-		- src
-		- tests
+		- src/
+		- tests/
 	bootstrapFiles:
 		- vendor/codeigniter4/framework/system/Test/bootstrap.php
 	excludePaths:
