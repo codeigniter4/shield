@@ -85,6 +85,14 @@ final class ActionsTest extends TestCase
 
     public function testEmail2FAHandleSendsEmail()
     {
+        // An identity with 2FA info would have been stored previously
+        $identities = model(UserIdentityModel::class);
+        $identities->insert([
+            'user_id' => $this->user->id,
+            'type'    => 'email_2fa',
+            'secret'  => '123456',
+        ]);
+
         $result = $this->actingAs($this->user)
             ->withSession([
                 'auth_action' => Email2FA::class,
@@ -94,12 +102,6 @@ final class ActionsTest extends TestCase
 
         $result->assertStatus(200);
         $result->assertSee(lang('Auth.emailEnterCode'));
-
-        // Should have saved an identity with a code
-        $this->seeInDatabase('auth_identities', [
-            'user_id' => $this->user->id,
-            'type'    => 'email_2fa',
-        ]);
 
         // Should have sent an email with the code....
         $this->assertStringContainsString('Your authentication token is:', service('email')->archive['body']);
@@ -154,6 +156,22 @@ final class ActionsTest extends TestCase
 
         // Session should have been cleared
         $result->assertSessionMissing('auth_action');
+    }
+
+    public function testShowEmail2FACreatesIdentity()
+    {
+        $result = $this->actingAs($this->user)
+            ->withSession([
+                'auth_action' => Email2FA::class,
+            ])
+            ->get('/auth/a/show');
+
+        $result->assertOK();
+
+        $this->seeInDatabase('auth_identities', [
+            'user_id' => $this->user->id,
+            'type'    => 'email_2fa',
+        ]);
     }
 
     public function testEmail2FACannotBeBypassed()

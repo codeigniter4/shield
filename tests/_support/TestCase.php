@@ -2,6 +2,7 @@
 
 namespace Tests\Support;
 
+use CodeIgniter\Config\Factories;
 use CodeIgniter\Test\CIUnitTestCase;
 
 /**
@@ -19,5 +20,10 @@ abstract class TestCase extends CIUnitTestCase
         helper('setting');
         setting('Email.fromEmail', 'foo@example.com');
         setting('Email.fromName', 'John Smith');
+
+        // Clear any actions
+        $config          = config('Auth');
+        $config->actions = ['login' => null, 'register' => null];
+        Factories::injectMock('config', 'Auth', $config);
     }
 }
