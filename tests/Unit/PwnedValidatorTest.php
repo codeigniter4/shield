@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Unit;
+
 use CodeIgniter\HTTP\Exceptions\HTTPException;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\Test\CIUnitTestCase;
