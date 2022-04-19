@@ -2,7 +2,8 @@
 
 namespace Tests\Authentication;
 
-use CodeIgniter\Test\CIDatabaseTestCase;
+use CodeIgniter\Test\CIUnitTestCase;
+use CodeIgniter\Test\DatabaseTestTrait;
 use Sparks\Shield\Entities\AccessToken;
 use Sparks\Shield\Entities\User;
 use Sparks\Shield\Models\UserIdentityModel;
@@ -11,8 +12,10 @@ use Sparks\Shield\Models\UserModel;
 /**
  * @internal
  */
-final class HasAccessTokensTest extends CIDatabaseTestCase
+final class HasAccessTokensTest extends CIUnitTestCase
 {
+    use DatabaseTestTrait;
+
     protected $namespace = '\Sparks\Shield';
     protected User $user;
 
