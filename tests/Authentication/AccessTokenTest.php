@@ -10,8 +10,6 @@ use Tests\Support\DatabaseTestCase;
  */
 final class AccessTokenTest extends DatabaseTestCase
 {
-    protected $namespace = '\Sparks\Shield';
-
     public function testCanNoScopes()
     {
         $token = new AccessToken();
