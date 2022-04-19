@@ -62,6 +62,7 @@ return [
     'email2FASubject'  => 'Confirm your email address',
     'invalid2FAToken'  => 'The token was incorrect.',
     'need2FA'          => 'You must complete a two-factor verification.',
+    'needVerification' => 'Check your email to complete account activation.',
 
     // Activate
     'emailActivateTitle'   => 'Email Activation',

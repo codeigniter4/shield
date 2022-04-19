@@ -70,6 +70,8 @@ class RegisterController extends BaseController
 
         Events::trigger('didRegister', $user);
 
+        auth()->login($user);
+
         // If an action has been defined for login, start it up.
         $actionClass = setting('Auth.actions')['register'] ?? null;
 

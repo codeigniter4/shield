@@ -33,8 +33,9 @@ final class ActionsTest extends TestCase
         helper('auth');
 
         // Ensure our actions are registered with the system
-        $config                   = config('Auth');
-        $config->actions['login'] = Email2FA::class;
+        $config                      = config('Auth');
+        $config->actions['login']    = Email2FA::class;
+        $config->actions['register'] = EmailActivator::class;
         Factories::injectMock('config', 'Auth', $config);
 
         // Add auth routes
@@ -91,6 +92,8 @@ final class ActionsTest extends TestCase
             'user_id' => $this->user->id,
             'type'    => 'email_2fa',
             'secret'  => '123456',
+            'name'    => 'login',
+            'extra'   => lang('Auth.need2FA'),
         ]);
 
         $result = $this->actingAs($this->user)
@@ -115,6 +118,8 @@ final class ActionsTest extends TestCase
             'user_id' => $this->user->id,
             'type'    => 'email_2fa',
             'secret'  => '123456',
+            'name'    => 'login',
+            'extra'   => lang('Auth.need2FA'),
         ]);
 
         $result = $this->actingAs($this->user)
@@ -136,6 +141,8 @@ final class ActionsTest extends TestCase
             'user_id' => $this->user->id,
             'type'    => 'email_2fa',
             'secret'  => '123456',
+            'name'    => 'login',
+            'extra'   => lang('Auth.need2FA'),
         ]);
 
         $result = $this->actingAs($this->user)
@@ -171,6 +178,7 @@ final class ActionsTest extends TestCase
         $this->seeInDatabase('auth_identities', [
             'user_id' => $this->user->id,
             'type'    => 'email_2fa',
+            'name'    => 'login',
         ]);
     }
 
@@ -187,6 +195,8 @@ final class ActionsTest extends TestCase
             'user_id' => $this->user->id,
             'type'    => 'email_2fa',
             'secret'  => '123456',
+            'name'    => 'login',
+            'extra'   => lang('Auth.need2FA'),
         ]);
 
         // Try to visit any other page, skipping the 2FA
@@ -219,6 +229,8 @@ final class ActionsTest extends TestCase
             'user_id' => $this->user->id,
             'type'    => 'email_activate',
             'secret'  => '123456',
+            'name'    => 'register',
+            'extra'   => lang('Auth.needVerification'),
         ]);
 
         $result = $this->actingAs($this->user)
@@ -239,5 +251,30 @@ final class ActionsTest extends TestCase
 
         // Session should have been cleared
         $result->assertSessionMissing('auth_action');
+    }
+
+    public function testEmailActivateCannotBeBypassed()
+    {
+        // Ensure filter is enabled for all routes
+        $config                      = config('Filters');
+        $config->globals['before'][] = 'session';
+        Factories::injectMock('config', 'Filters', $config);
+
+        // An identity with 2FA info would have been stored previously
+        $identities = model(UserIdentityModel::class);
+        $identities->insert([
+            'user_id' => $this->user->id,
+            'type'    => 'email_activate',
+            'secret'  => '123456',
+            'name'    => 'register',
+            'extra'   => lang('Auth.needVerification'),
+        ]);
+
+        // Try to visit any other page, skipping the 2FA
+        $result = $this->actingAs($this->user)
+            ->get('/');
+
+        $result->assertRedirect();
+        $this->assertSame(site_url('/auth/a/show'), $result->getRedirectUrl());
     }
 }
