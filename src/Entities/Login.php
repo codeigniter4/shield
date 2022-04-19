@@ -2,7 +2,7 @@
 
 namespace Sparks\Shield\Entities;
 
-use CodeIgniter\Entity;
+use CodeIgniter\Entity\Entity;
 
 class Login extends Entity
 {
