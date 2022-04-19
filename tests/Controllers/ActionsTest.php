@@ -218,7 +218,7 @@ final class ActionsTest extends TestCase
 
         // Should have sent an email with the link....
         $this->assertStringContainsString('Please click the link below to activate your account', service('email')->archive['body']);
-        $this->assertStringContainsString('/auth/a/verify?c=', service('email')->archive['body']);
+        $this->assertStringContainsString('/auth/a/verify?token=', service('email')->archive['body']);
     }
 
     public function testEmailActivateVerify()
