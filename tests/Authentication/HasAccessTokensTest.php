@@ -13,7 +13,6 @@ use Tests\Support\DatabaseTestCase;
  */
 final class HasAccessTokensTest extends DatabaseTestCase
 {
-    protected $namespace = '\Sparks\Shield';
     protected User $user;
 
     protected function setUp(): void

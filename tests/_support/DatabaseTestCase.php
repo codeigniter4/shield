@@ -12,6 +12,8 @@ abstract class DatabaseTestCase extends CIUnitTestCase
 {
     use DatabaseTestTrait;
 
+    protected $namespace = '\Sparks\Shield';
+
     protected function setUp(): void
     {
         parent::setUp();

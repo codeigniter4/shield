@@ -21,7 +21,6 @@ use Tests\Support\DatabaseTestCase;
 final class AccessTokenHandlerTest extends DatabaseTestCase
 {
     protected AccessTokens $auth;
-    protected $namespace = '\Sparks\Shield';
 
     protected function setUp(): void
     {
