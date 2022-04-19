@@ -19,8 +19,24 @@ table to store configuration options. As such, you should run the migrations.
 There are a few setup items to do before you can start using Shield in 
 your project. 
 
-1. Copy the `Auth.php` and  `AuthGroups.php` from `vendor/lonnieezell/codeigniter-shield/src/Config/` into your project's config folder and update the namespace to `Config`. These files contain all of the settings, group, and permission information for your application and
-will need to be modified to meet the needs of your site.
+1. Copy the `Auth.php` and  `AuthGroups.php` from `vendor/lonnieezell/codeigniter-shield/src/Config/` into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all of the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
+
+```php
+// new file - app/Config/Auth.php
+<?php
+
+namespace Config;
+
+use CodeIgniter\Config\BaseConfig;
+use Sparks\Shield\Authentication\Handlers\AccessTokens;
+use Sparks\Shield\Authentication\Handlers\Session;
+use Sparks\Shield\Config\Auth as ShieldAuth;
+
+class Auth extends ShieldAuth
+{
+    //
+}
+```
 
 2. **Helper Setup** The `auth` and `setting` helpers need to be included in almost every page. The simplest way to do this is to add them to the `BaseController::initController` method: 
 
