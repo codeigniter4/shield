@@ -23,9 +23,9 @@ trait UserProvider
     /**
      * Locate a User object by the given credentials.
      *
-     * @return Authenticatable|null
+     * @param array<string, string> $credentials
      */
-    public function findByCredentials(array $credentials)
+    public function findByCredentials(array $credentials): ?Authenticatable
     {
         // Email is stored in an identity so remove that here
         $email = $credentials['email'] ?? null;

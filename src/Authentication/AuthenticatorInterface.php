@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Authentication;
 
 use CodeIgniter\Shield\Interfaces\Authenticatable;
+use CodeIgniter\Shield\Result;
 
 interface AuthenticatorInterface
 {
@@ -11,18 +12,14 @@ interface AuthenticatorInterface
      * Logs the user in with a successful check.
      *
      * @throws AuthenticationException
-     *
-     * @return mixed
      */
-    public function attempt(array $credentials);
+    public function attempt(array $credentials): Result;
 
     /**
      * Checks a user's $credentials to see if they match an
      * existing user.
-     *
-     * @return mixed
      */
-    public function check(array $credentials);
+    public function check(array $credentials): Result;
 
     /**
      * Checks if the user is currently logged in.
@@ -34,10 +31,8 @@ interface AuthenticatorInterface
      * On success this must trigger the "login" Event.
      *
      * @see https://codeigniter4.github.io/CodeIgniter4/extending/authentication.html
-     *
-     * @return mixed
      */
-    public function login(Authenticatable $user);
+    public function login(Authenticatable $user): bool;
 
     /**
      * Logs a user in based on their ID.
@@ -54,22 +49,16 @@ interface AuthenticatorInterface
      * On success this must trigger the "logout" Event.
      *
      * @see https://codeigniter4.github.io/CodeIgniter4/extending/authentication.html
-     *
-     * @return mixed
      */
-    public function logout();
+    public function logout(): bool;
 
     /**
      * Returns the currently logged in user.
-     *
-     * @return Authenticatable|null
      */
-    public function getUser();
+    public function getUser(): ?Authenticatable;
 
     /**
      * Updates the user's last active date.
-     *
-     * @return mixed
      */
-    public function recordActive();
+    public function recordActive(): void;
 }

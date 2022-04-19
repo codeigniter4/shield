@@ -2,8 +2,9 @@
 
 namespace CodeIgniter\Shield\Authentication;
 
+use CodeIgniter\Shield\Authentication\Passwords\ValidatorInterface;
 use CodeIgniter\Shield\Config\Auth;
-use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Interfaces\Authenticatable;
 use CodeIgniter\Shield\Result;
 
 /**
@@ -57,7 +58,7 @@ class Passwords
      * @param string $password The password we're checking
      * @param string $hash     The previously hashed password
      */
-    public function verify(string $password, string $hash)
+    public function verify(string $password, string $hash): bool
     {
         return password_verify(base64_encode(
             hash('sha384', $password, true)
@@ -66,10 +67,8 @@ class Passwords
 
     /**
      * Checks to see if a password should be rehashed.
-     *
-     * @return bool
      */
-    public function needsRehash(string $hashedPassword)
+    public function needsRehash(string $hashedPassword): bool
     {
         return password_needs_rehash($hashedPassword, $this->config->hashAlgorithm);
     }
@@ -80,7 +79,7 @@ class Passwords
      *
      * @throws AuthenticationException
      */
-    public function check(string $password, ?User $user = null): Result
+    public function check(string $password, ?Authenticatable $user = null): Result
     {
         if (null === $user) {
             throw AuthenticationException::forNoEntityProvided();
@@ -96,6 +95,7 @@ class Passwords
         }
 
         foreach ($this->config->passwordValidators as $className) {
+            /** @var ValidatorInterface $class */
             $class = new $className($this->config);
 
             $result = $class->check($password, $user);

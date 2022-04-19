@@ -9,7 +9,7 @@ if (! function_exists('auth')) {
      *
      * @param string|null $alias Authenticator alias
      */
-    function auth(?string $alias = null)
+    function auth(?string $alias = null): Auth
     {
         /** @var Auth $auth */
         $auth = service('auth');
@@ -23,7 +23,7 @@ if (! function_exists('user_id')) {
      * Returns the ID for the current logged in user.
      * Note: For \CodeIgniter\Shield\Entities\User this will always return an int.
      *
-     * @return mixed|null
+     * @return int|string|null
      */
     function user_id()
     {

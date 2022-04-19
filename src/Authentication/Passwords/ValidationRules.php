@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Authentication\Passwords;
 
 use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\User;
 
 /**
@@ -27,11 +28,10 @@ class ValidationRules
      * @param string $error1 Error that will be returned (for call without validation data array)
      * @param array  $data   Validation data array
      * @param string $error2 Error that will be returned (for call with validation data array)
-     *
-     * @return bool
      */
-    public function strong_password(string $value, ?string &$error1 = null, array $data = [], ?string &$error2 = null)
+    public function strong_password(string $value, ?string &$error1 = null, array $data = [], ?string &$error2 = null): bool
     {
+        /** @var Passwords $checker */
         $checker = service('passwords');
 
         if (function_exists('auth') && auth()->user()) {
@@ -55,10 +55,8 @@ class ValidationRules
 
     /**
      * Builds a new user instance from the global request.
-     *
-     * @return User
      */
-    protected function buildUserFromRequest()
+    protected function buildUserFromRequest(): User
     {
         $fields = $this->prepareValidFields();
 
@@ -74,10 +72,8 @@ class ValidationRules
      * Builds a new user instance from assigned data..
      *
      * @param array $data Assigned data
-     *
-     * @return User
      */
-    protected function buildUserFromData(array $data = [])
+    protected function buildUserFromData(array $data = []): User
     {
         $fields = $this->prepareValidFields();
 

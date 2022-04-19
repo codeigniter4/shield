@@ -65,24 +65,24 @@ class RememberModel extends Model
      * Removes all persistent login tokens (remember-me) for a single user
      * across all devices they may have logged in with.
      *
-     * @param int $id
+     * @param int|string|null $userId
      *
      * @return mixed
      */
-    public function purgeRememberTokens(?int $id = null)
+    public function purgeRememberTokens($userId = null)
     {
-        if (empty($id)) {
+        if (empty($userId)) {
             return;
         }
 
-        return $this->where(['user_id' => $id])->delete();
+        return $this->where(['user_id' => $userId])->delete();
     }
 
     /**
      * Purges the 'auth_remember_tokens' table of any records that are past
      * their expiration date already.
      */
-    public function purgeOldRememberTokens()
+    public function purgeOldRememberTokens(): void
     {
         $this->where('expires <=', date('Y-m-d H:i:s'))
             ->delete();

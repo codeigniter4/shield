@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Interfaces\UserProvider;
 use CodeIgniter\Validation\Validation;
 
 /**
@@ -101,20 +102,20 @@ class RegisterController extends BaseController
 
     /**
      * Returns the User provider
-     *
-     * @return mixed
      */
-    protected function getUserProvider()
+    protected function getUserProvider(): UserProvider
     {
-        return model(setting('Auth.userProvider'));
+        $provider = model(setting('Auth.userProvider'));
+
+        assert($provider instanceof UserProvider, 'Config Auth.userProvider is not a valid UserProvider.');
+
+        return $provider;
     }
 
     /**
      * Returns the Entity class that should be used
-     *
-     * @return \CodeIgniter\Shield\Entities\User
      */
-    protected function getUserEntity()
+    protected function getUserEntity(): User
     {
         return new User();
     }
@@ -124,7 +125,7 @@ class RegisterController extends BaseController
      *
      * @return string[]
      */
-    protected function getValidationRules()
+    protected function getValidationRules(): array
     {
         return [
             'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',

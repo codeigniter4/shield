@@ -12,22 +12,22 @@ class AuthenticationException extends Exception
     /**
      * @param string $alias Authenticator alias
      */
-    public static function forUnknownAuthenticator(string $alias)
+    public static function forUnknownAuthenticator(string $alias): self
     {
         return new self(lang('Auth.unknownAuthenticator', [$alias]));
     }
 
-    public static function forUnknownUserProvider()
+    public static function forUnknownUserProvider(): self
     {
         return new self(lang('Auth.unknownUserProvider'));
     }
 
-    public static function forInvalidUser()
+    public static function forInvalidUser(): self
     {
         return new self(lang('Auth.invalidUser'));
     }
 
-    public static function forNoEntityProvided()
+    public static function forNoEntityProvided(): self
     {
         return new self(lang('Auth.noUserEntity'), 500);
     }

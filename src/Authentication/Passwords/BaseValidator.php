@@ -18,7 +18,7 @@ class BaseValidator
     /**
      * Returns the error string that should be displayed to the user.
      */
-    public function error(): string
+    public function error(): ?string
     {
         return $this->error;
     }
@@ -29,7 +29,7 @@ class BaseValidator
      * required, but a suggestion is optional. May return
      * an empty string instead.
      */
-    public function suggestion(): string
+    public function suggestion(): ?string
     {
         return $this->suggestion;
     }

@@ -9,7 +9,7 @@ if (! defined('emailer')) {
      *
      * @internal
      */
-    function emailer(?array $overrides = null)
+    function emailer(?array $overrides = null): Email
     {
         helper('setting');
 

@@ -4,6 +4,7 @@ namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\Exceptions\PageNotFoundException;
+use CodeIgniter\HTTP\Response;
 use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 
 /**
@@ -13,22 +14,20 @@ use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
  */
 class ActionController extends BaseController
 {
-    /**
-     * @var ActionInterface|null
-     */
-    protected $action;
-
+    protected ?ActionInterface $action;
     protected $helpers = ['setting'];
 
     /**
      * Perform an initial check if we have a valid action or not.
      *
-     * @param string $method
-     * @param mixed  ...$params
+     * @param string[] $params
+     *
+     * @return Response|string
      */
-    public function _remap($method, ...$params)
+    public function _remap(string $method, ...$params)
     {
         // Grab our action instance if one has been set.
+        /** @var class-string<ActionInterface>|null $actionClass */
         $actionClass = session('auth_action');
 
         if (! empty($actionClass) && class_exists($actionClass)) {
@@ -47,7 +46,7 @@ class ActionController extends BaseController
      * This might be asking for the user's email to reset a password,
      * or asking for a cell-number for a 2FA.
      *
-     * @return mixed
+     * @return Response|string
      */
     public function show()
     {
@@ -57,7 +56,7 @@ class ActionController extends BaseController
     /**
      * Processes the form that was displayed in the previous form.
      *
-     * @return mixed
+     * @return Response|string
      */
     public function handle()
     {
@@ -70,7 +69,7 @@ class ActionController extends BaseController
      * from clicking the 'confirm my email' action or
      * following entering a code sent in an SMS.
      *
-     * @return mixed
+     * @return Response|string
      */
     public function verify()
     {

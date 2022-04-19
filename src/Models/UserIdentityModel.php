@@ -165,7 +165,7 @@ class UserIdentityModel extends Model
             ->delete();
     }
 
-    public function fake(Generator &$faker)
+    public function fake(Generator &$faker): array
     {
         return [
             'user_id'      => fake(UserModel::class)->id,

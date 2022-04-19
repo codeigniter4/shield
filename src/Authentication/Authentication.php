@@ -11,7 +11,7 @@ class Authentication
      * Instantiated Authenticator objects,
      * stored by Authenticator alias.
      *
-     * @var array<string, AuthenticatorInterface>
+     * @var array<string, AuthenticatorInterface> [Authenticator_alias => Authenticator_instance]
      */
     protected array $instances = [];
 
@@ -33,10 +33,8 @@ class Authentication
      * @param string|null $alias Authenticator alias
      *
      * @throws AuthenticationException
-     *
-     * @return AuthenticatorInterface
      */
-    public function factory(?string $alias = null)
+    public function factory(?string $alias = null): AuthenticatorInterface
     {
         // Determine actual Authenticator alias
         $alias ??= $this->config->defaultAuthenticator;
@@ -53,7 +51,7 @@ class Authentication
 
         $className = $this->config->authenticators[$alias];
 
-        assert($this->userProvider !== null, '$userProvider must be set.');
+        assert($this->userProvider !== null, 'You must set $this->userProvider.');
 
         $this->instances[$alias] = new $className($this->userProvider);
 

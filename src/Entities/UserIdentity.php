@@ -21,9 +21,18 @@ use CodeIgniter\Shield\Authentication\Passwords;
  */
 class UserIdentity extends Entity
 {
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'force_reset' => 'boolean',
     ];
+
+    /**
+     * @var string[]
+     * @phpstan-var list<string>
+     * @psalm-var list<string>
+     */
     protected $dates = [
         'expires',
         'last_used_at',
@@ -32,10 +41,8 @@ class UserIdentity extends Entity
     /**
      * Uses password-strength hashing to hash
      * a given value for the 'secret'.
-     *
-     * @return \CodeIgniter\Shield\Entities\UserIdentity
      */
-    public function hashSecret(string $value)
+    public function hashSecret(string $value): UserIdentity
     {
         /** @var Passwords $passwords */
         $passwords = service('passwords');

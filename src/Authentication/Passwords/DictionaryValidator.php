@@ -2,6 +2,7 @@
 
 namespace CodeIgniter\Shield\Authentication\Passwords;
 
+use CodeIgniter\Shield\Interfaces\Authenticatable;
 use CodeIgniter\Shield\Result;
 
 /**
@@ -17,10 +18,8 @@ class DictionaryValidator extends BaseValidator implements ValidatorInterface
      * if a match is found. Returns true if no match is found.
      * If true is returned the password will be passed to next validator.
      * If false is returned the validation process will be immediately stopped.
-     *
-     * @param mixed $user
      */
-    public function check(string $password, $user = null): Result
+    public function check(string $password, ?Authenticatable $user = null): Result
     {
         // Loop over our file
         $fp = fopen(__DIR__ . '/_dictionary.txt', 'rb');

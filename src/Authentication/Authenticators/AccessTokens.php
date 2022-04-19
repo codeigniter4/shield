@@ -6,9 +6,9 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
-use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Interfaces\Authenticatable;
+use CodeIgniter\Shield\Interfaces\UserProvider;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Result;
@@ -19,7 +19,7 @@ class AccessTokens implements AuthenticatorInterface
     /**
      * The persistence engine
      */
-    protected $provider;
+    protected UserProvider $provider;
 
     /**
      * AccessTokens requires HasAccessTokens trait but there is no interface
@@ -28,11 +28,11 @@ class AccessTokens implements AuthenticatorInterface
      *
      * @todo Fix interface issue described above
      */
-    protected ?User $user = null;
+    protected ?Authenticatable $user = null;
 
     protected LoginModel $loginModel;
 
-    public function __construct($provider)
+    public function __construct(UserProvider $provider)
     {
         helper('session');
         $this->provider   = $provider;
@@ -81,10 +81,8 @@ class AccessTokens implements AuthenticatorInterface
      *
      * In this case, $credentials has only a single valid value: token,
      * which is the plain text token to return.
-     *
-     * @return Result
      */
-    public function check(array $credentials)
+    public function check(array $credentials): Result
     {
         if (! array_key_exists('token', $credentials) || empty($credentials['token'])) {
             return new Result([
@@ -151,8 +149,6 @@ class AccessTokens implements AuthenticatorInterface
 
     /**
      * Logs the given user in by saving them to the class.
-     *
-     * @param User $user
      */
     public function login(Authenticatable $user): bool
     {
@@ -185,10 +181,8 @@ class AccessTokens implements AuthenticatorInterface
 
     /**
      * Logs the current user out.
-     *
-     * @return bool
      */
-    public function logout()
+    public function logout(): bool
     {
         $this->user = null;
 
@@ -197,30 +191,24 @@ class AccessTokens implements AuthenticatorInterface
 
     /**
      * Removes any remember-me tokens, if applicable.
-     *
-     * @return mixed
      */
-    public function forget(?int $id)
+    public function forget(?int $id): void
     {
         // Nothing to do here...
     }
 
     /**
      * Returns the currently logged in user.
-     *
-     * @return User|null
      */
-    public function getUser()
+    public function getUser(): ?Authenticatable
     {
         return $this->user;
     }
 
     /**
      * Returns the Bearer token from the Authorization header
-     *
-     * @return string|null
      */
-    public function getBearerToken()
+    public function getBearerToken(): ?string
     {
         /** @var IncomingRequest $request */
         $request = service('request');
@@ -236,10 +224,8 @@ class AccessTokens implements AuthenticatorInterface
 
     /**
      * Updates the user's last active date.
-     *
-     * @return mixed
      */
-    public function recordActive()
+    public function recordActive(): void
     {
         if (! $this->user instanceof User) {
             throw new InvalidArgumentException(self::class . '::recordActive() requires logged in user before calling.');

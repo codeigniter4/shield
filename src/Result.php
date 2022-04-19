@@ -2,7 +2,7 @@
 
 namespace CodeIgniter\Shield;
 
-use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Interfaces\Authenticatable;
 
 class Result
 {
@@ -18,13 +18,13 @@ class Result
     /**
      * Extra information.
      *
-     * @var string|User|null `User` when successful. Suggestion strings when fails.
+     * @var Authenticatable|string|null `Authenticatable` when successful. Suggestion strings when fails.
      */
     protected $extraInfo;
 
     /**
-     * @phpstan-param array{success: bool, reason?: string|null, extraInfo?: string|User} $details
-     * @psalm-param array{success: bool, reason?: string|null, extraInfo?: string|User} $details
+     * @phpstan-param array{success: bool, reason?: string|null, extraInfo?: string|Authenticatable} $details
+     * @psalm-param array{success: bool, reason?: string|null, extraInfo?: string|Authenticatable} $details
      */
     public function __construct(array $details)
     {
@@ -37,24 +37,19 @@ class Result
 
     /**
      * Was the result a success?
-     *
-     * @return bool
      */
-    public function isOK()
+    public function isOK(): bool
     {
         return $this->success;
     }
 
-    /**
-     * @return string
-     */
-    public function reason()
+    public function reason(): ?string
     {
         return $this->reason;
     }
 
     /**
-     * @return string|User|null `User` when successful. Suggestion strings when fails.
+     * @return Authenticatable|string|null `Authenticatable` when successful. Suggestion strings when fails.
      */
     public function extraInfo()
     {

@@ -18,7 +18,7 @@ trait HasAccessTokens
     /**
      * Generates a new personal access token for this user.
      */
-    public function generateAccessToken(string $name, array $scopes = ['*'])
+    public function generateAccessToken(string $name, array $scopes = ['*']): AccessToken
     {
         helper('text');
 
@@ -46,7 +46,7 @@ trait HasAccessTokens
     /**
      * Delete any access tokens for the given raw token.
      */
-    public function revokeAccessToken(string $rawToken)
+    public function revokeAccessToken(string $rawToken): bool
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
@@ -57,7 +57,7 @@ trait HasAccessTokens
     /**
      * Revokes all access tokens for this user.
      */
-    public function revokeAllAccessTokens()
+    public function revokeAllAccessTokens(): bool
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
@@ -96,10 +96,8 @@ trait HasAccessTokens
 
     /**
      * Given the ID, returns the given access token.
-     *
-     * @return AccessToken|null
      */
-    public function getAccessTokenById(int $id)
+    public function getAccessTokenById(int $id): ?AccessToken
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
@@ -137,18 +135,14 @@ trait HasAccessTokens
 
     /**
      * Returns the current access token for the user.
-     *
-     * @return AccessToken
      */
-    public function currentAccessToken()
+    public function currentAccessToken(): ?AccessToken
     {
         return $this->attributes['activeAccessToken'] ?? null;
     }
 
     /**
      * Sets the current active token for this user.
-     *
-     * @param AccessToken $accessToken
      *
      * @return $this
      */

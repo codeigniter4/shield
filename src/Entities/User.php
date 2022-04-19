@@ -37,6 +37,9 @@ class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticata
         'last_active',
     ];
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'active'           => 'boolean',
         'force_pass_reset' => 'boolean',
@@ -47,9 +50,9 @@ class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticata
     /**
      * Returns the first identity of the given $type for this user.
      *
-     * @return mixed|null
+     * @phpstan-param 'email_2fa'|'email_activate' $type
      */
-    public function getIdentity(string $type)
+    public function getIdentity(string $type): ?UserIdentity
     {
         $identities = $this->identitiesOfType($type);
 
@@ -59,6 +62,8 @@ class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticata
     /**
      * Accessor method for this user's UserIdentity objects.
      * Will populate if they don't exist.
+     *
+     * @return UserIdentity[]
      */
     public function getIdentities(): array
     {
@@ -74,6 +79,8 @@ class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticata
 
     /**
      * Returns only the user identities that match the given $type.
+     *
+     * @return UserIdentity[]
      */
     public function identitiesOfType(string $type): array
     {
@@ -92,7 +99,7 @@ class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticata
      * Creates a new identity for this user with an email/password
      * combination.
      */
-    public function createEmailIdentity(array $credentials)
+    public function createEmailIdentity(array $credentials): void
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
@@ -110,10 +117,8 @@ class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticata
 
     /**
      * Returns the user's Email/Password identity.
-     *
-     * @return mixed
      */
-    public function getEmailIdentity()
+    public function getEmailIdentity(): ?UserIdentity
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
@@ -124,7 +129,7 @@ class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticata
     /**
      * Update the last used at date for an identity record.
      */
-    public function touchIdentity(UserIdentity $identity)
+    public function touchIdentity(UserIdentity $identity): void
     {
         $identity->last_used_at = date('Y-m-d H:i:s');
 
@@ -139,7 +144,7 @@ class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticata
      * Will cache it in $this->email, since it has
      * to hit the database the first time to get it, most likely.
      */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         if ($this->email === null) {
             $this->email = $this->getEmailIdentity()->secret ?? null;
@@ -168,7 +173,7 @@ class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticata
      * Will cache it in $this->attributes, since it has
      * to hit the database the first time to get it, most likely.
      */
-    public function getPasswordHash()
+    public function getPasswordHash(): ?string
     {
         if ($this->password_hash === null) {
             $this->password_hash = $this->getEmailIdentity()->secret2 ?? null;
@@ -181,7 +186,7 @@ class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticata
      * Returns the last login information for this
      * user as
      */
-    public function lastLogin(bool $allowFailed = false)
+    public function lastLogin(bool $allowFailed = false): ?Login
     {
         $logins = model(LoginModel::class);
 

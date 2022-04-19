@@ -37,6 +37,8 @@ class UserModel extends Model implements UserProvider
 
     /**
      * Mark the next find* query to include identities
+     *
+     * @return $this
      */
     public function withIdentities()
     {
@@ -51,10 +53,8 @@ class UserModel extends Model implements UserProvider
      * automatically when $this->fetchIdentities == true
      *
      * Model event callback called `afterFind`.
-     *
-     * @return array
      */
-    protected function fetchIdentities(array $data)
+    protected function fetchIdentities(array $data): array
     {
         if (! $this->fetchIdentities) {
             return $data;
@@ -101,7 +101,7 @@ class UserModel extends Model implements UserProvider
      * Adds a user to the default group.
      * Used during registration.
      */
-    public function addToDefaultGroup(User $user)
+    public function addToDefaultGroup(User $user): void
     {
         $defaultGroup  = setting('AuthGroups.defaultGroup');
         $allowedGroups = array_keys(setting('AuthGroups.groups'));
@@ -113,7 +113,7 @@ class UserModel extends Model implements UserProvider
         $user->addGroup($defaultGroup);
     }
 
-    public function fake(Generator &$faker)
+    public function fake(Generator &$faker): array
     {
         return [
             'username' => $faker->userName,

@@ -8,18 +8,13 @@ use Exception;
 
 trait Authorizable
 {
-    /**
-     * @var array|null
-     */
-    protected $groupCache;
-
-    /**
-     * @var array|null
-     */
-    protected $permissionsCache;
+    protected ?array $groupCache       = null;
+    protected ?array $permissionsCache = null;
 
     /**
      * Adds one or more groups to the current User.
+     *
+     * @return $this
      */
     public function addGroup(string ...$groups)
     {
@@ -57,7 +52,7 @@ trait Authorizable
     /**
      * Removes one or more groups from the user.
      *
-     * @return self
+     * @return $this
      */
     public function removeGroup(string ...$groups)
     {
@@ -106,10 +101,8 @@ trait Authorizable
 
     /**
      * Returns all groups this user is a part of.
-     *
-     * @return array|null
      */
-    public function getGroups()
+    public function getGroups(): ?array
     {
         $this->populateGroups();
 
@@ -119,10 +112,8 @@ trait Authorizable
     /**
      * Returns all permissions this user has
      * assigned directly to them.
-     *
-     * @return array|null
      */
-    public function getPermissions()
+    public function getPermissions(): ?array
     {
         $this->populatePermissions();
 
@@ -294,7 +285,7 @@ trait Authorizable
      * Used internally to populate the User groups
      * so we hit the database as little as possible.
      */
-    private function populateGroups()
+    private function populateGroups(): void
     {
         if (is_array($this->groupCache)) {
             return;
@@ -312,7 +303,7 @@ trait Authorizable
      * Used internally to populate the User permissions
      * so we hit the database as little as possible.
      */
-    private function populatePermissions()
+    private function populatePermissions(): void
     {
         if (is_array($this->permissionsCache)) {
             return;
@@ -332,7 +323,7 @@ trait Authorizable
      *
      * @throws Exception
      */
-    private function saveGroupsOrPermissions(string $type)
+    private function saveGroupsOrPermissions(string $type): void
     {
         $table = $type === 'group'
             ? 'auth_groups_users'

@@ -6,7 +6,7 @@ use CodeIgniter\Database\Migration;
 
 class CreateAuthTables extends Migration
 {
-    public function up()
+    public function up(): void
     {
         // Users Table
         $this->forge->addField([
@@ -132,7 +132,7 @@ class CreateAuthTables extends Migration
 
     //--------------------------------------------------------------------
 
-    public function down()
+    public function down(): void
     {
         $this->db->disableForeignKeyChecks();
 

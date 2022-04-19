@@ -14,9 +14,9 @@ interface UserProvider
     /**
      * Locate a user by the given credentials.
      *
-     * @return Authenticatable|null
+     * @param array<string, string> $credentials
      */
-    public function findByCredentials(array $credentials);
+    public function findByCredentials(array $credentials): ?Authenticatable;
 
     /**
      * Find a user by their ID and "remember-me" token.
@@ -29,8 +29,6 @@ interface UserProvider
      * Given a User object, will update the record
      * in the database. This is often a User entity
      * that already has the correct values set.
-     *
-     * @param array|object $data
      */
-    public function save($data);
+    public function save(Authenticatable $data): bool;
 }

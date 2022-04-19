@@ -3,9 +3,9 @@
 namespace CodeIgniter\Shield\Authentication\Passwords;
 
 use CodeIgniter\Config\Services;
-use CodeIgniter\Entity\Entity;
 use CodeIgniter\HTTP\Exceptions\HTTPException;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
+use CodeIgniter\Shield\Interfaces\Authenticatable;
 use CodeIgniter\Shield\Result;
 
 /**
@@ -29,7 +29,7 @@ class PwnedValidator extends BaseValidator implements ValidatorInterface
      *
      * @throws AuthenticationException
      */
-    public function check(string $password, ?Entity $user = null): Result
+    public function check(string $password, ?Authenticatable $user = null): Result
     {
         $hashedPword = strtoupper(sha1($password));
         $rangeHash   = substr($hashedPword, 0, 5);

@@ -27,29 +27,23 @@ interface Authenticatable
 
     /**
      * Returns the email address for this user.
-     *
-     * @return string|null
      */
-    public function getAuthEmail();
+    public function getAuthEmail(): ?string;
 
     /**
      * Get the password for the user.
-     *
-     * @return string|null
      */
-    public function getAuthPassword();
+    public function getAuthPassword(): ?string;
 
     /**
      * Returns the "remember-me" token for this user.
-     *
-     * @return string|null
      */
-    public function getRememberToken();
+    public function getRememberToken(): ?string;
 
     /**
      * Sets the "remember-me" token.
      *
-     * @return mixed
+     * @return $this
      */
     public function setRememberToken(string $value);
 

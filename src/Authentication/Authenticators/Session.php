@@ -11,6 +11,7 @@ use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Interfaces\Authenticatable;
+use CodeIgniter\Shield\Interfaces\UserProvider;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\RememberModel;
 use CodeIgniter\Shield\Result;
@@ -22,7 +23,7 @@ class Session implements AuthenticatorInterface
     /**
      * The persistence engine
      */
-    protected $provider;
+    protected UserProvider $provider;
 
     protected ?Authenticatable $user = null;
     protected LoginModel $loginModel;
@@ -34,7 +35,7 @@ class Session implements AuthenticatorInterface
 
     protected RememberModel $rememberModel;
 
-    public function __construct($provider)
+    public function __construct(UserProvider $provider)
     {
         helper('setting');
         $this->provider      = $provider;
@@ -57,10 +58,8 @@ class Session implements AuthenticatorInterface
     /**
      * Attempts to authenticate a user with the given $credentials.
      * Logs the user in with a successful check.
-     *
-     * @return Result
      */
-    public function attempt(array $credentials)
+    public function attempt(array $credentials): Result
     {
         /** @var IncomingRequest $request */
         $request = service('request');
@@ -82,7 +81,10 @@ class Session implements AuthenticatorInterface
             return $result;
         }
 
-        $this->login($result->extraInfo());
+        /** @var Authenticatable $user */
+        $user = $result->extraInfo();
+
+        $this->login($user);
 
         $this->loginModel->recordLoginAttempt($credentials['email'] ?? $credentials['username'], true, $ipAddress, $userAgent, $this->user->getAuthId());
 
@@ -92,10 +94,8 @@ class Session implements AuthenticatorInterface
     /**
      * Checks a user's $credentials to see if they match an
      * existing user.
-     *
-     * @return Result
      */
-    public function check(array $credentials)
+    public function check(array $credentials): Result
     {
         // Can't validate without a password.
         if (empty($credentials['password']) || count($credentials) < 2) {
@@ -169,10 +169,8 @@ class Session implements AuthenticatorInterface
 
     /**
      * Logs the given user in.
-     *
-     * @return bool
      */
-    public function login(Authenticatable $user)
+    public function login(Authenticatable $user): bool
     {
         /**
          * @todo Authenticatable should define getEmailIdentity() or this should require User
@@ -236,10 +234,8 @@ class Session implements AuthenticatorInterface
 
     /**
      * Logs the current user out.
-     *
-     * @return bool
      */
-    public function logout()
+    public function logout(): bool
     {
         if ($this->user === null) {
             return true;
@@ -273,39 +269,33 @@ class Session implements AuthenticatorInterface
     /**
      * Removes any remember-me tokens, if applicable.
      *
-     * @param int|null $id ID of user to forget.
-     *
-     * @return void
+     * @param int|string|null $userId ID of user to forget.
      */
-    public function forget(?int $id = null)
+    public function forget($userId = null): void
     {
-        if (empty($id)) {
+        if (empty($userId)) {
             if (! $this->loggedIn()) {
                 return;
             }
 
-            $id = $this->user->getAuthId();
+            $userId = $this->user->getAuthId();
         }
 
-        $this->rememberModel->purgeRememberTokens($id);
+        $this->rememberModel->purgeRememberTokens($userId);
     }
 
     /**
      * Returns the current user instance.
-     *
-     * @return Authenticatable|null
      */
-    public function getUser()
+    public function getUser(): ?Authenticatable
     {
         return $this->user;
     }
 
     /**
      * Updates the user's last active date.
-     *
-     * @return mixed
      */
-    public function recordActive()
+    public function recordActive(): void
     {
         if (! $this->user instanceof User) {
             throw new InvalidArgumentException(self::class . '::recordActive() requires logged in user before calling.');

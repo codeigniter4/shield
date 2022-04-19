@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Authentication\Passwords;
 
 use CodeIgniter\Shield\Authentication\AuthenticationException;
+use CodeIgniter\Shield\Interfaces\Authenticatable;
 use CodeIgniter\Shield\Result;
 
 /**
@@ -22,10 +23,8 @@ class CompositionValidator extends BaseValidator implements ValidatorInterface
      * Returns true when the password passes this test.
      * The password will be passed to any remaining validators.
      * False will immediately stop validation process
-     *
-     * @param mixed|null $user
      */
-    public function check(string $password, $user = null): Result
+    public function check(string $password, ?Authenticatable $user = null): Result
     {
         if (empty($this->config->minimumPasswordLength)) {
             throw AuthenticationException::forUnsetPasswordLength();

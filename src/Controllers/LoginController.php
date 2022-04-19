@@ -5,7 +5,7 @@ namespace CodeIgniter\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\IncomingRequest;
-use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\HTTP\Response;
 
 class LoginController extends BaseController
 {
@@ -21,8 +21,10 @@ class LoginController extends BaseController
 
     /**
      * Attempts to log the user in.
+     *
+     * @return Response|string
      */
-    public function loginAction(): RedirectResponse
+    public function loginAction()
     {
         /** @var IncomingRequest $request */
         $request = service('request');
@@ -58,8 +60,10 @@ class LoginController extends BaseController
 
     /**
      * Logs the current user out.
+     *
+     * @return Response|string
      */
-    public function logoutAction(): RedirectResponse
+    public function logoutAction()
     {
         $user = auth()->user();
 
