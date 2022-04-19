@@ -3,8 +3,6 @@
 namespace Tests\Authentication;
 
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Test\CIUnitTestCase;
-use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
 use Sparks\Shield\Authentication\Authentication;
@@ -15,14 +13,13 @@ use Sparks\Shield\Entities\User;
 use Sparks\Shield\Models\UserIdentityModel;
 use Sparks\Shield\Models\UserModel;
 use Sparks\Shield\Result;
+use Tests\Support\DatabaseTestCase;
 
 /**
  * @internal
  */
-final class AccessTokenHandlerTest extends CIUnitTestCase
+final class AccessTokenHandlerTest extends DatabaseTestCase
 {
-    use DatabaseTestTrait;
-
     protected AccessTokens $auth;
     protected $namespace = '\Sparks\Shield';
 
