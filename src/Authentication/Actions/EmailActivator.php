@@ -34,6 +34,8 @@ class EmailActivator implements ActionInterface
             'user_id' => $user->id,
             'type'    => 'email_activate',
             'secret'  => $code,
+            'name'    => 'register',
+            'extra'   => lang('Auth.needVerification'),
         ]);
 
         // Send the email

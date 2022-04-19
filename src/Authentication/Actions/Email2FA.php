@@ -37,6 +37,8 @@ class Email2FA implements ActionInterface
             'user_id' => $user->id,
             'type'    => 'email_2fa',
             'secret'  => $code,
+            'name'    => 'login',
+            'extra'   => lang('Auth.need2FA'),
         ]);
 
         return view(setting('Auth.views')['action_email_2fa']);
