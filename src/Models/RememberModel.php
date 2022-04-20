@@ -60,7 +60,7 @@ class RememberModel extends Model
     }
 
     /**
-     * Removes all persistent login tokens (RememberMe) for a single user
+     * Removes all persistent login tokens (remember-me) for a single user
      * across all devices they may have logged in with.
      *
      * @param int $id

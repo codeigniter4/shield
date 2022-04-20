@@ -173,7 +173,7 @@ class CreateAuthTables extends Migration
         $this->forge->createTable('auth_logins', true);
 
         /*
-         * Auth Tokens  (Remember Me)
+         * Auth Tokens (remember-me)
          * @see https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence
          */
         $this->forge->addField([
