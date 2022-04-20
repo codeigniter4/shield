@@ -71,7 +71,7 @@ trait Authenticatable
     }
 
     /**
-     * Sets the "remmeber me" token.
+     * Sets the "remember-me" token.
      *
      * @return self
      */

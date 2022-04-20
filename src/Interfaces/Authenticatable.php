@@ -40,14 +40,14 @@ interface Authenticatable
     public function getAuthPassword();
 
     /**
-     * Returns the "remember me" token for this user.
+     * Returns the "remember-me" token for this user.
      *
      * @return string|null
      */
     public function getRememberToken();
 
     /**
-     * Sets the "remmeber me" token.
+     * Sets the "remember-me" token.
      *
      * @return mixed
      */

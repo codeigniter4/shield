@@ -247,7 +247,7 @@ class Session implements AuthenticatorInterface
         // Regenerate the session ID for a touch of added safety.
         session()->regenerate(true);
 
-        // Take care of any remember me functionality
+        // Take care of any remember-me functionality
         $this->rememberModel->purgeRememberTokens($this->user->getAuthId());
 
         // Trigger logout event
@@ -305,7 +305,7 @@ class Session implements AuthenticatorInterface
     }
 
     /**
-     * Generates a timing-attack safe remember me token
+     * Generates a timing-attack safe remember-me token
      * and stores the necessary info in the db and a cookie.
      *
      * @see https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence
