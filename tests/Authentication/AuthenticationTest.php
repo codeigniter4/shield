@@ -2,23 +2,19 @@
 
 namespace Tests\Authentication;
 
-use CodeIgniter\Test\DatabaseTestTrait;
 use Sparks\Shield\Authentication\Authentication;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\Handlers\Session;
 use Sparks\Shield\Config\Auth;
 use Sparks\Shield\Models\UserModel;
-use Tests\Support\TestCase;
+use Tests\Support\DatabaseTestCase;
 
 /**
  * @internal
  */
-final class AuthenticationTest extends TestCase
+final class AuthenticationTest extends DatabaseTestCase
 {
-    use DatabaseTestTrait;
-
     protected Authentication $auth;
-    protected $namespace = ['CodeIgniter\Settings', '\Sparks\Shield'];
 
     protected function setUp(): void
     {
