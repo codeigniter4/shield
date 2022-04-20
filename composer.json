@@ -68,10 +68,14 @@
             "bash admin/setup.sh"
         ],
         "analyze": "phpstan analyze",
+        "sa": [
+            "@analyze",
+            "psalm"
+        ],
         "ci": [
             "Composer\\Config::disableProcessTimeout",
             "@deduplicate",
-            "@analyze",
+            "@sa",
             "@test",
             "@inspect",
             "rector process",
