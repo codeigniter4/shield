@@ -2,13 +2,12 @@
 
 namespace Tests\Support;
 
-use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 
 /**
  * @internal
  */
-abstract class DatabaseTestCase extends CIUnitTestCase
+abstract class DatabaseTestCase extends TestCase
 {
     use DatabaseTestTrait;
 
