@@ -3,22 +3,20 @@
 namespace Tests\Authentication;
 
 use CodeIgniter\Config\Factories;
-use CodeIgniter\Test\CIUnitTestCase;
-use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
 use Sparks\Shield\Entities\AccessToken;
 use Sparks\Shield\Entities\User;
 use Sparks\Shield\Filters\TokenAuth;
 use Sparks\Shield\Models\UserModel;
+use Tests\Support\DatabaseTestCase;
 
 /**
  * @internal
  */
-final class TokenFilterTest extends CIUnitTestCase
+final class TokenFilterTest extends DatabaseTestCase
 {
     use FeatureTestTrait;
-    use DatabaseTestTrait;
 
     protected $namespace;
 
