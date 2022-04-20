@@ -84,6 +84,11 @@ class EmailActivator implements ActionInterface
         $identities = new UserIdentityModel();
         $identities->delete($identity->id);
 
+        // Set the user active now
+        $model        = auth()->getProvider();
+        $user->active = true;
+        $model->save($user);
+
         // Clean up our session
         unset($_SESSION['auth_action']);
 
