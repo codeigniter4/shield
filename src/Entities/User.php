@@ -6,6 +6,7 @@ use CodeIgniter\Entity\Entity;
 use Sparks\Shield\Authentication\Traits\Authenticatable;
 use Sparks\Shield\Authentication\Traits\HasAccessTokens;
 use Sparks\Shield\Authorization\Traits\Authorizable;
+use Sparks\Shield\Models\LoginModel;
 use Sparks\Shield\Models\UserIdentityModel;
 
 class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
@@ -141,7 +142,7 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function lastLogin(bool $allowFailed = false)
     {
-        $logins = model('LoginModel'); // @phpstan-ignore-line
+        $logins = model(LoginModel::class);
 
         if (! $allowFailed) {
             $logins->where('success', 1)
