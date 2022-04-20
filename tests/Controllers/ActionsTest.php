@@ -233,6 +233,10 @@ final class ActionsTest extends TestCase
             'extra'   => lang('Auth.needVerification'),
         ]);
 
+        $this->user->active = false;
+        $model              = auth()->getProvider();
+        $model->save($this->user);
+
         $result = $this->actingAs($this->user)
             ->withSession([
                 'auth_action' => EmailActivator::class,
@@ -251,6 +255,12 @@ final class ActionsTest extends TestCase
 
         // Session should have been cleared
         $result->assertSessionMissing('auth_action');
+
+        // User should have been set as active
+        $this->seeInDatabase('users', [
+            'id'     => $this->user->id,
+            'active' => 1,
+        ]);
     }
 
     public function testEmailActivateCannotBeBypassed()

@@ -81,6 +81,10 @@ class RegisterController extends BaseController
             return redirect()->to('auth/a/show');
         }
 
+        // Set the user active
+        $user->active = true;
+        $users->save($user);
+
         // Success!
         return redirect()->to($this->getRedirectURL())->with('message', lang('Auth.registerSuccess'));
     }
