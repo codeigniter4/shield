@@ -3,7 +3,9 @@
 namespace Tests\Support;
 
 use CodeIgniter\Config\Factories;
+use CodeIgniter\Settings\Settings;
 use CodeIgniter\Test\CIUnitTestCase;
+use Config\Services;
 
 /**
  * @internal
@@ -15,6 +17,12 @@ abstract class TestCase extends CIUnitTestCase
         $this->resetServices();
 
         parent::setUp();
+
+        // Use Array Settings Handler
+        $configSettings           = config('Settings');
+        $configSettings->handlers = ['array'];
+        $settings                 = new Settings($configSettings);
+        Services::injectMock('settings', $settings);
 
         // Ensure from email is available anywhere during Tests
         helper('setting');
