@@ -19,8 +19,7 @@ final class DictionaryValidatorTest extends CIUnitTestCase
 
         $config = new AuthConfig();
 
-        $this->validator = new DictionaryValidator();
-        $this->validator->setConfig($config);
+        $this->validator = new DictionaryValidator($config);
     }
 
     public function testCheckFalseOnFoundPassword()

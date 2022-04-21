@@ -8,6 +8,7 @@ use CodeIgniter\Test\CIUnitTestCase;
 use Config\App;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\Passwords\PwnedValidator;
+use Sparks\Shield\Config\Auth as AuthConfig;
 use Sparks\Shield\Config\Services;
 
 /**
@@ -26,7 +27,7 @@ final class PwnedValidatorTest extends CIUnitTestCase
 
         Services::reset();
 
-        $this->validator = new PwnedValidator();
+        $this->validator = new PwnedValidator(new AuthConfig());
     }
 
     public function testCheckFalseOnPwnedPassword()
