@@ -3,16 +3,16 @@
 namespace Tests\Controllers;
 
 use CodeIgniter\Config\Factories;
-use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
 use Sparks\Shield\Authentication\Actions\EmailActivator;
 use Sparks\Shield\Authentication\Passwords\ValidationRules;
+use Tests\Support\DatabaseTestCase;
 
 /**
  * @internal
  */
-final class RegisterTest extends CIDatabaseTestCase
+final class RegisterTest extends DatabaseTestCase
 {
     use FeatureTestTrait;
 
