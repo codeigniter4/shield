@@ -5,6 +5,7 @@ namespace Sparks\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use Sparks\Shield\Entities\User;
+use Sparks\Shield\Models\UserModel;
 
 /**
  * Class RegisterController
@@ -96,7 +97,7 @@ class RegisterController extends BaseController
      */
     protected function getUserProvider()
     {
-        return model('UserModel'); // @phpstan-ignore-line
+        return model(UserModel::class);
     }
 
     /**
