@@ -22,7 +22,7 @@ class EmailActivator implements ActionInterface
 
         // Delete any previous activation identities
         $identities = new UserIdentityModel();
-        $identities->where('user_id', $user->id)
+        $identities->where('user_id', $user->getAuthId())
             ->where('type', 'email_activate')
             ->delete();
 
@@ -31,7 +31,7 @@ class EmailActivator implements ActionInterface
         $code = random_string('nozero', 6);
 
         $identities->insert([
-            'user_id' => $user->id,
+            'user_id' => $user->getAuthId(),
             'type'    => 'email_activate',
             'secret'  => $code,
             'name'    => 'register',
@@ -42,7 +42,7 @@ class EmailActivator implements ActionInterface
         helper('email');
         $email = emailer();
         $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
-            ->setTo($user->email)
+            ->setTo($user->getAuthEmail())
             ->setSubject(lang('Auth.emailActivateSubject'))
             ->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]))
             ->send();
