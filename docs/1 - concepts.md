@@ -61,9 +61,9 @@ You can choose which validators are used in `Config\Auth->passwordValidators`:
 
 ```php
 public $passwordValidators = [
-		'Sparks\Shield\Authentication\Passwords\CompositionValidator',
-		'Sparks\Shield\Authentication\Passwords\NothingPersonalValidator',
-		'Sparks\Shield\Authentication\Passwords\DictionaryValidator',
-		//'Sparks\Shield\Authentication\Passwords\PwnedValidator',
-	];
+    'Sparks\Shield\Authentication\Passwords\CompositionValidator',
+    'Sparks\Shield\Authentication\Passwords\NothingPersonalValidator',
+    'Sparks\Shield\Authentication\Passwords\DictionaryValidator',
+    //'Sparks\Shield\Authentication\Passwords\PwnedValidator',
+];
 ```

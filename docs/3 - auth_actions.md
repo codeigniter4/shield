@@ -23,8 +23,8 @@ To define an action to happen you will specify the class name as the value for t
 
 ```php
 public $actions = [
-    'login'    => Sparks\Shield\Authentication\Actions\Email2FA,
-    'register' => Sparks\Shield\Authentication\Actions\EmailActivator,
+    'login'    => 'Sparks\Shield\Authentication\Actions\Email2FA',
+    'register' => 'Sparks\Shield\Authentication\Actions\EmailActivator',
 ];
 ```
 
