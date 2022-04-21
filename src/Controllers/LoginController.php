@@ -4,6 +4,7 @@ namespace Sparks\Shield\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
+use CodeIgniter\HTTP\RedirectResponse;
 
 class LoginController extends BaseController
 {
@@ -12,15 +13,15 @@ class LoginController extends BaseController
     /**
      * Displays the form the login to the site.
      */
-    public function loginView()
+    public function loginView(): string
     {
-        echo view(setting('Auth.views')['login']);
+        return view(setting('Auth.views')['login']);
     }
 
     /**
      * Attempts to log the user in.
      */
-    public function loginAction()
+    public function loginAction(): RedirectResponse
     {
         $request                 = service('request');
         $credentials             = $request->getPost(setting('Auth.validFields'));
@@ -54,10 +55,8 @@ class LoginController extends BaseController
 
     /**
      * Logs the current user out.
-     *
-     * @return \CodeIgniter\HTTP\RedirectResponse
      */
-    public function logoutAction()
+    public function logoutAction(): RedirectResponse
     {
         $user = auth()->user();
 
@@ -71,10 +70,8 @@ class LoginController extends BaseController
      * to after a successful login.
      *
      * @param mixed $user
-     *
-     * @return string
      */
-    public function getLoginRedirect($user)
+    public function getLoginRedirect($user): string
     {
         $url = setting('Auth.redirects')['login'];
 
@@ -88,10 +85,8 @@ class LoginController extends BaseController
      * to after they are logged out.
      *
      * @param mixed $user
-     *
-     * @return string
      */
-    protected function getLogoutRedirect($user)
+    protected function getLogoutRedirect($user): string
     {
         $url = setting('Auth.redirects')['logout'];
 
