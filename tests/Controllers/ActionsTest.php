@@ -33,8 +33,9 @@ final class ActionsTest extends TestCase
         helper('auth');
 
         // Ensure our actions are registered with the system
-        $config                   = config('Auth');
-        $config->actions['login'] = Email2FA::class;
+        $config                      = config('Auth');
+        $config->actions['login']    = Email2FA::class;
+        $config->actions['register'] = EmailActivator::class;
         Factories::injectMock('config', 'Auth', $config);
 
         // Add auth routes
@@ -85,6 +86,16 @@ final class ActionsTest extends TestCase
 
     public function testEmail2FAHandleSendsEmail()
     {
+        // An identity with 2FA info would have been stored previously
+        $identities = model(UserIdentityModel::class);
+        $identities->insert([
+            'user_id' => $this->user->id,
+            'type'    => 'email_2fa',
+            'secret'  => '123456',
+            'name'    => 'login',
+            'extra'   => lang('Auth.need2FA'),
+        ]);
+
         $result = $this->actingAs($this->user)
             ->withSession([
                 'auth_action' => Email2FA::class,
@@ -94,12 +105,6 @@ final class ActionsTest extends TestCase
 
         $result->assertStatus(200);
         $result->assertSee(lang('Auth.emailEnterCode'));
-
-        // Should have saved an identity with a code
-        $this->seeInDatabase('auth_identities', [
-            'user_id' => $this->user->id,
-            'type'    => 'email_2fa',
-        ]);
 
         // Should have sent an email with the code....
         $this->assertStringContainsString('Your authentication token is:', service('email')->archive['body']);
@@ -113,6 +118,8 @@ final class ActionsTest extends TestCase
             'user_id' => $this->user->id,
             'type'    => 'email_2fa',
             'secret'  => '123456',
+            'name'    => 'login',
+            'extra'   => lang('Auth.need2FA'),
         ]);
 
         $result = $this->actingAs($this->user)
@@ -134,6 +141,8 @@ final class ActionsTest extends TestCase
             'user_id' => $this->user->id,
             'type'    => 'email_2fa',
             'secret'  => '123456',
+            'name'    => 'login',
+            'extra'   => lang('Auth.need2FA'),
         ]);
 
         $result = $this->actingAs($this->user)
@@ -156,6 +165,48 @@ final class ActionsTest extends TestCase
         $result->assertSessionMissing('auth_action');
     }
 
+    public function testShowEmail2FACreatesIdentity()
+    {
+        $result = $this->actingAs($this->user)
+            ->withSession([
+                'auth_action' => Email2FA::class,
+            ])
+            ->get('/auth/a/show');
+
+        $result->assertOK();
+
+        $this->seeInDatabase('auth_identities', [
+            'user_id' => $this->user->id,
+            'type'    => 'email_2fa',
+            'name'    => 'login',
+        ]);
+    }
+
+    public function testEmail2FACannotBeBypassed()
+    {
+        // Ensure filter is enabled for all routes
+        $config                      = config('Filters');
+        $config->globals['before'][] = 'session';
+        Factories::injectMock('config', 'Filters', $config);
+
+        // An identity with 2FA info would have been stored previously
+        $identities = model(UserIdentityModel::class);
+        $identities->insert([
+            'user_id' => $this->user->id,
+            'type'    => 'email_2fa',
+            'secret'  => '123456',
+            'name'    => 'login',
+            'extra'   => lang('Auth.need2FA'),
+        ]);
+
+        // Try to visit any other page, skipping the 2FA
+        $result = $this->actingAs($this->user)
+            ->get('/');
+
+        $result->assertRedirect();
+        $this->assertSame(site_url('/auth/a/show'), $result->getRedirectUrl());
+    }
+
     public function testEmailActivateShow()
     {
         $result = $this->actingAs($this->user)
@@ -167,7 +218,7 @@ final class ActionsTest extends TestCase
 
         // Should have sent an email with the link....
         $this->assertStringContainsString('Please click the link below to activate your account', service('email')->archive['body']);
-        $this->assertStringContainsString('/auth/a/verify?c=', service('email')->archive['body']);
+        $this->assertStringContainsString('/auth/a/verify?token=', service('email')->archive['body']);
     }
 
     public function testEmailActivateVerify()
@@ -178,7 +229,13 @@ final class ActionsTest extends TestCase
             'user_id' => $this->user->id,
             'type'    => 'email_activate',
             'secret'  => '123456',
+            'name'    => 'register',
+            'extra'   => lang('Auth.needVerification'),
         ]);
+
+        $this->user->active = false;
+        $model              = auth()->getProvider();
+        $model->save($this->user);
 
         $result = $this->actingAs($this->user)
             ->withSession([
@@ -198,5 +255,36 @@ final class ActionsTest extends TestCase
 
         // Session should have been cleared
         $result->assertSessionMissing('auth_action');
+
+        // User should have been set as active
+        $this->seeInDatabase('users', [
+            'id'     => $this->user->id,
+            'active' => 1,
+        ]);
+    }
+
+    public function testEmailActivateCannotBeBypassed()
+    {
+        // Ensure filter is enabled for all routes
+        $config                      = config('Filters');
+        $config->globals['before'][] = 'session';
+        Factories::injectMock('config', 'Filters', $config);
+
+        // An identity with 2FA info would have been stored previously
+        $identities = model(UserIdentityModel::class);
+        $identities->insert([
+            'user_id' => $this->user->id,
+            'type'    => 'email_activate',
+            'secret'  => '123456',
+            'name'    => 'register',
+            'extra'   => lang('Auth.needVerification'),
+        ]);
+
+        // Try to visit any other page, skipping the 2FA
+        $result = $this->actingAs($this->user)
+            ->get('/');
+
+        $result->assertRedirect();
+        $this->assertSame(site_url('/auth/a/show'), $result->getRedirectUrl());
     }
 }

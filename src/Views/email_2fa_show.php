@@ -7,7 +7,13 @@
 <div class="container d-flex justify-content-center p-5">
     <div class="card col-5 shadow-sm">
         <div class="card-body">
-            <h5 class="card-title mb-5"><?= lang('Auth.login') ?></h5>
+            <h5 class="card-title mb-5"><?= lang('Auth.email2FATitle') ?></h5>
+
+            <p><?= lang('Auth.emailEnterCode') ?></p>
+
+            <?php if (session('error')) : ?>
+                <div class="alert alert-danger"><?= session('error') ?></div>
+            <?php endif ?>
 
             <form action="<?= site_url(route_to('auth-action-handle')) ?>" method="post">
                 <?= csrf_field() ?>

@@ -2,16 +2,14 @@
 
 namespace Tests\Authentication;
 
-use CodeIgniter\Test\CIDatabaseTestCase;
 use Sparks\Shield\Entities\AccessToken;
+use Tests\Support\DatabaseTestCase;
 
 /**
  * @internal
  */
-final class AccessTokenTest extends CIDatabaseTestCase
+final class AccessTokenTest extends DatabaseTestCase
 {
-    protected $namespace = '\Sparks\Shield';
-
     public function testCanNoScopes()
     {
         $token = new AccessToken();

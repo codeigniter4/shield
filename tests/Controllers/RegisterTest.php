@@ -3,16 +3,16 @@
 namespace Tests\Controllers;
 
 use CodeIgniter\Config\Factories;
-use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
 use Sparks\Shield\Authentication\Actions\EmailActivator;
 use Sparks\Shield\Authentication\Passwords\ValidationRules;
+use Tests\Support\DatabaseTestCase;
 
 /**
  * @internal
  */
-final class RegisterTest extends CIDatabaseTestCase
+final class RegisterTest extends DatabaseTestCase
 {
     use FeatureTestTrait;
 
@@ -67,6 +67,8 @@ final class RegisterTest extends CIDatabaseTestCase
         // User added to default group
         $this->assertTrue($user->inGroup(config('AuthGroups')->defaultGroup));
         $this->assertFalse($user->inGroup('admin'));
+
+        $this->assertTrue($user->active);
     }
 
     public function testRegisterDisplaysForm()
@@ -125,6 +127,12 @@ final class RegisterTest extends CIDatabaseTestCase
 
         // Should have been redirected to the action's page.
         $result->assertRedirectTo('/auth/a/show');
+
+        // Should NOT have activated the user
+        $this->seeInDatabase('users', [
+            'username' => 'foo',
+            'active'   => 0,
+        ]);
     }
 
     protected function setupConfig()

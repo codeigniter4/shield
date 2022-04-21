@@ -21,7 +21,27 @@ class Email2FA implements ActionInterface
      */
     public function show()
     {
-        echo view(setting('Auth.views')['action_email_2fa']);
+        $user = auth()->user();
+
+        // Delete any previous activation identities
+        $identities = new UserIdentityModel();
+        $identities->where('user_id', $user->id)
+            ->where('type', 'email_2fa')
+            ->delete();
+
+        // Create an identity for our 2fa hash
+        helper('text');
+        $code = random_string('nozero', 6);
+
+        $identities->insert([
+            'user_id' => $user->id,
+            'type'    => 'email_2fa',
+            'secret'  => $code,
+            'name'    => 'login',
+            'extra'   => lang('Auth.need2FA'),
+        ]);
+
+        return view(setting('Auth.views')['action_email_2fa']);
     }
 
     /**
@@ -37,24 +57,17 @@ class Email2FA implements ActionInterface
         $user  = auth()->user();
 
         if (empty($email) || $email !== $user->email) {
-            return redirect()->to('/auth/a/show')->with('error', lang('Auth.invalidEmail'));
+            return redirect()->route('auth-action-show')->with('error', lang('Auth.invalidEmail'));
         }
 
-        // Delete any previous email_2fa identities
         $identities = new UserIdentityModel();
-        $identities->where('user_id', $user->id)
+        $identity   = $identities->where('user_id', $user->id)
             ->where('type', 'email_2fa')
-            ->delete();
+            ->first();
 
-        // Generate the code and save it as an identity
-        helper('text');
-        $code = random_string('nozero', 6);
-
-        $identities->insert([
-            'user_id' => $user->id,
-            'type'    => 'email_2fa',
-            'secret'  => $code,
-        ]);
+        if (empty($identity)) {
+            return redirect()->route('auth-action-show')->with('error', lang('Auth.need2FA'));
+        }
 
         // Send the user an email with the code
         helper('email');
@@ -62,10 +75,10 @@ class Email2FA implements ActionInterface
         $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
             ->setTo($user->email)
             ->setSubject(lang('Auth.email2FASubject'))
-            ->setMessage(view(setting('Auth.views')['action_email_2fa_email'], ['code' => $code]))
+            ->setMessage(view(setting('Auth.views')['action_email_2fa_email'], ['code' => $identity->secret]))
             ->send();
 
-        echo view(setting('Auth.views')['action_email_2fa_verify']);
+        return view(setting('Auth.views')['action_email_2fa_verify']);
     }
 
     /**

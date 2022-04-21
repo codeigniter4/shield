@@ -6,12 +6,13 @@ use Sparks\Shield\Authentication\Authentication;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\Handlers\Session;
 use Sparks\Shield\Config\Auth;
-use Tests\Support\TestCase;
+use Sparks\Shield\Models\UserModel;
+use Tests\Support\DatabaseTestCase;
 
 /**
  * @internal
  */
-final class AuthenticationTest extends TestCase
+final class AuthenticationTest extends DatabaseTestCase
 {
     protected Authentication $auth;
 
@@ -21,6 +22,7 @@ final class AuthenticationTest extends TestCase
 
         $config     = new Auth();
         $this->auth = new Authentication($config);
+        $this->auth->setProvider(new UserModel());
     }
 
     public function testThrowsOnUnknownHandler()

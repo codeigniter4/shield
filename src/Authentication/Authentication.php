@@ -49,6 +49,8 @@ class Authentication
 
         $className = $this->config->authenticators[$handler];
 
+        assert($this->userProvider !== null, '$userProvider must be set.');
+
         $this->instances[$handler] = new $className($this->userProvider);
 
         return $this->instances[$handler];

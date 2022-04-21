@@ -6,6 +6,7 @@ use CodeIgniter\Entity\Entity;
 use Sparks\Shield\Authentication\Traits\Authenticatable;
 use Sparks\Shield\Authentication\Traits\HasAccessTokens;
 use Sparks\Shield\Authorization\Traits\Authorizable;
+use Sparks\Shield\Models\LoginModel;
 use Sparks\Shield\Models\UserIdentityModel;
 
 class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
@@ -26,6 +27,18 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
         'permissions'      => 'array',
         'groups'           => 'array',
     ];
+
+    /**
+     * Returns the first identity of the given $type for this user.
+     *
+     * @return mixed|null
+     */
+    public function getIdentity(string $type)
+    {
+        $identities = $this->identitiesOfType($type);
+
+        return count($identities) ? array_shift($identities) : null;
+    }
 
     /**
      * Accessor method for this user's UserIdentity records.
@@ -56,18 +69,6 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
         }
 
         return $identities;
-    }
-
-    /**
-     * Returns the first identity of the given $type for this user.
-     *
-     * @return mixed|null
-     */
-    public function getIdentity(string $type)
-    {
-        $identities = $this->identitiesOfType($type);
-
-        return count($identities) ? array_shift($identities) : null;
     }
 
     /**
@@ -141,7 +142,7 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function lastLogin(bool $allowFailed = false)
     {
-        $logins = model('LoginModel'); // @phpstan-ignore-line
+        $logins = model(LoginModel::class);
 
         if (! $allowFailed) {
             $logins->where('success', 1)

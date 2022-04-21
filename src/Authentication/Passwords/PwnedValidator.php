@@ -3,7 +3,7 @@
 namespace Sparks\Shield\Authentication\Passwords;
 
 use CodeIgniter\Config\Services;
-use CodeIgniter\Entity;
+use CodeIgniter\Entity\Entity;
 use CodeIgniter\HTTP\Exceptions\HTTPException;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Result;

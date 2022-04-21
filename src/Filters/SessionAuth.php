@@ -6,6 +6,8 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
+use Sparks\Shield\Entities\UserIdentity;
+use Sparks\Shield\Models\UserIdentityModel;
 
 /**
  * Session Authentication Filter.
@@ -33,11 +35,33 @@ class SessionAuth implements FilterInterface
         helper(['auth', 'setting']);
 
         if (! auth('session')->loggedIn()) {
-            return redirect()->to('/login');
+            return redirect()->route('login');
         }
 
         if (setting('Auth.recordActiveDate')) {
             auth('session')->recordActive();
+        }
+
+        // If user is in middle of an action flow
+        // ensure they must finish it first.
+        $identityModel = model(UserIdentityModel::class);
+        $identities    = $identityModel
+            ->where('user_id', auth('session')->id())
+            ->whereIn('type', ['email_2fa', 'email_activate'])
+            ->findAll();
+
+        foreach ($identities as $identity) {
+            if (! $identity instanceof UserIdentity) {
+                continue;
+            }
+
+            $action = setting('Auth.actions')[$identity->name];
+
+            if ($action) {
+                session()->set('auth_action', $action);
+
+                return redirect()->route('auth-action-show')->with('error', $identity->extra);
+            }
         }
     }
 

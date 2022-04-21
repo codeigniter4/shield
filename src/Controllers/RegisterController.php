@@ -5,6 +5,7 @@ namespace Sparks\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use Sparks\Shield\Entities\User;
+use Sparks\Shield\Models\UserModel;
 
 /**
  * Class RegisterController
@@ -70,6 +71,8 @@ class RegisterController extends BaseController
 
         Events::trigger('didRegister', $user);
 
+        auth()->login($user);
+
         // If an action has been defined for login, start it up.
         $actionClass = setting('Auth.actions')['register'] ?? null;
 
@@ -78,6 +81,10 @@ class RegisterController extends BaseController
 
             return redirect()->to('auth/a/show');
         }
+
+        // Set the user active
+        $user->active = true;
+        $users->save($user);
 
         // Success!
         return redirect()->to($this->getRedirectURL())->with('message', lang('Auth.registerSuccess'));

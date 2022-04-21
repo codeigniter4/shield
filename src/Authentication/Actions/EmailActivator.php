@@ -20,13 +20,13 @@ class EmailActivator implements ActionInterface
     {
         $user = auth()->user();
 
-        //  Create an identity for our activation hash
+        // Delete any previous activation identities
         $identities = new UserIdentityModel();
         $identities->where('user_id', $user->id)
             ->where('type', 'email_activate')
             ->delete();
 
-        // Generate the code and save it as an identity
+        //  Create an identity for our activation hash
         helper('text');
         $code = random_string('nozero', 6);
 
@@ -34,6 +34,8 @@ class EmailActivator implements ActionInterface
             'user_id' => $user->id,
             'type'    => 'email_activate',
             'secret'  => $code,
+            'name'    => 'register',
+            'extra'   => lang('Auth.needVerification'),
         ]);
 
         // Send the email
@@ -81,6 +83,11 @@ class EmailActivator implements ActionInterface
         // Remove the identity
         $identities = new UserIdentityModel();
         $identities->delete($identity->id);
+
+        // Set the user active now
+        $model        = auth()->getProvider();
+        $user->active = true;
+        $model->save($user);
 
         // Clean up our session
         unset($_SESSION['auth_action']);

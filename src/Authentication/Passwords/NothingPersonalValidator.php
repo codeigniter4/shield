@@ -2,7 +2,7 @@
 
 namespace Sparks\Shield\Authentication\Passwords;
 
-use CodeIgniter\Entity;
+use CodeIgniter\Entity\Entity;
 use Sparks\Shield\Result;
 
 /**
