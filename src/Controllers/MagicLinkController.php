@@ -34,15 +34,17 @@ class MagicLinkController extends BaseController
      * Displays the view to enter their email address
      * so an email can be sent to them.
      */
-    public function loginView()
+    public function loginView(): string
     {
-        echo view(setting('Auth.views')['magic-link-login']);
+        return view(setting('Auth.views')['magic-link-login']);
     }
 
     /**
      * Receives the email from the user, creates the hash
      * to a user identity, and sends an email to the given
      * email address.
+     *
+     * @return RedirectResponse|string
      */
     public function loginAction()
     {
@@ -79,25 +81,21 @@ class MagicLinkController extends BaseController
             ->setMessage(view(setting('Auth.views')['magic-link-email'], ['token' => $token]))
             ->send();
 
-        echo $this->displayMessage();
+        return $this->displayMessage();
     }
 
     /**
      * Display the "What's happening/next" message to the user.
-     *
-     * @return string
      */
-    protected function displayMessage()
+    protected function displayMessage(): string
     {
         return view(setting('Auth.views')['magic-link-message']);
     }
 
     /**
      * Handles the GET request from the email
-     *
-     * @returns RedirectResponse
      */
-    public function verify()
+    public function verify(): RedirectResponse
     {
         $token      = $this->request->getGet('token');
         $identities = model(UserIdentityModel::class);
