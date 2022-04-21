@@ -4,6 +4,7 @@ namespace Sparks\Shield\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
+use CodeIgniter\HTTP\RedirectResponse;
 use Sparks\Shield\Entities\User;
 
 /**
@@ -18,6 +19,8 @@ class RegisterController extends BaseController
 
     /**
      * Displays the registration form.
+     *
+     * @return RedirectResponse|string
      */
     public function registerView()
     {
@@ -26,13 +29,13 @@ class RegisterController extends BaseController
             return redirect()->back()->withInput()->with('error', lang('Auth.registerDisabled'));
         }
 
-        echo view(setting('Auth.views')['register']);
+        return view(setting('Auth.views')['register']);
     }
 
     /**
      * Attempts to register the user.
      */
-    public function registerAction()
+    public function registerAction(): RedirectResponse
     {
         // Check if registration is allowed
         if (! setting('Auth.allowRegistration')) {
@@ -96,7 +99,7 @@ class RegisterController extends BaseController
      */
     protected function getUserProvider()
     {
-        return model(setting('Auth.userProvider')); 
+        return model(setting('Auth.userProvider'));
     }
 
     /**
@@ -127,10 +130,8 @@ class RegisterController extends BaseController
     /**
      * Returns the URL the user should be redirected to
      * after a successful registration.
-     *
-     * @return string
      */
-    protected function getRedirectURL()
+    protected function getRedirectURL(): string
     {
         $url = setting('Auth.redirects')['register'];
 
