@@ -6,22 +6,13 @@ use Sparks\Shield\Config\Auth as AuthConfig;
 
 class BaseValidator
 {
-    protected ?AuthConfig $config = null;
+    protected AuthConfig $config;
     protected ?string $error      = null;
     protected ?string $suggestion = null;
 
-    /**
-     * Allows for setting a config file on the Validator.
-     *
-     * @param AuthConfig $config
-     *
-     * @return $this
-     */
-    public function setConfig($config)
+    public function __construct(AuthConfig $config)
     {
         $this->config = $config;
-
-        return $this;
     }
 
     /**

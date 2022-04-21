@@ -96,8 +96,7 @@ class Passwords
         }
 
         foreach ($this->config->passwordValidators as $className) {
-            $class = new $className();
-            $class->setConfig($this->config);
+            $class = new $className($this->config);
 
             $result = $class->check($password, $user);
             if (! $result->isOk()) {
