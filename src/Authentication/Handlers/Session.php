@@ -8,6 +8,7 @@ use Exception;
 use InvalidArgumentException;
 use Sparks\Shield\Authentication\AuthenticationException;
 use Sparks\Shield\Authentication\AuthenticatorInterface;
+use Sparks\Shield\Authentication\Passwords;
 use Sparks\Shield\Entities\User;
 use Sparks\Shield\Interfaces\Authenticatable;
 use Sparks\Shield\Models\LoginModel;
@@ -116,6 +117,7 @@ class Session implements AuthenticatorInterface
         }
 
         // Now, try matching the passwords.
+        /** @var Passwords $passwords */
         $passwords = service('passwords');
 
         if (! $passwords->verify($givenPassword, $user->password_hash)) {

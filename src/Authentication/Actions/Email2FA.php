@@ -25,7 +25,7 @@ class Email2FA implements ActionInterface
 
         // Delete any previous activation identities
         $identities = new UserIdentityModel();
-        $identities->where('user_id', $user->id)
+        $identities->where('user_id', $user->getAuthId())
             ->where('type', 'email_2fa')
             ->delete();
 
@@ -34,7 +34,7 @@ class Email2FA implements ActionInterface
         $code = random_string('nozero', 6);
 
         $identities->insert([
-            'user_id' => $user->id,
+            'user_id' => $user->getAuthId(),
             'type'    => 'email_2fa',
             'secret'  => $code,
             'name'    => 'login',
@@ -56,12 +56,12 @@ class Email2FA implements ActionInterface
         $email = $request->getPost('email');
         $user  = auth()->user();
 
-        if (empty($email) || $email !== $user->email) {
+        if (empty($email) || $email !== $user->getAuthEmail()) {
             return redirect()->route('auth-action-show')->with('error', lang('Auth.invalidEmail'));
         }
 
         $identities = new UserIdentityModel();
-        $identity   = $identities->where('user_id', $user->id)
+        $identity   = $identities->where('user_id', $user->getAuthId())
             ->where('type', 'email_2fa')
             ->first();
 
@@ -73,7 +73,7 @@ class Email2FA implements ActionInterface
         helper('email');
         $email = emailer();
         $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
-            ->setTo($user->email)
+            ->setTo($user->getAuthEmail())
             ->setSubject(lang('Auth.email2FASubject'))
             ->setMessage(view(setting('Auth.views')['action_email_2fa_email'], ['code' => $identity->secret]))
             ->send();
@@ -101,7 +101,7 @@ class Email2FA implements ActionInterface
 
         // On success - remove the identity and clean up session
         model(UserIdentityModel::class)
-            ->where('user_id', $user->id)
+            ->where('user_id', $user->getAuthId())
             ->where('type', 'email_2fa')
             ->delete();
 
