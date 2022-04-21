@@ -15,8 +15,8 @@ use Sparks\Shield\Authentication\Actions\Email2FA;
 class ActionsTest extends TestCase
 {
     use DatabaseTestTrait;
-	use FeatureTestTrait;
-	use AuthenticationTesting;
+    use FeatureTestTrait;
+    use AuthenticationTesting;
 
     public function testEmail2FAShow()
     {
