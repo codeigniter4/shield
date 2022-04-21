@@ -97,7 +97,7 @@ class RegisterController extends BaseController
      */
     protected function getUserProvider()
     {
-        return model(UserModel::class);
+        return model(setting('Auth.userProvider')); 
     }
 
     /**

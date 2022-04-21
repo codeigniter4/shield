@@ -189,7 +189,7 @@ class Auth extends BaseConfig
      * The PasswordValidator class runs the password through all of these
      * classes, each getting the opportunity to pass/fail the password.
      * You can add custom classes as long as they adhere to the
-     * Password\ValidatorInterface.
+     * Sparks\Shield\Authentication\Passwords\ValidatorInterface.
      */
     public $passwordValidators = [
         'Sparks\Shield\Authentication\Passwords\CompositionValidator',
@@ -319,6 +319,10 @@ class Auth extends BaseConfig
      * The name of the class that handles user persistence.
      * By default, this is the included UserModel, which
      * works with any of the database engines supported by CodeIgniter.
+     * You can change it as long as they adhere to the
+     * Sparks\Shield\Interfaces\UserProvider.
+     *
+     * @var class-string<\Sparks\Shield\Interfaces\UserProvider>
      */
     public $userProvider = 'Sparks\Shield\Models\UserModel';
 }
