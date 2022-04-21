@@ -12,9 +12,9 @@ The available handlers are defined in `Config\Auth`:
 
 ```php
 public $authenticators = [
-		'session' => Session::class,
-		'tokens'  => AccessTokens::class,
-	];
+    'session' => Session::class,
+    'tokens'  => AccessTokens::class,
+];
 ```
 
 The default handler is also defined in the configuration file, and uses the alias given above:
@@ -74,14 +74,13 @@ on the auth class, passing in their credentials.
 
 ```php
 $credentials = [
-    'email' => $this->request->getPost('email'), 
+    'email'    => $this->request->getPost('email'), 
     'password' => $this->request->getPost('password')
 ];
 
 $loginAttempt = auth()->attempt($credentials); 
 
-if (! $loginAttempt->isOK())
-{
+if (! $loginAttempt->isOK()) {
     return redirect()->back()->with('error', $loginAttempt->reason());
 }
 ```
@@ -92,8 +91,7 @@ the user that was logged in as `extraInfo()`.
 ```php
 $result = auth()->attempt($credentials);
 
-if($result->isOK())
-{
+if($result->isOK()) {
     $user = $result->extraInfo());
 }
 ```
@@ -115,14 +113,13 @@ method.
 
 ```php
 $credentials = [
-    'email' => $this->request->getPost('email'), 
+    'email'    => $this->request->getPost('email'), 
     'password' => $this->request->getPost('password')
 ];
 
 $validCreds? = auth()->check($credentials); 
 
-if (! $validCreds->isOK())
-{
+if (! $validCreds->isOK()) {
     return redirect()->back()->with('error', $loginAttempt->reason());
 }
 ```
@@ -134,8 +131,7 @@ The Result instance returned contains the logged in user as `extraInfo()`.
 You can determine if a user is currently logged in with the aptly titled method, `loggedIn()`.
 
 ```php
-if (auth()->loggedIn()) 
-{
+if (auth()->loggedIn()) {
     // Do something.
 }
 ```
@@ -274,13 +270,11 @@ can use the `tokenCan()` and `tokenCant()` methods on the user to determine if t
 to the specified scope.
 
 ```php
-if ($user->tokenCan('posts.manage')) 
-{
+if ($user->tokenCan('posts.manage')) {
     // do something....
 }
 
-if ($user->tokenCant('forums.manage')) 
-{
+if ($user->tokenCant('forums.manage')) {
     // do something....
 }
 ```
