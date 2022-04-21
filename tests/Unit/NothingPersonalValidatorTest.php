@@ -18,10 +18,8 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
     {
         parent::setUp();
 
-        $config = new Auth();
-
-        $this->validator = new NothingPersonalValidator();
-        $this->validator->setConfig($config);
+        $config          = new Auth();
+        $this->validator = new NothingPersonalValidator($config);
     }
 
     public function testFalseOnPasswordIsEmail()
@@ -80,7 +78,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
             'firstname',
             'lastname',
         ];
-        $this->validator->setConfig($config);
+        $this->validator = new NothingPersonalValidator($config);
 
         $user = new User([
             'email'     => 'jsmith@example.com',
@@ -120,7 +118,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
 
         $config                = new Auth();
         $config->maxSimilarity = 50;
-        $this->validator->setConfig($config);
+        $this->validator       = new NothingPersonalValidator($config);
 
         $isNotPersonal = $this->getPrivateMethodInvoker($this->validator, 'isNotPersonal');
 
@@ -158,7 +156,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
             'firstname',
             'lastname',
         ];
-        $this->validator->setConfig($config);
+        $this->validator = new NothingPersonalValidator($config);
 
         $user = new User([
             'username'  => 'Vlad the Impaler',
@@ -210,7 +208,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
     {
         $config                = new Auth();
         $config->maxSimilarity = $maxSimilarity;
-        $this->validator->setConfig($config);
+        $this->validator       = new NothingPersonalValidator($config);
 
         $user = new User([
             'username' => 'CaptainJoe',

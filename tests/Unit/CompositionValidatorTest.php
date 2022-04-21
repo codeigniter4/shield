@@ -22,8 +22,7 @@ final class CompositionValidatorTest extends TestCase
         $this->config                        = new Auth();
         $this->config->minimumPasswordLength = 8;
 
-        $this->validator = new CompositionValidator();
-        $this->validator->setConfig($this->config);
+        $this->validator = new CompositionValidator($this->config);
     }
 
     public function testCheckThrowsException()
@@ -33,7 +32,6 @@ final class CompositionValidatorTest extends TestCase
 
         $password                            = '1234';
         $this->config->minimumPasswordLength = 0;
-        $this->validator->setConfig($this->config);
 
         $this->validator->check($password);
     }
