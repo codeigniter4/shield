@@ -2,6 +2,8 @@
 
 namespace Sparks\Shield;
 
+use Sparks\Shield\Entities\User;
+
 class Result
 {
     protected bool $success = false;
@@ -14,14 +16,16 @@ class Result
     protected ?string $reason = null;
 
     /**
-     * Extra information available to describe
-     * the error. No particular format is
-     * specified.
+     * Extra information.
      *
-     * @var mixed
+     * @var string|User|null `User` when successful. Suggestion strings when fails.
      */
     protected $extraInfo;
 
+    /**
+     * @phpstan-param array{success: bool, reason?: string|null, extraInfo?: string|User} $details
+     * @psalm-param array{success: bool, reason?: string|null, extraInfo?: string|User} $details
+     */
     public function __construct(array $details)
     {
         foreach ($details as $key => $value) {
@@ -50,7 +54,7 @@ class Result
     }
 
     /**
-     * @return mixed
+     * @return string|User|null `User` when successful. Suggestion strings when fails.
      */
     public function extraInfo()
     {
