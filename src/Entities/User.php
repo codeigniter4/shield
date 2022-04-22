@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Entities;
 
 use CodeIgniter\Entity\Entity;
+use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Authentication\Traits\Authenticatable;
 use CodeIgniter\Shield\Authentication\Traits\HasAccessTokens;
 use CodeIgniter\Shield\Authorization\Traits\Authorizable;
@@ -96,11 +97,14 @@ class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticata
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
+        /** @var Passwords $passwords */
+        $passwords = service('passwords');
+
         $identityModel->insert([
             'user_id' => $this->id,
             'type'    => 'email_password',
             'secret'  => $credentials['email'],
-            'secret2' => service('passwords')->hash($credentials['password']),
+            'secret2' => $passwords->hash($credentials['password']),
         ]);
     }
 

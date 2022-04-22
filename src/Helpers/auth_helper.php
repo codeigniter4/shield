@@ -27,6 +27,9 @@ if (! function_exists('user_id')) {
      */
     function user_id()
     {
-        return service('auth')->id();
+        /** @var Auth $auth */
+        $auth = service('auth');
+
+        return $auth->id();
     }
 }

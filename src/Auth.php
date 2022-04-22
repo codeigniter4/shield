@@ -9,6 +9,18 @@ use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Interfaces\Authenticatable;
 use CodeIgniter\Shield\Interfaces\UserProvider;
 
+/**
+ * AuthenticatorInterface:
+ *
+ * @method Result               attempt(array $credentials)
+ * @method Result               check(array $credentials)
+ * @method Authenticatable|null getUser()
+ * @method bool                 loggedIn()
+ * @method bool                 login(Authenticatable $user)
+ * @method void                 loginById($userId)
+ * @method bool                 logout()
+ * @method void                 recordActive()
+ */
 class Auth
 {
     protected Authentication $authenticate;

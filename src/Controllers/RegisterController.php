@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Validation\Validation;
 
 /**
  * Class RegisterController
@@ -50,9 +51,11 @@ class RegisterController extends BaseController
         // like the password, can only be validated properly here.
         $rules = $this->getValidationRules();
 
+        /** @var Validation $validation */
+        $validation = service('validation');
+
         if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()
-                ->with('errors', service('validation')->getErrors());
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
         // Save the user

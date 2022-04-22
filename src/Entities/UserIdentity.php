@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Entities;
 
 use CodeIgniter\Entity\Entity;
+use CodeIgniter\Shield\Authentication\Passwords;
 
 /**
  * Class UserIdentity
@@ -36,7 +37,10 @@ class UserIdentity extends Entity
      */
     public function hashSecret(string $value)
     {
-        $this->attributes['secret'] = service('passwords')->hash($value);
+        /** @var Passwords $passwords */
+        $passwords = service('passwords');
+
+        $this->attributes['secret'] = $passwords->hash($value);
 
         return $this;
     }

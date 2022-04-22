@@ -3,6 +3,8 @@
 namespace CodeIgniter\Shield\Authentication\Authenticators;
 
 use CodeIgniter\Events\Events;
+use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\HTTP\Response;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
@@ -60,7 +62,9 @@ class Session implements AuthenticatorInterface
      */
     public function attempt(array $credentials)
     {
-        $request   = service('request');
+        /** @var IncomingRequest $request */
+        $request = service('request');
+
         $ipAddress = $request->getIPAddress();
         $userAgent = $request->getUserAgent();
         $result    = $this->check($credentials);
@@ -116,10 +120,10 @@ class Session implements AuthenticatorInterface
             ]);
         }
 
-        // Now, try matching the passwords.
         /** @var Passwords $passwords */
         $passwords = service('passwords');
 
+        // Now, try matching the passwords.
         if (! $passwords->verify($givenPassword, $user->password_hash)) {
             return new Result([
                 'success' => false,
@@ -190,8 +194,11 @@ class Session implements AuthenticatorInterface
         // Let the session know we're logged in
         session()->set(setting('Auth.sessionConfig')['field'], $this->user->getAuthId());
 
+        /** @var Response $response */
+        $response = service('response');
+
         // When logged in, ensure cache control headers are in place
-        service('response')->noCache();
+        $response->noCache();
 
         if ($this->shouldRemember && setting('Auth.sessionConfig')['allowRemembering']) {
             $this->rememberUser($this->user->getAuthId());
@@ -330,9 +337,10 @@ class Session implements AuthenticatorInterface
         // Store it in the database
         $this->rememberModel->rememberUser($userId, $selector, hash('sha256', $validator), $expires);
 
-        // Save it to the user's browser in a cookie.
+        /** @var Response $response */
         $response = service('response');
 
+        // Save it to the user's browser in a cookie.
         // Create the cookie
         $response->setCookie(
             setting('Auth.sessionConfig')['rememberCookieName'],

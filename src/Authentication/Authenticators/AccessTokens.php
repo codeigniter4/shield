@@ -2,6 +2,7 @@
 
 namespace CodeIgniter\Shield\Authentication\Authenticators;
 
+use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
@@ -46,7 +47,9 @@ class AccessTokens implements AuthenticatorInterface
      */
     public function attempt(array $credentials): Result
     {
-        $request   = service('request');
+        /** @var IncomingRequest $request */
+        $request = service('request');
+
         $ipAddress = $request->getIPAddress();
         $userAgent = $request->getUserAgent();
 
@@ -138,8 +141,11 @@ class AccessTokens implements AuthenticatorInterface
             return true;
         }
 
+        /** @var IncomingRequest $request */
+        $request = service('request');
+
         return $this->attempt([
-            'token' => service('request')->getHeaderLine(config('Auth')->authenticatorHeader['tokens']),
+            'token' => $request->getHeaderLine(config('Auth')->authenticatorHeader['tokens']),
         ])->isOK();
     }
 
@@ -216,6 +222,7 @@ class AccessTokens implements AuthenticatorInterface
      */
     public function getBearerToken()
     {
+        /** @var IncomingRequest $request */
         $request = service('request');
 
         $header = $request->getHeaderLine(config('Auth')->authenticatorHeader['tokens']);

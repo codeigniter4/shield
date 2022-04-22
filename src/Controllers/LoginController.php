@@ -4,6 +4,7 @@ namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
+use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 
 class LoginController extends BaseController
@@ -23,7 +24,9 @@ class LoginController extends BaseController
      */
     public function loginAction(): RedirectResponse
     {
-        $request                 = service('request');
+        /** @var IncomingRequest $request */
+        $request = service('request');
+
         $credentials             = $request->getPost(setting('Auth.validFields'));
         $credentials             = array_filter($credentials);
         $credentials['password'] = $request->getPost('password');
