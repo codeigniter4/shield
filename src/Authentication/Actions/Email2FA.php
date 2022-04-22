@@ -111,6 +111,6 @@ class Email2FA implements ActionInterface
         // Get our login redirect url
         $loginController = new LoginController();
 
-        return redirect()->to($loginController->getLoginRedirect($user));
+        return redirect()->to($loginController->getLoginRedirect());
     }
 }
