@@ -50,7 +50,7 @@ class LoginController extends BaseController
             return redirect()->to(route_to('auth-action-show'));
         }
 
-        return redirect()->to($this->getLoginRedirect($user));
+        return redirect()->to($this->getLoginRedirect());
     }
 
     /**
@@ -62,16 +62,14 @@ class LoginController extends BaseController
 
         auth()->logout();
 
-        return redirect()->to($this->getLogoutRedirect($user));
+        return redirect()->to($this->getLogoutRedirect());
     }
 
     /**
      * Returns the URL that a user should be redirected
      * to after a successful login.
-     *
-     * @param mixed $user
      */
-    public function getLoginRedirect($user): string
+    public function getLoginRedirect(): string
     {
         $url = setting('Auth.redirects')['login'];
 
@@ -83,10 +81,8 @@ class LoginController extends BaseController
     /**
      * Returns the URL that a user should be redirected
      * to after they are logged out.
-     *
-     * @param mixed $user
      */
-    protected function getLogoutRedirect($user): string
+    protected function getLogoutRedirect(): string
     {
         $url = setting('Auth.redirects')['logout'];
 
