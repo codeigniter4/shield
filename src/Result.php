@@ -29,9 +29,9 @@ class Result
     public function __construct(array $details)
     {
         foreach ($details as $key => $value) {
-            if (property_exists($this, $key)) {
-                $this->{$key} = $value;
-            }
+            assert(property_exists($this, $key), 'Property "' . $key . '" does not exist.');
+
+            $this->{$key} = $value;
         }
     }
 
