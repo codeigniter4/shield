@@ -98,7 +98,7 @@ class AccessTokens implements AuthenticatorInterface
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        $token = $identityModel->getAccessTokenByToken($credentials['token']);
+        $token = $identityModel->getAccessTokenByRawToken($credentials['token']);
 
         if ($token === null) {
             return new Result([
