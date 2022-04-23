@@ -7,9 +7,9 @@ interface UserProvider
     /**
      * Locates a User object by ID.
      *
-     * @return Authenticatable|null
+     * @param int|string $id
      */
-    public function findById(int $id);
+    public function findById($id): ?Authenticatable;
 
     /**
      * Locate a user by the given credentials.
@@ -21,9 +21,9 @@ interface UserProvider
     /**
      * Find a user by their ID and "remember-me" token.
      *
-     * @return Authenticatable|null
+     * @param int|string $id
      */
-    public function findByRememberToken(int $id, string $token);
+    public function findByRememberToken($id, string $token): ?Authenticatable;
 
     /**
      * Given a User object, will update the record

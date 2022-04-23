@@ -21,7 +21,7 @@ trait Authenticatable
      * the object for authentication purposes.
      * Typically the user's id.
      *
-     * @return mixed|null
+     * @return int|string|null
      */
     public function getAuthId()
     {

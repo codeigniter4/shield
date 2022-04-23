@@ -15,7 +15,7 @@ interface Authenticatable
      * the User object for authentication purposes.
      * Typically the user's id.
      *
-     * @return mixed
+     * @return int|string|null
      */
     public function getAuthId();
 

@@ -13,9 +13,9 @@ trait UserProvider
     /**
      * Locates a User object by ID.
      *
-     * @return Authenticatable|null
+     * @param int|string $id
      */
-    public function findById(int $id)
+    public function findById($id): ?Authenticatable
     {
         return $this->find($id);
     }
@@ -68,9 +68,9 @@ trait UserProvider
     /**
      * Find a User object by their ID and "remember-me" token.
      *
-     * @return Authenticatable|null
+     * @param int|string $id
      */
-    public function findByRememberToken(int $id, string $token)
+    public function findByRememberToken($id, string $token): ?Authenticatable
     {
         return $this->where([
             'id'          => $id,
