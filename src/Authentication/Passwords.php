@@ -91,7 +91,7 @@ class Passwords
         if (empty($password)) {
             return new Result([
                 'success' => false,
-                'error'   => lang('Auth.errorPasswordEmpty'),
+                'reason'  => lang('Auth.errorPasswordEmpty'),
             ]);
         }
 
