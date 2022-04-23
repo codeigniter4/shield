@@ -151,7 +151,10 @@ class Session implements AuthenticatorInterface
             return true;
         }
 
-        if ($userId = session(setting('Auth.sessionConfig')['field'])) {
+        /** @var int|string|null $userId */
+        $userId = session(setting('Auth.sessionConfig')['field']);
+
+        if ($userId !== null) {
             $this->user = $this->provider->findById($userId);
 
             return $this->user instanceof Authenticatable;
@@ -211,9 +214,9 @@ class Session implements AuthenticatorInterface
     /**
      * Logs a user in based on their ID.
      *
-     * @return mixed
+     * @param int|string $userId
      */
-    public function loginById(int $userId)
+    public function loginById($userId): bool
     {
         $user = $this->provider->findById($userId);
 
@@ -312,9 +315,11 @@ class Session implements AuthenticatorInterface
      *
      * @see https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence
      *
+     * @param int|string $userId
+     *
      * @throws Exception
      */
-    protected function rememberUser(int $userID)
+    protected function rememberUser($userId): void
     {
         $selector  = bin2hex(random_bytes(12));
         $validator = bin2hex(random_bytes(20));
@@ -323,7 +328,7 @@ class Session implements AuthenticatorInterface
         $token = $selector . ':' . $validator;
 
         // Store it in the database
-        $this->rememberModel->rememberUser($userID, $selector, hash('sha256', $validator), $expires);
+        $this->rememberModel->rememberUser($userId, $selector, hash('sha256', $validator), $expires);
 
         // Save it to the user's browser in a cookie.
         $response = service('response');

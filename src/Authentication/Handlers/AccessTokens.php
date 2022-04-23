@@ -158,9 +158,11 @@ class AccessTokens implements AuthenticatorInterface
     /**
      * Logs a user in based on their ID.
      *
+     * @param int|string $userId
+     *
      * @throws AuthenticationException
      */
-    public function loginById(int $userId): bool
+    public function loginById($userId): bool
     {
         $user = $this->provider->findById($userId);
 

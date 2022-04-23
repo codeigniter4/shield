@@ -35,15 +35,17 @@ class LoginModel extends Model
     protected $skipValidation     = false;
 
     /**
+     * @param int|string|null $userId
+     *
      * @return BaseResult|false|int|object|string
      */
-    public function recordLoginAttempt(string $email, bool $success, ?string $ipAddress = null, ?string $userAgent = null, ?int $userID = null)
+    public function recordLoginAttempt(string $email, bool $success, ?string $ipAddress = null, ?string $userAgent = null, $userId = null)
     {
         return $this->insert([
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent,
             'email'      => $email,
-            'user_id'    => $userID,
+            'user_id'    => $userId,
             'date'       => date('Y-m-d H:i:s'),
             'success'    => (int) $success,
         ]);
