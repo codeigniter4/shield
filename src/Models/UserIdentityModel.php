@@ -26,7 +26,7 @@ class UserIdentityModel extends Model
     ];
     protected $useTimestamps = true;
 
-    public function getAccessTokenByToken(string $token): ?AccessToken
+    public function getAccessTokenByRawToken(string $token): ?AccessToken
     {
         return $this
             ->where('type', 'access_token')
