@@ -41,15 +41,15 @@ trait HasAccessTokens
     }
 
     /**
-     * Given the token, will retrieve the token to
+     * Given the raw token, will retrieve the token to
      * verify it exists, then delete it.
      */
-    public function revokeAccessToken(string $token)
+    public function revokeAccessToken(string $rawToken)
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->revokeAccessToken($this->id, $token);
+        return $identityModel->revokeAccessToken($this->id, $rawToken);
     }
 
     /**
@@ -79,21 +79,17 @@ trait HasAccessTokens
     /**
      * Given a raw token, will hash it and attempt to
      * locate it within the system.
-     *
-     * @param string $token
-     *
-     * @return AccessToken|null
      */
-    public function getAccessToken(?string $token)
+    public function getAccessToken(?string $rawToken): ?AccessToken
     {
-        if (empty($token)) {
+        if (empty($rawToken)) {
             return null;
         }
 
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->getAccessToken($this->id, $token);
+        return $identityModel->getAccessToken($this->id, $rawToken);
     }
 
     /**
