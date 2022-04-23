@@ -55,17 +55,17 @@ class MagicLinkController extends BaseController
             return redirect()->route('magic-link')->with('error', lang('Auth.invalidEmail'));
         }
 
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
         // Delete any previous magic-link identities
-        $identities = new UserIdentityModel();
-        $identities->where('user_id', $user->getAuthId())
-            ->where('type', 'magic-link')
-            ->delete();
+        $identityModel->deleteIdentitiesByType($user->getAuthId(), 'magic-link');
 
         // Generate the code and save it as an identity
         helper('text');
         $token = random_string('crypto', 20);
 
-        $identities->insert([
+        $identityModel->insert([
             'user_id' => $user->getAuthId(),
             'type'    => 'magic-link',
             'secret'  => $token,
@@ -97,12 +97,12 @@ class MagicLinkController extends BaseController
      */
     public function verify(): RedirectResponse
     {
-        $token      = $this->request->getGet('token');
-        $identities = model(UserIdentityModel::class);
-        $identity   = $identities
-            ->where('type', 'magic-link')
-            ->where('secret', $token)
-            ->first();
+        $token = $this->request->getGet('token');
+
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        $identity = $identityModel->getIdentityBySecret('magic-link', $token);
 
         // No token found?
         if ($identity === null) {
@@ -110,7 +110,7 @@ class MagicLinkController extends BaseController
         }
 
         // Delete the db entry so it cannot be used again.
-        $identities->delete($identity->id);
+        $identityModel->delete($identity->id);
 
         // Token expired?
         if (Time::now()->isAfter($identity->expires)) {

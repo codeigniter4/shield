@@ -45,10 +45,14 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function getIdentities(): array
     {
-        if (! array_key_exists('identities', $this->attributes) || ! is_array($this->attributes['identities'])) {
-            $this->attributes['identities'] = model(UserIdentityModel::class)
-                ->where('user_id', $this->id)
-                ->findAll();
+        if (
+            ! array_key_exists('identities', $this->attributes)
+            || ! is_array($this->attributes['identities'])
+        ) {
+            /** @var UserIdentityModel $identityModel */
+            $identityModel = model(UserIdentityModel::class);
+
+            $this->attributes['identities'] = $identityModel->getIdentities($this->id);
         }
 
         return $this->attributes['identities'];
@@ -91,10 +95,10 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function getEmailIdentity()
     {
-        return model(UserIdentityModel::class)
-            ->where('user_id', $this->id)
-            ->where('type', 'email_password')
-            ->first();
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        return $identityModel->getIdentityByType($this->id, 'email_password');
     }
 
     /**
