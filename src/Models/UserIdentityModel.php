@@ -73,7 +73,7 @@ class UserIdentityModel extends Model
             ->where('user_id', $userId)
             ->where('type', 'access_token')
             ->asObject(AccessToken::class)
-            ->find();
+            ->findAll();
     }
 
     /**
@@ -110,11 +110,11 @@ class UserIdentityModel extends Model
     /**
      * @param int[]|string[] $userIds
      *
-     * @return UserIdentity[]|null
+     * @return UserIdentity[]
      */
-    public function getIdentitiesByUserIds(array $userIds)
+    public function getIdentitiesByUserIds(array $userIds): array
     {
-        return $this->whereIn('user_id', $userIds)->find();
+        return $this->whereIn('user_id', $userIds)->findAll();
     }
 
     /**
