@@ -35,8 +35,6 @@ class LoginModel extends Model
     protected $skipValidation     = false;
 
     /**
-     *                          * @param bool        $success
-     *
      * @return BaseResult|false|int|object|string
      */
     public function recordLoginAttempt(string $email, bool $success, ?string $ipAddress = null, ?string $userAgent = null, ?int $userID = null)

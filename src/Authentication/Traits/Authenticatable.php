@@ -2,6 +2,9 @@
 
 namespace Sparks\Shield\Authentication\Traits;
 
+/**
+ * Intended to be used with Authenticatable (User).
+ */
 trait Authenticatable
 {
     /**

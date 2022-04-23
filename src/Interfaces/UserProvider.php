@@ -5,7 +5,7 @@ namespace Sparks\Shield\Interfaces;
 interface UserProvider
 {
     /**
-     * Locates an identity object by ID.
+     * Locates a User object by ID.
      *
      * @return Authenticatable|null
      */
@@ -26,7 +26,7 @@ interface UserProvider
     public function findByRememberToken(int $id, string $token);
 
     /**
-     * Given a user object, will update the record
+     * Given a User object, will update the record
      * in the database. This is often a User entity
      * that already has the correct values set.
      *

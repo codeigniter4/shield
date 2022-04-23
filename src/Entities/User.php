@@ -55,7 +55,7 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
     }
 
     /**
-     * Accessor method for this user's UserIdentity records.
+     * Accessor method for this user's UserIdentity objects.
      * Will populate if they don't exist.
      */
     public function getIdentities(): array
@@ -159,7 +159,7 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
     }
 
     /**
-     * Accessor method to grab the user's email address.
+     * Accessor method to grab the user's password hash.
      * Will cache it in $this->attributes, since it has
      * to hit the database the first time to get it, most likely.
      */

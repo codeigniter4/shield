@@ -5,10 +5,13 @@ namespace Sparks\Shield\Authentication\Traits;
 use Sparks\Shield\Entities\User;
 use Sparks\Shield\Interfaces\Authenticatable;
 
+/**
+ * Intended to be used with UserProvider (UserModel).
+ */
 trait UserProvider
 {
     /**
-     * Locates an identity object by ID.
+     * Locates a User object by ID.
      *
      * @return Authenticatable|null
      */
@@ -18,7 +21,7 @@ trait UserProvider
     }
 
     /**
-     * Locate a user by the given credentials.
+     * Locate a User object by the given credentials.
      *
      * @return Authenticatable|null
      */
@@ -63,7 +66,7 @@ trait UserProvider
     }
 
     /**
-     * Find a user by their ID and "remember-me" token.
+     * Find a User object by their ID and "remember-me" token.
      *
      * @return Authenticatable|null
      */
