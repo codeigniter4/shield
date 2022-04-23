@@ -80,14 +80,16 @@ class EmailActivator implements ActionInterface
             return view(setting('Auth.views')['action_email_activate_show']);
         }
 
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
         // Remove the identity
-        $identities = new UserIdentityModel();
-        $identities->delete($identity->id);
+        $identityModel->delete($identity->id);
 
         // Set the user active now
-        $model        = auth()->getProvider();
+        $provider     = auth()->getProvider();
         $user->active = true;
-        $model->save($user);
+        $provider->save($user);
 
         // Clean up our session
         unset($_SESSION['auth_action']);

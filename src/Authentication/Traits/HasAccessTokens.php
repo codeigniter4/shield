@@ -20,10 +20,12 @@ trait HasAccessTokens
      */
     public function generateAccessToken(string $name, array $scopes = ['*'])
     {
-        $identities = model(UserIdentityModel::class);
         helper('text');
 
-        $identities->insert([
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        $identityModel->insert([
             'type'    => 'access_token',
             'user_id' => $this->id,
             'name'    => $name,
@@ -31,9 +33,10 @@ trait HasAccessTokens
             'extra'   => serialize($scopes),
         ]);
 
-        $token = $identities
+        /** @var AccessToken $token */
+        $token = $identityModel
             ->asObject(AccessToken::class)
-            ->find($identities->getInsertID());
+            ->find($identityModel->getInsertID());
 
         $token->raw_token = $rawToken;
 

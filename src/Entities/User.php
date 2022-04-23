@@ -81,7 +81,10 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function createEmailIdentity(array $credentials)
     {
-        model(UserIdentityModel::class)->insert([
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        $identityModel->insert([
             'user_id' => $this->id,
             'type'    => 'email_password',
             'secret'  => $credentials['email'],
@@ -109,7 +112,10 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
     {
         $identity->last_used_at = date('Y-m-d H:i:s');
 
-        model(UserIdentityModel::class)->save($identity);
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        $identityModel->save($identity);
     }
 
     /**
