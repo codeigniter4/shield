@@ -41,8 +41,7 @@ trait HasAccessTokens
     }
 
     /**
-     * Given the raw token, will retrieve the token to
-     * verify it exists, then delete it.
+     * Delete any access tokens for the given raw token.
      */
     public function revokeAccessToken(string $rawToken)
     {

@@ -141,8 +141,7 @@ class UserIdentityModel extends Model
     }
 
     /**
-     * Given the raw token, will retrieve the token to
-     * verify it exists, then delete it.
+     * Delete any access tokens for the given raw token.
      *
      * @param int|string $userId
      */
