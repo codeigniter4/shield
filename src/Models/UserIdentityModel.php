@@ -26,11 +26,11 @@ class UserIdentityModel extends Model
     ];
     protected $useTimestamps = true;
 
-    public function getAccessTokenByRawToken(string $token): ?AccessToken
+    public function getAccessTokenByRawToken(string $rawToken): ?AccessToken
     {
         return $this
             ->where('type', 'access_token')
-            ->where('secret', hash('sha256', $token))
+            ->where('secret', hash('sha256', $rawToken))
             ->asObject(AccessToken::class)
             ->first();
     }
@@ -38,11 +38,11 @@ class UserIdentityModel extends Model
     /**
      * @param int|string $userId
      */
-    public function getAccessToken($userId, string $token): ?AccessToken
+    public function getAccessToken($userId, string $rawToken): ?AccessToken
     {
         return $this->where('user_id', $userId)
             ->where('type', 'access_token')
-            ->where('secret', hash('sha256', $token))
+            ->where('secret', hash('sha256', $rawToken))
             ->asObject(AccessToken::class)
             ->first();
     }
@@ -141,16 +141,16 @@ class UserIdentityModel extends Model
     }
 
     /**
-     * Given the token, will retrieve the token to
+     * Given the raw token, will retrieve the token to
      * verify it exists, then delete it.
      *
      * @param int|string $userId
      */
-    public function revokeAccessToken($userId, string $token)
+    public function revokeAccessToken($userId, string $rawToken)
     {
         return $this->where('user_id', $userId)
             ->where('type', 'access_token')
-            ->where('secret', hash('sha256', $token))
+            ->where('secret', hash('sha256', $rawToken))
             ->delete();
     }
 
