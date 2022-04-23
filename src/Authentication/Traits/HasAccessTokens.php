@@ -46,11 +46,10 @@ trait HasAccessTokens
      */
     public function revokeAccessToken(string $token)
     {
-        return model(UserIdentityModel::class)
-            ->where('user_id', $this->id)
-            ->where('type', 'access_token')
-            ->where('secret', hash('sha256', $token))
-            ->delete();
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        return $identityModel->revokeAccessToken($this->id, $token);
     }
 
     /**
@@ -58,26 +57,27 @@ trait HasAccessTokens
      */
     public function revokeAllAccessTokens()
     {
-        return model(UserIdentityModel::class)
-            ->where('user_id', $this->id)
-            ->where('type', 'access_token')
-            ->delete();
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        return $identityModel->revokeAllAccessTokens($this->id);
     }
 
     /**
      * Retrieves all personal access tokens for this user.
+     *
+     * @return AccessToken[]
      */
     public function accessTokens(): array
     {
-        return model(UserIdentityModel::class)
-            ->where('user_id', $this->id)
-            ->where('type', 'access_token')
-            ->asObject(AccessToken::class)
-            ->find();
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        return $identityModel->getAllAccessTokens($this->id);
     }
 
     /**
-     * Given a raw token, will hash it and attemp to
+     * Given a raw token, will hash it and attempt to
      * locate it within the system.
      *
      * @param string $token
@@ -90,13 +90,10 @@ trait HasAccessTokens
             return null;
         }
 
-        $identities = model(UserIdentityModel::class);
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
 
-        return $identities->where('user_id', $this->id)
-            ->where('type', 'access_token')
-            ->where('secret', hash('sha256', $token))
-            ->asObject(AccessToken::class)
-            ->first();
+        return $identityModel->getAccessToken($this->id, $token);
     }
 
     /**
@@ -106,13 +103,10 @@ trait HasAccessTokens
      */
     public function getAccessTokenById(int $id)
     {
-        $tokens = model(UserIdentityModel::class);
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
 
-        return $tokens->where('user_id', $this->id)
-            ->where('type', 'access_token')
-            ->where('id', $id)
-            ->asObject(AccessToken::class)
-            ->first();
+        return $identityModel->getAccessTokenById($id, $this->id);
     }
 
     /**
