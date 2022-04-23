@@ -76,16 +76,6 @@ class UserIdentityModel extends Model
             ->findAll();
     }
 
-    /**
-     * @param int|string $userId
-     */
-    public function getIdentityByType($userId, string $type): ?UserIdentity
-    {
-        return $this->where('user_id', $userId)
-            ->where('type', $type)
-            ->first();
-    }
-
     public function getIdentityBySecret(string $type, ?string $secret): ?UserIdentity
     {
         if ($secret === null) {
@@ -115,6 +105,16 @@ class UserIdentityModel extends Model
     public function getIdentitiesByUserIds(array $userIds): array
     {
         return $this->whereIn('user_id', $userIds)->findAll();
+    }
+
+    /**
+     * @param int|string $userId
+     */
+    public function getIdentityByType($userId, string $type): ?UserIdentity
+    {
+        return $this->where('user_id', $userId)
+            ->where('type', $type)
+            ->first();
     }
 
     /**
