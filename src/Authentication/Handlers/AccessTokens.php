@@ -43,15 +43,14 @@ class AccessTokens implements AuthenticatorInterface
      * Logs the user in with a successful check.
      *
      * @throws AuthenticationException
-     *
-     * @return mixed
      */
-    public function attempt(array $credentials, bool $remember = false)
+    public function attempt(array $credentials): Result
     {
         $request   = service('request');
         $ipAddress = $request->getIPAddress();
         $userAgent = $request->getUserAgent();
-        $result    = $this->check($credentials);
+
+        $result = $this->check($credentials);
 
         if (! $result->isOK()) {
             // Always record a login attempt, whether success or not.
@@ -146,13 +145,10 @@ class AccessTokens implements AuthenticatorInterface
 
     /**
      * Logs the given user in by saving them to the class.
-     * Since AccessTokens are stateless, $remember has no functionality.
      *
      * @param User $user
-     *
-     * @return bool
      */
-    public function login(Authenticatable $user, bool $remember = false)
+    public function login(Authenticatable $user): bool
     {
         $this->user = $user;
 
@@ -163,10 +159,8 @@ class AccessTokens implements AuthenticatorInterface
      * Logs a user in based on their ID.
      *
      * @throws AuthenticationException
-     *
-     * @return bool
      */
-    public function loginById(int $userId, bool $remember = false)
+    public function loginById(int $userId): bool
     {
         $user = $this->provider->findById($userId);
 
@@ -178,7 +172,7 @@ class AccessTokens implements AuthenticatorInterface
             $user->getAccessToken($this->getBearerToken())
         );
 
-        return $this->login($user, $remember);
+        return $this->login($user);
     }
 
     /**
