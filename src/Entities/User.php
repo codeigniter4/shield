@@ -15,12 +15,27 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
     use Authorizable;
     use HasAccessTokens;
 
+    /**
+     * @var UserIdentity[]
+     */
+    private array $identities = [];
+
+    private ?string $email         = null;
+    private ?string $password      = null;
+    private ?string $password_hash = null;
+
+    /**
+     * @var string[]
+     * @phpstan-var list<string>
+     * @psalm-var list<string>
+     */
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
         'last_active',
     ];
+
     protected $casts = [
         'active'           => 'boolean',
         'force_pass_reset' => 'boolean',
@@ -46,17 +61,14 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function getIdentities(): array
     {
-        if (
-            ! array_key_exists('identities', $this->attributes)
-            || ! is_array($this->attributes['identities'])
-        ) {
+        if ($this->identities === []) {
             /** @var UserIdentityModel $identityModel */
             $identityModel = model(UserIdentityModel::class);
 
-            $this->attributes['identities'] = $identityModel->getIdentities($this->id);
+            $this->identities = $identityModel->getIdentities($this->id);
         }
 
-        return $this->attributes['identities'];
+        return $this->identities;
     }
 
     /**
@@ -66,9 +78,9 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
     {
         $identities = [];
 
-        foreach ($this->identities as $id) {
-            if ($id->type === $type) {
-                $identities[] = $id;
+        foreach ($this->getIdentities() as $identity) {
+            if ($identity->type === $type) {
+                $identities[] = $identity;
             }
         }
 
@@ -120,16 +132,31 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
 
     /**
      * Accessor method to grab the user's email address.
-     * Will cache it in $this->attributes, since it has
+     * Will cache it in $this->email, since it has
      * to hit the database the first time to get it, most likely.
      */
     public function getEmail()
     {
-        if (! isset($this->attributes['email'])) {
-            $this->attributes['email'] = $this->getEmailIdentity()->secret ?? null;
+        if ($this->email === null) {
+            $this->email = $this->getEmailIdentity()->secret ?? null;
         }
 
-        return $this->attributes['email'];
+        return $this->email;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 
     /**
@@ -139,11 +166,11 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function getPasswordHash()
     {
-        if (! isset($this->attributes['password_hash'])) {
-            $this->attributes['password_hash'] = $this->getEmailIdentity()->secret2 ?? null;
+        if ($this->password_hash === null) {
+            $this->password_hash = $this->getEmailIdentity()->secret2 ?? null;
         }
 
-        return $this->attributes['password_hash'];
+        return $this->password_hash;
     }
 
     /**

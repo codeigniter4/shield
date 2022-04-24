@@ -2,6 +2,7 @@
 
 namespace Sparks\Shield\Authentication\Traits;
 
+use Sparks\Shield\Entities\User;
 use Sparks\Shield\Interfaces\Authenticatable;
 
 trait UserProvider
@@ -29,16 +30,33 @@ trait UserProvider
 
         $prefix = $this->db->DBPrefix;
 
-        if (! empty($email)) {
-            $this->select('users.*, auth_identities.secret as email, auth_identities.secret2 as password_hash')
-                ->join('auth_identities', 'auth_identities.user_id = users.id')
-                ->where('auth_identities.type', 'email_password')
-                ->where("LOWER({$prefix}auth_identities.secret)", strtolower($email));
-        }
-
         // any of the credentials used should be case-insensitive
         foreach ($credentials as $key => $value) {
             $this->where("LOWER({$prefix}users.{$key})", strtolower($value));
+        }
+
+        if (! empty($email)) {
+            $data = $this->select('users.*, auth_identities.secret as email, auth_identities.secret2 as password_hash')
+                ->join('auth_identities', 'auth_identities.user_id = users.id')
+                ->where('auth_identities.type', 'email_password')
+                ->where("LOWER({$prefix}auth_identities.secret)", strtolower($email))
+                ->asArray()
+                ->first();
+
+            if ($data === null) {
+                return null;
+            }
+
+            $email = $data['email'];
+            unset($data['email']);
+            $password_hash = $data['password_hash'];
+            unset($data['password_hash']);
+
+            $user                = new User($data);
+            $user->email         = $email;
+            $user->password_hash = $password_hash;
+
+            return $user;
         }
 
         return $this->first();
