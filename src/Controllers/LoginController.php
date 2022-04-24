@@ -69,7 +69,7 @@ class LoginController extends BaseController
      * Returns the URL that a user should be redirected
      * to after a successful login.
      */
-    public function getLoginRedirect(): string
+    public static function getLoginRedirect(): string
     {
         $url = setting('Auth.redirects')['login'];
 
