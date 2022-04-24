@@ -12,7 +12,6 @@ use Sparks\Shield\Interfaces\UserProvider;
 class Auth
 {
     protected Authentication $authenticate;
-    protected $authorize;
 
     /**
      * The handler to use for this request.
