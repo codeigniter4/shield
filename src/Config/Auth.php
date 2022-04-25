@@ -356,7 +356,7 @@ class Auth extends BaseConfig
      * Returns the URL the user should be redirected to
      * after a successful registration.
      */
-    public function getRedirectURL(): string
+    public function registerRedirect(): string
     {
         $url = setting('Auth.redirects')['register'];
 
