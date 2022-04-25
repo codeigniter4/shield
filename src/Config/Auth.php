@@ -330,7 +330,7 @@ class Auth extends BaseConfig
      * Returns the URL that a user should be redirected
      * to after a successful login.
      */
-    public static function getLoginRedirect(): string
+    public static function loginRedirect(): string
     {
         $url = setting('Auth.redirects')['login'];
 
@@ -343,7 +343,7 @@ class Auth extends BaseConfig
      * Returns the URL that a user should be redirected
      * to after they are logged out.
      */
-    public static function getLogoutRedirect(): string
+    public static function logoutRedirect(): string
     {
         $url = setting('Auth.redirects')['logout'];
 
