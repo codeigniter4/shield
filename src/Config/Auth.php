@@ -351,4 +351,17 @@ class Auth extends BaseConfig
             ? $url
             : rtrim(site_url($url), '/ ');
     }
+
+    /**
+     * Returns the URL the user should be redirected to
+     * after a successful registration.
+     */
+    public function getRedirectURL(): string
+    {
+        $url = setting('Auth.redirects')['register'];
+
+        return strpos($url, 'http') === 0
+            ? $url
+            : rtrim(site_url($url), '/ ');
+    }
 }
