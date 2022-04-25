@@ -89,7 +89,7 @@ class RegisterController extends BaseController
         $users->save($user);
 
         // Success!
-        return redirect()->to($this->getRedirectURL())->with('message', lang('Auth.registerSuccess'));
+        return redirect()->to(config('Auth')->getRedirectURL())->with('message', lang('Auth.registerSuccess'));
     }
 
     /**
@@ -125,18 +125,5 @@ class RegisterController extends BaseController
             'password'         => 'required|strong_password',
             'password_confirm' => 'required|matches[password]',
         ];
-    }
-
-    /**
-     * Returns the URL the user should be redirected to
-     * after a successful registration.
-     */
-    protected function getRedirectURL(): string
-    {
-        $url = setting('Auth.redirects')['register'];
-
-        return strpos($url, 'http') === 0
-            ? $url
-            : rtrim(site_url($url), '/ ');
     }
 }
