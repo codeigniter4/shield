@@ -30,7 +30,7 @@
 						<button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.login') ?></button>
 					</div>
 
-                    <?php if (setting('Auth.allowMagicLinkLogin')) : ?>
+                    <?php if (setting('Auth.allowMagicLinkLogins')) : ?>
                         <p class="text-center"><?= lang('Auth.forgotPassword') ?> <a href="<?= route_to('magic-link') ?>"><?= lang('Auth.useMagicLink') ?></a></p>
                     <?php endif ?>
 
