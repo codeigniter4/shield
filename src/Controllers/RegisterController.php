@@ -89,7 +89,7 @@ class RegisterController extends BaseController
         $users->save($user);
 
         // Success!
-        return redirect()->to(config('Auth')->getRedirectURL())->with('message', lang('Auth.registerSuccess'));
+        return redirect()->to(config('Auth')->registerRedirect())->with('message', lang('Auth.registerSuccess'));
     }
 
     /**
