@@ -5,6 +5,7 @@ namespace Sparks\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
+use Sparks\Shield\Config\Auth as AuthConfig;
 use Sparks\Shield\Interfaces\UserProvider;
 use Sparks\Shield\Models\UserIdentityModel;
 
@@ -122,6 +123,6 @@ class MagicLinkController extends BaseController
         $auth->loginById($identity->user_id);
 
         // Get our login redirect url
-        return redirect()->to(LoginController::getLoginRedirect());
+        return redirect()->to(AuthConfig::getLoginRedirect());
     }
 }
