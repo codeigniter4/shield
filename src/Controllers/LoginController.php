@@ -5,7 +5,6 @@ namespace Sparks\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
-use Sparks\Shield\Config\Auth as AuthConfig;
 
 class LoginController extends BaseController
 {
@@ -51,7 +50,7 @@ class LoginController extends BaseController
             return redirect()->to(route_to('auth-action-show'));
         }
 
-        return redirect()->to(AuthConfig::loginRedirect());
+        return redirect()->to(config('Auth')->loginRedirect());
     }
 
     /**
@@ -63,6 +62,6 @@ class LoginController extends BaseController
 
         auth()->logout();
 
-        return redirect()->to(AuthConfig::logoutRedirect());
+        return redirect()->to(config('Auth')->logoutRedirect());
     }
 }
