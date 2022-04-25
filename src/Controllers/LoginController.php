@@ -51,7 +51,7 @@ class LoginController extends BaseController
             return redirect()->to(route_to('auth-action-show'));
         }
 
-        return redirect()->to(AuthConfig::getLoginRedirect());
+        return redirect()->to(AuthConfig::loginRedirect());
     }
 
     /**
@@ -63,6 +63,6 @@ class LoginController extends BaseController
 
         auth()->logout();
 
-        return redirect()->to(AuthConfig::getLogoutRedirect());
+        return redirect()->to(AuthConfig::logoutRedirect());
     }
 }

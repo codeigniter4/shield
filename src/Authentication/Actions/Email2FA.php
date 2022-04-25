@@ -109,6 +109,6 @@ class Email2FA implements ActionInterface
         session()->remove('auth_action');
 
         // Get our login redirect url
-        return redirect()->to(AuthConfig::getLoginRedirect());
+        return redirect()->to(AuthConfig::loginRedirect());
     }
 }

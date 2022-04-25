@@ -95,6 +95,6 @@ class EmailActivator implements ActionInterface
         unset($_SESSION['auth_action']);
 
         // Get our login redirect url
-        return redirect()->to(AuthConfig::getLoginRedirect());
+        return redirect()->to(AuthConfig::loginRedirect());
     }
 }
