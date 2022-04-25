@@ -5,6 +5,7 @@ namespace CodeIgniter\Shield\Models;
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Traits\UserProvider as UserProviderTrait;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Interfaces\Authenticatable;
 use CodeIgniter\Shield\Interfaces\UserProvider;
 use Faker\Generator;
 use InvalidArgumentException;
@@ -101,7 +102,7 @@ class UserModel extends Model implements UserProvider
      * Adds a user to the default group.
      * Used during registration.
      */
-    public function addToDefaultGroup(User $user): void
+    public function addToDefaultGroup(Authenticatable $user): void
     {
         $defaultGroup  = setting('AuthGroups.defaultGroup');
         $allowedGroups = array_keys(setting('AuthGroups.groups'));

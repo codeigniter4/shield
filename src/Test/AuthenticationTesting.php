@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Test;
 
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Interfaces\Authenticatable;
 
 /**
  * Trait AuthenticationTesting
@@ -16,7 +17,7 @@ trait AuthenticationTesting
      *
      * @return $this
      */
-    public function actingAs(User $user)
+    public function actingAs(Authenticatable $user)
     {
         // Ensure the helper is loaded during tests.
         helper('auth');

@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Interfaces\Authenticatable;
 use CodeIgniter\Shield\Interfaces\UserProvider;
 use CodeIgniter\Validation\Validation;
 
@@ -115,7 +116,7 @@ class RegisterController extends BaseController
     /**
      * Returns the Entity class that should be used
      */
-    protected function getUserEntity(): User
+    protected function getUserEntity(): Authenticatable
     {
         return new User();
     }

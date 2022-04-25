@@ -172,13 +172,7 @@ class Session implements AuthenticatorInterface
      */
     public function login(Authenticatable $user): bool
     {
-        /**
-         * @todo Authenticatable should define getEmailIdentity() or this should require User
-         */
-        if (! $user instanceof User) {
-            throw new InvalidArgumentException(self::class . '::login() only accepts Shield User');
-        }
-
+        // @todo Authenticatable should define getEmailIdentity() or this should require User
         $this->user = $user;
 
         // Update the user's last used date on their password identity.
@@ -297,7 +291,7 @@ class Session implements AuthenticatorInterface
      */
     public function recordActive(): void
     {
-        if (! $this->user instanceof User) {
+        if (! $this->user instanceof Authenticatable) {
             throw new InvalidArgumentException(self::class . '::recordActive() requires logged in user before calling.');
         }
 
