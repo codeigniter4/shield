@@ -3,7 +3,6 @@
 namespace Sparks\Shield\Authentication\Actions;
 
 use CodeIgniter\HTTP\IncomingRequest;
-use Sparks\Shield\Config\Auth as AuthConfig;
 use Sparks\Shield\Models\UserIdentityModel;
 
 /**
@@ -109,6 +108,6 @@ class Email2FA implements ActionInterface
         session()->remove('auth_action');
 
         // Get our login redirect url
-        return redirect()->to(AuthConfig::loginRedirect());
+        return redirect()->to(config('Auth')->loginRedirect());
     }
 }
