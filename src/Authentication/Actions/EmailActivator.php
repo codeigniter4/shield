@@ -4,7 +4,7 @@ namespace Sparks\Shield\Authentication\Actions;
 
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
-use Sparks\Shield\Controllers\LoginController;
+use Sparks\Shield\Config\Auth as AuthConfig;
 use Sparks\Shield\Models\UserIdentityModel;
 
 class EmailActivator implements ActionInterface
@@ -95,6 +95,6 @@ class EmailActivator implements ActionInterface
         unset($_SESSION['auth_action']);
 
         // Get our login redirect url
-        return redirect()->to(LoginController::getLoginRedirect());
+        return redirect()->to(AuthConfig::getLoginRedirect());
     }
 }

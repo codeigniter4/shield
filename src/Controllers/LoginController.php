@@ -5,6 +5,7 @@ namespace Sparks\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
+use Sparks\Shield\Config\Auth as AuthConfig;
 
 class LoginController extends BaseController
 {
@@ -50,7 +51,7 @@ class LoginController extends BaseController
             return redirect()->to(route_to('auth-action-show'));
         }
 
-        return redirect()->to($this->getLoginRedirect());
+        return redirect()->to(AuthConfig::getLoginRedirect());
     }
 
     /**
@@ -62,32 +63,6 @@ class LoginController extends BaseController
 
         auth()->logout();
 
-        return redirect()->to($this->getLogoutRedirect());
-    }
-
-    /**
-     * Returns the URL that a user should be redirected
-     * to after a successful login.
-     */
-    public static function getLoginRedirect(): string
-    {
-        $url = setting('Auth.redirects')['login'];
-
-        return strpos($url, 'http') === 0
-            ? $url
-            : rtrim(site_url($url), '/ ');
-    }
-
-    /**
-     * Returns the URL that a user should be redirected
-     * to after they are logged out.
-     */
-    protected function getLogoutRedirect(): string
-    {
-        $url = setting('Auth.redirects')['logout'];
-
-        return strpos($url, 'http') === 0
-            ? $url
-            : rtrim(site_url($url), '/ ');
+        return redirect()->to(AuthConfig::getLogoutRedirect());
     }
 }

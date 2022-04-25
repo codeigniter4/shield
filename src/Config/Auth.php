@@ -325,4 +325,30 @@ class Auth extends BaseConfig
      * @var class-string<\Sparks\Shield\Interfaces\UserProvider>
      */
     public $userProvider = 'Sparks\Shield\Models\UserModel';
+
+    /**
+     * Returns the URL that a user should be redirected
+     * to after a successful login.
+     */
+    public static function getLoginRedirect(): string
+    {
+        $url = setting('Auth.redirects')['login'];
+
+        return strpos($url, 'http') === 0
+            ? $url
+            : rtrim(site_url($url), '/ ');
+    }
+
+    /**
+     * Returns the URL that a user should be redirected
+     * to after they are logged out.
+     */
+    public static function getLogoutRedirect(): string
+    {
+        $url = setting('Auth.redirects')['logout'];
+
+        return strpos($url, 'http') === 0
+            ? $url
+            : rtrim(site_url($url), '/ ');
+    }
 }
