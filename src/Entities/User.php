@@ -46,10 +46,14 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function getIdentities(): array
     {
-        if (! array_key_exists('identities', $this->attributes) || ! is_array($this->attributes['identities'])) {
-            $this->attributes['identities'] = model(UserIdentityModel::class)
-                ->where('user_id', $this->id)
-                ->findAll();
+        if (
+            ! array_key_exists('identities', $this->attributes)
+            || ! is_array($this->attributes['identities'])
+        ) {
+            /** @var UserIdentityModel $identityModel */
+            $identityModel = model(UserIdentityModel::class);
+
+            $this->attributes['identities'] = $identityModel->getIdentities($this->id);
         }
 
         return $this->attributes['identities'];
@@ -77,7 +81,10 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function createEmailIdentity(array $credentials)
     {
-        model(UserIdentityModel::class)->insert([
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        $identityModel->insert([
             'user_id' => $this->id,
             'type'    => 'email_password',
             'secret'  => $credentials['email'],
@@ -92,10 +99,10 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function getEmailIdentity()
     {
-        return model(UserIdentityModel::class)
-            ->where('user_id', $this->id)
-            ->where('type', 'email_password')
-            ->first();
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        return $identityModel->getIdentityByType($this->id, 'email_password');
     }
 
     /**
@@ -105,7 +112,10 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
     {
         $identity->last_used_at = date('Y-m-d H:i:s');
 
-        model(UserIdentityModel::class)->save($identity);
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        $identityModel->save($identity);
     }
 
     /**

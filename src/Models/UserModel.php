@@ -62,10 +62,11 @@ class UserModel extends Model implements UserProvider
             ? array_column($data, 'id')
             : array_column($data['data'], 'id');
 
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
         // Get our identities for all users
-        $identities = model(UserIdentityModel::class)
-            ->whereIn('user_id', $userIds)
-            ->find();
+        $identities = $identityModel->getIdentitiesByUserIds($userIds);
 
         if (empty($identities)) {
             return $data;

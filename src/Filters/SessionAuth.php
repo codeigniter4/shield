@@ -42,13 +42,15 @@ class SessionAuth implements FilterInterface
             auth('session')->recordActive();
         }
 
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
         // If user is in middle of an action flow
         // ensure they must finish it first.
-        $identityModel = model(UserIdentityModel::class);
-        $identities    = $identityModel
-            ->where('user_id', auth('session')->id())
-            ->whereIn('type', ['email_2fa', 'email_activate'])
-            ->findAll();
+        $identities = $identityModel->getIdentitiesByTypes(
+            auth('session')->id(),
+            ['email_2fa', 'email_activate']
+        );
 
         foreach ($identities as $identity) {
             if (! $identity instanceof UserIdentity) {

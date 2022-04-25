@@ -95,12 +95,10 @@ class AccessTokens implements AuthenticatorInterface
             $credentials['token'] = trim(substr($credentials['token'], 6));
         }
 
-        $identities = model(UserIdentityModel::class);
-        $token      = $identities
-            ->where('type', 'access_token')
-            ->where('secret', hash('sha256', $credentials['token']))
-            ->asObject(AccessToken::class)
-            ->first();
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        $token = $identityModel->getAccessTokenByRawToken($credentials['token']);
 
         if ($token === null) {
             return new Result([
@@ -118,7 +116,7 @@ class AccessTokens implements AuthenticatorInterface
         }
 
         $token->last_used_at = Time::now()->toDateTimeString();
-        $identities->save($token);
+        $identityModel->save($token);
 
         // Ensure the token is set as the current token
         $user = $token->user();

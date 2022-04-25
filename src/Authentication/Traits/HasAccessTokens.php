@@ -20,10 +20,12 @@ trait HasAccessTokens
      */
     public function generateAccessToken(string $name, array $scopes = ['*'])
     {
-        $identities = model(UserIdentityModel::class);
         helper('text');
 
-        $identities->insert([
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        $identityModel->insert([
             'type'    => 'access_token',
             'user_id' => $this->id,
             'name'    => $name,
@@ -31,9 +33,10 @@ trait HasAccessTokens
             'extra'   => serialize($scopes),
         ]);
 
-        $token = $identities
+        /** @var AccessToken $token */
+        $token = $identityModel
             ->asObject(AccessToken::class)
-            ->find($identities->getInsertID());
+            ->find($identityModel->getInsertID());
 
         $token->raw_token = $rawToken;
 
@@ -41,16 +44,14 @@ trait HasAccessTokens
     }
 
     /**
-     * Given the token, will retrieve the token to
-     * verify it exists, then delete it.
+     * Delete any access tokens for the given raw token.
      */
-    public function revokeAccessToken(string $token)
+    public function revokeAccessToken(string $rawToken)
     {
-        return model(UserIdentityModel::class)
-            ->where('user_id', $this->id)
-            ->where('type', 'access_token')
-            ->where('secret', hash('sha256', $token))
-            ->delete();
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        return $identityModel->revokeAccessToken($this->id, $rawToken);
     }
 
     /**
@@ -58,45 +59,39 @@ trait HasAccessTokens
      */
     public function revokeAllAccessTokens()
     {
-        return model(UserIdentityModel::class)
-            ->where('user_id', $this->id)
-            ->where('type', 'access_token')
-            ->delete();
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        return $identityModel->revokeAllAccessTokens($this->id);
     }
 
     /**
      * Retrieves all personal access tokens for this user.
+     *
+     * @return AccessToken[]
      */
     public function accessTokens(): array
     {
-        return model(UserIdentityModel::class)
-            ->where('user_id', $this->id)
-            ->where('type', 'access_token')
-            ->asObject(AccessToken::class)
-            ->find();
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        return $identityModel->getAllAccessTokens($this->id);
     }
 
     /**
-     * Given a raw token, will hash it and attemp to
+     * Given a raw token, will hash it and attempt to
      * locate it within the system.
-     *
-     * @param string $token
-     *
-     * @return AccessToken|null
      */
-    public function getAccessToken(?string $token)
+    public function getAccessToken(?string $rawToken): ?AccessToken
     {
-        if (empty($token)) {
+        if (empty($rawToken)) {
             return null;
         }
 
-        $identities = model(UserIdentityModel::class);
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
 
-        return $identities->where('user_id', $this->id)
-            ->where('type', 'access_token')
-            ->where('secret', hash('sha256', $token))
-            ->asObject(AccessToken::class)
-            ->first();
+        return $identityModel->getAccessToken($this->id, $rawToken);
     }
 
     /**
@@ -106,13 +101,10 @@ trait HasAccessTokens
      */
     public function getAccessTokenById(int $id)
     {
-        $tokens = model(UserIdentityModel::class);
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
 
-        return $tokens->where('user_id', $this->id)
-            ->where('type', 'access_token')
-            ->where('id', $id)
-            ->asObject(AccessToken::class)
-            ->first();
+        return $identityModel->getAccessTokenById($id, $this->id);
     }
 
     /**

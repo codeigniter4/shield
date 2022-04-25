@@ -20,17 +20,17 @@ class EmailActivator implements ActionInterface
     {
         $user = auth()->user();
 
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
         // Delete any previous activation identities
-        $identities = new UserIdentityModel();
-        $identities->where('user_id', $user->getAuthId())
-            ->where('type', 'email_activate')
-            ->delete();
+        $identityModel->deleteIdentitiesByType($user->getAuthId(), 'email_activate');
 
         //  Create an identity for our activation hash
         helper('text');
         $code = random_string('nozero', 6);
 
-        $identities->insert([
+        $identityModel->insert([
             'user_id' => $user->getAuthId(),
             'type'    => 'email_activate',
             'secret'  => $code,
@@ -80,14 +80,16 @@ class EmailActivator implements ActionInterface
             return view(setting('Auth.views')['action_email_activate_show']);
         }
 
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
         // Remove the identity
-        $identities = new UserIdentityModel();
-        $identities->delete($identity->id);
+        $identityModel->delete($identity->id);
 
         // Set the user active now
-        $model        = auth()->getProvider();
+        $provider     = auth()->getProvider();
         $user->active = true;
-        $model->save($user);
+        $provider->save($user);
 
         // Clean up our session
         unset($_SESSION['auth_action']);
