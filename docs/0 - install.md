@@ -97,11 +97,9 @@ various parts of the authentication process:
 
 - **ActionController** handles the after login and after-registration actions that can be ran, like Two Factor Authentication and Email Verification. 
 
-- **LoginController** handles the login process. Contains several methods that can be overriden to customize where a user is redirected
-to after login or logout. 
+- **LoginController** handles the login process.
 
-- **RegisterController** handles the registration process. Overriding this class allows you to customize the User Provider, the User Entity, 
-the validation rules, and where a user is redirected after registration.
+- **RegisterController** handles the registration process. Overriding this class allows you to customize the User Provider, the User Entity, and the validation rules.
 
 - **MagicLinkController** handles the "lost password" process that allows a user to login with a link sent to their email. Allows you to
 override the message that is displayed to a user to describe what is happening, if you'd like to provide more information than simply swapping out the view used.
@@ -119,7 +117,7 @@ use Sparks\Shield\Controllers\LoginController as ShieldLogin;
 
 class LoginController extends ShieldLogin
 {
-    public function getLoginRedirect($user)
+    public function logoutAction()
     {
         // new functionality 
     }
