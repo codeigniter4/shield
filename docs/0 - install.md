@@ -14,7 +14,7 @@ table to store configuration options. As such, you should run the migrations.
 > php spark migrate --all
 ```
 
-## Intial Setup
+## Initial Setup
 
 There are a few setup items to do before you can start using Shield in 
 your project. 
