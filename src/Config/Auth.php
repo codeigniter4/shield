@@ -34,9 +34,8 @@ class Auth extends BaseConfig
      * Redirect urLs
      * --------------------------------------------------------------------
      * The default URL that a user will be redirected to after
-     * various auth actions. If you need more flexibility you
-     * should extend the appropriate controller and overrider the
-     * `getRedirect()` methods to apply any logic you may need.
+     * various auth actions. If you need more flexibility you can
+     * override the `getUrl()` method to apply any logic you may need.
      */
     public $redirects = [
         'register' => '/',
@@ -334,9 +333,7 @@ class Auth extends BaseConfig
     {
         $url = setting('Auth.redirects')['login'];
 
-        return strpos($url, 'http') === 0
-            ? $url
-            : rtrim(site_url($url), '/ ');
+        return $this->getUrl($url);
     }
 
     /**
@@ -347,9 +344,7 @@ class Auth extends BaseConfig
     {
         $url = setting('Auth.redirects')['logout'];
 
-        return strpos($url, 'http') === 0
-            ? $url
-            : rtrim(site_url($url), '/ ');
+        return $this->getUrl($url);
     }
 
     /**
@@ -360,6 +355,11 @@ class Auth extends BaseConfig
     {
         $url = setting('Auth.redirects')['register'];
 
+        return $this->getUrl($url);
+    }
+
+    protected function getUrl(string $url): string
+    {
         return strpos($url, 'http') === 0
             ? $url
             : rtrim(site_url($url), '/ ');
