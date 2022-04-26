@@ -14,7 +14,7 @@ table to store configuration options. As such, you should run the migrations.
 > php spark migrate --all
 ```
 
-## Intial Setup
+## Initial Setup
 
 There are a few setup items to do before you can start using Shield in 
 your project. 
@@ -77,10 +77,17 @@ public $ruleSets = [
 
 ### Route Configuration
 
-If you need to customize how any of the auth features are handled, you will likely need to update the routes to point to the correct controllers. You can still use the `auth()->routes()` helper, but you need to pass a list of routes to an `except` option: 
+If you need to customize how any of the auth features are handled, you will likely need to update the routes to point to the correct controllers. You can still use the `service('auth')->routes()` helper, but you will need to pass the `except` option with a list of routes to customize:
 
 ```php
-auth()->routes($routes, ['except' => ['login', 'register']]);
+service('auth')->routes($routes, ['except' => ['login', 'register']]);
+```
+
+Then add the routes to your customized controllers:
+
+```php
+$routes->get('login', '\App\Controllers\Auth\LoginController::loginView');
+$routes->get('register', '\App\Controllers\Auth\RegisterController::registerView');
 ```
 
 ### Extending the Controllers
@@ -118,4 +125,3 @@ class LoginController extends ShieldLogin
     }
 }
 ```
-
