@@ -2,22 +2,23 @@
 
 Shield provides a flexible, secure, authentication system for your web apps and API's. 
 
-## Available Handlers
+## Available Authenticators
 
-Shield ships with 2 handlers that will serve several typical situations within web app development: the
-Session handler, which uses username/email/password to authenticate against and stores it in the session, 
-and Access Tokens handler which uses private access tokens passed in the headers.
+Shield ships with 2 authenticators that will serve several typical situations within web app development: the
+Session authenticator, which uses username/email/password to authenticate against and stores it in the session,
+and Access Tokens authenticator which uses private access tokens passed in the headers.
 
-The available handlers are defined in `Config\Auth`: 
+The available authenticators are defined in `Config\Auth`:
 
 ```php
 public $authenticators = [
+    // alias  => classname
     'session' => Session::class,
     'tokens'  => AccessTokens::class,
 ];
 ```
 
-The default handler is also defined in the configuration file, and uses the alias given above:
+The default authenticator is also defined in the configuration file, and uses the alias given above:
 
 ```php
 public $defaultAuthenticator = 'session';
@@ -41,11 +42,11 @@ user_id()
 auth()->id()
 ```
 
-### Handler Responses
+### Authenticator Responses
 
-Many of the handler methods will return a `Sparks\Shield\Result` class. This provides a consistent
+Many of the authenticator methods will return a `Sparks\Shield\Result` class. This provides a consistent
 way of checking the results and can have additional information return along with it. The class
-has the following methods: 
+has the following methods:
 
 #### isOK()
 
@@ -60,10 +61,10 @@ Returns a message that can be displayed to the user when the check fails.
 Can return a custom bit of information. These will be detailed in the method descriptions below.
 
 
-### Session Handler
+### Session Authenticator
 
-The Session handler stores the user's authentication within the user's session, and on a secure cookie
-on their device. This is the standard password-based login used in most web sites. It supports a 
+The Session authenticator stores the user's authentication within the user's session, and on a secure cookie
+on their device. This is the standard password-based login used in most web sites. It supports a
 secure remember me feature, and more. This can also be used to handle authentication for 
 single page applications (SPAs).
 
@@ -99,7 +100,7 @@ if($result->isOK()) {
 If the attempt fails a `failedLoginAttempt` event is triggered with the credentials array as 
 the only parameter. Whether or not they pass, a login attempt is recorded in the `auth_logins` table.
 
-If `allowRemembering` is `true` in the `Auth` config file, you can tell the Session Handler
+If `allowRemembering` is `true` in the `Auth` config file, you can tell the Session authenticator
 to set a secure remember-me cookie. 
 
 ```php
@@ -157,9 +158,9 @@ will not be remembered on the next visit to the site.
 
 
 
-### Token Handler 
+### Access Token Authenticator
 
-The Token handler supports the use of revoke-able API tokens without using OAuth. These are commonly 
+The Access Token authenticator supports the use of revoke-able API tokens without using OAuth. These are commonly
 used to provide third-party developers access to your API. These tokens typically have a very long 
 expiration time, often years. 
 
@@ -177,7 +178,7 @@ provides all of the custom methods needed to implement access tokens in your app
 database table, `auth_access_tokens`, is created in Shield's only migration class, which must be ran 
 before first using any of the features of Shield.
 
-### Generating Tokens
+### Generating Access Tokens
 
 Access tokens are created through the `generateAccessToken()` method on the user. This takes a name to 
 give to the token as the first argument. The name is used to display it to the user so they can 
@@ -236,7 +237,7 @@ $token = $user->getAccessTokenById($id);
 $tokens = $user->accessTokens();
 ```
 
-### Token Lifetime
+### Access Token Lifetime
 
 Tokens will expire after a specified amount of time has passed since they have been used. 
 By default, this is set to 1 year. You can change this value by setting the `accessTokenLifetime`
@@ -248,7 +249,7 @@ CodeIgniter provides.
 public $unusedTokenLifetime = YEAR;
 ```
 
-### Token Scopes
+### Access Token Scopes
 
 Each token can be given one or more scopes they can be used within. These can be thought of as 
 permissions the token grants to the user. Scopes are provided when the token is generated and
@@ -282,8 +283,7 @@ if ($user->tokenCant('forums.manage')) {
 ## Controller Filters
 
 Shield provides 3 [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can 
-use to protect your routes, `session`, `tokens`, and `chained`. The first two cover the two handlers, 
-`Session` and `AccessTokens`, respectively. The `chained` filter will check both handlers in sequence 
+use to protect your routes, `session`, `tokens`, and `chained`. The first two cover the `Session` and `AccessTokens` authenticators, respectively. The `chained` filter will check both authenticators in sequence
 to see if the user is logged in through either of authenticators, allowing a single API endpoint to 
 work for both an SPA using session auth, and a mobile app using access tokens.
 
