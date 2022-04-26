@@ -283,8 +283,7 @@ if ($user->tokenCant('forums.manage')) {
 ## Controller Filters
 
 Shield provides 3 [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can 
-use to protect your routes, `session`, `tokens`, and `chained`. The first two cover the two authenticators,
-`Session` and `AccessTokens`, respectively. The `chained` filter will check both authenticators in sequence
+use to protect your routes, `session`, `tokens`, and `chained`. The first two cover the `Session` and `AccessTokens` authenticators, respectively. The `chained` filter will check both authenticators in sequence
 to see if the user is logged in through either of authenticators, allowing a single API endpoint to 
 work for both an SPA using session auth, and a mobile app using access tokens.
 
