@@ -16,9 +16,9 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
     use HasAccessTokens;
 
     /**
-     * @var UserIdentity[]
+     * @var UserIdentity[]|null
      */
-    private array $identities = [];
+    private ?array $identities = null;
 
     private ?string $email         = null;
     private ?string $password      = null;
@@ -61,7 +61,7 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function getIdentities(): array
     {
-        if ($this->identities === []) {
+        if ($this->identities === null) {
             /** @var UserIdentityModel $identityModel */
             $identityModel = model(UserIdentityModel::class);
 
