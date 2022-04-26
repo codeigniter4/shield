@@ -100,7 +100,7 @@ if($result->isOK()) {
 If the attempt fails a `failedLoginAttempt` event is triggered with the credentials array as 
 the only parameter. Whether or not they pass, a login attempt is recorded in the `auth_logins` table.
 
-If `allowRemembering` is `true` in the `Auth` config file, you can tell the Session Authenticator
+If `allowRemembering` is `true` in the `Auth` config file, you can tell the Session authenticator
 to set a secure remember-me cookie. 
 
 ```php
