@@ -34,9 +34,8 @@ class Auth extends BaseConfig
      * Redirect urLs
      * --------------------------------------------------------------------
      * The default URL that a user will be redirected to after
-     * various auth actions. If you need more flexibility you
-     * should extend the appropriate controller and overrider the
-     * `getRedirect()` methods to apply any logic you may need.
+     * various auth actions. If you need more flexibility you can
+     * override the `getUrl()` method to apply any logic you may need.
      */
     public $redirects = [
         'register' => '/',
@@ -325,4 +324,44 @@ class Auth extends BaseConfig
      * @var class-string<\Sparks\Shield\Interfaces\UserProvider>
      */
     public $userProvider = 'Sparks\Shield\Models\UserModel';
+
+    /**
+     * Returns the URL that a user should be redirected
+     * to after a successful login.
+     */
+    public function loginRedirect(): string
+    {
+        $url = setting('Auth.redirects')['login'];
+
+        return $this->getUrl($url);
+    }
+
+    /**
+     * Returns the URL that a user should be redirected
+     * to after they are logged out.
+     */
+    public function logoutRedirect(): string
+    {
+        $url = setting('Auth.redirects')['logout'];
+
+        return $this->getUrl($url);
+    }
+
+    /**
+     * Returns the URL the user should be redirected to
+     * after a successful registration.
+     */
+    public function registerRedirect(): string
+    {
+        $url = setting('Auth.redirects')['register'];
+
+        return $this->getUrl($url);
+    }
+
+    protected function getUrl(string $url): string
+    {
+        return strpos($url, 'http') === 0
+            ? $url
+            : rtrim(site_url($url), '/ ');
+    }
 }

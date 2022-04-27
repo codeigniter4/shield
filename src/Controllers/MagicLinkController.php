@@ -122,8 +122,6 @@ class MagicLinkController extends BaseController
         $auth->loginById($identity->user_id);
 
         // Get our login redirect url
-        $loginController = new LoginController();
-
-        return redirect()->to($loginController->getLoginRedirect());
+        return redirect()->to(config('Auth')->loginRedirect());
     }
 }

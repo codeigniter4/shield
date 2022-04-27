@@ -26,7 +26,8 @@ class RegisterController extends BaseController
     {
         // Check if registration is allowed
         if (! setting('Auth.allowRegistration')) {
-            return redirect()->back()->withInput()->with('error', lang('Auth.registerDisabled'));
+            return redirect()->back()->withInput()
+                ->with('error', lang('Auth.registerDisabled'));
         }
 
         return view(setting('Auth.views')['register']);
@@ -39,7 +40,8 @@ class RegisterController extends BaseController
     {
         // Check if registration is allowed
         if (! setting('Auth.allowRegistration')) {
-            return redirect()->back()->withInput()->with('error', lang('Auth.registerDisabled'));
+            return redirect()->back()->withInput()
+                ->with('error', lang('Auth.registerDisabled'));
         }
 
         $users = $this->getUserProvider();
@@ -49,7 +51,8 @@ class RegisterController extends BaseController
         $rules = $this->getValidationRules();
 
         if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', service('validation')->getErrors());
+            return redirect()->back()->withInput()
+                ->with('errors', service('validation')->getErrors());
         }
 
         // Save the user
@@ -89,7 +92,8 @@ class RegisterController extends BaseController
         $users->save($user);
 
         // Success!
-        return redirect()->to($this->getRedirectURL())->with('message', lang('Auth.registerSuccess'));
+        return redirect()->to(config('Auth')->registerRedirect())
+            ->with('message', lang('Auth.registerSuccess'));
     }
 
     /**
@@ -125,18 +129,5 @@ class RegisterController extends BaseController
             'password'         => 'required|strong_password',
             'password_confirm' => 'required|matches[password]',
         ];
-    }
-
-    /**
-     * Returns the URL the user should be redirected to
-     * after a successful registration.
-     */
-    protected function getRedirectURL(): string
-    {
-        $url = setting('Auth.redirects')['register'];
-
-        return strpos($url, 'http') === 0
-            ? $url
-            : rtrim(site_url($url), '/ ');
     }
 }
