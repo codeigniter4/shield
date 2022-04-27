@@ -21,9 +21,9 @@ To make the system as flexible as possible, you can define which class should be
 public $userProvider = 'Sparks\Shield\Models\UserModel';
 ```
 
-## Identities
+## User Identities
 
-User accounts are stored separately from the information needed to identify that user. These identifying pieces of data we call User Identifiers. By default, the library has two types of identifiers: one for standard email/password information, and one for access tokens. 
+User accounts are stored separately from the information needed to identify that user. These identifying pieces of data we call User Identities. By default, the library has two types of identities: one for standard email/password information, and one for access tokens. 
 
 By keeping the identity information loosely coupled from the user account itself, it frees the system up to more easily integrate third-party sign-in systems, JWT systems, and more, all on a single user. With small overrides you could even allow a single user to have multiple email/password combinations if your needs demands the functionality. 
 
