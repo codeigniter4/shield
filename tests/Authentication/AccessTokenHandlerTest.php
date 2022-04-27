@@ -3,16 +3,16 @@
 namespace Tests\Authentication;
 
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\Authentication;
+use CodeIgniter\Shield\Authentication\Handlers\AccessTokens;
+use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Entities\AccessToken;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Result;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
-use Sparks\Shield\Authentication\Authentication;
-use Sparks\Shield\Authentication\Handlers\AccessTokens;
-use Sparks\Shield\Config\Auth;
-use Sparks\Shield\Entities\AccessToken;
-use Sparks\Shield\Entities\User;
-use Sparks\Shield\Models\UserIdentityModel;
-use Sparks\Shield\Models\UserModel;
-use Sparks\Shield\Result;
 use Tests\Support\DatabaseTestCase;
 
 /**

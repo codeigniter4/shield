@@ -1,13 +1,13 @@
 <?php
 
-namespace Sparks\Shield\Models;
+namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Database\BaseResult;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Entities\Login;
 use Exception;
 use Faker\Generator;
-use Sparks\Shield\Entities\Login;
 
 class LoginModel extends Model
 {

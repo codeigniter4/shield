@@ -2,8 +2,8 @@
 
 namespace Tests\Support;
 
-use Sparks\Shield\Entities\User;
-use Sparks\Shield\Models\UserModel;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\UserModel;
 
 trait FakeUser
 {

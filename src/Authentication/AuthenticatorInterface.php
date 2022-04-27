@@ -1,8 +1,8 @@
 <?php
 
-namespace Sparks\Shield\Authentication;
+namespace CodeIgniter\Shield\Authentication;
 
-use Sparks\Shield\Interfaces\Authenticatable;
+use CodeIgniter\Shield\Interfaces\Authenticatable;
 
 interface AuthenticatorInterface
 {

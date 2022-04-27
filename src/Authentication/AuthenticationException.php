@@ -1,6 +1,6 @@
 <?php
 
-namespace Sparks\Shield\Authentication;
+namespace CodeIgniter\Shield\Authentication;
 
 use CodeIgniter\HTTP\Exceptions\HTTPException;
 use Exception;

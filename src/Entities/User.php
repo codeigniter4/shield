@@ -1,15 +1,15 @@
 <?php
 
-namespace Sparks\Shield\Entities;
+namespace CodeIgniter\Shield\Entities;
 
 use CodeIgniter\Entity\Entity;
-use Sparks\Shield\Authentication\Traits\Authenticatable;
-use Sparks\Shield\Authentication\Traits\HasAccessTokens;
-use Sparks\Shield\Authorization\Traits\Authorizable;
-use Sparks\Shield\Models\LoginModel;
-use Sparks\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Authentication\Traits\Authenticatable;
+use CodeIgniter\Shield\Authentication\Traits\HasAccessTokens;
+use CodeIgniter\Shield\Authorization\Traits\Authorizable;
+use CodeIgniter\Shield\Models\LoginModel;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 
-class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
+class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticatable
 {
     use Authenticatable;
     use Authorizable;

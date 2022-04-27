@@ -23,8 +23,8 @@ To define an action to happen you will specify the class name as the value for t
 
 ```php
 public $actions = [
-    'login'    => 'Sparks\Shield\Authentication\Actions\Email2FA',
-    'register' => 'Sparks\Shield\Authentication\Actions\EmailActivator',
+    'login'    => 'CodeIgniter\Shield\Authentication\Actions\Email2FA',
+    'register' => 'CodeIgniter\Shield\Authentication\Actions\EmailActivator',
 ];
 ```
 
@@ -32,7 +32,7 @@ Once configured, everything should work out of the box. The routes are added wit
 call, but can be manually added if you choose not to use this helper method.
 
 ```php
-use Sparks\Shield\Controllers\ActionController;
+use CodeIgniter\Shield\Controllers\ActionController;
 
 $routes->get('auth/a/show', 'ActionController::show');
 $routes->post('auth/a/handle', 'ActionController::handle');
@@ -43,11 +43,11 @@ Views for all of these pages are defined in the `Auth` config file, with the `$v
 
 ```php
     public $views = [
-        'action_email_2fa'            => '\Sparks\Shield\Views\email_2fa_show',
-        'action_email_2fa_verify'     => '\Sparks\Shield\Views\email_2fa_verify',
-        'action_email_2fa_email'      => '\Sparks\Shield\Views\email_2fa_email',
-        'action_email_activate_email' => '\Sparks\Shield\Views\email_activate_email',
-        'action_email_activate_show'  => '\Sparks\Shield\Views\email_activate_show',
+        'action_email_2fa'            => '\CodeIgniter\Shield\Views\email_2fa_show',
+        'action_email_2fa_verify'     => '\CodeIgniter\Shield\Views\email_2fa_verify',
+        'action_email_2fa_email'      => '\CodeIgniter\Shield\Views\email_2fa_email',
+        'action_email_activate_email' => '\CodeIgniter\Shield\Views\email_activate_email',
+        'action_email_activate_show'  => '\CodeIgniter\Shield\Views\email_activate_show',
     ];
 ```
 
@@ -58,7 +58,7 @@ flag has been cleared.
 
 While the provided email-based activation and 2FA will work for many sites, others will have different
 needs, like using SMS to verify or something completely different. Actions have only one requirement:
-they must implement `Sparks\Shield\Authentication\Actions\ActionInterface`.
+they must implement `CodeIgniter\Shield\Authentication\Actions\ActionInterface`.
 
 The interface defines three methods:
 

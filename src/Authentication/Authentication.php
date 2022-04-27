@@ -1,9 +1,9 @@
 <?php
 
-namespace Sparks\Shield\Authentication;
+namespace CodeIgniter\Shield\Authentication;
 
-use Sparks\Shield\Config\Auth as AuthConfig;
-use Sparks\Shield\Interfaces\UserProvider;
+use CodeIgniter\Shield\Config\Auth as AuthConfig;
+use CodeIgniter\Shield\Interfaces\UserProvider;
 
 class Authentication
 {

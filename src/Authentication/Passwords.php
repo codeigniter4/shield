@@ -1,10 +1,10 @@
 <?php
 
-namespace Sparks\Shield\Authentication;
+namespace CodeIgniter\Shield\Authentication;
 
-use Sparks\Shield\Config\Auth;
-use Sparks\Shield\Entities\User;
-use Sparks\Shield\Result;
+use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Result;
 
 /**
  * Class Passwords

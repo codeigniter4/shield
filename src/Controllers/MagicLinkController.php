@@ -1,12 +1,12 @@
 <?php
 
-namespace Sparks\Shield\Controllers;
+namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
-use Sparks\Shield\Interfaces\UserProvider;
-use Sparks\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Interfaces\UserProvider;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 
 /**
  * Handles "Magic Link" logins - an email-based

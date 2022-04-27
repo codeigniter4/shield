@@ -1,9 +1,9 @@
 <?php
 
-namespace Sparks\Shield\Authorization;
+namespace CodeIgniter\Shield\Authorization;
 
+use CodeIgniter\Shield\Entities\Group;
 use RuntimeException;
-use Sparks\Shield\Entities\Group;
 
 /**
  * Provides utility feature for working with

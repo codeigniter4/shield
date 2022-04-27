@@ -2,17 +2,17 @@
 
 namespace Tests\Authentication;
 
+use CodeIgniter\Shield\Authentication\Authentication;
+use CodeIgniter\Shield\Authentication\AuthenticationException;
+use CodeIgniter\Shield\Authentication\Handlers\Session;
+use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\RememberModel;
+use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Result;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
-use Sparks\Shield\Authentication\Authentication;
-use Sparks\Shield\Authentication\AuthenticationException;
-use Sparks\Shield\Authentication\Handlers\Session;
-use Sparks\Shield\Config\Auth;
-use Sparks\Shield\Entities\User;
-use Sparks\Shield\Models\RememberModel;
-use Sparks\Shield\Models\UserModel;
-use Sparks\Shield\Result;
 use Tests\Support\FakeUser;
 use Tests\Support\TestCase;
 

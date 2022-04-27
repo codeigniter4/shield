@@ -4,12 +4,12 @@ namespace Tests\Unit;
 
 use CodeIgniter\HTTP\Exceptions\HTTPException;
 use CodeIgniter\HTTP\Response;
+use CodeIgniter\Shield\Authentication\AuthenticationException;
+use CodeIgniter\Shield\Authentication\Passwords\PwnedValidator;
+use CodeIgniter\Shield\Config\Auth as AuthConfig;
+use CodeIgniter\Shield\Config\Services;
 use CodeIgniter\Test\CIUnitTestCase;
 use Config\App;
-use Sparks\Shield\Authentication\AuthenticationException;
-use Sparks\Shield\Authentication\Passwords\PwnedValidator;
-use Sparks\Shield\Config\Auth as AuthConfig;
-use Sparks\Shield\Config\Services;
 
 /**
  * @internal

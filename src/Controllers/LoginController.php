@@ -1,6 +1,6 @@
 <?php
 
-namespace Sparks\Shield\Controllers;
+namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;

@@ -28,9 +28,9 @@ your project.
 namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
-use Sparks\Shield\Authentication\Handlers\AccessTokens;
-use Sparks\Shield\Authentication\Handlers\Session;
-use Sparks\Shield\Config\Auth as ShieldAuth;
+use CodeIgniter\Shield\Authentication\Handlers\AccessTokens;
+use CodeIgniter\Shield\Authentication\Handlers\Session;
+use CodeIgniter\Shield\Config\Auth as ShieldAuth;
 
 class Auth extends ShieldAuth
 {
@@ -62,7 +62,7 @@ service('auth')->routes($routes);
 by editing `app/Config/Validation.php`: 
 
 ```php
-use Sparks\Shield\Authentication\Passwords\ValidationRules as PasswordRules;
+use CodeIgniter\Shield\Authentication\Passwords\ValidationRules as PasswordRules;
 
 public $ruleSets = [
         Rules::class,
@@ -113,7 +113,7 @@ updates that might happen in the controllers.
 
 namespace App\Controllers;
 
-use Sparks\Shield\Controllers\LoginController as ShieldLogin;
+use CodeIgniter\Shield\Controllers\LoginController as ShieldLogin;
 
 class LoginController extends ShieldLogin
 {

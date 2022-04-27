@@ -1,6 +1,6 @@
 <?php
 
-namespace Sparks\Shield\Entities;
+namespace CodeIgniter\Shield\Entities;
 
 use CodeIgniter\Entity\Entity;
 

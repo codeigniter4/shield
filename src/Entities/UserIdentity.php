@@ -1,6 +1,6 @@
 <?php
 
-namespace Sparks\Shield\Entities;
+namespace CodeIgniter\Shield\Entities;
 
 use CodeIgniter\Entity\Entity;
 
@@ -32,7 +32,7 @@ class UserIdentity extends Entity
      * Uses password-strength hashing to hash
      * a given value for the 'secret'.
      *
-     * @return \Sparks\Shield\Entities\UserIdentity
+     * @return \CodeIgniter\Shield\Entities\UserIdentity
      */
     public function hashSecret(string $value)
     {

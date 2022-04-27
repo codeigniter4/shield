@@ -1,13 +1,13 @@
 <?php
 
-namespace Sparks\Shield\Models;
+namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Authentication\Traits\UserProvider as UserProviderTrait;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Interfaces\UserProvider;
 use Faker\Generator;
 use InvalidArgumentException;
-use Sparks\Shield\Authentication\Traits\UserProvider as UserProviderTrait;
-use Sparks\Shield\Entities\User;
-use Sparks\Shield\Interfaces\UserProvider;
 
 class UserModel extends Model implements UserProvider
 {

@@ -1,18 +1,18 @@
 <?php
 
-namespace Sparks\Shield\Config;
+namespace CodeIgniter\Shield\Config;
 
+use CodeIgniter\Shield\Auth;
+use CodeIgniter\Shield\Authentication\Authentication;
+use CodeIgniter\Shield\Authentication\Passwords;
 use Config\Services as BaseService;
-use Sparks\Shield\Auth;
-use Sparks\Shield\Authentication\Authentication;
-use Sparks\Shield\Authentication\Passwords;
 
 class Services extends BaseService
 {
     /**
      * The base auth class
      *
-     * @return \Sparks\Shield\Auth
+     * @return \CodeIgniter\Shield\Auth
      */
     public static function auth(bool $getShared = true)
     {
@@ -28,7 +28,7 @@ class Services extends BaseService
     /**
      * Password utilities.
      *
-     * @return mixed|\Sparks\Shield\Authentication\Passwords
+     * @return \CodeIgniter\Shield\Authentication\Passwords|mixed
      */
     public static function passwords(bool $getShared = true)
     {

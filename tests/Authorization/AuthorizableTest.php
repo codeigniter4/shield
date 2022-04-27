@@ -3,9 +3,9 @@
 namespace Tests\Authorization;
 
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authorization\AuthorizationException;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
-use Sparks\Shield\Authorization\AuthorizationException;
-use Sparks\Shield\Models\UserModel;
 use Tests\Support\FakeUser;
 use Tests\Support\TestCase;
 

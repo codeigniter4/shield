@@ -4,13 +4,13 @@ namespace Tests\Controllers;
 
 use CodeIgniter\Config\Factories;
 use CodeIgniter\Exceptions\PageNotFoundException;
+use CodeIgniter\Shield\Authentication\Actions\Email2FA;
+use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
+use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Test\AuthenticationTesting;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
-use Sparks\Shield\Authentication\Actions\Email2FA;
-use Sparks\Shield\Authentication\Actions\EmailActivator;
-use Sparks\Shield\Models\UserIdentityModel;
-use Sparks\Shield\Test\AuthenticationTesting;
 use Tests\Support\FakeUser;
 use Tests\Support\TestCase;
 

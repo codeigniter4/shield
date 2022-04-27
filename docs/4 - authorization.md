@@ -104,7 +104,7 @@ None of the changes are saved on the User entity until you `save()` with the `Us
 
 #### addPermission()
 
-Adds one or more permissions to the user. If a permission doesn't exist, a `Sparks\Shield\Authorization\AuthorizationException` 
+Adds one or more permissions to the user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException` 
 is thrown. 
 
 ```php
@@ -113,7 +113,7 @@ $user->addPermission('users.create', 'users.edit');
 
 #### removePermission()
 
-Removes one or more permissions from a user. If a permission doesn't exist, a `Sparks\Shield\Authorization\AuthorizationException`
+Removes one or more permissions from a user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
 is thrown. 
 
 ```php
@@ -133,7 +133,7 @@ $user->syncPermissions(['admin.access', 'beta.access']);
 
 #### addGroup()
 
-Adds one or more groups to a user. If a group doesn't exist, a `Sparks\Shield\Authorization\AuthorizationException`
+Adds one or more groups to a user. If a group doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
 is thrown. 
 
 ```php
@@ -142,7 +142,7 @@ $user->addGroup('admin', 'beta');
 
 #### removeGroup()
 
-Removes one or more groups from a user. If a group doesn't exist, a `Sparks\Shield\Authorization\AuthorizationException`
+Removes one or more groups from a user. If a group doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
 is thrown.
 
 ```php

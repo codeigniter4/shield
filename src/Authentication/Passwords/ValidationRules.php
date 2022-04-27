@@ -1,8 +1,8 @@
 <?php
 
-namespace Sparks\Shield\Authentication\Passwords;
+namespace CodeIgniter\Shield\Authentication\Passwords;
 
-use Sparks\Shield\Entities\User;
+use CodeIgniter\Shield\Entities\User;
 
 /**
  * Class ValidationRules

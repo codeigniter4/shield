@@ -3,12 +3,12 @@
 namespace Tests\Unit;
 
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Entities\Login;
+use CodeIgniter\Shield\Entities\UserIdentity;
+use CodeIgniter\Shield\Models\LoginModel;
+use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
-use Sparks\Shield\Entities\Login;
-use Sparks\Shield\Entities\UserIdentity;
-use Sparks\Shield\Models\LoginModel;
-use Sparks\Shield\Models\UserIdentityModel;
-use Sparks\Shield\Models\UserModel;
 use Tests\Support\FakeUser;
 use Tests\Support\TestCase;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace Sparks\Shield\Config;
+namespace CodeIgniter\Shield\Config;
 
-use Sparks\Shield\Authentication\Passwords\ValidationRules as PasswordRules;
-use Sparks\Shield\Filters\ChainAuth;
-use Sparks\Shield\Filters\SessionAuth;
-use Sparks\Shield\Filters\TokenAuth;
+use CodeIgniter\Shield\Authentication\Passwords\ValidationRules as PasswordRules;
+use CodeIgniter\Shield\Filters\ChainAuth;
+use CodeIgniter\Shield\Filters\SessionAuth;
+use CodeIgniter\Shield\Filters\TokenAuth;
 
 class Registrar
 {

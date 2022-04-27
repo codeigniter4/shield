@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
+use CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator;
+use CodeIgniter\Shield\Config\Auth as AuthConfig;
 use CodeIgniter\Test\CIUnitTestCase;
-use Sparks\Shield\Authentication\Passwords\DictionaryValidator;
-use Sparks\Shield\Config\Auth as AuthConfig;
 
 /**
  * @internal

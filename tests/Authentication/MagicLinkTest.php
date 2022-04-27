@@ -3,12 +3,12 @@
 namespace Tests\Authentication;
 
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
-use Sparks\Shield\Entities\User;
-use Sparks\Shield\Models\UserIdentityModel;
-use Sparks\Shield\Models\UserModel;
 use Tests\Support\TestCase;
 
 /**
