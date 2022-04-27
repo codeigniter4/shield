@@ -216,7 +216,7 @@ class Session implements AuthenticatorInterface
      *
      * @param int|string $userId
      */
-    public function loginById($userId): bool
+    public function loginById($userId): void
     {
         $user = $this->provider->findById($userId);
 
@@ -224,7 +224,7 @@ class Session implements AuthenticatorInterface
             throw AuthenticationException::forInvalidUser();
         }
 
-        return $this->login($user);
+        $this->login($user);
     }
 
     /**
