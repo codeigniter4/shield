@@ -46,10 +46,8 @@ interface AuthenticatorInterface
      * @see https://codeigniter4.github.io/CodeIgniter4/extending/authentication.html
      *
      * @param int|string $userId
-     *
-     * @return mixed
      */
-    public function loginById($userId);
+    public function loginById($userId): void;
 
     /**
      * Logs the current user out.

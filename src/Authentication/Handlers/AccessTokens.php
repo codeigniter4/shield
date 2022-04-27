@@ -162,7 +162,7 @@ class AccessTokens implements AuthenticatorInterface
      *
      * @throws AuthenticationException
      */
-    public function loginById($userId): bool
+    public function loginById($userId): void
     {
         $user = $this->provider->findById($userId);
 
@@ -174,7 +174,7 @@ class AccessTokens implements AuthenticatorInterface
             $user->getAccessToken($this->getBearerToken())
         );
 
-        return $this->login($user);
+        $this->login($user);
     }
 
     /**
