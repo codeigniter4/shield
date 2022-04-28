@@ -6,7 +6,7 @@ around features, like Beta feature access, or used to provide discrete groups of
 
 ## Defining Available Groups
 
-Roles are defined within the `Shield\Config\AuthGroups` config class.
+Groups are defined within the `Shield\Config\AuthGroups` config class.
 
 ```php
 
@@ -18,8 +18,8 @@ public $groups = [
 ];
 ```
 
-The key of the `$groups` array is the common term of the role. This is what you would call when referencing the 
-role elsewhere, like checking if `$user->inGroup('superadmin')`. By default, the following groups are available: 
+The key of the `$groups` array is the common term of the group. This is what you would call when referencing the
+group elsewhere, like checking if `$user->inGroup('superadmin')`. By default, the following groups are available: 
 `superadmin`, `admin`, `developer`, `user`, and `beta`.
 
 ### Default User Group
@@ -49,11 +49,11 @@ public $permissions = [
 ];
 ```
 
-## Assigning Permissions to Roles
+## Assigning Permissions to Groups
 
-In order to grant any permissions to a group, they must have the permission assigned to the role, within the `AuthGroups`
-config file, under the `$matrix` property. The matrix is an associative array with the role name as the key, and 
-and array of permissions that should be applied to that role. 
+In order to grant any permissions to a group, they must have the permission assigned to the group, within the `AuthGroups`
+config file, under the `$matrix` property. The matrix is an associative array with the group name as the key,
+and array of permissions that should be applied to that group.
 
 ```php
 public $matrix = [
