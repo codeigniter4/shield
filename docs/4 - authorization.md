@@ -12,7 +12,7 @@ Groups are defined within the `Shield\Config\AuthGroups` config class.
 
 public $groups = [
     'superadmin' => [
-        'title' => 'Super Admin',
+        'title'       => 'Super Admin',
         'description' => 'Optional description of the group.',
     ],
 ];
@@ -39,13 +39,13 @@ can have a description for display within UIs if needed.
 
 ```php
 public $permissions = [
-    'admin.access' => 'Can access the sites admin area',
-    'admin.settings' => 'Can access the main site settings',
+    'admin.access'        => 'Can access the sites admin area',
+    'admin.settings'      => 'Can access the main site settings',
     'users.manage-admins' => 'Can manage other admins',
-    'users.create' => 'Can create new non-admin users',
-    'users.edit' => 'Can edit existing non-admin users',
-    'users.delete' => 'Can delete existing non-admin users',
-    'beta.access' => 'Can access beta-level features'
+    'users.create'        => 'Can create new non-admin users',
+    'users.edit'          => 'Can edit existing non-admin users',
+    'users.delete'        => 'Can delete existing non-admin users',
+    'beta.access'         => 'Can access beta-level features'
 ];
 ```
 
