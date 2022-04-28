@@ -3,10 +3,10 @@
 namespace Tests\Controllers;
 
 use CodeIgniter\Config\Factories;
+use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
+use CodeIgniter\Shield\Authentication\Passwords\ValidationRules;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
-use Sparks\Shield\Authentication\Actions\EmailActivator;
-use Sparks\Shield\Authentication\Passwords\ValidationRules;
 use Tests\Support\DatabaseTestCase;
 
 /**

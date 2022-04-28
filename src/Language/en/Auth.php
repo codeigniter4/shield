@@ -1,6 +1,6 @@
 <?php
 
-namespace Sparks\Shield\Language\en;
+namespace CodeIgniter\Shield\Language\en;
 
 return [
     // Exceptions

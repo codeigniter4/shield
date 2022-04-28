@@ -2,9 +2,9 @@
 
 namespace Tests\Authentication;
 
+use CodeIgniter\Shield\Authentication\AuthenticationException;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
-use Sparks\Shield\Authentication\AuthenticationException;
-use Sparks\Shield\Models\UserModel;
 use Tests\Support\TestCase;
 
 /**

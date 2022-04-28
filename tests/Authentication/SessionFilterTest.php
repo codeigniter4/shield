@@ -3,10 +3,10 @@
 namespace Tests\Authentication;
 
 use CodeIgniter\Config\Factories;
+use CodeIgniter\Shield\Filters\SessionAuth;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
-use Sparks\Shield\Filters\SessionAuth;
-use Sparks\Shield\Models\UserModel;
 use Tests\Support\DatabaseTestCase;
 
 /**

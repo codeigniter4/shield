@@ -1,8 +1,8 @@
 <?php
 
-namespace Sparks\Shield\Authentication\Passwords;
+namespace CodeIgniter\Shield\Authentication\Passwords;
 
-use Sparks\Shield\Config\Auth as AuthConfig;
+use CodeIgniter\Shield\Config\Auth as AuthConfig;
 
 class BaseValidator
 {

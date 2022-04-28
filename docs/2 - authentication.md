@@ -44,7 +44,7 @@ auth()->id()
 
 ### Authenticator Responses
 
-Many of the authenticator methods will return a `Sparks\Shield\Result` class. This provides a consistent
+Many of the authenticator methods will return a `CodeIgniter\Shield\Result` class. This provides a consistent
 way of checking the results and can have additional information return along with it. The class
 has the following methods:
 
@@ -172,8 +172,8 @@ in all future requests.
 
 ## Access Token/API Authentication 
 
-Using access tokens requires that you either use/extend `Sparks\Shield\Models\UserModel` or 
-use the `Sparks\Shield\Authentication\Traits\HasAccessTokens` on your own user model. This trait
+Using access tokens requires that you either use/extend `CodeIgniter\Shield\Models\UserModel` or 
+use the `CodeIgniter\Shield\Authentication\Traits\HasAccessTokens` on your own user model. This trait
 provides all of the custom methods needed to implement access tokens in your application. The necessary
 database table, `auth_access_tokens`, is created in Shield's only migration class, which must be ran 
 before first using any of the features of Shield.
@@ -294,10 +294,10 @@ public $aliases = [
     'csrf'     => CSRF::class,
     'toolbar'  => DebugToolbar::class,
     'honeypot' => Honeypot::class,
-    'session'  => Sparks\Shield\Filters\SessionAuth::class,
-    'session'  => Sparks\Shield\Filters\SessionAuth::class,
-    'tokens'   => Sparks\Shield\Filters\TokenAuth::class,
-    'chain'    => Sparks\Shield\Filters\ChainAuth::class,
+    'session'  => CodeIgniter\Shield\Filters\SessionAuth::class,
+    'session'  => CodeIgniter\Shield\Filters\SessionAuth::class,
+    'tokens'   => CodeIgniter\Shield\Filters\TokenAuth::class,
+    'chain'    => CodeIgniter\Shield\Filters\ChainAuth::class,
 ];
 ```
 

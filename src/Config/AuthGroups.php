@@ -1,6 +1,6 @@
 <?php
 
-namespace Sparks\Shield\Config;
+namespace CodeIgniter\Shield\Config;
 
 use CodeIgniter\Config\BaseConfig;
 

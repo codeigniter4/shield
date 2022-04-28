@@ -8,9 +8,9 @@ the `actingAs()` method that takes a User instance. This user will be logged in 
 ```php
 <?php
 
-use Sparks\Shield\Test\AuthenticationTesting;
+use CodeIgniter\Shield\Test\AuthenticationTesting;
 use Tests\Support\TestCase;
-use Sparks\Shield\Authentication\Actions\Email2FA;
+use CodeIgniter\Shield\Authentication\Actions\Email2FA;
 
 class ActionsTest extends TestCase
 {

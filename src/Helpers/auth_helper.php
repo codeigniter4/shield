@@ -14,7 +14,7 @@ if (! function_exists('auth')) {
 if (! function_exists('user_id')) {
     /**
      * Returns the ID for the current logged in user.
-     * Note: For \Sparks\Shield\Entities\User this will always return an int.
+     * Note: For \CodeIgniter\Shield\Entities\User this will always return an int.
      *
      * @return mixed|null
      */

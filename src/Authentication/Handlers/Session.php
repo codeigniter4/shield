@@ -1,19 +1,19 @@
 <?php
 
-namespace Sparks\Shield\Authentication\Handlers;
+namespace CodeIgniter\Shield\Authentication\Handlers;
 
 use CodeIgniter\Events\Events;
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\AuthenticationException;
+use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
+use CodeIgniter\Shield\Authentication\Passwords;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Interfaces\Authenticatable;
+use CodeIgniter\Shield\Models\LoginModel;
+use CodeIgniter\Shield\Models\RememberModel;
+use CodeIgniter\Shield\Result;
 use Exception;
 use InvalidArgumentException;
-use Sparks\Shield\Authentication\AuthenticationException;
-use Sparks\Shield\Authentication\AuthenticatorInterface;
-use Sparks\Shield\Authentication\Passwords;
-use Sparks\Shield\Entities\User;
-use Sparks\Shield\Interfaces\Authenticatable;
-use Sparks\Shield\Models\LoginModel;
-use Sparks\Shield\Models\RememberModel;
-use Sparks\Shield\Result;
 
 class Session implements AuthenticatorInterface
 {

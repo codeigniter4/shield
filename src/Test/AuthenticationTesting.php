@@ -1,8 +1,8 @@
 <?php
 
-namespace Sparks\Shield\Test;
+namespace CodeIgniter\Shield\Test;
 
-use Sparks\Shield\Entities\User;
+use CodeIgniter\Shield\Entities\User;
 
 /**
  * Trait AuthenticationTesting

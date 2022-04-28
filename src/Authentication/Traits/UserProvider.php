@@ -1,9 +1,9 @@
 <?php
 
-namespace Sparks\Shield\Authentication\Traits;
+namespace CodeIgniter\Shield\Authentication\Traits;
 
-use Sparks\Shield\Entities\User;
-use Sparks\Shield\Interfaces\Authenticatable;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Interfaces\Authenticatable;
 
 trait UserProvider
 {

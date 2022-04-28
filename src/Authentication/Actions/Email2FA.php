@@ -1,9 +1,9 @@
 <?php
 
-namespace Sparks\Shield\Authentication\Actions;
+namespace CodeIgniter\Shield\Authentication\Actions;
 
 use CodeIgniter\HTTP\IncomingRequest;
-use Sparks\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 
 /**
  * Class Email2FA

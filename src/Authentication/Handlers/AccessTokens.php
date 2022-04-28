@@ -1,17 +1,17 @@
 <?php
 
-namespace Sparks\Shield\Authentication\Handlers;
+namespace CodeIgniter\Shield\Authentication\Handlers;
 
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\AuthenticationException;
+use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
+use CodeIgniter\Shield\Entities\AccessToken;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Interfaces\Authenticatable;
+use CodeIgniter\Shield\Models\LoginModel;
+use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Result;
 use InvalidArgumentException;
-use Sparks\Shield\Authentication\AuthenticationException;
-use Sparks\Shield\Authentication\AuthenticatorInterface;
-use Sparks\Shield\Entities\AccessToken;
-use Sparks\Shield\Entities\User;
-use Sparks\Shield\Interfaces\Authenticatable;
-use Sparks\Shield\Models\LoginModel;
-use Sparks\Shield\Models\UserIdentityModel;
-use Sparks\Shield\Result;
 
 class AccessTokens implements AuthenticatorInterface
 {

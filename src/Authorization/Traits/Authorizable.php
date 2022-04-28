@@ -1,10 +1,10 @@
 <?php
 
-namespace Sparks\Shield\Authorization\Traits;
+namespace CodeIgniter\Shield\Authorization\Traits;
 
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authorization\AuthorizationException;
 use Exception;
-use Sparks\Shield\Authorization\AuthorizationException;
 
 trait Authorizable
 {

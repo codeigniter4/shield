@@ -15,10 +15,10 @@ In place of the CodeIgniter `config()` helper, Shield uses the official
 
 ## User Providers
 
-To make the system as flexible as possible, you can define which class should be able to interact with your chosen persistence system to get the user records. Typically this is going to be a Model, and one is provided for you, at `Sparks\Shield\Models\UserModel`. This is defined in `Config\Auth->userProvider`.
+To make the system as flexible as possible, you can define which class should be able to interact with your chosen persistence system to get the user records. Typically this is going to be a Model, and one is provided for you, at `CodeIgniter\Shield\Models\UserModel`. This is defined in `Config\Auth->userProvider`.
 
 ```php
-public $userProvider = 'Sparks\Shield\Models\UserModel';
+public $userProvider = 'CodeIgniter\Shield\Models\UserModel';
 ```
 
 ## User Identities
@@ -61,9 +61,9 @@ You can choose which validators are used in `Config\Auth->passwordValidators`:
 
 ```php
 public $passwordValidators = [
-    'Sparks\Shield\Authentication\Passwords\CompositionValidator',
-    'Sparks\Shield\Authentication\Passwords\NothingPersonalValidator',
-    'Sparks\Shield\Authentication\Passwords\DictionaryValidator',
-    //'Sparks\Shield\Authentication\Passwords\PwnedValidator',
+    'CodeIgniter\Shield\Authentication\Passwords\CompositionValidator',
+    'CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator',
+    'CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator',
+    //'CodeIgniter\Shield\Authentication\Passwords\PwnedValidator',
 ];
 ```

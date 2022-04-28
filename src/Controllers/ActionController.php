@@ -1,10 +1,10 @@
 <?php
 
-namespace Sparks\Shield\Controllers;
+namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\Exceptions\PageNotFoundException;
-use Sparks\Shield\Authentication\Actions\ActionInterface;
+use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 
 /**
  * Class ActionController

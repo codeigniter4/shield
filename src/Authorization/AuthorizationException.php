@@ -1,6 +1,6 @@
 <?php
 
-namespace Sparks\Shield\Authorization;
+namespace CodeIgniter\Shield\Authorization;
 
 use Exception;
 

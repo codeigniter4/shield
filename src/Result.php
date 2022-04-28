@@ -1,8 +1,8 @@
 <?php
 
-namespace Sparks\Shield;
+namespace CodeIgniter\Shield;
 
-use Sparks\Shield\Entities\User;
+use CodeIgniter\Shield\Entities\User;
 
 class Result
 {

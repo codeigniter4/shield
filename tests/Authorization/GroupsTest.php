@@ -2,10 +2,10 @@
 
 namespace Tests\Authorization;
 
+use CodeIgniter\Shield\Authorization\Groups;
+use CodeIgniter\Shield\Entities\Group;
 use CodeIgniter\Test\DatabaseTestTrait;
 use RuntimeException;
-use Sparks\Shield\Authorization\Groups;
-use Sparks\Shield\Entities\Group;
 use Tests\Support\TestCase;
 
 /**

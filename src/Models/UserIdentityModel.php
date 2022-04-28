@@ -1,11 +1,11 @@
 <?php
 
-namespace Sparks\Shield\Models;
+namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Entities\AccessToken;
+use CodeIgniter\Shield\Entities\UserIdentity;
 use Faker\Generator;
-use Sparks\Shield\Entities\AccessToken;
-use Sparks\Shield\Entities\UserIdentity;
 
 class UserIdentityModel extends Model
 {

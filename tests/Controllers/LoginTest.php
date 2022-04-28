@@ -4,10 +4,10 @@ namespace Tests\Controllers;
 
 use CodeIgniter\Config\Factories;
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\Actions\Email2FA;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
-use Sparks\Shield\Authentication\Actions\Email2FA;
 use Tests\Support\FakeUser;
 use Tests\Support\TestCase;
 

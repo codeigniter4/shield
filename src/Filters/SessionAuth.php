@@ -1,13 +1,13 @@
 <?php
 
-namespace Sparks\Shield\Filters;
+namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
-use Sparks\Shield\Entities\UserIdentity;
-use Sparks\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Entities\UserIdentity;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 
 /**
  * Session Authentication Filter.
