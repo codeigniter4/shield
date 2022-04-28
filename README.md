@@ -43,7 +43,7 @@ Usage of Shield requires the following:
 
 Installation is done through Composer.
 
-    > composer require codeigniter/shield
+    > composer require codeigniter4/shield
 
 See the [docs](docs) folder more specific instructions on installation and usage recommendations.
 
