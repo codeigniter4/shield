@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use Sparks\Shield\Authentication\AuthenticationException;
-use Sparks\Shield\Authentication\Passwords\CompositionValidator;
-use Sparks\Shield\Config\Auth;
+use CodeIgniter\Shield\Authentication\AuthenticationException;
+use CodeIgniter\Shield\Authentication\Passwords\CompositionValidator;
+use CodeIgniter\Shield\Config\Auth;
 use Tests\Support\TestCase;
 
 /**

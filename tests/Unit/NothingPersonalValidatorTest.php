@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
+use CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator;
+use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Test\CIUnitTestCase;
-use Sparks\Shield\Authentication\Passwords\NothingPersonalValidator;
-use Sparks\Shield\Config\Auth;
-use Sparks\Shield\Entities\User;
 
 /**
  * @internal

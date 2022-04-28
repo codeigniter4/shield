@@ -2,7 +2,7 @@
 
 namespace Tests\Authentication;
 
-use Sparks\Shield\Entities\AccessToken;
+use CodeIgniter\Shield\Entities\AccessToken;
 use Tests\Support\DatabaseTestCase;
 
 /**

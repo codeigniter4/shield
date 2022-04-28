@@ -1,13 +1,14 @@
 {
-    "name": "lonnieezell/codeigniter-shield",
+    "name": "codeigniter4/shield",
     "type": "library",
     "description": "Authentication and Authorization for CodeIgniter 4",
     "keywords": [
         "codeigniter",
         "codeigniter4",
-        "authentication"
+        "authentication",
+        "authorization"
     ],
-    "homepage": "https://github.com/codeigniter4-projects/shield",
+    "homepage": "https://github.com/codeigniter4/shield",
     "license": "MIT",
     "authors": [
         {
@@ -43,7 +44,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Sparks\\Shield\\": "src"
+            "CodeIgniter\\Shield\\": "src"
         },
         "exclude-from-classmap": [
             "**/Database/Migrations/**"

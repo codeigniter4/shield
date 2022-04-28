@@ -2,11 +2,11 @@
 
 namespace Tests\Authentication;
 
-use Sparks\Shield\Authentication\Authentication;
-use Sparks\Shield\Authentication\AuthenticationException;
-use Sparks\Shield\Authentication\Handlers\Session;
-use Sparks\Shield\Config\Auth;
-use Sparks\Shield\Models\UserModel;
+use CodeIgniter\Shield\Authentication\Authentication;
+use CodeIgniter\Shield\Authentication\AuthenticationException;
+use CodeIgniter\Shield\Authentication\Handlers\Session;
+use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Models\UserModel;
 use Tests\Support\DatabaseTestCase;
 
 /**

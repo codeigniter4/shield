@@ -1,9 +1,9 @@
 <?php
 
-namespace Sparks\Shield\Authentication\Passwords;
+namespace CodeIgniter\Shield\Authentication\Passwords;
 
-use Sparks\Shield\Authentication\AuthenticationException;
-use Sparks\Shield\Result;
+use CodeIgniter\Shield\Authentication\AuthenticationException;
+use CodeIgniter\Shield\Result;
 
 /**
  * Class CompositionValidator

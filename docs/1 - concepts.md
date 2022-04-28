@@ -15,15 +15,15 @@ In place of the CodeIgniter `config()` helper, Shield uses the official
 
 ## User Providers
 
-To make the system as flexible as possible, you can define which class should be able to interact with your chosen persistence system to get the user records. Typically this is going to be a Model, and one is provided for you, at `Sparks\Shield\Models\UserModel`. This is defined in `Config\Auth->userProvider`.
+To make the system as flexible as possible, you can define which class should be able to interact with your chosen persistence system to get the user records. Typically this is going to be a Model, and one is provided for you, at `CodeIgniter\Shield\Models\UserModel`. This is defined in `Config\Auth->userProvider`.
 
 ```php
-public $userProvider = 'Sparks\Shield\Models\UserModel';
+public $userProvider = 'CodeIgniter\Shield\Models\UserModel';
 ```
 
-## Identities
+## User Identities
 
-User accounts are stored separately from the information needed to identify that user. These identifying pieces of data we call User Identifiers. By default, the library has two types of identifiers: one for standard email/password information, and one for access tokens. 
+User accounts are stored separately from the information needed to identify that user. These identifying pieces of data we call User Identities. By default, the library has two types of identities: one for standard email/password information, and one for access tokens. 
 
 By keeping the identity information loosely coupled from the user account itself, it frees the system up to more easily integrate third-party sign-in systems, JWT systems, and more, all on a single user. With small overrides you could even allow a single user to have multiple email/password combinations if your needs demands the functionality. 
 
@@ -61,9 +61,9 @@ You can choose which validators are used in `Config\Auth->passwordValidators`:
 
 ```php
 public $passwordValidators = [
-    'Sparks\Shield\Authentication\Passwords\CompositionValidator',
-    'Sparks\Shield\Authentication\Passwords\NothingPersonalValidator',
-    'Sparks\Shield\Authentication\Passwords\DictionaryValidator',
-    //'Sparks\Shield\Authentication\Passwords\PwnedValidator',
+    'CodeIgniter\Shield\Authentication\Passwords\CompositionValidator',
+    'CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator',
+    'CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator',
+    //'CodeIgniter\Shield\Authentication\Passwords\PwnedValidator',
 ];
 ```

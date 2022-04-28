@@ -1,12 +1,12 @@
 <?php
 
-namespace Sparks\Shield\Authentication\Passwords;
+namespace CodeIgniter\Shield\Authentication\Passwords;
 
 use CodeIgniter\Config\Services;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\HTTP\Exceptions\HTTPException;
-use Sparks\Shield\Authentication\AuthenticationException;
-use Sparks\Shield\Result;
+use CodeIgniter\Shield\Authentication\AuthenticationException;
+use CodeIgniter\Shield\Result;
 
 /**
  * Class PwnedValidator

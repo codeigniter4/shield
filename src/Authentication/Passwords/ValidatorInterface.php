@@ -1,9 +1,9 @@
 <?php
 
-namespace Sparks\Shield\Authentication\Passwords;
+namespace CodeIgniter\Shield\Authentication\Passwords;
 
 use CodeIgniter\Entity\Entity;
-use Sparks\Shield\Result;
+use CodeIgniter\Shield\Result;
 
 /**
  * Interface ValidatorInterface

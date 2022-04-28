@@ -1,9 +1,9 @@
 # CodeIgniter Shield
 
-[![Unit Tests](https://github.com/lonnieezell/codigniter-shield/workflows/PHPUnit/badge.svg)](https://github.com/lonnieezell/codigniter-shield/actions/workflows/test.yml)
-[![Static Analysis](https://github.com/lonnieezell/codigniter-shield/workflows/PHPStan/badge.svg)](https://github.com/lonnieezell/codigniter-shield/actions/workflows/analyze.yml)
-[![Architecture](https://github.com/lonnieezell/codigniter-shield/workflows/Deptrac/badge.svg)](https://github.com/lonnieezell/codigniter-shield/actions/workflows/inspect.yml)
-[![Coverage Status](https://coveralls.io/repos/github/lonnieezell/codeigniter-shield/badge.svg?branch=develop)](https://coveralls.io/github/lonnieezell/codeigniter-shield?branch=develop)
+[![Unit Tests](https://github.com/codeigniter4/shield/workflows/PHPUnit/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/test.yml)
+[![Static Analysis](https://github.com/codeigniter4/shield/workflows/PHPStan/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/analyze.yml)
+[![Architecture](https://github.com/codeigniter4/shield/workflows/Deptrac/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/inspect.yml)
+[![Coverage Status](https://coveralls.io/repos/github/codeigniter4/shield/badge.svg?branch=develop)](https://coveralls.io/github/codeigniter4/shield?branch=develop)
 
 Shield is an authentication and authorization framework for CodeIgniter 4. While it does provide a base set of tools
 that are commonly used in websites, it is designed to be flexible and easily customizable.  
@@ -43,7 +43,7 @@ Usage of Shield requires the following:
 
 Installation is done through Composer.
 
-    > composer require lonnieezell/codeigniter-shield
+    > composer require codeigniter4/shield
 
 See the [docs](docs) folder more specific instructions on installation and usage recommendations.
 
@@ -61,8 +61,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) f
 Every open-source project depends on it's contributors to be a success. The following users have 
 contributed in one manner or another in making Shield: 
 
-<a href="https://github.com/lonnieezell/codeigniter-shield/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=lonnieezell/codeigniter-shield" />
+<a href="https://github.com/codeigniter4/shield/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=codeigniter4/shield" />
 </a>
 
 Made with [contrib.rocks](https://contrib.rocks).

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sparks\Shield\Models;
+namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
 use DateTime;

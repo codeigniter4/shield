@@ -3,12 +3,12 @@
 namespace Tests\Authentication;
 
 use CodeIgniter\Config\Factories;
+use CodeIgniter\Shield\Entities\AccessToken;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Filters\TokenAuth;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
-use Sparks\Shield\Entities\AccessToken;
-use Sparks\Shield\Entities\User;
-use Sparks\Shield\Filters\TokenAuth;
-use Sparks\Shield\Models\UserModel;
 use Tests\Support\DatabaseTestCase;
 
 /**

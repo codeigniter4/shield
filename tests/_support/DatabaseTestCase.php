@@ -11,7 +11,7 @@ abstract class DatabaseTestCase extends TestCase
 {
     use DatabaseTestTrait;
 
-    protected $namespace = '\Sparks\Shield';
+    protected $namespace = '\CodeIgniter\Shield';
 
     protected function setUp(): void
     {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Sparks\Shield;
+namespace CodeIgniter\Shield;
 
 use CodeIgniter\Router\RouteCollection;
-use Sparks\Shield\Authentication\Authentication;
-use Sparks\Shield\Authentication\AuthenticationException;
-use Sparks\Shield\Authentication\AuthenticatorInterface;
-use Sparks\Shield\Interfaces\Authenticatable;
-use Sparks\Shield\Interfaces\UserProvider;
+use CodeIgniter\Shield\Authentication\Authentication;
+use CodeIgniter\Shield\Authentication\AuthenticationException;
+use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
+use CodeIgniter\Shield\Interfaces\Authenticatable;
+use CodeIgniter\Shield\Interfaces\UserProvider;
 
 class Auth
 {
@@ -108,7 +108,7 @@ class Auth
     {
         $authRoutes = config('AuthRoutes')->routes;
 
-        $routes->group('/', ['namespace' => 'Sparks\Shield\Controllers'], static function ($routes) use ($authRoutes, $config) {
+        $routes->group('/', ['namespace' => 'CodeIgniter\Shield\Controllers'], static function ($routes) use ($authRoutes, $config) {
             foreach ($authRoutes as $name => $row) {
                 if (! isset($config['except']) || (isset($config['except']) && ! array_key_exists($name, $config['except']))) {
                     foreach ($row as $params) {

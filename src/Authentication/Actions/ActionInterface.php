@@ -1,6 +1,6 @@
 <?php
 
-namespace Sparks\Shield\Authentication\Actions;
+namespace CodeIgniter\Shield\Authentication\Actions;
 
 use CodeIgniter\HTTP\IncomingRequest;
 

@@ -2,8 +2,8 @@
 
 namespace Tests\Authorization;
 
+use CodeIgniter\Shield\Authorization\Groups;
 use CodeIgniter\Test\DatabaseTestTrait;
-use Sparks\Shield\Authorization\Groups;
 use Tests\Support\TestCase;
 
 /**

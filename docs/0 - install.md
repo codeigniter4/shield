@@ -4,7 +4,7 @@ Installation is done through [Composer](https://getcomposer.org). The example as
 If you have it installed as a phar, or othewise you will need to adjust the way you call composer itself.
 
 ```
-> composer require lonnieezell/codeigniter-shield
+> composer require codeigniter4/shield
 ```
 
 This requires the [CodeIgniter Settings](https://github.com/codeigniter4/settings) package, which uses a database
@@ -19,7 +19,7 @@ table to store configuration options. As such, you should run the migrations.
 There are a few setup items to do before you can start using Shield in 
 your project. 
 
-1. Copy the `Auth.php` and  `AuthGroups.php` from `vendor/lonnieezell/codeigniter-shield/src/Config/` into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all of the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
+1. Copy the `Auth.php` and  `AuthGroups.php` from `vendor/codeigniter4/shield/src/Config/` into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all of the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
 
 ```php
 // new file - app/Config/Auth.php
@@ -28,9 +28,9 @@ your project.
 namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
-use Sparks\Shield\Authentication\Handlers\AccessTokens;
-use Sparks\Shield\Authentication\Handlers\Session;
-use Sparks\Shield\Config\Auth as ShieldAuth;
+use CodeIgniter\Shield\Authentication\Handlers\AccessTokens;
+use CodeIgniter\Shield\Authentication\Handlers\Session;
+use CodeIgniter\Shield\Config\Auth as ShieldAuth;
 
 class Auth extends ShieldAuth
 {
@@ -62,7 +62,7 @@ service('auth')->routes($routes);
 by editing `app/Config/Validation.php`: 
 
 ```php
-use Sparks\Shield\Authentication\Passwords\ValidationRules as PasswordRules;
+use CodeIgniter\Shield\Authentication\Passwords\ValidationRules as PasswordRules;
 
 public $ruleSets = [
         Rules::class,
@@ -97,11 +97,9 @@ various parts of the authentication process:
 
 - **ActionController** handles the after login and after-registration actions that can be ran, like Two Factor Authentication and Email Verification. 
 
-- **LoginController** handles the login process. Contains several methods that can be overriden to customize where a user is redirected
-to after login or logout. 
+- **LoginController** handles the login process.
 
-- **RegisterController** handles the registration process. Overriding this class allows you to customize the User Provider, the User Entity, 
-the validation rules, and where a user is redirected after registration.
+- **RegisterController** handles the registration process. Overriding this class allows you to customize the User Provider, the User Entity, and the validation rules.
 
 - **MagicLinkController** handles the "lost password" process that allows a user to login with a link sent to their email. Allows you to
 override the message that is displayed to a user to describe what is happening, if you'd like to provide more information than simply swapping out the view used.
@@ -115,11 +113,11 @@ updates that might happen in the controllers.
 
 namespace App\Controllers;
 
-use Sparks\Shield\Controllers\LoginController as ShieldLogin;
+use CodeIgniter\Shield\Controllers\LoginController as ShieldLogin;
 
 class LoginController extends ShieldLogin
 {
-    public function getLoginRedirect($user)
+    public function logoutAction()
     {
         // new functionality 
     }

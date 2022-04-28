@@ -1,10 +1,10 @@
 <?php
 
-namespace Sparks\Shield\Config;
+namespace CodeIgniter\Shield\Config;
 
 use CodeIgniter\Config\BaseConfig;
-use Sparks\Shield\Authentication\Handlers\AccessTokens;
-use Sparks\Shield\Authentication\Handlers\Session;
+use CodeIgniter\Shield\Authentication\Handlers\AccessTokens;
+use CodeIgniter\Shield\Authentication\Handlers\Session;
 
 class Auth extends BaseConfig
 {
@@ -14,19 +14,19 @@ class Auth extends BaseConfig
      * ////////////////////////////////////////////////////////////////////
      */
     public $views = [
-        'login'                       => '\Sparks\Shield\Views\login',
-        'register'                    => '\Sparks\Shield\Views\register',
-        'forgotPassword'              => '\Sparks\Shield\Views\forgot_password',
-        'resetPassword'               => '\Sparks\Shield\Views\reset_password',
-        'layout'                      => '\Sparks\Shield\Views\layout',
-        'action_email_2fa'            => '\Sparks\Shield\Views\email_2fa_show',
-        'action_email_2fa_verify'     => '\Sparks\Shield\Views\email_2fa_verify',
-        'action_email_2fa_email'      => '\Sparks\Shield\Views\email_2fa_email',
-        'action_email_activate_email' => '\Sparks\Shield\Views\email_activate_email',
-        'action_email_activate_show'  => '\Sparks\Shield\Views\email_activate_show',
-        'magic-link-login'            => '\Sparks\Shield\Views\magic_link_form',
-        'magic-link-message'          => '\Sparks\Shield\Views\magic_link_message',
-        'magic-link-email'            => '\Sparks\Shield\Views\magic_link_email',
+        'login'                       => '\CodeIgniter\Shield\Views\login',
+        'register'                    => '\CodeIgniter\Shield\Views\register',
+        'forgotPassword'              => '\CodeIgniter\Shield\Views\forgot_password',
+        'resetPassword'               => '\CodeIgniter\Shield\Views\reset_password',
+        'layout'                      => '\CodeIgniter\Shield\Views\layout',
+        'action_email_2fa'            => '\CodeIgniter\Shield\Views\email_2fa_show',
+        'action_email_2fa_verify'     => '\CodeIgniter\Shield\Views\email_2fa_verify',
+        'action_email_2fa_email'      => '\CodeIgniter\Shield\Views\email_2fa_email',
+        'action_email_activate_email' => '\CodeIgniter\Shield\Views\email_activate_email',
+        'action_email_activate_show'  => '\CodeIgniter\Shield\Views\email_activate_show',
+        'magic-link-login'            => '\CodeIgniter\Shield\Views\magic_link_form',
+        'magic-link-message'          => '\CodeIgniter\Shield\Views\magic_link_message',
+        'magic-link-email'            => '\CodeIgniter\Shield\Views\magic_link_email',
     ];
 
     /**
@@ -34,9 +34,8 @@ class Auth extends BaseConfig
      * Redirect urLs
      * --------------------------------------------------------------------
      * The default URL that a user will be redirected to after
-     * various auth actions. If you need more flexibility you
-     * should extend the appropriate controller and overrider the
-     * `getRedirect()` methods to apply any logic you may need.
+     * various auth actions. If you need more flexibility you can
+     * override the `getUrl()` method to apply any logic you may need.
      */
     public $redirects = [
         'register' => '/',
@@ -52,8 +51,8 @@ class Auth extends BaseConfig
      * the user logs in or registers a new account at the site.
      *
      * Available actions with Shield:
-     * - login:    Sparks\Shield\Authentication\Actions\Email2FA
-     * - register: Sparks\Shield\Authentication\Actions\EmailActivator
+     * - login:    CodeIgniter\Shield\Authentication\Actions\Email2FA
+     * - register: CodeIgniter\Shield\Authentication\Actions\EmailActivator
      */
     public $actions = [
         'login'    => null,
@@ -189,13 +188,13 @@ class Auth extends BaseConfig
      * The PasswordValidator class runs the password through all of these
      * classes, each getting the opportunity to pass/fail the password.
      * You can add custom classes as long as they adhere to the
-     * Sparks\Shield\Authentication\Passwords\ValidatorInterface.
+     * CodeIgniter\Shield\Authentication\Passwords\ValidatorInterface.
      */
     public $passwordValidators = [
-        'Sparks\Shield\Authentication\Passwords\CompositionValidator',
-        'Sparks\Shield\Authentication\Passwords\NothingPersonalValidator',
-        'Sparks\Shield\Authentication\Passwords\DictionaryValidator',
-        //'Sparks\Shield\Authentication\Passwords\PwnedValidator',
+        'CodeIgniter\Shield\Authentication\Passwords\CompositionValidator',
+        'CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator',
+        'CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator',
+        //'CodeIgniter\Shield\Authentication\Passwords\PwnedValidator',
     ];
 
     /**
@@ -320,9 +319,49 @@ class Auth extends BaseConfig
      * By default, this is the included UserModel, which
      * works with any of the database engines supported by CodeIgniter.
      * You can change it as long as they adhere to the
-     * Sparks\Shield\Interfaces\UserProvider.
+     * CodeIgniter\Shield\Interfaces\UserProvider.
      *
-     * @var class-string<\Sparks\Shield\Interfaces\UserProvider>
+     * @var class-string<\CodeIgniter\Shield\Interfaces\UserProvider>
      */
-    public $userProvider = 'Sparks\Shield\Models\UserModel';
+    public $userProvider = 'CodeIgniter\Shield\Models\UserModel';
+
+    /**
+     * Returns the URL that a user should be redirected
+     * to after a successful login.
+     */
+    public function loginRedirect(): string
+    {
+        $url = setting('Auth.redirects')['login'];
+
+        return $this->getUrl($url);
+    }
+
+    /**
+     * Returns the URL that a user should be redirected
+     * to after they are logged out.
+     */
+    public function logoutRedirect(): string
+    {
+        $url = setting('Auth.redirects')['logout'];
+
+        return $this->getUrl($url);
+    }
+
+    /**
+     * Returns the URL the user should be redirected to
+     * after a successful registration.
+     */
+    public function registerRedirect(): string
+    {
+        $url = setting('Auth.redirects')['register'];
+
+        return $this->getUrl($url);
+    }
+
+    protected function getUrl(string $url): string
+    {
+        return strpos($url, 'http') === 0
+            ? $url
+            : rtrim(site_url($url), '/ ');
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sparks\Shield\Authentication\Traits;
+namespace CodeIgniter\Shield\Authentication\Traits;
 
 trait Authenticatable
 {

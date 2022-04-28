@@ -1,9 +1,9 @@
 <?php
 
-namespace Sparks\Shield\Authentication\Traits;
+namespace CodeIgniter\Shield\Authentication\Traits;
 
-use Sparks\Shield\Entities\AccessToken;
-use Sparks\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Entities\AccessToken;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 
 /**
  * Trait HasAccessTokens

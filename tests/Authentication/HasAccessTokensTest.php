@@ -2,10 +2,10 @@
 
 namespace Tests\Authentication;
 
-use Sparks\Shield\Entities\AccessToken;
-use Sparks\Shield\Entities\User;
-use Sparks\Shield\Models\UserIdentityModel;
-use Sparks\Shield\Models\UserModel;
+use CodeIgniter\Shield\Entities\AccessToken;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Models\UserModel;
 use Tests\Support\DatabaseTestCase;
 
 /**
