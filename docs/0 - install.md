@@ -4,7 +4,7 @@ Installation is done through [Composer](https://getcomposer.org). The example as
 If you have it installed as a phar, or othewise you will need to adjust the way you call composer itself.
 
 ```
-> composer require lonnieezell/codeigniter-shield
+> composer require codeigniter4/shield
 ```
 
 This requires the [CodeIgniter Settings](https://github.com/codeigniter4/settings) package, which uses a database
@@ -19,7 +19,7 @@ table to store configuration options. As such, you should run the migrations.
 There are a few setup items to do before you can start using Shield in 
 your project. 
 
-1. Copy the `Auth.php` and  `AuthGroups.php` from `vendor/lonnieezell/codeigniter-shield/src/Config/` into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all of the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
+1. Copy the `Auth.php` and  `AuthGroups.php` from `vendor/codeigniter4/shield/src/Config/` into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all of the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
 
 ```php
 // new file - app/Config/Auth.php
