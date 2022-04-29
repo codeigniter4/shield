@@ -10,8 +10,8 @@
             <h5 class="card-title mb-5"><?= lang('Auth.useMagicLink') ?></h5>
             
             <?php if (session('error') !== null) : ?>
-			    <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
-			<?php endif ?>
+            <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+            <?php endif ?>
 
             <form action="<?= route_to('magic-link') ?>" method="post">
                 <?= csrf_field() ?>
