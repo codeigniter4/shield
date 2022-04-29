@@ -18,7 +18,7 @@ use Tests\Support\DatabaseTestCase;
 /**
  * @internal
  */
-final class AccessTokenHandlerTest extends DatabaseTestCase
+final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 {
     protected AccessTokens $auth;
 
@@ -30,9 +30,9 @@ final class AccessTokenHandlerTest extends DatabaseTestCase
         $auth   = new Authentication($config);
         $auth->setProvider(model(UserModel::class)); // @phpstan-ignore-line
 
-        /** @var AccessTokens $handler */
-        $handler    = $auth->factory('tokens');
-        $this->auth = $handler;
+        /** @var AccessTokens $authenticator */
+        $authenticator = $auth->factory('tokens');
+        $this->auth    = $authenticator;
 
         Services::injectMock('events', new MockEvents());
     }
