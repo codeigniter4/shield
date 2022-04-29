@@ -28,7 +28,7 @@ final class AuthHelperTest extends TestCase
     {
         parent::setUp();
 
-        $this->setPrivateProperty(auth(), 'authenticatorAlias', null);
+        $this->setPrivateProperty(auth(), 'alias', null);
     }
 
     public function testAuthReturnsDefaultAuthenticator()

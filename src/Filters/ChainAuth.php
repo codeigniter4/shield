@@ -36,10 +36,10 @@ class ChainAuth implements FilterInterface
 
         $chain = config('Auth')->authenticationChain;
 
-        foreach ($chain as $authenticatorAlias) {
-            if (auth($authenticatorAlias)->loggedIn()) {
+        foreach ($chain as $alias) {
+            if (auth($alias)->loggedIn()) {
                 // Make sure Auth uses this Authenticator
-                auth()->setAuthenticatorAlias($authenticatorAlias);
+                auth()->setAuthenticator($alias);
 
                 return;
             }

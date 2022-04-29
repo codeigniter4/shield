@@ -30,32 +30,34 @@ class Authentication
      * will return an instance of the first Authenticator specified
      * in the Auth config file.
      *
+     * @param string|null $alias Authenticator alias
+     *
      * @throws AuthenticationException
      *
      * @return AuthenticatorInterface
      */
-    public function factory(?string $authenticatorAlias = null)
+    public function factory(?string $alias = null)
     {
         // Determine actual Authenticator alias
-        $authenticatorAlias ??= $this->config->defaultAuthenticator;
+        $alias ??= $this->config->defaultAuthenticator;
 
         // Return the cached instance if we have it
-        if (! empty($this->instances[$authenticatorAlias])) {
-            return $this->instances[$authenticatorAlias];
+        if (! empty($this->instances[$alias])) {
+            return $this->instances[$alias];
         }
 
         // Otherwise, try to create a new instance.
-        if (! array_key_exists($authenticatorAlias, $this->config->authenticators)) {
-            throw AuthenticationException::forUnknownAuthenticator($authenticatorAlias);
+        if (! array_key_exists($alias, $this->config->authenticators)) {
+            throw AuthenticationException::forUnknownAuthenticator($alias);
         }
 
-        $className = $this->config->authenticators[$authenticatorAlias];
+        $className = $this->config->authenticators[$alias];
 
         assert($this->userProvider !== null, '$userProvider must be set.');
 
-        $this->instances[$authenticatorAlias] = new $className($this->userProvider);
+        $this->instances[$alias] = new $className($this->userProvider);
 
-        return $this->instances[$authenticatorAlias];
+        return $this->instances[$alias];
     }
 
     /**

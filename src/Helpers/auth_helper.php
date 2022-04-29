@@ -6,13 +6,15 @@ if (! function_exists('auth')) {
     /**
      * Provides convenient access to the main Auth class
      * for CodeIgniter Shield.
+     *
+     * @param string|null $alias Authenticator alias
      */
-    function auth(?string $authenticatorAlias = null)
+    function auth(?string $alias = null)
     {
         /** @var Auth $auth */
         $auth = service('auth');
 
-        return $auth->setAuthenticatorAlias($authenticatorAlias);
+        return $auth->setAuthenticator($alias);
     }
 }
 
