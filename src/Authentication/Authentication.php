@@ -34,28 +34,28 @@ class Authentication
      *
      * @return AuthenticatorInterface
      */
-    public function factory(?string $handler = null)
+    public function factory(?string $authenticatorAlias = null)
     {
         // Determine actual Authenticator alias
-        $handler ??= $this->config->defaultAuthenticator;
+        $authenticatorAlias ??= $this->config->defaultAuthenticator;
 
         // Return the cached instance if we have it
-        if (! empty($this->instances[$handler])) {
-            return $this->instances[$handler];
+        if (! empty($this->instances[$authenticatorAlias])) {
+            return $this->instances[$authenticatorAlias];
         }
 
         // Otherwise, try to create a new instance.
-        if (! array_key_exists($handler, $this->config->authenticators)) {
-            throw AuthenticationException::forUnknownHandler($handler);
+        if (! array_key_exists($authenticatorAlias, $this->config->authenticators)) {
+            throw AuthenticationException::forUnknownAuthenticator($authenticatorAlias);
         }
 
-        $className = $this->config->authenticators[$handler];
+        $className = $this->config->authenticators[$authenticatorAlias];
 
         assert($this->userProvider !== null, '$userProvider must be set.');
 
-        $this->instances[$handler] = new $className($this->userProvider);
+        $this->instances[$authenticatorAlias] = new $className($this->userProvider);
 
-        return $this->instances[$handler];
+        return $this->instances[$authenticatorAlias];
     }
 
     /**

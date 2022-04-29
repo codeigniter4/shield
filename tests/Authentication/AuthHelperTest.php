@@ -28,7 +28,7 @@ final class AuthHelperTest extends TestCase
     {
         parent::setUp();
 
-        $this->setPrivateProperty(auth(), 'handler', null);
+        $this->setPrivateProperty(auth(), 'authenticatorAlias', null);
     }
 
     public function testAuthReturnsDefaultHandler()
@@ -48,7 +48,7 @@ final class AuthHelperTest extends TestCase
     public function testAuthThrowsWithInvalidHandler()
     {
         $this->expectException(AuthenticationException::class);
-        $this->expectExceptionMessage(lang('Auth.unknownHandler', ['foo']));
+        $this->expectExceptionMessage(lang('Auth.unknownAuthenticator', ['foo']));
 
         auth('foo')->user();
     }

@@ -14,9 +14,9 @@ class Auth
     protected Authentication $authenticate;
 
     /**
-     * The Authenticator to use for this request.
+     * The Authenticator alias to use for this request.
      */
-    protected ?string $handler = null;
+    protected ?string $authenticatorAlias = null;
 
     protected ?Authenticatable $user      = null;
     protected ?UserProvider $userProvider = null;
@@ -29,10 +29,10 @@ class Auth
     /**
      * Sets the Authenticator that should be used for this request.
      */
-    public function setHandler(?string $handler = null)
+    public function setAuthenticatorAlias(?string $authenticatorAlias = null)
     {
-        if (! empty($handler)) {
-            $this->handler = $handler;
+        if (! empty($authenticatorAlias)) {
+            $this->authenticatorAlias = $authenticatorAlias;
         }
 
         return $this;
@@ -43,9 +43,9 @@ class Auth
      *
      * @return string
      */
-    public function getHandler()
+    public function getAuthenticatorAlias()
     {
-        return $this->handler;
+        return $this->authenticatorAlias;
     }
 
     /**
@@ -56,7 +56,7 @@ class Auth
     public function getAuthenticator()
     {
         return $this->authenticate
-            ->factory($this->handler);
+            ->factory($this->authenticatorAlias);
     }
 
     /**
@@ -86,7 +86,7 @@ class Auth
     public function authenticate(array $credentials)
     {
         $response = $this->authenticate
-            ->factory($this->handler)
+            ->factory($this->authenticatorAlias)
             ->attempt($credentials);
 
         if ($response->isOk()) {
@@ -160,7 +160,7 @@ class Auth
      */
     public function __call($method, $args)
     {
-        $authenticate = $this->authenticate->factory($this->handler);
+        $authenticate = $this->authenticate->factory($this->authenticatorAlias);
 
         if (method_exists($authenticate, $method)) {
             return $authenticate->{$method}(...$args);

@@ -3,9 +3,9 @@
 namespace CodeIgniter\Shield\Config;
 
 use CodeIgniter\Config\BaseConfig;
+use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
-use CodeIgniter\Shield\Interfaces\Authenticatable;
 
 class Auth extends BaseConfig
 {
@@ -69,7 +69,7 @@ class Auth extends BaseConfig
      * by alias in the auth helper:
      *      auth('tokens')->attempt($credentials);
      *
-     * @var array<string, class-string<Authenticatable>>
+     * @var array<string, class-string<AuthenticatorInterface>>
      */
     public $authenticators = [
         'tokens'  => AccessTokens::class,
@@ -171,7 +171,7 @@ class Auth extends BaseConfig
      * - rememberCookieName     The name of the cookie to use for "remember-me"
      * - rememberLength         The length of time, in seconds, to remember a user.
      *
-     * @var array<string, string|bool|int>
+     * @var array<string, bool|int|string>
      */
     public $sessionConfig = [
         'field'              => 'logged_in',

@@ -4,17 +4,17 @@ namespace CodeIgniter\Shield\Language\en;
 
 return [
     // Exceptions
-    'unknownHandler'      => '{0} is not a valid auth handler.',
-    'unknownUserProvider' => 'Unable to determine the User Provider to use.',
-    'invalidUser'         => 'Unable to locate the specified user.',
-    'badAttempt'          => 'Unable to log you in. Please check your credentials.',
-    'noPassword'          => 'Cannot validate a user without a password.',
-    'invalidPassword'     => 'Unable to log you in. Please check your password.',
-    'noToken'             => 'Every request must have a bearer token in the Authorization header.',
-    'badToken'            => 'The access token is invalid.',
-    'oldToken'            => 'The access token has expired.',
-    'noUserEntity'        => 'User Entity must be provided for password validation.',
-    'invalidEmail'        => 'Unable to verify the email address matches the email on record.',
+    'unknownAuthenticator' => '{0} is not a valid authenticator.',
+    'unknownUserProvider'  => 'Unable to determine the User Provider to use.',
+    'invalidUser'          => 'Unable to locate the specified user.',
+    'badAttempt'           => 'Unable to log you in. Please check your credentials.',
+    'noPassword'           => 'Cannot validate a user without a password.',
+    'invalidPassword'      => 'Unable to log you in. Please check your password.',
+    'noToken'              => 'Every request must have a bearer token in the Authorization header.',
+    'badToken'             => 'The access token is invalid.',
+    'oldToken'             => 'The access token has expired.',
+    'noUserEntity'         => 'User Entity must be provided for password validation.',
+    'invalidEmail'         => 'Unable to verify the email address matches the email on record.',
 
     'email'           => 'Email Address',
     'username'        => 'Username',

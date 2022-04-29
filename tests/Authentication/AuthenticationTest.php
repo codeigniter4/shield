@@ -28,7 +28,7 @@ final class AuthenticationTest extends DatabaseTestCase
     public function testThrowsOnUnknownHandler()
     {
         $this->expectException(AuthenticationException::class);
-        $this->expectExceptionMessage(lang('Auth.unknownHandler', ['foo']));
+        $this->expectExceptionMessage(lang('Auth.unknownAuthenticator', ['foo']));
 
         $this->auth->factory('foo');
     }
