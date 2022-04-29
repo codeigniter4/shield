@@ -15,7 +15,7 @@ use CodeIgniter\Entity\Entity;
  *
  * This can also be used to store credentials for social logins,
  * OAUTH or JWT tokens, etc. A user can have multiple of each,
- * though a handler may want to enforce only one exists for that
+ * though a Authenticator may want to enforce only one exists for that
  * user, like a password.
  */
 class UserIdentity extends Entity

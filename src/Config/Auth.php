@@ -5,6 +5,7 @@ namespace CodeIgniter\Shield\Config;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Interfaces\Authenticatable;
 
 class Auth extends BaseConfig
 {
@@ -66,7 +67,9 @@ class Auth extends BaseConfig
      * The available authentication systems, listed
      * with alias and class name. These can be referenced
      * by alias in the auth helper:
-     *      auth('api')->attempt($credentials);
+     *      auth('tokens')->attempt($credentials);
+     *
+     * @var array<string, class-string<Authenticatable>>
      */
     public $authenticators = [
         'tokens'  => AccessTokens::class,
@@ -98,7 +101,7 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * Default Authenticator
      * --------------------------------------------------------------------
-     * The authentication handler to use when none is specified.
+     * The Authenticator to use when none is specified.
      * Uses the $key from the $authenticators array above.
      */
     public $defaultAuthenticator = 'session';
@@ -107,9 +110,12 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * Authentication Chain
      * --------------------------------------------------------------------
-     * The authentication handlers to test logged in status against
-     * when using the 'chain' filter. Each handler listed will be checked.
+     * The Authenticators to test logged in status against
+     * when using the 'chain' filter. Each Authenticator listed will be checked.
      * If no match is found, then the next in the chain will be checked.
+     *
+     * @var string[]
+     * @phpstan-var list<string>
      */
     public $authenticationChain = [
         'session',
@@ -155,15 +161,17 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
-     * Session Handler Configuration
+     * Session Authenticator Configuration
      * --------------------------------------------------------------------
-     * These settings only apply if you are using the Session Handler
+     * These settings only apply if you are using the Session Authenticator
      * for authentication.
      *
      * - field                  The name of the key the logged in user is stored in session
      * - allowRemembering       Does the system allow use of "remember-me"
      * - rememberCookieName     The name of the cookie to use for "remember-me"
      * - rememberLength         The length of time, in seconds, to remember a user.
+     *
+     * @var array<string, string|bool|int>
      */
     public $sessionConfig = [
         'field'              => 'logged_in',

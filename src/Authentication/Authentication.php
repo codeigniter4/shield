@@ -8,8 +8,10 @@ use CodeIgniter\Shield\Interfaces\UserProvider;
 class Authentication
 {
     /**
-     * Instantiated handler objects,
-     * stored by handler alias.
+     * Instantiated Authenticator objects,
+     * stored by Authenticator alias.
+     *
+     * @var array<string, AuthenticatorInterface>
      */
     protected array $instances = [];
 
@@ -22,10 +24,10 @@ class Authentication
     }
 
     /**
-     * Returns an instance of the specified handler.
+     * Returns an instance of the specified Authenticator.
      *
-     * You can pass 'default' as the handler and it
-     * will return an instance of the first handler specified
+     * You can pass 'default' as the Authenticator and it
+     * will return an instance of the first Authenticator specified
      * in the Auth config file.
      *
      * @throws AuthenticationException
@@ -34,7 +36,7 @@ class Authentication
      */
     public function factory(?string $handler = null)
     {
-        // Determine actual handler name
+        // Determine actual Authenticator alias
         $handler ??= $this->config->defaultAuthenticator;
 
         // Return the cached instance if we have it

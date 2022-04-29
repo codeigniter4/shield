@@ -14,7 +14,7 @@ class Auth
     protected Authentication $authenticate;
 
     /**
-     * The handler to use for this request.
+     * The Authenticator to use for this request.
      */
     protected ?string $handler = null;
 
@@ -27,7 +27,7 @@ class Auth
     }
 
     /**
-     * Sets the handler that should be used for this request.
+     * Sets the Authenticator that should be used for this request.
      */
     public function setHandler(?string $handler = null)
     {
@@ -39,7 +39,7 @@ class Auth
     }
 
     /**
-     * Returns the handler name.
+     * Returns the Authenticator alias.
      *
      * @return string
      */
@@ -148,7 +148,7 @@ class Auth
     }
 
     /**
-     * Provide magic function-access to handlers to save use
+     * Provide magic function-access to Authenticators to save use
      * from repeating code here, and to allow them have their
      * own, additional, features on top of the required ones,
      * like "remember-me" functionality.

@@ -37,7 +37,7 @@ class ChainAuth implements FilterInterface
 
         foreach ($chain as $handler) {
             if (auth($handler)->loggedIn()) {
-                // Make sure Auth uses this handler
+                // Make sure Auth uses this Authenticator
                 auth()->setHandler($handler);
 
                 return;
