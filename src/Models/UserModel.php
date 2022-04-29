@@ -116,6 +116,7 @@ class UserModel extends Model implements UserProvider
     public function fake(Generator &$faker)
     {
         return [
+            'id'       => $faker->randomNumber(5, true),
             'username' => $faker->userName,
             'active'   => true,
         ];
