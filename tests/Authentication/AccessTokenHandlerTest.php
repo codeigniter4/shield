@@ -4,7 +4,7 @@ namespace Tests\Authentication;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authentication;
-use CodeIgniter\Shield\Authentication\Handlers\AccessTokens;
+use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;

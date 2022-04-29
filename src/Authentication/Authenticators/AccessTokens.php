@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeIgniter\Shield\Authentication\Handlers;
+namespace CodeIgniter\Shield\Authentication\Authenticators;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;

@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeIgniter\Shield\Authentication\Handlers;
+namespace CodeIgniter\Shield\Authentication\Authenticators;
 
 use CodeIgniter\Events\Events;
 use CodeIgniter\I18n\Time;

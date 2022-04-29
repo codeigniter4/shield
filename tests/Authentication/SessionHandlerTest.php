@@ -4,7 +4,7 @@ namespace Tests\Authentication;
 
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
-use CodeIgniter\Shield\Authentication\Handlers\Session;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\RememberModel;
