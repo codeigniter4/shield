@@ -13,9 +13,9 @@ interface Authenticatable
     /**
      * Returns the unique identifier of
      * the User object for authentication purposes.
-     * Typically the user's id.
+     * Typically, the user's id.
      *
-     * @return int|string|null
+     * @return int|string
      */
     public function getAuthId();
 
