@@ -35,7 +35,7 @@ jobs:
           extensions: json, tokenizer
           coverage: none
         env:
-          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMPOSER_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Get composer cache directory
         id: composer-cache
