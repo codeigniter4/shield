@@ -31,21 +31,21 @@ final class AuthHelperTest extends TestCase
         $this->setPrivateProperty(auth(), 'handler', null);
     }
 
-    public function testAuthReturnsDefaultHandler()
+    public function testAuthReturnsDefaultAuthenticator()
     {
-        $handlerName = config('Auth')->authenticators[config('Auth')->defaultAuthenticator];
+        $authenticatorClassname = config('Auth')->authenticators[config('Auth')->defaultAuthenticator];
 
-        $this->assertInstanceOf($handlerName, auth()->getAuthenticator());
+        $this->assertInstanceOf($authenticatorClassname, auth()->getAuthenticator());
     }
 
-    public function testAuthReturnsSpecifiedHandler()
+    public function testAuthReturnsSpecifiedAuthenticator()
     {
-        $handlerName = config('Auth')->authenticators['tokens'];
+        $authenticatorClassname = config('Auth')->authenticators['tokens'];
 
-        $this->assertInstanceOf($handlerName, auth('tokens')->getAuthenticator());
+        $this->assertInstanceOf($authenticatorClassname, auth('tokens')->getAuthenticator());
     }
 
-    public function testAuthThrowsWithInvalidHandler()
+    public function testAuthThrowsWithInvalidAuthenticator()
     {
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage(lang('Auth.unknownHandler', ['foo']));
