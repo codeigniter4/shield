@@ -1,3 +1,3 @@
-<p>Please click the link below to activate your account and start using the site.</p>
+<p>Please use the code below to activate your account and start using the site.</p>
 
-<p><a href="<?= site_url('/auth/a/verify?token=' . $code) ?>"><?= site_url('/auth/a/verify') ?></a></p>
+<p><?= $code ?></p>
