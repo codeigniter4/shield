@@ -2,6 +2,9 @@
 
 namespace CodeIgniter\Shield\Authentication\Traits;
 
+/**
+ * Intended to be used with Authenticatable (User).
+ */
 trait Authenticatable
 {
     /**
@@ -18,13 +21,16 @@ trait Authenticatable
      * the object for authentication purposes.
      * Typically the user's id.
      *
-     * @return mixed|null
+     * @return int|string
      */
     public function getAuthId()
     {
         $column = $this->getAuthIdColumn();
+        $id     = $this->{$column} ?? null;
 
-        return $this->{$column} ?? null;
+        assert($id !== null, 'User ID must not be null.');
+
+        return $id;
     }
 
     /**

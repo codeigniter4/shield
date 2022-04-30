@@ -5,11 +5,11 @@ namespace CodeIgniter\Shield\Interfaces;
 interface UserProvider
 {
     /**
-     * Locates an identity object by ID.
+     * Locates a User object by ID.
      *
-     * @return Authenticatable|null
+     * @param int|string $id
      */
-    public function findById(int $id);
+    public function findById($id): ?Authenticatable;
 
     /**
      * Locate a user by the given credentials.
@@ -21,12 +21,12 @@ interface UserProvider
     /**
      * Find a user by their ID and "remember-me" token.
      *
-     * @return Authenticatable|null
+     * @param int|string $id
      */
-    public function findByRememberToken(int $id, string $token);
+    public function findByRememberToken($id, string $token): ?Authenticatable;
 
     /**
-     * Given a user object, will update the record
+     * Given a User object, will update the record
      * in the database. This is often a User entity
      * that already has the correct values set.
      *

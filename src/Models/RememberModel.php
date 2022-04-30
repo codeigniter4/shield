@@ -22,14 +22,16 @@ class RememberModel extends Model
     /**
      * Stores a remember-me token for the user.
      *
+     * @param int|string $userId
+     *
      * @return mixed
      */
-    public function rememberUser(int $userID, string $selector, string $validator, string $expires)
+    public function rememberUser($userId, string $selector, string $validator, string $expires)
     {
         $expires = new DateTime($expires);
 
         return $this->insert([
-            'user_id'         => $userID,
+            'user_id'         => $userId,
             'selector'        => $selector,
             'hashedValidator' => $validator,
             'expires'         => $expires->format('Y-m-d H:i:s'),

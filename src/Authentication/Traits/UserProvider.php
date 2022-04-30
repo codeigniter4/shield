@@ -5,20 +5,23 @@ namespace CodeIgniter\Shield\Authentication\Traits;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Interfaces\Authenticatable;
 
+/**
+ * Intended to be used with UserProvider (UserModel).
+ */
 trait UserProvider
 {
     /**
-     * Locates an identity object by ID.
+     * Locates a User object by ID.
      *
-     * @return Authenticatable|null
+     * @param int|string $id
      */
-    public function findById(int $id)
+    public function findById($id): ?Authenticatable
     {
         return $this->find($id);
     }
 
     /**
-     * Locate a user by the given credentials.
+     * Locate a User object by the given credentials.
      *
      * @return Authenticatable|null
      */
@@ -63,11 +66,11 @@ trait UserProvider
     }
 
     /**
-     * Find a user by their ID and "remember-me" token.
+     * Find a User object by their ID and "remember-me" token.
      *
-     * @return Authenticatable|null
+     * @param int|string $id
      */
-    public function findByRememberToken(int $id, string $token)
+    public function findByRememberToken($id, string $token): ?Authenticatable
     {
         return $this->where([
             'id'          => $id,
