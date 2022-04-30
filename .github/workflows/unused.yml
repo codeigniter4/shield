@@ -34,7 +34,7 @@ jobs:
           extensions: intl, json, mbstring, xml
           coverage: none
         env:
-          COMPOSER_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get composer cache directory
         id: composer-cache
