@@ -39,7 +39,7 @@ jobs:
           extensions: intl, json, mbstring, gd, xdebug, xml, sqlite3
           coverage: xdebug
         env:
-          COMPOSER_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get composer cache directory
         id: composer-cache
@@ -73,7 +73,7 @@ jobs:
           sudo phive --no-progress install --global --trust-gpg-keys E82B2FB314E9906E php-coveralls
           php-coveralls --verbose --coverage_clover=build/phpunit/clover.xml --json_path build/phpunit/coveralls-upload.json
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: PHP ${{ matrix.php-versions }}
 
@@ -86,5 +86,5 @@ jobs:
         uses: coverallsapp/github-action@master
         continue-on-error: true
         with:
-          github-token: ${{ secrets.ACCESS_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
