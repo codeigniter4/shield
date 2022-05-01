@@ -4,7 +4,7 @@ namespace Tests\Authentication;
 
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
-use CodeIgniter\Shield\Authentication\Handlers\Session;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\RememberModel;
@@ -19,7 +19,7 @@ use Tests\Support\TestCase;
 /**
  * @internal
  */
-final class SessionHandlerTest extends TestCase
+final class SessionAuthenticatorTest extends TestCase
 {
     use DatabaseTestTrait;
     use FakeUser;
@@ -36,9 +36,9 @@ final class SessionHandlerTest extends TestCase
         $auth   = new Authentication($config);
         $auth->setProvider(model(UserModel::class)); // @phpstan-ignore-line
 
-        /** @var Session $handler */
-        $handler    = $auth->factory('session');
-        $this->auth = $handler;
+        /** @var Session $authenticator */
+        $authenticator = $auth->factory('session');
+        $this->auth    = $authenticator;
 
         $this->events = new MockEvents();
         Services::injectMock('events', $this->events);

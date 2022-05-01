@@ -28,8 +28,8 @@ your project.
 namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
-use CodeIgniter\Shield\Authentication\Handlers\AccessTokens;
-use CodeIgniter\Shield\Authentication\Handlers\Session;
+use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Config\Auth as ShieldAuth;
 
 class Auth extends ShieldAuth

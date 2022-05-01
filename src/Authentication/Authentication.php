@@ -8,8 +8,10 @@ use CodeIgniter\Shield\Interfaces\UserProvider;
 class Authentication
 {
     /**
-     * Instantiated handler objects,
-     * stored by handler alias.
+     * Instantiated Authenticator objects,
+     * stored by Authenticator alias.
+     *
+     * @var array<string, AuthenticatorInterface>
      */
     protected array $instances = [];
 
@@ -22,38 +24,40 @@ class Authentication
     }
 
     /**
-     * Returns an instance of the specified handler.
+     * Returns an instance of the specified Authenticator.
      *
-     * You can pass 'default' as the handler and it
-     * will return an instance of the first handler specified
+     * You can pass 'default' as the Authenticator and it
+     * will return an instance of the first Authenticator specified
      * in the Auth config file.
+     *
+     * @param string|null $alias Authenticator alias
      *
      * @throws AuthenticationException
      *
      * @return AuthenticatorInterface
      */
-    public function factory(?string $handler = null)
+    public function factory(?string $alias = null)
     {
-        // Determine actual handler name
-        $handler ??= $this->config->defaultAuthenticator;
+        // Determine actual Authenticator alias
+        $alias ??= $this->config->defaultAuthenticator;
 
         // Return the cached instance if we have it
-        if (! empty($this->instances[$handler])) {
-            return $this->instances[$handler];
+        if (! empty($this->instances[$alias])) {
+            return $this->instances[$alias];
         }
 
         // Otherwise, try to create a new instance.
-        if (! array_key_exists($handler, $this->config->authenticators)) {
-            throw AuthenticationException::forUnknownHandler($handler);
+        if (! array_key_exists($alias, $this->config->authenticators)) {
+            throw AuthenticationException::forUnknownAuthenticator($alias);
         }
 
-        $className = $this->config->authenticators[$handler];
+        $className = $this->config->authenticators[$alias];
 
         assert($this->userProvider !== null, '$userProvider must be set.');
 
-        $this->instances[$handler] = new $className($this->userProvider);
+        $this->instances[$alias] = new $className($this->userProvider);
 
-        return $this->instances[$handler];
+        return $this->instances[$alias];
     }
 
     /**

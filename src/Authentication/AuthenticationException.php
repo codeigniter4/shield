@@ -9,9 +9,12 @@ class AuthenticationException extends Exception
 {
     protected $code = 403;
 
-    public static function forUnknownHandler(string $handler)
+    /**
+     * @param string $alias Authenticator alias
+     */
+    public static function forUnknownAuthenticator(string $alias)
     {
-        return new self(lang('Auth.unknownHandler', [$handler]));
+        return new self(lang('Auth.unknownAuthenticator', [$alias]));
     }
 
     public static function forUnknownUserProvider()

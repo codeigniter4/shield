@@ -6,6 +6,7 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Shield\Auth;
 
 /**
  * Chain Authentication Filter.
@@ -35,10 +36,10 @@ class ChainAuth implements FilterInterface
 
         $chain = config('Auth')->authenticationChain;
 
-        foreach ($chain as $handler) {
-            if (auth($handler)->loggedIn()) {
-                // Make sure Auth uses this handler
-                auth()->setHandler($handler);
+        foreach ($chain as $alias) {
+            if (auth($alias)->loggedIn()) {
+                // Make sure Auth uses this Authenticator
+                auth()->setAuthenticator($alias);
 
                 return;
             }

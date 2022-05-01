@@ -14,9 +14,9 @@ class Auth
     protected Authentication $authenticate;
 
     /**
-     * The handler to use for this request.
+     * The Authenticator alias to use for this request.
      */
-    protected ?string $handler = null;
+    protected ?string $alias = null;
 
     protected ?Authenticatable $user      = null;
     protected ?UserProvider $userProvider = null;
@@ -27,25 +27,15 @@ class Auth
     }
 
     /**
-     * Sets the handler that should be used for this request.
+     * Sets the Authenticator alias that should be used for this request.
      */
-    public function setHandler(?string $handler = null)
+    public function setAuthenticator(?string $alias = null)
     {
-        if (! empty($handler)) {
-            $this->handler = $handler;
+        if (! empty($alias)) {
+            $this->alias = $alias;
         }
 
         return $this;
-    }
-
-    /**
-     * Returns the handler name.
-     *
-     * @return string
-     */
-    public function getHandler()
-    {
-        return $this->handler;
     }
 
     /**
@@ -56,7 +46,7 @@ class Auth
     public function getAuthenticator()
     {
         return $this->authenticate
-            ->factory($this->handler);
+            ->factory($this->alias);
     }
 
     /**
@@ -86,7 +76,7 @@ class Auth
     public function authenticate(array $credentials)
     {
         $response = $this->authenticate
-            ->factory($this->handler)
+            ->factory($this->alias)
             ->attempt($credentials);
 
         if ($response->isOk()) {
@@ -148,7 +138,7 @@ class Auth
     }
 
     /**
-     * Provide magic function-access to handlers to save use
+     * Provide magic function-access to Authenticators to save use
      * from repeating code here, and to allow them have their
      * own, additional, features on top of the required ones,
      * like "remember-me" functionality.
@@ -160,7 +150,7 @@ class Auth
      */
     public function __call($method, $args)
     {
-        $authenticate = $this->authenticate->factory($this->handler);
+        $authenticate = $this->authenticate->factory($this->alias);
 
         if (method_exists($authenticate, $method)) {
             return $authenticate->{$method}(...$args);

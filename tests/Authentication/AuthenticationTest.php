@@ -4,7 +4,7 @@ namespace Tests\Authentication;
 
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
-use CodeIgniter\Shield\Authentication\Handlers\Session;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Models\UserModel;
 use Tests\Support\DatabaseTestCase;
@@ -25,10 +25,10 @@ final class AuthenticationTest extends DatabaseTestCase
         $this->auth->setProvider(new UserModel());
     }
 
-    public function testThrowsOnUnknownHandler()
+    public function testThrowsOnUnknownAuthenticator()
     {
         $this->expectException(AuthenticationException::class);
-        $this->expectExceptionMessage(lang('Auth.unknownHandler', ['foo']));
+        $this->expectExceptionMessage(lang('Auth.unknownAuthenticator', ['foo']));
 
         $this->auth->factory('foo');
     }
