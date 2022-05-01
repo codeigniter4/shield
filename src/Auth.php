@@ -39,16 +39,6 @@ class Auth
     }
 
     /**
-     * Returns the Authenticator alias.
-     *
-     * @return string
-     */
-    public function getAlias()
-    {
-        return $this->alias;
-    }
-
-    /**
      * Returns the current authentication class.
      *
      * @return AuthenticatorInterface
