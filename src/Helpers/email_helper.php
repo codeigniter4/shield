@@ -8,7 +8,7 @@ if (! defined('emailer')) {
      *
      * @internal
      */
-    function emailer(?array $overrides = null): Email
+    function emailer(array $overrides = []): Email
     {
         helper('setting');
 
@@ -35,7 +35,7 @@ if (! defined('emailer')) {
             'DSN'           => setting('Email.DSN'),
         ];
 
-        if (is_array($overrides) && count($overrides)) {
+        if (count($overrides)) {
             $config = array_merge($overrides, $config);
         }
 
