@@ -57,7 +57,7 @@ class Auth extends BaseConfig
      * - login:    CodeIgniter\Shield\Authentication\Actions\Email2FA
      * - register: CodeIgniter\Shield\Authentication\Actions\EmailActivator
      *
-     * @var array{login: class-string<ActionInterface>|null, register: class-string<ActionInterface>|null}
+     * @var array<string, class-string<ActionInterface>|null>
      */
     public array $actions = [
         'login'    => null,
