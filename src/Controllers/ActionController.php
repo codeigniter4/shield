@@ -14,7 +14,7 @@ use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
  */
 class ActionController extends BaseController
 {
-    protected ?ActionInterface $action;
+    protected ?ActionInterface $action = null;
     protected $helpers = ['setting'];
 
     /**
