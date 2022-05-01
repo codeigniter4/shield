@@ -217,8 +217,14 @@ final class ActionsTest extends TestCase
         $result->assertStatus(200);
 
         // Should have sent an email with the link....
-        $this->assertStringContainsString('Please click the link below to activate your account', service('email')->archive['body']);
-        $this->assertStringContainsString('/auth/a/verify?token=', service('email')->archive['body']);
+        $this->assertStringContainsString(
+            'Please use the code below to activate your account and start using the site',
+            service('email')->archive['body']
+        );
+        $this->assertMatchesRegularExpression(
+            '!<p>[0-9]{6}</p>!',
+            service('email')->archive['body']
+        );
     }
 
     public function testEmailActivateVerify()
