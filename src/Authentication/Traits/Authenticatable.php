@@ -50,6 +50,11 @@ trait Authenticatable
     public function getAuthEmail()
     {
         $column = $this->getAuthEmailColumn();
+        $getter = 'get' . ucfirst($column);
+
+        if (method_exists($this, $getter)) {
+            return $this->{$getter}();
+        }
 
         return $this->{$column} ?? null;
     }
