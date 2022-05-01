@@ -114,11 +114,11 @@ class UserModel extends Model implements UserProvider
         $user->addGroup($defaultGroup);
     }
 
-    public function fake(Generator &$faker): array
+    public function fake(Generator &$faker): User
     {
-        return [
+        return new User([
             'username' => $faker->userName,
             'active'   => true,
-        ];
+        ]);
     }
 }

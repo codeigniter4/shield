@@ -165,9 +165,9 @@ class UserIdentityModel extends Model
             ->delete();
     }
 
-    public function fake(Generator &$faker): array
+    public function fake(Generator &$faker): UserIdentity
     {
-        return [
+        return new UserIdentity([
             'user_id'      => fake(UserModel::class)->id,
             'type'         => 'email_password',
             'name'         => null,
@@ -177,6 +177,6 @@ class UserIdentityModel extends Model
             'extra'        => null,
             'force_reset'  => false,
             'last_used_at' => null,
-        ];
+        ]);
     }
 }
