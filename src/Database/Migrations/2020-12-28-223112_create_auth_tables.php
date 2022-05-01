@@ -338,20 +338,6 @@ class CreateAuthTables extends Migration
 
         $this->db->disableForeignKeyChecks();
 
-        // drop constraints first to prevent errors
-        if ($this->db->tableExists('auth_remember_tokens')) {
-            $this->forge->dropForeignKey('auth_remember_tokens', 'auth_remember_tokens_user_id_foreign');
-        }
-        if ($this->db->tableExists('auth_identities')) {
-            $this->forge->dropForeignKey('auth_identities', 'auth_identities_user_id_foreign');
-        }
-        if ($this->db->tableExists('auth_groups_users')) {
-            $this->forge->dropForeignKey('auth_groups_users', 'auth_groups_users_user_id_foreign');
-        }
-        if ($this->db->tableExists('auth_permissions_users')) {
-            $this->forge->dropForeignKey('auth_permissions_users', 'auth_permissions_users_user_id_foreign');
-        }
-
         $this->forge->dropTable('users', true);
         $this->forge->dropTable('auth_logins', true);
         $this->forge->dropTable('auth_remember_tokens', true);
