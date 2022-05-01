@@ -92,6 +92,9 @@ class EmailActivator implements ActionInterface
 
         // Clean up our session
         unset($_SESSION['auth_action']);
+        
+        // Trigger the didLogin Event
+        Events::trigger('didLogin', $user);
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
