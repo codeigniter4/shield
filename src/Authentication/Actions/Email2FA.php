@@ -106,6 +106,9 @@ class Email2FA implements ActionInterface
 
         // Clean up our session
         session()->remove('auth_action');
+        
+        // Trigger the didLogin Event
+        Events::trigger('didLogin', $user);
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
