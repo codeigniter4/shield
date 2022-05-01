@@ -8,7 +8,7 @@
     <div class="card col-5 shadow-sm">
         <div class="card-body">
             <h5 class="card-title mb-5"><?= lang('Auth.useMagicLink') ?></h5>
-            
+
             <?php if (session('error') !== null) : ?>
             <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
             <?php endif ?>
