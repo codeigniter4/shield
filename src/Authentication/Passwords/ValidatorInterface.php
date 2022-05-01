@@ -32,7 +32,7 @@ interface ValidatorInterface
      * Returns a suggestion that may be displayed to the user
      * to help them choose a better password. The method is
      * required, but a suggestion is optional. May return
-     * an empty string instead.
+     * null instead.
      */
     public function suggestion(): string;
 }
