@@ -50,6 +50,8 @@ class UserModel extends Model implements UserProvider
      * returned from a find* method. Called
      * automatically when $this->fetchIdentities == true
      *
+     * Model event callback called `afterFind`.
+     *
      * @return array
      */
     protected function fetchIdentities(array $data)
