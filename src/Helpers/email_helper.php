@@ -2,8 +2,7 @@
 
 if (! defined('emailer')) {
     /**
-     * Provides convenient access to the main Auth class
-     * for CodeIgniter Shield.
+     * Provides convenient access to the CodeIgniter Email class.
      *
      * @internal
      */
