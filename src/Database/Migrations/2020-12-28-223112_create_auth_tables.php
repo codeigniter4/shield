@@ -8,7 +8,7 @@ class CreateAuthTables extends Migration
 {
     public function up()
     {
-        // Users
+        // Users Table
         $this->forge->addField([
             'id'             => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'username'       => ['type' => 'varchar', 'constraint' => 30, 'null' => true],
@@ -21,14 +21,13 @@ class CreateAuthTables extends Migration
             'updated_at'     => ['type' => 'datetime', 'null' => true],
             'deleted_at'     => ['type' => 'datetime', 'null' => true],
         ]);
-
         $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('email');
         $this->forge->addUniqueKey('username');
         $this->forge->createTable('users', true);
 
         /*
-         * Auth Identities
+         * Auth Identities Table
          * Used for storage of passwords, reset hashes
          * social login identities, etc.
          */
@@ -51,7 +50,7 @@ class CreateAuthTables extends Migration
         $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
         $this->forge->createTable('auth_identities', true);
 
-        // Auth Login Attempts
+        // Auth Login Attempts Table
         $this->forge->addField([
             'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'ip_address' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
@@ -68,7 +67,7 @@ class CreateAuthTables extends Migration
         $this->forge->createTable('auth_logins', true);
 
         /*
-         * Auth Tokens (remember-me)
+         * Auth Tokens (remember-me) Table
          * @see https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence
          */
         $this->forge->addField([
