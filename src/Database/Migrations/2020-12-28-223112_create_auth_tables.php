@@ -10,53 +10,16 @@ class CreateAuthTables extends Migration
     {
         // Users
         $this->forge->addField([
-            'id' => [
-                'type'           => 'int',
-                'constraint'     => 11,
-                'unsigned'       => true,
-                'auto_increment' => true,
-            ],
-            'username' => [
-                'type'       => 'varchar',
-                'constraint' => 30,
-                'null'       => true,
-            ],
-            'status' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-                'null'       => true,
-            ],
-            'status_message' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-                'null'       => true,
-            ],
-            'active' => [
-                'type'       => 'tinyint',
-                'constraint' => 1,
-                'null'       => 0,
-                'default'    => 0,
-            ],
-            'permissions' => [
-                'type' => 'text',
-                'null' => true,
-            ],
-            'last_active' => [
-                'type' => 'datetime',
-                'null' => true,
-            ],
-            'created_at' => [
-                'type' => 'datetime',
-                'null' => true,
-            ],
-            'updated_at' => [
-                'type' => 'datetime',
-                'null' => true,
-            ],
-            'deleted_at' => [
-                'type' => 'datetime',
-                'null' => true,
-            ],
+            'id'             => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'username'       => ['type' => 'varchar', 'constraint' => 30, 'null' => true],
+            'status'         => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'status_message' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'active'         => ['type' => 'tinyint', 'constraint' => 1, 'null' => 0, 'default' => 0],
+            'permissions'    => ['type' => 'text', 'null' => true],
+            'last_active'    => ['type' => 'datetime', 'null' => true],
+            'created_at'     => ['type' => 'datetime', 'null' => true],
+            'updated_at'     => ['type' => 'datetime', 'null' => true],
+            'deleted_at'     => ['type' => 'datetime', 'null' => true],
         ]);
 
         $this->forge->addPrimaryKey('id');
@@ -70,61 +33,18 @@ class CreateAuthTables extends Migration
          * social login identities, etc.
          */
         $this->forge->addField([
-            'id' => [
-                'type'           => 'int',
-                'constraint'     => 11,
-                'unsigned'       => true,
-                'auto_increment' => true,
-            ],
-            'user_id' => [
-                'type'       => 'int',
-                'constraint' => 11,
-                'unsigned'   => true,
-                'null'       => true,
-            ],
-            'type' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-            ],
-            'name' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-                'null'       => true,
-            ],
-            'secret' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-            ],
-            'secret2' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-                'null'       => true,
-            ],
-            'expires' => [
-                'type' => 'datetime',
-                'null' => true,
-            ],
-            'extra' => [
-                'type' => 'text',
-                'null' => true,
-            ],
-            'force_reset' => [
-                'type'       => 'tinyint',
-                'constraint' => 1,
-                'default'    => 0,
-            ],
-            'last_used_at' => [
-                'type' => 'datetime',
-                'null' => true,
-            ],
-            'created_at' => [
-                'type' => 'datetime',
-                'null' => true,
-            ],
-            'updated_at' => [
-                'type' => 'datetime',
-                'null' => true,
-            ],
+            'id'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'user_id'      => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+            'type'         => ['type' => 'varchar', 'constraint' => 255],
+            'name'         => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'secret'       => ['type' => 'varchar', 'constraint' => 255],
+            'secret2'      => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'expires'      => ['type' => 'datetime', 'null' => true],
+            'extra'        => ['type' => 'text', 'null' => true],
+            'force_reset'  => ['type' => 'tinyint', 'constraint' => 1, 'default' => 0],
+            'last_used_at' => ['type' => 'datetime', 'null' => true],
+            'created_at'   => ['type' => 'datetime', 'null' => true],
+            'updated_at'   => ['type' => 'datetime', 'null' => true],
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addKey('user_id');
@@ -133,38 +53,13 @@ class CreateAuthTables extends Migration
 
         // Auth Login Attempts
         $this->forge->addField([
-            'id' => [
-                'type'           => 'int',
-                'constraint'     => 11,
-                'unsigned'       => true,
-                'auto_increment' => true,
-            ],
-            'ip_address' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-                'null'       => true,
-            ],
-            'user_agent' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-                'null'       => true,
-            ],
-            'email' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-                'null'       => true,
-            ],
-            'user_id' => [
-                'type'       => 'int',
-                'constraint' => 11,
-                'unsigned'   => true,
-                'null'       => true,
-            ], // Only for successful logins
-            'date'    => ['type' => 'datetime'],
-            'success' => [
-                'type'       => 'tinyint',
-                'constraint' => 1,
-            ],
+            'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'ip_address' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'user_agent' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'email'      => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'user_id'    => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true], // Only for successful logins
+            'date'       => ['type' => 'datetime'],
+            'success'    => ['type' => 'tinyint', 'constraint' => 1],
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addKey('email');
@@ -177,34 +72,13 @@ class CreateAuthTables extends Migration
          * @see https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence
          */
         $this->forge->addField([
-            'id' => [
-                'type'           => 'int',
-                'constraint'     => 11,
-                'unsigned'       => true,
-                'auto_increment' => true,
-            ],
-            'selector' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-            ],
-            'hashedValidator' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-            ],
-            'user_id' => [
-                'type'       => 'int',
-                'constraint' => 11,
-                'unsigned'   => true,
-            ],
-            'expires'    => ['type' => 'datetime'],
-            'created_at' => [
-                'type' => 'datetime',
-                'null' => false,
-            ],
-            'updated_at' => [
-                'type' => 'datetime',
-                'null' => false,
-            ],
+            'id'              => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'selector'        => ['type' => 'varchar', 'constraint' => 255],
+            'hashedValidator' => ['type' => 'varchar', 'constraint' => 255],
+            'user_id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'expires'         => ['type' => 'datetime'],
+            'created_at'      => ['type' => 'datetime', 'null' => false],
+            'updated_at'      => ['type' => 'datetime', 'null' => false],
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('selector');
@@ -213,89 +87,33 @@ class CreateAuthTables extends Migration
 
         // Password Reset Table
         $this->forge->addField([
-            'id' => [
-                'type'           => 'int',
-                'constraint'     => 11,
-                'unsigned'       => true,
-                'auto_increment' => true,
-            ],
-            'email' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-            ],
-            'ip_address' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-            ],
-            'user_agent' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-                'null'       => true,
-            ],
-            'token' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-                'null'       => true,
-            ],
-            'created_at' => [
-                'type' => 'datetime',
-                'null' => false,
-            ],
+            'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'email'      => ['type' => 'varchar', 'constraint' => 255],
+            'ip_address' => ['type' => 'varchar', 'constraint' => 255],
+            'user_agent' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'token'      => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'created_at' => ['type' => 'datetime', 'null' => false],
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->createTable('auth_reset_attempts', true);
 
         // Activation Attempts Table
         $this->forge->addField([
-            'id' => [
-                'type'           => 'int',
-                'constraint'     => 11,
-                'unsigned'       => true,
-                'auto_increment' => true,
-            ],
-            'ip_address' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-            ],
-            'user_agent' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-            ],
-            'token' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-                'null'       => true,
-            ],
-            'created_at' => [
-                'type' => 'datetime',
-                'null' => false,
-            ],
+            'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'ip_address' => ['type' => 'varchar', 'constraint' => 255],
+            'user_agent' => ['type' => 'varchar', 'constraint' => 255],
+            'token'      => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'created_at' => ['type' => 'datetime', 'null' => false],
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->createTable('auth_activation_attempts', true);
 
         // Groups Users Table
         $this->forge->addField([
-            'id' => [
-                'type'           => 'int',
-                'constraint'     => 11,
-                'unsigned'       => true,
-                'auto_increment' => true,
-            ],
-            'user_id' => [
-                'type'       => 'int',
-                'constraint' => 11,
-                'unsigned'   => true,
-            ],
-            'group' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-                'null'       => false,
-            ],
-            'created_at' => [
-                'type' => 'datetime',
-                'null' => false,
-            ],
+            'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'user_id'    => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'group'      => ['type' => 'varchar', 'constraint' => 255, 'null' => false],
+            'created_at' => ['type' => 'datetime', 'null' => false],
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
@@ -303,26 +121,10 @@ class CreateAuthTables extends Migration
 
         // Users Permissions Table
         $this->forge->addField([
-            'id' => [
-                'type'           => 'int',
-                'constraint'     => 11,
-                'unsigned'       => true,
-                'auto_increment' => true,
-            ],
-            'user_id' => [
-                'type'       => 'int',
-                'constraint' => 11,
-                'unsigned'   => true,
-            ],
-            'permission' => [
-                'type'       => 'varchar',
-                'constraint' => 255,
-                'null'       => false,
-            ],
-            'created_at' => [
-                'type' => 'datetime',
-                'null' => false,
-            ],
+            'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'user_id'    => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'permission' => ['type' => 'varchar', 'constraint' => 255, 'null' => false],
+            'created_at' => ['type' => 'datetime', 'null' => false],
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
