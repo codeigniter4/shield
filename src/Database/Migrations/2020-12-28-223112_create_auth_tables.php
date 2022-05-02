@@ -135,9 +135,6 @@ class CreateAuthTables extends Migration
 
     public function down()
     {
-        $prefix = $this->db->getPrefix();
-        $prefix = empty($prefix) ? $prefix : $prefix . '_';
-
         $this->db->disableForeignKeyChecks();
 
         $this->forge->dropTable('users', true);
