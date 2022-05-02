@@ -106,7 +106,7 @@ class Email2FA implements ActionInterface
 
         // Clean up our session
         session()->remove('auth_action');
-        
+
         // Trigger the didLogin Event
         Events::trigger('didLogin', $user);
 

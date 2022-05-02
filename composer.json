@@ -30,7 +30,7 @@
         "fakerphp/faker": "^1.9",
         "friendsofphp/php-cs-fixer": "^3.0",
         "mockery/mockery": "^1.0",
-        "nexusphp/cs-config": "^3.1",
+        "nexusphp/cs-config": "^3.4",
         "nexusphp/tachycardia": "^1.0",
         "php-coveralls/php-coveralls": "^2.4",
         "phpstan/phpstan": "^1.0",
