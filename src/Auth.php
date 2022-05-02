@@ -43,7 +43,7 @@ class Auth
      *
      * @return $this
      */
-    public function setAuthenticator(?string $alias = null)
+    public function setAuthenticator(?string $alias = null): self
     {
         if (! empty($alias)) {
             $this->alias = $alias;

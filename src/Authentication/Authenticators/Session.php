@@ -48,7 +48,7 @@ class Session implements AuthenticatorInterface
      *
      * @return $this
      */
-    public function remember(bool $shouldRemember = true)
+    public function remember(bool $shouldRemember = true): self
     {
         $this->shouldRemember = $shouldRemember;
 

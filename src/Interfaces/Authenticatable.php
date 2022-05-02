@@ -45,7 +45,7 @@ interface Authenticatable
      *
      * @return $this
      */
-    public function setRememberToken(string $value);
+    public function setRememberToken(string $value): self;
 
     /**
      * Returns the column name that stores the remember-me value.

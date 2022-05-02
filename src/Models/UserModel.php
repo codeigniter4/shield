@@ -41,7 +41,7 @@ class UserModel extends Model implements UserProvider
      *
      * @return $this
      */
-    public function withIdentities()
+    public function withIdentities(): self
     {
         $this->fetchIdentities = true;
 

@@ -17,7 +17,7 @@ trait AuthenticationTesting
      *
      * @return $this
      */
-    public function actingAs(Authenticatable $user)
+    public function actingAs(Authenticatable $user): self
     {
         // Ensure the helper is loaded during tests.
         helper('auth');

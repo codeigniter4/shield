@@ -63,7 +63,7 @@ class Authentication
      *
      * @return $this
      */
-    public function setProvider(UserProvider $provider)
+    public function setProvider(UserProvider $provider): self
     {
         $this->userProvider = $provider;
 

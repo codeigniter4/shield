@@ -16,7 +16,7 @@ trait Authorizable
      *
      * @return $this
      */
-    public function addGroup(string ...$groups)
+    public function addGroup(string ...$groups): self
     {
         $this->populateGroups();
         $configGroups = function_exists('setting')
@@ -54,7 +54,7 @@ trait Authorizable
      *
      * @return $this
      */
-    public function removeGroup(string ...$groups)
+    public function removeGroup(string ...$groups): self
     {
         $this->populateGroups();
 
@@ -80,7 +80,7 @@ trait Authorizable
      *
      * @return $this
      */
-    public function syncGroups(array $groups)
+    public function syncGroups(array $groups): self
     {
         $this->populateGroups();
         $configGroups = function_exists('setting')
@@ -127,7 +127,7 @@ trait Authorizable
      *
      * @return $this
      */
-    public function addPermission(string ...$permissions)
+    public function addPermission(string ...$permissions): self
     {
         $this->populatePermissions();
         $configPermissions = function_exists('setting')
@@ -165,7 +165,7 @@ trait Authorizable
      *
      * @return $this
      */
-    public function removePermission(string ...$permissions)
+    public function removePermission(string ...$permissions): self
     {
         $this->populatePermissions();
 
@@ -191,7 +191,7 @@ trait Authorizable
      *
      * @return $this
      */
-    public function syncPermissions(array $permissions)
+    public function syncPermissions(array $permissions): self
     {
         $this->populatePermissions();
         $configPermissions = function_exists('setting')
