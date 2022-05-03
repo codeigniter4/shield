@@ -110,7 +110,7 @@ class Auth
 
         $routes->group('/', ['namespace' => 'Sparks\Shield\Controllers'], static function ($routes) use ($authRoutes, $config) {
             foreach ($authRoutes as $name => $row) {
-                if (! isset($config['except']) || (isset($config['except']) && ! array_key_exists($name, $config['except']))) {
+                if (! isset($config['except']) || (isset($config['except']) && ! in_array($name, $config['except'], true))) {
                     foreach ($row as $params) {
                         $options = isset($params[3])
                             ? ['as' => $params[3]]
