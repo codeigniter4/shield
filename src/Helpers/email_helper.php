@@ -4,6 +4,8 @@ if (! defined('emailer')) {
     /**
      * Provides convenient access to the main Auth class
      * for CodeIgniter Shield.
+     *
+     * @internal
      */
     function emailer(?array $overrides = null)
     {
