@@ -35,7 +35,7 @@ if (! defined('emailer')) {
             'DSN'           => setting('Email.DSN'),
         ];
 
-        if (count($overrides)) {
+        if ($overrides !== []) {
             $config = array_merge($overrides, $config);
         }
 
