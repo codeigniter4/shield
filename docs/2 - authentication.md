@@ -295,7 +295,6 @@ public $aliases = [
     'toolbar'  => DebugToolbar::class,
     'honeypot' => Honeypot::class,
     'session'  => CodeIgniter\Shield\Filters\SessionAuth::class,
-    'session'  => CodeIgniter\Shield\Filters\SessionAuth::class,
     'tokens'   => CodeIgniter\Shield\Filters\TokenAuth::class,
     'chain'    => CodeIgniter\Shield\Filters\ChainAuth::class,
 ];
