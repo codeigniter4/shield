@@ -290,7 +290,7 @@ class Session implements AuthenticatorInterface
      */
     public function recordActive(): void
     {
-        if (! $this->user instanceof Authenticatable) {
+        if (! $this->user instanceof User) {
             throw new InvalidArgumentException(self::class . '::recordActive() requires logged in user before calling.');
         }
 

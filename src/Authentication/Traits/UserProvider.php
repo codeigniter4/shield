@@ -3,7 +3,6 @@
 namespace CodeIgniter\Shield\Authentication\Traits;
 
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Interfaces\Authenticatable;
 
 /**
  * Intended to be used with UserProvider (UserModel).
@@ -70,7 +69,7 @@ trait UserProvider
      *
      * @param int|string $id
      */
-    public function findByRememberToken($id, string $token): ?Authenticatable
+    public function findByRememberToken($id, string $token): ?User
     {
         return $this->where([
             'id'          => $id,

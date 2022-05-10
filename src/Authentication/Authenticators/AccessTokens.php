@@ -7,7 +7,6 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Interfaces\Authenticatable;
 use CodeIgniter\Shield\Interfaces\UserProvider;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
@@ -227,7 +226,7 @@ class AccessTokens implements AuthenticatorInterface
      */
     public function recordActive(): void
     {
-        if (! $this->user instanceof Authenticatable) {
+        if (! $this->user instanceof User) {
             throw new InvalidArgumentException(self::class . '::recordActive() requires logged in user before calling.');
         }
 

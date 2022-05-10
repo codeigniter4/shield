@@ -13,14 +13,14 @@ use CodeIgniter\Shield\Interfaces\UserProvider;
 /**
  * AuthenticatorInterface:
  *
- * @method Result               attempt(array $credentials)
- * @method Result               check(array $credentials)
- * @method Authenticatable|null getUser()
- * @method bool                 loggedIn()
- * @method bool                 login(Authenticatable $user)
- * @method void                 loginById($userId)
- * @method bool                 logout()
- * @method void                 recordActive()
+ * @method Result    attempt(array $credentials)
+ * @method Result    check(array $credentials)
+ * @method User|null getUser()
+ * @method bool      loggedIn()
+ * @method bool      login(User $user)
+ * @method void      loginById($userId)
+ * @method bool      logout()
+ * @method void      recordActive()
  *
  * Authenticators\Session:
  * @method $this remember(bool $shouldRemember = true)
