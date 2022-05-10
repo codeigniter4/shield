@@ -66,7 +66,7 @@ class RegisterController extends BaseController
         }
 
         // Get the updated user so we have the ID...
-        $user = $users->find($users->getInsertID());
+        $user = $users->findById($users->getInsertID());
 
         // Store the email/password identity for this user.
         $user->createEmailIdentity($this->request->getPost(['email', 'password']));
