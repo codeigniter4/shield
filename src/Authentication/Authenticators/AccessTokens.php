@@ -7,9 +7,9 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Interfaces\UserProvider;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
 use InvalidArgumentException;
 
@@ -18,20 +18,12 @@ class AccessTokens implements AuthenticatorInterface
     /**
      * The persistence engine
      */
-    protected UserProvider $provider;
+    protected UserModel $provider;
 
-    /**
-     * AccessTokens requires HasAccessTokens trait but there is no interface
-     * for this so the workaround is restricting this class to work with
-     * the native User instead of Authenticatable
-     *
-     * @todo Fix interface issue described above
-     */
     protected ?User $user = null;
-
     protected LoginModel $loginModel;
 
-    public function __construct(UserProvider $provider)
+    public function __construct(UserModel $provider)
     {
         helper('session');
         $this->provider   = $provider;

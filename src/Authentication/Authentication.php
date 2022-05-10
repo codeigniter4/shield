@@ -3,7 +3,7 @@
 namespace CodeIgniter\Shield\Authentication;
 
 use CodeIgniter\Shield\Config\Auth as AuthConfig;
-use CodeIgniter\Shield\Interfaces\UserProvider;
+use CodeIgniter\Shield\Models\UserModel;
 
 class Authentication
 {
@@ -15,7 +15,7 @@ class Authentication
      */
     protected array $instances = [];
 
-    protected ?UserProvider $userProvider = null;
+    protected ?UserModel $userProvider = null;
     protected AuthConfig $config;
 
     public function __construct(AuthConfig $config)
@@ -63,7 +63,7 @@ class Authentication
      *
      * @return $this
      */
-    public function setProvider(UserProvider $provider): self
+    public function setProvider(UserModel $provider): self
     {
         $this->userProvider = $provider;
 

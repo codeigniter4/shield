@@ -6,8 +6,8 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Auth;
-use CodeIgniter\Shield\Interfaces\UserProvider;
 use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Models\UserModel;
 
 /**
  * Handles "Magic Link" logins - an email-based
@@ -20,7 +20,7 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
 class MagicLinkController extends BaseController
 {
     /**
-     * @var UserProvider
+     * @var UserModel
      */
     protected $provider;
 

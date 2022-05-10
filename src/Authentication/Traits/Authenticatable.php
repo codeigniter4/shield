@@ -3,7 +3,7 @@
 namespace CodeIgniter\Shield\Authentication\Traits;
 
 /**
- * Intended to be used with Authenticatable (User).
+ * Intended to be used with User.
  */
 trait Authenticatable
 {

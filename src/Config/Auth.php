@@ -333,9 +333,9 @@ class Auth extends BaseConfig
      * By default, this is the included UserModel, which
      * works with any of the database engines supported by CodeIgniter.
      * You can change it as long as they adhere to the
-     * CodeIgniter\Shield\Interfaces\UserProvider.
+     * CodeIgniter\Shield\Models\UserModel.
      *
-     * @var class-string<\CodeIgniter\Shield\Interfaces\UserProvider>
+     * @var class-string<\CodeIgniter\Shield\Models\UserModel>
      */
     public string $userProvider = 'CodeIgniter\Shield\Models\UserModel';
 

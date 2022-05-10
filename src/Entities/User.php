@@ -10,7 +10,7 @@ use CodeIgniter\Shield\Authorization\Traits\Authorizable;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 
-class User extends Entity implements \CodeIgniter\Shield\Interfaces\Authenticatable
+class User extends Entity
 {
     use Authenticatable;
     use Authorizable;

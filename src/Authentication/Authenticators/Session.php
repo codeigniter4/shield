@@ -10,10 +10,9 @@ use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Interfaces\Authenticatable;
-use CodeIgniter\Shield\Interfaces\UserProvider;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\RememberModel;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
 use Exception;
 use InvalidArgumentException;
@@ -23,7 +22,7 @@ class Session implements AuthenticatorInterface
     /**
      * The persistence engine
      */
-    protected UserProvider $provider;
+    protected UserModel $provider;
 
     protected ?User $user = null;
     protected LoginModel $loginModel;
@@ -35,7 +34,7 @@ class Session implements AuthenticatorInterface
 
     protected RememberModel $rememberModel;
 
-    public function __construct(UserProvider $provider)
+    public function __construct(UserModel $provider)
     {
         helper('setting');
         $this->provider      = $provider;
@@ -151,7 +150,7 @@ class Session implements AuthenticatorInterface
      */
     public function loggedIn(): bool
     {
-        if ($this->user instanceof Authenticatable) {
+        if ($this->user instanceof User) {
             return true;
         }
 
@@ -161,7 +160,7 @@ class Session implements AuthenticatorInterface
         if ($userId !== null) {
             $this->user = $this->provider->findById($userId);
 
-            return $this->user instanceof Authenticatable;
+            return $this->user instanceof User;
         }
 
         return false;

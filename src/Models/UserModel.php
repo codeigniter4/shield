@@ -5,11 +5,10 @@ namespace CodeIgniter\Shield\Models;
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Traits\UserProvider as UserProviderTrait;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Interfaces\UserProvider;
 use Faker\Generator;
 use InvalidArgumentException;
 
-class UserModel extends Model implements UserProvider
+class UserModel extends Model
 {
     use UserProviderTrait;
 

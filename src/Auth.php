@@ -7,8 +7,7 @@ use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Interfaces\Authenticatable;
-use CodeIgniter\Shield\Interfaces\UserProvider;
+use CodeIgniter\Shield\Models\UserModel;
 
 /**
  * AuthenticatorInterface:
@@ -34,8 +33,8 @@ class Auth
      */
     protected ?string $alias = null;
 
-    protected ?Authenticatable $user      = null;
-    protected ?UserProvider $userProvider = null;
+    protected ?User $user              = null;
+    protected ?UserModel $userProvider = null;
 
     public function __construct(Authentication $authenticate)
     {
@@ -131,7 +130,7 @@ class Auth
      *
      * @throws AuthenticationException
      */
-    public function getProvider(): UserProvider
+    public function getProvider(): UserModel
     {
         if ($this->userProvider !== null) {
             return $this->userProvider;
