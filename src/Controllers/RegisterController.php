@@ -6,8 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Interfaces\Authenticatable;
-use CodeIgniter\Shield\Interfaces\UserProvider;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Validation\Validation;
 
 /**
@@ -104,11 +103,11 @@ class RegisterController extends BaseController
     /**
      * Returns the User provider
      */
-    protected function getUserProvider(): UserProvider
+    protected function getUserProvider(): UserModel
     {
         $provider = model(setting('Auth.userProvider'));
 
-        assert($provider instanceof UserProvider, 'Config Auth.userProvider is not a valid UserProvider.');
+        assert($provider instanceof UserModel, 'Config Auth.userProvider is not a valid UserProvider.');
 
         return $provider;
     }
@@ -116,7 +115,7 @@ class RegisterController extends BaseController
     /**
      * Returns the Entity class that should be used
      */
-    protected function getUserEntity(): Authenticatable
+    protected function getUserEntity(): User
     {
         return new User();
     }

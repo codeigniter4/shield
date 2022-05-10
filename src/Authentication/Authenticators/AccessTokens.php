@@ -28,7 +28,7 @@ class AccessTokens implements AuthenticatorInterface
      *
      * @todo Fix interface issue described above
      */
-    protected ?Authenticatable $user = null;
+    protected ?User $user = null;
 
     protected LoginModel $loginModel;
 
@@ -150,7 +150,7 @@ class AccessTokens implements AuthenticatorInterface
     /**
      * Logs the given user in by saving them to the class.
      */
-    public function login(Authenticatable $user): bool
+    public function login(User $user): bool
     {
         $this->user = $user;
 
@@ -200,7 +200,7 @@ class AccessTokens implements AuthenticatorInterface
     /**
      * Returns the currently logged in user.
      */
-    public function getUser(): ?Authenticatable
+    public function getUser(): ?User
     {
         return $this->user;
     }

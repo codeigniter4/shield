@@ -2,6 +2,7 @@
 
 namespace CodeIgniter\Shield;
 
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Interfaces\Authenticatable;
 
 class Result
@@ -49,7 +50,7 @@ class Result
     }
 
     /**
-     * @return Authenticatable|string|null `Authenticatable` when successful. Suggestion strings when fails.
+     * @return string|User|null `User` when successful. Suggestion strings when fails.
      */
     public function extraInfo()
     {

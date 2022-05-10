@@ -6,6 +6,7 @@ use CodeIgniter\Router\RouteCollection;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Interfaces\Authenticatable;
 use CodeIgniter\Shield\Interfaces\UserProvider;
 
@@ -20,6 +21,9 @@ use CodeIgniter\Shield\Interfaces\UserProvider;
  * @method void                 loginById($userId)
  * @method bool                 logout()
  * @method void                 recordActive()
+ *
+ * Authenticators\Session:
+ * @method $this remember(bool $shouldRemember = true)
  */
 class Auth
 {
@@ -64,7 +68,7 @@ class Auth
     /**
      * Returns the current user, if logged in.
      */
-    public function user(): ?Authenticatable
+    public function user(): ?User
     {
         return $this->getAuthenticator()->loggedIn()
             ? $this->getAuthenticator()->getUser()

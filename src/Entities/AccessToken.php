@@ -3,7 +3,6 @@
 namespace CodeIgniter\Shield\Entities;
 
 use CodeIgniter\Entity\Entity;
-use CodeIgniter\Shield\Interfaces\Authenticatable;
 
 /**
  * Class AccessToken
@@ -32,7 +31,7 @@ class AccessToken extends Entity
     /**
      * Returns the user associated with this token.
      */
-    public function user(): ?Authenticatable
+    public function user(): ?User
     {
         if (empty($this->attributes['user'])) {
             helper('auth');

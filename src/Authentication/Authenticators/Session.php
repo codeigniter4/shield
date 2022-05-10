@@ -25,7 +25,7 @@ class Session implements AuthenticatorInterface
      */
     protected UserProvider $provider;
 
-    protected ?Authenticatable $user = null;
+    protected ?User $user = null;
     protected LoginModel $loginModel;
 
     /**
@@ -81,7 +81,7 @@ class Session implements AuthenticatorInterface
             return $result;
         }
 
-        /** @var Authenticatable $user */
+        /** @var User $user */
         $user = $result->extraInfo();
 
         $this->login($user);
@@ -170,7 +170,7 @@ class Session implements AuthenticatorInterface
     /**
      * Logs the given user in.
      */
-    public function login(Authenticatable $user): bool
+    public function login(User $user): bool
     {
         // @todo Authenticatable should define getEmailIdentity() or this should require User
         $this->user = $user;
@@ -281,7 +281,7 @@ class Session implements AuthenticatorInterface
     /**
      * Returns the current user instance.
      */
-    public function getUser(): ?Authenticatable
+    public function getUser(): ?User
     {
         return $this->user;
     }

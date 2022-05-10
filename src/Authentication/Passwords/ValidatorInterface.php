@@ -2,7 +2,7 @@
 
 namespace CodeIgniter\Shield\Authentication\Passwords;
 
-use CodeIgniter\Shield\Interfaces\Authenticatable;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Result;
 
 /**
@@ -19,7 +19,7 @@ interface ValidatorInterface
      * the password will be passed to any remaining validators.
      * False will immediately stop validation process
      */
-    public function check(string $password, ?Authenticatable $user = null): Result;
+    public function check(string $password, ?User $user = null): Result;
 
     /**
      * Returns the error string that should be displayed to the user.

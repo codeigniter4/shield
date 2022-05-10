@@ -15,7 +15,7 @@ trait UserProvider
      *
      * @param int|string $id
      */
-    public function findById($id): ?Authenticatable
+    public function findById($id): ?User
     {
         return $this->find($id);
     }
@@ -25,7 +25,7 @@ trait UserProvider
      *
      * @param array<string, string> $credentials
      */
-    public function findByCredentials(array $credentials): ?Authenticatable
+    public function findByCredentials(array $credentials): ?User
     {
         // Email is stored in an identity so remove that here
         $email = $credentials['email'] ?? null;

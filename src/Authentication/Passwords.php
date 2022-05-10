@@ -4,7 +4,7 @@ namespace CodeIgniter\Shield\Authentication;
 
 use CodeIgniter\Shield\Authentication\Passwords\ValidatorInterface;
 use CodeIgniter\Shield\Config\Auth;
-use CodeIgniter\Shield\Interfaces\Authenticatable;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Result;
 
 /**
@@ -79,7 +79,7 @@ class Passwords
      *
      * @throws AuthenticationException
      */
-    public function check(string $password, ?Authenticatable $user = null): Result
+    public function check(string $password, ?User $user = null): Result
     {
         if (null === $user) {
             throw AuthenticationException::forNoEntityProvided();

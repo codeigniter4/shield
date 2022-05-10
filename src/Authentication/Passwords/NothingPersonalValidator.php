@@ -2,7 +2,7 @@
 
 namespace CodeIgniter\Shield\Authentication\Passwords;
 
-use CodeIgniter\Shield\Interfaces\Authenticatable;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Result;
 
 /**
@@ -18,7 +18,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      * If true is returned the password will be passed to next validator.
      * If false is returned the validation process will be immediately stopped.
      */
-    public function check(string $password, ?Authenticatable $user = null): Result
+    public function check(string $password, ?User $user = null): Result
     {
         $password = \strtolower($password);
 
@@ -52,7 +52,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      *
      * @return bool
      */
-    protected function isNotPersonal(string $password, ?Authenticatable $user)
+    protected function isNotPersonal(string $password, ?User $user)
     {
         $userName = \strtolower($user->username);
         $email    = \strtolower($user->email);
@@ -153,7 +153,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      *
      * @return bool
      */
-    protected function isNotSimilar(string $password, ?Authenticatable $user)
+    protected function isNotSimilar(string $password, ?User $user)
     {
         $maxSimilarity = (float) $this->config->maxSimilarity;
         // sanity checking - working range 1-100, 0 is off

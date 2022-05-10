@@ -2,6 +2,8 @@
 
 namespace CodeIgniter\Shield\Interfaces;
 
+use CodeIgniter\Shield\Entities\User;
+
 interface UserProvider
 {
     /**
@@ -9,14 +11,14 @@ interface UserProvider
      *
      * @param int|string $id
      */
-    public function findById($id): ?Authenticatable;
+    public function findById($id): ?User;
 
     /**
      * Locate a user by the given credentials.
      *
      * @param array<string, string> $credentials
      */
-    public function findByCredentials(array $credentials): ?Authenticatable;
+    public function findByCredentials(array $credentials): ?User;
 
     /**
      * Find a user by their ID and "remember-me" token.
