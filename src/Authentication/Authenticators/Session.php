@@ -172,7 +172,6 @@ class Session implements AuthenticatorInterface
      */
     public function login(User $user): bool
     {
-        // @todo Authenticatable should define getEmailIdentity() or this should require User
         $this->user = $user;
 
         // Update the user's last used date on their password identity.
