@@ -85,7 +85,8 @@
         "deduplicate": "phpcpd app/ src/",
         "inspect": "deptrac analyze --cache-file=build/deptrac.cache",
         "mutate": "infection --threads=2 --skip-initial-tests --coverage=build/phpunit",
-        "style": "php-cs-fixer fix --verbose --ansi --using-cache=no",
+        "style": "php-cs-fixer fix --ansi --verbose --diff",
+        "cs-fix": "@style",
         "test": "phpunit"
     }
 }
