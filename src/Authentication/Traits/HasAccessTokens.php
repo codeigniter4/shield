@@ -16,6 +16,11 @@ use Sparks\Shield\Models\UserIdentityModel;
 trait HasAccessTokens
 {
     /**
+     * The current access token for the user.
+     */
+    private ?AccessToken $activeAccessToken = null;
+
+    /**
      * Generates a new personal access token for this user.
      */
     public function generateAccessToken(string $name, array $scopes = ['*'])
@@ -142,7 +147,7 @@ trait HasAccessTokens
      */
     public function currentAccessToken()
     {
-        return $this->attributes['activeAccessToken'] ?? null;
+        return $this->activeAccessToken;
     }
 
     /**
@@ -154,7 +159,7 @@ trait HasAccessTokens
      */
     public function setAccessToken(?AccessToken $accessToken)
     {
-        $this->attributes['activeAccessToken'] = $accessToken;
+        $this->activeAccessToken = $accessToken;
 
         return $this;
     }
