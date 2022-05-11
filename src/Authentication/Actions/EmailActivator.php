@@ -6,6 +6,7 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Models\UserIdentityModel;
+use RuntimeException;
 
 class EmailActivator implements ActionInterface
 {
@@ -17,6 +18,10 @@ class EmailActivator implements ActionInterface
     public function show(): string
     {
         $user = auth()->user();
+
+        if ($user === null) {
+            throw new RuntimeException('Cannot get the User.');
+        }
 
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);

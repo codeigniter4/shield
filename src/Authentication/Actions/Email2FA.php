@@ -5,6 +5,7 @@ namespace CodeIgniter\Shield\Authentication\Actions;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Models\UserIdentityModel;
+use RuntimeException;
 
 /**
  * Class Email2FA
@@ -56,6 +57,10 @@ class Email2FA implements ActionInterface
 
         if (empty($email) || $email !== $user->getAuthEmail()) {
             return redirect()->route('auth-action-show')->with('error', lang('Auth.invalidEmail'));
+        }
+
+        if ($user === null) {
+            throw new RuntimeException('Cannot get the User.');
         }
 
         /** @var UserIdentityModel $identityModel */
