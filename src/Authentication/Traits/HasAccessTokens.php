@@ -18,7 +18,7 @@ trait HasAccessTokens
     /**
      * The current access token for the user.
      */
-    private ?AccessToken $activeAccessToken = null;
+    private ?AccessToken $currentAccessToken = null;
 
     /**
      * Generates a new personal access token for this user.
@@ -147,7 +147,7 @@ trait HasAccessTokens
      */
     public function currentAccessToken()
     {
-        return $this->activeAccessToken;
+        return $this->currentAccessToken;
     }
 
     /**
@@ -159,7 +159,7 @@ trait HasAccessTokens
      */
     public function setAccessToken(?AccessToken $accessToken)
     {
-        $this->activeAccessToken = $accessToken;
+        $this->currentAccessToken = $accessToken;
 
         return $this;
     }
