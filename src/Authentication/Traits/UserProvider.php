@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Authentication\Traits;
 
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 
 /**
  * Intended to be used with UserProvider (UserModel).
@@ -16,7 +17,24 @@ trait UserProvider
      */
     public function findById($id): ?User
     {
-        return $this->find($id);
+        /** @var User|null $user */
+        $user = $this->find($id);
+
+        if ($user === null) {
+            return null;
+        }
+
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        $identity = $identityModel->getIdentityByType($id, 'email_password');
+
+        if ($identity !== null) {
+            $user->email         = $identity->secret;
+            $user->password_hash = $identity->secret2;
+        }
+
+        return $user;
     }
 
     /**
