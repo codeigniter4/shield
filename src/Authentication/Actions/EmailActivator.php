@@ -5,8 +5,8 @@ namespace CodeIgniter\Shield\Authentication\Actions;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
-use RuntimeException;
 
 class EmailActivator implements ActionInterface
 {
