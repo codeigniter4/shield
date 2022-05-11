@@ -209,6 +209,8 @@ final class ActionsTest extends TestCase
 
     public function testEmailActivateShow()
     {
+        $this->user->email = 'test@example.jp';
+
         $result = $this->actingAs($this->user)
             ->withSession([
                 'auth_action' => EmailActivator::class,

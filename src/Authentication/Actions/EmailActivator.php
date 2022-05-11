@@ -6,6 +6,7 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Models\UserIdentityModel;
+use LogicException;
 
 class EmailActivator implements ActionInterface
 {
@@ -36,11 +37,18 @@ class EmailActivator implements ActionInterface
             'extra'   => lang('Auth.needVerification'),
         ]);
 
+        $to = $user->getAuthEmail();
+        if ($to === null) {
+            throw new LogicException(
+                'Email Activation needs user email address. user_id: ' . $user->getAuthId()
+            );
+        }
+
         // Send the email
         helper('email');
         $email = emailer();
         $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
-            ->setTo($user->getAuthEmail())
+            ->setTo($to)
             ->setSubject(lang('Auth.emailActivateSubject'))
             ->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]))
             ->send();
