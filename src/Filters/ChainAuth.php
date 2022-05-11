@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
+use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -28,7 +29,7 @@ class ChainAuth implements FilterInterface
      *
      * @param array|null $arguments
      *
-     * @return mixed
+     * @return RedirectResponse|void
      */
     public function before(RequestInterface $request, $arguments = null)
     {
@@ -54,7 +55,7 @@ class ChainAuth implements FilterInterface
      * @param Response|ResponseInterface $response
      * @param array|null                 $arguments
      *
-     * @return mixed
+     * @return void
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {

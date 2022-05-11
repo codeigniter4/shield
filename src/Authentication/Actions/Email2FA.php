@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Authentication\Actions;
 
 use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 
 /**
@@ -15,10 +16,8 @@ class Email2FA implements ActionInterface
     /**
      * Displays the "Hey we're going to send you an number to your email"
      * message to the user with a prompt to continue.
-     *
-     * @return mixed
      */
-    public function show()
+    public function show(): string
     {
         $user = auth()->user();
 
@@ -48,7 +47,7 @@ class Email2FA implements ActionInterface
      * with the user, and fires off an email to the user with the code,
      * then displays the form to accept the 6 digits
      *
-     * @return mixed
+     * @return RedirectResponse|string
      */
     public function handle(IncomingRequest $request)
     {
@@ -83,7 +82,7 @@ class Email2FA implements ActionInterface
     /**
      * Attempts to verify the code the user entered.
      *
-     * @return mixed
+     * @return RedirectResponse|string
      */
     public function verify(IncomingRequest $request)
     {

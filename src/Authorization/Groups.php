@@ -20,10 +20,8 @@ class Groups
 
     /**
      * Grabs a group info from settings.
-     *
-     * @return Group|null
      */
-    public function info(string $group)
+    public function info(string $group): ?Group
     {
         $info = setting('AuthGroups.groups')[strtolower($group)] ?? null;
 
@@ -39,7 +37,7 @@ class Groups
     /**
      * Saves or creates the group.
      */
-    public function save(Group $group)
+    public function save(Group $group): void
     {
         if (empty($group->title)) {
             throw new RuntimeException(lang('Auth.missingTitle'));

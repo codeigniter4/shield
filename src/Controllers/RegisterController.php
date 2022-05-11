@@ -6,6 +6,8 @@ use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Validation\Validation;
 
 /**
  * Class RegisterController
@@ -50,9 +52,11 @@ class RegisterController extends BaseController
         // like the password, can only be validated properly here.
         $rules = $this->getValidationRules();
 
+        /** @var Validation $validation */
+        $validation = service('validation');
+
         if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()
-                ->with('errors', service('validation')->getErrors());
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
         // Save the user
@@ -66,7 +70,7 @@ class RegisterController extends BaseController
         }
 
         // Get the updated user so we have the ID...
-        $user = $users->find($users->getInsertID());
+        $user = $users->findById($users->getInsertID());
 
         // Store the email/password identity for this user.
         $user->createEmailIdentity($this->request->getPost(['email', 'password']));
@@ -98,20 +102,20 @@ class RegisterController extends BaseController
 
     /**
      * Returns the User provider
-     *
-     * @return mixed
      */
-    protected function getUserProvider()
+    protected function getUserProvider(): UserModel
     {
-        return model(setting('Auth.userProvider'));
+        $provider = model(setting('Auth.userProvider'));
+
+        assert($provider instanceof UserModel, 'Config Auth.userProvider is not a valid UserProvider.');
+
+        return $provider;
     }
 
     /**
      * Returns the Entity class that should be used
-     *
-     * @return \CodeIgniter\Shield\Entities\User
      */
-    protected function getUserEntity()
+    protected function getUserEntity(): User
     {
         return new User();
     }
@@ -121,7 +125,7 @@ class RegisterController extends BaseController
      *
      * @return string[]
      */
-    protected function getValidationRules()
+    protected function getValidationRules(): array
     {
         return [
             'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',

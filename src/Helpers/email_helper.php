@@ -1,13 +1,14 @@
 <?php
 
+use CodeIgniter\Email\Email;
+
 if (! defined('emailer')) {
     /**
-     * Provides convenient access to the main Auth class
-     * for CodeIgniter Shield.
+     * Provides convenient access to the CodeIgniter Email class.
      *
      * @internal
      */
-    function emailer(?array $overrides = null)
+    function emailer(array $overrides = []): Email
     {
         helper('setting');
 
@@ -34,11 +35,13 @@ if (! defined('emailer')) {
             'DSN'           => setting('Email.DSN'),
         ];
 
-        if (is_array($overrides) && count($overrides)) {
+        if ($overrides !== []) {
             $config = array_merge($overrides, $config);
         }
 
-        return service('email')
-            ->initialize($config);
+        /** @var Email $email */
+        $email = service('email');
+
+        return $email->initialize($config);
     }
 }

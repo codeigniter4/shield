@@ -11,10 +11,8 @@ class Services extends BaseService
 {
     /**
      * The base auth class
-     *
-     * @return \CodeIgniter\Shield\Auth
      */
-    public static function auth(bool $getShared = true)
+    public static function auth(bool $getShared = true): Auth
     {
         if ($getShared) {
             return self::getSharedInstance('auth');
@@ -27,10 +25,8 @@ class Services extends BaseService
 
     /**
      * Password utilities.
-     *
-     * @return \CodeIgniter\Shield\Authentication\Passwords|mixed
      */
-    public static function passwords(bool $getShared = true)
+    public static function passwords(bool $getShared = true): Passwords
     {
         if ($getShared) {
             return self::getSharedInstance('passwords');

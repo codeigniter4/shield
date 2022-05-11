@@ -3,7 +3,7 @@
 namespace CodeIgniter\Shield\Authentication;
 
 use CodeIgniter\Shield\Config\Auth as AuthConfig;
-use CodeIgniter\Shield\Interfaces\UserProvider;
+use CodeIgniter\Shield\Models\UserModel;
 
 class Authentication
 {
@@ -11,11 +11,11 @@ class Authentication
      * Instantiated Authenticator objects,
      * stored by Authenticator alias.
      *
-     * @var array<string, AuthenticatorInterface>
+     * @var array<string, AuthenticatorInterface> [Authenticator_alias => Authenticator_instance]
      */
     protected array $instances = [];
 
-    protected ?UserProvider $userProvider = null;
+    protected ?UserModel $userProvider = null;
     protected AuthConfig $config;
 
     public function __construct(AuthConfig $config)
@@ -33,10 +33,8 @@ class Authentication
      * @param string|null $alias Authenticator alias
      *
      * @throws AuthenticationException
-     *
-     * @return AuthenticatorInterface
      */
-    public function factory(?string $alias = null)
+    public function factory(?string $alias = null): AuthenticatorInterface
     {
         // Determine actual Authenticator alias
         $alias ??= $this->config->defaultAuthenticator;
@@ -53,7 +51,7 @@ class Authentication
 
         $className = $this->config->authenticators[$alias];
 
-        assert($this->userProvider !== null, '$userProvider must be set.');
+        assert($this->userProvider !== null, 'You must set $this->userProvider.');
 
         $this->instances[$alias] = new $className($this->userProvider);
 
@@ -65,7 +63,7 @@ class Authentication
      *
      * @return $this
      */
-    public function setProvider(UserProvider $provider)
+    public function setProvider(UserModel $provider): self
     {
         $this->userProvider = $provider;
 

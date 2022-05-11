@@ -3,7 +3,7 @@
 namespace CodeIgniter\Shield\Authentication\Traits;
 
 /**
- * Intended to be used with Authenticatable (User).
+ * Intended to be used with User.
  */
 trait Authenticatable
 {
@@ -44,10 +44,8 @@ trait Authenticatable
 
     /**
      * Returns the email address for this user.
-     *
-     * @return string|null
      */
-    public function getAuthEmail()
+    public function getAuthEmail(): ?string
     {
         $column = $this->getAuthEmailColumn();
 
@@ -56,20 +54,16 @@ trait Authenticatable
 
     /**
      * Get the password for the user.
-     *
-     * @return string|null
      */
-    public function getAuthPassword()
+    public function getAuthPassword(): ?string
     {
         return $this->password;
     }
 
     /**
      * Returns the "remember me" token for this user.
-     *
-     * @return string|null
      */
-    public function getRememberToken()
+    public function getRememberToken(): ?string
     {
         $column = $this->getRememberColumn();
 
@@ -79,9 +73,9 @@ trait Authenticatable
     /**
      * Sets the "remember-me" token.
      *
-     * @return self
+     * @return $this
      */
-    public function setRememberToken(string $value)
+    public function setRememberToken(string $value): self
     {
         $column = $this->getRememberColumn();
 

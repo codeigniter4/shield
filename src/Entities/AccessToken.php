@@ -12,21 +12,26 @@ use CodeIgniter\Entity\Entity;
  */
 class AccessToken extends Entity
 {
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'last_used_at' => 'datetime',
         'extra'        => 'array',
         'expires'      => 'datetime',
     ];
+
+    /**
+     * @var array<string, string>
+     */
     protected $datamap = [
         'scopes' => 'extra',
     ];
 
     /**
      * Returns the user associated with this token.
-     *
-     * @return mixed
      */
-    public function user()
+    public function user(): ?User
     {
         if (empty($this->attributes['user'])) {
             helper('auth');

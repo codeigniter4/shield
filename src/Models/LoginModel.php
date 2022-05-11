@@ -55,17 +55,15 @@ class LoginModel extends Model
      * Generate a fake login for testing
      *
      * @throws Exception
-     *
-     * @return array
      */
-    public function fake(Generator &$faker)
+    public function fake(Generator &$faker): Login
     {
-        return [
+        return new Login([
             'ip_address' => $faker->ipv4,
             'email'      => $faker->email,
             'user_id'    => null,
             'date'       => Time::parse('-1 day')->toDateTimeString(),
             'success'    => true,
-        ];
+        ]);
     }
 }

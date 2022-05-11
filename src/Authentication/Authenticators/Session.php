@@ -3,14 +3,16 @@
 namespace CodeIgniter\Shield\Authentication\Authenticators;
 
 use CodeIgniter\Events\Events;
+use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\HTTP\Response;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Interfaces\Authenticatable;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\RememberModel;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
 use Exception;
 use InvalidArgumentException;
@@ -20,9 +22,9 @@ class Session implements AuthenticatorInterface
     /**
      * The persistence engine
      */
-    protected $provider;
+    protected UserModel $provider;
 
-    protected ?Authenticatable $user = null;
+    protected ?User $user = null;
     protected LoginModel $loginModel;
 
     /**
@@ -32,7 +34,7 @@ class Session implements AuthenticatorInterface
 
     protected RememberModel $rememberModel;
 
-    public function __construct($provider)
+    public function __construct(UserModel $provider)
     {
         helper('setting');
         $this->provider      = $provider;
@@ -45,7 +47,7 @@ class Session implements AuthenticatorInterface
      *
      * @return $this
      */
-    public function remember(bool $shouldRemember = true)
+    public function remember(bool $shouldRemember = true): self
     {
         $this->shouldRemember = $shouldRemember;
 
@@ -55,12 +57,12 @@ class Session implements AuthenticatorInterface
     /**
      * Attempts to authenticate a user with the given $credentials.
      * Logs the user in with a successful check.
-     *
-     * @return Result
      */
-    public function attempt(array $credentials)
+    public function attempt(array $credentials): Result
     {
-        $request   = service('request');
+        /** @var IncomingRequest $request */
+        $request = service('request');
+
         $ipAddress = $request->getIPAddress();
         $userAgent = $request->getUserAgent();
         $result    = $this->check($credentials);
@@ -78,7 +80,10 @@ class Session implements AuthenticatorInterface
             return $result;
         }
 
-        $this->login($result->extraInfo());
+        /** @var User $user */
+        $user = $result->extraInfo();
+
+        $this->login($user);
 
         $this->loginModel->recordLoginAttempt($credentials['email'] ?? $credentials['username'], true, $ipAddress, $userAgent, $this->user->getAuthId());
 
@@ -88,10 +93,8 @@ class Session implements AuthenticatorInterface
     /**
      * Checks a user's $credentials to see if they match an
      * existing user.
-     *
-     * @return Result
      */
-    public function check(array $credentials)
+    public function check(array $credentials): Result
     {
         // Can't validate without a password.
         if (empty($credentials['password']) || count($credentials) < 2) {
@@ -116,10 +119,10 @@ class Session implements AuthenticatorInterface
             ]);
         }
 
-        // Now, try matching the passwords.
         /** @var Passwords $passwords */
         $passwords = service('passwords');
 
+        // Now, try matching the passwords.
         if (! $passwords->verify($givenPassword, $user->password_hash)) {
             return new Result([
                 'success' => false,
@@ -147,7 +150,7 @@ class Session implements AuthenticatorInterface
      */
     public function loggedIn(): bool
     {
-        if ($this->user instanceof Authenticatable) {
+        if ($this->user instanceof User) {
             return true;
         }
 
@@ -157,7 +160,7 @@ class Session implements AuthenticatorInterface
         if ($userId !== null) {
             $this->user = $this->provider->findById($userId);
 
-            return $this->user instanceof Authenticatable;
+            return $this->user instanceof User;
         }
 
         return false;
@@ -165,18 +168,9 @@ class Session implements AuthenticatorInterface
 
     /**
      * Logs the given user in.
-     *
-     * @return bool
      */
-    public function login(Authenticatable $user)
+    public function login(User $user): bool
     {
-        /**
-         * @todo Authenticatable should define getEmailIdentity() or this should require User
-         */
-        if (! $user instanceof User) {
-            throw new InvalidArgumentException(self::class . '::login() only accepts Shield User');
-        }
-
         $this->user = $user;
 
         // Update the user's last used date on their password identity.
@@ -190,8 +184,11 @@ class Session implements AuthenticatorInterface
         // Let the session know we're logged in
         session()->set(setting('Auth.sessionConfig')['field'], $this->user->getAuthId());
 
+        /** @var Response $response */
+        $response = service('response');
+
         // When logged in, ensure cache control headers are in place
-        service('response')->noCache();
+        $response->noCache();
 
         if ($this->shouldRemember && setting('Auth.sessionConfig')['allowRemembering']) {
             $this->rememberUser($this->user->getAuthId());
@@ -229,10 +226,8 @@ class Session implements AuthenticatorInterface
 
     /**
      * Logs the current user out.
-     *
-     * @return bool
      */
-    public function logout()
+    public function logout(): bool
     {
         if ($this->user === null) {
             return true;
@@ -266,39 +261,33 @@ class Session implements AuthenticatorInterface
     /**
      * Removes any remember-me tokens, if applicable.
      *
-     * @param int|null $id ID of user to forget.
-     *
-     * @return void
+     * @param int|string|null $userId ID of user to forget.
      */
-    public function forget(?int $id = null)
+    public function forget($userId = null): void
     {
-        if (empty($id)) {
+        if (empty($userId)) {
             if (! $this->loggedIn()) {
                 return;
             }
 
-            $id = $this->user->getAuthId();
+            $userId = $this->user->getAuthId();
         }
 
-        $this->rememberModel->purgeRememberTokens($id);
+        $this->rememberModel->purgeRememberTokens($userId);
     }
 
     /**
      * Returns the current user instance.
-     *
-     * @return Authenticatable|null
      */
-    public function getUser()
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
     /**
      * Updates the user's last active date.
-     *
-     * @return mixed
      */
-    public function recordActive()
+    public function recordActive(): void
     {
         if (! $this->user instanceof User) {
             throw new InvalidArgumentException(self::class . '::recordActive() requires logged in user before calling.');
@@ -330,9 +319,10 @@ class Session implements AuthenticatorInterface
         // Store it in the database
         $this->rememberModel->rememberUser($userId, $selector, hash('sha256', $validator), $expires);
 
-        // Save it to the user's browser in a cookie.
+        /** @var Response $response */
         $response = service('response');
 
+        // Save it to the user's browser in a cookie.
         // Create the cookie
         $response->setCookie(
             setting('Auth.sessionConfig')['rememberCookieName'],

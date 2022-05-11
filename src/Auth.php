@@ -6,9 +6,24 @@ use CodeIgniter\Router\RouteCollection;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
-use CodeIgniter\Shield\Interfaces\Authenticatable;
-use CodeIgniter\Shield\Interfaces\UserProvider;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\UserModel;
 
+/**
+ * AuthenticatorInterface:
+ *
+ * @method Result    attempt(array $credentials)
+ * @method Result    check(array $credentials)
+ * @method User|null getUser()
+ * @method bool      loggedIn()
+ * @method bool      login(User $user)
+ * @method void      loginById($userId)
+ * @method bool      logout()
+ * @method void      recordActive()
+ *
+ * Authenticators\Session:
+ * @method $this remember(bool $shouldRemember = true)
+ */
 class Auth
 {
     protected Authentication $authenticate;
@@ -18,8 +33,8 @@ class Auth
      */
     protected ?string $alias = null;
 
-    protected ?Authenticatable $user      = null;
-    protected ?UserProvider $userProvider = null;
+    protected ?User $user              = null;
+    protected ?UserModel $userProvider = null;
 
     public function __construct(Authentication $authenticate)
     {
@@ -28,8 +43,10 @@ class Auth
 
     /**
      * Sets the Authenticator alias that should be used for this request.
+     *
+     * @return $this
      */
-    public function setAuthenticator(?string $alias = null)
+    public function setAuthenticator(?string $alias = null): self
     {
         if (! empty($alias)) {
             $this->alias = $alias;
@@ -40,10 +57,8 @@ class Auth
 
     /**
      * Returns the current authentication class.
-     *
-     * @return AuthenticatorInterface
      */
-    public function getAuthenticator()
+    public function getAuthenticator(): AuthenticatorInterface
     {
         return $this->authenticate
             ->factory($this->alias);
@@ -51,10 +66,8 @@ class Auth
 
     /**
      * Returns the current user, if logged in.
-     *
-     * @return Authenticatable|null
      */
-    public function user()
+    public function user(): ?User
     {
         return $this->getAuthenticator()->loggedIn()
             ? $this->getAuthenticator()->getUser()
@@ -64,7 +77,7 @@ class Auth
     /**
      * Returns the current user's id, if logged in.
      *
-     * @return mixed|null
+     * @return int|string|null
      */
     public function id()
     {
@@ -73,7 +86,7 @@ class Auth
             : null;
     }
 
-    public function authenticate(array $credentials)
+    public function authenticate(array $credentials): Result
     {
         $response = $this->authenticate
             ->factory($this->alias)
@@ -94,11 +107,11 @@ class Auth
      *      - auth()->routes($routes);
      *      - auth()->routes($routes, ['except' => ['login', 'register']])
      */
-    public function routes(RouteCollection &$routes, array $config = [])
+    public function routes(RouteCollection &$routes, array $config = []): void
     {
         $authRoutes = config('AuthRoutes')->routes;
 
-        $routes->group('/', ['namespace' => 'CodeIgniter\Shield\Controllers'], static function ($routes) use ($authRoutes, $config) {
+        $routes->group('/', ['namespace' => 'CodeIgniter\Shield\Controllers'], static function (RouteCollection $routes) use ($authRoutes, $config) {
             foreach ($authRoutes as $name => $row) {
                 if (! isset($config['except']) || (isset($config['except']) && ! in_array($name, $config['except'], true))) {
                     foreach ($row as $params) {
@@ -116,10 +129,8 @@ class Auth
      * Returns the Model that is responsible for getting users.
      *
      * @throws AuthenticationException
-     *
-     * @return mixed|UserProvider
      */
-    public function getProvider()
+    public function getProvider(): UserModel
     {
         if ($this->userProvider !== null) {
             return $this->userProvider;
@@ -143,12 +154,11 @@ class Auth
      * own, additional, features on top of the required ones,
      * like "remember-me" functionality.
      *
-     * @param string $method
-     * @param array  $args
+     * @param string[] $args
      *
      * @throws AuthenticationException
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
     {
         $authenticate = $this->authenticate->factory($this->alias);
 

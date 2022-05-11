@@ -3,9 +3,11 @@
 namespace CodeIgniter\Shield\Config;
 
 use CodeIgniter\Config\BaseConfig;
+use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Authentication\Passwords\ValidatorInterface;
 
 class Auth extends BaseConfig
 {
@@ -14,7 +16,7 @@ class Auth extends BaseConfig
      * AUTHENTICATION
      * ////////////////////////////////////////////////////////////////////
      */
-    public $views = [
+    public array $views = [
         'login'                       => '\CodeIgniter\Shield\Views\login',
         'register'                    => '\CodeIgniter\Shield\Views\register',
         'forgotPassword'              => '\CodeIgniter\Shield\Views\forgot_password',
@@ -38,7 +40,7 @@ class Auth extends BaseConfig
      * various auth actions. If you need more flexibility you can
      * override the `getUrl()` method to apply any logic you may need.
      */
-    public $redirects = [
+    public array $redirects = [
         'register' => '/',
         'login'    => '/',
         'logout'   => 'login',
@@ -54,8 +56,10 @@ class Auth extends BaseConfig
      * Available actions with Shield:
      * - login:    CodeIgniter\Shield\Authentication\Actions\Email2FA
      * - register: CodeIgniter\Shield\Authentication\Actions\EmailActivator
+     *
+     * @var array<string, class-string<ActionInterface>|null>
      */
-    public $actions = [
+    public array $actions = [
         'login'    => null,
         'register' => null,
     ];
@@ -71,7 +75,7 @@ class Auth extends BaseConfig
      *
      * @var array<string, class-string<AuthenticatorInterface>>
      */
-    public $authenticators = [
+    public array $authenticators = [
         'tokens'  => AccessTokens::class,
         'session' => Session::class,
     ];
@@ -84,7 +88,7 @@ class Auth extends BaseConfig
      * According to the specs, this should be `Authorization`, but rare
      * circumstances might need a different header.
      */
-    public $authenticatorHeader = [
+    public array $authenticatorHeader = [
         'tokens' => 'Authorization',
     ];
 
@@ -95,7 +99,7 @@ class Auth extends BaseConfig
      * Determines the amount of time, in seconds, that an unused
      * access token can be used.
      */
-    public $unusedTokenLifetime = YEAR;
+    public int $unusedTokenLifetime = YEAR;
 
     /**
      * --------------------------------------------------------------------
@@ -104,7 +108,7 @@ class Auth extends BaseConfig
      * The Authenticator to use when none is specified.
      * Uses the $key from the $authenticators array above.
      */
-    public $defaultAuthenticator = 'session';
+    public string $defaultAuthenticator = 'session';
 
     /**
      * --------------------------------------------------------------------
@@ -117,7 +121,7 @@ class Auth extends BaseConfig
      * @var string[]
      * @phpstan-var list<string>
      */
-    public $authenticationChain = [
+    public array $authenticationChain = [
         'session',
         'tokens',
     ];
@@ -128,7 +132,7 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * Determines whether users can register for the site.
      */
-    public $allowRegistration = true;
+    public bool $allowRegistration = true;
 
     /**
      * --------------------------------------------------------------------
@@ -137,7 +141,7 @@ class Auth extends BaseConfig
      * If true, will always update the `last_active` datetime for the
      * logged in user on every page request.
      */
-    public $recordActiveDate = true;
+    public bool $recordActiveDate = true;
 
     /**
      * --------------------------------------------------------------------
@@ -149,7 +153,7 @@ class Auth extends BaseConfig
      * could be modified as the only method of login once an account
      * has been set up.
      */
-    public $allowMagicLinkLogins = true;
+    public bool $allowMagicLinkLogins = true;
 
     /**
      * --------------------------------------------------------------------
@@ -157,7 +161,7 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * Specifies the amount of time, in seconds, that a magic link is valid.
      */
-    public $magicLinkLifetime = 1 * HOUR;
+    public int $magicLinkLifetime = 1 * HOUR;
 
     /**
      * --------------------------------------------------------------------
@@ -173,7 +177,7 @@ class Auth extends BaseConfig
      *
      * @var array<string, bool|int|string>
      */
-    public $sessionConfig = [
+    public array $sessionConfig = [
         'field'              => 'logged_in',
         'allowRemembering'   => true,
         'rememberCookieName' => 'remember',
@@ -187,7 +191,7 @@ class Auth extends BaseConfig
      * The minimum length that a password must be to be accepted.
      * Recommended minimum value by NIST = 8 characters.
      */
-    public $minimumPasswordLength = 8;
+    public int $minimumPasswordLength = 8;
 
     /**
      * --------------------------------------------------------------------
@@ -197,8 +201,10 @@ class Auth extends BaseConfig
      * classes, each getting the opportunity to pass/fail the password.
      * You can add custom classes as long as they adhere to the
      * CodeIgniter\Shield\Authentication\Passwords\ValidatorInterface.
+     *
+     * @var class-string<ValidatorInterface>[]
      */
-    public $passwordValidators = [
+    public array $passwordValidators = [
         'CodeIgniter\Shield\Authentication\Passwords\CompositionValidator',
         'CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator',
         'CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator',
@@ -211,7 +217,7 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * Fields that are available to be used as credentials for login.
      */
-    public $validFields = [
+    public array $validFields = [
         'email',
         'username',
     ];
@@ -230,7 +236,7 @@ class Auth extends BaseConfig
      * For example:
      *     $personalFields = ['firstname', 'lastname'];
      */
-    public $personalFields = [];
+    public array $personalFields = [];
 
     /**
      * --------------------------------------------------------------------
@@ -264,7 +270,7 @@ class Auth extends BaseConfig
      * To disable similarity checking set the value to 0.
      *     public $maxSimilarity = 0;
      */
-    public $maxSimilarity = 50;
+    public int $maxSimilarity = 50;
 
     /**
      * --------------------------------------------------------------------
@@ -279,7 +285,7 @@ class Auth extends BaseConfig
      * If you choose to use any ARGON algorithm, then you might want to
      * uncomment the "ARGON2i/D Algorithm" options to suit your needs
      */
-    public $hashAlgorithm = PASSWORD_DEFAULT;
+    public string $hashAlgorithm = PASSWORD_DEFAULT;
 
     /**
      * --------------------------------------------------------------------
@@ -293,10 +299,10 @@ class Auth extends BaseConfig
      * and the power of your hardware, you might want to increase the
      * cost. This makes the hashing process takes longer.
      */
-    public $hashMemoryCost = 2048;  // PASSWORD_ARGON2_DEFAULT_MEMORY_COST;
+    public int $hashMemoryCost = 2048;  // PASSWORD_ARGON2_DEFAULT_MEMORY_COST;
 
-    public $hashTimeCost = 4;       // PASSWORD_ARGON2_DEFAULT_TIME_COST;
-    public $hashThreads  = 4;        // PASSWORD_ARGON2_DEFAULT_THREADS;
+    public int $hashTimeCost = 4;       // PASSWORD_ARGON2_DEFAULT_TIME_COST;
+    public int $hashThreads  = 4;        // PASSWORD_ARGON2_DEFAULT_THREADS;
 
     /**
      * --------------------------------------------------------------------
@@ -311,7 +317,7 @@ class Auth extends BaseConfig
      *
      * Valid range is between 4 - 31.
      */
-    public $hashCost = 10;
+    public int $hashCost = 10;
 
     /**
      * ////////////////////////////////////////////////////////////////////
@@ -327,11 +333,11 @@ class Auth extends BaseConfig
      * By default, this is the included UserModel, which
      * works with any of the database engines supported by CodeIgniter.
      * You can change it as long as they adhere to the
-     * CodeIgniter\Shield\Interfaces\UserProvider.
+     * CodeIgniter\Shield\Models\UserModel.
      *
-     * @var class-string<\CodeIgniter\Shield\Interfaces\UserProvider>
+     * @var class-string<\CodeIgniter\Shield\Models\UserModel>
      */
-    public $userProvider = 'CodeIgniter\Shield\Models\UserModel';
+    public string $userProvider = 'CodeIgniter\Shield\Models\UserModel';
 
     /**
      * Returns the URL that a user should be redirected

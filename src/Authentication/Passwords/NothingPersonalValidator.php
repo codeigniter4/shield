@@ -2,7 +2,7 @@
 
 namespace CodeIgniter\Shield\Authentication\Passwords;
 
-use CodeIgniter\Entity\Entity;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Result;
 
 /**
@@ -17,10 +17,8 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      * or the user's email. Otherwise, it returns false.
      * If true is returned the password will be passed to next validator.
      * If false is returned the validation process will be immediately stopped.
-     *
-     * @param mixed $user
      */
-    public function check(string $password, $user = null): Result
+    public function check(string $password, ?User $user = null): Result
     {
         $password = \strtolower($password);
 
@@ -52,12 +50,9 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      * isNotPersonal() returns true if no personal information can be found, or false
      * if such info is found.
      *
-     * @param string $password
-     * @param Entity $user
-     *
      * @return bool
      */
-    protected function isNotPersonal($password, $user)
+    protected function isNotPersonal(string $password, ?User $user)
     {
         $userName = \strtolower($user->username);
         $email    = \strtolower($user->email);
@@ -90,11 +85,10 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
 
             // Get any other "personal" fields defined in config
             $personalFields = $this->config->personalFields;
-            if (! empty($personalFields)) {
-                foreach ($personalFields as $value) {
-                    if (! empty($user->{$value})) {
-                        $needles[] = \strtolower($user->{$value});
-                    }
+
+            foreach ($personalFields as $value) {
+                if (! empty($user->{$value})) {
+                    $needles[] = \strtolower($user->{$value});
                 }
             }
 
@@ -157,12 +151,9 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      * A $maxSimilarity value of 0 (zero) returns true without making a comparison.
      * In other words, 0 (zero) turns off similarity testing.
      *
-     * @param string $password
-     * @param Entity $user
-     *
      * @return bool
      */
-    protected function isNotSimilar($password, $user)
+    protected function isNotSimilar(string $password, ?User $user)
     {
         $maxSimilarity = (float) $this->config->maxSimilarity;
         // sanity checking - working range 1-100, 0 is off

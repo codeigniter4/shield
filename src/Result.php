@@ -37,18 +37,13 @@ class Result
 
     /**
      * Was the result a success?
-     *
-     * @return bool
      */
-    public function isOK()
+    public function isOK(): bool
     {
         return $this->success;
     }
 
-    /**
-     * @return string
-     */
-    public function reason()
+    public function reason(): ?string
     {
         return $this->reason;
     }

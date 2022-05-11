@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Authentication\Actions;
 
 use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\HTTP\Response;
 
 /**
  * Interface ActionInterface
@@ -18,14 +19,14 @@ interface ActionInterface
      * This might be asking for the user's email to reset a password,
      * or asking for a cell-number for a 2FA.
      *
-     * @return mixed
+     * @return Response|string
      */
     public function show();
 
     /**
      * Processes the form that was displayed in the previous form.
      *
-     * @return mixed
+     * @return Response|string
      */
     public function handle(IncomingRequest $request);
 
@@ -35,7 +36,7 @@ interface ActionInterface
      * from clicking the 'confirm my email' action or
      * following entering a code sent in an SMS.
      *
-     * @return mixed
+     * @return Response|string
      */
     public function verify(IncomingRequest $request);
 }

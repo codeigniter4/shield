@@ -4,6 +4,7 @@ namespace CodeIgniter\Shield\Authentication\Actions;
 
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 
 class EmailActivator implements ActionInterface
@@ -12,10 +13,8 @@ class EmailActivator implements ActionInterface
      * Shows the initial screen to the user telling them
      * that an email was just sent to them with a link
      * to confirm their email address.
-     *
-     * @return mixed
      */
-    public function show()
+    public function show(): string
     {
         $user = auth()->user();
 
@@ -47,13 +46,11 @@ class EmailActivator implements ActionInterface
             ->send();
 
         // Display the info page
-        echo view(setting('Auth.views')['action_email_activate_show'], ['user' => $user]);
+        return view(setting('Auth.views')['action_email_activate_show'], ['user' => $user]);
     }
 
     /**
      * This method is unused.
-     *
-     * @return mixed
      */
     public function handle(IncomingRequest $request)
     {
@@ -64,7 +61,7 @@ class EmailActivator implements ActionInterface
      * Verifies the email address and code matches an
      * identity we have for that user.
      *
-     * @return mixed
+     * @return RedirectResponse|string
      */
     public function verify(IncomingRequest $request)
     {
