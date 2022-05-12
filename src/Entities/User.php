@@ -48,22 +48,16 @@ class User extends Entity
     /**
      * Returns the first identity of the given $type for this user.
      *
-     * @phpstan-param 'email_2fa'|'email_activate' $type
+     * @phpstan-param 'email_2fa'|'email_activate'|'email_password' $type
      */
     public function getIdentity(string $type): ?UserIdentity
     {
-        $identities = $this->identitiesOfType($type);
+        $identities = $this->getIdentities($type);
 
         return count($identities) ? array_shift($identities) : null;
     }
 
-    /**
-     * Accessor method for this user's UserIdentity objects.
-     * Will populate if they don't exist.
-     *
-     * @return UserIdentity[]
-     */
-    public function getIdentities(): array
+    private function populateIdentities(): void
     {
         if ($this->identities === null) {
             /** @var UserIdentityModel $identityModel */
@@ -71,20 +65,27 @@ class User extends Entity
 
             $this->identities = $identityModel->getIdentities($this->id);
         }
-
-        return $this->identities;
     }
 
     /**
-     * Returns only the user identities that match the given $type.
+     * Accessor method for this user's UserIdentity objects.
+     * Will populate if they don't exist.
+     *
+     * @param string $type 'all' returns all identities.
      *
      * @return UserIdentity[]
      */
-    public function identitiesOfType(string $type): array
+    public function getIdentities(string $type = 'all'): array
     {
+        $this->populateIdentities();
+
+        if ($type === 'all') {
+            return $this->identities;
+        }
+
         $identities = [];
 
-        foreach ($this->getIdentities() as $identity) {
+        foreach ($this->identities as $identity) {
             if ($identity->type === $type) {
                 $identities[] = $identity;
             }

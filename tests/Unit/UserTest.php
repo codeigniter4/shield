@@ -44,12 +44,12 @@ final class UserTest extends TestCase
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
 
-        $identities = $this->user->identitiesOfType('access_token');
+        $identities = $this->user->getIdentities('access_token');
+
         $this->assertCount(1, $identities);
         $this->assertInstanceOf(UserIdentity::class, $identities[0]);
         $this->assertSame('access_token', $identities[0]->type);
-
-        $this->assertEmpty($this->user->identitiesOfType('foo'));
+        $this->assertEmpty($this->user->getIdentities('foo'));
     }
 
     public function testModelWithIdentities()
