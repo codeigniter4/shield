@@ -72,6 +72,7 @@ class UserIdentityModel extends Model
         return $this
             ->where('user_id', $userId)
             ->where('type', 'access_token')
+            ->orderBy($this->primaryKey)
             ->asObject(AccessToken::class)
             ->findAll();
     }
@@ -94,7 +95,7 @@ class UserIdentityModel extends Model
      */
     public function getIdentities($userId): array
     {
-        return $this->where('user_id', $userId)->findAll();
+        return $this->where('user_id', $userId)->orderBy($this->primaryKey)->findAll();
     }
 
     /**
@@ -104,7 +105,7 @@ class UserIdentityModel extends Model
      */
     public function getIdentitiesByUserIds(array $userIds): array
     {
-        return $this->whereIn('user_id', $userIds)->findAll();
+        return $this->whereIn('user_id', $userIds)->orderBy($this->primaryKey)->findAll();
     }
 
     /**
