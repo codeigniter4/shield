@@ -119,10 +119,7 @@ class User extends Entity
      */
     public function getEmailIdentity(): ?UserIdentity
     {
-        /** @var UserIdentityModel $identityModel */
-        $identityModel = model(UserIdentityModel::class);
-
-        return $identityModel->getIdentityByType($this->id, 'email_password');
+        return $this->getIdentity('email_password');
     }
 
     /**
