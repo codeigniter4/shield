@@ -93,7 +93,7 @@ class Email2FA implements ActionInterface
 
         // Token mismatch? Let them try again...
         if (empty($token) || $token !== $identity->secret) {
-            $_SESSION['error'] = lang('Auth.invalid2FAToken');
+            session()->setFlashdata('error', lang('Auth.invalid2FAToken'));
 
             return view(setting('Auth.views')['action_email_2fa_verify']);
         }

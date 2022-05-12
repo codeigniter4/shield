@@ -74,7 +74,7 @@ class EmailActivator implements ActionInterface
 
         // No match - let them try again.
         if ($identity->secret !== $token) {
-            $_SESSION['error'] = lang('Auth.invalidActivateToken');
+            session()->setFlashdata('error', lang('Auth.invalidActivateToken'));
 
             return view(setting('Auth.views')['action_email_activate_show']);
         }
