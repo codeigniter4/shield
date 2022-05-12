@@ -35,6 +35,7 @@ final class UserTest extends TestCase
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
 
         $identities = $this->user->identities;
+
         $this->assertCount(2, $identities);
     }
 
@@ -54,7 +55,6 @@ final class UserTest extends TestCase
     public function testModelWithIdentities()
     {
         fake(UserModel::class);
-
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
 
@@ -62,6 +62,7 @@ final class UserTest extends TestCase
         model(UserModel::class)->withIdentities()->findAll(); // @phpstan-ignore-line
 
         $identities = $this->user->identities;
+
         $this->assertCount(2, $identities);
     }
 
@@ -76,6 +77,7 @@ final class UserTest extends TestCase
         fake(LoginModel::class, ['email' => $this->user->email, 'user_id' => $this->user->id, 'success' => false]);
 
         $last = $this->user->lastLogin();
+
         $this->assertInstanceOf(Login::class, $last);
         $this->assertSame($login->id, $last->id);
         $this->assertInstanceOf(Time::class, $last->date);
