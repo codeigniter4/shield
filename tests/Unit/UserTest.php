@@ -68,13 +68,22 @@ final class UserTest extends TestCase
 
     public function testLastLogin()
     {
-        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'email_password', 'secret' => 'foo@example.com']);
+        fake(
+            UserIdentityModel::class,
+            ['user_id' => $this->user->id, 'type' => 'email_password', 'secret' => 'foo@example.com']
+        );
 
         // No logins found.
         $this->assertNull($this->user->lastLogin());
 
-        $login = fake(LoginModel::class, ['email' => $this->user->email, 'user_id' => $this->user->id]);
-        fake(LoginModel::class, ['email' => $this->user->email, 'user_id' => $this->user->id, 'success' => false]);
+        $login = fake(
+            LoginModel::class,
+            ['email' => $this->user->email, 'user_id' => $this->user->id]
+        );
+        fake(
+            LoginModel::class,
+            ['email' => $this->user->email, 'user_id' => $this->user->id, 'success' => false]
+        );
 
         $last = $this->user->lastLogin();
 
