@@ -198,15 +198,6 @@ class User extends Entity
     }
 
     /**
-     * Returns the name of the column used to
-     * uniquely identify this user, typically 'id'.
-     */
-    public function getAuthIdColumn(): string
-    {
-        return 'id';
-    }
-
-    /**
      * Returns the unique identifier of
      * the object for authentication purposes.
      * Typically the user's id.
@@ -215,8 +206,7 @@ class User extends Entity
      */
     public function getAuthId()
     {
-        $column = $this->getAuthIdColumn();
-        $id     = $this->{$column} ?? null;
+        $id = $this->id;
 
         assert($id !== null, 'User ID must not be null.');
 
@@ -224,22 +214,11 @@ class User extends Entity
     }
 
     /**
-     * Returns the name of the column with the
-     * email address of this user.
-     */
-    public function getAuthEmailColumn(): string
-    {
-        return 'email';
-    }
-
-    /**
      * Returns the email address for this user.
      */
     public function getAuthEmail(): ?string
     {
-        $column = $this->getAuthEmailColumn();
-
-        return $this->{$column} ?? null;
+        return $this->getEmail();
     }
 
     /**
@@ -252,33 +231,25 @@ class User extends Entity
 
     /**
      * Returns the "remember me" token for this user.
+     *
+     * @TODO Do we need this method?
      */
     public function getRememberToken(): ?string
     {
-        $column = $this->getRememberColumn();
-
-        return $this->{$column} ?? null;
+        return $this->remember_token;
     }
 
     /**
      * Sets the "remember-me" token.
      *
      * @return $this
+     *
+     * @TODO Do we need this method?
      */
     public function setRememberToken(string $value): self
     {
-        $column = $this->getRememberColumn();
-
-        $this->{$column} = $value;
+        $this->remember_token = $value;
 
         return $this;
-    }
-
-    /**
-     * Returns the column name that stores the remember-me value.
-     */
-    public function getRememberColumn(): string
-    {
-        return 'remember_token';
     }
 }
