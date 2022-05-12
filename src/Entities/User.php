@@ -110,10 +110,7 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
      */
     public function getEmailIdentity()
     {
-        /** @var UserIdentityModel $identityModel */
-        $identityModel = model(UserIdentityModel::class);
-
-        return $identityModel->getIdentityByType($this->id, 'email_password');
+        return $this->getIdentity('email_password');
     }
 
     /**
