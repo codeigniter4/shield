@@ -391,7 +391,7 @@ class Session implements AuthenticatorInterface
         $validator = bin2hex(random_bytes(20));
         $expires   = $this->calcExpires();
 
-        $token = $selector . ':' . $validator;
+        $rawToken = $selector . ':' . $validator;
 
         // Store it in the database.
         $this->rememberModel->rememberUser(
@@ -401,7 +401,7 @@ class Session implements AuthenticatorInterface
             $expires
         );
 
-        $this->setRememberMeCookie($token);
+        $this->setRememberMeCookie($rawToken);
     }
 
     private function calcExpires(): string
@@ -412,7 +412,7 @@ class Session implements AuthenticatorInterface
         );
     }
 
-    private function setRememberMeCookie(string $token): void
+    private function setRememberMeCookie(string $rawToken): void
     {
         /** @var Response $response */
         $response = service('response');
@@ -421,7 +421,7 @@ class Session implements AuthenticatorInterface
         // Create the cookie
         $response->setCookie(
             setting('Auth.sessionConfig')['rememberCookieName'],
-            $token,                                             // Value
+            $rawToken,                                             // Value
             setting('Auth.sessionConfig')['rememberLength'],    // # Seconds until it expires
             setting('App.cookieDomain'),
             setting('App.cookiePath'),
