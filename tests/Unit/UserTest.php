@@ -35,6 +35,7 @@ final class UserTest extends TestCase
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
 
         $identities = $this->user->identities;
+
         $this->assertCount(2, $identities);
     }
 
@@ -43,18 +44,17 @@ final class UserTest extends TestCase
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
 
-        $identities = $this->user->identitiesOfType('access_token');
+        $identities = $this->user->getIdentities('access_token');
+
         $this->assertCount(1, $identities);
         $this->assertInstanceOf(UserIdentity::class, $identities[0]);
         $this->assertSame('access_token', $identities[0]->type);
-
-        $this->assertEmpty($this->user->identitiesOfType('foo'));
+        $this->assertEmpty($this->user->getIdentities('foo'));
     }
 
     public function testModelWithIdentities()
     {
         fake(UserModel::class);
-
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
 
@@ -62,20 +62,31 @@ final class UserTest extends TestCase
         model(UserModel::class)->withIdentities()->findAll(); // @phpstan-ignore-line
 
         $identities = $this->user->identities;
+
         $this->assertCount(2, $identities);
     }
 
     public function testLastLogin()
     {
-        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'email_password', 'secret' => 'foo@example.com']);
+        fake(
+            UserIdentityModel::class,
+            ['user_id' => $this->user->id, 'type' => 'email_password', 'secret' => 'foo@example.com']
+        );
 
         // No logins found.
         $this->assertNull($this->user->lastLogin());
 
-        $login = fake(LoginModel::class, ['email' => $this->user->email, 'user_id' => $this->user->id]);
-        fake(LoginModel::class, ['email' => $this->user->email, 'user_id' => $this->user->id, 'success' => false]);
+        $login = fake(
+            LoginModel::class,
+            ['email' => $this->user->email, 'user_id' => $this->user->id]
+        );
+        fake(
+            LoginModel::class,
+            ['email' => $this->user->email, 'user_id' => $this->user->id, 'success' => false]
+        );
 
         $last = $this->user->lastLogin();
+
         $this->assertInstanceOf(Login::class, $last);
         $this->assertSame($login->id, $last->id);
         $this->assertInstanceOf(Time::class, $last->date);
