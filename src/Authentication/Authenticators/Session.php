@@ -126,7 +126,7 @@ class Session implements AuthenticatorInterface
 
         // Remove the password from credentials so we can
         // check afterword.
-        $givenPassword = $credentials['password'] ?? null;
+        $givenPassword = $credentials['password'];
         unset($credentials['password']);
 
         // Find the existing user
