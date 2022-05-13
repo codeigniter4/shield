@@ -5,6 +5,7 @@ namespace CodeIgniter\Shield\Authentication\Actions;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 
@@ -21,6 +22,13 @@ class EmailActivator implements ActionInterface
 
         if ($user === null) {
             throw new RuntimeException('Cannot get the User.');
+        }
+
+        $userEmail = $user->getAuthEmail();
+        if ($userEmail === null) {
+            throw new LogicException(
+                'Email Activation needs user email address. user_id: ' . $user->getAuthId()
+            );
         }
 
         /** @var UserIdentityModel $identityModel */
@@ -44,7 +52,7 @@ class EmailActivator implements ActionInterface
         // Send the email
         helper('email');
         $return = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
-            ->setTo($user->getAuthEmail())
+            ->setTo($userEmail)
             ->setSubject(lang('Auth.emailActivateSubject'))
             ->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]))
             ->send();
