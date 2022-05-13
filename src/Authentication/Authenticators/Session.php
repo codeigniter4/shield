@@ -16,6 +16,7 @@ use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
 use Exception;
 use InvalidArgumentException;
+use stdClass;
 
 class Session implements AuthenticatorInterface
 {
@@ -65,11 +66,11 @@ class Session implements AuthenticatorInterface
 
         $ipAddress = $request->getIPAddress();
         $userAgent = $request->getUserAgent();
-        $result    = $this->check($credentials);
 
+        $result = $this->check($credentials);
         if (! $result->isOK()) {
             // Always record a login attempt, whether success or not.
-            $this->loginModel->recordLoginAttempt($credentials['email'] ?? $credentials['username'], false, $ipAddress, $userAgent);
+            $this->recordLoginAttempt($credentials, false, $ipAddress, $userAgent);
 
             $this->user = null;
 
@@ -85,9 +86,28 @@ class Session implements AuthenticatorInterface
 
         $this->login($user);
 
-        $this->loginModel->recordLoginAttempt($credentials['email'] ?? $credentials['username'], true, $ipAddress, $userAgent, $this->user->getAuthId());
+        $this->recordLoginAttempt($credentials, true, $ipAddress, $userAgent, $user->getAuthId());
 
         return $result;
+    }
+
+    /**
+     * @param int|string|null $userId
+     */
+    private function recordLoginAttempt(
+        array $credentials,
+        bool $success,
+        string $ipAddress,
+        string $userAgent,
+        $userId = null
+    ): void {
+        $this->loginModel->recordLoginAttempt(
+            $credentials['email'] ?? $credentials['username'],
+            $success,
+            $ipAddress,
+            $userAgent,
+            $userId
+        );
     }
 
     /**
@@ -163,7 +183,64 @@ class Session implements AuthenticatorInterface
             return $this->user instanceof User;
         }
 
+        // Check remember-me token.
+        if (setting('Auth.sessionConfig')['allowRemembering']) {
+            return $this->checkRememberMe();
+        }
+
         return false;
+    }
+
+    private function checkRememberMe(): bool
+    {
+        // Get remember-me token.
+        $remember = $this->getRememberMeToken();
+        if ($remember === null) {
+            return false;
+        }
+
+        // Check the remember-me token.
+        $token = $this->checkRememberMeToken($remember);
+        if ($token === false) {
+            return false;
+        }
+
+        $user = $this->provider->findById($token->user_id);
+
+        $this->login($user);
+
+        $this->refreshRememberMeToken($token);
+
+        return true;
+    }
+
+    private function getRememberMeToken(): ?string
+    {
+        helper('cookie');
+
+        return get_cookie('remember');
+    }
+
+    /**
+     * @return false|stdClass
+     */
+    private function checkRememberMeToken(string $remember)
+    {
+        [$selector, $validator] = explode(':', $remember);
+
+        $hashedValidator = hash('sha256', $validator);
+
+        $token = $this->rememberModel->getRememberToken($selector);
+
+        if ($token === null) {
+            return false;
+        }
+
+        if (hash_equals($token->hashedValidator, $hashedValidator) === false) {
+            return false;
+        }
+
+        return $token;
     }
 
     /**
@@ -195,6 +272,11 @@ class Session implements AuthenticatorInterface
 
             // Reset so it doesn't mess up future calls.
             $this->shouldRemember = false;
+        } elseif ($this->getRememberMeToken()) {
+            // Remove incoming remember-me token
+            delete_cookie(setting('Auth.sessionConfig')['rememberCookieName']);
+
+            // @TODO delete the token record.
         }
 
         // We'll give a 20% chance to need to do a purge since we
@@ -312,13 +394,31 @@ class Session implements AuthenticatorInterface
     {
         $selector  = bin2hex(random_bytes(12));
         $validator = bin2hex(random_bytes(20));
-        $expires   = date('Y-m-d H:i:s', time() + setting('Auth.sessionConfig')['rememberLength']);
+        $expires   = $this->calcExpires();
 
-        $token = $selector . ':' . $validator;
+        $rawToken = $selector . ':' . $validator;
 
-        // Store it in the database
-        $this->rememberModel->rememberUser($userId, $selector, hash('sha256', $validator), $expires);
+        // Store it in the database.
+        $this->rememberModel->rememberUser(
+            $userId,
+            $selector,
+            $this->hashValidator($validator),
+            $expires
+        );
 
+        $this->setRememberMeCookie($rawToken);
+    }
+
+    private function calcExpires(): string
+    {
+        return date(
+            'Y-m-d H:i:s',
+            time() + setting('Auth.sessionConfig')['rememberLength']
+        );
+    }
+
+    private function setRememberMeCookie(string $rawToken): void
+    {
         /** @var Response $response */
         $response = service('response');
 
@@ -326,7 +426,7 @@ class Session implements AuthenticatorInterface
         // Create the cookie
         $response->setCookie(
             setting('Auth.sessionConfig')['rememberCookieName'],
-            $token,                                             // Value
+            $rawToken,                                             // Value
             setting('Auth.sessionConfig')['rememberLength'],    // # Seconds until it expires
             setting('App.cookieDomain'),
             setting('App.cookiePath'),
@@ -334,5 +434,28 @@ class Session implements AuthenticatorInterface
             false,                          // Only send over HTTPS?
             true                            // Hide from Javascript?
         );
+    }
+
+    /**
+     * Hash remember-me validator
+     */
+    private function hashValidator(string $validator): string
+    {
+        return hash('sha256', $validator);
+    }
+
+    private function refreshRememberMeToken(stdClass $token)
+    {
+        // Update validator.
+        $validator = bin2hex(random_bytes(20));
+
+        $token->validator = $this->hashValidator($validator);
+        $token->expires   = $this->calcExpires();
+
+        $this->rememberModel->updateRememberValidator($token);
+
+        $rawToken = $token->selector . ':' . $validator;
+
+        $this->setRememberMeCookie($rawToken);
     }
 }

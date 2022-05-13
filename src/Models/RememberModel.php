@@ -4,6 +4,7 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
 use DateTime;
+use stdClass;
 
 class RememberModel extends Model
 {
@@ -26,14 +27,14 @@ class RememberModel extends Model
      *
      * @return mixed
      */
-    public function rememberUser($userId, string $selector, string $validator, string $expires)
+    public function rememberUser($userId, string $selector, string $hashedValidator, string $expires)
     {
         $expires = new DateTime($expires);
 
         return $this->insert([
             'user_id'         => $userId,
             'selector'        => $selector,
-            'hashedValidator' => $validator,
+            'hashedValidator' => $hashedValidator,
             'expires'         => $expires->format('Y-m-d H:i:s'),
         ]);
     }
@@ -55,10 +56,9 @@ class RememberModel extends Model
      *
      * @return mixed
      */
-    public function updateRememberValidator(string $selector, string $validator)
+    public function updateRememberValidator(stdClass $token)
     {
-        return $this->where('selector', $selector)
-            ->update(['hashedValidator' => hash('sha256', $validator)]);
+        return $this->save($token);
     }
 
     /**

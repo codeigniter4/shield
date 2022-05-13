@@ -9,9 +9,9 @@
 			<div class="card-body">
 				<h5 class="card-title mb-5"><?= lang('Auth.login') ?></h5>
 
-			    <?php if (session('error') !== null) : ?>
-			    <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
-			    <?php endif ?>
+				<?php if (session('error') !== null) : ?>
+				<div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+				<?php endif ?>
 
 				<form action="<?= route_to('login') ?>" method="post">
 					<?= csrf_field() ?>
@@ -26,13 +26,23 @@
 						<input type="password" class="form-control" name="password" inputmode="text" autocomplete="current-password" placeholder="<?= lang('Auth.password') ?>" required />
 					</div>
 
+                    <!-- Remember me -->
+					<?php if (setting('Auth.sessionConfig')['allowRemembering']): ?>
+						<div class="form-check">
+							<label class="form-check-label">
+								<input type="checkbox" name="remember" class="form-check-input" <?php if (old('remember')): ?> checked<?php endif ?>>
+								<?= lang('Auth.rememberMe') ?>
+							</label>
+						</div>
+					<?php endif; ?>
+
 					<div class="d-grid col-8 mx-auto m-3">
 						<button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.login') ?></button>
 					</div>
 
-                    <?php if (setting('Auth.allowMagicLinkLogins')) : ?>
-                        <p class="text-center"><?= lang('Auth.forgotPassword') ?> <a href="<?= route_to('magic-link') ?>"><?= lang('Auth.useMagicLink') ?></a></p>
-                    <?php endif ?>
+					<?php if (setting('Auth.allowMagicLinkLogins')) : ?>
+						<p class="text-center"><?= lang('Auth.forgotPassword') ?> <a href="<?= route_to('magic-link') ?>"><?= lang('Auth.useMagicLink') ?></a></p>
+					<?php endif ?>
 
 					<?php if (setting('Auth.allowRegistration')) : ?>
 						<p class="text-center"><?= lang('Auth.needAccount') ?> <a href="<?= route_to('register') ?>"><?= lang('Auth.register') ?></a></p>
