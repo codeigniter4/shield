@@ -272,6 +272,13 @@ class Session implements AuthenticatorInterface
 
             // Reset so it doesn't mess up future calls.
             $this->shouldRemember = false;
+        } else {
+            // Remove incoming remember-me token
+            if ($this->getRememberMeToken()) {
+                delete_cookie(setting('Auth.sessionConfig')['rememberCookieName']);
+
+                // @TODO delete the token record.
+            }
         }
 
         // We'll give a 20% chance to need to do a purge since we
