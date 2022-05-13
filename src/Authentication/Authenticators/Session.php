@@ -95,6 +95,9 @@ class Session implements AuthenticatorInterface
         $actionClass = setting('Auth.actions')['login'] ?? null;
         if (! empty($actionClass)) {
             session()->set('auth_action', $actionClass);
+        } else {
+            // a successful login
+            Events::trigger('login', $user);
         }
 
         return $result;
