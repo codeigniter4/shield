@@ -63,11 +63,11 @@ class Session implements AuthenticatorInterface
         $request   = service('request');
         $ipAddress = $request->getIPAddress();
         $userAgent = $request->getUserAgent();
-        $result    = $this->check($credentials);
 
+        $result = $this->check($credentials);
         if (! $result->isOK()) {
             // Always record a login attempt, whether success or not.
-            $this->loginModel->recordLoginAttempt($credentials['email'] ?? $credentials['username'], false, $ipAddress, $userAgent);
+            $this->recordLoginAttempt($credentials, false, $ipAddress, $userAgent);
 
             $this->user = null;
 
@@ -80,9 +80,28 @@ class Session implements AuthenticatorInterface
 
         $this->login($result->extraInfo());
 
-        $this->loginModel->recordLoginAttempt($credentials['email'] ?? $credentials['username'], true, $ipAddress, $userAgent, $this->user->getAuthId());
+        $this->recordLoginAttempt($credentials, true, $ipAddress, $userAgent, $user->getAuthId());
 
         return $result;
+    }
+
+    /**
+     * @param int|string|null $userId
+     */
+    private function recordLoginAttempt(
+        array $credentials,
+        bool $success,
+        string $ipAddress,
+        string $userAgent,
+        $userId = null
+    ): void {
+        $this->loginModel->recordLoginAttempt(
+            $credentials['email'] ?? $credentials['username'],
+            $success,
+            $ipAddress,
+            $userAgent,
+            $userId
+        );
     }
 
     /**
