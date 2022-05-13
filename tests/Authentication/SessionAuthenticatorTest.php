@@ -59,6 +59,32 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($this->user->id, $authUser->getAuthId());
     }
 
+    public function testLoggedInWithRememberCookie()
+    {
+        unset($_SESSION['logged_in']);
+
+        $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
+
+        // Insert remember-me token.
+        /** @var RememberModel $rememberModel */
+        $rememberModel = model(RememberModel::class);
+        $selector      = 'selector';
+        $validator     = 'validator';
+        $expires       = date('Y-m-d H:i:s', time() + setting('Auth.sessionConfig')['rememberLength']);
+        $rememberModel->rememberUser($this->user->id, $selector, hash('sha256', $validator), $expires);
+
+        // Set Cookie value for remember-me.
+        $token               = $selector . ':' . $validator;
+        $_COOKIE['remember'] = $token;
+
+        $this->assertTrue($this->auth->loggedIn());
+
+        $authUser = $this->auth->getUser();
+
+        $this->assertInstanceOf(User::class, $authUser);
+        $this->assertSame($this->user->id, $authUser->getAuthId());
+    }
+
     public function testLoginNoRemember()
     {
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
