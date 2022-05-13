@@ -39,8 +39,7 @@ class EmailActivator implements ActionInterface
 
         // Send the email
         helper('email');
-        $emailer = emailer();
-        $ret     = $emailer->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
+        $return = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
             ->setTo($user->getAuthEmail())
             ->setSubject(lang('Auth.emailActivateSubject'))
             ->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]))
