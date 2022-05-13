@@ -45,7 +45,7 @@ class EmailActivator implements ActionInterface
             ->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]))
             ->send();
 
-        if ($ret === false) {
+        if ($return === false) {
             throw new RuntimeException('Cannot send email for user: ' . $user->getAuthEmail());
         }
 
