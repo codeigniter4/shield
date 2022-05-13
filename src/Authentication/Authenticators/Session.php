@@ -79,7 +79,7 @@ class Session implements AuthenticatorInterface
             // Fire an event on failure so devs have the chance to
             // let them know someone attempted to login to their account
             unset($credentials['password']);
-            Events::trigger('failedLoginAttempt', $credentials);
+            Events::trigger('failedLogin', $credentials);
 
             return $result;
         }
