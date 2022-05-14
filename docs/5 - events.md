@@ -18,14 +18,14 @@ Events::trigger('didRegister', $user);
 Events::on('didRegister', 'SomeLibrary::handleRegister');
 ```
 
-#### didLogin
+#### login
 
 Fired immediately after a successful login. The only argument is the `User` entity.
 
 ```php
-Events::trigger('didLogin', $user);
+Events::trigger('login', $user);
 
-Events::on('didLogin', 'SomeLibrary::handleLogin');
+Events::on('login', 'SomeLibrary::handleLogin');
 ```
 
 #### failedLogin
@@ -42,6 +42,9 @@ Events::on('failedLogin', function($credentials) {
 });
 
 // Outputs:
-
 ['email' => 'foo@example.com'];
 ```
+
+#### logout
+
+Fired immediately after a successful logout. The only argument is the `User` entity.
