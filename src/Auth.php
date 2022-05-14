@@ -10,19 +10,16 @@ use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
 
 /**
- * AuthenticatorInterface:
- *
  * @method Result    attempt(array $credentials)
  * @method Result    check(array $credentials)
+ * @method bool      checkAction(string $token)            [Session]
  * @method User|null getUser()
  * @method bool      loggedIn()
  * @method bool      login(User $user)
  * @method void      loginById($userId)
  * @method bool      logout()
  * @method void      recordActiveDate()
- *
- * Authenticators\Session:
- * @method $this remember(bool $shouldRemember = true)
+ * @method $this     remember(bool $shouldRemember = true) [Session]
  */
 class Auth
 {

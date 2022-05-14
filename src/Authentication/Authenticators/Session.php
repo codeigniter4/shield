@@ -12,6 +12,7 @@ use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\RememberModel;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
 use Exception;
@@ -38,6 +39,7 @@ class Session implements AuthenticatorInterface
     public function __construct(UserModel $provider)
     {
         helper('setting');
+
         $this->provider      = $provider;
         $this->loginModel    = model(LoginModel::class); // @phpstan-ignore-line
         $this->rememberModel = model(RememberModel::class); // @phpstan-ignore-line
@@ -101,6 +103,33 @@ class Session implements AuthenticatorInterface
         }
 
         return $result;
+    }
+
+    public function checkAction(string $token): bool
+    {
+        $user = $this->loggedIn()
+            ? $this->getUser()
+            : null;
+
+        $identity = $user->getIdentity('email_2fa');
+
+        if (empty($token) || $token !== $identity->secret) {
+            return false;
+        }
+
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        // On success - remove the identity and clean up session
+        $identityModel->deleteIdentitiesByType($user->getAuthId(), 'email_2fa');
+
+        // Clean up our session
+        session()->remove('auth_action');
+
+        // a successful login
+        Events::trigger('login', $user);
+
+        return true;
     }
 
     /**
