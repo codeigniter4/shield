@@ -9,6 +9,10 @@
         <div class="card-body">
             <h5 class="card-title mb-5"><?= lang('Auth.emailActivateTitle') ?></h5>
 
+            <?php if (session('error')) : ?>
+                <div class="alert alert-danger"><?= session('error') ?></div>
+            <?php endif ?>
+
             <p>We just sent an email to you with a code to confirm your email address. Copy that code and paste it
                 below.</p>
 

@@ -67,6 +67,7 @@ return [
     // Activate
     'emailActivateTitle'   => 'Email Activation',
     'emailActivateSubject' => 'Confirm your Email',
+    'invalidActivateToken' => 'The code was incorrect.',
 
     // Groups
     'unknownGroup' => '{0} is not a valid group.',
