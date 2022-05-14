@@ -350,7 +350,7 @@ trait Authorizable
         $new = array_diff($cache, $existing);
 
         // Delete any not in the cache
-        if (count($cache)) {
+        if ($cache !== []) {
             $model->deleteNotIn($this->id, $cache);
         }
         // Nothing in the cache? Then make sure
