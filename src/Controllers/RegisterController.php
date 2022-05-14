@@ -95,6 +95,9 @@ class RegisterController extends BaseController
         $user->active = true;
         $users->save($user);
 
+        // a successful login
+        Events::trigger('login', $user);
+
         // Success!
         return redirect()->to(config('Auth')->registerRedirect())
             ->with('message', lang('Auth.registerSuccess'));
