@@ -21,9 +21,7 @@ trait Authorizable
     {
         $this->populateGroups();
 
-        $configGroups = function_exists('setting')
-            ? array_keys(setting('AuthGroups.groups'))
-            : array_keys(config('AuthGroups')->groups);
+        $configGroups = $this->getConfigGroups();
 
         $groupCount = count($this->groupCache);
 
@@ -86,9 +84,7 @@ trait Authorizable
     {
         $this->populateGroups();
 
-        $configGroups = function_exists('setting')
-            ? array_keys(setting('AuthGroups.groups'))
-            : array_keys(config('AuthGroups')->groups);
+        $configGroups = $this->getConfigGroups();
 
         foreach ($groups as $group) {
             if (! in_array($group, $configGroups, true)) {
@@ -134,9 +130,7 @@ trait Authorizable
     {
         $this->populatePermissions();
 
-        $configPermissions = function_exists('setting')
-            ? array_keys(setting('AuthGroups.permissions'))
-            : array_keys(config('AuthGroups')->permissions);
+        $configPermissions = $this->getConfigPermissions();
 
         $permissionCount = count($this->permissionsCache);
 
@@ -199,9 +193,7 @@ trait Authorizable
     {
         $this->populatePermissions();
 
-        $configPermissions = function_exists('setting')
-            ? array_keys(setting('AuthGroups.permissions'))
-            : array_keys(config('AuthGroups')->permissions);
+        $configPermissions = $this->getConfigPermissions();
 
         foreach ($permissions as $permission) {
             if (! in_array($permission, $configPermissions, true)) {
@@ -381,5 +373,25 @@ trait Authorizable
 
             $model->insertBatch($inserts);
         }
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getConfigGroups(): array
+    {
+        return function_exists('setting')
+            ? array_keys(setting('AuthGroups.groups'))
+            : array_keys(config('AuthGroups')->groups);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getConfigPermissions(): array
+    {
+        return function_exists('setting')
+            ? array_keys(setting('AuthGroups.permissions'))
+            : array_keys(config('AuthGroups')->permissions);
     }
 }
