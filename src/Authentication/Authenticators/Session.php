@@ -105,13 +105,17 @@ class Session implements AuthenticatorInterface
         return $result;
     }
 
-    public function checkAction(string $token): bool
+    /**
+     * @param string $type  Action type. 'email_2fa' or 'email_activate'
+     * @param string $token Token to check
+     */
+    public function checkAction(string $type, string $token): bool
     {
         $user = $this->loggedIn()
             ? $this->getUser()
             : null;
 
-        $identity = $user->getIdentity('email_2fa');
+        $identity = $user->getIdentity($type);
 
         if (empty($token) || $token !== $identity->secret) {
             return false;
@@ -121,7 +125,7 @@ class Session implements AuthenticatorInterface
         $identityModel = model(UserIdentityModel::class);
 
         // On success - remove the identity and clean up session
-        $identityModel->deleteIdentitiesByType($user->getAuthId(), 'email_2fa');
+        $identityModel->deleteIdentitiesByType($user->getAuthId(), $type);
 
         // Clean up our session
         session()->remove('auth_action');

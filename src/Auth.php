@@ -12,14 +12,14 @@ use CodeIgniter\Shield\Models\UserModel;
 /**
  * @method Result    attempt(array $credentials)
  * @method Result    check(array $credentials)
- * @method bool      checkAction(string $token)            [Session]
+ * @method bool      checkAction(string $token, string $type) [Session]
  * @method User|null getUser()
  * @method bool      loggedIn()
  * @method bool      login(User $user)
  * @method void      loginById($userId)
  * @method bool      logout()
  * @method void      recordActiveDate()
- * @method $this     remember(bool $shouldRemember = true) [Session]
+ * @method $this     remember(bool $shouldRemember = true)    [Session]
  */
 class Auth
 {

@@ -48,7 +48,7 @@ class User extends Entity
     /**
      * Returns the first identity of the given $type for this user.
      *
-     * @phpstan-param 'email_2fa'|'email_activate'|'email_password' $type
+     * @param string $type 'email_2fa'|'email_activate'|'email_password'
      */
     public function getIdentity(string $type): ?UserIdentity
     {

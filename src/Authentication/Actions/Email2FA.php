@@ -97,7 +97,7 @@ class Email2FA implements ActionInterface
         $token = $request->getPost('token');
 
         // Token mismatch? Let them try again...
-        if (! auth()->checkAction($token)) {
+        if (! auth()->checkAction('email_2fa', $token)) {
             session()->setFlashdata('error', lang('Auth.invalid2FAToken'));
 
             return view(setting('Auth.views')['action_email_2fa_verify']);
