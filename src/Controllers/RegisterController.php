@@ -88,8 +88,7 @@ class RegisterController extends BaseController
         }
 
         // Set the user active
-        $user->active = true;
-        $users->save($user);
+        auth()->activateUser($user);
 
         // a successful login
         Events::trigger('login', $user);
