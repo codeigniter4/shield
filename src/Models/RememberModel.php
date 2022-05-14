@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Exceptions\RuntimeException;
 use DateTime;
 use stdClass;
 
@@ -24,25 +25,36 @@ class RememberModel extends Model
      * Stores a remember-me token for the user.
      *
      * @param int|string $userId
-     *
-     * @return mixed
      */
-    public function rememberUser($userId, string $selector, string $hashedValidator, string $expires)
+    public function rememberUser($userId, string $selector, string $hashedValidator, string $expires): void
     {
         $expires = new DateTime($expires);
 
-        return $this->insert([
+        $return = $this->insert([
             'user_id'         => $userId,
             'selector'        => $selector,
             'hashedValidator' => $hashedValidator,
             'expires'         => $expires->format('Y-m-d H:i:s'),
         ]);
+
+        $this->checkQueryReturn($return);
+    }
+
+    private function checkQueryReturn(bool $return): void
+    {
+        if ($return === false) {
+            $error   = $this->db->error();
+            $message = 'Query error: ' . $error['code'] . ', '
+                . $error['message'] . ', query: ' . $this->db->getLastQuery();
+
+            throw new RuntimeException($message, $error['code']);
+        }
     }
 
     /**
      * Returns the remember-me token info for a given selector.
      *
-     * @return mixed
+     * @return stdClass|null
      */
     public function getRememberToken(string $selector)
     {
@@ -53,29 +65,25 @@ class RememberModel extends Model
 
     /**
      * Updates the validator for a given selector.
-     *
-     * @return mixed
      */
-    public function updateRememberValidator(stdClass $token)
+    public function updateRememberValidator(stdClass $token): void
     {
-        return $this->save($token);
+        $return = $this->save($token);
+
+        $this->checkQueryReturn($return);
     }
 
     /**
      * Removes all persistent login tokens (remember-me) for a single user
      * across all devices they may have logged in with.
      *
-     * @param int|string|null $userId
-     *
-     * @return mixed
+     * @param int|string $userId
      */
-    public function purgeRememberTokens($userId = null)
+    public function purgeRememberTokens($userId): void
     {
-        if (empty($userId)) {
-            return;
-        }
+        $return = $this->where(['user_id' => $userId])->delete();
 
-        return $this->where(['user_id' => $userId])->delete();
+        $this->checkQueryReturn($return);
     }
 
     /**
@@ -84,7 +92,9 @@ class RememberModel extends Model
      */
     public function purgeOldRememberTokens(): void
     {
-        $this->where('expires <=', date('Y-m-d H:i:s'))
+        $return = $this->where('expires <=', date('Y-m-d H:i:s'))
             ->delete();
+
+        $this->checkQueryReturn($return);
     }
 }
