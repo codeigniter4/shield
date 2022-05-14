@@ -32,7 +32,7 @@ interface AuthenticatorInterface
      *
      * @see https://codeigniter4.github.io/CodeIgniter4/extending/authentication.html
      */
-    public function login(User $user): bool;
+    public function login(User $user): void;
 
     /**
      * Logs a user in based on their ID.

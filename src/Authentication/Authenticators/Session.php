@@ -260,7 +260,7 @@ class Session implements AuthenticatorInterface
     /**
      * Logs the given user in.
      */
-    public function login(User $user): bool
+    public function login(User $user): void
     {
         $this->user = $user;
 
