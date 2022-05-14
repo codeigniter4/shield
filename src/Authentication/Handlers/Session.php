@@ -237,9 +237,6 @@ class Session implements AuthenticatorInterface
         if (random_int(1, 100) <= 20) {
             $this->rememberModel->purgeOldRememberTokens();
         }
-
-        // Trigger login event, in case anyone cares
-        return Events::trigger('login', $user);
     }
 
     /**
