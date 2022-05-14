@@ -2,6 +2,7 @@
 
 namespace Sparks\Shield\Authentication\Actions;
 
+use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\IncomingRequest;
 use Sparks\Shield\Models\UserIdentityModel;
 
@@ -109,6 +110,9 @@ class Email2FA implements ActionInterface
 
         // Clean up our session
         session()->remove('auth_action');
+
+        // a successful login
+        Events::trigger('login', $user);
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
