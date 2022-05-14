@@ -4,7 +4,8 @@ namespace CodeIgniter\Shield\Authorization\Traits;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authorization\AuthorizationException;
-use Exception;
+use CodeIgniter\Shield\Authorization\Models\GroupModel;
+use CodeIgniter\Shield\Authorization\Models\PermissionModel;
 
 trait Authorizable
 {
@@ -19,9 +20,8 @@ trait Authorizable
     public function addGroup(string ...$groups): self
     {
         $this->populateGroups();
-        $configGroups = function_exists('setting')
-            ? array_keys(setting('AuthGroups.groups'))
-            : array_keys(config('AuthGroups')->groups);
+
+        $configGroups = $this->getConfigGroups();
 
         $groupCount = count($this->groupCache);
 
@@ -43,7 +43,7 @@ trait Authorizable
 
         // Only save the results if there's anything new.
         if (count($this->groupCache) > $groupCount) {
-            $this->saveGroupsOrPermissions('group');
+            $this->saveGroups();
         }
 
         return $this;
@@ -66,7 +66,7 @@ trait Authorizable
         $this->groupCache = array_diff($this->groupCache, $groups);
 
         // Update the database.
-        $this->saveGroupsOrPermissions('group');
+        $this->saveGroups();
 
         return $this;
     }
@@ -83,9 +83,8 @@ trait Authorizable
     public function syncGroups(array $groups): self
     {
         $this->populateGroups();
-        $configGroups = function_exists('setting')
-            ? array_keys(setting('AuthGroups.groups'))
-            : array_keys(config('AuthGroups')->groups);
+
+        $configGroups = $this->getConfigGroups();
 
         foreach ($groups as $group) {
             if (! in_array($group, $configGroups, true)) {
@@ -94,7 +93,7 @@ trait Authorizable
         }
 
         $this->groupCache = $groups;
-        $this->saveGroupsOrPermissions('group');
+        $this->saveGroups();
 
         return $this;
     }
@@ -130,9 +129,8 @@ trait Authorizable
     public function addPermission(string ...$permissions): self
     {
         $this->populatePermissions();
-        $configPermissions = function_exists('setting')
-            ? array_keys(setting('AuthGroups.permissions'))
-            : array_keys(config('AuthGroups')->permissions);
+
+        $configPermissions = $this->getConfigPermissions();
 
         $permissionCount = count($this->permissionsCache);
 
@@ -154,7 +152,7 @@ trait Authorizable
 
         // Only save the results if there's anything new.
         if (count($this->permissionsCache) > $permissionCount) {
-            $this->saveGroupsOrPermissions('permission');
+            $this->savePermissions();
         }
 
         return $this;
@@ -177,7 +175,7 @@ trait Authorizable
         $this->permissionsCache = array_diff($this->permissionsCache, $permissions);
 
         // Update the database.
-        $this->saveGroupsOrPermissions('permission');
+        $this->savePermissions();
 
         return $this;
     }
@@ -194,9 +192,8 @@ trait Authorizable
     public function syncPermissions(array $permissions): self
     {
         $this->populatePermissions();
-        $configPermissions = function_exists('setting')
-            ? array_keys(setting('AuthGroups.permissions'))
-            : array_keys(config('AuthGroups')->permissions);
+
+        $configPermissions = $this->getConfigPermissions();
 
         foreach ($permissions as $permission) {
             if (! in_array($permission, $configPermissions, true)) {
@@ -205,7 +202,7 @@ trait Authorizable
         }
 
         $this->permissionsCache = $permissions;
-        $this->saveGroupsOrPermissions('permission');
+        $this->savePermissions();
 
         return $this;
     }
@@ -218,6 +215,7 @@ trait Authorizable
     public function hasPermission(string $permission): bool
     {
         $this->populatePermissions();
+
         $permission = strtolower($permission);
 
         return in_array($permission, $this->permissionsCache, true);
@@ -230,6 +228,7 @@ trait Authorizable
     public function can(string $permission): bool
     {
         $this->populatePermissions();
+
         $permission = strtolower($permission);
 
         // Check user's permissions
@@ -291,12 +290,10 @@ trait Authorizable
             return;
         }
 
-        $groups = db_connect()->table('auth_groups_users')
-            ->where('user_id', $this->id)
-            ->get()
-            ->getResultArray();
+        /** @var GroupModel $groupModel */
+        $groupModel = model(GroupModel::class);
 
-        $this->groupCache = array_column($groups, 'group');
+        $this->groupCache = $groupModel->getByUserId($this->id);
     }
 
     /**
@@ -309,50 +306,57 @@ trait Authorizable
             return;
         }
 
-        $permissions = db_connect()->table('auth_permissions_users')
-            ->where('user_id', $this->id)
-            ->get()
-            ->getResultArray();
+        /** @var PermissionModel $permissionModel */
+        $permissionModel = model(PermissionModel::class);
 
-        $this->permissionsCache = array_column($permissions, 'permission');
+        $this->permissionsCache = $permissionModel->getByUserId($this->id);
     }
 
     /**
-     * Inserts or Updates either the current groups
-     * or the current permissions.
-     *
-     * @throws Exception
+     * Inserts or Updates the current groups.
      */
-    private function saveGroupsOrPermissions(string $type): void
+    private function saveGroups(): void
     {
-        $table = $type === 'group'
-            ? 'auth_groups_users'
-            : 'auth_permissions_users';
-        $cache = $type === 'group'
-            ? $this->groupCache
-            : $this->permissionsCache;
+        /** @var GroupModel $model */
+        $model = model(GroupModel::class);
 
-        $existing = db_connect()->table($table)
-            ->where('user_id', $this->id)
-            ->get()
-            ->getResultArray();
-        $existing = array_column($existing, $type);
+        $cache = $this->groupCache;
+
+        $this->saveGroupsOrPermissions('group', $model, $cache);
+    }
+
+    /**
+     * Inserts or Updates either the current permissions.
+     */
+    private function savePermissions(): void
+    {
+        /** @var PermissionModel $model */
+        $model = model(PermissionModel::class);
+
+        $cache = $this->permissionsCache;
+
+        $this->saveGroupsOrPermissions('permission', $model, $cache);
+    }
+
+    /**
+     * @phpstan-param 'group'|'permission' $type
+     *
+     * @param GroupModel|PermissionModel $model
+     */
+    private function saveGroupsOrPermissions(string $type, $model, array $cache): void
+    {
+        $existing = $model->getByUserId($this->id);
 
         $new = array_diff($cache, $existing);
 
         // Delete any not in the cache
-        if (count($cache)) {
-            db_connect()->table($table)
-                ->where('user_id', $this->id)
-                ->whereNotIn($type, $cache)
-                ->delete();
+        if ($cache !== []) {
+            $model->deleteNotIn($this->id, $cache);
         }
         // Nothing in the cache? Then make sure
         // we delete all from this user
         else {
-            db_connect()->table($table)
-                ->where('user_id', $this->id)
-                ->delete();
+            $model->deleteAll($this->id);
         }
 
         // Insert new ones
@@ -366,7 +370,28 @@ trait Authorizable
                     'created_at' => Time::now()->toDateTimeString(),
                 ];
             }
-            db_connect()->table($table)->insertBatch($inserts);
+
+            $model->insertBatch($inserts);
         }
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getConfigGroups(): array
+    {
+        return function_exists('setting')
+            ? array_keys(setting('AuthGroups.groups'))
+            : array_keys(config('AuthGroups')->groups);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getConfigPermissions(): array
+    {
+        return function_exists('setting')
+            ? array_keys(setting('AuthGroups.permissions'))
+            : array_keys(config('AuthGroups')->permissions);
     }
 }
