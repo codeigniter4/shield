@@ -24,6 +24,7 @@ trait Authorizable
     public function addGroup(string ...$groups)
     {
         $this->populateGroups();
+
         $configGroups = function_exists('setting')
             ? array_keys(setting('AuthGroups.groups'))
             : array_keys(config('AuthGroups')->groups);
@@ -88,6 +89,7 @@ trait Authorizable
     public function syncGroups(array $groups)
     {
         $this->populateGroups();
+
         $configGroups = function_exists('setting')
             ? array_keys(setting('AuthGroups.groups'))
             : array_keys(config('AuthGroups')->groups);
@@ -139,6 +141,7 @@ trait Authorizable
     public function addPermission(string ...$permissions)
     {
         $this->populatePermissions();
+
         $configPermissions = function_exists('setting')
             ? array_keys(setting('AuthGroups.permissions'))
             : array_keys(config('AuthGroups')->permissions);
@@ -203,6 +206,7 @@ trait Authorizable
     public function syncPermissions(array $permissions)
     {
         $this->populatePermissions();
+
         $configPermissions = function_exists('setting')
             ? array_keys(setting('AuthGroups.permissions'))
             : array_keys(config('AuthGroups')->permissions);
@@ -227,6 +231,7 @@ trait Authorizable
     public function hasPermission(string $permission): bool
     {
         $this->populatePermissions();
+
         $permission = strtolower($permission);
 
         return in_array($permission, $this->permissionsCache, true);
@@ -239,6 +244,7 @@ trait Authorizable
     public function can(string $permission): bool
     {
         $this->populatePermissions();
+
         $permission = strtolower($permission);
 
         // Check user's permissions
