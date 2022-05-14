@@ -106,6 +106,8 @@ class Session implements AuthenticatorInterface
     }
 
     /**
+     * Check token in Action
+     *
      * @param string $type  Action type. 'email_2fa' or 'email_activate'
      * @param string $token Token to check
      */
@@ -134,6 +136,14 @@ class Session implements AuthenticatorInterface
         Events::trigger('login', $user);
 
         return true;
+    }
+
+    /**
+     * Activate a User
+     */
+    public function activateUser(User $user): void
+    {
+        $this->provider->activate($user);
     }
 
     /**

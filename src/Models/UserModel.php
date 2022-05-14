@@ -4,6 +4,7 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Exceptions\RuntimeException;
 use Faker\Generator;
 use InvalidArgumentException;
 
@@ -183,5 +184,28 @@ class UserModel extends Model
             'id'          => $id,
             'remember_me' => trim($token),
         ])->first();
+    }
+
+    /**
+     * Activate a User.
+     */
+    public function activate(User $user): void
+    {
+        $user->active = true;
+
+        $return = $this->save($user);
+
+        $this->checkQueryReturn($return);
+    }
+
+    private function checkQueryReturn(bool $return): void
+    {
+        if ($return === false) {
+            $error   = $this->db->error();
+            $message = 'Query error: ' . $error['code'] . ', '
+                . $error['message'] . ', query: ' . $this->db->getLastQuery();
+
+            throw new RuntimeException($message, $error['code']);
+        }
     }
 }

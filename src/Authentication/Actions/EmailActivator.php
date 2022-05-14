@@ -5,6 +5,7 @@ namespace CodeIgniter\Shield\Authentication\Actions;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
@@ -90,12 +91,11 @@ class EmailActivator implements ActionInterface
             return view(setting('Auth.views')['action_email_activate_show']);
         }
 
+        /** @var User $user */
         $user = auth()->user();
 
         // Set the user active now
-        $provider     = auth()->getProvider();
-        $user->active = true;
-        $provider->save($user);
+        auth()->activateUser($user);
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
