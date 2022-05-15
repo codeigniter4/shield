@@ -8,14 +8,14 @@ When you want to respond to an event that Shield publishes, you will need to add
 
 ## Event List
 
-#### didRegister
+#### register
 
 Triggered when a new user has registered in the system. It's only argument is the `User` entity itself.
 
 ```php
-Events::trigger('didRegister', $user);
+Events::trigger('register', $user);
 
-Events::on('didRegister', 'SomeLibrary::handleRegister');
+Events::on('register', 'SomeLibrary::handleRegister');
 ```
 
 #### login
