@@ -102,8 +102,7 @@ class Session implements AuthenticatorInterface
         if (! empty($actionClass)) {
             session()->set('auth_action', $actionClass);
         } else {
-            // a successful login
-            Events::trigger('login', $user);
+            $this->completeLogin($user);
         }
 
         return $result;
@@ -140,10 +139,15 @@ class Session implements AuthenticatorInterface
 
         $this->user = $user;
 
-        // a successful login
-        Events::trigger('login', $user);
+        $this->completeLogin($user);
 
         return true;
+    }
+
+    private function completeLogin(User $user): void
+    {
+        // a successful login
+        Events::trigger('login', $user);
     }
 
     /**
@@ -308,13 +312,8 @@ class Session implements AuthenticatorInterface
         return $token;
     }
 
-    /**
-     * Logs the given user in.
-     */
-    public function login(User $user): void
+    private function startLogin(User $user): void
     {
-        $this->user = $user;
-
         // Update the user's last used date on their password identity.
         $this->user->touchIdentity($this->user->getEmailIdentity());
 
@@ -331,7 +330,22 @@ class Session implements AuthenticatorInterface
 
         // When logged in, ensure cache control headers are in place
         $response->noCache();
+    }
 
+    /**
+     * Logs the given user in.
+     */
+    public function login(User $user): void
+    {
+        $this->user = $user;
+
+        $this->startLogin($user);
+
+        $this->processRemember();
+    }
+
+    private function processRemember()
+    {
         if ($this->shouldRemember && setting('Auth.sessionConfig')['allowRemembering']) {
             $this->rememberUser($this->user->getAuthId());
 
