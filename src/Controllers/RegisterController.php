@@ -78,7 +78,7 @@ class RegisterController extends BaseController
         // Add to default group
         $users->addToDefaultGroup($user);
 
-        Events::trigger('didRegister', $user);
+        Events::trigger('register', $user);
 
         auth()->login($user);
 
