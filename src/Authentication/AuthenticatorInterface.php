@@ -60,5 +60,5 @@ interface AuthenticatorInterface
     /**
      * Updates the user's last active date.
      */
-    public function recordActive(): void;
+    public function recordActiveDate(): void;
 }

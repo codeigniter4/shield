@@ -40,7 +40,7 @@ class SessionAuth implements FilterInterface
         }
 
         if (setting('Auth.recordActiveDate')) {
-            auth('session')->recordActive();
+            auth('session')->recordActiveDate();
         }
 
         /** @var UserIdentityModel $identityModel */

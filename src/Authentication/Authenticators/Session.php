@@ -369,10 +369,12 @@ class Session implements AuthenticatorInterface
     /**
      * Updates the user's last active date.
      */
-    public function recordActive(): void
+    public function recordActiveDate(): void
     {
         if (! $this->user instanceof User) {
-            throw new InvalidArgumentException(self::class . '::recordActive() requires logged in user before calling.');
+            throw new InvalidArgumentException(
+                self::class . '::recordActiveDate() requires logged in user before calling.'
+            );
         }
 
         $this->user->last_active = Time::now();
