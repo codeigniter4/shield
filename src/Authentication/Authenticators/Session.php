@@ -138,6 +138,8 @@ class Session implements AuthenticatorInterface
         // Clean up our session
         session()->remove('auth_action');
 
+        $this->user = $user;
+
         // a successful login
         Events::trigger('login', $user);
 
