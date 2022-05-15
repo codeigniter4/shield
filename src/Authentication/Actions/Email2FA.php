@@ -4,6 +4,7 @@ namespace CodeIgniter\Shield\Authentication\Actions;
 
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 
@@ -96,8 +97,11 @@ class Email2FA implements ActionInterface
     {
         $token = $request->getPost('token');
 
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
         // Token mismatch? Let them try again...
-        if (! auth()->checkAction('email_2fa', $token)) {
+        if (! $authenticator->checkAction('email_2fa', $token)) {
             session()->setFlashdata('error', lang('Auth.invalid2FAToken'));
 
             return view(setting('Auth.views')['action_email_2fa_verify']);
