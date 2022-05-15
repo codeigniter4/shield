@@ -42,7 +42,7 @@ class TokenAuth implements FilterInterface
         }
 
         if (setting('Auth.recordActiveDate')) {
-            auth('tokens')->recordActive();
+            auth('tokens')->recordActiveDate();
         }
     }
 

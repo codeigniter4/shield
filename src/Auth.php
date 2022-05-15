@@ -19,7 +19,7 @@ use CodeIgniter\Shield\Models\UserModel;
  * @method bool      login(User $user)
  * @method void      loginById($userId)
  * @method bool      logout()
- * @method void      recordActive()
+ * @method void      recordActiveDate()
  *
  * Authenticators\Session:
  * @method $this remember(bool $shouldRemember = true)
