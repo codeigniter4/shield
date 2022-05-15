@@ -45,6 +45,7 @@ class CreateAuthTables extends Migration
             'updated_at'   => ['type' => 'datetime', 'null' => true],
         ]);
         $this->forge->addPrimaryKey('id');
+        $this->forge->addUniqueKey(['type', 'secret']);
         $this->forge->addKey('user_id');
         $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
         $this->forge->createTable('auth_identities', true);
