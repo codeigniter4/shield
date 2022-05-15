@@ -206,7 +206,7 @@ class Session implements AuthenticatorInterface
         $this->user = $user;
 
         // Update the user's last used date on their password identity.
-        $this->user->touchIdentity($this->user->getEmailIdentity());
+        $user->touchIdentity($user->getEmailIdentity());
 
         // Regenerate the session ID to help protect against session fixation
         if (ENVIRONMENT !== 'testing') {
@@ -214,7 +214,7 @@ class Session implements AuthenticatorInterface
         }
 
         // Let the session know we're logged in
-        session()->set(setting('Auth.sessionConfig')['field'], $this->user->getAuthId());
+        session()->set(setting('Auth.sessionConfig')['field'], $user->getAuthId());
 
         // When logged in, ensure cache control headers are in place
         service('response')->noCache();
