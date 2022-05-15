@@ -315,7 +315,7 @@ class Session implements AuthenticatorInterface
     private function startLogin(User $user): void
     {
         // Update the user's last used date on their password identity.
-        $this->user->touchIdentity($this->user->getEmailIdentity());
+        $user->touchIdentity($user->getEmailIdentity());
 
         // Regenerate the session ID to help protect against session fixation
         if (ENVIRONMENT !== 'testing') {
@@ -323,7 +323,7 @@ class Session implements AuthenticatorInterface
         }
 
         // Let the session know we're logged in
-        session()->set(setting('Auth.sessionConfig')['field'], $this->user->getAuthId());
+        session()->set(setting('Auth.sessionConfig')['field'], $user->getAuthId());
 
         /** @var Response $response */
         $response = service('response');
