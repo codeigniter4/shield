@@ -27,14 +27,17 @@ class Session implements AuthenticatorInterface
      */
     protected UserModel $provider;
 
+    /**
+     * The user logged in
+     */
     protected ?User $user = null;
-    protected LoginModel $loginModel;
 
     /**
      * Should the user be remembered?
      */
     protected bool $shouldRemember = false;
 
+    protected LoginModel $loginModel;
     protected RememberModel $rememberModel;
 
     public function __construct(UserModel $provider)
