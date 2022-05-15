@@ -10,6 +10,7 @@ use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\RememberModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
@@ -113,9 +114,11 @@ class Session implements AuthenticatorInterface
      */
     public function checkAction(string $type, string $token): bool
     {
-        $user = $this->loggedIn()
-            ? $this->getUser()
-            : null;
+        $user = $this->loggedIn() ? $this->getUser() : null;
+
+        if ($user === null) {
+            throw new LogicException('Cannot get the User.');
+        }
 
         $identity = $user->getIdentity($type);
 
