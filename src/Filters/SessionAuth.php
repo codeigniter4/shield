@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 
@@ -35,12 +36,15 @@ class SessionAuth implements FilterInterface
     {
         helper(['auth', 'setting']);
 
-        if (! auth('session')->loggedIn()) {
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        if (! $authenticator->loggedIn()) {
             return redirect()->route('login');
         }
 
         if (setting('Auth.recordActiveDate')) {
-            auth('session')->recordActiveDate();
+            $authenticator->recordActiveDate();
         }
 
         /** @var UserIdentityModel $identityModel */
@@ -49,7 +53,7 @@ class SessionAuth implements FilterInterface
         // If user is in middle of an action flow
         // ensure they must finish it first.
         $identities = $identityModel->getIdentitiesByTypes(
-            auth('session')->id(),
+            $authenticator->getUser()->getAuthId(),
             ['email_2fa', 'email_activate']
         );
 

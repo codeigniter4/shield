@@ -20,7 +20,10 @@ class EmailActivator implements ActionInterface
      */
     public function show(): string
     {
-        $user = auth()->user();
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        $user = $authenticator->getUser();
 
         if ($user === null) {
             throw new RuntimeException('Cannot get the User.');
@@ -85,10 +88,8 @@ class EmailActivator implements ActionInterface
     {
         $token = $request->getVar('token');
 
-        $auth = auth('session');
-
         /** @var Session $authenticator */
-        $authenticator = $auth->getAuthenticator();
+        $authenticator = auth('session')->getAuthenticator();
 
         // No match - let them try again.
         if (! $authenticator->checkAction('email_activate', $token)) {
@@ -97,11 +98,10 @@ class EmailActivator implements ActionInterface
             return view(setting('Auth.views')['action_email_activate_show']);
         }
 
-        /** @var User $user */
-        $user = $auth->user();
+        $user = $authenticator->getUser();
 
         // Set the user active now
-        $auth->activateUser($user);
+        $authenticator->activateUser($user);
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());

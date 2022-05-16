@@ -21,7 +21,10 @@ class Email2FA implements ActionInterface
      */
     public function show(): string
     {
-        $user = auth()->user();
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        $user = $authenticator->getUser();
 
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
@@ -54,7 +57,11 @@ class Email2FA implements ActionInterface
     public function handle(IncomingRequest $request)
     {
         $email = $request->getPost('email');
-        $user  = auth()->user();
+
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        $user = $authenticator->getUser();
 
         if (empty($email) || $email !== $user->getAuthEmail()) {
             return redirect()->route('auth-action-show')->with('error', lang('Auth.invalidEmail'));
