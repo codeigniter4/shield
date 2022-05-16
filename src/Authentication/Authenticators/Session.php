@@ -22,15 +22,29 @@ use stdClass;
 
 class Session implements AuthenticatorInterface
 {
+    private const STATE_UNKNOWN   = 0;
+    private const STATE_ANONYMOUS = 1;
+    private const STATE_LOGGED_IN = 3;
+
     /**
      * The persistence engine
      */
     protected UserModel $provider;
 
     /**
-     * The user logged in
+     * Authenticated or authenticating (pending login) User
      */
     protected ?User $user = null;
+
+    /**
+     * The User auth state
+     */
+    private int $userState = self::STATE_UNKNOWN;
+
+    /**
+     * Pending login error message
+     */
+    private ?string $pendingMessage = null;
 
     /**
      * Should the user be remembered?
@@ -146,6 +160,8 @@ class Session implements AuthenticatorInterface
 
     private function completeLogin(User $user): void
     {
+        $this->userState = self::STATE_LOGGED_IN;
+
         // a successful login
         Events::trigger('login', $user);
     }
@@ -243,21 +259,67 @@ class Session implements AuthenticatorInterface
             return true;
         }
 
+        $this->checkUserState();
+
+        return (bool) ($this->userState === self::STATE_LOGGED_IN);
+    }
+
+    /**
+     * Checks User state
+     */
+    private function checkUserState(): void
+    {
+        if ($this->userState !== self::STATE_UNKNOWN) {
+            // Checked already.
+            return;
+        }
+
         /** @var int|string|null $userId */
         $userId = session(setting('Auth.sessionConfig')['field']);
 
         if ($userId !== null) {
             $this->user = $this->provider->findById($userId);
 
-            return $this->user instanceof User;
+            $identities = $this->userIdentityModel->getIdentitiesByTypes(
+                $this->user->getAuthId(),
+                ['email_2fa', 'email_activate']
+            );
+
+            // Having an action?
+            foreach ($identities as $identity) {
+                $action = setting('Auth.actions')[$identity->name];
+
+                if ($action) {
+                    $this->userState = self::STATE_LOGGED_IN;
+
+                    session()->set('auth_action', $action);
+                    $this->pendingMessage = $identity->extra;
+
+                    return;
+                }
+            }
+
+            $this->userState = self::STATE_LOGGED_IN;
+
+            return;
         }
 
         // Check remember-me token.
         if (setting('Auth.sessionConfig')['allowRemembering']) {
-            return $this->checkRememberMe();
+            $this->checkRememberMe();
+
+            return;
         }
 
-        return false;
+        $this->userState = self::STATE_ANONYMOUS;
+    }
+
+    /**
+     * Returns pending login error message
+     */
+    public function getPendingMessage(): string
+    {
+        return $this->pendingMessage;
     }
 
     private function checkRememberMe(): bool
@@ -265,12 +327,16 @@ class Session implements AuthenticatorInterface
         // Get remember-me token.
         $remember = $this->getRememberMeToken();
         if ($remember === null) {
+            $this->userState = self::STATE_ANONYMOUS;
+
             return false;
         }
 
         // Check the remember-me token.
         $token = $this->checkRememberMeToken($remember);
         if ($token === false) {
+            $this->userState = self::STATE_ANONYMOUS;
+
             return false;
         }
 
@@ -279,6 +345,8 @@ class Session implements AuthenticatorInterface
         $this->login($user);
 
         $this->refreshRememberMeToken($token);
+
+        $this->userState = self::STATE_LOGGED_IN;
 
         return true;
     }

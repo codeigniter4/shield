@@ -46,10 +46,13 @@ final class SessionAuthenticatorTest extends TestCase
         $this->db->table('auth_identities')->truncate();
     }
 
-    public function testLoggedIn()
+    public function testLoggedInFalse()
     {
         $this->assertFalse($this->auth->loggedIn());
+    }
 
+    public function testLoggedInTrue()
+    {
         $_SESSION['logged_in'] = $this->user->id;
 
         $this->assertTrue($this->auth->loggedIn());
