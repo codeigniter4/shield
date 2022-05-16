@@ -287,6 +287,12 @@ class Session implements AuthenticatorInterface
                 ['email_2fa', 'email_activate']
             );
 
+            // If we will have more than one identity, we need to change the logic blow.
+            assert(
+                count($identities) < 2,
+                'More than one identity for actions. user_id: ' . $userId
+            );
+
             // Having an action?
             foreach ($identities as $identity) {
                 $actionClass = setting('Auth.actions')[$identity->name];
