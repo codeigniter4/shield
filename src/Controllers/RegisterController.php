@@ -5,6 +5,7 @@ namespace CodeIgniter\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Validation\Validation;
@@ -80,7 +81,10 @@ class RegisterController extends BaseController
 
         Events::trigger('register', $user);
 
-        auth()->login($user);
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        $authenticator->login($user);
 
         // If an action has been defined for login, start it up.
         $actionClass = setting('Auth.actions')['register'] ?? null;
@@ -88,11 +92,13 @@ class RegisterController extends BaseController
         if (! empty($actionClass)) {
             session()->set('auth_action', $actionClass);
 
+            $authenticator->createIdentityEmailActivate();
+
             return redirect()->to('auth/a/show');
         }
 
         // Set the user active
-        auth()->activateUser($user);
+        $authenticator->activateUser($user);
 
         // a successful login
         Events::trigger('login', $user);
