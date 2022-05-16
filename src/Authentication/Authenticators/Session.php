@@ -6,6 +6,7 @@ use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\Actions\Email2FA;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
@@ -118,6 +119,10 @@ class Session implements AuthenticatorInterface
         // If an action has been defined for login, start it up.
         $actionClass = setting('Auth.actions')['login'] ?? null;
         if (! empty($actionClass)) {
+            if ($actionClass === Email2FA::class) {
+                $this->createIdentityEmail2FA();
+            }
+
             session()->set('auth_action', $actionClass);
         } else {
             $this->completeLogin($user);
