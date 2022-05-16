@@ -344,10 +344,10 @@ class Session implements AuthenticatorInterface
 
         $this->startLogin($user);
 
-        $this->processRemember();
+        $this->issueRememberMeToken();
     }
 
-    private function processRemember()
+    private function issueRememberMeToken()
     {
         if ($this->shouldRemember && setting('Auth.sessionConfig')['allowRemembering']) {
             $this->rememberUser($this->user->getAuthId());
