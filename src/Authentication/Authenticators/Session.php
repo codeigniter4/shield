@@ -289,12 +289,12 @@ class Session implements AuthenticatorInterface
 
             // Having an action?
             foreach ($identities as $identity) {
-                $action = setting('Auth.actions')[$identity->name];
+                $actionClass = setting('Auth.actions')[$identity->name];
 
-                if ($action) {
+                if ($actionClass) {
                     $this->userState = self::STATE_PENDING;
 
-                    session()->set('auth_action', $action);
+                    session()->set('auth_action', $actionClass);
                     $this->pendingMessage = $identity->extra;
 
                     return;
