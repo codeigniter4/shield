@@ -5,6 +5,8 @@ namespace CodeIgniter\Shield\Authentication\Actions;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
@@ -81,30 +83,25 @@ class EmailActivator implements ActionInterface
      */
     public function verify(IncomingRequest $request)
     {
-        $token    = $request->getVar('token');
-        $user     = auth()->user();
-        $identity = $user->getIdentity('email_activate');
+        $token = $request->getVar('token');
+
+        $auth = auth('session');
+
+        /** @var Session $authenticator */
+        $authenticator = $auth->getAuthenticator();
 
         // No match - let them try again.
-        if ($identity->secret !== $token) {
+        if (! $authenticator->checkAction('email_activate', $token)) {
             session()->setFlashdata('error', lang('Auth.invalidActivateToken'));
 
             return view(setting('Auth.views')['action_email_activate_show']);
         }
 
-        /** @var UserIdentityModel $identityModel */
-        $identityModel = model(UserIdentityModel::class);
-
-        // Remove the identity
-        $identityModel->delete($identity->id);
+        /** @var User $user */
+        $user = $auth->user();
 
         // Set the user active now
-        $provider     = auth()->getProvider();
-        $user->active = true;
-        $provider->save($user);
-
-        // Clean up our session
-        unset($_SESSION['auth_action']);
+        $auth->activateUser($user);
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());

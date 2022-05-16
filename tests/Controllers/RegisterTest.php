@@ -5,6 +5,7 @@ namespace Tests\Controllers;
 use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
 use CodeIgniter\Shield\Authentication\Passwords\ValidationRules;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
 use Tests\Support\DatabaseTestCase;
@@ -57,13 +58,15 @@ final class RegisterTest extends DatabaseTestCase
         $this->seeInDatabase('users', [
             'username' => 'JohnDoe',
         ]);
+
         // User has email/password identity
-        $user = model('UserModel')->where('username', 'JohnDoe')->first(); // @phpstan-ignore-line
+        $user = model(UserModel::class)->where('username', 'JohnDoe')->first();
         $this->seeInDatabase('auth_identities', [
             'user_id' => $user->id,
             'type'    => 'email_password',
             'secret'  => 'john.doe@example.com',
         ]);
+
         // User added to default group
         $this->assertTrue($user->inGroup(config('AuthGroups')->defaultGroup));
         $this->assertFalse($user->inGroup('admin'));

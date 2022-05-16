@@ -78,7 +78,7 @@ class RegisterController extends BaseController
         // Add to default group
         $users->addToDefaultGroup($user);
 
-        Events::trigger('didRegister', $user);
+        Events::trigger('register', $user);
 
         auth()->login($user);
 
@@ -92,8 +92,10 @@ class RegisterController extends BaseController
         }
 
         // Set the user active
-        $user->active = true;
-        $users->save($user);
+        auth()->activateUser($user);
+
+        // a successful login
+        Events::trigger('login', $user);
 
         // Success!
         return redirect()->to(config('Auth')->registerRedirect())

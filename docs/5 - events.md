@@ -8,24 +8,24 @@ When you want to respond to an event that Shield publishes, you will need to add
 
 ## Event List
 
-#### didRegister
+#### register
 
 Triggered when a new user has registered in the system. It's only argument is the `User` entity itself.
 
 ```php
-Events::trigger('didRegister', $user);
+Events::trigger('register', $user);
 
-Events::on('didRegister', 'SomeLibrary::handleRegister');
+Events::on('register', 'SomeLibrary::handleRegister');
 ```
 
-#### didLogin
+#### login
 
 Fired immediately after a successful login. The only argument is the `User` entity.
 
 ```php
-Events::trigger('didLogin', $user);
+Events::trigger('login', $user);
 
-Events::on('didLogin', 'SomeLibrary::handleLogin');
+Events::on('login', 'SomeLibrary::handleLogin');
 ```
 
 #### failedLogin
@@ -42,6 +42,9 @@ Events::on('failedLogin', function($credentials) {
 });
 
 // Outputs:
-
 ['email' => 'foo@example.com'];
 ```
+
+#### logout
+
+Fired immediately after a successful logout. The only argument is the `User` entity.

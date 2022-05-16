@@ -89,7 +89,7 @@ final class SessionAuthenticatorTest extends TestCase
     {
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
-        $this->assertTrue($this->auth->login($this->user));
+        $this->auth->login($this->user);
 
         $this->assertSame($this->user->id, $_SESSION['logged_in']);
 
@@ -102,7 +102,7 @@ final class SessionAuthenticatorTest extends TestCase
     {
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
-        $this->assertTrue($this->auth->remember()->login($this->user));
+        $this->auth->remember()->login($this->user);
 
         $this->assertSame($this->user->id, $_SESSION['logged_in']);
 

@@ -10,8 +10,10 @@ use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\RememberModel;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
 use Exception;
@@ -25,19 +27,23 @@ class Session implements AuthenticatorInterface
      */
     protected UserModel $provider;
 
+    /**
+     * The user logged in
+     */
     protected ?User $user = null;
-    protected LoginModel $loginModel;
 
     /**
      * Should the user be remembered?
      */
     protected bool $shouldRemember = false;
 
+    protected LoginModel $loginModel;
     protected RememberModel $rememberModel;
 
     public function __construct(UserModel $provider)
     {
         helper('setting');
+
         $this->provider      = $provider;
         $this->loginModel    = model(LoginModel::class); // @phpstan-ignore-line
         $this->rememberModel = model(RememberModel::class); // @phpstan-ignore-line
@@ -58,6 +64,8 @@ class Session implements AuthenticatorInterface
     /**
      * Attempts to authenticate a user with the given $credentials.
      * Logs the user in with a successful check.
+     *
+     * @phpstan-param array{email?: string, username?: string, password?: string} $credentials
      */
     public function attempt(array $credentials): Result
     {
@@ -76,7 +84,8 @@ class Session implements AuthenticatorInterface
 
             // Fire an event on failure so devs have the chance to
             // let them know someone attempted to login to their account
-            Events::trigger('failedLoginAttempt', $credentials);
+            unset($credentials['password']);
+            Events::trigger('failedLogin', $credentials);
 
             return $result;
         }
@@ -88,7 +97,65 @@ class Session implements AuthenticatorInterface
 
         $this->recordLoginAttempt($credentials, true, $ipAddress, $userAgent, $user->getAuthId());
 
+        // If an action has been defined for login, start it up.
+        $actionClass = setting('Auth.actions')['login'] ?? null;
+        if (! empty($actionClass)) {
+            session()->set('auth_action', $actionClass);
+        } else {
+            $this->completeLogin($user);
+        }
+
         return $result;
+    }
+
+    /**
+     * Check token in Action
+     *
+     * @param string $type  Action type. 'email_2fa' or 'email_activate'
+     * @param string $token Token to check
+     */
+    public function checkAction(string $type, string $token): bool
+    {
+        $user = $this->loggedIn() ? $this->getUser() : null;
+
+        if ($user === null) {
+            throw new LogicException('Cannot get the User.');
+        }
+
+        $identity = $user->getIdentity($type);
+
+        if (empty($token) || $token !== $identity->secret) {
+            return false;
+        }
+
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        // On success - remove the identity and clean up session
+        $identityModel->deleteIdentitiesByType($user->getAuthId(), $type);
+
+        // Clean up our session
+        session()->remove('auth_action');
+
+        $this->user = $user;
+
+        $this->completeLogin($user);
+
+        return true;
+    }
+
+    private function completeLogin(User $user): void
+    {
+        // a successful login
+        Events::trigger('login', $user);
+    }
+
+    /**
+     * Activate a User
+     */
+    public function activateUser(User $user): void
+    {
+        $this->provider->activate($user);
     }
 
     /**
@@ -113,6 +180,8 @@ class Session implements AuthenticatorInterface
     /**
      * Checks a user's $credentials to see if they match an
      * existing user.
+     *
+     * @phpstan-param array{email?: string, username?: string, password?: string} $credentials
      */
     public function check(array $credentials): Result
     {
@@ -126,7 +195,7 @@ class Session implements AuthenticatorInterface
 
         // Remove the password from credentials so we can
         // check afterword.
-        $givenPassword = $credentials['password'] ?? null;
+        $givenPassword = $credentials['password'];
         unset($credentials['password']);
 
         // Find the existing user
@@ -243,15 +312,10 @@ class Session implements AuthenticatorInterface
         return $token;
     }
 
-    /**
-     * Logs the given user in.
-     */
-    public function login(User $user): bool
+    private function startLogin(User $user): void
     {
-        $this->user = $user;
-
         // Update the user's last used date on their password identity.
-        $this->user->touchIdentity($this->user->getEmailIdentity());
+        $user->touchIdentity($user->getEmailIdentity());
 
         // Regenerate the session ID to help protect against session fixation
         if (ENVIRONMENT !== 'testing') {
@@ -259,14 +323,29 @@ class Session implements AuthenticatorInterface
         }
 
         // Let the session know we're logged in
-        session()->set(setting('Auth.sessionConfig')['field'], $this->user->getAuthId());
+        session()->set(setting('Auth.sessionConfig')['field'], $user->getAuthId());
 
         /** @var Response $response */
         $response = service('response');
 
         // When logged in, ensure cache control headers are in place
         $response->noCache();
+    }
 
+    /**
+     * Logs the given user in.
+     */
+    public function login(User $user): void
+    {
+        $this->user = $user;
+
+        $this->startLogin($user);
+
+        $this->processRemember();
+    }
+
+    private function processRemember()
+    {
         if ($this->shouldRemember && setting('Auth.sessionConfig')['allowRemembering']) {
             $this->rememberUser($this->user->getAuthId());
 
@@ -285,9 +364,6 @@ class Session implements AuthenticatorInterface
         if (random_int(1, 100) <= 20) {
             $this->rememberModel->purgeOldRememberTokens();
         }
-
-        // Trigger login event, in case anyone cares
-        return Events::trigger('login', $user);
     }
 
     /**

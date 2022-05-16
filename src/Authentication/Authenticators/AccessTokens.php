@@ -141,11 +141,9 @@ class AccessTokens implements AuthenticatorInterface
     /**
      * Logs the given user in by saving them to the class.
      */
-    public function login(User $user): bool
+    public function login(User $user): void
     {
         $this->user = $user;
-
-        return true;
     }
 
     /**
