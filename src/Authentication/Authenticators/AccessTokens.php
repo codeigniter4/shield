@@ -234,7 +234,7 @@ class AccessTokens implements AuthenticatorInterface
     {
         if (! $this->user instanceof User) {
             throw new InvalidArgumentException(
-                self::class . '::recordActiveDate() requires logged in user before calling.'
+                __METHOD__ . '() requires logged in user before calling.'
             );
         }
 
