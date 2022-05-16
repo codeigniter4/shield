@@ -9,7 +9,6 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
-use CodeIgniter\Shield\Models\UserIdentityModel;
 
 class EmailActivator implements ActionInterface
 {
@@ -36,23 +35,7 @@ class EmailActivator implements ActionInterface
             );
         }
 
-        /** @var UserIdentityModel $identityModel */
-        $identityModel = model(UserIdentityModel::class);
-
-        // Delete any previous activation identities
-        $identityModel->deleteIdentitiesByType($user->getAuthId(), 'email_activate');
-
-        //  Create an identity for our activation hash
-        helper('text');
-        $code = random_string('nozero', 6);
-
-        $identityModel->insert([
-            'user_id' => $user->getAuthId(),
-            'type'    => 'email_activate',
-            'secret'  => $code,
-            'name'    => 'register',
-            'extra'   => lang('Auth.needVerification'),
-        ]);
+        $code = $authenticator->createIdentityEmailActivate();
 
         // Send the email
         helper('email');

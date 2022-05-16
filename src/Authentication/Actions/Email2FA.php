@@ -26,23 +26,7 @@ class Email2FA implements ActionInterface
 
         $user = $authenticator->getUser();
 
-        /** @var UserIdentityModel $identityModel */
-        $identityModel = model(UserIdentityModel::class);
-
-        // Delete any previous activation identities
-        $identityModel->deleteIdentitiesByType($user->getAuthId(), 'email_2fa');
-
-        // Create an identity for our 2fa hash
-        helper('text');
-        $code = random_string('nozero', 6);
-
-        $identityModel->insert([
-            'user_id' => $user->getAuthId(),
-            'type'    => 'email_2fa',
-            'secret'  => $code,
-            'name'    => 'login',
-            'extra'   => lang('Auth.need2FA'),
-        ]);
+        $authenticator->createIdentityEmail2FA();
 
         return view(setting('Auth.views')['action_email_2fa']);
     }
