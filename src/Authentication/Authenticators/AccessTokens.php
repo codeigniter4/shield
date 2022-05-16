@@ -48,7 +48,12 @@ class AccessTokens implements AuthenticatorInterface
 
         if (! $result->isOK()) {
             // Always record a login attempt, whether success or not.
-            $this->loginModel->recordLoginAttempt('token: ' . ($credentials['token'] ?? ''), false, $ipAddress, $userAgent);
+            $this->loginModel->recordLoginAttempt(
+                'token: ' . ($credentials['token'] ?? ''),
+                false,
+                $ipAddress,
+                $userAgent
+            );
 
             return $result;
         }
@@ -61,7 +66,13 @@ class AccessTokens implements AuthenticatorInterface
 
         $this->login($user);
 
-        $this->loginModel->recordLoginAttempt('token: ' . ($credentials['token'] ?? ''), true, $ipAddress, $userAgent, $this->user->getAuthId());
+        $this->loginModel->recordLoginAttempt(
+            'token: ' . ($credentials['token'] ?? ''),
+            true,
+            $ipAddress,
+            $userAgent,
+            $this->user->getAuthId()
+        );
 
         return $result;
     }
@@ -99,7 +110,10 @@ class AccessTokens implements AuthenticatorInterface
         }
 
         // Hasn't been used in a long time
-        if ($token->last_used_at && $token->last_used_at->isBefore(Time::now()->subSeconds(config('Auth')->unusedTokenLifetime))) {
+        if (
+            $token->last_used_at
+            && $token->last_used_at->isBefore(Time::now()->subSeconds(config('Auth')->unusedTokenLifetime))
+        ) {
             return new Result([
                 'success' => false,
                 'reason'  => lang('Auth.oldToken'),
