@@ -653,29 +653,4 @@ class Session implements AuthenticatorInterface
 
         $this->setRememberMeCookie($rawToken);
     }
-
-    /**
-     * Create an identity for Email Activation
-     *
-     * @return string The secret code
-     */
-    public function createIdentityEmailActivate(): string
-    {
-        helper('text');
-
-        $this->userIdentityModel->deleteIdentitiesByType($this->user->getAuthId(), 'email_activate');
-
-        //  Create an identity for our activation hash
-        $code = random_string('nozero', 6);
-
-        $this->userIdentityModel->insert([
-            'user_id' => $this->user->getAuthId(),
-            'type'    => 'email_activate',
-            'secret'  => $code,
-            'name'    => 'register',
-            'extra'   => lang('Auth.needVerification'),
-        ]);
-
-        return $code;
-    }
 }

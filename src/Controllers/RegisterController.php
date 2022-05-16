@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\Config\Factories;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
@@ -90,9 +91,13 @@ class RegisterController extends BaseController
         $actionClass = setting('Auth.actions')['register'] ?? null;
 
         if (! empty($actionClass)) {
-            session()->set('auth_action', $actionClass);
+            $action = Factories::actions($actionClass); // @phpstan-ignore-line
 
-            $authenticator->createIdentityEmailActivate();
+            if (method_exists($action, 'afterRegister')) {
+                $action->afterRegister($user);
+            }
+
+            session()->set('auth_action', $actionClass);
 
             return redirect()->to('auth/a/show');
         }

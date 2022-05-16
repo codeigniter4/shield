@@ -9,6 +9,7 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 
 class EmailActivator implements ActionInterface
 {
@@ -34,7 +35,7 @@ class EmailActivator implements ActionInterface
             );
         }
 
-        $code = $authenticator->createIdentityEmailActivate();
+        $code = $this->createIdentity($user);
 
         // Send the email
         helper('email');
@@ -87,5 +88,41 @@ class EmailActivator implements ActionInterface
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
+    }
+
+    /**
+     * Called from `RegisterController::registerAction()`
+     */
+    public function afterRegister(User $user): void
+    {
+        $this->createIdentity($user);
+    }
+
+    /**
+     * Create an identity for Email Activation
+     *
+     * @return string The secret code
+     */
+    private function createIdentity(User $user): string
+    {
+        helper('text');
+
+        /** @var UserIdentityModel $userIdentityModel */
+        $userIdentityModel = model(UserIdentityModel::class);
+
+        $userIdentityModel->deleteIdentitiesByType($user->getAuthId(), 'email_activate');
+
+        //  Create an identity for our activation hash
+        $code = random_string('nozero', 6);
+
+        $userIdentityModel->insert([
+            'user_id' => $user->getAuthId(),
+            'type'    => 'email_activate',
+            'secret'  => $code,
+            'name'    => 'register',
+            'extra'   => lang('Auth.needVerification'),
+        ]);
+
+        return $code;
     }
 }
