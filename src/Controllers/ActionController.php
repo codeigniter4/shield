@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\Config\Factories;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
@@ -31,7 +32,7 @@ class ActionController extends BaseController
         $actionClass = session('auth_action');
 
         if (! empty($actionClass) && class_exists($actionClass)) {
-            $this->action = new $actionClass();
+            $this->action = Factories::actions($actionClass); // @phpstan-ignore-line
         }
 
         if (empty($this->action) || ! $this->action instanceof ActionInterface) {

@@ -5,6 +5,7 @@ namespace CodeIgniter\Shield\Authentication\Actions;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 
@@ -29,7 +30,7 @@ class Email2FA implements ActionInterface
             throw new RuntimeException('Cannot get the pending login User.');
         }
 
-        $authenticator->createIdentityEmail2FA();
+        $this->createIdentity($user);
 
         return view(setting('Auth.views')['action_email_2fa'], ['user' => $user]);
     }
@@ -102,5 +103,38 @@ class Email2FA implements ActionInterface
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
+    }
+
+    /**
+     * Called from `Session::attempt()`.
+     */
+    public function afterAttempt(User $user): void
+    {
+        $this->createIdentity($user);
+    }
+
+    /**
+     * Create an identity for Email 2FA
+     */
+    private function createIdentity(User $user): void
+    {
+        helper('text');
+
+        /** @var UserIdentityModel $userIdentityModel */
+        $userIdentityModel = model(UserIdentityModel::class);
+
+        // Delete any previous activation identities
+        $userIdentityModel->deleteIdentitiesByType($user->getAuthId(), 'email_2fa');
+
+        // Create an identity for our 2fa hash
+        $code = random_string('nozero', 6);
+
+        $userIdentityModel->insert([
+            'user_id' => $user->getAuthId(),
+            'type'    => 'email_2fa',
+            'secret'  => $code,
+            'name'    => 'login',
+            'extra'   => lang('Auth.need2FA'),
+        ]);
     }
 }
