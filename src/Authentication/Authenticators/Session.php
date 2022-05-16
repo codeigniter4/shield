@@ -24,6 +24,7 @@ class Session implements AuthenticatorInterface
 {
     private const STATE_UNKNOWN   = 0;
     private const STATE_ANONYMOUS = 1;
+    private const STATE_PENDING   = 2;
     private const STATE_LOGGED_IN = 3;
 
     /**
@@ -133,7 +134,7 @@ class Session implements AuthenticatorInterface
      */
     public function checkAction(string $type, string $token): bool
     {
-        $user = $this->loggedIn() ? $this->getUser() : null;
+        $user = ($this->loggedIn() || $this->isPending()) ? $this->user : null;
 
         if ($user === null) {
             throw new LogicException('Cannot get the User.');
@@ -255,10 +256,6 @@ class Session implements AuthenticatorInterface
      */
     public function loggedIn(): bool
     {
-        if ($this->user instanceof User) {
-            return true;
-        }
-
         $this->checkUserState();
 
         return (bool) ($this->userState === self::STATE_LOGGED_IN);
@@ -290,7 +287,7 @@ class Session implements AuthenticatorInterface
                 $action = setting('Auth.actions')[$identity->name];
 
                 if ($action) {
-                    $this->userState = self::STATE_LOGGED_IN;
+                    $this->userState = self::STATE_PENDING;
 
                     session()->set('auth_action', $action);
                     $this->pendingMessage = $identity->extra;
@@ -314,11 +311,27 @@ class Session implements AuthenticatorInterface
         $this->userState = self::STATE_ANONYMOUS;
     }
 
+    public function isPending(): bool
+    {
+        $this->checkUserState();
+
+        return $this->userState === self::STATE_PENDING;
+    }
+
+    public function isAnonymous(): bool
+    {
+        $this->checkUserState();
+
+        return $this->userState === self::STATE_ANONYMOUS;
+    }
+
     /**
      * Returns pending login error message
      */
     public function getPendingMessage(): string
     {
+        $this->checkUserState();
+
         return $this->pendingMessage;
     }
 
@@ -382,6 +395,8 @@ class Session implements AuthenticatorInterface
 
     private function startLogin(User $user): void
     {
+        $this->user = $user;
+
         // Update the user's last used date on their password identity.
         $user->touchIdentity($user->getEmailIdentity());
 
@@ -507,7 +522,27 @@ class Session implements AuthenticatorInterface
      */
     public function getUser(): ?User
     {
-        return $this->user;
+        $this->checkUserState();
+
+        if ($this->userState === self::STATE_LOGGED_IN) {
+            return $this->user;
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the current pending login User.
+     */
+    public function getPendingUser(): ?User
+    {
+        $this->checkUserState();
+
+        if ($this->userState === self::STATE_PENDING) {
+            return $this->user;
+        }
+
+        return null;
     }
 
     /**

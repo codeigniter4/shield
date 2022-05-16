@@ -22,10 +22,9 @@ class EmailActivator implements ActionInterface
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
-        $user = $authenticator->getUser();
-
+        $user = $authenticator->getPendingUser();
         if ($user === null) {
-            throw new RuntimeException('Cannot get the User.');
+            throw new RuntimeException('Cannot get the pending login User.');
         }
 
         $userEmail = $user->getAuthEmail();

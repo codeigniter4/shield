@@ -24,11 +24,14 @@ class Email2FA implements ActionInterface
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
-        $user = $authenticator->getUser();
+        $user = $authenticator->getPendingUser();
+        if ($user === null) {
+            throw new RuntimeException('Cannot get the pending login User.');
+        }
 
         $authenticator->createIdentityEmail2FA();
 
-        return view(setting('Auth.views')['action_email_2fa']);
+        return view(setting('Auth.views')['action_email_2fa'], ['user' => $user]);
     }
 
     /**
@@ -45,14 +48,13 @@ class Email2FA implements ActionInterface
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
-        $user = $authenticator->getUser();
+        $user = $authenticator->getPendingUser();
+        if ($user === null) {
+            throw new RuntimeException('Cannot get the pending login User.');
+        }
 
         if (empty($email) || $email !== $user->getAuthEmail()) {
             return redirect()->route('auth-action-show')->with('error', lang('Auth.invalidEmail'));
-        }
-
-        if ($user === null) {
-            throw new RuntimeException('Cannot get the User.');
         }
 
         /** @var UserIdentityModel $identityModel */
