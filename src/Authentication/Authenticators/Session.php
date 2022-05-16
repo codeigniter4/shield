@@ -131,11 +131,8 @@ class Session implements AuthenticatorInterface
             return false;
         }
 
-        /** @var UserIdentityModel $identityModel */
-        $identityModel = model(UserIdentityModel::class);
-
         // On success - remove the identity and clean up session
-        $identityModel->deleteIdentitiesByType($user->getAuthId(), $type);
+        $this->userIdentityModel->deleteIdentitiesByType($user->getAuthId(), $type);
 
         // Clean up our session
         session()->remove('auth_action');
