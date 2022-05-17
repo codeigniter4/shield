@@ -18,7 +18,7 @@ class LoginModel extends Model
     protected $allowedFields  = [
         'ip_address',
         'user_agent',
-        'email',
+        'identifier',
         'user_id',
         'date',
         'success',
@@ -26,7 +26,7 @@ class LoginModel extends Model
     protected $useTimestamps   = false;
     protected $validationRules = [
         'ip_address' => 'required',
-        'email'      => 'required',
+        'identifier' => 'required',
         'user_agent' => 'permit_empty|string',
         'user_id'    => 'permit_empty|integer',
         'date'       => 'required|valid_date',
@@ -39,12 +39,12 @@ class LoginModel extends Model
      *
      * @return BaseResult|false|int|object|string
      */
-    public function recordLoginAttempt(string $email, bool $success, ?string $ipAddress = null, ?string $userAgent = null, $userId = null)
+    public function recordLoginAttempt(string $identifier, bool $success, ?string $ipAddress = null, ?string $userAgent = null, $userId = null)
     {
         return $this->insert([
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent,
-            'email'      => $email,
+            'identifier' => $identifier,
             'user_id'    => $userId,
             'date'       => date('Y-m-d H:i:s'),
             'success'    => (int) $success,
@@ -62,7 +62,7 @@ class LoginModel extends Model
     {
         return [
             'ip_address' => $faker->ipv4,
-            'email'      => $faker->email,
+            'identifier' => $faker->email,
             'user_id'    => null,
             'date'       => Time::parse('-1 day')->toDateTimeString(),
             'success'    => true,

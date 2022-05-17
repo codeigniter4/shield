@@ -183,7 +183,7 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
         }
 
         return $logins
-            ->where('email', $this->getAuthEmail())
+            ->where('identifier', $this->getAuthEmail())
             ->orderBy('date', 'desc')
             ->first();
     }
