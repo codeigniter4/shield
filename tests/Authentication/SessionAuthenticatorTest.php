@@ -254,8 +254,8 @@ final class SessionAuthenticatorTest extends TestCase
 
         // A login attempt should have always been recorded
         $this->seeInDatabase('auth_logins', [
-            'email'   => 'johnsmith@example.com',
-            'success' => 0,
+            'identifier' => 'johnsmith@example.com',
+            'success'    => 0,
         ]);
     }
 
@@ -284,8 +284,8 @@ final class SessionAuthenticatorTest extends TestCase
 
         // A login attempt should have been recorded
         $this->seeInDatabase('auth_logins', [
-            'email'   => $this->user->email,
-            'success' => 1,
+            'identifier' => $this->user->email,
+            'success'    => 1,
         ]);
     }
 
@@ -314,8 +314,8 @@ final class SessionAuthenticatorTest extends TestCase
 
         // A login attempt should have been recorded
         $this->seeInDatabase('auth_logins', [
-            'email'   => 'foo@example.COM',
-            'success' => 1,
+            'identifier' => 'foo@example.COM',
+            'success'    => 1,
         ]);
     }
 
@@ -346,8 +346,8 @@ final class SessionAuthenticatorTest extends TestCase
 
         // A login attempt should have been recorded
         $this->seeInDatabase('auth_logins', [
-            'email'   => 'fooROG',
-            'success' => 1,
+            'identifier' => 'fooROG',
+            'success'    => 1,
         ]);
     }
 }

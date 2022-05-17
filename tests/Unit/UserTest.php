@@ -78,11 +78,11 @@ final class UserTest extends TestCase
 
         $login = fake(
             LoginModel::class,
-            ['email' => $this->user->email, 'user_id' => $this->user->id]
+            ['identifier' => $this->user->email, 'user_id' => $this->user->id]
         );
         fake(
             LoginModel::class,
-            ['email' => $this->user->email, 'user_id' => $this->user->id, 'success' => false]
+            ['identifier' => $this->user->email, 'user_id' => $this->user->id, 'success' => false]
         );
 
         $last = $this->user->lastLogin();

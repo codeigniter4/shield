@@ -194,7 +194,7 @@ class User extends Entity
         }
 
         return $logins
-            ->where('email', $this->getAuthEmail())
+            ->where('identifier', $this->getAuthEmail())
             ->orderBy('date', 'desc')
             ->first();
     }
