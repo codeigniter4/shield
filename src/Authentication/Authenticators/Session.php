@@ -266,7 +266,7 @@ class Session implements AuthenticatorInterface
     {
         $this->checkUserState();
 
-        return (bool) ($this->userState === self::STATE_LOGGED_IN);
+        return $this->userState === self::STATE_LOGGED_IN;
     }
 
     /**
