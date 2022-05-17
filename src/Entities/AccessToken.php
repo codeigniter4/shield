@@ -12,6 +12,8 @@ use CodeIgniter\Entity\Entity;
  */
 class AccessToken extends Entity
 {
+    private ?User $user = null;
+
     /**
      * @var array<string, string>
      */
@@ -33,13 +35,14 @@ class AccessToken extends Entity
      */
     public function user(): ?User
     {
-        if (empty($this->attributes['user'])) {
+        if ($this->user === null) {
             helper('auth');
-            $users                    = auth()->getProvider();
-            $this->attributes['user'] = $users->findById($this->user_id);
+
+            $users      = auth()->getProvider();
+            $this->user = $users->findById($this->user_id);
         }
 
-        return $this->attributes['user'];
+        return $this->user;
     }
 
     /**
