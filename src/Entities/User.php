@@ -230,28 +230,4 @@ class User extends Entity
     {
         return $this->password;
     }
-
-    /**
-     * Returns the "remember me" token for this user.
-     *
-     * @TODO Do we need this method?
-     */
-    public function getRememberToken(): ?string
-    {
-        return $this->remember_token;
-    }
-
-    /**
-     * Sets the "remember-me" token.
-     *
-     * @return $this
-     *
-     * @TODO Do we need this method?
-     */
-    public function setRememberToken(string $value): self
-    {
-        $this->remember_token = $value;
-
-        return $this;
-    }
 }
