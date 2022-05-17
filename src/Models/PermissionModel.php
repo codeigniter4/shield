@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeIgniter\Shield\Authorization\Models;
+namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
 

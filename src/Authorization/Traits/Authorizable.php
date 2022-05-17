@@ -4,8 +4,8 @@ namespace CodeIgniter\Shield\Authorization\Traits;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authorization\AuthorizationException;
-use CodeIgniter\Shield\Authorization\Models\GroupModel;
-use CodeIgniter\Shield\Authorization\Models\PermissionModel;
+use CodeIgniter\Shield\Models\GroupModel;
+use CodeIgniter\Shield\Models\PermissionModel;
 
 trait Authorizable
 {
