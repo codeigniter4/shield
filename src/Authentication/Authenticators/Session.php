@@ -189,6 +189,7 @@ class Session implements AuthenticatorInterface
 
         // Clean up our session
         $this->removeSessionUser('auth_action');
+        $this->removeSessionUser('auth_action_message');
 
         $this->user = $user;
 
