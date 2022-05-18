@@ -19,7 +19,7 @@ class Email2FA implements ActionInterface
     private string $type = 'email_2fa';
 
     /**
-     * Displays the "Hey we're going to send you an number to your email"
+     * Displays the "Hey we're going to send you a number to your email"
      * message to the user with a prompt to continue.
      */
     public function show(): string
