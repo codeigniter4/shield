@@ -53,7 +53,7 @@ final class SessionAuthenticatorTest extends TestCase
 
     public function testLoggedInTrue()
     {
-        $_SESSION['logged_in'] = $this->user->id;
+        $_SESSION['user']['id'] = $this->user->id;
 
         $this->assertTrue($this->auth->loggedIn());
 
@@ -64,7 +64,7 @@ final class SessionAuthenticatorTest extends TestCase
 
     public function testLoggedInWithRememberCookie()
     {
-        unset($_SESSION['logged_in']);
+        unset($_SESSION['user']);
 
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
@@ -94,7 +94,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->auth->login($this->user);
 
-        $this->assertSame($this->user->id, $_SESSION['logged_in']);
+        $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
         $this->dontSeeInDatabase('auth_remember_tokens', [
             'user_id' => $this->user->id,
@@ -107,7 +107,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->auth->remember()->login($this->user);
 
-        $this->assertSame($this->user->id, $_SESSION['logged_in']);
+        $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
         $this->seeInDatabase('auth_remember_tokens', [
             'user_id' => $this->user->id,
@@ -127,7 +127,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->auth->logout();
 
-        $this->assertArrayNotHasKey('logged_in', $_SESSION);
+        $this->assertArrayNotHasKey('user', $_SESSION);
         $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
     }
 
@@ -145,7 +145,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->auth->loginById($this->user->id);
 
-        $this->assertSame($this->user->id, $_SESSION['logged_in']);
+        $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
         $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
     }
@@ -156,7 +156,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->auth->remember()->loginById($this->user->id);
 
-        $this->assertSame($this->user->id, $_SESSION['logged_in']);
+        $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
         $this->seeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
     }
@@ -165,7 +165,7 @@ final class SessionAuthenticatorTest extends TestCase
     {
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
         $this->auth->remember()->loginById($this->user->id);
-        $this->assertSame($this->user->id, $_SESSION['logged_in']);
+        $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
         $this->seeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
 
@@ -269,7 +269,7 @@ final class SessionAuthenticatorTest extends TestCase
             'password' => 'secret123',
         ]);
 
-        $this->assertArrayNotHasKey('logged_in', $_SESSION);
+        $this->assertArrayNotHasKey('user', $_SESSION);
 
         $result = $this->auth->attempt([
             'email'    => $this->user->email,
@@ -282,8 +282,8 @@ final class SessionAuthenticatorTest extends TestCase
         $foundUser = $result->extraInfo();
         $this->assertSame($this->user->id, $foundUser->id);
 
-        $this->assertArrayHasKey('logged_in', $_SESSION);
-        $this->assertSame($this->user->id, $_SESSION['logged_in']);
+        $this->assertArrayHasKey('id', $_SESSION['user']);
+        $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
         // A login attempt should have been recorded
         $this->seeInDatabase('auth_logins', [
@@ -299,7 +299,7 @@ final class SessionAuthenticatorTest extends TestCase
             'password' => 'secret123',
         ]);
 
-        $this->assertArrayNotHasKey('logged_in', $_SESSION);
+        $this->assertArrayNotHasKey('user', $_SESSION);
 
         $result = $this->auth->attempt([
             'email'    => 'foo@example.COM',
@@ -312,8 +312,8 @@ final class SessionAuthenticatorTest extends TestCase
         $foundUser = $result->extraInfo();
         $this->assertSame($this->user->id, $foundUser->id);
 
-        $this->assertArrayHasKey('logged_in', $_SESSION);
-        $this->assertSame($this->user->id, $_SESSION['logged_in']);
+        $this->assertArrayHasKey('id', $_SESSION['user']);
+        $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
         // A login attempt should have been recorded
         $this->seeInDatabase('auth_logins', [
@@ -331,7 +331,7 @@ final class SessionAuthenticatorTest extends TestCase
             'password' => 'secret123',
         ]);
 
-        $this->assertArrayNotHasKey('logged_in', $_SESSION);
+        $this->assertArrayNotHasKey('user', $_SESSION);
 
         $result = $this->auth->attempt([
             'username' => 'fooROG',
@@ -344,8 +344,8 @@ final class SessionAuthenticatorTest extends TestCase
         $foundUser = $result->extraInfo();
         $this->assertSame($user->id, $foundUser->id);
 
-        $this->assertArrayHasKey('logged_in', $_SESSION);
-        $this->assertSame($user->id, $_SESSION['logged_in']);
+        $this->assertArrayHasKey('id', $_SESSION['user']);
+        $this->assertSame($user->id, $_SESSION['user']['id']);
 
         // A login attempt should have been recorded
         $this->seeInDatabase('auth_logins', [

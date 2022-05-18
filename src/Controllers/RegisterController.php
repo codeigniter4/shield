@@ -121,7 +121,9 @@ class RegisterController extends BaseController
             $action->afterRegister($user);
         }
 
-        session()->set('auth_action', $actionClass);
+        $sessionUserInfo                = session(setting('Auth.sessionConfig')['field']) ?? [];
+        $sessionUserInfo['auth_action'] = $actionClass;
+        session()->set(setting('Auth.sessionConfig')['field'], $sessionUserInfo);
     }
 
     /**

@@ -28,8 +28,9 @@ class ActionController extends BaseController
     public function _remap(string $method, ...$params)
     {
         // Grab our action instance if one has been set.
+        $sessionUserInfo = session(setting('Auth.sessionConfig')['field']) ?? [];
         /** @var class-string<ActionInterface>|null $actionClass */
-        $actionClass = session('auth_action');
+        $actionClass = $sessionUserInfo['auth_action'] ?? null;
 
         if (! empty($actionClass) && class_exists($actionClass)) {
             $this->action = Factories::actions($actionClass); // @phpstan-ignore-line

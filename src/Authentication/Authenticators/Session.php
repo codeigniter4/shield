@@ -127,7 +127,7 @@ class Session implements AuthenticatorInterface
                 $action->afterAttempt($user);
             }
 
-            session()->set('auth_action', $actionClass);
+            $this->setSessionUser('auth_action', $actionClass);
         } else {
             $this->completeLogin($user);
         }
@@ -159,7 +159,7 @@ class Session implements AuthenticatorInterface
         $this->userIdentityModel->deleteIdentitiesByType($user, $type);
 
         // Clean up our session
-        session()->remove('auth_action');
+        $this->removeSessionUser('auth_action');
 
         $this->user = $user;
 
@@ -281,7 +281,7 @@ class Session implements AuthenticatorInterface
         }
 
         /** @var int|string|null $userId */
-        $userId = session(setting('Auth.sessionConfig')['field']);
+        $userId = $this->getSessionUser('id');
 
         if ($userId !== null) {
             $this->user = $this->provider->findById($userId);
@@ -304,7 +304,8 @@ class Session implements AuthenticatorInterface
                 if ($actionClass) {
                     $this->userState = self::STATE_PENDING;
 
-                    session()->set('auth_action', $actionClass);
+                    $this->setSessionUser('auth_action', $actionClass);
+
                     $this->pendingMessage = $identity->extra;
 
                     return;
@@ -450,13 +451,50 @@ class Session implements AuthenticatorInterface
         }
 
         // Let the session know we're logged in
-        session()->set(setting('Auth.sessionConfig')['field'], $user->getAuthId());
+        $this->setSessionUser('id', $user->getAuthId());
 
         /** @var Response $response */
         $response = service('response');
 
         // When logged in, ensure cache control headers are in place
         $response->noCache();
+    }
+
+    private function getSessionUserInfo(): array
+    {
+        return session(setting('Auth.sessionConfig')['field']) ?? [];
+    }
+
+    /**
+     * @return int|string|null
+     */
+    private function getSessionUser(string $key)
+    {
+        $sessionUserInfo = $this->getSessionUserInfo();
+
+        return $sessionUserInfo[$key] ?? null;
+    }
+
+    /**
+     * @param int|string|null $value
+     */
+    private function setSessionUser(string $key, $value): void
+    {
+        $sessionUserInfo       = $this->getSessionUserInfo();
+        $sessionUserInfo[$key] = $value;
+        session()->set(setting('Auth.sessionConfig')['field'], $sessionUserInfo);
+    }
+
+    private function removeSessionUser(string $key): void
+    {
+        $sessionUserInfo = $this->getSessionUserInfo();
+        unset($sessionUserInfo[$key]);
+        session()->set(setting('Auth.sessionConfig')['field'], $sessionUserInfo);
+    }
+
+    private function setSessionUserInfo(array $sessionUserInfo): void
+    {
+        session()->set(setting('Auth.sessionConfig')['field'], $sessionUserInfo);
     }
 
     /**

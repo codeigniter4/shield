@@ -115,9 +115,7 @@ final class MagicLinkTest extends TestCase
     public function testMagicLinkVerifySuccess()
     {
         $identities = new UserIdentityModel();
-        /**
-         * @phpstan-var User
-         */
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $identities->insert([
@@ -130,7 +128,7 @@ final class MagicLinkTest extends TestCase
         $result = $this->get(route_to('verify-magic-link') . '?token=' . 'abasdasdf');
 
         $result->assertRedirectTo(site_url());
-        $result->assertSessionHas('logged_in', $user->id);
+        $result->assertSessionHas('user', ['id' => $user->id]);
         $this->assertTrue(auth()->loggedIn());
     }
 }
