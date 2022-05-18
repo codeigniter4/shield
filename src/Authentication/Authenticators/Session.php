@@ -110,6 +110,9 @@ class Session implements AuthenticatorInterface
 
         $this->user = $user;
 
+        // Update the user's last used date on their password identity.
+        $user->touchIdentity($user->getEmailIdentity());
+
         // If an action has been defined for login, start it up.
         $hasAction = $this->startUpAction('login', $user);
 
@@ -489,9 +492,6 @@ class Session implements AuthenticatorInterface
     private function startLogin(User $user): void
     {
         $this->user = $user;
-
-        // Update the user's last used date on their password identity.
-        $user->touchIdentity($user->getEmailIdentity());
 
         // Regenerate the session ID to help protect against session fixation
         if (ENVIRONMENT !== 'testing') {
