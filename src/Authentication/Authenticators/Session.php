@@ -161,6 +161,10 @@ class Session implements AuthenticatorInterface
         /** @var class-string<ActionInterface>|null $actionClass */
         $actionClass = $this->getSessionUser('auth_action');
 
+        if ($actionClass === null) {
+            return null;
+        }
+
         return Factories::actions($actionClass); // @phpstan-ignore-line
     }
 
