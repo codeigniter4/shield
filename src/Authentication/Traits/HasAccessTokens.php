@@ -59,7 +59,7 @@ trait HasAccessTokens
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->revokeAccessToken($this->id, $rawToken);
+        return $identityModel->revokeAccessToken($this, $rawToken);
     }
 
     /**
@@ -70,7 +70,7 @@ trait HasAccessTokens
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->revokeAllAccessTokens($this->id);
+        return $identityModel->revokeAllAccessTokens($this);
     }
 
     /**
@@ -83,7 +83,7 @@ trait HasAccessTokens
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->getAllAccessTokens($this->id);
+        return $identityModel->getAllAccessTokens($this);
     }
 
     /**
@@ -99,7 +99,7 @@ trait HasAccessTokens
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->getAccessToken($this->id, $rawToken);
+        return $identityModel->getAccessToken($this, $rawToken);
     }
 
     /**
@@ -110,7 +110,7 @@ trait HasAccessTokens
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->getAccessTokenById($id, $this->id);
+        return $identityModel->getAccessTokenById($id, $this);
     }
 
     /**

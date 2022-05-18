@@ -63,7 +63,7 @@ class Email2FA implements ActionInterface
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        $identity = $identityModel->getIdentityByType($user->getAuthId(), $this->type);
+        $identity = $identityModel->getIdentityByType($user, $this->type);
 
         if (empty($identity)) {
             return redirect()->route('auth-action-show')->with('error', lang('Auth.need2FA'));
@@ -126,7 +126,7 @@ class Email2FA implements ActionInterface
         $userIdentityModel = model(UserIdentityModel::class);
 
         // Delete any previous activation identities
-        $userIdentityModel->deleteIdentitiesByType($user->getAuthId(), $this->type);
+        $userIdentityModel->deleteIdentitiesByType($user, $this->type);
 
         // Create an identity for our 2fa hash
         $code = random_string('nozero', 6);

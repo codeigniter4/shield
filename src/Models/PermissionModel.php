@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Entities\User;
 
 class PermissionModel extends Model
 {
@@ -20,18 +21,15 @@ class PermissionModel extends Model
     protected $validationMessages = [];
     protected $skipValidation     = false;
 
-    /**
-     * @param int|string $userId
-     */
-    public function getByUserId($userId): array
+    public function getForUser(User $user): array
     {
-        $permission = $this->builder()
+        $rows = $this->builder()
             ->select('permission')
-            ->where('user_id', $userId)
+            ->where('user_id', $user->getAuthId())
             ->get()
             ->getResultArray();
 
-        return array_column($permission, 'permission');
+        return array_column($rows, 'permission');
     }
 
     /**

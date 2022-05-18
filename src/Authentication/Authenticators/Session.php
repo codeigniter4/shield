@@ -156,7 +156,7 @@ class Session implements AuthenticatorInterface
         }
 
         // On success - remove the identity and clean up session
-        $this->userIdentityModel->deleteIdentitiesByType($user->getAuthId(), $type);
+        $this->userIdentityModel->deleteIdentitiesByType($user, $type);
 
         // Clean up our session
         session()->remove('auth_action');
@@ -287,7 +287,7 @@ class Session implements AuthenticatorInterface
             $this->user = $this->provider->findById($userId);
 
             $identities = $this->userIdentityModel->getIdentitiesByTypes(
-                $this->user->getAuthId(),
+                $this->user,
                 $this->getActionTypes()
             );
 
@@ -474,7 +474,7 @@ class Session implements AuthenticatorInterface
     private function issueRememberMeToken()
     {
         if ($this->shouldRemember && setting('Auth.sessionConfig')['allowRemembering']) {
-            $this->rememberUser($this->user->getAuthId());
+            $this->rememberUser($this->user);
 
             // Reset so it doesn't mess up future calls.
             $this->shouldRemember = false;
@@ -533,7 +533,7 @@ class Session implements AuthenticatorInterface
         session()->regenerate(true);
 
         // Take care of any remember-me functionality
-        $this->rememberModel->purgeRememberTokens($this->user->getAuthId());
+        $this->rememberModel->purgeRememberTokens($this->user);
 
         // Trigger logout event
         $result = Events::trigger('logout', $this->user);
@@ -545,20 +545,15 @@ class Session implements AuthenticatorInterface
 
     /**
      * Removes any remember-me tokens, if applicable.
-     *
-     * @param int|string|null $userId ID of user to forget.
      */
-    public function forget($userId = null): void
+    public function forget(?User $user = null): void
     {
-        if (empty($userId)) {
-            if (! $this->loggedIn()) {
-                return;
-            }
-
-            $userId = $this->user->getAuthId();
+        $user ??= $this->user;
+        if ($user === null) {
+            return;
         }
 
-        $this->rememberModel->purgeRememberTokens($userId);
+        $this->rememberModel->purgeRememberTokens($user);
     }
 
     /**
@@ -611,11 +606,9 @@ class Session implements AuthenticatorInterface
      *
      * @see https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence
      *
-     * @param int|string $userId
-     *
      * @throws Exception
      */
-    protected function rememberUser($userId): void
+    protected function rememberUser(User $user): void
     {
         $selector  = bin2hex(random_bytes(12));
         $validator = bin2hex(random_bytes(20));
@@ -625,7 +618,7 @@ class Session implements AuthenticatorInterface
 
         // Store it in the database.
         $this->rememberModel->rememberUser(
-            $userId,
+            $user,
             $selector,
             $this->hashValidator($validator),
             $expires

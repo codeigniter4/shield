@@ -63,7 +63,7 @@ class User extends Entity
             /** @var UserIdentityModel $identityModel */
             $identityModel = model(UserIdentityModel::class);
 
-            $this->identities = $identityModel->getIdentities($this->id);
+            $this->identities = $identityModel->getIdentities($this);
         }
     }
 

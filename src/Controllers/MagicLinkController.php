@@ -60,7 +60,7 @@ class MagicLinkController extends BaseController
         $identityModel = model(UserIdentityModel::class);
 
         // Delete any previous magic-link identities
-        $identityModel->deleteIdentitiesByType($user->getAuthId(), 'magic-link');
+        $identityModel->deleteIdentitiesByType($user, 'magic-link');
 
         // Generate the code and save it as an identity
         helper('text');
