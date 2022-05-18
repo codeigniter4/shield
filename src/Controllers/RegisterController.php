@@ -3,8 +3,11 @@
 namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\Config\Factories;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Validation\Validation;
@@ -80,19 +83,21 @@ class RegisterController extends BaseController
 
         Events::trigger('register', $user);
 
-        auth()->login($user);
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        $authenticator->login($user);
 
         // If an action has been defined for login, start it up.
         $actionClass = setting('Auth.actions')['register'] ?? null;
-
         if (! empty($actionClass)) {
-            session()->set('auth_action', $actionClass);
+            $this->startUpAction($actionClass, $user);
 
             return redirect()->to('auth/a/show');
         }
 
         // Set the user active
-        auth()->activateUser($user);
+        $authenticator->activateUser($user);
 
         // a successful login
         Events::trigger('login', $user);
@@ -100,6 +105,23 @@ class RegisterController extends BaseController
         // Success!
         return redirect()->to(config('Auth')->registerRedirect())
             ->with('message', lang('Auth.registerSuccess'));
+    }
+
+    /**
+     * @param class-string<ActionInterface> $actionClass
+     */
+    private function startUpAction(string $actionClass, User $user)
+    {
+        // @TODO I want to move this logic to Authenticators\Session,
+        //      and create register() method in Authenticators\Session.
+
+        $action = Factories::actions($actionClass); // @phpstan-ignore-line
+
+        if (method_exists($action, 'afterRegister')) {
+            $action->afterRegister($user);
+        }
+
+        session()->set('auth_action', $actionClass);
     }
 
     /**

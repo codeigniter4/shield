@@ -60,20 +60,26 @@ final class ActionsTest extends TestCase
 
     public function testEmail2FAShow()
     {
+        $this->insertIdentityEmal2FA();
+
         $result = $this->actingAs($this->user)
             ->withSession([
+                'logged_in'   => $this->user->id,
                 'auth_action' => Email2FA::class,
             ])->get('/auth/a/show');
 
         $result->assertStatus(200);
-        // Should autopopulate in the form
+        // Should auto populate in the form
         $result->assertSee($this->user->email);
     }
 
     public function testEmail2FAHandleInvalidEmail()
     {
+        $this->insertIdentityEmal2FA();
+
         $result = $this->actingAs($this->user)
             ->withSession([
+                'logged_in'   => $this->user->id,
                 'auth_action' => Email2FA::class,
             ])->post('/auth/a/handle', [
                 'email' => 'foo@example.com',
@@ -84,7 +90,7 @@ final class ActionsTest extends TestCase
         $result->assertSessionHas('error', lang('Auth.invalidEmail'));
     }
 
-    public function testEmail2FAHandleSendsEmail()
+    private function insertIdentityEmal2FA()
     {
         // An identity with 2FA info would have been stored previously
         $identities = model(UserIdentityModel::class);
@@ -95,9 +101,15 @@ final class ActionsTest extends TestCase
             'name'    => 'login',
             'extra'   => lang('Auth.need2FA'),
         ]);
+    }
+
+    public function testEmail2FAHandleSendsEmail()
+    {
+        $this->insertIdentityEmal2FA();
 
         $result = $this->actingAs($this->user)
             ->withSession([
+                'logged_in'   => $this->user->id,
                 'auth_action' => Email2FA::class,
             ])->post('/auth/a/handle', [
                 'email' => $this->user->email,
@@ -112,18 +124,11 @@ final class ActionsTest extends TestCase
 
     public function testEmail2FAVerifyFails()
     {
-        // An identity with 2FA info would have been stored previously
-        $identities = model(UserIdentityModel::class);
-        $identities->insert([
-            'user_id' => $this->user->id,
-            'type'    => 'email_2fa',
-            'secret'  => '123456',
-            'name'    => 'login',
-            'extra'   => lang('Auth.need2FA'),
-        ]);
+        $this->insertIdentityEmal2FA();
 
         $result = $this->actingAs($this->user)
             ->withSession([
+                'logged_in'   => $this->user->id,
                 'auth_action' => Email2FA::class,
             ])->post('/auth/a/verify', [
                 'token' => '234567',
@@ -135,18 +140,11 @@ final class ActionsTest extends TestCase
 
     public function testEmail2FAVerify()
     {
-        // An identity with 2FA info would have been stored previously
-        $identities = model(UserIdentityModel::class);
-        $identities->insert([
-            'user_id' => $this->user->id,
-            'type'    => 'email_2fa',
-            'secret'  => '123456',
-            'name'    => 'login',
-            'extra'   => lang('Auth.need2FA'),
-        ]);
+        $this->insertIdentityEmal2FA();
 
         $result = $this->actingAs($this->user)
             ->withSession([
+                'logged_in'   => $this->user->id,
                 'auth_action' => Email2FA::class,
             ])->post('/auth/a/verify', [
                 'token' => '123456',
@@ -167,8 +165,11 @@ final class ActionsTest extends TestCase
 
     public function testShowEmail2FACreatesIdentity()
     {
+        $this->insertIdentityEmal2FA();
+
         $result = $this->actingAs($this->user)
             ->withSession([
+                'logged_in'   => $this->user->id,
                 'auth_action' => Email2FA::class,
             ])
             ->get('/auth/a/show');
@@ -201,16 +202,36 @@ final class ActionsTest extends TestCase
 
         // Try to visit any other page, skipping the 2FA
         $result = $this->actingAs($this->user)
+            ->withSession([
+                'logged_in'   => $this->user->id,
+                'auth_action' => Email2FA::class,
+            ])
             ->get('/');
 
         $result->assertRedirect();
         $this->assertSame(site_url('/auth/a/show'), $result->getRedirectUrl());
     }
 
+    private function insertIdentityEmailActivate(): void
+    {
+        // An identity with Email activation info would have been stored previously
+        $identities = model(UserIdentityModel::class);
+        $identities->insert([
+            'user_id' => $this->user->id,
+            'type'    => 'email_activate',
+            'secret'  => '123456',
+            'name'    => 'register',
+            'extra'   => lang('Auth.needVerification'),
+        ]);
+    }
+
     public function testEmailActivateShow()
     {
+        $this->insertIdentityEmailActivate();
+
         $result = $this->actingAs($this->user)
             ->withSession([
+                'logged_in'   => $this->user->id,
                 'auth_action' => EmailActivator::class,
             ])->get('/auth/a/show');
 
@@ -229,15 +250,7 @@ final class ActionsTest extends TestCase
 
     public function testEmailActivateVerify()
     {
-        // An identity with Email activation info would have been stored previously
-        $identities = model(UserIdentityModel::class);
-        $identities->insert([
-            'user_id' => $this->user->id,
-            'type'    => 'email_activate',
-            'secret'  => '123456',
-            'name'    => 'register',
-            'extra'   => lang('Auth.needVerification'),
-        ]);
+        $this->insertIdentityEmailActivate();
 
         $this->user->active = false;
         $model              = auth()->getProvider();
@@ -245,6 +258,7 @@ final class ActionsTest extends TestCase
 
         $result = $this->actingAs($this->user)
             ->withSession([
+                'logged_in'   => $this->user->id,
                 'auth_action' => EmailActivator::class,
             ])->post('/auth/a/verify', [
                 'token' => '123456',
@@ -276,18 +290,14 @@ final class ActionsTest extends TestCase
         $config->globals['before'][] = 'session';
         Factories::injectMock('config', 'Filters', $config);
 
-        // An identity with 2FA info would have been stored previously
-        $identities = model(UserIdentityModel::class);
-        $identities->insert([
-            'user_id' => $this->user->id,
-            'type'    => 'email_activate',
-            'secret'  => '123456',
-            'name'    => 'register',
-            'extra'   => lang('Auth.needVerification'),
-        ]);
+        $this->insertIdentityEmailActivate();
 
         // Try to visit any other page, skipping the 2FA
         $result = $this->actingAs($this->user)
+            ->withSession([
+                'logged_in'   => $this->user->id,
+                'auth_action' => EmailActivator::class,
+            ])
             ->get('/');
 
         $result->assertRedirect();

@@ -26,7 +26,9 @@ class AccessTokens implements AuthenticatorInterface
     public function __construct(UserModel $provider)
     {
         helper('session');
-        $this->provider   = $provider;
+
+        $this->provider = $provider;
+
         $this->loginModel = model(LoginModel::class); // @phpstan-ignore-line
     }
 
@@ -48,7 +50,12 @@ class AccessTokens implements AuthenticatorInterface
 
         if (! $result->isOK()) {
             // Always record a login attempt, whether success or not.
-            $this->loginModel->recordLoginAttempt('token: ' . ($credentials['token'] ?? ''), false, $ipAddress, $userAgent);
+            $this->loginModel->recordLoginAttempt(
+                'token: ' . ($credentials['token'] ?? ''),
+                false,
+                $ipAddress,
+                $userAgent
+            );
 
             return $result;
         }
@@ -61,7 +68,13 @@ class AccessTokens implements AuthenticatorInterface
 
         $this->login($user);
 
-        $this->loginModel->recordLoginAttempt('token: ' . ($credentials['token'] ?? ''), true, $ipAddress, $userAgent, $this->user->getAuthId());
+        $this->loginModel->recordLoginAttempt(
+            'token: ' . ($credentials['token'] ?? ''),
+            true,
+            $ipAddress,
+            $userAgent,
+            $this->user->getAuthId()
+        );
 
         return $result;
     }
@@ -99,7 +112,10 @@ class AccessTokens implements AuthenticatorInterface
         }
 
         // Hasn't been used in a long time
-        if ($token->last_used_at && $token->last_used_at->isBefore(Time::now()->subSeconds(config('Auth')->unusedTokenLifetime))) {
+        if (
+            $token->last_used_at
+            && $token->last_used_at->isBefore(Time::now()->subSeconds(config('Auth')->unusedTokenLifetime))
+        ) {
             return new Result([
                 'success' => false,
                 'reason'  => lang('Auth.oldToken'),
@@ -218,7 +234,7 @@ class AccessTokens implements AuthenticatorInterface
     {
         if (! $this->user instanceof User) {
             throw new InvalidArgumentException(
-                self::class . '::recordActiveDate() requires logged in user before calling.'
+                __METHOD__ . '() requires logged in user before calling.'
             );
         }
 

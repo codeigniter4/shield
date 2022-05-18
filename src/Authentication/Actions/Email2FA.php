@@ -5,6 +5,7 @@ namespace CodeIgniter\Shield\Authentication\Actions;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 
@@ -15,33 +16,25 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
  */
 class Email2FA implements ActionInterface
 {
+    private string $type = 'email_2fa';
+
     /**
      * Displays the "Hey we're going to send you an number to your email"
      * message to the user with a prompt to continue.
      */
     public function show(): string
     {
-        $user = auth()->user();
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
 
-        /** @var UserIdentityModel $identityModel */
-        $identityModel = model(UserIdentityModel::class);
+        $user = $authenticator->getPendingUser();
+        if ($user === null) {
+            throw new RuntimeException('Cannot get the pending login User.');
+        }
 
-        // Delete any previous activation identities
-        $identityModel->deleteIdentitiesByType($user->getAuthId(), 'email_2fa');
+        $this->createIdentity($user);
 
-        // Create an identity for our 2fa hash
-        helper('text');
-        $code = random_string('nozero', 6);
-
-        $identityModel->insert([
-            'user_id' => $user->getAuthId(),
-            'type'    => 'email_2fa',
-            'secret'  => $code,
-            'name'    => 'login',
-            'extra'   => lang('Auth.need2FA'),
-        ]);
-
-        return view(setting('Auth.views')['action_email_2fa']);
+        return view(setting('Auth.views')['action_email_2fa'], ['user' => $user]);
     }
 
     /**
@@ -54,20 +47,23 @@ class Email2FA implements ActionInterface
     public function handle(IncomingRequest $request)
     {
         $email = $request->getPost('email');
-        $user  = auth()->user();
+
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        $user = $authenticator->getPendingUser();
+        if ($user === null) {
+            throw new RuntimeException('Cannot get the pending login User.');
+        }
 
         if (empty($email) || $email !== $user->getAuthEmail()) {
             return redirect()->route('auth-action-show')->with('error', lang('Auth.invalidEmail'));
         }
 
-        if ($user === null) {
-            throw new RuntimeException('Cannot get the User.');
-        }
-
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        $identity = $identityModel->getIdentityByType($user->getAuthId(), 'email_2fa');
+        $identity = $identityModel->getIdentityByType($user->getAuthId(), $this->type);
 
         if (empty($identity)) {
             return redirect()->route('auth-action-show')->with('error', lang('Auth.need2FA'));
@@ -101,7 +97,7 @@ class Email2FA implements ActionInterface
         $authenticator = auth('session')->getAuthenticator();
 
         // Token mismatch? Let them try again...
-        if (! $authenticator->checkAction('email_2fa', $token)) {
+        if (! $authenticator->checkAction($this->type, $token)) {
             session()->setFlashdata('error', lang('Auth.invalid2FAToken'));
 
             return view(setting('Auth.views')['action_email_2fa_verify']);
@@ -109,5 +105,43 @@ class Email2FA implements ActionInterface
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
+    }
+
+    /**
+     * Called from `Session::attempt()`.
+     */
+    public function afterAttempt(User $user): void
+    {
+        $this->createIdentity($user);
+    }
+
+    /**
+     * Create an identity for Email 2FA
+     */
+    private function createIdentity(User $user): void
+    {
+        helper('text');
+
+        /** @var UserIdentityModel $userIdentityModel */
+        $userIdentityModel = model(UserIdentityModel::class);
+
+        // Delete any previous activation identities
+        $userIdentityModel->deleteIdentitiesByType($user->getAuthId(), $this->type);
+
+        // Create an identity for our 2fa hash
+        $code = random_string('nozero', 6);
+
+        $userIdentityModel->insert([
+            'user_id' => $user->getAuthId(),
+            'type'    => $this->type,
+            'secret'  => $code,
+            'name'    => 'login',
+            'extra'   => lang('Auth.need2FA'),
+        ]);
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 }

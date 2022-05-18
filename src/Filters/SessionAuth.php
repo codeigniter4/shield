@@ -7,8 +7,7 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
-use CodeIgniter\Shield\Entities\UserIdentity;
-use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 
 /**
  * Session Authentication Filter.
@@ -35,37 +34,23 @@ class SessionAuth implements FilterInterface
     {
         helper(['auth', 'setting']);
 
-        if (! auth('session')->loggedIn()) {
-            return redirect()->route('login');
-        }
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
 
-        if (setting('Auth.recordActiveDate')) {
-            auth('session')->recordActiveDate();
-        }
-
-        /** @var UserIdentityModel $identityModel */
-        $identityModel = model(UserIdentityModel::class);
-
-        // If user is in middle of an action flow
-        // ensure they must finish it first.
-        $identities = $identityModel->getIdentitiesByTypes(
-            auth('session')->id(),
-            ['email_2fa', 'email_activate']
-        );
-
-        foreach ($identities as $identity) {
-            if (! $identity instanceof UserIdentity) {
-                continue;
+        if ($authenticator->loggedIn()) {
+            if (setting('Auth.recordActiveDate')) {
+                $authenticator->recordActiveDate();
             }
 
-            $action = setting('Auth.actions')[$identity->name];
-
-            if ($action) {
-                session()->set('auth_action', $action);
-
-                return redirect()->route('auth-action-show')->with('error', $identity->extra);
-            }
+            return;
         }
+
+        if ($authenticator->isPending()) {
+            return redirect()->route('auth-action-show')
+                ->with('error', $authenticator->getPendingMessage());
+        }
+
+        return redirect()->route('login');
     }
 
     /**

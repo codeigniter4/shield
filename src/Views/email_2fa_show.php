@@ -21,8 +21,9 @@
                 <!-- Email -->
                 <div class="mb-2">
                     <input type="email" class="form-control" name="email"
-                           inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
-                           value="<?= old('email', auth()->user()->email ?? null) ?>" required />
+                        inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
+                        <?php /** @var \CodeIgniter\Shield\Entities\User $user */ ?>
+                        value="<?= old('email', $user->email) ?>" required />
                 </div>
 
                 <div class="d-grid col-8 mx-auto m-3">

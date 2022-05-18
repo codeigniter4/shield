@@ -2,10 +2,12 @@
 
 namespace CodeIgniter\Shield\Authentication\Authenticators;
 
+use CodeIgniter\Config\Factories;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
@@ -22,15 +24,30 @@ use stdClass;
 
 class Session implements AuthenticatorInterface
 {
+    private const STATE_UNKNOWN   = 0;
+    private const STATE_ANONYMOUS = 1;
+    private const STATE_PENDING   = 2;
+    private const STATE_LOGGED_IN = 3;
+
     /**
      * The persistence engine
      */
     protected UserModel $provider;
 
     /**
-     * The user logged in
+     * Authenticated or authenticating (pending login) User
      */
     protected ?User $user = null;
+
+    /**
+     * The User auth state
+     */
+    private int $userState = self::STATE_UNKNOWN;
+
+    /**
+     * Pending login error message
+     */
+    private ?string $pendingMessage = null;
 
     /**
      * Should the user be remembered?
@@ -39,14 +56,17 @@ class Session implements AuthenticatorInterface
 
     protected LoginModel $loginModel;
     protected RememberModel $rememberModel;
+    protected UserIdentityModel $userIdentityModel;
 
     public function __construct(UserModel $provider)
     {
         helper('setting');
 
-        $this->provider      = $provider;
-        $this->loginModel    = model(LoginModel::class); // @phpstan-ignore-line
-        $this->rememberModel = model(RememberModel::class); // @phpstan-ignore-line
+        $this->provider = $provider;
+
+        $this->loginModel        = model(LoginModel::class); // @phpstan-ignore-line
+        $this->rememberModel     = model(RememberModel::class); // @phpstan-ignore-line
+        $this->userIdentityModel = model(UserIdentityModel::class); // @phpstan-ignore-line
     }
 
     /**
@@ -99,7 +119,14 @@ class Session implements AuthenticatorInterface
 
         // If an action has been defined for login, start it up.
         $actionClass = setting('Auth.actions')['login'] ?? null;
+
         if (! empty($actionClass)) {
+            $action = Factories::actions($actionClass); // @phpstan-ignore-line
+
+            if (method_exists($action, 'afterAttempt')) {
+                $action->afterAttempt($user);
+            }
+
             session()->set('auth_action', $actionClass);
         } else {
             $this->completeLogin($user);
@@ -116,7 +143,7 @@ class Session implements AuthenticatorInterface
      */
     public function checkAction(string $type, string $token): bool
     {
-        $user = $this->loggedIn() ? $this->getUser() : null;
+        $user = ($this->loggedIn() || $this->isPending()) ? $this->user : null;
 
         if ($user === null) {
             throw new LogicException('Cannot get the User.');
@@ -128,11 +155,8 @@ class Session implements AuthenticatorInterface
             return false;
         }
 
-        /** @var UserIdentityModel $identityModel */
-        $identityModel = model(UserIdentityModel::class);
-
         // On success - remove the identity and clean up session
-        $identityModel->deleteIdentitiesByType($user->getAuthId(), $type);
+        $this->userIdentityModel->deleteIdentitiesByType($user->getAuthId(), $type);
 
         // Clean up our session
         session()->remove('auth_action');
@@ -146,6 +170,8 @@ class Session implements AuthenticatorInterface
 
     private function completeLogin(User $user): void
     {
+        $this->userState = self::STATE_LOGGED_IN;
+
         // a successful login
         Events::trigger('login', $user);
     }
@@ -239,8 +265,19 @@ class Session implements AuthenticatorInterface
      */
     public function loggedIn(): bool
     {
-        if ($this->user instanceof User) {
-            return true;
+        $this->checkUserState();
+
+        return $this->userState === self::STATE_LOGGED_IN;
+    }
+
+    /**
+     * Checks User state
+     */
+    private function checkUserState(): void
+    {
+        if ($this->userState !== self::STATE_UNKNOWN) {
+            // Checked already.
+            return;
         }
 
         /** @var int|string|null $userId */
@@ -249,15 +286,97 @@ class Session implements AuthenticatorInterface
         if ($userId !== null) {
             $this->user = $this->provider->findById($userId);
 
-            return $this->user instanceof User;
+            $identities = $this->userIdentityModel->getIdentitiesByTypes(
+                $this->user->getAuthId(),
+                $this->getActionTypes()
+            );
+
+            // If we will have more than one identity, we need to change the logic blow.
+            assert(
+                count($identities) < 2,
+                'More than one identity for actions. user_id: ' . $userId
+            );
+
+            // Having an action?
+            foreach ($identities as $identity) {
+                $actionClass = setting('Auth.actions')[$identity->name];
+
+                if ($actionClass) {
+                    $this->userState = self::STATE_PENDING;
+
+                    session()->set('auth_action', $actionClass);
+                    $this->pendingMessage = $identity->extra;
+
+                    return;
+                }
+            }
+
+            $this->userState = self::STATE_LOGGED_IN;
+
+            return;
         }
 
         // Check remember-me token.
         if (setting('Auth.sessionConfig')['allowRemembering']) {
-            return $this->checkRememberMe();
+            $this->checkRememberMe();
+
+            return;
         }
 
-        return false;
+        $this->userState = self::STATE_ANONYMOUS;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getActionTypes(): array
+    {
+        $actions = setting('Auth.actions');
+        $types   = [];
+
+        foreach ($actions as $actionClass) {
+            if ($actionClass === null) {
+                continue;
+            }
+
+            /** @var ActionInterface $action */
+            $action  = Factories::actions($actionClass);  // @phpstan-ignore-line
+            $types[] = $action->getType();
+        }
+
+        return $types;
+    }
+
+    /**
+     * Checks if the user is currently in pending login state.
+     * They need to do an auth action.
+     */
+    public function isPending(): bool
+    {
+        $this->checkUserState();
+
+        return $this->userState === self::STATE_PENDING;
+    }
+
+    /**
+     * Checks if the visitor is anonymous. The user's id is unknown.
+     * They are not logged in, are not in pending login state.
+     */
+    public function isAnonymous(): bool
+    {
+        $this->checkUserState();
+
+        return $this->userState === self::STATE_ANONYMOUS;
+    }
+
+    /**
+     * Returns pending login error message
+     */
+    public function getPendingMessage(): string
+    {
+        $this->checkUserState();
+
+        return $this->pendingMessage;
     }
 
     private function checkRememberMe(): bool
@@ -265,12 +384,16 @@ class Session implements AuthenticatorInterface
         // Get remember-me token.
         $remember = $this->getRememberMeToken();
         if ($remember === null) {
+            $this->userState = self::STATE_ANONYMOUS;
+
             return false;
         }
 
         // Check the remember-me token.
         $token = $this->checkRememberMeToken($remember);
         if ($token === false) {
+            $this->userState = self::STATE_ANONYMOUS;
+
             return false;
         }
 
@@ -279,6 +402,8 @@ class Session implements AuthenticatorInterface
         $this->login($user);
 
         $this->refreshRememberMeToken($token);
+
+        $this->userState = self::STATE_LOGGED_IN;
 
         return true;
     }
@@ -314,6 +439,8 @@ class Session implements AuthenticatorInterface
 
     private function startLogin(User $user): void
     {
+        $this->user = $user;
+
         // Update the user's last used date on their password identity.
         $user->touchIdentity($user->getEmailIdentity());
 
@@ -341,10 +468,10 @@ class Session implements AuthenticatorInterface
 
         $this->startLogin($user);
 
-        $this->processRemember();
+        $this->issueRememberMeToken();
     }
 
-    private function processRemember()
+    private function issueRememberMeToken()
     {
         if ($this->shouldRemember && setting('Auth.sessionConfig')['allowRemembering']) {
             $this->rememberUser($this->user->getAuthId());
@@ -439,7 +566,27 @@ class Session implements AuthenticatorInterface
      */
     public function getUser(): ?User
     {
-        return $this->user;
+        $this->checkUserState();
+
+        if ($this->userState === self::STATE_LOGGED_IN) {
+            return $this->user;
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the current pending login User.
+     */
+    public function getPendingUser(): ?User
+    {
+        $this->checkUserState();
+
+        if ($this->userState === self::STATE_PENDING) {
+            return $this->user;
+        }
+
+        return null;
     }
 
     /**
@@ -449,7 +596,7 @@ class Session implements AuthenticatorInterface
     {
         if (! $this->user instanceof User) {
             throw new InvalidArgumentException(
-                self::class . '::recordActiveDate() requires logged in user before calling.'
+                __METHOD__ . '() requires logged in user before calling.'
             );
         }
 

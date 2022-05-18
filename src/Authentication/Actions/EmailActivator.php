@@ -13,6 +13,8 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
 
 class EmailActivator implements ActionInterface
 {
+    private string $type = 'email_activate';
+
     /**
      * Shows the initial screen to the user telling them
      * that an email was just sent to them with a link
@@ -20,10 +22,12 @@ class EmailActivator implements ActionInterface
      */
     public function show(): string
     {
-        $user = auth()->user();
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
 
+        $user = $authenticator->getPendingUser();
         if ($user === null) {
-            throw new RuntimeException('Cannot get the User.');
+            throw new RuntimeException('Cannot get the pending login User.');
         }
 
         $userEmail = $user->getAuthEmail();
@@ -33,23 +37,7 @@ class EmailActivator implements ActionInterface
             );
         }
 
-        /** @var UserIdentityModel $identityModel */
-        $identityModel = model(UserIdentityModel::class);
-
-        // Delete any previous activation identities
-        $identityModel->deleteIdentitiesByType($user->getAuthId(), 'email_activate');
-
-        //  Create an identity for our activation hash
-        helper('text');
-        $code = random_string('nozero', 6);
-
-        $identityModel->insert([
-            'user_id' => $user->getAuthId(),
-            'type'    => 'email_activate',
-            'secret'  => $code,
-            'name'    => 'register',
-            'extra'   => lang('Auth.needVerification'),
-        ]);
+        $code = $this->createIdentity($user);
 
         // Send the email
         helper('email');
@@ -85,25 +73,63 @@ class EmailActivator implements ActionInterface
     {
         $token = $request->getVar('token');
 
-        $auth = auth('session');
-
         /** @var Session $authenticator */
-        $authenticator = $auth->getAuthenticator();
+        $authenticator = auth('session')->getAuthenticator();
 
         // No match - let them try again.
-        if (! $authenticator->checkAction('email_activate', $token)) {
+        if (! $authenticator->checkAction($this->type, $token)) {
             session()->setFlashdata('error', lang('Auth.invalidActivateToken'));
 
             return view(setting('Auth.views')['action_email_activate_show']);
         }
 
-        /** @var User $user */
-        $user = $auth->user();
+        $user = $authenticator->getUser();
 
         // Set the user active now
-        $auth->activateUser($user);
+        $authenticator->activateUser($user);
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
+    }
+
+    /**
+     * Called from `RegisterController::registerAction()`
+     */
+    public function afterRegister(User $user): void
+    {
+        $this->createIdentity($user);
+    }
+
+    /**
+     * Create an identity for Email Activation
+     *
+     * @return string The secret code
+     */
+    private function createIdentity(User $user): string
+    {
+        helper('text');
+
+        /** @var UserIdentityModel $userIdentityModel */
+        $userIdentityModel = model(UserIdentityModel::class);
+
+        $userIdentityModel->deleteIdentitiesByType($user->getAuthId(), $this->type);
+
+        //  Create an identity for our activation hash
+        $code = random_string('nozero', 6);
+
+        $userIdentityModel->insert([
+            'user_id' => $user->getAuthId(),
+            'type'    => $this->type,
+            'secret'  => $code,
+            'name'    => 'register',
+            'extra'   => lang('Auth.needVerification'),
+        ]);
+
+        return $code;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 }
