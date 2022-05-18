@@ -136,6 +136,32 @@ class Session implements AuthenticatorInterface
     }
 
     /**
+     * If an action has been defined, start it up.
+     *
+     * @param string $type 'register'
+     */
+    public function startUpAction(string $type, User $user): bool
+    {
+        $actionClass = setting('Auth.actions')[$type] ?? null;
+
+        if ($actionClass === null) {
+            return false;
+        }
+
+        $action = Factories::actions($actionClass); // @phpstan-ignore-line
+
+        // E.g., afterRegister()
+        $method = 'after' . ucfirst($type);
+        if (method_exists($action, $method)) {
+            $action->{$method}($user);
+        }
+
+        $this->setSessionUser('auth_action', $actionClass);
+
+        return true;
+    }
+
+    /**
      * Check token in Action
      *
      * @param string $type  Action type. 'email_2fa' or 'email_activate'
