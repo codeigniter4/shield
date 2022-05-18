@@ -52,9 +52,9 @@ final class LoginTest extends TestCase
 
         // Login should have been recorded successfully
         $this->seeInDatabase('auth_logins', [
-            'email'   => 'fooled@example.com',
-            'user_id' => null,
-            'success' => 0,
+            'identifier' => 'fooled@example.com',
+            'user_id'    => null,
+            'success'    => 0,
         ]);
 
         $this->assertNotEmpty(session('error'));
@@ -79,9 +79,9 @@ final class LoginTest extends TestCase
 
         // Login should have been recorded successfully
         $this->seeInDatabase('auth_logins', [
-            'email'   => 'foo@example.com',
-            'user_id' => $this->user->id,
-            'success' => true,
+            'identifier' => 'foo@example.com',
+            'user_id'    => $this->user->id,
+            'success'    => true,
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();
@@ -109,9 +109,9 @@ final class LoginTest extends TestCase
 
         // Login should have been recorded successfully
         $this->seeInDatabase('auth_logins', [
-            'email'   => $this->user->username,
-            'user_id' => $this->user->id,
-            'success' => true,
+            'identifier' => $this->user->username,
+            'user_id'    => $this->user->id,
+            'success'    => true,
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();

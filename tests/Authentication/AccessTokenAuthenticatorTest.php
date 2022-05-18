@@ -168,8 +168,8 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 
         // A login attempt should have always been recorded
         $this->seeInDatabase('auth_logins', [
-            'email'   => 'token: abc123',
-            'success' => 0,
+            'identifier' => 'token: abc123',
+            'success'    => 0,
         ]);
     }
 
@@ -195,8 +195,8 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 
         // A login attempt should have been recorded
         $this->seeInDatabase('auth_logins', [
-            'email'   => 'token: ' . $token->raw_token,
-            'success' => 1,
+            'identifier' => 'token: ' . $token->raw_token,
+            'success'    => 1,
         ]);
     }
 
