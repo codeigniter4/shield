@@ -533,11 +533,6 @@ class Session implements AuthenticatorInterface
         session()->set(setting('Auth.sessionConfig')['field'], $sessionUserInfo);
     }
 
-    private function setSessionUserInfo(array $sessionUserInfo): void
-    {
-        session()->set(setting('Auth.sessionConfig')['field'], $sessionUserInfo);
-    }
-
     /**
      * Logs the given user in.
      */
