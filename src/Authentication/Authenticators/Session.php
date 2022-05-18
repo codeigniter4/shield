@@ -352,12 +352,6 @@ class Session implements AuthenticatorInterface
             $this->getActionTypes()
         );
 
-        // If we will have more than one identity, we need to change the logic blow.
-        assert(
-            count($identities) < 2,
-            'More than one identity for actions. user_id: ' . $this->user->getAuthId()
-        );
-
         // Having an action?
         foreach ($identities as $identity) {
             $actionClass = setting('Auth.actions')[$identity->name];

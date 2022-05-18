@@ -117,6 +117,7 @@ class UserIdentityModel extends Model
     {
         return $this->where('user_id', $user->getAuthId())
             ->whereIn('type', $types)
+            ->orderBy($this->primaryKey)
             ->findAll();
     }
 
