@@ -118,17 +118,8 @@ class Session implements AuthenticatorInterface
         $this->recordLoginAttempt($credentials, true, $ipAddress, $userAgent, $user->getAuthId());
 
         // If an action has been defined for login, start it up.
-        $actionClass = setting('Auth.actions')['login'] ?? null;
-
-        if (! empty($actionClass)) {
-            $action = Factories::actions($actionClass); // @phpstan-ignore-line
-
-            if (method_exists($action, 'afterAttempt')) {
-                $action->afterAttempt($user);
-            }
-
-            $this->setSessionUser('auth_action', $actionClass);
-        } else {
+        $hasAction = $this->startUpAction('login', $user);
+        if (! $hasAction) {
             $this->completeLogin($user);
         }
 
@@ -138,7 +129,9 @@ class Session implements AuthenticatorInterface
     /**
      * If an action has been defined, start it up.
      *
-     * @param string $type 'register'
+     * @param string $type 'register', 'login'
+     *
+     * @return bool If the action has been defined or not.
      */
     public function startUpAction(string $type, User $user): bool
     {
