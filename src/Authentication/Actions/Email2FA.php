@@ -16,6 +16,8 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
  */
 class Email2FA implements ActionInterface
 {
+    private string $type = 'email_2fa';
+
     /**
      * Displays the "Hey we're going to send you an number to your email"
      * message to the user with a prompt to continue.
@@ -61,7 +63,7 @@ class Email2FA implements ActionInterface
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        $identity = $identityModel->getIdentityByType($user->getAuthId(), 'email_2fa');
+        $identity = $identityModel->getIdentityByType($user->getAuthId(), $this->type);
 
         if (empty($identity)) {
             return redirect()->route('auth-action-show')->with('error', lang('Auth.need2FA'));
@@ -95,7 +97,7 @@ class Email2FA implements ActionInterface
         $authenticator = auth('session')->getAuthenticator();
 
         // Token mismatch? Let them try again...
-        if (! $authenticator->checkAction('email_2fa', $token)) {
+        if (! $authenticator->checkAction($this->type, $token)) {
             session()->setFlashdata('error', lang('Auth.invalid2FAToken'));
 
             return view(setting('Auth.views')['action_email_2fa_verify']);
@@ -124,17 +126,22 @@ class Email2FA implements ActionInterface
         $userIdentityModel = model(UserIdentityModel::class);
 
         // Delete any previous activation identities
-        $userIdentityModel->deleteIdentitiesByType($user->getAuthId(), 'email_2fa');
+        $userIdentityModel->deleteIdentitiesByType($user->getAuthId(), $this->type);
 
         // Create an identity for our 2fa hash
         $code = random_string('nozero', 6);
 
         $userIdentityModel->insert([
             'user_id' => $user->getAuthId(),
-            'type'    => 'email_2fa',
+            'type'    => $this->type,
             'secret'  => $code,
             'name'    => 'login',
             'extra'   => lang('Auth.need2FA'),
         ]);
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 }

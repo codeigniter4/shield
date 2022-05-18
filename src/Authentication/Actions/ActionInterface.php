@@ -39,4 +39,10 @@ interface ActionInterface
      * @return Response|string
      */
     public function verify(IncomingRequest $request);
+
+    /**
+     * Returns the string type of the action class.
+     * E.g., 'email_2fa', 'email_activate'.
+     */
+    public function getType(): string;
 }

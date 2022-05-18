@@ -13,6 +13,8 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
 
 class EmailActivator implements ActionInterface
 {
+    private string $type = 'email_activate';
+
     /**
      * Shows the initial screen to the user telling them
      * that an email was just sent to them with a link
@@ -75,7 +77,7 @@ class EmailActivator implements ActionInterface
         $authenticator = auth('session')->getAuthenticator();
 
         // No match - let them try again.
-        if (! $authenticator->checkAction('email_activate', $token)) {
+        if (! $authenticator->checkAction($this->type, $token)) {
             session()->setFlashdata('error', lang('Auth.invalidActivateToken'));
 
             return view(setting('Auth.views')['action_email_activate_show']);
@@ -110,19 +112,24 @@ class EmailActivator implements ActionInterface
         /** @var UserIdentityModel $userIdentityModel */
         $userIdentityModel = model(UserIdentityModel::class);
 
-        $userIdentityModel->deleteIdentitiesByType($user->getAuthId(), 'email_activate');
+        $userIdentityModel->deleteIdentitiesByType($user->getAuthId(), $this->type);
 
         //  Create an identity for our activation hash
         $code = random_string('nozero', 6);
 
         $userIdentityModel->insert([
             'user_id' => $user->getAuthId(),
-            'type'    => 'email_activate',
+            'type'    => $this->type,
             'secret'  => $code,
             'name'    => 'register',
             'extra'   => lang('Auth.needVerification'),
         ]);
 
         return $code;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 }
