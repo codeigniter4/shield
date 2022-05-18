@@ -108,12 +108,14 @@ class Session implements AuthenticatorInterface
         /** @var User $user */
         $user = $result->extraInfo();
 
-        $this->login($user);
-
-        $this->recordLoginAttempt($credentials, true, $ipAddress, $userAgent, $user->getAuthId());
+        $this->user = $user;
 
         // If an action has been defined for login, start it up.
         $hasAction = $this->startUpAction('login', $user);
+
+        $this->login($user);
+
+        $this->recordLoginAttempt($credentials, true, $ipAddress, $userAgent, $user->getAuthId());
 
         if (! $hasAction) {
             $this->completeLogin($user);
