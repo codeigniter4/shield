@@ -46,10 +46,17 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $this->assertSame([], $this->user->accessTokens());
 
         // Give the user a couple of access tokens
-        $token1 = fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
-        $token2 = fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
+        $token1 = fake(
+            UserIdentityModel::class,
+            ['user_id' => $this->user->id, 'type' => 'access_token', 'secret' => 'secretToken1']
+        );
+        $token2 = fake(
+            UserIdentityModel::class,
+            ['user_id' => $this->user->id, 'type' => 'access_token', 'secret' => 'secretToken2']
+        );
 
         $tokens = $this->user->accessTokens();
+
         $this->assertCount(2, $tokens);
         $this->assertSame($token1->id, $tokens[0]->id);
         $this->assertSame($token2->id, $tokens[1]->id);

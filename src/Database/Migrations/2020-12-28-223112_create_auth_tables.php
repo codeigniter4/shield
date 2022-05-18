@@ -45,6 +45,7 @@ class CreateAuthTables extends Migration
             'updated_at'   => ['type' => 'datetime', 'null' => true],
         ]);
         $this->forge->addPrimaryKey('id');
+        $this->forge->addUniqueKey(['type', 'secret']);
         $this->forge->addKey('user_id');
         $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
         $this->forge->createTable('auth_identities', true);
@@ -66,7 +67,7 @@ class CreateAuthTables extends Migration
         $this->forge->createTable('auth_logins', true);
 
         /*
-         * Auth Tokens (remember-me) Table
+         * Auth Remember Tokens (remember-me) Table
          * @see https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence
          */
         $this->forge->addField([
