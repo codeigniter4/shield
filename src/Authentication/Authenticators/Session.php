@@ -347,6 +347,10 @@ class Session implements AuthenticatorInterface
         return $types;
     }
 
+    /**
+     * Checks if the user is currently in pending login state.
+     * They need to do an auth action.
+     */
     public function isPending(): bool
     {
         $this->checkUserState();
@@ -354,6 +358,10 @@ class Session implements AuthenticatorInterface
         return $this->userState === self::STATE_PENDING;
     }
 
+    /**
+     * Checks if the visitor is anonymous. The user's id is unknown.
+     * They are not logged in, are not in pending login state.
+     */
     public function isAnonymous(): bool
     {
         $this->checkUserState();
