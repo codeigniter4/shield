@@ -45,11 +45,6 @@ class Session implements AuthenticatorInterface
     private int $userState = self::STATE_UNKNOWN;
 
     /**
-     * Pending login error message
-     */
-    private ?string $pendingMessage = null;
-
-    /**
      * Should the user be remembered?
      */
     protected bool $shouldRemember = false;
@@ -119,6 +114,7 @@ class Session implements AuthenticatorInterface
 
         // If an action has been defined for login, start it up.
         $hasAction = $this->startUpAction('login', $user);
+
         if (! $hasAction) {
             $this->completeLogin($user);
         }
@@ -143,13 +139,14 @@ class Session implements AuthenticatorInterface
 
         $action = Factories::actions($actionClass); // @phpstan-ignore-line
 
+        // Create identity for the action.
         // E.g., afterRegister()
         $method = 'after' . ucfirst($type);
         if (method_exists($action, $method)) {
             $action->{$method}($user);
         }
 
-        $this->setSessionUser('auth_action', $actionClass);
+        $this->setAuthAction();
 
         return true;
     }
@@ -313,33 +310,15 @@ class Session implements AuthenticatorInterface
         /** @var int|string|null $userId */
         $userId = $this->getSessionUser('id');
 
+        // Has User Info in Session.
         if ($userId !== null) {
             $this->user = $this->provider->findById($userId);
 
-            $identities = $this->userIdentityModel->getIdentitiesByTypes(
-                $this->user,
-                $this->getActionTypes()
-            );
+            // If having `auth_action`, it is pending.
+            if ($this->getSessionUser('auth_action')) {
+                $this->userState = self::STATE_PENDING;
 
-            // If we will have more than one identity, we need to change the logic blow.
-            assert(
-                count($identities) < 2,
-                'More than one identity for actions. user_id: ' . $userId
-            );
-
-            // Having an action?
-            foreach ($identities as $identity) {
-                $actionClass = setting('Auth.actions')[$identity->name];
-
-                if ($actionClass) {
-                    $this->userState = self::STATE_PENDING;
-
-                    $this->setSessionUser('auth_action', $actionClass);
-
-                    $this->pendingMessage = $identity->extra;
-
-                    return;
-                }
+                return;
             }
 
             $this->userState = self::STATE_LOGGED_IN;
@@ -347,14 +326,49 @@ class Session implements AuthenticatorInterface
             return;
         }
 
+        // No User Info in Session.
         // Check remember-me token.
         if (setting('Auth.sessionConfig')['allowRemembering']) {
-            $this->checkRememberMe();
+            if ($this->checkRememberMe()) {
+                $this->setAuthAction();
+            }
 
             return;
         }
 
         $this->userState = self::STATE_ANONYMOUS;
+    }
+
+    /**
+     * Gets identities for action from database, and set session.
+     */
+    private function setAuthAction()
+    {
+        // Get identities for action
+        $identities = $this->userIdentityModel->getIdentitiesByTypes(
+            $this->user->getAuthId(),
+            $this->getActionTypes()
+        );
+
+        // If we will have more than one identity, we need to change the logic blow.
+        assert(
+            count($identities) < 2,
+            'More than one identity for actions. user_id: ' . $this->user->getAuthId()
+        );
+
+        // Having an action?
+        foreach ($identities as $identity) {
+            $actionClass = setting('Auth.actions')[$identity->name];
+
+            if ($actionClass) {
+                $this->userState = self::STATE_PENDING;
+
+                $this->setSessionUser('auth_action', $actionClass);
+                $this->setSessionUser('auth_action_message', $identity->extra);
+
+                return;
+            }
+        }
     }
 
     /**
@@ -407,7 +421,7 @@ class Session implements AuthenticatorInterface
     {
         $this->checkUserState();
 
-        return $this->pendingMessage;
+        return $this->getSessionUser('auth_action_message') ?? '';
     }
 
     private function checkRememberMe(): bool
