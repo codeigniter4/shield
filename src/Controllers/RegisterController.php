@@ -84,7 +84,7 @@ class RegisterController extends BaseController
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
-        $authenticator->login($user);
+        $authenticator->startLogin($user);
 
         // If an action has been defined for login, start it up.
         $hasAction = $authenticator->startUpAction('register', $user);
@@ -95,8 +95,7 @@ class RegisterController extends BaseController
         // Set the user active
         $authenticator->activateUser($user);
 
-        // a successful login
-        Events::trigger('login', $user);
+        $authenticator->completeLogin($user);
 
         // Success!
         return redirect()->to(config('Auth')->registerRedirect())

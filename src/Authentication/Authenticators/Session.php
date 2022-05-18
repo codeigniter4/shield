@@ -117,9 +117,11 @@ class Session implements AuthenticatorInterface
         // If an action has been defined for login, start it up.
         $hasAction = $this->startUpAction('login', $user);
 
-        $this->login($user);
+        $this->startLogin($user);
 
         $this->recordLoginAttempt($credentials, true, $ipAddress, $userAgent, $user->getAuthId());
+
+        $this->issueRememberMeToken();
 
         if (! $hasAction) {
             $this->completeLogin($user);
@@ -206,7 +208,10 @@ class Session implements AuthenticatorInterface
         return true;
     }
 
-    private function completeLogin(User $user): void
+    /**
+     * Completes login process
+     */
+    public function completeLogin(User $user): void
     {
         $this->userState = self::STATE_LOGGED_IN;
 
@@ -462,7 +467,7 @@ class Session implements AuthenticatorInterface
 
         $user = $this->provider->findById($token->user_id);
 
-        $this->login($user);
+        $this->startLogin($user);
 
         $this->refreshRememberMeToken($token);
 
@@ -500,7 +505,10 @@ class Session implements AuthenticatorInterface
         return $token;
     }
 
-    private function startLogin(User $user): void
+    /**
+     * Starts login process
+     */
+    public function startLogin(User $user): void
     {
         $this->user = $user;
 
@@ -568,9 +576,30 @@ class Session implements AuthenticatorInterface
     {
         $this->user = $user;
 
+        // Check identities for actions
+        if ($this->getIdentitiesForAction() !== []) {
+            throw new LogicException(
+                'The user has identities for action, so cannot complete login.'
+                . ' If you want to start to login with auth action, use startLogin() instead.'
+                . ' Or delete identities for action in database.'
+                . ' user_id: ' . $user->getAuthId()
+            );
+        }
+        // Check auth_action in Session
+        if ($this->getSessionKey('auth_action')) {
+            throw new LogicException(
+                'The user has auth action in session, so cannot complete login.'
+                . ' If you want to start to login with auth action, use startLogin() instead.'
+                . ' Or delete `auth_action` and `auth_action_message` in session data.'
+                . ' user_id: ' . $user->getAuthId()
+            );
+        }
+
         $this->startLogin($user);
 
         $this->issueRememberMeToken();
+
+        $this->completeLogin($user);
     }
 
     private function issueRememberMeToken()
