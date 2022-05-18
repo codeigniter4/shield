@@ -162,6 +162,17 @@ class Session implements AuthenticatorInterface
     }
 
     /**
+     * Returns an action object.
+     */
+    public function getAction(): ?ActionInterface
+    {
+        /** @var class-string<ActionInterface>|null $actionClass */
+        $actionClass = $this->getSessionUser('auth_action');
+
+        return Factories::actions($actionClass); // @phpstan-ignore-line
+    }
+
+    /**
      * Check token in Action
      *
      * @param string $type  Action type. 'email_2fa' or 'email_activate'
