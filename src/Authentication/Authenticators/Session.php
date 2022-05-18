@@ -7,6 +7,7 @@ use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
@@ -287,7 +288,7 @@ class Session implements AuthenticatorInterface
 
             $identities = $this->userIdentityModel->getIdentitiesByTypes(
                 $this->user->getAuthId(),
-                ['email_2fa', 'email_activate']
+                $this->getActionTypes()
             );
 
             // If we will have more than one identity, we need to change the logic blow.
@@ -323,6 +324,27 @@ class Session implements AuthenticatorInterface
         }
 
         $this->userState = self::STATE_ANONYMOUS;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getActionTypes(): array
+    {
+        $actions = setting('Auth.actions');
+        $types   = [];
+
+        foreach ($actions as $actionClass) {
+            if ($actionClass === null) {
+                continue;
+            }
+
+            /** @var ActionInterface $action */
+            $action  = Factories::actions($actionClass);  // @phpstan-ignore-line
+            $types[] = $action->getType();
+        }
+
+        return $types;
     }
 
     public function isPending(): bool
