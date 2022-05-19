@@ -21,7 +21,6 @@ class CreateAuthTables extends Migration
             'deleted_at'     => ['type' => 'datetime', 'null' => true],
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addUniqueKey('email');
         $this->forge->addUniqueKey('username');
         $this->forge->createTable('users', true);
 
