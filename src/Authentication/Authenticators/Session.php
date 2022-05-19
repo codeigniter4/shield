@@ -159,7 +159,7 @@ class Session implements AuthenticatorInterface
     public function getAction(): ?ActionInterface
     {
         /** @var class-string<ActionInterface>|null $actionClass */
-        $actionClass = $this->getSessionUser('auth_action');
+        $actionClass = $this->getSessionKey('auth_action');
 
         if ($actionClass === null) {
             return null;
@@ -192,8 +192,8 @@ class Session implements AuthenticatorInterface
         $this->userIdentityModel->deleteIdentitiesByType($user, $type);
 
         // Clean up our session
-        $this->removeSessionUser('auth_action');
-        $this->removeSessionUser('auth_action_message');
+        $this->removeSessionKey('auth_action');
+        $this->removeSessionKey('auth_action_message');
 
         $this->user = $user;
 
@@ -315,14 +315,14 @@ class Session implements AuthenticatorInterface
         }
 
         /** @var int|string|null $userId */
-        $userId = $this->getSessionUser('id');
+        $userId = $this->getSessionKey('id');
 
         // Has User Info in Session.
         if ($userId !== null) {
             $this->user = $this->provider->findById($userId);
 
             // If having `auth_action`, it is pending.
-            if ($this->getSessionUser('auth_action')) {
+            if ($this->getSessionKey('auth_action')) {
                 $this->userState = self::STATE_PENDING;
 
                 return;
@@ -364,8 +364,8 @@ class Session implements AuthenticatorInterface
             if ($actionClass) {
                 $this->userState = self::STATE_PENDING;
 
-                $this->setSessionUser('auth_action', $actionClass);
-                $this->setSessionUser('auth_action_message', $identity->extra);
+                $this->setSessionKey('auth_action', $actionClass);
+                $this->setSessionKey('auth_action_message', $identity->extra);
 
                 return;
             }
@@ -422,7 +422,7 @@ class Session implements AuthenticatorInterface
     {
         $this->checkUserState();
 
-        return $this->getSessionUser('auth_action_message') ?? '';
+        return $this->getSessionKey('auth_action_message') ?? '';
     }
 
     /**
@@ -499,7 +499,7 @@ class Session implements AuthenticatorInterface
         }
 
         // Let the session know we're logged in
-        $this->setSessionUser('id', $user->getAuthId());
+        $this->setSessionKey('id', $user->getAuthId());
 
         /** @var Response $response */
         $response = service('response');
@@ -508,15 +508,20 @@ class Session implements AuthenticatorInterface
         $response->noCache();
     }
 
+    /**
+     * Gets User Info in Session
+     */
     private function getSessionUserInfo(): array
     {
         return session(setting('Auth.sessionConfig')['field']) ?? [];
     }
 
     /**
+     * Gets the key value in Session User Info
+     *
      * @return int|string|null
      */
-    private function getSessionUser(string $key)
+    private function getSessionKey(string $key)
     {
         $sessionUserInfo = $this->getSessionUserInfo();
 
@@ -524,16 +529,21 @@ class Session implements AuthenticatorInterface
     }
 
     /**
+     * Sets the key value in Session User Info
+     *
      * @param int|string|null $value
      */
-    private function setSessionUser(string $key, $value): void
+    private function setSessionKey(string $key, $value): void
     {
         $sessionUserInfo       = $this->getSessionUserInfo();
         $sessionUserInfo[$key] = $value;
         session()->set(setting('Auth.sessionConfig')['field'], $sessionUserInfo);
     }
 
-    private function removeSessionUser(string $key): void
+    /**
+     * Remove the key value in Session User Info
+     */
+    private function removeSessionKey(string $key): void
     {
         $sessionUserInfo = $this->getSessionUserInfo();
         unset($sessionUserInfo[$key]);
