@@ -83,17 +83,6 @@ class CreateAuthTables extends Migration
         $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
         $this->forge->createTable('auth_remember_tokens', true);
 
-        // Activation Attempts Table
-        $this->forge->addField([
-            'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'ip_address' => ['type' => 'varchar', 'constraint' => 255],
-            'user_agent' => ['type' => 'varchar', 'constraint' => 255],
-            'token'      => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
-            'created_at' => ['type' => 'datetime', 'null' => false],
-        ]);
-        $this->forge->addPrimaryKey('id');
-        $this->forge->createTable('auth_activation_attempts', true);
-
         // Groups Users Table
         $this->forge->addField([
             'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
@@ -126,7 +115,6 @@ class CreateAuthTables extends Migration
         $this->forge->dropTable('users', true);
         $this->forge->dropTable('auth_logins', true);
         $this->forge->dropTable('auth_remember_tokens', true);
-        $this->forge->dropTable('auth_activation_attempts', true);
         $this->forge->dropTable('auth_access_tokens', true);
         $this->forge->dropTable('auth_identities', true);
         $this->forge->dropTable('auth_groups_users', true);
