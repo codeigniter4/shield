@@ -12,6 +12,7 @@ use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\RememberModel;
@@ -355,10 +356,7 @@ class Session implements AuthenticatorInterface
     private function setAuthAction()
     {
         // Get identities for action
-        $identities = $this->userIdentityModel->getIdentitiesByTypes(
-            $this->user,
-            $this->getActionTypes()
-        );
+        $identities = $this->getIdentitiesForAction();
 
         // Having an action?
         foreach ($identities as $identity) {
@@ -373,6 +371,19 @@ class Session implements AuthenticatorInterface
                 return;
             }
         }
+    }
+
+    /**
+     * Gets identities for action
+     *
+     * @return UserIdentity[]
+     */
+    private function getIdentitiesForAction(): array
+    {
+        return $this->userIdentityModel->getIdentitiesByTypes(
+            $this->user,
+            $this->getActionTypes()
+        );
     }
 
     /**
