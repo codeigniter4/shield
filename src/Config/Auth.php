@@ -8,6 +8,7 @@ use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords\ValidatorInterface;
+use CodeIgniter\Shield\Models\UserModel;
 
 class Auth extends BaseConfig
 {
@@ -324,7 +325,6 @@ class Auth extends BaseConfig
      * OTHER SETTINGS
      * ////////////////////////////////////////////////////////////////////
      */
-
     /**
      * --------------------------------------------------------------------
      * User Provider
@@ -335,7 +335,7 @@ class Auth extends BaseConfig
      * You can change it as long as they adhere to the
      * CodeIgniter\Shield\Models\UserModel.
      *
-     * @var class-string<\CodeIgniter\Shield\Models\UserModel>
+     * @var class-string<UserModel>
      */
     public string $userProvider = 'CodeIgniter\Shield\Models\UserModel';
 
