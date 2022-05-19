@@ -353,7 +353,7 @@ class Session implements AuthenticatorInterface
     {
         // Get identities for action
         $identities = $this->userIdentityModel->getIdentitiesByTypes(
-            $this->user->getAuthId(),
+            $this->user,
             $this->getActionTypes()
         );
 
