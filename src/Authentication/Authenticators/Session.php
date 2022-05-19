@@ -425,6 +425,9 @@ class Session implements AuthenticatorInterface
         return $this->getSessionUser('auth_action_message') ?? '';
     }
 
+    /**
+     * @return bool true if logged in by remember-me token.
+     */
     private function checkRememberMe(): bool
     {
         // Get remember-me token.
