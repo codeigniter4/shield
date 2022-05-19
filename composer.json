@@ -1,15 +1,14 @@
 {
     "name": "codeigniter4/shield",
-    "type": "library",
     "description": "Authentication and Authorization for CodeIgniter 4",
+    "license": "MIT",
+    "type": "library",
     "keywords": [
         "codeigniter",
         "codeigniter4",
         "authentication",
         "authorization"
     ],
-    "homepage": "https://github.com/codeigniter4/shield",
-    "license": "MIT",
     "authors": [
         {
             "name": "Lonnie Ezell",
@@ -17,31 +16,28 @@
             "role": "Developer"
         }
     ],
+    "homepage": "https://github.com/codeigniter4/shield",
     "require": {
         "php": "^7.4 || ^8.0",
         "codeigniter4/settings": "^2.0"
     },
+    "require-dev": {
+        "codeigniter4/devkit": "^1.0",
+        "codeigniter4/framework": "^4.1",
+        "mockery/mockery": "^1.0",
+        "vimeo/psalm": "^4.22"
+    },
     "provide": {
         "codeigniter4/authentication-implementation": "1.0"
     },
-    "require-dev": {
-        "codeigniter/coding-standard": "^1.1",
-        "codeigniter4/framework": "^4.1",
-        "fakerphp/faker": "^1.9",
-        "friendsofphp/php-cs-fixer": "^3.0",
-        "mockery/mockery": "^1.0",
-        "nexusphp/cs-config": "^3.1",
-        "nexusphp/tachycardia": "^1.0",
-        "php-coveralls/php-coveralls": "^2.4",
-        "phpstan/phpstan": "^1.0",
-        "phpunit/phpunit": "^9.1",
-        "vimeo/psalm": "^4.22"
-    },
-    "config": {
-        "allow-plugins": {
-            "phpstan/extension-installer": true
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/codeigniter4/CodeIgniter4"
         }
-    },
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "CodeIgniter\\Shield\\": "src"
@@ -56,23 +52,16 @@
             "Tests\\Support\\": "tests/_support"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/codeigniter4/CodeIgniter4"
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
         }
-    ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    },
     "scripts": {
         "post-update-cmd": [
             "bash admin/setup.sh"
         ],
         "analyze": "phpstan analyze",
-        "sa": [
-            "@analyze",
-            "psalm"
-        ],
         "ci": [
             "Composer\\Config::disableProcessTimeout",
             "@deduplicate",
@@ -82,11 +71,15 @@
             "rector process",
             "@style"
         ],
+        "cs-fix": "@style",
         "deduplicate": "phpcpd app/ src/",
         "inspect": "deptrac analyze --cache-file=build/deptrac.cache",
         "mutate": "infection --threads=2 --skip-initial-tests --coverage=build/phpunit",
-        "style": "php-cs-fixer fix --ansi --verbose --diff",
-        "cs-fix": "@style",
+        "sa": [
+            "phpstan analyze",
+            "psalm"
+        ],
+        "style": "php-cs-fixer fix --verbose --ansi --using-cache=no",
         "test": "phpunit"
     }
 }
