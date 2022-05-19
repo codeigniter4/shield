@@ -74,7 +74,7 @@ final class SessionAuthenticatorTest extends TestCase
         $selector      = 'selector';
         $validator     = 'validator';
         $expires       = date('Y-m-d H:i:s', time() + setting('Auth.sessionConfig')['rememberLength']);
-        $rememberModel->rememberUser($this->user->id, $selector, hash('sha256', $validator), $expires);
+        $rememberModel->rememberUser($this->user, $selector, hash('sha256', $validator), $expires);
 
         // Set Cookie value for remember-me.
         $token               = $selector . ':' . $validator;
@@ -180,7 +180,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->seeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
 
-        $this->auth->forget($this->user->id);
+        $this->auth->forget($this->user);
 
         $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
     }

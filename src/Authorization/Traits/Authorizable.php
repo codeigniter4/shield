@@ -293,7 +293,7 @@ trait Authorizable
         /** @var GroupModel $groupModel */
         $groupModel = model(GroupModel::class);
 
-        $this->groupCache = $groupModel->getByUserId($this->id);
+        $this->groupCache = $groupModel->getForUser($this);
     }
 
     /**
@@ -309,7 +309,7 @@ trait Authorizable
         /** @var PermissionModel $permissionModel */
         $permissionModel = model(PermissionModel::class);
 
-        $this->permissionsCache = $permissionModel->getByUserId($this->id);
+        $this->permissionsCache = $permissionModel->getForUser($this);
     }
 
     /**
@@ -345,7 +345,7 @@ trait Authorizable
      */
     private function saveGroupsOrPermissions(string $type, $model, array $cache): void
     {
-        $existing = $model->getByUserId($this->id);
+        $existing = $model->getForUser($this);
 
         $new = array_diff($cache, $existing);
 

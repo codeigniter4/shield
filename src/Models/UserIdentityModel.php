@@ -4,6 +4,7 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Entities\AccessToken;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use Faker\Generator;
 
@@ -35,12 +36,9 @@ class UserIdentityModel extends Model
             ->first();
     }
 
-    /**
-     * @param int|string $userId
-     */
-    public function getAccessToken($userId, string $rawToken): ?AccessToken
+    public function getAccessToken(User $user, string $rawToken): ?AccessToken
     {
-        return $this->where('user_id', $userId)
+        return $this->where('user_id', $user->getAuthId())
             ->where('type', 'access_token')
             ->where('secret', hash('sha256', $rawToken))
             ->asObject(AccessToken::class)
@@ -51,11 +49,10 @@ class UserIdentityModel extends Model
      * Given the ID, returns the given access token.
      *
      * @param int|string $id
-     * @param int|string $userId
      */
-    public function getAccessTokenById($id, $userId): ?AccessToken
+    public function getAccessTokenById($id, User $user): ?AccessToken
     {
-        return $this->where('user_id', $userId)
+        return $this->where('user_id', $user->getAuthId())
             ->where('type', 'access_token')
             ->where('id', $id)
             ->asObject(AccessToken::class)
@@ -63,14 +60,12 @@ class UserIdentityModel extends Model
     }
 
     /**
-     * @param int|string $userId
-     *
      * @return AccessToken[]
      */
-    public function getAllAccessTokens($userId): array
+    public function getAllAccessTokens(User $user): array
     {
         return $this
-            ->where('user_id', $userId)
+            ->where('user_id', $user->getAuthId())
             ->where('type', 'access_token')
             ->orderBy($this->primaryKey)
             ->asObject(AccessToken::class)
@@ -89,13 +84,11 @@ class UserIdentityModel extends Model
     }
 
     /**
-     * @param int|string $userId
-     *
      * @return UserIdentity[]
      */
-    public function getIdentities($userId): array
+    public function getIdentities(User $user): array
     {
-        return $this->where('user_id', $userId)->orderBy($this->primaryKey)->findAll();
+        return $this->where('user_id', $user->getAuthId())->orderBy($this->primaryKey)->findAll();
     }
 
     /**
@@ -108,47 +101,38 @@ class UserIdentityModel extends Model
         return $this->whereIn('user_id', $userIds)->orderBy($this->primaryKey)->findAll();
     }
 
-    /**
-     * @param int|string $userId
-     */
-    public function getIdentityByType($userId, string $type): ?UserIdentity
+    public function getIdentityByType(User $user, string $type): ?UserIdentity
     {
-        return $this->where('user_id', $userId)
+        return $this->where('user_id', $user->getAuthId())
             ->where('type', $type)
             ->first();
     }
 
     /**
-     * @param int|string $userId
-     * @param string[]   $types
+     * @param string[] $types
      *
      * @return UserIdentity[]
      */
-    public function getIdentitiesByTypes($userId, array $types): array
+    public function getIdentitiesByTypes(User $user, array $types): array
     {
-        return $this->where('user_id', $userId)
+        return $this->where('user_id', $user->getAuthId())
             ->whereIn('type', $types)
             ->findAll();
     }
 
-    /**
-     * @param int|string $userId
-     */
-    public function deleteIdentitiesByType($userId, string $type): void
+    public function deleteIdentitiesByType(User $user, string $type): void
     {
-        $this->where('user_id', $userId)
+        $this->where('user_id', $user->getAuthId())
             ->where('type', $type)
             ->delete();
     }
 
     /**
      * Delete any access tokens for the given raw token.
-     *
-     * @param int|string $userId
      */
-    public function revokeAccessToken($userId, string $rawToken)
+    public function revokeAccessToken(User $user, string $rawToken)
     {
-        return $this->where('user_id', $userId)
+        return $this->where('user_id', $user->getAuthId())
             ->where('type', 'access_token')
             ->where('secret', hash('sha256', $rawToken))
             ->delete();
@@ -156,12 +140,10 @@ class UserIdentityModel extends Model
 
     /**
      * Revokes all access tokens for this user.
-     *
-     * @param int|string $userId
      */
-    public function revokeAllAccessTokens($userId)
+    public function revokeAllAccessTokens(User $user)
     {
-        return $this->where('user_id', $userId)
+        return $this->where('user_id', $user->getAuthId())
             ->where('type', 'access_token')
             ->delete();
     }

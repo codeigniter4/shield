@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use DateTime;
 use stdClass;
@@ -23,15 +24,13 @@ class RememberModel extends Model
 
     /**
      * Stores a remember-me token for the user.
-     *
-     * @param int|string $userId
      */
-    public function rememberUser($userId, string $selector, string $hashedValidator, string $expires): void
+    public function rememberUser(User $user, string $selector, string $hashedValidator, string $expires): void
     {
         $expires = new DateTime($expires);
 
         $return = $this->insert([
-            'user_id'         => $userId,
+            'user_id'         => $user->getAuthId(),
             'selector'        => $selector,
             'hashedValidator' => $hashedValidator,
             'expires'         => $expires->format('Y-m-d H:i:s'),
@@ -76,12 +75,10 @@ class RememberModel extends Model
     /**
      * Removes all persistent login tokens (remember-me) for a single user
      * across all devices they may have logged in with.
-     *
-     * @param int|string $userId
      */
-    public function purgeRememberTokens($userId): void
+    public function purgeRememberTokens(User $user): void
     {
-        $return = $this->where(['user_id' => $userId])->delete();
+        $return = $this->where(['user_id' => $user->getAuthId()])->delete();
 
         $this->checkQueryReturn($return);
     }
