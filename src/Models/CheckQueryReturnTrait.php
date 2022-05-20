@@ -2,7 +2,6 @@
 
 namespace CodeIgniter\Shield\Models;
 
-use CodeIgniter\Shield\Exceptions\RuntimeException;
 
 trait CheckQueryReturnTrait
 {
@@ -13,7 +12,7 @@ trait CheckQueryReturnTrait
             $message = 'Query error: ' . $error['code'] . ', '
                 . $error['message'] . ', query: ' . $this->db->getLastQuery();
 
-            throw new RuntimeException($message, $error['code']);
+            throw new DatabaseException($message, $error['code']);
         }
     }
 }
