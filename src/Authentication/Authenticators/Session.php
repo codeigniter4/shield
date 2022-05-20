@@ -92,6 +92,8 @@ class Session implements AuthenticatorInterface
         $userAgent = $request->getUserAgent();
 
         $result = $this->check($credentials);
+
+        // Credentials mismatch.
         if (! $result->isOK()) {
             // Always record a login attempt, whether success or not.
             $this->recordLoginAttempt($credentials, false, $ipAddress, $userAgent);
