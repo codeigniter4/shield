@@ -112,7 +112,7 @@ class EmailActivator implements ActionInterface
         /** @var UserIdentityModel $userIdentityModel */
         $userIdentityModel = model(UserIdentityModel::class);
 
-        $userIdentityModel->deleteIdentitiesByType($user->getAuthId(), $this->type);
+        $userIdentityModel->deleteIdentitiesByType($user, $this->type);
 
         //  Create an identity for our activation hash
         $code = random_string('nozero', 6);

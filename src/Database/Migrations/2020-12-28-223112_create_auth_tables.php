@@ -21,7 +21,6 @@ class CreateAuthTables extends Migration
             'deleted_at'     => ['type' => 'datetime', 'null' => true],
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addUniqueKey('email');
         $this->forge->addUniqueKey('username');
         $this->forge->createTable('users', true);
 
@@ -61,7 +60,7 @@ class CreateAuthTables extends Migration
             'success'    => ['type' => 'tinyint', 'constraint' => 1],
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addKey('email');
+        $this->forge->addKey('identifier');
         $this->forge->addKey('user_id');
         // NOTE: Do NOT delete the user_id or email when the user is deleted for security audits
         $this->forge->createTable('auth_logins', true);
@@ -83,17 +82,6 @@ class CreateAuthTables extends Migration
         $this->forge->addUniqueKey('selector');
         $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
         $this->forge->createTable('auth_remember_tokens', true);
-
-        // Activation Attempts Table
-        $this->forge->addField([
-            'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'ip_address' => ['type' => 'varchar', 'constraint' => 255],
-            'user_agent' => ['type' => 'varchar', 'constraint' => 255],
-            'token'      => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
-            'created_at' => ['type' => 'datetime', 'null' => false],
-        ]);
-        $this->forge->addPrimaryKey('id');
-        $this->forge->createTable('auth_activation_attempts', true);
 
         // Groups Users Table
         $this->forge->addField([
@@ -127,7 +115,6 @@ class CreateAuthTables extends Migration
         $this->forge->dropTable('users', true);
         $this->forge->dropTable('auth_logins', true);
         $this->forge->dropTable('auth_remember_tokens', true);
-        $this->forge->dropTable('auth_activation_attempts', true);
         $this->forge->dropTable('auth_access_tokens', true);
         $this->forge->dropTable('auth_identities', true);
         $this->forge->dropTable('auth_groups_users', true);
