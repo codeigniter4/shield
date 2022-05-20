@@ -23,13 +23,6 @@ final class UserTest extends TestCase
     protected $namespace;
     protected $refresh = true;
 
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        db_connect()->table('auth_identities')->truncate();
-    }
-
     public function testGetIdentitiesNone()
     {
         // when none, returns empty array
@@ -94,7 +87,7 @@ final class UserTest extends TestCase
 
         $last = $this->user->lastLogin();
 
-        $this->assertInstanceOf(Login::class, $last);
+        $this->assertInstanceOf(Login::class, $last); // @phpstan-ignore-line
         $this->assertSame($login->id, $last->id);
         $this->assertInstanceOf(Time::class, $last->date);
     }

@@ -151,10 +151,6 @@ class User extends Entity
             $identity = $this->getEmailIdentity();
         }
 
-        if (empty($identity)) {
-            return true;
-        }
-
         if (! empty($this->email)) {
             $identity->secret = $this->email;
         }
