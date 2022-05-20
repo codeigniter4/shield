@@ -115,6 +115,10 @@ class UserIdentityModel extends Model
      */
     public function getIdentitiesByTypes(User $user, array $types): array
     {
+        if ($types === []) {
+            return [];
+        }
+
         return $this->where('user_id', $user->getAuthId())
             ->whereIn('type', $types)
             ->findAll();
