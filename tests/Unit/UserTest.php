@@ -108,7 +108,7 @@ final class UserTest extends TestCase
         $this->user->email  = 'foo@bar.com';
         $this->user->active = 0;
 
-        $users = model('UserModel');
+        $users = model(UserModel::class);
         $users->save($this->user);
 
         $user = $users->find($this->user->id);
@@ -130,7 +130,7 @@ final class UserTest extends TestCase
         $this->user->password = 'foobar';
         $this->user->active   = 0;
 
-        $users = model('UserModel');
+        $users = model(UserModel::class);
         $users->save($this->user);
 
         $user = $users->find($this->user->id);
@@ -149,7 +149,7 @@ final class UserTest extends TestCase
         $this->user->password_hash = $hash;
         $this->user->active        = 0;
 
-        $users = model('UserModel');
+        $users = model(UserModel::class);
         $users->save($this->user);
 
         $user = $users->find($this->user->id);
