@@ -63,14 +63,22 @@ final class ActionsTest extends TestCase
         $this->insertIdentityEmal2FA();
 
         $result = $this->actingAs($this->user)
-            ->withSession([
-                'logged_in'   => $this->user->id,
-                'auth_action' => Email2FA::class,
-            ])->get('/auth/a/show');
+            ->withSession($this->getSessionUserInfo())
+            ->get('/auth/a/show');
 
         $result->assertStatus(200);
         // Should auto populate in the form
         $result->assertSee($this->user->email);
+    }
+
+    private function getSessionUserInfo(string $class = Email2FA::class): array
+    {
+        return [
+            'user' => [
+                'id'          => $this->user->id,
+                'auth_action' => $class,
+            ],
+        ];
     }
 
     public function testEmail2FAHandleInvalidEmail()
@@ -78,10 +86,8 @@ final class ActionsTest extends TestCase
         $this->insertIdentityEmal2FA();
 
         $result = $this->actingAs($this->user)
-            ->withSession([
-                'logged_in'   => $this->user->id,
-                'auth_action' => Email2FA::class,
-            ])->post('/auth/a/handle', [
+            ->withSession($this->getSessionUserInfo())
+            ->post('/auth/a/handle', [
                 'email' => 'foo@example.com',
             ]);
 
@@ -108,10 +114,8 @@ final class ActionsTest extends TestCase
         $this->insertIdentityEmal2FA();
 
         $result = $this->actingAs($this->user)
-            ->withSession([
-                'logged_in'   => $this->user->id,
-                'auth_action' => Email2FA::class,
-            ])->post('/auth/a/handle', [
+            ->withSession($this->getSessionUserInfo())
+            ->post('/auth/a/handle', [
                 'email' => $this->user->email,
             ]);
 
@@ -127,10 +131,8 @@ final class ActionsTest extends TestCase
         $this->insertIdentityEmal2FA();
 
         $result = $this->actingAs($this->user)
-            ->withSession([
-                'logged_in'   => $this->user->id,
-                'auth_action' => Email2FA::class,
-            ])->post('/auth/a/verify', [
+            ->withSession($this->getSessionUserInfo())
+            ->post('/auth/a/verify', [
                 'token' => '234567',
             ]);
 
@@ -143,10 +145,8 @@ final class ActionsTest extends TestCase
         $this->insertIdentityEmal2FA();
 
         $result = $this->actingAs($this->user)
-            ->withSession([
-                'logged_in'   => $this->user->id,
-                'auth_action' => Email2FA::class,
-            ])->post('/auth/a/verify', [
+            ->withSession($this->getSessionUserInfo())
+            ->post('/auth/a/verify', [
                 'token' => '123456',
             ]);
 
@@ -168,10 +168,7 @@ final class ActionsTest extends TestCase
         $this->insertIdentityEmal2FA();
 
         $result = $this->actingAs($this->user)
-            ->withSession([
-                'logged_in'   => $this->user->id,
-                'auth_action' => Email2FA::class,
-            ])
+            ->withSession($this->getSessionUserInfo())
             ->get('/auth/a/show');
 
         $result->assertOK();
@@ -202,10 +199,7 @@ final class ActionsTest extends TestCase
 
         // Try to visit any other page, skipping the 2FA
         $result = $this->actingAs($this->user)
-            ->withSession([
-                'logged_in'   => $this->user->id,
-                'auth_action' => Email2FA::class,
-            ])
+            ->withSession($this->getSessionUserInfo())
             ->get('/');
 
         $result->assertRedirect();
@@ -230,10 +224,8 @@ final class ActionsTest extends TestCase
         $this->insertIdentityEmailActivate();
 
         $result = $this->actingAs($this->user)
-            ->withSession([
-                'logged_in'   => $this->user->id,
-                'auth_action' => EmailActivator::class,
-            ])->get('/auth/a/show');
+            ->withSession($this->getSessionUserInfo(EmailActivator::class))
+            ->get('/auth/a/show');
 
         $result->assertStatus(200);
 
@@ -257,10 +249,8 @@ final class ActionsTest extends TestCase
         $model->save($this->user);
 
         $result = $this->actingAs($this->user)
-            ->withSession([
-                'logged_in'   => $this->user->id,
-                'auth_action' => EmailActivator::class,
-            ])->post('/auth/a/verify', [
+            ->withSession($this->getSessionUserInfo(EmailActivator::class))
+            ->post('/auth/a/verify', [
                 'token' => '123456',
             ]);
 
@@ -294,10 +284,7 @@ final class ActionsTest extends TestCase
 
         // Try to visit any other page, skipping the 2FA
         $result = $this->actingAs($this->user)
-            ->withSession([
-                'logged_in'   => $this->user->id,
-                'auth_action' => EmailActivator::class,
-            ])
+            ->withSession($this->getSessionUserInfo(EmailActivator::class))
             ->get('/');
 
         $result->assertRedirect();
