@@ -9,11 +9,11 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
-use CodeIgniter\Shield\Models\DatabaseException;
-use CodeIgniter\Shield\Models\UserIdentityModel;
 
 class EmailActivator implements ActionInterface
 {
+    use CreateIdentityTrait;
+
     private string $type = 'email_activate';
 
     /**
@@ -99,54 +99,6 @@ class EmailActivator implements ActionInterface
     public function afterRegister(User $user): void
     {
         $this->createIdentity($user, 'register', lang('Auth.needVerification'));
-    }
-
-    /**
-     * Create an identity for Email Activation
-     *
-     * @return string The secret code
-     */
-    private function createIdentity(User $user, string $name, string $extra): string
-    {
-        helper('text');
-
-        /** @var UserIdentityModel $userIdentityModel */
-        $userIdentityModel = model(UserIdentityModel::class);
-
-        // Delete any previous activation identities
-        $userIdentityModel->deleteIdentitiesByType($user, $this->type);
-
-        // Create an identity for our activation hash
-        $maxTry = 5;
-        $data   = [
-            'user_id' => $user->getAuthId(),
-            'type'    => $this->type,
-            'name'    => $name,
-            'extra'   => $extra,
-        ];
-
-        while (true) {
-            $data['secret'] = $this->generateSecretCode();
-
-            try {
-                $userIdentityModel->create($data);
-
-                break;
-            } catch (DatabaseException $e) {
-                $maxTry--;
-
-                if ($maxTry === 0) {
-                    throw $e;
-                }
-            }
-        }
-
-        return $data['secret'];
-    }
-
-    private function generateSecretCode(): string
-    {
-        return random_string('nozero', 6);
     }
 
     public function getType(): string
