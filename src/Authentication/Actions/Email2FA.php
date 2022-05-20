@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
+use CodeIgniter\Shield\Models\DatabaseException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 
 /**
@@ -129,15 +130,34 @@ class Email2FA implements ActionInterface
         $userIdentityModel->deleteIdentitiesByType($user, $this->type);
 
         // Create an identity for our 2fa hash
-        $code = random_string('nozero', 6);
-
-        $userIdentityModel->insert([
+        $maxTry = 5;
+        $data   = [
             'user_id' => $user->getAuthId(),
             'type'    => $this->type,
-            'secret'  => $code,
             'name'    => 'login',
             'extra'   => lang('Auth.need2FA'),
-        ]);
+        ];
+
+        while (true) {
+            $data['secret'] = $this->generateSecretCode();
+
+            try {
+                $userIdentityModel->create($data);
+
+                break;
+            } catch (DatabaseException $e) {
+                $maxTry--;
+
+                if ($maxTry === 0) {
+                    throw $e;
+                }
+            }
+        }
+    }
+
+    private function generateSecretCode(): string
+    {
+        return random_string('nozero', 6);
     }
 
     public function getType(): string
