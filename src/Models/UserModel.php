@@ -225,7 +225,7 @@ class UserModel extends Model
 
             if ($result && $data instanceof User) {
                 /** @var User $user */
-                $user = $data->id === null
+                $user = $data->getAuthId() === null
                     ? $this->find($this->db->insertID())
                     : $data;
 
