@@ -23,6 +23,13 @@ final class UserTest extends TestCase
     protected $namespace;
     protected $refresh = true;
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        db_connect()->table('auth_identities')->truncate();
+    }
+
     public function testGetIdentitiesNone()
     {
         // when none, returns empty array
@@ -90,5 +97,67 @@ final class UserTest extends TestCase
         $this->assertInstanceOf(Login::class, $last);
         $this->assertSame($login->id, $last->id);
         $this->assertInstanceOf(Time::class, $last->date);
+    }
+
+    /**
+     * @see https://github.com/codeigniter4/shield/issues/103
+     */
+    public function testUpdateEmail()
+    {
+        // Update user's email
+        $this->user->email  = 'foo@bar.com';
+        $this->user->active = 0;
+
+        $users = model('UserModel');
+        $users->save($this->user);
+
+        $user = $users->find($this->user->id);
+
+        $this->seeInDatabase('auth_identities', [
+            'user_id' => $user->id,
+            'secret'  => 'foo@bar.com',
+        ]);
+        $this->assertSame('foo@bar.com', $user->email);
+    }
+
+    /**
+     * @see https://github.com/codeigniter4/shield/issues/103
+     */
+    public function testUpdatePassword()
+    {
+        // Update user's email
+        $this->user->email    = 'foo@bar.com';
+        $this->user->password = 'foobar';
+        $this->user->active   = 0;
+
+        $users = model('UserModel');
+        $users->save($this->user);
+
+        $user = $users->find($this->user->id);
+
+        $this->assertTrue(service('passwords')->verify('foobar', $user->password_hash));
+    }
+
+    /**
+     * @see https://github.com/codeigniter4/shield/issues/103
+     */
+    public function testUpdatePasswordHash()
+    {
+        // Update user's email
+        $hash                      = service('passwords')->hash('foobar');
+        $this->user->email         = 'foo@bar.com';
+        $this->user->password_hash = $hash;
+        $this->user->active        = 0;
+
+        $users = model('UserModel');
+        $users->save($this->user);
+
+        $user = $users->find($this->user->id);
+
+        $this->seeInDatabase('auth_identities', [
+            'user_id' => $user->id,
+            'secret'  => 'foo@bar.com',
+            'secret2' => $hash,
+        ]);
     }
 }

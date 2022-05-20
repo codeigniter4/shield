@@ -57,6 +57,10 @@ class User extends Entity
         return count($identities) ? array_shift($identities) : null;
     }
 
+    /**
+     * ensures that all of the user's identities are loaded
+     * into the instance for faster access later.
+     */
     private function populateIdentities(): void
     {
         if ($this->identities === null) {
@@ -125,6 +129,51 @@ class User extends Entity
     }
 
     /**
+     * If $user, $password, or $password_hash have been updated,
+     * will update the user's email identity record with the
+     * correct values.
+     */
+    public function saveEmailIdentity(): bool
+    {
+        if (empty($this->email) && empty($this->password) && empty($this->password_hash)) {
+            return true;
+        }
+
+        $identity = $this->getEmailIdentity();
+        if ($identity === null) {
+            // Ensure we reload all identities
+            $this->identities = null;
+
+            $this->createEmailIdentity([
+                'email'    => $this->email,
+                'password' => '',
+            ]);
+            $identity = $this->getEmailIdentity();
+        }
+
+        if (empty($identity)) {
+            return true;
+        }
+
+        if (! empty($this->email)) {
+            $identity->secret = $this->email;
+        }
+
+        if (! empty($this->password)) {
+            $identity->secret2 = service('passwords')->hash($this->password);
+        }
+
+        if (! empty($this->password_hash) && empty($this->password)) {
+            $identity->secret2 = $this->password_hash;
+        }
+
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        return $identityModel->save($identity);
+    }
+
+    /**
      * Update the last used at date for an identity record.
      */
     public function touchIdentity(UserIdentity $identity): void
@@ -161,9 +210,18 @@ class User extends Entity
         return $this->password;
     }
 
-    public function setPassword(string $password): void
+    public function setPassword(string $password): User
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function setPasswordHash(string $hash): User
+    {
+        $this->password_hash = $hash;
+
+        return $this;
     }
 
     /**
