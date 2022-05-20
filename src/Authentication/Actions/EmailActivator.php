@@ -38,7 +38,7 @@ class EmailActivator implements ActionInterface
             );
         }
 
-        $code = $this->createIdentity($user);
+        $code = $this->createIdentity($user, 'register', lang('Auth.needVerification'));
 
         // Send the email
         helper('email');
@@ -98,7 +98,7 @@ class EmailActivator implements ActionInterface
      */
     public function afterRegister(User $user): void
     {
-        $this->createIdentity($user);
+        $this->createIdentity($user, 'register', lang('Auth.needVerification'));
     }
 
     /**
@@ -106,22 +106,23 @@ class EmailActivator implements ActionInterface
      *
      * @return string The secret code
      */
-    private function createIdentity(User $user): string
+    private function createIdentity(User $user, string $name, string $extra): string
     {
         helper('text');
 
         /** @var UserIdentityModel $userIdentityModel */
         $userIdentityModel = model(UserIdentityModel::class);
 
+        // Delete any previous activation identities
         $userIdentityModel->deleteIdentitiesByType($user, $this->type);
 
-        //  Create an identity for our activation hash
+        // Create an identity for our activation hash
         $maxTry = 5;
         $data   = [
             'user_id' => $user->getAuthId(),
             'type'    => $this->type,
-            'name'    => 'register',
-            'extra'   => lang('Auth.needVerification'),
+            'name'    => $name,
+            'extra'   => $extra,
         ];
 
         while (true) {

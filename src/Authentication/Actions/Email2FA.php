@@ -33,7 +33,7 @@ class Email2FA implements ActionInterface
             throw new RuntimeException('Cannot get the pending login User.');
         }
 
-        $this->createIdentity($user);
+        $this->createIdentity($user, 'login', lang('Auth.need2FA'));
 
         return view(setting('Auth.views')['action_email_2fa'], ['user' => $user]);
     }
@@ -113,13 +113,13 @@ class Email2FA implements ActionInterface
      */
     public function afterLogin(User $user): void
     {
-        $this->createIdentity($user);
+        $this->createIdentity($user, 'login', lang('Auth.need2FA'));
     }
 
     /**
      * Create an identity for Email 2FA
      */
-    private function createIdentity(User $user): void
+    private function createIdentity(User $user, string $name, string $extra): string
     {
         helper('text');
 
@@ -134,8 +134,8 @@ class Email2FA implements ActionInterface
         $data   = [
             'user_id' => $user->getAuthId(),
             'type'    => $this->type,
-            'name'    => 'login',
-            'extra'   => lang('Auth.need2FA'),
+            'name'    => $name,
+            'extra'   => $extra,
         ];
 
         while (true) {
@@ -153,6 +153,8 @@ class Email2FA implements ActionInterface
                 }
             }
         }
+
+        return $data['secret'];
     }
 
     private function generateSecretCode(): string
