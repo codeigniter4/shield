@@ -87,7 +87,7 @@ final class UserTest extends TestCase
 
         $last = $this->user->lastLogin();
 
-        $this->assertInstanceOf(Login::class, $last); // @phpstan-ignore-line
+        $this->assertInstanceOf(Login::class, $last);
         $this->assertSame($login->id, $last->id);
         $this->assertInstanceOf(Time::class, $last->date);
     }
