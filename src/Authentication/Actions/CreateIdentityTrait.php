@@ -12,9 +12,9 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
 trait CreateIdentityTrait
 {
     /**
-     * Create an identity for auth action
+     * Create an identity with 6 digits code for auth action
      */
-    private function createIdentity(User $user, string $name, string $extra): string
+    private function createCodeIdentity(User $user, string $name, string $extra): string
     {
         helper('text');
 

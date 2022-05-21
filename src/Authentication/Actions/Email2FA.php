@@ -34,7 +34,7 @@ class Email2FA implements ActionInterface
             throw new RuntimeException('Cannot get the pending login User.');
         }
 
-        $this->createIdentity($user, 'login', lang('Auth.need2FA'));
+        $this->createCodeIdentity($user, 'login', lang('Auth.need2FA'));
 
         return view(setting('Auth.views')['action_email_2fa'], ['user' => $user]);
     }
@@ -114,7 +114,7 @@ class Email2FA implements ActionInterface
      */
     public function afterLogin(User $user): void
     {
-        $this->createIdentity($user, 'login', lang('Auth.need2FA'));
+        $this->createCodeIdentity($user, 'login', lang('Auth.need2FA'));
     }
 
     public function getType(): string

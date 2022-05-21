@@ -38,7 +38,7 @@ class EmailActivator implements ActionInterface
             );
         }
 
-        $code = $this->createIdentity($user, 'register', lang('Auth.needVerification'));
+        $code = $this->createCodeIdentity($user, 'register', lang('Auth.needVerification'));
 
         // Send the email
         helper('email');
@@ -98,7 +98,7 @@ class EmailActivator implements ActionInterface
      */
     public function afterRegister(User $user): void
     {
-        $this->createIdentity($user, 'register', lang('Auth.needVerification'));
+        $this->createCodeIdentity($user, 'register', lang('Auth.needVerification'));
     }
 
     public function getType(): string

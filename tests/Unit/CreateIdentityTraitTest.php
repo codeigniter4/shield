@@ -35,7 +35,7 @@ final class CreateIdentityTraitTest extends TestCase
 
             public function afterAttempt(User $user): void
             {
-                $this->createIdentity($user, 'login', lang('Auth.need2FA'));
+                $this->createCodeIdentity($user, 'login', lang('Auth.need2FA'));
             }
 
             private function generateSecretCode(): string
