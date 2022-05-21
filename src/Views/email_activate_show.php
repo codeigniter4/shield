@@ -13,8 +13,7 @@
                 <div class="alert alert-danger"><?= session('error') ?></div>
             <?php endif ?>
 
-            <p>We just sent an email to you with a code to confirm your email address. Copy that code and paste it
-                below.</p>
+            <p><?= lang('Auth.emailActivateBody') ?></p>
 
             <form action="<?= site_url('auth/a/verify') ?>" method="post">
                 <?= csrf_field() ?>
@@ -26,7 +25,7 @@
                 </div>
 
                 <div class="d-grid col-8 mx-auto m-3">
-                    <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.confirm') ?></button>
+                    <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.send') ?></button>
                 </div>
 
             </form>

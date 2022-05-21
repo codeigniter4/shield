@@ -9,7 +9,7 @@
         <div class="card-body">
             <h5 class="card-title mb-5"><?= lang('Auth.email2FATitle') ?></h5>
 
-            <p><?= lang('Auth.emailEnterCode') ?></p>
+            <p><?= lang('Auth.confirmEmailAddress') ?></p>
 
             <?php if (session('error')) : ?>
                 <div class="alert alert-danger"><?= session('error') ?></div>
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="d-grid col-8 mx-auto m-3">
-                    <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.login') ?></button>
+                    <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.send') ?></button>
                 </div>
 
             </form>
