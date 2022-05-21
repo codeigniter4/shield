@@ -110,7 +110,7 @@ class Email2FA implements ActionInterface
     /**
      * Called from `Session::attempt()`.
      */
-    public function afterAttempt(User $user): void
+    public function afterLogin(User $user): void
     {
         $this->createIdentity($user);
     }

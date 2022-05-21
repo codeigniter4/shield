@@ -63,9 +63,9 @@ final class ChainFilterTest extends TestCase
 
     public function testFilterSuccessSeession()
     {
-        $_SESSION['logged_in'] = $this->user->id;
+        $_SESSION['user']['id'] = $this->user->id;
 
-        $result = $this->withSession(['logged_in' => $this->user->id])
+        $result = $this->withSession(['user' => ['id' => $this->user->id]])
             ->get('protected-route');
 
         $result->assertStatus(200);

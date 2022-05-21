@@ -171,7 +171,7 @@ class Auth extends BaseConfig
      * These settings only apply if you are using the Session Authenticator
      * for authentication.
      *
-     * - field                  The name of the key the current user ID is stored in session
+     * - field                  The name of the key the current user info is stored in session
      * - allowRemembering       Does the system allow use of "remember-me"
      * - rememberCookieName     The name of the cookie to use for "remember-me"
      * - rememberLength         The length of time, in seconds, to remember a user.
@@ -179,7 +179,7 @@ class Auth extends BaseConfig
      * @var array<string, bool|int|string>
      */
     public array $sessionConfig = [
-        'field'              => 'logged_in',
+        'field'              => 'user',
         'allowRemembering'   => true,
         'rememberCookieName' => 'remember',
         'rememberLength'     => 30 * DAY,

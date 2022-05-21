@@ -88,7 +88,7 @@ final class LoginTest extends TestCase
         $this->assertCloseEnough($identity->last_used_at->getTimestamp(), Time::now()->getTimestamp());
 
         // Session should have `logged_in` value with user's id
-        $this->assertSame($this->user->id, session('logged_in'));
+        $this->assertSame($this->user->id, session('user')['id']);
     }
 
     public function testLoginActionUsernameSuccess()
@@ -118,21 +118,20 @@ final class LoginTest extends TestCase
         $this->assertCloseEnough($identity->last_used_at->getTimestamp(), Time::now()->getTimestamp());
 
         // Session should have `logged_in` value with user's id
-        $this->assertSame($this->user->id, session('logged_in'));
+        $this->assertSame($this->user->id, session('user')['id']);
     }
 
     public function testLogoutAction()
     {
-
         // log them in
-        session()->set('logged_in', $this->user->id);
+        session()->set('user', ['id' => $this->user->id]);
 
         $result = $this->get('logout');
 
         $result->assertStatus(302);
         $this->assertSame(site_url(config('Auth')->redirects['logout']), $result->getRedirectUrl());
 
-        $this->assertNull(session('logged_in'));
+        $this->assertNull(session('user'));
     }
 
     public function testLoginRedirectsToActionIfDefined()

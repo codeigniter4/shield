@@ -45,11 +45,6 @@ class Session implements AuthenticatorInterface
     private int $userState = self::STATE_UNKNOWN;
 
     /**
-     * Pending login error message
-     */
-    private ?string $pendingMessage = null;
-
-    /**
      * Should the user be remembered?
      */
     protected bool $shouldRemember = false;
@@ -113,26 +108,64 @@ class Session implements AuthenticatorInterface
         /** @var User $user */
         $user = $result->extraInfo();
 
+        $this->user = $user;
+
+        // If an action has been defined for login, start it up.
+        $hasAction = $this->startUpAction('login', $user);
+
         $this->login($user);
 
         $this->recordLoginAttempt($credentials, true, $ipAddress, $userAgent, $user->getAuthId());
 
-        // If an action has been defined for login, start it up.
-        $actionClass = setting('Auth.actions')['login'] ?? null;
-
-        if (! empty($actionClass)) {
-            $action = Factories::actions($actionClass); // @phpstan-ignore-line
-
-            if (method_exists($action, 'afterAttempt')) {
-                $action->afterAttempt($user);
-            }
-
-            session()->set('auth_action', $actionClass);
-        } else {
+        if (! $hasAction) {
             $this->completeLogin($user);
         }
 
         return $result;
+    }
+
+    /**
+     * If an action has been defined, start it up.
+     *
+     * @param string $type 'register', 'login'
+     *
+     * @return bool If the action has been defined or not.
+     */
+    public function startUpAction(string $type, User $user): bool
+    {
+        $actionClass = setting('Auth.actions')[$type] ?? null;
+
+        if ($actionClass === null) {
+            return false;
+        }
+
+        $action = Factories::actions($actionClass); // @phpstan-ignore-line
+
+        // Create identity for the action.
+        // E.g., afterRegister()
+        $method = 'after' . ucfirst($type);
+        if (method_exists($action, $method)) {
+            $action->{$method}($user);
+        }
+
+        $this->setAuthAction();
+
+        return true;
+    }
+
+    /**
+     * Returns an action object.
+     */
+    public function getAction(): ?ActionInterface
+    {
+        /** @var class-string<ActionInterface>|null $actionClass */
+        $actionClass = $this->getSessionKey('auth_action');
+
+        if ($actionClass === null) {
+            return null;
+        }
+
+        return Factories::actions($actionClass); // @phpstan-ignore-line
     }
 
     /**
@@ -159,7 +192,8 @@ class Session implements AuthenticatorInterface
         $this->userIdentityModel->deleteIdentitiesByType($user, $type);
 
         // Clean up our session
-        session()->remove('auth_action');
+        $this->removeSessionKey('auth_action');
+        $this->removeSessionKey('auth_action_message');
 
         $this->user = $user;
 
@@ -281,34 +315,17 @@ class Session implements AuthenticatorInterface
         }
 
         /** @var int|string|null $userId */
-        $userId = session(setting('Auth.sessionConfig')['field']);
+        $userId = $this->getSessionKey('id');
 
+        // Has User Info in Session.
         if ($userId !== null) {
             $this->user = $this->provider->findById($userId);
 
-            $identities = $this->userIdentityModel->getIdentitiesByTypes(
-                $this->user,
-                $this->getActionTypes()
-            );
+            // If having `auth_action`, it is pending.
+            if ($this->getSessionKey('auth_action')) {
+                $this->userState = self::STATE_PENDING;
 
-            // If we will have more than one identity, we need to change the logic blow.
-            assert(
-                count($identities) < 2,
-                'More than one identity for actions. user_id: ' . $userId
-            );
-
-            // Having an action?
-            foreach ($identities as $identity) {
-                $actionClass = setting('Auth.actions')[$identity->name];
-
-                if ($actionClass) {
-                    $this->userState = self::STATE_PENDING;
-
-                    session()->set('auth_action', $actionClass);
-                    $this->pendingMessage = $identity->extra;
-
-                    return;
-                }
+                return;
             }
 
             $this->userState = self::STATE_LOGGED_IN;
@@ -316,14 +333,43 @@ class Session implements AuthenticatorInterface
             return;
         }
 
+        // No User Info in Session.
         // Check remember-me token.
         if (setting('Auth.sessionConfig')['allowRemembering']) {
-            $this->checkRememberMe();
+            if ($this->checkRememberMe()) {
+                $this->setAuthAction();
+            }
 
             return;
         }
 
         $this->userState = self::STATE_ANONYMOUS;
+    }
+
+    /**
+     * Gets identities for action from database, and set session.
+     */
+    private function setAuthAction()
+    {
+        // Get identities for action
+        $identities = $this->userIdentityModel->getIdentitiesByTypes(
+            $this->user,
+            $this->getActionTypes()
+        );
+
+        // Having an action?
+        foreach ($identities as $identity) {
+            $actionClass = setting('Auth.actions')[$identity->name];
+
+            if ($actionClass) {
+                $this->userState = self::STATE_PENDING;
+
+                $this->setSessionKey('auth_action', $actionClass);
+                $this->setSessionKey('auth_action_message', $identity->extra);
+
+                return;
+            }
+        }
     }
 
     /**
@@ -376,9 +422,12 @@ class Session implements AuthenticatorInterface
     {
         $this->checkUserState();
 
-        return $this->pendingMessage;
+        return $this->getSessionKey('auth_action_message') ?? '';
     }
 
+    /**
+     * @return bool true if logged in by remember-me token.
+     */
     private function checkRememberMe(): bool
     {
         // Get remember-me token.
@@ -450,13 +499,55 @@ class Session implements AuthenticatorInterface
         }
 
         // Let the session know we're logged in
-        session()->set(setting('Auth.sessionConfig')['field'], $user->getAuthId());
+        $this->setSessionKey('id', $user->getAuthId());
 
         /** @var Response $response */
         $response = service('response');
 
         // When logged in, ensure cache control headers are in place
         $response->noCache();
+    }
+
+    /**
+     * Gets User Info in Session
+     */
+    private function getSessionUserInfo(): array
+    {
+        return session(setting('Auth.sessionConfig')['field']) ?? [];
+    }
+
+    /**
+     * Gets the key value in Session User Info
+     *
+     * @return int|string|null
+     */
+    private function getSessionKey(string $key)
+    {
+        $sessionUserInfo = $this->getSessionUserInfo();
+
+        return $sessionUserInfo[$key] ?? null;
+    }
+
+    /**
+     * Sets the key value in Session User Info
+     *
+     * @param int|string|null $value
+     */
+    private function setSessionKey(string $key, $value): void
+    {
+        $sessionUserInfo       = $this->getSessionUserInfo();
+        $sessionUserInfo[$key] = $value;
+        session()->set(setting('Auth.sessionConfig')['field'], $sessionUserInfo);
+    }
+
+    /**
+     * Remove the key value in Session User Info
+     */
+    private function removeSessionKey(string $key): void
+    {
+        $sessionUserInfo = $this->getSessionUserInfo();
+        unset($sessionUserInfo[$key]);
+        session()->set(setting('Auth.sessionConfig')['field'], $sessionUserInfo);
     }
 
     /**

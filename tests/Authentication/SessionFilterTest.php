@@ -58,10 +58,10 @@ final class SessionFilterTest extends DatabaseTestCase
 
     public function testFilterSuccess()
     {
-        $user                  = fake(UserModel::class);
-        $_SESSION['logged_in'] = $user->id;
+        $user                   = fake(UserModel::class);
+        $_SESSION['user']['id'] = $user->id;
 
-        $result = $this->withSession(['logged_in' => $user->id])
+        $result = $this->withSession(['user' => ['id' => $user->id]])
             ->get('protected-route');
 
         $result->assertStatus(200);

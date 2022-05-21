@@ -63,7 +63,7 @@ final class AuthHelperTest extends TestCase
     {
         $user = fake(UserModel::class, ['id' => 1]);
         $this->setPrivateProperty(auth()->getAuthenticator(), 'user', $user);
-        $_SESSION['logged_in'] = $user->id;
+        $_SESSION['user']['id'] = $user->id;
 
         $this->assertTrue(auth()->loggedIn());
         $this->assertSame($user->id, user_id());
