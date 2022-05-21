@@ -216,7 +216,7 @@ class UserModel extends Model
      * updating of user email, password, or password_hash
      * fields if they've been modified.
      *
-     * @param mixed $data
+     * @param User|array $data
      */
     public function save($data): bool
     {
