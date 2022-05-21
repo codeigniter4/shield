@@ -12,6 +12,7 @@ use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\RememberModel;
@@ -110,12 +111,17 @@ class Session implements AuthenticatorInterface
 
         $this->user = $user;
 
+        // Update the user's last used date on their password identity.
+        $user->touchIdentity($user->getEmailIdentity());
+
         // If an action has been defined for login, start it up.
         $hasAction = $this->startUpAction('login', $user);
 
-        $this->login($user);
+        $this->startLogin($user);
 
         $this->recordLoginAttempt($credentials, true, $ipAddress, $userAgent, $user->getAuthId());
+
+        $this->issueRememberMeToken();
 
         if (! $hasAction) {
             $this->completeLogin($user);
@@ -202,7 +208,10 @@ class Session implements AuthenticatorInterface
         return true;
     }
 
-    private function completeLogin(User $user): void
+    /**
+     * Completes login process
+     */
+    public function completeLogin(User $user): void
     {
         $this->userState = self::STATE_LOGGED_IN;
 
@@ -352,10 +361,7 @@ class Session implements AuthenticatorInterface
     private function setAuthAction()
     {
         // Get identities for action
-        $identities = $this->userIdentityModel->getIdentitiesByTypes(
-            $this->user,
-            $this->getActionTypes()
-        );
+        $identities = $this->getIdentitiesForAction();
 
         // Having an action?
         foreach ($identities as $identity) {
@@ -370,6 +376,19 @@ class Session implements AuthenticatorInterface
                 return;
             }
         }
+    }
+
+    /**
+     * Gets identities for action
+     *
+     * @return UserIdentity[]
+     */
+    private function getIdentitiesForAction(): array
+    {
+        return $this->userIdentityModel->getIdentitiesByTypes(
+            $this->user,
+            $this->getActionTypes()
+        );
     }
 
     /**
@@ -448,7 +467,7 @@ class Session implements AuthenticatorInterface
 
         $user = $this->provider->findById($token->user_id);
 
-        $this->login($user);
+        $this->startLogin($user);
 
         $this->refreshRememberMeToken($token);
 
@@ -486,12 +505,12 @@ class Session implements AuthenticatorInterface
         return $token;
     }
 
-    private function startLogin(User $user): void
+    /**
+     * Starts login process
+     */
+    public function startLogin(User $user): void
     {
         $this->user = $user;
-
-        // Update the user's last used date on their password identity.
-        $user->touchIdentity($user->getEmailIdentity());
 
         // Regenerate the session ID to help protect against session fixation
         if (ENVIRONMENT !== 'testing') {
@@ -557,9 +576,30 @@ class Session implements AuthenticatorInterface
     {
         $this->user = $user;
 
+        // Check identities for actions
+        if ($this->getIdentitiesForAction() !== []) {
+            throw new LogicException(
+                'The user has identities for action, so cannot complete login.'
+                . ' If you want to start to login with auth action, use startLogin() instead.'
+                . ' Or delete identities for action in database.'
+                . ' user_id: ' . $user->getAuthId()
+            );
+        }
+        // Check auth_action in Session
+        if ($this->getSessionKey('auth_action')) {
+            throw new LogicException(
+                'The user has auth action in session, so cannot complete login.'
+                . ' If you want to start to login with auth action, use startLogin() instead.'
+                . ' Or delete `auth_action` and `auth_action_message` in session data.'
+                . ' user_id: ' . $user->getAuthId()
+            );
+        }
+
         $this->startLogin($user);
 
         $this->issueRememberMeToken();
+
+        $this->completeLogin($user);
     }
 
     private function issueRememberMeToken()

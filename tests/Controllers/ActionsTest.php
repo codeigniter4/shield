@@ -62,7 +62,7 @@ final class ActionsTest extends TestCase
     {
         $this->insertIdentityEmal2FA();
 
-        $result = $this->actingAs($this->user)
+        $result = $this->actingAs($this->user, true)
             ->withSession($this->getSessionUserInfo())
             ->get('/auth/a/show');
 
@@ -85,7 +85,7 @@ final class ActionsTest extends TestCase
     {
         $this->insertIdentityEmal2FA();
 
-        $result = $this->actingAs($this->user)
+        $result = $this->actingAs($this->user, true)
             ->withSession($this->getSessionUserInfo())
             ->post('/auth/a/handle', [
                 'email' => 'foo@example.com',
@@ -113,7 +113,7 @@ final class ActionsTest extends TestCase
     {
         $this->insertIdentityEmal2FA();
 
-        $result = $this->actingAs($this->user)
+        $result = $this->actingAs($this->user, true)
             ->withSession($this->getSessionUserInfo())
             ->post('/auth/a/handle', [
                 'email' => $this->user->email,
@@ -130,7 +130,7 @@ final class ActionsTest extends TestCase
     {
         $this->insertIdentityEmal2FA();
 
-        $result = $this->actingAs($this->user)
+        $result = $this->actingAs($this->user, true)
             ->withSession($this->getSessionUserInfo())
             ->post('/auth/a/verify', [
                 'token' => '234567',
@@ -144,7 +144,7 @@ final class ActionsTest extends TestCase
     {
         $this->insertIdentityEmal2FA();
 
-        $result = $this->actingAs($this->user)
+        $result = $this->actingAs($this->user, true)
             ->withSession($this->getSessionUserInfo())
             ->post('/auth/a/verify', [
                 'token' => '123456',
@@ -167,7 +167,7 @@ final class ActionsTest extends TestCase
     {
         $this->insertIdentityEmal2FA();
 
-        $result = $this->actingAs($this->user)
+        $result = $this->actingAs($this->user, true)
             ->withSession($this->getSessionUserInfo())
             ->get('/auth/a/show');
 
@@ -198,7 +198,7 @@ final class ActionsTest extends TestCase
         ]);
 
         // Try to visit any other page, skipping the 2FA
-        $result = $this->actingAs($this->user)
+        $result = $this->actingAs($this->user, true)
             ->withSession($this->getSessionUserInfo())
             ->get('/');
 
@@ -223,7 +223,7 @@ final class ActionsTest extends TestCase
     {
         $this->insertIdentityEmailActivate();
 
-        $result = $this->actingAs($this->user)
+        $result = $this->actingAs($this->user, true)
             ->withSession($this->getSessionUserInfo(EmailActivator::class))
             ->get('/auth/a/show');
 
@@ -248,7 +248,7 @@ final class ActionsTest extends TestCase
         $model              = auth()->getProvider();
         $model->save($this->user);
 
-        $result = $this->actingAs($this->user)
+        $result = $this->actingAs($this->user, true)
             ->withSession($this->getSessionUserInfo(EmailActivator::class))
             ->post('/auth/a/verify', [
                 'token' => '123456',
@@ -283,7 +283,7 @@ final class ActionsTest extends TestCase
         $this->insertIdentityEmailActivate();
 
         // Try to visit any other page, skipping the 2FA
-        $result = $this->actingAs($this->user)
+        $result = $this->actingAs($this->user, true)
             ->withSession($this->getSessionUserInfo(EmailActivator::class))
             ->get('/');
 

@@ -2,6 +2,7 @@
 
 namespace CodeIgniter\Shield\Test;
 
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 
 /**
@@ -14,14 +15,23 @@ trait AuthenticationTesting
     /**
      * Logs the user for testing purposes.
      *
+     * @param bool $pending Whether pending login state or not.
+     *
      * @return $this
      */
-    public function actingAs(User $user): self
+    public function actingAs(User $user, bool $pending = false): self
     {
         // Ensure the helper is loaded during tests.
         helper('auth');
 
-        auth('session')->login($user);
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        if ($pending) {
+            $authenticator->startLogin($user);
+        } else {
+            $authenticator->login($user);
+        }
 
         return $this;
     }
