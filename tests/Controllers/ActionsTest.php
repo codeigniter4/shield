@@ -123,7 +123,7 @@ final class ActionsTest extends TestCase
         $result->assertSee(lang('Auth.emailEnterCode'));
 
         // Should have sent an email with the code....
-        $this->assertStringContainsString('Your authentication token is:', service('email')->archive['body']);
+        $this->assertStringContainsString('Your authentication code is:', service('email')->archive['body']);
     }
 
     public function testEmail2FAVerifyFails()
