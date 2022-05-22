@@ -16,6 +16,8 @@ trait CreateIdentityTrait
      */
     private function createCodeIdentity(User $user, string $name, string $extra): string
     {
+        assert($user->id !== null);
+
         helper('text');
 
         /** @var UserIdentityModel $userIdentityModel */
@@ -27,7 +29,7 @@ trait CreateIdentityTrait
         // Create an identity for the action
         $maxTry = 5;
         $data   = [
-            'user_id' => $user->getAuthId(),
+            'user_id' => $user->id,
             'type'    => $this->type,
             'name'    => $name,
             'extra'   => $extra,
