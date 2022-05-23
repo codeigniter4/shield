@@ -2,6 +2,8 @@
 
 namespace CodeIgniter\Shield\Models;
 
+use CodeIgniter\Database\Database;
+use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
@@ -206,6 +208,43 @@ class UserModel extends Model
                 . $error['message'] . ', query: ' . $this->db->getLastQuery();
 
             throw new RuntimeException($message, $error['code']);
+        }
+    }
+
+    /**
+     * Override the BaseModel's `save()` method to allow
+     * updating of user email, password, or password_hash
+     * fields if they've been modified.
+     *
+     * @param array|User $data
+     */
+    public function save($data): bool
+    {
+        try {
+            $result = parent::save($data);
+
+            if ($result && $data instanceof User) {
+                /** @var User $user */
+                $user = $data->id === null
+                    ? $this->find($this->db->insertID())
+                    : $data;
+
+                if (! $user->saveEmailIdentity()) {
+                    throw new RuntimeException('Unable to save email identity.');
+                }
+            }
+
+            return $result;
+        } catch (DataException $e) {
+            $messages = [
+                lang('Database.emptyDataset', ['insert']),
+                lang('Database.emptyDataset', ['update']),
+            ];
+            if (in_array($e->getMessage(), $messages, true)) {
+                return true;
+            }
+
+            throw $e;
         }
     }
 }
