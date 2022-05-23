@@ -107,7 +107,7 @@ class EmailActivator implements ActionInterface
 
         $generator = static fn (): string => random_string('nozero', 6);
 
-        $code = $identityModel->createCodeIdentity(
+        return $identityModel->createCodeIdentity(
             $user,
             [
                 'type'  => $this->type,
@@ -116,8 +116,6 @@ class EmailActivator implements ActionInterface
             ],
             $generator
         );
-
-        return $code;
     }
 
     public function getType(): string
