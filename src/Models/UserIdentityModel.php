@@ -10,6 +10,8 @@ use Faker\Generator;
 
 class UserIdentityModel extends Model
 {
+    use CheckQueryReturnTrait;
+
     protected $table          = 'auth_identities';
     protected $primaryKey     = 'id';
     protected $returnType     = UserIdentity::class;
@@ -26,6 +28,22 @@ class UserIdentityModel extends Model
         'last_used_at',
     ];
     protected $useTimestamps = true;
+
+    /**
+     * Inserts a record
+     *
+     * @param array|object $data
+     *
+     * @throws DatabaseException
+     */
+    public function create($data): void
+    {
+        $this->disableDBDebug();
+
+        $return = $this->insert($data);
+
+        $this->checkQueryReturn($return);
+    }
 
     public function getAccessTokenByRawToken(string $rawToken): ?AccessToken
     {
@@ -72,6 +90,9 @@ class UserIdentityModel extends Model
             ->findAll();
     }
 
+    /**
+     * Used by 'magic-link'.
+     */
     public function getIdentityBySecret(string $type, ?string $secret): ?UserIdentity
     {
         if ($secret === null) {
@@ -105,6 +126,7 @@ class UserIdentityModel extends Model
     {
         return $this->where('user_id', $user->getAuthId())
             ->where('type', $type)
+            ->orderBy($this->primaryKey)
             ->first();
     }
 

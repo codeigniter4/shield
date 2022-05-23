@@ -4,12 +4,13 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Exceptions\RuntimeException;
 use DateTime;
 use stdClass;
 
 class RememberModel extends Model
 {
+    use CheckQueryReturnTrait;
+
     protected $table          = 'auth_remember_tokens';
     protected $primaryKey     = 'id';
     protected $returnType     = 'object';
@@ -37,17 +38,6 @@ class RememberModel extends Model
         ]);
 
         $this->checkQueryReturn($return);
-    }
-
-    private function checkQueryReturn(bool $return): void
-    {
-        if ($return === false) {
-            $error   = $this->db->error();
-            $message = 'Query error: ' . $error['code'] . ', '
-                . $error['message'] . ', query: ' . $this->db->getLastQuery();
-
-            throw new RuntimeException($message, $error['code']);
-        }
     }
 
     /**

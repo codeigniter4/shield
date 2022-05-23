@@ -9,10 +9,11 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
-use CodeIgniter\Shield\Models\UserIdentityModel;
 
 class EmailActivator implements ActionInterface
 {
+    use CreateIdentityTrait;
+
     private string $type = 'email_activate';
 
     /**
@@ -37,7 +38,7 @@ class EmailActivator implements ActionInterface
             );
         }
 
-        $code = $this->createIdentity($user);
+        $code = $this->createCodeIdentity($user, 'register', lang('Auth.needVerification'));
 
         // Send the email
         helper('email');
@@ -97,35 +98,7 @@ class EmailActivator implements ActionInterface
      */
     public function afterRegister(User $user): void
     {
-        $this->createIdentity($user);
-    }
-
-    /**
-     * Create an identity for Email Activation
-     *
-     * @return string The secret code
-     */
-    private function createIdentity(User $user): string
-    {
-        helper('text');
-
-        /** @var UserIdentityModel $userIdentityModel */
-        $userIdentityModel = model(UserIdentityModel::class);
-
-        $userIdentityModel->deleteIdentitiesByType($user, $this->type);
-
-        //  Create an identity for our activation hash
-        $code = random_string('nozero', 6);
-
-        $userIdentityModel->insert([
-            'user_id' => $user->getAuthId(),
-            'type'    => $this->type,
-            'secret'  => $code,
-            'name'    => 'register',
-            'extra'   => lang('Auth.needVerification'),
-        ]);
-
-        return $code;
+        $this->createCodeIdentity($user, 'register', lang('Auth.needVerification'));
     }
 
     public function getType(): string

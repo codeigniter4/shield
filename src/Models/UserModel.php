@@ -12,6 +12,8 @@ use InvalidArgumentException;
 
 class UserModel extends Model
 {
+    use CheckQueryReturnTrait;
+
     protected $table          = 'users';
     protected $primaryKey     = 'id';
     protected $returnType     = User::class;
@@ -198,17 +200,6 @@ class UserModel extends Model
         $return = $this->save($user);
 
         $this->checkQueryReturn($return);
-    }
-
-    private function checkQueryReturn(bool $return): void
-    {
-        if ($return === false) {
-            $error   = $this->db->error();
-            $message = 'Query error: ' . $error['code'] . ', '
-                . $error['message'] . ', query: ' . $this->db->getLastQuery();
-
-            throw new RuntimeException($message, $error['code']);
-        }
     }
 
     /**
