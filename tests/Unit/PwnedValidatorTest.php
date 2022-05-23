@@ -25,7 +25,7 @@ final class PwnedValidatorTest extends CIUnitTestCase
     {
         parent::setUp();
 
-        Services::reset();
+        Services::reset(true);
 
         $this->validator = new PwnedValidator(new AuthConfig());
     }
