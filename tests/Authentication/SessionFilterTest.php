@@ -20,7 +20,7 @@ final class SessionFilterTest extends DatabaseTestCase
 
     protected function setUp(): void
     {
-        Services::reset();
+        Services::reset(true);
 
         parent::setUp();
 

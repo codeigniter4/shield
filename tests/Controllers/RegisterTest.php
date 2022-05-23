@@ -20,7 +20,7 @@ final class RegisterTest extends DatabaseTestCase
 
     protected function setUp(): void
     {
-        Services::reset();
+        Services::reset(true);
 
         parent::setUp();
 

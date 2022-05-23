@@ -25,7 +25,7 @@ final class ChainFilterTest extends TestCase
 
     protected function setUp(): void
     {
-        Services::reset();
+        Services::reset(true);
 
         parent::setUp();
 
