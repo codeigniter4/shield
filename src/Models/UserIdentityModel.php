@@ -195,6 +195,16 @@ class UserIdentityModel extends Model
             ->findAll();
     }
 
+    /**
+     * Update the last used at date for an identity record.
+     */
+    public function touchIdentity(UserIdentity $identity): void
+    {
+        $identity->last_used_at = date('Y-m-d H:i:s');
+
+        $this->save($identity);
+    }
+
     public function deleteIdentitiesByType(User $user, string $type): void
     {
         $this->where('user_id', $user->getAuthId())

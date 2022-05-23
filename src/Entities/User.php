@@ -165,12 +165,10 @@ class User extends Entity
      */
     public function touchIdentity(UserIdentity $identity): void
     {
-        $identity->last_used_at = date('Y-m-d H:i:s');
-
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        $identityModel->save($identity);
+        $identityModel->touchIdentity($identity);
     }
 
     /**
