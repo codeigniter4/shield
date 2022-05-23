@@ -21,7 +21,10 @@ return [
     'password'        => 'Password',
     'passwordConfirm' => 'Password (again)',
     'haveAccount'     => 'Already have an account?',
-    'confirm'         => 'Confirm',
+
+    // Buttons
+    'confirm' => 'Confirm',
+    'send'    => 'Send',
 
     // Registration
     'register'         => 'Register',
@@ -36,7 +39,7 @@ return [
     'magicLinkSubject'   => 'Your Login Link',
     'magicTokenNotFound' => 'Unable to verify the link.',
     'magicLinkExpired'   => 'Sorry, link has expired.',
-    'checkYourEmail'     => 'Check your email',
+    'checkYourEmail'     => 'Check your email!',
     'magicLinkDetails'   => 'We just sent you an email with a Login link inside. It is only valid for {0} minutes.',
 
     // Passwords
@@ -56,18 +59,22 @@ return [
     'resetTokenExpired'         => 'Sorry. Your reset token has expired.',
 
     // 2FA
-    'email2FATitle'    => 'Two Factor Authentication',
-    'emailEnterCode'   => 'Confirm your Email',
-    'emailConfirmCode' => 'Enter the 6-digit code we just sent to your email address.',
-    'email2FASubject'  => 'Confirm your email address',
-    'invalid2FAToken'  => 'The token was incorrect.',
-    'need2FA'          => 'You must complete a two-factor verification.',
-    'needVerification' => 'Check your email to complete account activation.',
+    'email2FATitle'       => 'Two Factor Authentication',
+    'confirmEmailAddress' => 'Confirm your email address.',
+    'emailEnterCode'      => 'Confirm your Email',
+    'emailConfirmCode'    => 'Enter the 6-digit code we just sent to your email address.',
+    'email2FASubject'     => 'Your authentication code',
+    'email2FAMailBody'    => 'Your authentication code is:',
+    'invalid2FAToken'     => 'The code was incorrect.',
+    'need2FA'             => 'You must complete a two-factor verification.',
+    'needVerification'    => 'Check your email to complete account activation.',
 
     // Activate
-    'emailActivateTitle'   => 'Email Activation',
-    'emailActivateSubject' => 'Confirm your Email',
-    'invalidActivateToken' => 'The code was incorrect.',
+    'emailActivateTitle'    => 'Email Activation',
+    'emailActivateBody'     => 'We just sent an email to you with a code to confirm your email address. Copy that code and paste it below.',
+    'emailActivateSubject'  => 'Your activation code',
+    'emailActivateMailBody' => 'Please use the code below to activate your account and start using the site.',
+    'invalidActivateToken'  => 'The code was incorrect.',
 
     // Groups
     'unknownGroup' => '{0} is not a valid group.',

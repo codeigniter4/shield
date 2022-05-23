@@ -1,1 +1,1 @@
-<p>Your authentication token is: <b><?= $code ?></b></p>
+<p><?= lang('Auth.email2FAMailBody') ?> <b><?= $code ?></b></p>

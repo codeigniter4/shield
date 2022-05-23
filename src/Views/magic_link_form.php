@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="d-grid col-8 mx-auto m-3">
-                    <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.useMagicLink') ?></button>
+                    <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.send') ?></button>
                 </div>
 
             </form>
