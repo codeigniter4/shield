@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of CodeIgniter 4 framework.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace CodeIgniter\Shield\Language\fa;
 
 return [
@@ -21,7 +30,10 @@ return [
     'password'        => 'رمز عبور',
     'passwordConfirm' => 'رمز عبور (تکرار)',
     'haveAccount'     => 'از قبل حساب کاربری دارید؟',
-    'confirm'         => 'تایید',
+
+    // Buttons
+    'confirm' => 'تایید',
+    'send'    => 'ارسال',
 
     // Registration
     'register'         => 'ثبت نام',
@@ -36,11 +48,10 @@ return [
     'magicLinkSubject'   => 'لینک ورود شما',
     'magicTokenNotFound' => 'تایید لینک ممکن نیست.',
     'magicLinkExpired'   => 'متاسفانه, لینک منقضی شده است.',
-    'checkYourEmail'     => 'ایمیلتان را بررسی کنید',
+    'checkYourEmail'     => 'ایمیلتان را بررسی کنید!',
     'magicLinkDetails'   => 'ما فقط یک لینک ورود به ایمیلتان ارسال کردیم. این لینک فقط برای {0} دقیقه معتبر خواهد بود.',
-
     // Passwords
-    'errorPasswordLength'       => 'طول رمز های عبور باید حداقل {0, number} کارکتر باشد.',
+    'errorPasswordLength'       => 'طول رمز های عبور باید حداقل {0, number} کاراکتر باشد.',
     'suggestPasswordLength'     => 'عبارات عبور -- تا 255 کاراکتر طولانی -- رمزهای عبور امن تری ایجاد کنید که به آسانی به یاد داشته باشید.',
     'errorPasswordCommon'       => 'رمز عبور نباید یک رمز عبور رایج باشد.',
     'suggestPasswordCommon'     => 'رمز عبور با بیش از 65 هزار رمز عبور رایج یا رمزهای عبوری که از طریق هک منتشر شده اند، بررسی شد',
@@ -56,18 +67,22 @@ return [
     'resetTokenExpired'         => 'متاسفانه، توکن بازنشانی شما منقضی شده است.',
 
     // 2FA
-    'email2FATitle'    => 'احراز هویت دو عاملی',
-    'emailEnterCode'   => 'ایمیل خود را تایید کنید',
-    'emailConfirmCode' => 'کد شش رقمی را که به آدرس ایمیلتان فرستادیم وارد کنید.',
-    'email2FASubject'  => 'ایمیلتان را تایید کنید',
-    'invalid2FAToken'  => 'توکن صحیح نمی باشد.',
-    'need2FA'          => 'شما باید تایید دو مرحله ای را تکمیل کنید.',
-    'needVerification' => 'برای تکمیل فعالسازی حساب کاربری، ایمیل خود را بررسی کنید.',
+    'email2FATitle'       => 'احراز هویت دو عاملی',
+    'confirmEmailAddress' => 'آدرس ایمیل خود را تایید کنید.',
+    'emailEnterCode'      => 'تایید ایمیل',
+    'emailConfirmCode'    => 'کد شش رقمی را که به آدرس ایمیلتان فرستادیم وارد کنید.',
+    'email2FASubject'     => 'کد احراز هویت شما',
+    'email2FAMailBody'    => 'کد احراز هویت شما:',
+    'invalid2FAToken'     => 'کد صحیح نمی باشد.',
+    'need2FA'             => 'شما باید تایید دو مرحله ای را تکمیل کنید.',
+    'needVerification'    => 'برای تکمیل فعالسازی حساب کاربری، ایمیل خود را بررسی کنید.',
 
     // Activate
-    'emailActivateTitle'   => 'فعالسازی ایمیل',
-    'emailActivateSubject' => 'ایمیلتان را تایید کنید',
-    'invalidActivateToken' => 'کد صحیح نمی باشد.',
+    'emailActivateTitle'    => 'فعالسازی ایمیل',
+    'emailActivateBody'     => 'ما یک ایمیل شامل کدی برای فعالسازی آدرس ایمیلتان به شما ارسال کردیم. کد را کپی و در زیر قرار دهید.',
+    'emailActivateSubject'  => 'کد فعالسازی شما',
+    'emailActivateMailBody' => 'لطفا برای فعالسازی حساب کاربری و استفاده از سایت از کد زیر استفاده کنید.',
+    'invalidActivateToken'  => 'کد صحیح نمی باشد.',
 
     // Groups
     'unknownGroup' => '{0} گروهی معتبر نیست.',
