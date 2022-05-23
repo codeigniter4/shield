@@ -122,7 +122,8 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
     public function testCheckOldToken()
     {
         /** @var User $user */
-        $user                = fake(UserModel::class);
+        $user = fake(UserModel::class);
+        /** @var UserIdentityModel $identities */
         $identities          = model(UserIdentityModel::class);
         $token               = $user->generateAccessToken('foo');
         $token->last_used_at = Time::now()->subYears(1)->subMinutes(1);
