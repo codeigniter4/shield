@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
@@ -43,6 +44,25 @@ class UserIdentityModel extends Model
         $return = $this->insert($data);
 
         $this->checkQueryReturn($return);
+    }
+
+    /**
+     * Creates a new identity for this user with an email/password
+     * combination.
+     *
+     * @phpstan-param array{email: string, password: string} $credentials
+     */
+    public function createEmailIdentity(User $user, array $credentials): void
+    {
+        /** @var Passwords $passwords */
+        $passwords = service('passwords');
+
+        $this->insert([
+            'user_id' => $user->id,
+            'type'    => 'email_password',
+            'secret'  => $credentials['email'],
+            'secret2' => $passwords->hash($credentials['password']),
+        ]);
     }
 
     /**
