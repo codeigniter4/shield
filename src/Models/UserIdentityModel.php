@@ -44,6 +44,34 @@ class UserIdentityModel extends Model
         $this->checkQueryReturn($return);
     }
 
+    /**
+     * Generates a new personal access token for the user.
+     *
+     * @param string   $name   Token name
+     * @param string[] $scopes Permissions the token grants
+     */
+    public function generateAccessToken(User $user, string $name, array $scopes = ['*']): AccessToken
+    {
+        helper('text');
+
+        $this->insert([
+            'type'    => 'access_token',
+            'user_id' => $user->id,
+            'name'    => $name,
+            'secret'  => hash('sha256', $rawToken = random_string('crypto', 64)),
+            'extra'   => serialize($scopes),
+        ]);
+
+        /** @var AccessToken $token */
+        $token = $this
+            ->asObject(AccessToken::class)
+            ->find($this->getInsertID());
+
+        $token->raw_token = $rawToken;
+
+        return $token;
+    }
+
     public function getAccessTokenByRawToken(string $rawToken): ?AccessToken
     {
         return $this

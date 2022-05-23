@@ -25,27 +25,10 @@ trait HasAccessTokens
      */
     public function generateAccessToken(string $name, array $scopes = ['*'])
     {
-        helper('text');
-
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        $identityModel->insert([
-            'type'    => 'access_token',
-            'user_id' => $this->id,
-            'name'    => $name,
-            'secret'  => hash('sha256', $rawToken = random_string('crypto', 64)),
-            'extra'   => serialize($scopes),
-        ]);
-
-        /** @var AccessToken $token */
-        $token = $identityModel
-            ->asObject(AccessToken::class)
-            ->find($identityModel->getInsertID());
-
-        $token->raw_token = $rawToken;
-
-        return $token;
+        return $identityModel->generateAccessToken($this, $name, $scopes);
     }
 
     /**
