@@ -9,11 +9,10 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 
 class EmailActivator implements ActionInterface
 {
-    use CreateIdentityTrait;
-
     private string $type = 'email_activate';
 
     /**
@@ -38,7 +37,7 @@ class EmailActivator implements ActionInterface
             );
         }
 
-        $code = $this->createCodeIdentity($user, 'register', lang('Auth.needVerification'));
+        $code = $this->createIdentity($user);
 
         // Send the email
         helper('email');
@@ -98,7 +97,27 @@ class EmailActivator implements ActionInterface
      */
     public function afterRegister(User $user): void
     {
-        $this->createCodeIdentity($user, 'register', lang('Auth.needVerification'));
+        $this->createIdentity($user);
+    }
+
+    private function createIdentity(User $user): string
+    {
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        $generator = static fn (): string => random_string('nozero', 6);
+
+        $code = $identityModel->createCodeIdentity(
+            $user,
+            [
+                'type'  => $this->type,
+                'name'  => 'register',
+                'extra' => lang('Auth.needVerification'),
+            ],
+            $generator
+        );
+
+        return $code;
     }
 
     public function getType(): string

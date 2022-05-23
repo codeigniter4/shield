@@ -66,6 +66,47 @@ class UserIdentityModel extends Model
     }
 
     /**
+     * Create an identity with 6 digits code for auth action
+     *
+     * @param callable $codeGenerator generate secret code
+     */
+    public function createCodeIdentity(
+        User $user,
+        array $data,
+        callable $codeGenerator
+    ): string {
+        assert($user->id !== null);
+        assert(isset($data['type']));
+
+        helper('text');
+
+        // Delete any previous identities for action
+        $this->deleteIdentitiesByType($user, $data['type']);
+
+        // Create an identity for the action
+        $maxTry          = 5;
+        $data['user_id'] = $user->id;
+
+        while (true) {
+            $data['secret'] = $codeGenerator();
+
+            try {
+                $this->create($data);
+
+                break;
+            } catch (DatabaseException $e) {
+                $maxTry--;
+
+                if ($maxTry === 0) {
+                    throw $e;
+                }
+            }
+        }
+
+        return $data['secret'];
+    }
+
+    /**
      * Generates a new personal access token for the user.
      *
      * @param string   $name   Token name
