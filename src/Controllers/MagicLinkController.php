@@ -107,10 +107,12 @@ class MagicLinkController extends BaseController
 
         $identity = $identityModel->getIdentityBySecret('magic-link', $token);
 
+        $identifier = 'magic-link: ' . $token;
+
         // No token found?
         if ($identity === null) {
             $this->recordLoginAttempt(
-                'magic-link: ' . $token,
+                $identifier,
                 false
             );
 
@@ -126,7 +128,7 @@ class MagicLinkController extends BaseController
         // Token expired?
         if (Time::now()->isAfter($identity->expires)) {
             $this->recordLoginAttempt(
-                'magic-link: ' . $token,
+                $identifier,
                 false
             );
 
@@ -144,7 +146,7 @@ class MagicLinkController extends BaseController
 
         $user = $authenticator->getUser();
 
-        $this->recordLoginAttempt('magic-link: ' . $token, true, $user->id);
+        $this->recordLoginAttempt($identifier, true, $user->id);
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
