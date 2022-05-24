@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Shield\Auth;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
@@ -136,11 +136,11 @@ class MagicLinkController extends BaseController
             return redirect()->route('magic-link')->with('error', lang('Auth.magicLinkExpired'));
         }
 
-        /** @var Auth $auth */
-        $auth = service('auth');
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
 
         // Log the user in
-        $auth->loginById($identity->user_id);
+        $authenticator->loginById($identity->user_id);
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
