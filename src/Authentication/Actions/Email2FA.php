@@ -56,7 +56,7 @@ class Email2FA implements ActionInterface
             throw new RuntimeException('Cannot get the pending login User.');
         }
 
-        if (empty($email) || $email !== $user->getAuthEmail()) {
+        if (empty($email) || $email !== $user->email) {
             return redirect()->route('auth-action-show')->with('error', lang('Auth.invalidEmail'));
         }
 
@@ -72,13 +72,13 @@ class Email2FA implements ActionInterface
         // Send the user an email with the code
         helper('email');
         $return = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
-            ->setTo($user->getAuthEmail())
+            ->setTo($user->email)
             ->setSubject(lang('Auth.email2FASubject'))
             ->setMessage(view(setting('Auth.views')['action_email_2fa_email'], ['code' => $identity->secret]))
             ->send();
 
         if ($return === false) {
-            throw new RuntimeException('Cannot send email for user: ' . $user->getAuthEmail());
+            throw new RuntimeException('Cannot send email for user: ' . $user->email);
         }
 
         return view(setting('Auth.views')['action_email_2fa_verify']);

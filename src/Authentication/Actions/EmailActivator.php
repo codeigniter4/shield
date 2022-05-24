@@ -30,7 +30,7 @@ class EmailActivator implements ActionInterface
             throw new RuntimeException('Cannot get the pending login User.');
         }
 
-        $userEmail = $user->getAuthEmail();
+        $userEmail = $user->email;
         if ($userEmail === null) {
             throw new LogicException(
                 'Email Activation needs user email address. user_id: ' . $user->id
@@ -48,7 +48,7 @@ class EmailActivator implements ActionInterface
             ->send();
 
         if ($return === false) {
-            throw new RuntimeException('Cannot send email for user: ' . $user->getAuthEmail());
+            throw new RuntimeException('Cannot send email for user: ' . $user->email);
         }
 
         // Display the info page
