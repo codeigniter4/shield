@@ -88,8 +88,9 @@ class EmailActivator implements ActionInterface
         // Set the user active now
         $authenticator->activateUser($user);
 
-        // Get our login redirect url
-        return redirect()->to(config('Auth')->loginRedirect());
+        // Success!
+        return redirect()->to(config('Auth')->registerRedirect())
+            ->with('message', lang('Auth.registerSuccess'));
     }
 
     /**
