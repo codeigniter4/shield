@@ -737,10 +737,10 @@ class Session implements AuthenticatorInterface
             setting('Auth.sessionConfig')['rememberCookieName'],
             $rawToken,                                             // Value
             setting('Auth.sessionConfig')['rememberLength'],      // # Seconds until it expires
-            setting('App.cookieDomain'),
-            setting('App.cookiePath'),
-            setting('App.cookiePrefix'),
-            setting('App.cookieSecure'),                          // Only send over HTTPS?
+            setting('Cookie.domain'),
+            setting('Cookie.path'),
+            setting('Cookie.prefix'),
+            setting('Cookie.secure'),                          // Only send over HTTPS?
             true                                                  // Hide from Javascript?
         );
     }
