@@ -121,6 +121,10 @@ class MagicLinkController extends BaseController
         $auth = service('auth');
         $auth->loginById($identity->user_id);
 
+        $user = $authenticator->getUser();
+
+        $this->recordLoginAttempt('magic-link: ' . $token, true, $user->id);
+
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
     }
