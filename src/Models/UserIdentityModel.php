@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
@@ -43,6 +44,94 @@ class UserIdentityModel extends Model
         $return = $this->insert($data);
 
         $this->checkQueryReturn($return);
+    }
+
+    /**
+     * Creates a new identity for this user with an email/password
+     * combination.
+     *
+     * @phpstan-param array{email: string, password: string} $credentials
+     */
+    public function createEmailIdentity(User $user, array $credentials): void
+    {
+        /** @var Passwords $passwords */
+        $passwords = service('passwords');
+
+        $this->insert([
+            'user_id' => $user->id,
+            'type'    => 'email_password',
+            'secret'  => $credentials['email'],
+            'secret2' => $passwords->hash($credentials['password']),
+        ]);
+    }
+
+    /**
+     * Create an identity with 6 digits code for auth action
+     *
+     * @param callable $codeGenerator generate secret code
+     */
+    public function createCodeIdentity(
+        User $user,
+        array $data,
+        callable $codeGenerator
+    ): string {
+        assert($user->id !== null);
+        assert(isset($data['type']));
+
+        helper('text');
+
+        // Delete any previous identities for action
+        $this->deleteIdentitiesByType($user, $data['type']);
+
+        // Create an identity for the action
+        $maxTry          = 5;
+        $data['user_id'] = $user->id;
+
+        while (true) {
+            $data['secret'] = $codeGenerator();
+
+            try {
+                $this->create($data);
+
+                break;
+            } catch (DatabaseException $e) {
+                $maxTry--;
+
+                if ($maxTry === 0) {
+                    throw $e;
+                }
+            }
+        }
+
+        return $data['secret'];
+    }
+
+    /**
+     * Generates a new personal access token for the user.
+     *
+     * @param string   $name   Token name
+     * @param string[] $scopes Permissions the token grants
+     */
+    public function generateAccessToken(User $user, string $name, array $scopes = ['*']): AccessToken
+    {
+        helper('text');
+
+        $this->insert([
+            'type'    => 'access_token',
+            'user_id' => $user->id,
+            'name'    => $name,
+            'secret'  => hash('sha256', $rawToken = random_string('crypto', 64)),
+            'extra'   => serialize($scopes),
+        ]);
+
+        /** @var AccessToken $token */
+        $token = $this
+            ->asObject(AccessToken::class)
+            ->find($this->getInsertID());
+
+        $token->raw_token = $rawToken;
+
+        return $token;
     }
 
     public function getAccessTokenByRawToken(string $rawToken): ?AccessToken
@@ -145,6 +234,16 @@ class UserIdentityModel extends Model
             ->whereIn('type', $types)
             ->orderBy($this->primaryKey)
             ->findAll();
+    }
+
+    /**
+     * Update the last used at date for an identity record.
+     */
+    public function touchIdentity(UserIdentity $identity): void
+    {
+        $identity->last_used_at = date('Y-m-d H:i:s');
+
+        $this->save($identity);
     }
 
     public function deleteIdentitiesByType(User $user, string $type): void

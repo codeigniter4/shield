@@ -16,8 +16,6 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
  */
 class Email2FA implements ActionInterface
 {
-    use CreateIdentityTrait;
-
     private string $type = 'email_2fa';
 
     /**
@@ -34,7 +32,7 @@ class Email2FA implements ActionInterface
             throw new RuntimeException('Cannot get the pending login User.');
         }
 
-        $this->createCodeIdentity($user, 'login', lang('Auth.need2FA'));
+        $this->createIdentity($user);
 
         return view(setting('Auth.views')['action_email_2fa'], ['user' => $user]);
     }
@@ -114,7 +112,25 @@ class Email2FA implements ActionInterface
      */
     public function afterLogin(User $user): void
     {
-        $this->createCodeIdentity($user, 'login', lang('Auth.need2FA'));
+        $this->createIdentity($user);
+    }
+
+    private function createIdentity(User $user)
+    {
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        $generator = static fn (): string => random_string('nozero', 6);
+
+        $identityModel->createCodeIdentity(
+            $user,
+            [
+                'type'  => $this->type,
+                'name'  => 'login',
+                'extra' => lang('Auth.need2FA'),
+            ],
+            $generator
+        );
     }
 
     public function getType(): string
