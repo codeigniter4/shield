@@ -111,10 +111,7 @@ class MagicLinkController extends BaseController
 
         // No token found?
         if ($identity === null) {
-            $this->recordLoginAttempt(
-                $identifier,
-                false
-            );
+            $this->recordLoginAttempt($identifier, false);
 
             $credentials = ['magicLinkToken' => $token];
             Events::trigger('failedLogin', $credentials);
@@ -127,10 +124,7 @@ class MagicLinkController extends BaseController
 
         // Token expired?
         if (Time::now()->isAfter($identity->expires)) {
-            $this->recordLoginAttempt(
-                $identifier,
-                false
-            );
+            $this->recordLoginAttempt($identifier, false);
 
             $credentials = ['magicLinkToken' => $token];
             Events::trigger('failedLogin', $credentials);
