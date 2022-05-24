@@ -25,7 +25,7 @@ class PermissionModel extends Model
     {
         $rows = $this->builder()
             ->select('permission')
-            ->where('user_id', $user->getAuthId())
+            ->where('user_id', $user->id)
             ->get()
             ->getResultArray();
 

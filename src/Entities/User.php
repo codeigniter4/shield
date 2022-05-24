@@ -237,40 +237,8 @@ class User extends Entity
         }
 
         return $logins
-            ->where('identifier', $this->getAuthEmail())
+            ->where('identifier', $this->getEmail())
             ->orderBy('date', 'desc')
             ->first();
-    }
-
-    /**
-     * Returns the unique identifier of
-     * the object for authentication purposes.
-     * Typically the user's id.
-     *
-     * @return int|string
-     */
-    public function getAuthId()
-    {
-        $id = $this->id;
-
-        assert($id !== null, 'User ID must not be null.');
-
-        return $id;
-    }
-
-    /**
-     * Returns the email address for this user.
-     */
-    public function getAuthEmail(): ?string
-    {
-        return $this->getEmail();
-    }
-
-    /**
-     * Get the password for the user.
-     */
-    public function getAuthPassword(): ?string
-    {
-        return $this->password;
     }
 }

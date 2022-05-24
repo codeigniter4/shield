@@ -67,7 +67,7 @@ class MagicLinkController extends BaseController
         $token = random_string('crypto', 20);
 
         $identityModel->insert([
-            'user_id' => $user->getAuthId(),
+            'user_id' => $user->id,
             'type'    => 'magic-link',
             'secret'  => $token,
             'expires' => Time::now()->addSeconds(setting('Auth.magicLinkLifetime'))->toDateTimeString(),
@@ -77,7 +77,7 @@ class MagicLinkController extends BaseController
         helper('email');
         $email = emailer();
         $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
-            ->setTo($user->getAuthEmail())
+            ->setTo($user->email)
             ->setSubject(lang('Auth.magicLinkSubject'))
             ->setMessage(view(setting('Auth.views')['magic-link-email'], ['token' => $token]))
             ->send();

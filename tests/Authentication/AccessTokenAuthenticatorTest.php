@@ -45,7 +45,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 
         // Stores the user
         $this->assertInstanceOf(User::class, $this->auth->getUser());
-        $this->assertSame($user->id, $this->auth->getUser()->getAuthId());
+        $this->assertSame($user->id, $this->auth->getUser()->id);
     }
 
     public function testLogout()

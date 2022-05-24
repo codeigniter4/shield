@@ -68,7 +68,7 @@ final class SessionFilterTest extends DatabaseTestCase
         $result->assertSee('Protected');
 
         $this->assertSame($user->id, auth('session')->id());
-        $this->assertSame($user->id, auth('session')->user()->getAuthId());
+        $this->assertSame($user->id, auth('session')->user()->id);
         // Last Active should have been updated
         $this->assertNotEmpty(auth('session')->user()->last_active);
     }

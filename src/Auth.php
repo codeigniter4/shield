@@ -80,7 +80,7 @@ class Auth
     public function id()
     {
         return ($user = $this->user())
-            ? $user->getAuthId()
+            ? $user->id
             : null;
     }
 

@@ -72,7 +72,7 @@ final class ChainFilterTest extends TestCase
         $result->assertSee('Protected');
 
         $this->assertSame($this->user->id, auth()->id());
-        $this->assertSame($this->user->id, auth()->user()->getAuthId());
+        $this->assertSame($this->user->id, auth()->user()->id);
     }
 
     public function testFilterSuccessTokens()
@@ -86,7 +86,7 @@ final class ChainFilterTest extends TestCase
         $result->assertSee('Protected');
 
         $this->assertSame($this->user->id, auth()->id());
-        $this->assertSame($this->user->id, auth()->user()->getAuthId());
+        $this->assertSame($this->user->id, auth()->user()->id);
 
         // User should have the current token set.
         $this->assertInstanceOf(AccessToken::class, auth('tokens')->user()->currentAccessToken());

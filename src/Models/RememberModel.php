@@ -31,7 +31,7 @@ class RememberModel extends Model
         $expires = new DateTime($expires);
 
         $return = $this->insert([
-            'user_id'         => $user->getAuthId(),
+            'user_id'         => $user->id,
             'selector'        => $selector,
             'hashedValidator' => $hashedValidator,
             'expires'         => $expires->format('Y-m-d H:i:s'),
@@ -68,7 +68,7 @@ class RememberModel extends Model
      */
     public function purgeRememberTokens(User $user): void
     {
-        $return = $this->where(['user_id' => $user->getAuthId()])->delete();
+        $return = $this->where(['user_id' => $user->id])->delete();
 
         $this->checkQueryReturn($return);
     }
