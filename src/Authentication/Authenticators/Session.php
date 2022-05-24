@@ -778,12 +778,12 @@ class Session implements AuthenticatorInterface
         $response->setCookie(
             setting('Auth.sessionConfig')['rememberCookieName'],
             $rawToken,                                             // Value
-            setting('Auth.sessionConfig')['rememberLength'],    // # Seconds until it expires
-            setting('App.cookieDomain'),
-            setting('App.cookiePath'),
-            setting('App.cookiePrefix'),
-            false,                          // Only send over HTTPS?
-            true                            // Hide from Javascript?
+            setting('Auth.sessionConfig')['rememberLength'],      // # Seconds until it expires
+            setting('Cookie.domain'),
+            setting('Cookie.path'),
+            setting('Cookie.prefix'),
+            setting('Cookie.secure'),                          // Only send over HTTPS?
+            true                                                  // Hide from Javascript?
         );
     }
 
