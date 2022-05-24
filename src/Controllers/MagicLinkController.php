@@ -3,9 +3,11 @@
 namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Auth;
+use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 
@@ -107,6 +109,14 @@ class MagicLinkController extends BaseController
 
         // No token found?
         if ($identity === null) {
+            $this->recordLoginAttempt(
+                'magic-link: ' . $token,
+                false
+            );
+
+            $credentials = ['magicLinkToken' => $token];
+            Events::trigger('failedLogin', $credentials);
+
             return redirect()->route('magic-link')->with('error', lang('Auth.magicTokenNotFound'));
         }
 
@@ -115,6 +125,14 @@ class MagicLinkController extends BaseController
 
         // Token expired?
         if (Time::now()->isAfter($identity->expires)) {
+            $this->recordLoginAttempt(
+                'magic-link: ' . $token,
+                false
+            );
+
+            $credentials = ['magicLinkToken' => $token];
+            Events::trigger('failedLogin', $credentials);
+
             return redirect()->route('magic-link')->with('error', lang('Auth.magicLinkExpired'));
         }
 
@@ -126,5 +144,25 @@ class MagicLinkController extends BaseController
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
+    }
+
+    /**
+     * @param int|string|null $userId
+     */
+    private function recordLoginAttempt(
+        string $identifier,
+        bool $success,
+        $userId = null
+    ): void {
+        /** @var LoginModel $loginModel */
+        $loginModel = model(LoginModel::class);
+
+        $loginModel->recordLoginAttempt(
+            $identifier,
+            $success,
+            $this->request->getIPAddress(),
+            $this->request->getUserAgent(),
+            $userId
+        );
     }
 }
