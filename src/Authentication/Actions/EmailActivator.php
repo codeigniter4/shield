@@ -33,7 +33,7 @@ class EmailActivator implements ActionInterface
         $userEmail = $user->getAuthEmail();
         if ($userEmail === null) {
             throw new LogicException(
-                'Email Activation needs user email address. user_id: ' . $user->getAuthId()
+                'Email Activation needs user email address. user_id: ' . $user->id
             );
         }
 

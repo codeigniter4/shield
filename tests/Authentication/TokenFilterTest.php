@@ -71,7 +71,7 @@ final class TokenFilterTest extends DatabaseTestCase
         $result->assertSee('Protected');
 
         $this->assertSame($user->id, auth('tokens')->id());
-        $this->assertSame($user->id, auth('tokens')->user()->getAuthId());
+        $this->assertSame($user->id, auth('tokens')->user()->id);
 
         // User should have the current token set.
         $this->assertInstanceOf(AccessToken::class, auth('tokens')->user()->currentAccessToken());

@@ -59,7 +59,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $authUser = $this->auth->getUser();
         $this->assertInstanceOf(User::class, $authUser);
-        $this->assertSame($this->user->id, $authUser->getAuthId());
+        $this->assertSame($this->user->id, $authUser->id);
     }
 
     public function testLoggedInWithRememberCookie()
@@ -85,7 +85,7 @@ final class SessionAuthenticatorTest extends TestCase
         $authUser = $this->auth->getUser();
 
         $this->assertInstanceOf(User::class, $authUser);
-        $this->assertSame($this->user->id, $authUser->getAuthId());
+        $this->assertSame($this->user->id, $authUser->id);
     }
 
     public function testLoginNoRemember()

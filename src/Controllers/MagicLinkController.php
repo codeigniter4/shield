@@ -67,7 +67,7 @@ class MagicLinkController extends BaseController
         $token = random_string('crypto', 20);
 
         $identityModel->insert([
-            'user_id' => $user->getAuthId(),
+            'user_id' => $user->id,
             'type'    => 'magic-link',
             'secret'  => $token,
             'expires' => Time::now()->addSeconds(setting('Auth.magicLinkLifetime'))->toDateTimeString(),

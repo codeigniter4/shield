@@ -121,7 +121,7 @@ class Session implements AuthenticatorInterface
 
         $this->startLogin($user);
 
-        $this->recordLoginAttempt($credentials, true, $ipAddress, $userAgent, $user->getAuthId());
+        $this->recordLoginAttempt($credentials, true, $ipAddress, $userAgent, $user->id);
 
         $this->issueRememberMeToken();
 
@@ -520,7 +520,7 @@ class Session implements AuthenticatorInterface
         }
 
         // Let the session know we're logged in
-        $this->setSessionKey('id', $user->getAuthId());
+        $this->setSessionKey('id', $user->id);
 
         /** @var Response $response */
         $response = service('response');
@@ -584,7 +584,7 @@ class Session implements AuthenticatorInterface
                 'The user has identities for action, so cannot complete login.'
                 . ' If you want to start to login with auth action, use startLogin() instead.'
                 . ' Or delete identities for action in database.'
-                . ' user_id: ' . $user->getAuthId()
+                . ' user_id: ' . $user->id
             );
         }
         // Check auth_action in Session
@@ -593,7 +593,7 @@ class Session implements AuthenticatorInterface
                 'The user has auth action in session, so cannot complete login.'
                 . ' If you want to start to login with auth action, use startLogin() instead.'
                 . ' Or delete `auth_action` and `auth_action_message` in session data.'
-                . ' user_id: ' . $user->getAuthId()
+                . ' user_id: ' . $user->id
             );
         }
 

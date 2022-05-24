@@ -73,7 +73,7 @@ class AccessTokens implements AuthenticatorInterface
             true,
             $ipAddress,
             $userAgent,
-            $this->user->getAuthId()
+            $this->user->id
         );
 
         return $result;
