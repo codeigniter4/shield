@@ -29,6 +29,7 @@ return [
     // Registration
     'register'         => 'Register',
     'registerDisabled' => 'Registration is not currently allowed.',
+    'registerSuccess'  => 'Welcome aboard!',
 
     // Login
     'login'              => 'Login',
