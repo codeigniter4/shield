@@ -241,12 +241,4 @@ class User extends Entity
             ->orderBy('date', 'desc')
             ->first();
     }
-
-    /**
-     * Get the password for the user.
-     */
-    public function getAuthPassword(): ?string
-    {
-        return $this->password;
-    }
 }
