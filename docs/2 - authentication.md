@@ -294,4 +294,4 @@ public $aliases = [
 ];
 ```
 
-These can be used in any of the normal validation config settings, or within the routes file.
+These can be used in any of the normal filter config settings, or within the routes file.
