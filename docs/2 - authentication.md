@@ -284,12 +284,10 @@ These filters are already loaded for you by the registrar class located at `src/
 
 ```php
 public $aliases = [
-    'csrf'     => CSRF::class,
-    'toolbar'  => DebugToolbar::class,
-    'honeypot' => Honeypot::class,
-    'session'  => CodeIgniter\Shield\Filters\SessionAuth::class,
-    'tokens'   => CodeIgniter\Shield\Filters\TokenAuth::class,
-    'chain'    => CodeIgniter\Shield\Filters\ChainAuth::class,
+    // ...
+    'session' => \CodeIgniter\Shield\Filters\SessionAuth::class,
+    'tokens'  => \CodeIgniter\Shield\Filters\TokenAuth::class,
+    'chain'   => \CodeIgniter\Shield\Filters\ChainAuth::class,
 ];
 ```
 
