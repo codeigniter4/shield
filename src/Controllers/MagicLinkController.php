@@ -3,9 +3,11 @@
 namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Shield\Auth;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 
@@ -105,8 +107,15 @@ class MagicLinkController extends BaseController
 
         $identity = $identityModel->getIdentityBySecret('magic-link', $token);
 
+        $identifier = 'magic-link: ' . $token;
+
         // No token found?
         if ($identity === null) {
+            $this->recordLoginAttempt($identifier, false);
+
+            $credentials = ['magicLinkToken' => $token];
+            Events::trigger('failedLogin', $credentials);
+
             return redirect()->route('magic-link')->with('error', lang('Auth.magicTokenNotFound'));
         }
 
@@ -115,16 +124,45 @@ class MagicLinkController extends BaseController
 
         // Token expired?
         if (Time::now()->isAfter($identity->expires)) {
+            $this->recordLoginAttempt($identifier, false);
+
+            $credentials = ['magicLinkToken' => $token];
+            Events::trigger('failedLogin', $credentials);
+
             return redirect()->route('magic-link')->with('error', lang('Auth.magicLinkExpired'));
         }
 
-        /** @var Auth $auth */
-        $auth = service('auth');
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
 
         // Log the user in
-        $auth->loginById($identity->user_id);
+        $authenticator->loginById($identity->user_id);
+
+        $user = $authenticator->getUser();
+
+        $this->recordLoginAttempt($identifier, true, $user->id);
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
+    }
+
+    /**
+     * @param int|string|null $userId
+     */
+    private function recordLoginAttempt(
+        string $identifier,
+        bool $success,
+        $userId = null
+    ): void {
+        /** @var LoginModel $loginModel */
+        $loginModel = model(LoginModel::class);
+
+        $loginModel->recordLoginAttempt(
+            $identifier,
+            $success,
+            $this->request->getIPAddress(),
+            $this->request->getUserAgent(),
+            $userId
+        );
     }
 }
