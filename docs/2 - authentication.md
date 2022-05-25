@@ -24,7 +24,7 @@ The default authenticator is also defined in the configuration file, and uses th
 public $defaultAuthenticator = 'session';
 ```
 
-### Auth Helper
+## Auth Helper
 
 The auth functionality is designed to be used with the `auth_helper` that comes with Shield. This 
 helper method provides the `auth()` command which returns a convenient interface to the most frequently
@@ -42,33 +42,33 @@ user_id()
 auth()->id()
 ```
 
-### Authenticator Responses
+## Authenticator Responses
 
 Many of the authenticator methods will return a `Sparks\Shield\Result` class. This provides a consistent
 way of checking the results and can have additional information return along with it. The class
 has the following methods:
 
-#### isOK()
+### isOK()
 
 Returns a boolean value stating whether the check was successful or not. 
 
-#### reason()
+### reason()
 
 Returns a message that can be displayed to the user when the check fails.
 
-#### extraInfo() 
+### extraInfo() 
 
 Can return a custom bit of information. These will be detailed in the method descriptions below.
 
 
-### Session Authenticator
+## Session Authenticator
 
 The Session authenticator stores the user's authentication within the user's session, and on a secure cookie
 on their device. This is the standard password-based login used in most web sites. It supports a
 secure remember me feature, and more. This can also be used to handle authentication for 
 single page applications (SPAs).
 
-#### attempt()
+### attempt()
 
 When a user attempts to login with their email and password, you would call the `attempt()` method
 on the auth class, passing in their credentials.
@@ -107,7 +107,7 @@ to set a secure remember-me cookie.
 $loginAttempt = auth()->remember()->attempt($credentials);
 ```
 
-#### check()
+### check()
 
 If you would like to check a user's credentials without logging them in, you can use the `check()`
 method.
@@ -127,7 +127,7 @@ if (! $validCreds->isOK()) {
 
 The Result instance returned contains the logged in user as `extraInfo()`.
 
-#### loggedIn()
+### loggedIn()
 
 You can determine if a user is currently logged in with the aptly titled method, `loggedIn()`.
 
@@ -137,7 +137,7 @@ if (auth()->loggedIn()) {
 }
 ```
 
-#### logout()
+### logout()
 
 You can call the `logout()` method to log the user out of the current session. This will destroy and
 regenerate the current session, purge any remember-me tokens current for this user, and trigger a 
@@ -147,18 +147,12 @@ regenerate the current session, purge any remember-me tokens current for this us
 auth()->logout();
 ```
 
-#### forget()
+### forget()
 
 The `forget` method will purge all remember-me tokens for the current user, making it so they 
 will not be remembered on the next visit to the site.
 
-
-
----
-
-
-
-### Access Token Authenticator
+## Access Token Authenticator
 
 The Access Token authenticator supports the use of revoke-able API tokens without using OAuth. These are commonly
 used to provide third-party developers access to your API. These tokens typically have a very long 
@@ -169,8 +163,7 @@ with their email/password. The application would create a new access token for t
 name, like John's iPhone 12, and return it to the mobile application, where it is stored and used
 in all future requests.
 
-
-## Access Token/API Authentication 
+### Access Token/API Authentication 
 
 Using access tokens requires that you either use/extend `Sparks\Shield\Models\UserModel` or 
 use the `Sparks\Shield\Authentication\Traits\HasAccessTokens` on your own user model. This trait
