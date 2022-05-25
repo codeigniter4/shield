@@ -178,19 +178,6 @@ class UserModel extends Model
     }
 
     /**
-     * Find a User object by their ID and "remember-me" token.
-     *
-     * @param int|string $id
-     */
-    public function findByRememberToken($id, string $token): ?User
-    {
-        return $this->where([
-            'id'          => $id,
-            'remember_me' => trim($token),
-        ])->first();
-    }
-
-    /**
      * Activate a User.
      */
     public function activate(User $user): void
