@@ -76,7 +76,7 @@ final class UserTest extends TestCase
         // No logins found.
         $this->assertNull($this->user->lastLogin());
 
-        $login1 = fake(
+        fake(
             LoginModel::class,
             ['identifier' => $this->user->email, 'user_id' => $this->user->id]
         );
@@ -84,7 +84,7 @@ final class UserTest extends TestCase
             LoginModel::class,
             ['identifier' => $this->user->email, 'user_id' => $this->user->id]
         );
-        $login3 = fake(
+        fake(
             LoginModel::class,
             ['identifier' => $this->user->email, 'user_id' => $this->user->id, 'success' => false]
         );
