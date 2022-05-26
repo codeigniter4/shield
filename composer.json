@@ -29,12 +29,6 @@
     "provide": {
         "codeigniter4/authentication-implementation": "1.0"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/codeigniter4/CodeIgniter4"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
