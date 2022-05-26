@@ -39,8 +39,13 @@ class LoginModel extends Model
      *
      * @return BaseResult|false|int|object|string
      */
-    public function recordLoginAttempt(string $identifier, bool $success, ?string $ipAddress = null, ?string $userAgent = null, $userId = null)
-    {
+    public function recordLoginAttempt(
+        string $identifier,
+        bool $success,
+        ?string $ipAddress = null,
+        ?string $userAgent = null,
+        $userId = null
+    ) {
         return $this->insert([
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent,
