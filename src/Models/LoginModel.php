@@ -65,7 +65,7 @@ class LoginModel extends Model
     {
         return $this->where('success', 1)
             ->where('user_id', $user->id)
-            ->orderBy('date', 'desc')
+            ->orderBy('id', 'desc')
             ->first();
     }
 
