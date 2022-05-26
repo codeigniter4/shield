@@ -66,12 +66,12 @@ class LoginModel extends Model
         if (! $allowFailed) {
             $this->where('success', 1)
                 ->where('user_id', $user->id);
+        } else {
+            $this->where('identifier', $user->email)
+                ->orWhere('identifier', $user->username);
         }
 
-        return $this
-            ->where('identifier', $user->email)
-            ->orderBy('date', 'desc')
-            ->first();
+        return $this->orderBy('date', 'desc')->first();
     }
 
     /**
