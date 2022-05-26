@@ -38,6 +38,7 @@ return [
     // Registration
     'register'         => 'ثبت نام',
     'registerDisabled' => 'اکنون امکان ثبت نام وجود ندارد.',
+    'registerSuccess'  => 'خوش آمدید!',
 
     // Login
     'login'              => 'ورود',
