@@ -29,6 +29,7 @@ return [
     // Registration
     'register'         => '登録', // 'Register',
     'registerDisabled' => '現在、登録はできません。', // 'Registration is not currently allowed.',
+    'registerSuccess'  => 'ようこそ！', // 'Welcome aboard!',
 
     // Login
     'login'              => 'ログイン', // 'Login',
