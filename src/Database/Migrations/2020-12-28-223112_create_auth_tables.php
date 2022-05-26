@@ -26,8 +26,7 @@ class CreateAuthTables extends Migration
 
         /*
          * Auth Identities Table
-         * Used for storage of passwords, reset hashes
-         * social login identities, etc.
+         * Used for storage of passwords, access tokens, social login identities, etc.
          */
         $this->forge->addField([
             'id'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
@@ -62,7 +61,7 @@ class CreateAuthTables extends Migration
         $this->forge->addPrimaryKey('id');
         $this->forge->addKey('identifier');
         $this->forge->addKey('user_id');
-        // NOTE: Do NOT delete the user_id or email when the user is deleted for security audits
+        // NOTE: Do NOT delete the user_id or identifier when the user is deleted for security audits
         $this->forge->createTable('auth_logins', true);
 
         /*
