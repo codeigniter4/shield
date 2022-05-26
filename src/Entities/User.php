@@ -226,11 +226,11 @@ class User extends Entity
     /**
      * Returns the last login information for this user as
      */
-    public function lastLogin(bool $allowFailed = false): ?Login
+    public function lastLogin(): ?Login
     {
         /** @var LoginModel $logins */
         $logins = model(LoginModel::class);
 
-        return $logins->lastLogin($this, $allowFailed);
+        return $logins->lastLogin($this);
     }
 }

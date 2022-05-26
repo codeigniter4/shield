@@ -61,17 +61,12 @@ class LoginModel extends Model
     /**
      * Returns the last login information for the user
      */
-    public function lastLogin(User $user, bool $allowFailed = false): ?Login
+    public function lastLogin(User $user): ?Login
     {
-        if (! $allowFailed) {
-            $this->where('success', 1)
-                ->where('user_id', $user->id);
-        } else {
-            $this->where('identifier', $user->email)
-                ->orWhere('identifier', $user->username);
-        }
-
-        return $this->orderBy('date', 'desc')->first();
+        return $this->where('success', 1)
+            ->where('user_id', $user->id)
+            ->orderBy('date', 'desc')
+            ->first();
     }
 
     /**
