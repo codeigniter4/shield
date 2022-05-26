@@ -7,7 +7,7 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Models\LoginModel;
+use CodeIgniter\Shield\Models\TokenLoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
@@ -21,7 +21,7 @@ class AccessTokens implements AuthenticatorInterface
     protected UserModel $provider;
 
     protected ?User $user = null;
-    protected LoginModel $loginModel;
+    protected TokenLoginModel $loginModel;
 
     public function __construct(UserModel $provider)
     {
@@ -29,7 +29,7 @@ class AccessTokens implements AuthenticatorInterface
 
         $this->provider = $provider;
 
-        $this->loginModel = model(LoginModel::class); // @phpstan-ignore-line
+        $this->loginModel = model(TokenLoginModel::class); // @phpstan-ignore-line
     }
 
     /**

@@ -26,8 +26,7 @@ class CreateAuthTables extends Migration
 
         /*
          * Auth Identities Table
-         * Used for storage of passwords, reset hashes
-         * social login identities, etc.
+         * Used for storage of passwords, access tokens, social login identities, etc.
          */
         $this->forge->addField([
             'id'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
@@ -49,12 +48,16 @@ class CreateAuthTables extends Migration
         $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
         $this->forge->createTable('auth_identities', true);
 
-        // Auth Login Attempts Table
+        /**
+         * Auth Login Attempts Table
+         * Records login attempts. A login means users think it is a login.
+         * To login, users do action(s) like posting a form.
+         */
         $this->forge->addField([
             'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'ip_address' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'ip_address' => ['type' => 'varchar', 'constraint' => 255],
             'user_agent' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
-            'identifier' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'identifier' => ['type' => 'varchar', 'constraint' => 255],
             'user_id'    => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true], // Only for successful logins
             'date'       => ['type' => 'datetime'],
             'success'    => ['type' => 'tinyint', 'constraint' => 1],
@@ -62,8 +65,27 @@ class CreateAuthTables extends Migration
         $this->forge->addPrimaryKey('id');
         $this->forge->addKey('identifier');
         $this->forge->addKey('user_id');
-        // NOTE: Do NOT delete the user_id or email when the user is deleted for security audits
+        // NOTE: Do NOT delete the user_id or identifier when the user is deleted for security audits
         $this->forge->createTable('auth_logins', true);
+
+        /*
+         * Auth Token Login Attempts Table
+         * Records Bearer Token type login attempts.
+         */
+        $this->forge->addField([
+            'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'ip_address' => ['type' => 'varchar', 'constraint' => 255],
+            'user_agent' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'identifier' => ['type' => 'varchar', 'constraint' => 255],
+            'user_id'    => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true], // Only for successful logins
+            'date'       => ['type' => 'datetime'],
+            'success'    => ['type' => 'tinyint', 'constraint' => 1],
+        ]);
+        $this->forge->addPrimaryKey('id');
+        $this->forge->addKey('identifier');
+        $this->forge->addKey('user_id');
+        // NOTE: Do NOT delete the user_id or identifier when the user is deleted for security audits
+        $this->forge->createTable('auth_token_logins', true);
 
         /*
          * Auth Remember Tokens (remember-me) Table
@@ -114,6 +136,7 @@ class CreateAuthTables extends Migration
 
         $this->forge->dropTable('users', true);
         $this->forge->dropTable('auth_logins', true);
+        $this->forge->dropTable('auth_token_logins', true);
         $this->forge->dropTable('auth_remember_tokens', true);
         $this->forge->dropTable('auth_access_tokens', true);
         $this->forge->dropTable('auth_identities', true);
