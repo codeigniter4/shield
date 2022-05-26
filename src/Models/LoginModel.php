@@ -2,7 +2,6 @@
 
 namespace CodeIgniter\Shield\Models;
 
-use CodeIgniter\Database\BaseResult;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Entities\Login;
@@ -11,6 +10,8 @@ use Faker\Generator;
 
 class LoginModel extends Model
 {
+    use CheckQueryReturnTrait;
+
     protected $table          = 'auth_logins';
     protected $primaryKey     = 'id';
     protected $returnType     = Login::class;
@@ -36,8 +37,6 @@ class LoginModel extends Model
 
     /**
      * @param int|string|null $userId
-     *
-     * @return BaseResult|false|int|object|string
      */
     public function recordLoginAttempt(
         string $identifier,
@@ -45,8 +44,8 @@ class LoginModel extends Model
         ?string $ipAddress = null,
         ?string $userAgent = null,
         $userId = null
-    ) {
-        return $this->insert([
+    ): void {
+        $return = $this->insert([
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent,
             'identifier' => $identifier,
@@ -54,6 +53,8 @@ class LoginModel extends Model
             'date'       => date('Y-m-d H:i:s'),
             'success'    => (int) $success,
         ]);
+
+        $this->checkQueryReturn($return);
     }
 
     /**
