@@ -655,15 +655,17 @@ class Session implements AuthenticatorInterface
 
         // Destroy the session data - but ensure a session is still
         // available for flash messages, etc.
-        if (isset($_SESSION)) {
-            foreach (array_keys($_SESSION) as $key) {
-                $_SESSION[$key] = null;
-                unset($_SESSION[$key]);
+        /** @var \CodeIgniter\Session\Session $session */
+        $session     = session();
+        $sessionData = $session->get();
+        if (isset($sessionData)) {
+            foreach (array_keys($sessionData) as $key) {
+                $session->remove($key);
             }
         }
 
         // Regenerate the session ID for a touch of added safety.
-        session()->regenerate(true);
+        $session->regenerate(true);
 
         // Take care of any remember-me functionality
         $this->rememberModel->purgeRememberTokens($this->user);

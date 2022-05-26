@@ -47,7 +47,7 @@ class User extends Entity
     /**
      * Returns the first identity of the given $type for this user.
      *
-     * @param string $type 'email_2fa'|'email_activate'|'email_password'
+     * @param string $type 'email_2fa'|'email_activate'|'email_password'|'magic-link'
      */
     public function getIdentity(string $type): ?UserIdentity
     {
