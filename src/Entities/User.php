@@ -224,21 +224,13 @@ class User extends Entity
     }
 
     /**
-     * Returns the last login information for this
-     * user as
+     * Returns the last login information for this user as
      */
     public function lastLogin(bool $allowFailed = false): ?Login
     {
+        /** @var LoginModel $logins */
         $logins = model(LoginModel::class);
 
-        if (! $allowFailed) {
-            $logins->where('success', 1)
-                ->where('user_id', $this->attributes['id'] ?? null);
-        }
-
-        return $logins
-            ->where('identifier', $this->getEmail())
-            ->orderBy('date', 'desc')
-            ->first();
+        return $logins->lastLogin($this, $allowFailed);
     }
 }
