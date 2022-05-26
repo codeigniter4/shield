@@ -107,7 +107,7 @@ class MagicLinkController extends BaseController
 
         $identity = $identityModel->getIdentityBySecret('magic-link', $token);
 
-        $identifier = 'magic-link: ' . $token;
+        $identifier = $token ?? '';
 
         // No token found?
         if ($identity === null) {
@@ -158,6 +158,7 @@ class MagicLinkController extends BaseController
         $loginModel = model(LoginModel::class);
 
         $loginModel->recordLoginAttempt(
+            'magic-link',
             $identifier,
             $success,
             $this->request->getIPAddress(),

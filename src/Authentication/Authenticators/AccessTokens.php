@@ -51,7 +51,8 @@ class AccessTokens implements AuthenticatorInterface
         if (! $result->isOK()) {
             // Always record a login attempt, whether success or not.
             $this->loginModel->recordLoginAttempt(
-                'token: ' . ($credentials['token'] ?? ''),
+                'token',
+                $credentials['token'] ?? '',
                 false,
                 $ipAddress,
                 $userAgent
@@ -69,7 +70,8 @@ class AccessTokens implements AuthenticatorInterface
         $this->login($user);
 
         $this->loginModel->recordLoginAttempt(
-            'token: ' . ($credentials['token'] ?? ''),
+            'token',
+            $credentials['token'] ?? '',
             true,
             $ipAddress,
             $userAgent,

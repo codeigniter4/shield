@@ -20,6 +20,7 @@ class LoginModel extends Model
     protected $allowedFields  = [
         'ip_address',
         'user_agent',
+        'id_type',
         'identifier',
         'user_id',
         'date',
@@ -28,6 +29,7 @@ class LoginModel extends Model
     protected $useTimestamps   = false;
     protected $validationRules = [
         'ip_address' => 'required',
+        'id_type'    => 'required',
         'identifier' => 'required',
         'user_agent' => 'permit_empty|string',
         'user_id'    => 'permit_empty|integer',
@@ -40,6 +42,7 @@ class LoginModel extends Model
      * @param int|string|null $userId
      */
     public function recordLoginAttempt(
+        string $idType,
         string $identifier,
         bool $success,
         ?string $ipAddress = null,
@@ -49,6 +52,7 @@ class LoginModel extends Model
         $return = $this->insert([
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent,
+            'id_type'    => $idType,
             'identifier' => $identifier,
             'user_id'    => $userId,
             'date'       => date('Y-m-d H:i:s'),
@@ -78,6 +82,7 @@ class LoginModel extends Model
     {
         return new Login([
             'ip_address' => $faker->ipv4,
+            'id_type'    => 'email',
             'identifier' => $faker->email,
             'user_id'    => null,
             'date'       => Time::parse('-1 day')->toDateTimeString(),
