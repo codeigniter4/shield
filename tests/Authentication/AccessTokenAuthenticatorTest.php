@@ -60,7 +60,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $this->assertNull($this->auth->getUser());
     }
 
-    public function testLoginByidNoToken()
+    public function testLoginByIdNoToken()
     {
         $user = fake(UserModel::class);
 
