@@ -7,6 +7,8 @@ use CodeIgniter\Shield\Entities\User;
 
 class PermissionModel extends Model
 {
+    use CheckQueryReturnTrait;
+
     protected $table          = 'auth_permissions_users';
     protected $primaryKey     = 'id';
     protected $returnType     = 'array';
@@ -37,9 +39,11 @@ class PermissionModel extends Model
      */
     public function deleteAll($userId): void
     {
-        $this->builder()
+        $return = $this->builder()
             ->where('user_id', $userId)
             ->delete();
+
+        $this->checkQueryReturn($return);
     }
 
     /**
@@ -48,9 +52,11 @@ class PermissionModel extends Model
      */
     public function deleteNotIn($userId, $cache): void
     {
-        $this->builder()
+        $return = $this->builder()
             ->where('user_id', $userId)
             ->whereNotIn('permission', $cache)
             ->delete();
+
+        $this->checkQueryReturn($return);
     }
 }
