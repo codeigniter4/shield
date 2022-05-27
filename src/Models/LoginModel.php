@@ -36,6 +36,11 @@ class LoginModel extends Model
     protected $skipValidation     = false;
 
     /**
+     * Records login attempt.
+     *
+     * @param string          $idType Identifier type.
+     *                                auth_logins: 'email'|'username'|'magic-link'
+     *                                auth_token_logins: 'token'
      * @param int|string|null $userId
      */
     public function recordLoginAttempt(
