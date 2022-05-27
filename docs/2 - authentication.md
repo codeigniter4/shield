@@ -1,6 +1,6 @@
 # Authentication
 
-Shield provides a flexible, secure, authentication system for your web apps and API's. 
+Shield provides a flexible, secure, authentication system for your web apps and API's.
 
 ## Available Authenticators
 
@@ -26,7 +26,7 @@ public $defaultAuthenticator = 'session';
 
 ## Auth Helper
 
-The auth functionality is designed to be used with the `auth_helper` that comes with Shield. This 
+The auth functionality is designed to be used with the `auth_helper` that comes with Shield. This
 helper method provides the `auth()` command which returns a convenient interface to the most frequently
 used functionality within the auth libraries. This must be loaded before it can be used.
 
@@ -37,7 +37,7 @@ helper('auth');
 auth()->user();
 
 // get the current user's id
-user_id() 
+user_id()
 // or
 auth()->id()
 ```
@@ -50,13 +50,13 @@ has the following methods:
 
 ### isOK()
 
-Returns a boolean value stating whether the check was successful or not. 
+Returns a boolean value stating whether the check was successful or not.
 
 ### reason()
 
 Returns a message that can be displayed to the user when the check fails.
 
-### extraInfo() 
+### extraInfo()
 
 Can return a custom bit of information. These will be detailed in the method descriptions below.
 
@@ -65,7 +65,7 @@ Can return a custom bit of information. These will be detailed in the method des
 
 The Session authenticator stores the user's authentication within the user's session, and on a secure cookie
 on their device. This is the standard password-based login used in most web sites. It supports a
-secure remember me feature, and more. This can also be used to handle authentication for 
+secure remember me feature, and more. This can also be used to handle authentication for
 single page applications (SPAs).
 
 ### attempt()
@@ -75,11 +75,11 @@ on the auth class, passing in their credentials.
 
 ```php
 $credentials = [
-    'email'    => $this->request->getPost('email'), 
+    'email'    => $this->request->getPost('email'),
     'password' => $this->request->getPost('password')
 ];
 
-$loginAttempt = auth()->attempt($credentials); 
+$loginAttempt = auth()->attempt($credentials);
 
 if (! $loginAttempt->isOK()) {
     return redirect()->back()->with('error', $loginAttempt->reason());
@@ -97,11 +97,11 @@ if($result->isOK()) {
 }
 ```
 
-If the attempt fails a `failedLogin` event is triggered with the credentials array as 
+If the attempt fails a `failedLogin` event is triggered with the credentials array as
 the only parameter. Whether or not they pass, a login attempt is recorded in the `auth_logins` table.
 
 If `allowRemembering` is `true` in the `Auth` config file, you can tell the Session authenticator
-to set a secure remember-me cookie. 
+to set a secure remember-me cookie.
 
 ```php
 $loginAttempt = auth()->remember()->attempt($credentials);
@@ -114,11 +114,11 @@ method.
 
 ```php
 $credentials = [
-    'email'    => $this->request->getPost('email'), 
+    'email'    => $this->request->getPost('email'),
     'password' => $this->request->getPost('password')
 ];
 
-$validCreds? = auth()->check($credentials); 
+$validCreds? = auth()->check($credentials);
 
 if (! $validCreds->isOK()) {
     return redirect()->back()->with('error', $loginAttempt->reason());
@@ -140,7 +140,7 @@ if (auth()->loggedIn()) {
 ### logout()
 
 You can call the `logout()` method to log the user out of the current session. This will destroy and
-regenerate the current session, purge any remember-me tokens current for this user, and trigger a 
+regenerate the current session, purge any remember-me tokens current for this user, and trigger a
 `logout` event.
 
 ```php
@@ -149,44 +149,44 @@ auth()->logout();
 
 ### forget()
 
-The `forget` method will purge all remember-me tokens for the current user, making it so they 
+The `forget` method will purge all remember-me tokens for the current user, making it so they
 will not be remembered on the next visit to the site.
 
 ## Access Token Authenticator
 
 The Access Token authenticator supports the use of revoke-able API tokens without using OAuth. These are commonly
-used to provide third-party developers access to your API. These tokens typically have a very long 
-expiration time, often years. 
+used to provide third-party developers access to your API. These tokens typically have a very long
+expiration time, often years.
 
 These are also suitable for use with mobile applications. In this case, the user would register/sign-in
 with their email/password. The application would create a new access token for them, with a recognizable
 name, like John's iPhone 12, and return it to the mobile application, where it is stored and used
 in all future requests.
 
-### Access Token/API Authentication 
+### Access Token/API Authentication
 
-Using access tokens requires that you either use/extend `CodeIgniter\Shield\Models\UserModel` or 
+Using access tokens requires that you either use/extend `CodeIgniter\Shield\Models\UserModel` or
 use the `CodeIgniter\Shield\Authentication\Traits\HasAccessTokens` on your own user model. This trait
 provides all of the custom methods needed to implement access tokens in your application. The necessary
-database table, `auth_access_tokens`, is created in Shield's only migration class, which must be ran 
+database table, `auth_access_tokens`, is created in Shield's only migration class, which must be ran
 before first using any of the features of Shield.
 
 ### Generating Access Tokens
 
-Access tokens are created through the `generateAccessToken()` method on the user. This takes a name to 
-give to the token as the first argument. The name is used to display it to the user so they can 
-differentiate between multiple tokens. 
+Access tokens are created through the `generateAccessToken()` method on the user. This takes a name to
+give to the token as the first argument. The name is used to display it to the user so they can
+differentiate between multiple tokens.
 
 ```php
 $token = $user->generateAccessToken('Work Laptop');
-```  
+```
 
 This creates the token using a cryptographically secure random string. The token
-is hashed (sha256) before saving it to the database. The method returns an instance of 
+is hashed (sha256) before saving it to the database. The method returns an instance of
 `CodeIgniters\Shield\Authentication\Entities\AccessToken`. The only time a plain text
 version of the token is available is in the `AccessToken` returned immediately after creation.
-**The plain text version should be displayed to the user immediately so they can copy it for 
-their use.** If a user loses it, they cannot see the raw version anymore, but they can generate 
+**The plain text version should be displayed to the user immediately so they can copy it for
+their use.** If a user loses it, they cannot see the raw version anymore, but they can generate
 a new token to use.
 
 ```php
@@ -194,7 +194,7 @@ $token = $user->generateAccessToken('Work Laptop');
 
 // Only available immediately after creation.
 echo $token->raw_token;
-```  
+```
 
 ### Revoking Access Tokens
 
@@ -205,9 +205,9 @@ access token as the only argument. Revoking simply deletes the record from the d
 $user->revokeAccessToken($token);
 ```
 
-Typically, the plain text token is retrieved from the request's headers as part of the authentication 
+Typically, the plain text token is retrieved from the request's headers as part of the authentication
 process. If you need to revoke the token for another user as an admin, and don't have access to the
-token, you would need to get the user's access tokens and delete them manually. 
+token, you would need to get the user's access tokens and delete them manually.
 
 You can revoke all access tokens with the `revokeAllAccessTokens()` method.
 
@@ -217,7 +217,7 @@ $user->revokeAllAccessTokens($token);
 
 ### Retrieving Access Tokens
 
-The following methods are available to help you retrieve a user's access tokens: 
+The following methods are available to help you retrieve a user's access tokens:
 
 ```php
 // Retrieve a single token by plain text token
@@ -232,9 +232,9 @@ $tokens = $user->accessTokens();
 
 ### Access Token Lifetime
 
-Tokens will expire after a specified amount of time has passed since they have been used. 
+Tokens will expire after a specified amount of time has passed since they have been used.
 By default, this is set to 1 year. You can change this value by setting the `accessTokenLifetime`
-value in the `Auth` config file. This is in seconds so that you can use the 
+value in the `Auth` config file. This is in seconds so that you can use the
 [time constants](https://codeigniter.com/user_guide/general/common_functions.html#time-constants)
 CodeIgniter provides.
 
@@ -244,7 +244,7 @@ public $unusedTokenLifetime = YEAR;
 
 ### Access Token Scopes
 
-Each token can be given one or more scopes they can be used within. These can be thought of as 
+Each token can be given one or more scopes they can be used within. These can be thought of as
 permissions the token grants to the user. Scopes are provided when the token is generated and
 cannot be modified afterword.
 
@@ -257,9 +257,9 @@ same as:
 
 ```php
 $token = $user->gererateAccessToken('Work Laptop', ['*']);
-``` 
+```
 
-During authentication, the token the user used is stored on the user. Once authenticated, you 
+During authentication, the token the user used is stored on the user. Once authenticated, you
 can use the `tokenCan()` and `tokenCant()` methods on the user to determine if they have access
 to the specified scope.
 
@@ -275,9 +275,9 @@ if ($user->tokenCant('forums.manage')) {
 
 ## Controller Filters
 
-Shield provides 3 [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can 
+Shield provides 3 [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can
 use to protect your routes, `session`, `tokens`, and `chained`. The first two cover the `Session` and `AccessTokens` authenticators, respectively. The `chained` filter will check both authenticators in sequence
-to see if the user is logged in through either of authenticators, allowing a single API endpoint to 
+to see if the user is logged in through either of authenticators, allowing a single API endpoint to
 work for both an SPA using session auth, and a mobile app using access tokens.
 
 These filters are already loaded for you by the registrar class located at `src/Config/Registrar.php`.
@@ -285,10 +285,27 @@ These filters are already loaded for you by the registrar class located at `src/
 ```php
 public $aliases = [
     // ...
-    'session' => \CodeIgniter\Shield\Filters\SessionAuth::class,
-    'tokens'  => \CodeIgniter\Shield\Filters\TokenAuth::class,
-    'chain'   => \CodeIgniter\Shield\Filters\ChainAuth::class,
+    'session'    => \CodeIgniter\Shield\Filters\SessionAuth::class,
+    'tokens'     => \CodeIgniter\Shield\Filters\TokenAuth::class,
+    'chain'      => \CodeIgniter\Shield\Filters\ChainAuth::class,
+    'auth-limit' => \CodeIgniter\Shield\Filters\AuthRates::class,
 ];
 ```
 
 These can be used in any of the normal filter config settings, or within the routes file.
+
+### Rate Limiting
+
+To help protect your authentication forms from being spammed by bots, it is recommended that you use
+the `auth-limit` filter on all of your authentication routes. This can be done with the following
+filter setup:
+
+```php
+public $filters = [
+    'auth-rates' => [
+        'before' => [
+            'login*', 'register', 'auth/*'
+        ]
+    ]
+];
+```

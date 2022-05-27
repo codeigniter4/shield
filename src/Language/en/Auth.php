@@ -15,6 +15,7 @@ return [
     'oldToken'             => 'The access token has expired.',
     'noUserEntity'         => 'User Entity must be provided for password validation.',
     'invalidEmail'         => 'Unable to verify the email address matches the email on record.',
+    'throttled'            => 'Too many requests made from this IP address. You may try again in {0} seconds.',
 
     'email'           => 'Email Address',
     'username'        => 'Username',
