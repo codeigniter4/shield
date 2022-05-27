@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Models\LoginModel;
@@ -70,7 +71,7 @@ final class UserTest extends TestCase
     {
         fake(
             UserIdentityModel::class,
-            ['user_id' => $this->user->id, 'type' => 'email_password', 'secret' => 'foo@example.com']
+            ['user_id' => $this->user->id, 'type' => Session::ID_TYPE_EMAIL_PASSWORD, 'secret' => 'foo@example.com']
         );
 
         // No logins found.

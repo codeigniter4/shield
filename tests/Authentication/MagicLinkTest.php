@@ -3,6 +3,7 @@
 namespace Tests\Authentication;
 
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
@@ -79,7 +80,7 @@ final class MagicLinkTest extends TestCase
 
         $this->seeInDatabase('auth_identities', [
             'user_id' => $user->id,
-            'type'    => 'magic-link',
+            'type'    => Session::ID_TYPE_MAGIC_LINK,
         ]);
     }
 
@@ -101,7 +102,7 @@ final class MagicLinkTest extends TestCase
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $identities->insert([
             'user_id' => $user->id,
-            'type'    => 'magic-link',
+            'type'    => Session::ID_TYPE_MAGIC_LINK,
             'secret'  => 'abasdasdf',
             'expires' => Time::now()->subDays(5),
         ]);
@@ -120,7 +121,7 @@ final class MagicLinkTest extends TestCase
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $identities->insert([
             'user_id' => $user->id,
-            'type'    => 'magic-link',
+            'type'    => Session::ID_TYPE_MAGIC_LINK,
             'secret'  => 'abasdasdf',
             'expires' => Time::now()->addMinutes(60),
         ]);

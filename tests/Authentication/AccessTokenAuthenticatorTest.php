@@ -169,7 +169,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 
         // A login attempt should have always been recorded
         $this->seeInDatabase('auth_token_logins', [
-            'id_type'    => 'token',
+            'id_type'    => AccessTokens::ID_TYPE_ACCESS_TOKEN,
             'identifier' => 'abc123',
             'success'    => 0,
         ]);
@@ -197,7 +197,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 
         // A login attempt should have been recorded
         $this->seeInDatabase('auth_token_logins', [
-            'id_type'    => 'token',
+            'id_type'    => AccessTokens::ID_TYPE_ACCESS_TOKEN,
             'identifier' => $token->raw_token,
             'success'    => 1,
         ]);

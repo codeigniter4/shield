@@ -15,6 +15,8 @@ use InvalidArgumentException;
 
 class AccessTokens implements AuthenticatorInterface
 {
+    public const ID_TYPE_ACCESS_TOKEN = 'access_token';
+
     /**
      * The persistence engine
      */
@@ -51,7 +53,7 @@ class AccessTokens implements AuthenticatorInterface
         if (! $result->isOK()) {
             // Always record a login attempt, whether success or not.
             $this->loginModel->recordLoginAttempt(
-                'token',
+                self::ID_TYPE_ACCESS_TOKEN,
                 $credentials['token'] ?? '',
                 false,
                 $ipAddress,
@@ -70,7 +72,7 @@ class AccessTokens implements AuthenticatorInterface
         $this->login($user);
 
         $this->loginModel->recordLoginAttempt(
-            'token',
+            self::ID_TYPE_ACCESS_TOKEN,
             $credentials['token'] ?? '',
             true,
             $ipAddress,

@@ -5,6 +5,7 @@ namespace CodeIgniter\Shield\Models;
 use CodeIgniter\Database\Database;
 use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use Faker\Generator;
@@ -153,7 +154,7 @@ class UserModel extends Model
         if (! empty($email)) {
             $data = $this->select('users.*, auth_identities.secret as email, auth_identities.secret2 as password_hash')
                 ->join('auth_identities', 'auth_identities.user_id = users.id')
-                ->where('auth_identities.type', 'email_password')
+                ->where('auth_identities.type', Session::ID_TYPE_EMAIL_PASSWORD)
                 ->where("LOWER({$prefix}auth_identities.secret)", strtolower($email))
                 ->asArray()
                 ->first();

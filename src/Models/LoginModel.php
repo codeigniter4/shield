@@ -41,9 +41,9 @@ class LoginModel extends Model
     /**
      * Records login attempt.
      *
-     * @param string          $idType Identifier type.
-     *                                auth_logins: 'email'|'username'|'magic-link'
-     *                                auth_token_logins: 'token'
+     * @param string          $idType Identifier type. See const ID_YPE_* in Authenticator.
+     *                                auth_logins: 'email_password'|'username'|'magic-link'
+     *                                auth_token_logins: 'access-token'
      * @param int|string|null $userId
      */
     public function recordLoginAttempt(

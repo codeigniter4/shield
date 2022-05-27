@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\DatabaseException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
@@ -33,14 +34,14 @@ final class UserIdentityModelTest extends TestCase
         // "type and secret" are unique.
         $model->create([
             'user_id' => 1,
-            'type'    => 'email_activate',
+            'type'    => Session::ID_TYPE_EMAIL_ACTIVATE,
             'secret'  => '123456',
             'name'    => 'register',
             'extra'   => lang('Auth.needVerification'),
         ]);
         $model->create([
             'user_id' => 1,
-            'type'    => 'email_activate',
+            'type'    => Session::ID_TYPE_EMAIL_ACTIVATE,
             'secret'  => '123456',
             'name'    => 'register',
             'extra'   => lang('Auth.needVerification'),
@@ -53,7 +54,7 @@ final class UserIdentityModelTest extends TestCase
 
         /** @var User $user */
         $user = fake(UserModel::class, ['id' => '1']);
-        fake(UserIdentityModel::class, ['user_id' => 2, 'type' => 'email_activate', 'secret' => '666666']);
+        fake(UserIdentityModel::class, ['user_id' => 2, 'type' => Session::ID_TYPE_EMAIL_ACTIVATE, 'secret' => '666666']);
 
         $model = $this->createUserIdentityModel();
 
@@ -62,7 +63,7 @@ final class UserIdentityModelTest extends TestCase
         $model->createCodeIdentity(
             $user,
             [
-                'type'  => 'email_activate',
+                'type'  => Session::ID_TYPE_EMAIL_ACTIVATE,
                 'name'  => 'register',
                 'extra' => lang('Auth.needVerification'),
             ],

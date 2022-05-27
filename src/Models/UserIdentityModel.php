@@ -3,6 +3,8 @@
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
@@ -59,7 +61,7 @@ class UserIdentityModel extends Model
 
         $return = $this->insert([
             'user_id' => $user->id,
-            'type'    => 'email_password',
+            'type'    => Session::ID_TYPE_EMAIL_PASSWORD,
             'secret'  => $credentials['email'],
             'secret2' => $passwords->hash($credentials['password']),
         ]);
@@ -119,7 +121,7 @@ class UserIdentityModel extends Model
         helper('text');
 
         $return = $this->insert([
-            'type'    => 'access_token',
+            'type'    => AccessTokens::ID_TYPE_ACCESS_TOKEN,
             'user_id' => $user->id,
             'name'    => $name,
             'secret'  => hash('sha256', $rawToken = random_string('crypto', 64)),
@@ -141,7 +143,7 @@ class UserIdentityModel extends Model
     public function getAccessTokenByRawToken(string $rawToken): ?AccessToken
     {
         return $this
-            ->where('type', 'access_token')
+            ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->where('secret', hash('sha256', $rawToken))
             ->asObject(AccessToken::class)
             ->first();
@@ -150,7 +152,7 @@ class UserIdentityModel extends Model
     public function getAccessToken(User $user, string $rawToken): ?AccessToken
     {
         return $this->where('user_id', $user->id)
-            ->where('type', 'access_token')
+            ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->where('secret', hash('sha256', $rawToken))
             ->asObject(AccessToken::class)
             ->first();
@@ -164,7 +166,7 @@ class UserIdentityModel extends Model
     public function getAccessTokenById($id, User $user): ?AccessToken
     {
         return $this->where('user_id', $user->id)
-            ->where('type', 'access_token')
+            ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->where('id', $id)
             ->asObject(AccessToken::class)
             ->first();
@@ -177,7 +179,7 @@ class UserIdentityModel extends Model
     {
         return $this
             ->where('user_id', $user->id)
-            ->where('type', 'access_token')
+            ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->orderBy($this->primaryKey)
             ->asObject(AccessToken::class)
             ->findAll();
@@ -267,7 +269,7 @@ class UserIdentityModel extends Model
     public function revokeAccessToken(User $user, string $rawToken): void
     {
         $return = $this->where('user_id', $user->id)
-            ->where('type', 'access_token')
+            ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->where('secret', hash('sha256', $rawToken))
             ->delete();
 
@@ -280,7 +282,7 @@ class UserIdentityModel extends Model
     public function revokeAllAccessTokens(User $user): void
     {
         $return = $this->where('user_id', $user->id)
-            ->where('type', 'access_token')
+            ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->delete();
 
         $this->checkQueryReturn($return);
@@ -290,7 +292,7 @@ class UserIdentityModel extends Model
     {
         return new UserIdentity([
             'user_id'      => fake(UserModel::class)->id,
-            'type'         => 'email_password',
+            'type'         => Session::ID_TYPE_EMAIL_PASSWORD,
             'name'         => null,
             'secret'       => 'info@example.com',
             'secret2'      => password_hash('secret', PASSWORD_DEFAULT),

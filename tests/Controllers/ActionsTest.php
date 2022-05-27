@@ -6,6 +6,7 @@ use CodeIgniter\Config\Factories;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\Shield\Authentication\Actions\Email2FA;
 use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Test\AuthenticationTesting;
 use CodeIgniter\Test\DatabaseTestTrait;
@@ -102,7 +103,7 @@ final class ActionsTest extends TestCase
         $identities = model(UserIdentityModel::class);
         $identities->insert([
             'user_id' => $this->user->id,
-            'type'    => 'email_2fa',
+            'type'    => Session::ID_TYPE_EMAIL_2FA,
             'secret'  => '123456',
             'name'    => 'login',
             'extra'   => lang('Auth.need2FA'),
@@ -156,7 +157,7 @@ final class ActionsTest extends TestCase
         // Identity should have been removed
         $this->dontSeeInDatabase('auth_identities', [
             'user_id' => $this->user->id,
-            'type'    => 'email_2fa',
+            'type'    => Session::ID_TYPE_EMAIL_2FA,
         ]);
 
         // Session should have been cleared
@@ -175,7 +176,7 @@ final class ActionsTest extends TestCase
 
         $this->seeInDatabase('auth_identities', [
             'user_id' => $this->user->id,
-            'type'    => 'email_2fa',
+            'type'    => Session::ID_TYPE_EMAIL_2FA,
             'name'    => 'login',
         ]);
     }
@@ -191,7 +192,7 @@ final class ActionsTest extends TestCase
         $identities = model(UserIdentityModel::class);
         $identities->insert([
             'user_id' => $this->user->id,
-            'type'    => 'email_2fa',
+            'type'    => Session::ID_TYPE_EMAIL_2FA,
             'secret'  => '123456',
             'name'    => 'login',
             'extra'   => lang('Auth.need2FA'),
@@ -212,7 +213,7 @@ final class ActionsTest extends TestCase
         $identities = model(UserIdentityModel::class);
         $identities->insert([
             'user_id' => $this->user->id,
-            'type'    => 'email_activate',
+            'type'    => Session::ID_TYPE_EMAIL_ACTIVATE,
             'secret'  => '123456',
             'name'    => 'register',
             'extra'   => lang('Auth.needVerification'),
@@ -260,7 +261,7 @@ final class ActionsTest extends TestCase
         // Identity should have been removed
         $this->dontSeeInDatabase('auth_identities', [
             'user_id' => $this->user->id,
-            'type'    => 'email_2fa',
+            'type'    => Session::ID_TYPE_EMAIL_2FA,
         ]);
 
         // Session should have been cleared
