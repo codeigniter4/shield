@@ -239,7 +239,7 @@ class Session implements AuthenticatorInterface
         string $userAgent,
         $userId = null
     ): void {
-        $idType = ! isset($credentials['email']) && isset($credentials['username'])
+        $idType = (! isset($credentials['email']) && isset($credentials['username']))
             ? 'username'
             : 'email';
 
