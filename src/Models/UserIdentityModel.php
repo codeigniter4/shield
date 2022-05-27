@@ -256,22 +256,26 @@ class UserIdentityModel extends Model
     /**
      * Delete any access tokens for the given raw token.
      */
-    public function revokeAccessToken(User $user, string $rawToken)
+    public function revokeAccessToken(User $user, string $rawToken): void
     {
-        return $this->where('user_id', $user->id)
+        $return = $this->where('user_id', $user->id)
             ->where('type', 'access_token')
             ->where('secret', hash('sha256', $rawToken))
             ->delete();
+
+        $this->checkQueryReturn($return);
     }
 
     /**
      * Revokes all access tokens for this user.
      */
-    public function revokeAllAccessTokens(User $user)
+    public function revokeAllAccessTokens(User $user): void
     {
-        return $this->where('user_id', $user->id)
+        $return = $this->where('user_id', $user->id)
             ->where('type', 'access_token')
             ->delete();
+
+        $this->checkQueryReturn($return);
     }
 
     public function fake(Generator &$faker): UserIdentity
