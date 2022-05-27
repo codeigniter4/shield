@@ -239,10 +239,9 @@ class Session implements AuthenticatorInterface
         string $userAgent,
         $userId = null
     ): void {
-        $idType = 'email';
-        if (! isset($credentials['email']) && isset($credentials['username'])) {
-            $idType = 'username';
-        }
+        $idType = ! isset($credentials['email']) && isset($credentials['username'])
+            ? 'username'
+            : 'email';
 
         $this->loginModel->recordLoginAttempt(
             $idType,
