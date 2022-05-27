@@ -2,6 +2,7 @@
 
 namespace CodeIgniter\Shield\Models;
 
+use CodeIgniter\Shield\Exceptions\RuntimeException;
 use ReflectionObject;
 use ReflectionProperty;
 
@@ -13,12 +14,29 @@ trait CheckQueryReturnTrait
     {
         $this->restoreDBDebug();
 
+        $this->checkValidationError();
+
         if ($return === false) {
             $error   = $this->db->error();
             $message = 'Query error: ' . $error['code'] . ', '
                 . $error['message'] . ', query: ' . $this->db->getLastQuery();
 
             throw new DatabaseException($message, $error['code']);
+        }
+    }
+
+    private function checkValidationError(): void
+    {
+        $validationErrors = $this->validation->getErrors();
+
+        if ($validationErrors !== []) {
+            $message = 'Validation error:';
+
+            foreach ($validationErrors as $field => $error) {
+                $message .= ' [' . $field . '] ' . $error;
+            }
+
+            throw new RuntimeException($message);
         }
     }
 
