@@ -5,6 +5,7 @@ namespace CodeIgniter\Shield\Models;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Entities\Login;
+use CodeIgniter\Shield\Entities\User;
 use Exception;
 use Faker\Generator;
 
@@ -55,6 +56,17 @@ class LoginModel extends Model
         ]);
 
         $this->checkQueryReturn($return);
+    }
+
+    /**
+     * Returns the last login information for the user
+     */
+    public function lastLogin(User $user): ?Login
+    {
+        return $this->where('success', 1)
+            ->where('user_id', $user->id)
+            ->orderBy('id', 'desc')
+            ->first();
     }
 
     /**

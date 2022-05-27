@@ -76,7 +76,11 @@ final class UserTest extends TestCase
         // No logins found.
         $this->assertNull($this->user->lastLogin());
 
-        $login = fake(
+        fake(
+            LoginModel::class,
+            ['identifier' => $this->user->email, 'user_id' => $this->user->id]
+        );
+        $login2 = fake(
             LoginModel::class,
             ['identifier' => $this->user->email, 'user_id' => $this->user->id]
         );
@@ -88,7 +92,7 @@ final class UserTest extends TestCase
         $last = $this->user->lastLogin();
 
         $this->assertInstanceOf(Login::class, $last); // @phpstan-ignore-line
-        $this->assertSame($login->id, $last->id);
+        $this->assertSame($login2->id, $last->id);
         $this->assertInstanceOf(Time::class, $last->date);
     }
 
