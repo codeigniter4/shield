@@ -30,7 +30,7 @@ class LoginModel extends Model
     protected $validationRules = [
         'ip_address' => 'required',
         'id_type'    => 'required',
-        'identifier' => 'required',
+        'identifier' => 'permit_empty|string',
         'user_agent' => 'permit_empty|string',
         'user_id'    => 'permit_empty|integer',
         'date'       => 'required|valid_date',
