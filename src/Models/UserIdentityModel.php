@@ -57,12 +57,14 @@ class UserIdentityModel extends Model
         /** @var Passwords $passwords */
         $passwords = service('passwords');
 
-        $this->insert([
+        $return = $this->insert([
             'user_id' => $user->id,
             'type'    => 'email_password',
             'secret'  => $credentials['email'],
             'secret2' => $passwords->hash($credentials['password']),
         ]);
+
+        $this->checkQueryReturn($return);
     }
 
     /**
@@ -116,13 +118,15 @@ class UserIdentityModel extends Model
     {
         helper('text');
 
-        $this->insert([
+        $return = $this->insert([
             'type'    => 'access_token',
             'user_id' => $user->id,
             'name'    => $name,
             'secret'  => hash('sha256', $rawToken = random_string('crypto', 64)),
             'extra'   => serialize($scopes),
         ]);
+
+        $this->checkQueryReturn($return);
 
         /** @var AccessToken $token */
         $token = $this
@@ -243,35 +247,43 @@ class UserIdentityModel extends Model
     {
         $identity->last_used_at = date('Y-m-d H:i:s');
 
-        $this->save($identity);
+        $return = $this->save($identity);
+
+        $this->checkQueryReturn($return);
     }
 
     public function deleteIdentitiesByType(User $user, string $type): void
     {
-        $this->where('user_id', $user->id)
+        $return = $this->where('user_id', $user->id)
             ->where('type', $type)
             ->delete();
+
+        $this->checkQueryReturn($return);
     }
 
     /**
      * Delete any access tokens for the given raw token.
      */
-    public function revokeAccessToken(User $user, string $rawToken)
+    public function revokeAccessToken(User $user, string $rawToken): void
     {
-        return $this->where('user_id', $user->id)
+        $return = $this->where('user_id', $user->id)
             ->where('type', 'access_token')
             ->where('secret', hash('sha256', $rawToken))
             ->delete();
+
+        $this->checkQueryReturn($return);
     }
 
     /**
      * Revokes all access tokens for this user.
      */
-    public function revokeAllAccessTokens(User $user)
+    public function revokeAllAccessTokens(User $user): void
     {
-        return $this->where('user_id', $user->id)
+        $return = $this->where('user_id', $user->id)
             ->where('type', 'access_token')
             ->delete();
+
+        $this->checkQueryReturn($return);
     }
 
     public function fake(Generator &$faker): UserIdentity

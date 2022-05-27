@@ -37,23 +37,23 @@ trait HasAccessTokens
     /**
      * Delete any access tokens for the given raw token.
      */
-    public function revokeAccessToken(string $rawToken): bool
+    public function revokeAccessToken(string $rawToken): void
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->revokeAccessToken($this, $rawToken);
+        $identityModel->revokeAccessToken($this, $rawToken);
     }
 
     /**
      * Revokes all access tokens for this user.
      */
-    public function revokeAllAccessTokens(): bool
+    public function revokeAllAccessTokens(): void
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->revokeAllAccessTokens($this);
+        $identityModel->revokeAllAccessTokens($this);
     }
 
     /**

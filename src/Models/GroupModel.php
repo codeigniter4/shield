@@ -7,6 +7,8 @@ use CodeIgniter\Shield\Entities\User;
 
 class GroupModel extends Model
 {
+    use CheckQueryReturnTrait;
+
     protected $table          = 'auth_groups_users';
     protected $primaryKey     = 'id';
     protected $returnType     = 'array';
@@ -37,9 +39,11 @@ class GroupModel extends Model
      */
     public function deleteAll($userId): void
     {
-        $this->builder()
+        $return = $this->builder()
             ->where('user_id', $userId)
             ->delete();
+
+        $this->checkQueryReturn($return);
     }
 
     /**
@@ -48,9 +52,11 @@ class GroupModel extends Model
      */
     public function deleteNotIn($userId, $cache): void
     {
-        $this->builder()
+        $return = $this->builder()
             ->where('user_id', $userId)
             ->whereNotIn('group', $cache)
             ->delete();
+
+        $this->checkQueryReturn($return);
     }
 }

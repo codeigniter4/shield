@@ -195,6 +195,8 @@ class UserModel extends Model
      * fields if they've been modified.
      *
      * @param array|User $data
+     *
+     * @TODO can't change the return type to void.
      */
     public function save($data): bool
     {
