@@ -10,10 +10,9 @@ use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Auth;
 
 /**
- * Chain Authentication Filter.
+ * Auth Rate-Limiting Filter.
  *
- * Checks all authentication systems specified within
- * `Config\Auth->authenticationChain`
+ * Provides rated limiting intended for Auth routes.
  */
 class AuthRates implements FilterInterface
 {
