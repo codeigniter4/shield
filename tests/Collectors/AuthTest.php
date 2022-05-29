@@ -19,19 +19,20 @@ final class AuthTest extends TestCase
     protected $namespace;
     protected $refresh = true;
     private User $user;
+    private Auth $collector;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->user = fake(UserModel::class, ['username' => 'John Smith']);
+
+        $this->collector = new Auth();
     }
 
     public function testDisplayNotLoggedIn()
     {
-        $collector = new Auth();
-
-        $output = $collector->display();
+        $output = $this->collector->display();
 
         $this->assertStringContainsString('Not logged in', $output);
     }
@@ -43,12 +44,28 @@ final class AuthTest extends TestCase
         $authenticator->login($this->user);
         $this->user->addGroup('admin', 'beta');
 
-        $collector = new Auth();
-
-        $output = $collector->display();
+        $output = $this->collector->display();
 
         $this->assertStringContainsString('Current Use', $output);
         $this->assertStringContainsString('<td>Username</td><td>John Smith</td>', $output);
         $this->assertStringContainsString('<td>Groups</td><td>admin, beta</td>', $output);
+    }
+
+    public function testGetTitleDetails()
+    {
+        $output = $this->collector->getTitleDetails();
+
+        $this->assertStringContainsString('CodeIgniter\Shield\Auth', $output);
+    }
+
+    public function testGetBadgeValueReturnsUserId()
+    {
+        /** @var Session $authenticator */
+        $authenticator = service('auth')->getAuthenticator();
+        $authenticator->login($this->user);
+
+        $output = (string) $this->collector->getBadgeValue();
+
+        $this->assertStringContainsString('1', $output);
     }
 }
