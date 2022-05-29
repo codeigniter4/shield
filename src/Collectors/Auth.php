@@ -54,7 +54,7 @@ class Auth extends BaseCollector
      */
     public function getTitleDetails(): string
     {
-        return get_class(service('auth'));
+        return get_class($this->auth->getAuthenticator());
     }
 
     /**
