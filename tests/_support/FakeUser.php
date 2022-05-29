@@ -7,12 +7,9 @@ use Sparks\Shield\Models\UserModel;
 
 trait FakeUser
 {
-    /**
-     * @var User
-     */
-    private $user;
+    private User $user;
 
-    protected function setUpFakeUser()
+    protected function setUpFakeUser(): void
     {
         $this->user = fake(UserModel::class);
     }
