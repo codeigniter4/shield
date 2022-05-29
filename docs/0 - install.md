@@ -1,6 +1,6 @@
-# Installation 
+# Installation
 
-Installation is done through [Composer](https://getcomposer.org). The example assumes you have it installed globally. 
+Installation is done through [Composer](https://getcomposer.org). The example assumes you have it installed globally.
 If you have it installed as a phar, or othewise you will need to adjust the way you call composer itself.
 
 ```
@@ -8,7 +8,7 @@ If you have it installed as a phar, or othewise you will need to adjust the way 
 ```
 
 This requires the [CodeIgniter Settings](https://github.com/codeigniter4/settings) package, which uses a database
-table to store configuration options. As such, you should run the migrations. 
+table to store configuration options. As such, you should run the migrations.
 
 ```
 > php spark migrate --all
@@ -16,8 +16,8 @@ table to store configuration options. As such, you should run the migrations.
 
 ## Initial Setup
 
-There are a few setup items to do before you can start using Shield in 
-your project. 
+There are a few setup items to do before you can start using Shield in
+your project.
 
 1. Copy the `Auth.php` and  `AuthGroups.php` from `vendor/codeigniter4/shield/src/Config/` into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all of the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
 
@@ -38,7 +38,7 @@ class Auth extends ShieldAuth
 }
 ```
 
-2. **Helper Setup** The `auth` and `setting` helpers need to be included in almost every page. The simplest way to do this is to add them to the `BaseController::initController` method: 
+2. **Helper Setup** The `auth` and `setting` helpers need to be included in almost every page. The simplest way to do this is to add them to the `BaseController::initController` method:
 
 ```php
 public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
@@ -52,14 +52,14 @@ public function initController(RequestInterface $request, ResponseInterface $res
 
 This requires that all of your controllers extend the `BaseController`, but that's a good practice anyway.
 
-3. **Routes Setup** The default auth routes can be setup with a single call in `app/Config/Routes.php`: 
+3. **Routes Setup** The default auth routes can be setup with a single call in `app/Config/Routes.php`:
 
 ```php
 service('auth')->routes($routes);
 ```
 
 4. (If you are running CodeIgniter v4.2.0 or higher you can skip this step). Add the new password validation rules
-by editing `app/Config/Validation.php`: 
+by editing `app/Config/Validation.php`:
 
 ```php
 use CodeIgniter\Shield\Authentication\Passwords\ValidationRules as PasswordRules;
@@ -71,6 +71,44 @@ public $ruleSets = [
         CreditCardRules::class,
         PasswordRules::class     // <!-- add this line
     ];
+```
+
+## Controller Filters
+
+Shield provides 3 [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can
+use to protect your routes, `session`, `tokens`, and `chained`. The first two cover the `Session` and
+`AccessTokens` authenticators, respectively. The `chained` filter will check both authenticators in sequence
+to see if the user is logged in through either of authenticators, allowing a single API endpoint to
+work for both an SPA using session auth, and a mobile app using access tokens.
+
+These filters are already loaded for you by the registrar class located at `src/Config/Registrar.php`.
+
+```php
+public $aliases = [
+    // ...
+    'session'    => \CodeIgniter\Shield\Filters\SessionAuth::class,
+    'tokens'     => \CodeIgniter\Shield\Filters\TokenAuth::class,
+    'chain'      => \CodeIgniter\Shield\Filters\ChainAuth::class,
+    'auth-rates' => \CodeIgniter\Shield\Filters\AuthRates::class,
+];
+```
+
+These can be used in any of the normal filter config settings, or within the routes file.
+
+### Rate Limiting
+
+To help protect your authentication forms from being spammed by bots, it is recommended that you use
+the `auth-rates` filter on all of your authentication routes. This can be done with the following
+filter setup:
+
+```php
+public $filters = [
+    'auth-rates' => [
+        'before' => [
+            'login*', 'register', 'auth/*'
+        ]
+    ]
+];
 ```
 
 ## Further Customization
@@ -92,10 +130,10 @@ $routes->get('register', '\App\Controllers\Auth\RegisterController::registerView
 
 ### Extending the Controllers
 
-Shield has the following controllers that can be extended to handle 
-various parts of the authentication process: 
+Shield has the following controllers that can be extended to handle
+various parts of the authentication process:
 
-- **ActionController** handles the after login and after-registration actions that can be ran, like Two Factor Authentication and Email Verification. 
+- **ActionController** handles the after login and after-registration actions that can be ran, like Two Factor Authentication and Email Verification.
 
 - **LoginController** handles the login process.
 
@@ -105,7 +143,7 @@ various parts of the authentication process:
 override the message that is displayed to a user to describe what is happening, if you'd like to provide more information than simply swapping out the view used.
 
 It is not recommended to copy the entire controller into app and change it's namespace. Instead, you should create a new controller that extends
-the existing controller and then only override the methods needed. This allows the other methods to always stay up to date with any security 
+the existing controller and then only override the methods needed. This allows the other methods to always stay up to date with any security
 updates that might happen in the controllers.
 
 ```php
@@ -119,7 +157,7 @@ class LoginController extends ShieldLogin
 {
     public function logoutAction()
     {
-        // new functionality 
+        // new functionality
     }
 }
 ```

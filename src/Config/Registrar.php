@@ -20,7 +20,7 @@ class Registrar
                 'session'    => SessionAuth::class,
                 'tokens'     => TokenAuth::class,
                 'chain'      => ChainAuth::class,
-                'auth-limit' => AuthRates::class,
+                'auth-rates' => AuthRates::class,
             ],
         ];
     }
