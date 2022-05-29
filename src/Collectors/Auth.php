@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Collectors;
 
 use CodeIgniter\Debug\Toolbar\Collectors\BaseCollector;
+use CodeIgniter\Shield\Auth as ShieldAuth;
 
 /**
  * Debug Toolbar Collector for Auth
@@ -41,7 +42,12 @@ class Auth extends BaseCollector
      */
     protected $title = 'Auth';
 
-    //--------------------------------------------------------------------
+    private ShieldAuth $auth;
+
+    public function __construct()
+    {
+        $this->auth = service('auth');
+    }
 
     /**
      * Returns any information that should be shown next to the title.
@@ -56,11 +62,8 @@ class Auth extends BaseCollector
      */
     public function display(): string
     {
-        /** @var \CodeIgniter\Shield\Auth $auth */
-        $auth = service('auth');
-
-        if ($auth->loggedIn()) {
-            $user   = $auth->user();
+        if ($this->auth->loggedIn()) {
+            $user   = $this->auth->user();
             $groups = $user->getGroups();
 
             $groupsForUser = implode(', ', $groups);
@@ -86,10 +89,7 @@ class Auth extends BaseCollector
      */
     public function getBadgeValue()
     {
-        /** @var \CodeIgniter\Shield\Auth $auth */
-        $auth = service('auth');
-
-        return $auth->loggedIn() ? $auth->id() : null;
+        return $this->auth->loggedIn() ? $this->auth->id() : null;
     }
 
     /**
