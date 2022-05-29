@@ -82,11 +82,14 @@ class Auth extends BaseCollector
     /**
      * Gets the "badge" value for the button.
      *
-     * @return int|null ID of the current User, or null when not logged in
+     * @return int|string|null ID of the current User, or null when not logged in
      */
-    public function getBadgeValue(): ?int
+    public function getBadgeValue()
     {
-        return service('auth')->loggedIn() ? service('auth')->id() : null;
+        /** @var \CodeIgniter\Shield\Auth $auth */
+        $auth = service('auth');
+
+        return $auth->loggedIn() ? $auth->id() : null;
     }
 
     /**
