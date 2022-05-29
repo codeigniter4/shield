@@ -63,7 +63,7 @@ class CreateAuthTables extends Migration
             'success'    => ['type' => 'tinyint', 'constraint' => 1],
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addKey('identifier');
+        $this->forge->addKey(['id_type', 'identifier']);
         $this->forge->addKey('user_id');
         // NOTE: Do NOT delete the user_id or identifier when the user is deleted for security audits
         $this->forge->createTable('auth_logins', true);
@@ -82,7 +82,7 @@ class CreateAuthTables extends Migration
             'success'    => ['type' => 'tinyint', 'constraint' => 1],
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addKey('identifier');
+        $this->forge->addKey(['id_type', 'identifier']);
         $this->forge->addKey('user_id');
         // NOTE: Do NOT delete the user_id or identifier when the user is deleted for security audits
         $this->forge->createTable('auth_token_logins', true);
