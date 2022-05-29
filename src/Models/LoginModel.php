@@ -4,6 +4,7 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User;
 use Exception;
@@ -87,7 +88,7 @@ class LoginModel extends Model
     {
         return new Login([
             'ip_address' => $faker->ipv4,
-            'id_type'    => 'email',
+            'id_type'    => Session::ID_TYPE_EMAIL_PASSWORD,
             'identifier' => $faker->email,
             'user_id'    => null,
             'date'       => Time::parse('-1 day')->toDateTimeString(),
