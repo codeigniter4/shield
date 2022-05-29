@@ -55,7 +55,7 @@ final class AuthTest extends TestCase
     {
         $output = $this->collector->getTitleDetails();
 
-        $this->assertStringContainsString('CodeIgniter\Shield\Auth', $output);
+        $this->assertStringContainsString(Session::class, $output);
     }
 
     public function testGetBadgeValueReturnsUserId()
