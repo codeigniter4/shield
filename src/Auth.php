@@ -31,7 +31,6 @@ class Auth
      */
     protected ?string $alias = null;
 
-    protected ?User $user              = null;
     protected ?UserModel $userProvider = null;
 
     public function __construct(Authentication $authenticate)
@@ -86,15 +85,9 @@ class Auth
 
     public function authenticate(array $credentials): Result
     {
-        $response = $this->authenticate
+        return $this->authenticate
             ->factory($this->alias)
             ->attempt($credentials);
-
-        if ($response->isOk()) {
-            $this->user = $response->extraInfo();
-        }
-
-        return $response;
     }
 
     /**
