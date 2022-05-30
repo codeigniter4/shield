@@ -33,8 +33,6 @@ class AccessTokens implements AuthenticatorInterface
 
     public function __construct($provider)
     {
-        helper('session');
-
         $this->provider = $provider;
 
         $this->loginModel = model(LoginModel::class); // @phpstan-ignore-line
