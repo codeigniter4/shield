@@ -13,7 +13,7 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
 
 class EmailActivator implements ActionInterface
 {
-    private string $type = 'email_activate';
+    private string $type = Session::ID_TYPE_EMAIL_ACTIVATE;
 
     /**
      * Shows the initial screen to the user telling them

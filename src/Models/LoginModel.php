@@ -4,6 +4,7 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User;
 use Exception;
@@ -20,6 +21,7 @@ class LoginModel extends Model
     protected $allowedFields  = [
         'ip_address',
         'user_agent',
+        'id_type',
         'identifier',
         'user_id',
         'date',
@@ -28,7 +30,8 @@ class LoginModel extends Model
     protected $useTimestamps   = false;
     protected $validationRules = [
         'ip_address' => 'required',
-        'identifier' => 'required',
+        'id_type'    => 'required',
+        'identifier' => 'permit_empty|string',
         'user_agent' => 'permit_empty|string',
         'user_id'    => 'permit_empty|integer',
         'date'       => 'required|valid_date',
@@ -37,9 +40,15 @@ class LoginModel extends Model
     protected $skipValidation     = false;
 
     /**
+     * Records login attempt.
+     *
+     * @param string          $idType Identifier type. See const ID_YPE_* in Authenticator.
+     *                                auth_logins: 'email_password'|'username'|'magic-link'
+     *                                auth_token_logins: 'access-token'
      * @param int|string|null $userId
      */
     public function recordLoginAttempt(
+        string $idType,
         string $identifier,
         bool $success,
         ?string $ipAddress = null,
@@ -49,6 +58,7 @@ class LoginModel extends Model
         $return = $this->insert([
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent,
+            'id_type'    => $idType,
             'identifier' => $identifier,
             'user_id'    => $userId,
             'date'       => date('Y-m-d H:i:s'),
@@ -78,6 +88,7 @@ class LoginModel extends Model
     {
         return new Login([
             'ip_address' => $faker->ipv4,
+            'id_type'    => Session::ID_TYPE_EMAIL_PASSWORD,
             'identifier' => $faker->email,
             'user_id'    => null,
             'date'       => Time::parse('-1 day')->toDateTimeString(),

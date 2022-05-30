@@ -25,10 +25,20 @@ use stdClass;
 
 class Session implements AuthenticatorInterface
 {
-    private const STATE_UNKNOWN   = 0;
-    private const STATE_ANONYMOUS = 1;
-    private const STATE_PENDING   = 2;
-    private const STATE_LOGGED_IN = 3;
+    /**
+     * @var string Special ID Type.
+     *             `username` is stored in `users` table, so no `auth_identities` record.
+     */
+    public const ID_TYPE_USERNAME = 'username';
+
+    public const ID_TYPE_EMAIL_PASSWORD = 'email_password';
+    public const ID_TYPE_MAGIC_LINK     = 'magic-link';
+    public const ID_TYPE_EMAIL_2FA      = 'email_2fa';
+    public const ID_TYPE_EMAIL_ACTIVATE = 'email_activate';
+    private const STATE_UNKNOWN         = 0;
+    private const STATE_ANONYMOUS       = 1;
+    private const STATE_PENDING         = 2;
+    private const STATE_LOGGED_IN       = 3;
 
     /**
      * The persistence engine
@@ -239,7 +249,12 @@ class Session implements AuthenticatorInterface
         string $userAgent,
         $userId = null
     ): void {
+        $idType = (! isset($credentials['email']) && isset($credentials['username']))
+            ? self::ID_TYPE_USERNAME
+            : self::ID_TYPE_EMAIL_PASSWORD;
+
         $this->loginModel->recordLoginAttempt(
+            $idType,
             $credentials['email'] ?? $credentials['username'],
             $success,
             $ipAddress,

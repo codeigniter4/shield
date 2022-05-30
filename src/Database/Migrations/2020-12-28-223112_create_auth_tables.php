@@ -57,13 +57,14 @@ class CreateAuthTables extends Migration
             'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'ip_address' => ['type' => 'varchar', 'constraint' => 255],
             'user_agent' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'id_type'    => ['type' => 'varchar', 'constraint' => 255],
             'identifier' => ['type' => 'varchar', 'constraint' => 255],
             'user_id'    => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true], // Only for successful logins
             'date'       => ['type' => 'datetime'],
             'success'    => ['type' => 'tinyint', 'constraint' => 1],
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addKey('identifier');
+        $this->forge->addKey(['id_type', 'identifier']);
         $this->forge->addKey('user_id');
         // NOTE: Do NOT delete the user_id or identifier when the user is deleted for security audits
         $this->forge->createTable('auth_logins', true);
@@ -76,13 +77,14 @@ class CreateAuthTables extends Migration
             'id'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'ip_address' => ['type' => 'varchar', 'constraint' => 255],
             'user_agent' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'id_type'    => ['type' => 'varchar', 'constraint' => 255],
             'identifier' => ['type' => 'varchar', 'constraint' => 255],
             'user_id'    => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true], // Only for successful logins
             'date'       => ['type' => 'datetime'],
             'success'    => ['type' => 'tinyint', 'constraint' => 1],
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addKey('identifier');
+        $this->forge->addKey(['id_type', 'identifier']);
         $this->forge->addKey('user_id');
         // NOTE: Do NOT delete the user_id or identifier when the user is deleted for security audits
         $this->forge->createTable('auth_token_logins', true);

@@ -62,7 +62,7 @@ class MagicLinkController extends BaseController
         $identityModel = model(UserIdentityModel::class);
 
         // Delete any previous magic-link identities
-        $identityModel->deleteIdentitiesByType($user, 'magic-link');
+        $identityModel->deleteIdentitiesByType($user, Session::ID_TYPE_MAGIC_LINK);
 
         // Generate the code and save it as an identity
         helper('text');
@@ -70,7 +70,7 @@ class MagicLinkController extends BaseController
 
         $identityModel->insert([
             'user_id' => $user->id,
-            'type'    => 'magic-link',
+            'type'    => Session::ID_TYPE_MAGIC_LINK,
             'secret'  => $token,
             'expires' => Time::now()->addSeconds(setting('Auth.magicLinkLifetime'))->toDateTimeString(),
         ]);
@@ -105,9 +105,9 @@ class MagicLinkController extends BaseController
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        $identity = $identityModel->getIdentityBySecret('magic-link', $token);
+        $identity = $identityModel->getIdentityBySecret(Session::ID_TYPE_MAGIC_LINK, $token);
 
-        $identifier = 'magic-link: ' . $token;
+        $identifier = $token ?? '';
 
         // No token found?
         if ($identity === null) {
@@ -158,6 +158,7 @@ class MagicLinkController extends BaseController
         $loginModel = model(LoginModel::class);
 
         $loginModel->recordLoginAttempt(
+            Session::ID_TYPE_MAGIC_LINK,
             $identifier,
             $success,
             $this->request->getIPAddress(),

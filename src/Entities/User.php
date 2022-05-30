@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Entities;
 
 use CodeIgniter\Entity\Entity;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Traits\HasAccessTokens;
 use CodeIgniter\Shield\Authorization\Traits\Authorizable;
 use CodeIgniter\Shield\Models\LoginModel;
@@ -47,7 +48,8 @@ class User extends Entity
     /**
      * Returns the first identity of the given $type for this user.
      *
-     * @param string $type 'email_2fa'|'email_activate'|'email_password'|'magic-link'
+     * @param string $type See const ID_TYPE_* in Authenticator.
+     *                     'email_2fa'|'email_activate'|'email_password'|'magic-link'|'access_token'
      */
     public function getIdentity(string $type): ?UserIdentity
     {
@@ -116,7 +118,7 @@ class User extends Entity
      */
     public function getEmailIdentity(): ?UserIdentity
     {
-        return $this->getIdentity('email_password');
+        return $this->getIdentity(Session::ID_TYPE_EMAIL_PASSWORD);
     }
 
     /**

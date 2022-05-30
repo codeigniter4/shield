@@ -16,7 +16,7 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
  */
 class Email2FA implements ActionInterface
 {
-    private string $type = 'email_2fa';
+    private string $type = Session::ID_TYPE_EMAIL_2FA;
 
     /**
      * Displays the "Hey we're going to send you a number to your email"
