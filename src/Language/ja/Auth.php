@@ -15,6 +15,7 @@ return [
     'oldToken'             => 'アクセストークンの有効期限が切れています。', // 'The access token has expired.',
     'noUserEntity'         => 'パスワード検証のため、Userエンティティを指定する必要があります。', // 'User Entity must be provided for password validation.',
     'invalidEmail'         => 'メールアドレスが一致しません。', // 'Unable to verify the email address matches the email on record.',
+    'throttled'            => 'このIPアドレスからのリクエストが多すぎます。 {0}秒後に再試行できます。', // Too many requests made from this IP address. You may try again in {0} seconds.
 
     'email'           => 'メールアドレス', // 'Email Address',
     'username'        => 'ユーザー名', // 'Username',

@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Config;
 
 use CodeIgniter\Shield\Authentication\Passwords\ValidationRules as PasswordRules;
+use CodeIgniter\Shield\Filters\AuthRates;
 use CodeIgniter\Shield\Filters\ChainAuth;
 use CodeIgniter\Shield\Filters\SessionAuth;
 use CodeIgniter\Shield\Filters\TokenAuth;
@@ -16,9 +17,10 @@ class Registrar
     {
         return [
             'aliases' => [
-                'session' => SessionAuth::class,
-                'tokens'  => TokenAuth::class,
-                'chain'   => ChainAuth::class,
+                'session'    => SessionAuth::class,
+                'tokens'     => TokenAuth::class,
+                'chain'      => ChainAuth::class,
+                'auth-rates' => AuthRates::class,
             ],
         ];
     }
