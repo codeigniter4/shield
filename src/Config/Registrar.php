@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Config;
 
 use CodeIgniter\Shield\Authentication\Passwords\ValidationRules as PasswordRules;
+use CodeIgniter\Shield\Collectors\Auth;
 use CodeIgniter\Shield\Filters\AuthRates;
 use CodeIgniter\Shield\Filters\ChainAuth;
 use CodeIgniter\Shield\Filters\SessionAuth;
@@ -34,6 +35,15 @@ class Registrar
             'users' => [
                 'email'    => 'required|valid_email|unique_email[{id}]',
                 'username' => 'required|string|is_unique[users.username,id,{id}]',
+            ],
+        ];
+    }
+
+    public static function Toolbar(): array
+    {
+        return [
+            'collectors' => [
+                Auth::class,
             ],
         ];
     }
