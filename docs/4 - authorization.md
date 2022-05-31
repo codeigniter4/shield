@@ -1,8 +1,11 @@
 # Authorization
 
-Shield provides a flexible role-based access control that allows users to belong to multiple groups at once. 
+Authorization happens once a user has been identified through authentication. It is the process of
+determining what actions a user is allowed to do within your site.
+
+Shield provides a flexible role-based access control (RBAC) that allows users to belong to multiple groups at once.
 Groups can be thought of as traditional roles (admin, moderator, user, etc), but can also group people together
-around features, like Beta feature access, or used to provide discrete groups of users within a forum, etc. 
+around features, like Beta feature access, or used to provide discrete groups of users within a forum, etc.
 
 ## Defining Available Groups
 
@@ -19,7 +22,7 @@ public $groups = [
 ```
 
 The key of the `$groups` array is the common term of the group. This is what you would call when referencing the
-group elsewhere, like checking if `$user->inGroup('superadmin')`. By default, the following groups are available: 
+group elsewhere, like checking if `$user->inGroup('superadmin')`. By default, the following groups are available:
 `superadmin`, `admin`, `developer`, `user`, and `beta`.
 
 ### Default User Group
@@ -35,7 +38,7 @@ public $defaultGroup = 'users';
 
 All permissions must be added to the `AuthGroups` config file, also. A permission is simply a string consisting of
 a scope and action, like `users.create`. The scope would be `users` and the action would be `create`. Each permission
-can have a description for display within UIs if needed. 
+can have a description for display within UIs if needed.
 
 ```php
 public $permissions = [
@@ -53,7 +56,7 @@ public $permissions = [
 
 In order to grant any permissions to a group, they must have the permission assigned to the group, within the `AuthGroups`
 config file, under the `$matrix` property. The matrix is an associative array with the group name as the key,
-and array of permissions that should be applied to that group.
+and an array of permissions that should be applied to that group.
 
 ```php
 public $matrix = [
@@ -61,7 +64,7 @@ public $matrix = [
 ];
 ```
 
-You can use a wildcard within a scope to allow all actions within that scope, by using a '*' in place of the action. 
+You can use a wildcard within a scope to allow all actions within that scope, by using a `*` in place of the action.
 
 ```php
 public $matrix = [
@@ -71,17 +74,17 @@ public $matrix = [
 
 ## Authorizing Users
 
-When the `Authorization` trait is applied to the user model, it provides the following methods to authorize your users. 
+When the `Authorizable` trait on the `User` entity provides the following methods to authorize your users.
 
 #### can()
 
-Allows you to check if a user is permitted to do a specific action. The only argument is the permission string. Returns 
+Allows you to check if a user is permitted to do a specific action. The only argument is the permission string. Returns
 boolean `true`/`false`. Will check the user's direct permissions first, and then check against all of the user's groups
 permissions to determine if they are allowed.
 
 ```php
 if ($user->can('users.create')) {
-    // 
+    //
 }
 ```
 
@@ -97,15 +100,15 @@ if (! $user->inGroup('superadmin', 'admin')) {
 
 ## Managing User Permissions
 
-Permissions can be granted on a user level as well as on a group level. Any user-level permissions granted will 
+Permissions can be granted on a user level as well as on a group level. Any user-level permissions granted will
 override the group, so it's possible that a user can perform an action that their groups cannot.
 
 None of the changes are saved on the User entity until you `save()` with the `UserModel`.
 
 #### addPermission()
 
-Adds one or more permissions to the user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException` 
-is thrown. 
+Adds one or more permissions to the user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
+is thrown.
 
 ```php
 $user->addPermission('users.create', 'users.edit');
@@ -114,7 +117,7 @@ $user->addPermission('users.create', 'users.edit');
 #### removePermission()
 
 Removes one or more permissions from a user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
-is thrown. 
+is thrown.
 
 ```php
 $user->removePermission('users.delete');
@@ -134,7 +137,7 @@ $user->syncPermissions(['admin.access', 'beta.access']);
 #### addGroup()
 
 Adds one or more groups to a user. If a group doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
-is thrown. 
+is thrown.
 
 ```php
 $user->addGroup('admin', 'beta');

@@ -1,5 +1,8 @@
 # Installation
 
+These instructions assume that you have already [installed the CodeIgniter 4 app starter](https://codeigniter.com/user_guide/installation/installing_composer.html) as the basis for your new project, that you have setup your `.env` file and created a database, and can access
+it via the Spark CLI script.
+
 Installation is done through [Composer](https://getcomposer.org). The example assumes you have it installed globally.
 If you have it installed as a phar, or othewise you will need to adjust the way you call composer itself.
 
@@ -75,11 +78,12 @@ public $ruleSets = [
 
 ## Controller Filters
 
-Shield provides 3 [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can
+Shield provides 4 [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can
 use to protect your routes, `session`, `tokens`, and `chained`. The first two cover the `Session` and
 `AccessTokens` authenticators, respectively. The `chained` filter will check both authenticators in sequence
 to see if the user is logged in through either of authenticators, allowing a single API endpoint to
-work for both an SPA using session auth, and a mobile app using access tokens.
+work for both an SPA using session auth, and a mobile app using access tokens. The fourth, `auth-rates`,
+provides a good basis for rate limiting of auth-related routes.
 
 These filters are already loaded for you by the registrar class located at `src/Config/Registrar.php`.
 
@@ -109,55 +113,4 @@ public $filters = [
         ]
     ]
 ];
-```
-
-## Further Customization
-
-### Route Configuration
-
-If you need to customize how any of the auth features are handled, you will likely need to update the routes to point to the correct controllers. You can still use the `service('auth')->routes()` helper, but you will need to pass the `except` option with a list of routes to customize:
-
-```php
-service('auth')->routes($routes, ['except' => ['login', 'register']]);
-```
-
-Then add the routes to your customized controllers:
-
-```php
-$routes->get('login', '\App\Controllers\Auth\LoginController::loginView');
-$routes->get('register', '\App\Controllers\Auth\RegisterController::registerView');
-```
-
-### Extending the Controllers
-
-Shield has the following controllers that can be extended to handle
-various parts of the authentication process:
-
-- **ActionController** handles the after login and after-registration actions that can be ran, like Two Factor Authentication and Email Verification.
-
-- **LoginController** handles the login process.
-
-- **RegisterController** handles the registration process. Overriding this class allows you to customize the User Provider, the User Entity, and the validation rules.
-
-- **MagicLinkController** handles the "lost password" process that allows a user to login with a link sent to their email. Allows you to
-override the message that is displayed to a user to describe what is happening, if you'd like to provide more information than simply swapping out the view used.
-
-It is not recommended to copy the entire controller into app and change it's namespace. Instead, you should create a new controller that extends
-the existing controller and then only override the methods needed. This allows the other methods to always stay up to date with any security
-updates that might happen in the controllers.
-
-```php
-<?php
-
-namespace App\Controllers;
-
-use CodeIgniter\Shield\Controllers\LoginController as ShieldLogin;
-
-class LoginController extends ShieldLogin
-{
-    public function logoutAction()
-    {
-        // new functionality
-    }
-}
 ```
