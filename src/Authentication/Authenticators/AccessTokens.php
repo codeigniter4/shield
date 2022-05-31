@@ -197,14 +197,6 @@ class AccessTokens implements AuthenticatorInterface
     }
 
     /**
-     * Removes any remember-me tokens, if applicable.
-     */
-    public function forget(?int $id): void
-    {
-        // Nothing to do here...
-    }
-
-    /**
      * Returns the currently logged in user.
      */
     public function getUser(): ?User
