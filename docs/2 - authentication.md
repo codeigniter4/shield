@@ -2,7 +2,7 @@
 
 Authentication is the process of determining that a visitor actually belongs to your website,
 and identifying them. Shield provides a flexible and secure authentication system for your
-web apps and API's.
+web apps and APIs.
 
 ## Available Authenticators
 

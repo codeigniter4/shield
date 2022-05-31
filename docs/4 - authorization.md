@@ -74,7 +74,7 @@ public $matrix = [
 
 ## Authorizing Users
 
-When the `Authorizable` trait on the `User` entity provides the following methods to authorize your users.
+The `Authorizable` trait on the `User` entity provides the following methods to authorize your users.
 
 #### can()
 

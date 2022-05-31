@@ -1,7 +1,6 @@
 # Installation
 
-These instructions assume that you have already [installed the CodeIgniter 4 app starter](https://codeigniter.com/user_guide/installation/installing_composer.html) as the basis for your new project, that you have setup your `.env` file and created a database, and can access
-it via the Spark CLI script.
+These instructions assume that you have already [installed the CodeIgniter 4 app starter](https://codeigniter.com/user_guide/installation/installing_composer.html) as the basis for your new project, set up your `.env` file, and created a database that you can access via the Spark CLI script.
 
 Installation is done through [Composer](https://getcomposer.org). The example assumes you have it installed globally.
 If you have it installed as a phar, or othewise you will need to adjust the way you call composer itself.

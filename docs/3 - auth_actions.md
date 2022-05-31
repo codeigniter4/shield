@@ -73,4 +73,4 @@ and provides feedback. In the `Email2FA` class, it verifies the code against wha
 database and either sends them back to the previous form to try again or redirects the user to the
 page that a `login` task would have redirected them to anyway.
 
-All methods should return either a `RedirectResponse` or string of a view, like through the `view()` method.
+All methods should return either a `RedirectResponse` or a view string (e.g. using the `view()` function).

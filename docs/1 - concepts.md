@@ -17,7 +17,7 @@ on the standard Config class if nothing is found in the database.
 
 ## User Providers
 
-You can use your own models to handle user persistence. Shield calls this class the `User Provider` class. A default model
+You can use your own models to handle user persistence. Shield calls this the "User Provider" class. A default model
 is provided for you at `CodeIgniter\Shield\Models\UserModel`. You can change this in the `Config\Auth->userProvider` setting.
 The only requirement is that your new class MUST extend the provided `UserModel`.
 
@@ -31,11 +31,10 @@ User accounts are stored separately from the information needed to identify that
 called User Identities. By default, the library has two types of identities: one for standard email/password information,
 and one for access tokens.
 
-By keeping the identity information loosely coupled from the user account itself, it frees the system up to more easily
-integrate third-party sign-in systems, JWT systems, and more, all on a single user.
+Keeping these identities loosely coupled from the user account itself facilitates integrations with third-party sign-in systems, JWT systems, and more - all on a single user.
 
 While this has the potential to make the system more complex, the `email` and `password` fields are automatically
-looked up for you when attempting to access from the User entity. Caution should be used to craft queries that will pull
+looked up for you when attempting to access them from the User entity. Caution should be used to craft queries that will pull
 in the `email` field when you need to display it to the user, as you could easily run into some n+1 slow queries otherwise.
 
 When you `save($user)` a `User` instance in the `UserModel`, the email/password identity will automatically be updated.
