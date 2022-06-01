@@ -660,10 +660,10 @@ class Session implements AuthenticatorInterface
     /**
      * Logs the current user out.
      */
-    public function logout(): bool
+    public function logout(): void
     {
         if ($this->user === null) {
-            return true;
+            return;
         }
 
         helper('cookie');
@@ -686,11 +686,9 @@ class Session implements AuthenticatorInterface
         $this->rememberModel->purgeRememberTokens($this->user);
 
         // Trigger logout event
-        $result = Events::trigger('logout', $this->user);
+        Events::trigger('logout', $this->user);
 
         $this->user = null;
-
-        return $result;
     }
 
     /**
