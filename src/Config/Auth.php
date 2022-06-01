@@ -8,6 +8,7 @@ use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
+use CodeIgniter\Shield\Authentication\Authenticators\JWT;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords\CompositionValidator;
 use CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator;
@@ -122,6 +123,7 @@ class Auth extends BaseConfig
     public array $authenticators = [
         'tokens'  => AccessTokens::class,
         'session' => Session::class,
+        'jwt'     => JWT::class,
     ];
 
     /**
@@ -134,6 +136,7 @@ class Auth extends BaseConfig
      */
     public array $authenticatorHeader = [
         'tokens' => 'Authorization',
+        'jwt'    => 'Authorization',
     ];
 
     /**
@@ -230,6 +233,28 @@ class Auth extends BaseConfig
         'allowRemembering'   => true,
         'rememberCookieName' => 'remember',
         'rememberLength'     => 30 * DAY,
+    ];
+
+    /**
+     * --------------------------------------------------------------------
+     * JWT Authenticator Configuration
+     * --------------------------------------------------------------------
+     * These settings only apply if you are using the JWT Authenticator
+     * for authentication.
+     *
+     * - secretKey   The secret key. Needs more than 256 bits random string.
+     *               E.g., $ php -r 'echo base64_encode(random_bytes(32));'
+     * - algorithm   JWT Signing Algorithms.
+     * - timeToLive  Specifies the amount of time, in seconds, that a token is valid.
+     *
+     * @var array<string, bool|int|string>
+     */
+    public array $jwtConfig = [
+        'issuer'     => '<Issuer of the JWT>',
+        'audience'   => '<Audience of the JWT>',
+        'secretKey'  => '<Set secret randmon string like MQ4GfWut1OYZxPY9fXAIq2YP6KzTSKOGNS7dJNcRrR8=>',
+        'algorithm'  => 'HS256',
+        'timeToLive' => 1 * HOUR,
     ];
 
     /**
