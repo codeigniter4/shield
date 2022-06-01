@@ -1,22 +1,25 @@
 <?php
 
-namespace Tests\Authentication;
+namespace Tests\Authentication\Filters;
 
 use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Filters\TokenAuth;
-use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Filters\ChainAuth;
+use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
-use Tests\Support\DatabaseTestCase;
+use Tests\Support\FakeUser;
+use Tests\Support\TestCase;
 
 /**
  * @internal
  */
-final class TokenFilterTest extends DatabaseTestCase
+final class ChainFilterTest extends TestCase
 {
+    use DatabaseTestTrait;
     use FeatureTestTrait;
+    use FakeUser;
 
     protected $namespace;
 
@@ -29,13 +32,13 @@ final class TokenFilterTest extends DatabaseTestCase
         $_SESSION = [];
 
         // Register our filter
-        $filterConfig                       = config('Filters');
-        $filterConfig->aliases['tokenAuth'] = TokenAuth::class;
+        $filterConfig                   = \config('Filters');
+        $filterConfig->aliases['chain'] = ChainAuth::class;
         Factories::injectMock('filters', 'filters', $filterConfig);
 
         // Add a test route that we can visit to trigger.
-        $routes = service('routes');
-        $routes->group('/', ['filter' => 'tokenAuth'], static function ($routes) {
+        $routes = \service('routes');
+        $routes->group('/', ['filter' => 'chain'], static function ($routes) {
             $routes->get('protected-route', static function () {
                 echo 'Protected';
             });
@@ -58,11 +61,23 @@ final class TokenFilterTest extends DatabaseTestCase
         $result->assertSee('Open');
     }
 
-    public function testFilterSuccess()
+    public function testFilterSuccessSeession()
     {
-        /** @var User $user */
-        $user  = fake(UserModel::class);
-        $token = $user->generateAccessToken('foo');
+        $_SESSION['user']['id'] = $this->user->id;
+
+        $result = $this->withSession(['user' => ['id' => $this->user->id]])
+            ->get('protected-route');
+
+        $result->assertStatus(200);
+        $result->assertSee('Protected');
+
+        $this->assertSame($this->user->id, \auth()->id());
+        $this->assertSame($this->user->id, \auth()->user()->id);
+    }
+
+    public function testFilterSuccessTokens()
+    {
+        $token = $this->user->generateAccessToken('foo');
 
         $result = $this->withHeaders(['Authorization' => 'Bearer ' . $token->raw_token])
             ->get('protected-route');
@@ -70,11 +85,11 @@ final class TokenFilterTest extends DatabaseTestCase
         $result->assertStatus(200);
         $result->assertSee('Protected');
 
-        $this->assertSame($user->id, auth('tokens')->id());
-        $this->assertSame($user->id, auth('tokens')->user()->id);
+        $this->assertSame($this->user->id, \auth()->id());
+        $this->assertSame($this->user->id, \auth()->user()->id);
 
         // User should have the current token set.
-        $this->assertInstanceOf(AccessToken::class, auth('tokens')->user()->currentAccessToken());
-        $this->assertSame($token->id, auth('tokens')->user()->currentAccessToken()->id);
+        $this->assertInstanceOf(AccessToken::class, \auth('tokens')->user()->currentAccessToken());
+        $this->assertSame($token->id, \auth('tokens')->user()->currentAccessToken()->id);
     }
 }

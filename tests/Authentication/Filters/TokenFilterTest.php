@@ -1,9 +1,11 @@
 <?php
 
-namespace Tests\Authentication;
+namespace Tests\Authentication\Filters;
 
 use CodeIgniter\Config\Factories;
-use CodeIgniter\Shield\Filters\SessionAuth;
+use CodeIgniter\Shield\Entities\AccessToken;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Filters\TokenAuth;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
@@ -12,7 +14,7 @@ use Tests\Support\DatabaseTestCase;
 /**
  * @internal
  */
-final class SessionFilterTest extends DatabaseTestCase
+final class TokenFilterTest extends DatabaseTestCase
 {
     use FeatureTestTrait;
 
@@ -27,13 +29,13 @@ final class SessionFilterTest extends DatabaseTestCase
         $_SESSION = [];
 
         // Register our filter
-        $filterConfig                         = config('Filters');
-        $filterConfig->aliases['sessionAuth'] = SessionAuth::class;
+        $filterConfig                       = \config('Filters');
+        $filterConfig->aliases['tokenAuth'] = TokenAuth::class;
         Factories::injectMock('filters', 'filters', $filterConfig);
 
         // Add a test route that we can visit to trigger.
-        $routes = service('routes');
-        $routes->group('/', ['filter' => 'sessionAuth'], static function ($routes) {
+        $routes = \service('routes');
+        $routes->group('/', ['filter' => 'tokenAuth'], static function ($routes) {
             $routes->get('protected-route', static function () {
                 echo 'Protected';
             });
@@ -58,18 +60,21 @@ final class SessionFilterTest extends DatabaseTestCase
 
     public function testFilterSuccess()
     {
-        $user                   = fake(UserModel::class);
-        $_SESSION['user']['id'] = $user->id;
+        /** @var User $user */
+        $user  = \fake(UserModel::class);
+        $token = $user->generateAccessToken('foo');
 
-        $result = $this->withSession(['user' => ['id' => $user->id]])
+        $result = $this->withHeaders(['Authorization' => 'Bearer ' . $token->raw_token])
             ->get('protected-route');
 
         $result->assertStatus(200);
         $result->assertSee('Protected');
 
-        $this->assertSame($user->id, auth('session')->id());
-        $this->assertSame($user->id, auth('session')->user()->id);
-        // Last Active should have been updated
-        $this->assertNotEmpty(auth('session')->user()->last_active);
+        $this->assertSame($user->id, \auth('tokens')->id());
+        $this->assertSame($user->id, \auth('tokens')->user()->id);
+
+        // User should have the current token set.
+        $this->assertInstanceOf(AccessToken::class, \auth('tokens')->user()->currentAccessToken());
+        $this->assertSame($token->id, \auth('tokens')->user()->currentAccessToken()->id);
     }
 }
