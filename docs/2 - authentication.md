@@ -1,12 +1,14 @@
 # Authentication
 
-Shield provides a flexible, secure, authentication system for your web apps and API's.
+Authentication is the process of determining that a visitor actually belongs to your website,
+and identifying them. Shield provides a flexible and secure authentication system for your
+web apps and APIs.
 
 ## Available Authenticators
 
 Shield ships with 2 authenticators that will serve several typical situations within web app development: the
 Session authenticator, which uses username/email/password to authenticate against and stores it in the session,
-and Access Tokens authenticator which uses private access tokens passed in the headers.
+and the Access Tokens authenticator which uses private access tokens passed in the headers.
 
 The available authenticators are defined in `Config\Auth`:
 
@@ -37,9 +39,9 @@ helper('auth');
 auth()->user();
 
 // get the current user's id
-user_id()
-// or
 auth()->id()
+// or
+user_id()
 ```
 
 ## Authenticator Responses
@@ -152,6 +154,8 @@ auth()->logout();
 The `forget` method will purge all remember-me tokens for the current user, making it so they
 will not be remembered on the next visit to the site.
 
+
+
 ## Access Token Authenticator
 
 The Access Token authenticator supports the use of revoke-able API tokens without using OAuth. These are commonly
@@ -185,6 +189,7 @@ This creates the token using a cryptographically secure random string. The token
 is hashed (sha256) before saving it to the database. The method returns an instance of
 `CodeIgniters\Shield\Authentication\Entities\AccessToken`. The only time a plain text
 version of the token is available is in the `AccessToken` returned immediately after creation.
+
 **The plain text version should be displayed to the user immediately so they can copy it for
 their use.** If a user loses it, they cannot see the raw version anymore, but they can generate
 a new token to use.
@@ -236,7 +241,7 @@ Tokens will expire after a specified amount of time has passed since they have b
 By default, this is set to 1 year. You can change this value by setting the `accessTokenLifetime`
 value in the `Auth` config file. This is in seconds so that you can use the
 [time constants](https://codeigniter.com/user_guide/general/common_functions.html#time-constants)
-CodeIgniter provides.
+that CodeIgniter provides.
 
 ```php
 public $unusedTokenLifetime = YEAR;

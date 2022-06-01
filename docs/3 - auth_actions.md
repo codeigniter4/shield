@@ -51,9 +51,6 @@ Views for all of these pages are defined in the `Auth` config file, with the `$v
     ];
 ```
 
-NOTE: a session flag is set with the current action step and the user cannot continue until that
-flag has been cleared.
-
 ## Defining New Actions
 
 While the provided email-based activation and 2FA will work for many sites, others will have different
@@ -72,9 +69,8 @@ told the user would be happening. For example, in the `Email2FA` class, this met
 sends the email to the user, and then displays the form the user should enter the 6 digit code into.
 
 **verify()** is the final step in the action's journey. It verifies the information the user provided
-and provides feedback. One important task is to remove the `auth_action` field from the session so
-that a user can proceed through the site like normal. In the `Email2FA` class, it verifies the code
-against what is saved in the database and either sends them back to the previous form to try again
-or redirects the user to the page that a `login` task would have redirected them to anyway.
+and provides feedback. In the `Email2FA` class, it verifies the code against what is saved in the
+database and either sends them back to the previous form to try again or redirects the user to the
+page that a `login` task would have redirected them to anyway.
 
-All methods should return either a RedirectResponse or string of a view, like through the `view()` method.
+All methods should return either a `RedirectResponse` or a view string (e.g. using the `view()` function).
