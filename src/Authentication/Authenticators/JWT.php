@@ -108,10 +108,6 @@ class JWT implements AuthenticatorInterface
             ]);
         }
 
-        if (strpos($credentials['token'], 'Bearer') === 0) {
-            $credentials['token'] = trim(substr($credentials['token'], 6));
-        }
-
         // Check JWT
         try {
             $this->payload = $this->decodeJWT($credentials['token']);

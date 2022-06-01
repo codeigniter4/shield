@@ -37,11 +37,9 @@ class JWTAuth implements FilterInterface
         /** @var JWT $authenticator */
         $authenticator = auth('jwt')->getAuthenticator();
 
-        $result = $authenticator->attempt([
-            'token' => $request->getHeaderLine(
-                setting('Auth.authenticatorHeader')['jwt'] ?? 'Authorization'
-            ),
-        ]);
+        $token = $this->getTokenFromHeader($request);
+
+        $result = $authenticator->attempt(['token' => $token]);
 
         if (! $result->isOK()) {
             return Services::response()
@@ -54,6 +52,19 @@ class JWTAuth implements FilterInterface
         if (setting('Auth.recordActiveDate')) {
             $authenticator->recordActiveDate();
         }
+    }
+
+    private function getTokenFromHeader(RequestInterface $request): string
+    {
+        $tokenHeader = $request->getHeaderLine(
+            setting('Auth.authenticatorHeader')['jwt'] ?? 'Authorization'
+        );
+
+        if (strpos($tokenHeader, 'Bearer') === 0) {
+            return trim(substr($tokenHeader, 6));
+        }
+
+        return $tokenHeader;
     }
 
     /**
