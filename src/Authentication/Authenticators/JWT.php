@@ -33,14 +33,14 @@ class JWT implements AuthenticatorInterface
     protected UserModel $provider;
 
     protected ?User $user = null;
-    protected JWTAdapterInterface $jwtDecoder;
+    protected JWTAdapterInterface $jwtAdapter;
     protected TokenLoginModel $tokenLoginModel;
     protected ?stdClass $payload = null;
 
-    public function __construct(UserModel $provider, ?JWTAdapterInterface $jwtDecoder = null)
+    public function __construct(UserModel $provider, ?JWTAdapterInterface $jwtAdapter = null)
     {
         $this->provider   = $provider;
-        $this->jwtDecoder = $jwtDecoder ?? new FirebaseAdapter();
+        $this->jwtAdapter = $jwtAdapter ?? new FirebaseAdapter();
 
         $this->tokenLoginModel = model(TokenLoginModel::class); // @phpstan-ignore-line
     }
@@ -227,7 +227,7 @@ class JWT implements AuthenticatorInterface
      */
     public function decodeJWT(string $encodedToken): stdClass
     {
-        return $this->jwtDecoder->decode($encodedToken);
+        return $this->jwtAdapter->decode($encodedToken);
     }
 
     /**

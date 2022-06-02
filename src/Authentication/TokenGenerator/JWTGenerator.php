@@ -10,12 +10,12 @@ use CodeIgniter\Shield\Entities\User;
 class JWTGenerator
 {
     private Time $currentTime;
-    private JWTAdapterInterface $jwtGenerator;
+    private JWTAdapterInterface $jwtAdapter;
 
-    public function __construct(?Time $currentTime = null, ?JWTAdapterInterface $jwtGenerator = null)
+    public function __construct(?Time $currentTime = null, ?JWTAdapterInterface $jwtAdapter = null)
     {
-        $this->currentTime  = $currentTime ?? new Time();
-        $this->jwtGenerator = $jwtGenerator ?? new FirebaseAdapter();
+        $this->currentTime = $currentTime ?? new Time();
+        $this->jwtAdapter  = $jwtAdapter ?? new FirebaseAdapter();
     }
 
     /**
@@ -36,7 +36,7 @@ class JWTGenerator
             'exp' => $exp,                  // expiration time
         ];
 
-        return $this->jwtGenerator->generate(
+        return $this->jwtAdapter->generate(
             $payload,
             $config['secretKey'],
             $config['algorithm']
