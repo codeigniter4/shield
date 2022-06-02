@@ -2,66 +2,21 @@
 
 namespace Tests\Authentication\Filters;
 
-use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Filters\ChainAuth;
 use CodeIgniter\Test\DatabaseTestTrait;
-use CodeIgniter\Test\FeatureTestTrait;
-use Config\Services;
 use Tests\Support\FakeUser;
-use Tests\Support\TestCase;
 
 /**
  * @internal
  */
-final class ChainFilterTest extends TestCase
+final class ChainFilterTest extends AbstractFilterTest
 {
     use DatabaseTestTrait;
-    use FeatureTestTrait;
     use FakeUser;
 
-    protected $namespace;
-
-    protected function setUp(): void
-    {
-        Services::reset(true);
-
-        parent::setUp();
-
-        $_SESSION = [];
-
-        // Register our filter
-        $this->registerFilter();
-
-        // Add a test route that we can visit to trigger.
-        $this->addRoutes();
-    }
-
-    private function registerFilter(): void
-    {
-        $filterConfig = config('Filters');
-
-        $filterConfig->aliases['chain'] = ChainAuth::class;
-
-        Factories::injectMock('filters', 'filters', $filterConfig);
-    }
-
-    private function addRoutes(): void
-    {
-        $routes = service('routes');
-
-        $routes->group('/', ['filter' => 'chain'], static function ($routes) {
-            $routes->get('protected-route', static function () {
-                echo 'Protected';
-            });
-        });
-        $routes->get('open-route', static function () {
-            echo 'Open';
-        });
-        $routes->get('login', 'AuthController::login', ['as' => 'login']);
-
-        Services::injectMock('routes', $routes);
-    }
+    protected string $alias     = 'chain';
+    protected string $classname = ChainAuth::class;
 
     public function testFilterNotAuthorized(): void
     {

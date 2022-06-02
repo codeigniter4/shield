@@ -2,61 +2,19 @@
 
 namespace Tests\Authentication\Filters;
 
-use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Filters\SessionAuth;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Test\FeatureTestTrait;
-use Config\Services;
-use Tests\Support\DatabaseTestCase;
+use CodeIgniter\Test\DatabaseTestTrait;
 
 /**
  * @internal
  */
-final class SessionFilterTest extends DatabaseTestCase
+final class SessionFilterTest extends AbstractFilterTest
 {
-    use FeatureTestTrait;
+    use DatabaseTestTrait;
 
-    protected $namespace;
-
-    protected function setUp(): void
-    {
-        $_SESSION = [];
-
-        Services::reset(true);
-
-        parent::setUp();
-
-        // Register our filter
-        $this->registerFilter();
-
-        // Add a test route that we can visit to trigger.
-        $this->addRoutes();
-    }
-
-    private function registerFilter(): void
-    {
-        $filterConfig = config('Filters');
-
-        $filterConfig->aliases['sessionAuth'] = SessionAuth::class;
-
-        Factories::injectMock('filters', 'filters', $filterConfig);
-    }
-
-    private function addRoutes(): void
-    {
-        $routes = service('routes');
-
-        $routes->group('/', ['filter' => 'sessionAuth'], static function ($routes): void {
-            $routes->get('protected-route', static function (): void {
-                echo 'Protected';
-            });
-        });
-        $routes->get('open-route', static function (): void {
-            echo 'Open';
-        });
-        $routes->get('login', 'AuthController::login', ['as' => 'login']);
-        Services::injectMock('routes', $routes);
-    }
+    protected string $alias     = 'sessionAuth';
+    protected string $classname = SessionAuth::class;
 
     public function testFilterNotAuthorized(): void
     {
