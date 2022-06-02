@@ -252,7 +252,7 @@ class Auth extends BaseConfig
     public array $jwtConfig = [
         'issuer'     => '<Issuer of the JWT>',
         'audience'   => '<Audience of the JWT>',
-        'secretKey'  => '<Set secret randmon string like MQ4GfWut1OYZxPY9fXAIq2YP6KzTSKOGNS7dJNcRrR8=>',
+        'secretKey'  => '<Set secret random string like MQ4GfWut1OYZxPY9fXAIq2YP6KzTSKOGNS7dJNcRrR8=>',
         'algorithm'  => 'HS256',
         'timeToLive' => 1 * HOUR,
     ];
