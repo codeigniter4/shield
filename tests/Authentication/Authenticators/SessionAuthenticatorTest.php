@@ -34,7 +34,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $config = new Auth();
         $auth   = new Authentication($config);
-        $auth->setProvider(\model(UserModel::class)); // @phpstan-ignore-line
+        $auth->setProvider(model(UserModel::class)); // @phpstan-ignore-line
 
         /** @var Session $authenticator */
         $authenticator = $auth->factory('session');
@@ -70,7 +70,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         // Insert remember-me token.
         /** @var RememberModel $rememberModel */
-        $rememberModel = \model(RememberModel::class);
+        $rememberModel = model(RememberModel::class);
         $selector      = 'selector';
         $validator     = 'validator';
         $expires       = date('Y-m-d H:i:s', time() + setting('Auth.sessionConfig')['rememberLength']);
@@ -114,7 +114,7 @@ final class SessionAuthenticatorTest extends TestCase
         ]);
 
         // Cookie should have been set
-        $response = \service('response');
+        $response = service('response');
         $this->assertNotNull($response->getCookie('remember'));
     }
 
@@ -134,7 +134,7 @@ final class SessionAuthenticatorTest extends TestCase
     public function testLoginByIdBadUser()
     {
         $this->expectException(AuthenticationException::class);
-        $this->expectExceptionMessage(\lang('Auth.invalidUser'));
+        $this->expectExceptionMessage(lang('Auth.invalidUser'));
 
         $this->auth->loginById(123);
     }
@@ -176,7 +176,7 @@ final class SessionAuthenticatorTest extends TestCase
 
     public function testForgetAnotherUser()
     {
-        \fake(RememberModel::class, ['user_id' => $this->user->id]);
+        fake(RememberModel::class, ['user_id' => $this->user->id]);
 
         $this->seeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
 
@@ -193,7 +193,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
-        $this->assertSame(\lang('Auth.badAttempt'), $result->reason());
+        $this->assertSame(lang('Auth.badAttempt'), $result->reason());
     }
 
     public function testCheckCannotFindUser()
@@ -205,7 +205,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
-        $this->assertSame(\lang('Auth.badAttempt'), $result->reason());
+        $this->assertSame(lang('Auth.badAttempt'), $result->reason());
     }
 
     public function testCheckBadPassword()
@@ -222,7 +222,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
-        $this->assertSame(\lang('Auth.invalidPassword'), $result->reason());
+        $this->assertSame(lang('Auth.invalidPassword'), $result->reason());
     }
 
     public function testCheckSuccess()
@@ -253,7 +253,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
-        $this->assertSame(\lang('Auth.badAttempt'), $result->reason());
+        $this->assertSame(lang('Auth.badAttempt'), $result->reason());
 
         // A login attempt should have always been recorded
         $this->seeInDatabase('auth_logins', [
@@ -325,7 +325,7 @@ final class SessionAuthenticatorTest extends TestCase
     public function testAttemptUsernameOnly()
     {
         /** @var User $user */
-        $user = \fake(UserModel::class, ['username' => 'foorog']);
+        $user = fake(UserModel::class, ['username' => 'foorog']);
         $user->createEmailIdentity([
             'email'    => 'FOO@example.com',
             'password' => 'secret123',

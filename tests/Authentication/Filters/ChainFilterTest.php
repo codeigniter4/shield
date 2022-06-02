@@ -32,12 +32,12 @@ final class ChainFilterTest extends TestCase
         $_SESSION = [];
 
         // Register our filter
-        $filterConfig                   = \config('Filters');
+        $filterConfig                   = config('Filters');
         $filterConfig->aliases['chain'] = ChainAuth::class;
         Factories::injectMock('filters', 'filters', $filterConfig);
 
         // Add a test route that we can visit to trigger.
-        $routes = \service('routes');
+        $routes = service('routes');
         $routes->group('/', ['filter' => 'chain'], static function ($routes) {
             $routes->get('protected-route', static function () {
                 echo 'Protected';
@@ -71,8 +71,8 @@ final class ChainFilterTest extends TestCase
         $result->assertStatus(200);
         $result->assertSee('Protected');
 
-        $this->assertSame($this->user->id, \auth()->id());
-        $this->assertSame($this->user->id, \auth()->user()->id);
+        $this->assertSame($this->user->id, auth()->id());
+        $this->assertSame($this->user->id, auth()->user()->id);
     }
 
     public function testFilterSuccessTokens()
@@ -85,11 +85,11 @@ final class ChainFilterTest extends TestCase
         $result->assertStatus(200);
         $result->assertSee('Protected');
 
-        $this->assertSame($this->user->id, \auth()->id());
-        $this->assertSame($this->user->id, \auth()->user()->id);
+        $this->assertSame($this->user->id, auth()->id());
+        $this->assertSame($this->user->id, auth()->user()->id);
 
         // User should have the current token set.
-        $this->assertInstanceOf(AccessToken::class, \auth('tokens')->user()->currentAccessToken());
-        $this->assertSame($token->id, \auth('tokens')->user()->currentAccessToken()->id);
+        $this->assertInstanceOf(AccessToken::class, auth('tokens')->user()->currentAccessToken());
+        $this->assertSame($token->id, auth('tokens')->user()->currentAccessToken()->id);
     }
 }

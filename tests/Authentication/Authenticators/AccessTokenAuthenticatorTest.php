@@ -28,7 +28,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 
         $config = new Auth();
         $auth   = new Authentication($config);
-        $auth->setProvider(\model(UserModel::class)); // @phpstan-ignore-line
+        $auth->setProvider(model(UserModel::class)); // @phpstan-ignore-line
 
         /** @var AccessTokens $authenticator */
         $authenticator = $auth->factory('tokens');
@@ -39,7 +39,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 
     public function testLogin()
     {
-        $user = \fake(UserModel::class);
+        $user = fake(UserModel::class);
 
         $this->auth->login($user);
 
@@ -51,7 +51,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
     public function testLogout()
     {
         // this one's a little odd since it's stateless, but roll with it...
-        $user = \fake(UserModel::class);
+        $user = fake(UserModel::class);
 
         $this->auth->login($user);
         $this->assertNotNull($this->auth->getUser());
@@ -62,7 +62,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 
     public function testLoginByIdNoToken()
     {
-        $user = \fake(UserModel::class);
+        $user = fake(UserModel::class);
 
         $this->assertFalse($this->auth->loggedIn());
 
@@ -75,7 +75,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
     public function testLoginByIdWithToken()
     {
         /** @var User $user */
-        $user  = \fake(UserModel::class);
+        $user  = fake(UserModel::class);
         $token = $user->generateAccessToken('foo');
 
         $this->setRequestHeader($token->raw_token);
@@ -90,7 +90,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
     public function testLoginByIdWithMultipleTokens()
     {
         /** @var User $user */
-        $user   = \fake(UserModel::class);
+        $user   = fake(UserModel::class);
         $token1 = $user->generateAccessToken('foo');
         $user->generateAccessToken('bar');
 
@@ -108,7 +108,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $result = $this->auth->check([]);
 
         $this->assertFalse($result->isOK());
-        $this->assertSame(\lang('Auth.noToken'), $result->reason());
+        $this->assertSame(lang('Auth.noToken'), $result->reason());
     }
 
     public function testCheckBadToken()
@@ -116,15 +116,15 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $result = $this->auth->check(['token' => 'abc123']);
 
         $this->assertFalse($result->isOK());
-        $this->assertSame(\lang('Auth.badToken'), $result->reason());
+        $this->assertSame(lang('Auth.badToken'), $result->reason());
     }
 
     public function testCheckOldToken()
     {
         /** @var User $user */
-        $user = \fake(UserModel::class);
+        $user = fake(UserModel::class);
         /** @var UserIdentityModel $identities */
-        $identities          = \model(UserIdentityModel::class);
+        $identities          = model(UserIdentityModel::class);
         $token               = $user->generateAccessToken('foo');
         $token->last_used_at = Time::now()->subYears(1)->subMinutes(1);
         $identities->save($token);
@@ -132,13 +132,13 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $result = $this->auth->check(['token' => $token->raw_token]);
 
         $this->assertFalse($result->isOK());
-        $this->assertSame(\lang('Auth.oldToken'), $result->reason());
+        $this->assertSame(lang('Auth.oldToken'), $result->reason());
     }
 
     public function testCheckSuccess()
     {
         /** @var User $user */
-        $user  = \fake(UserModel::class);
+        $user  = fake(UserModel::class);
         $token = $user->generateAccessToken('foo');
 
         $this->seeInDatabase('auth_identities', [
@@ -165,7 +165,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 
         $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
-        $this->assertSame(\lang('Auth.badToken'), $result->reason());
+        $this->assertSame(lang('Auth.badToken'), $result->reason());
 
         // A login attempt should have always been recorded
         $this->seeInDatabase('auth_token_logins', [
@@ -178,7 +178,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
     public function testAttemptSuccess()
     {
         /** @var User $user */
-        $user  = \fake(UserModel::class);
+        $user  = fake(UserModel::class);
         $token = $user->generateAccessToken('foo');
         $this->setRequestHeader($token->raw_token);
 
@@ -205,7 +205,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 
     protected function setRequestHeader(string $token)
     {
-        $request = \service('request');
+        $request = service('request');
         $request->setHeader('Authorization', 'Bearer ' . $token);
     }
 }

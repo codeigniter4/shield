@@ -27,12 +27,12 @@ final class SessionFilterTest extends DatabaseTestCase
         $_SESSION = [];
 
         // Register our filter
-        $filterConfig                         = \config('Filters');
+        $filterConfig                         = config('Filters');
         $filterConfig->aliases['sessionAuth'] = SessionAuth::class;
         Factories::injectMock('filters', 'filters', $filterConfig);
 
         // Add a test route that we can visit to trigger.
-        $routes = \service('routes');
+        $routes = service('routes');
         $routes->group('/', ['filter' => 'sessionAuth'], static function ($routes) {
             $routes->get('protected-route', static function () {
                 echo 'Protected';
@@ -58,7 +58,7 @@ final class SessionFilterTest extends DatabaseTestCase
 
     public function testFilterSuccess()
     {
-        $user                   = \fake(UserModel::class);
+        $user                   = fake(UserModel::class);
         $_SESSION['user']['id'] = $user->id;
 
         $result = $this->withSession(['user' => ['id' => $user->id]])
@@ -67,9 +67,9 @@ final class SessionFilterTest extends DatabaseTestCase
         $result->assertStatus(200);
         $result->assertSee('Protected');
 
-        $this->assertSame($user->id, \auth('session')->id());
-        $this->assertSame($user->id, \auth('session')->user()->id);
+        $this->assertSame($user->id, auth('session')->id());
+        $this->assertSame($user->id, auth('session')->user()->id);
         // Last Active should have been updated
-        $this->assertNotEmpty(\auth('session')->user()->last_active);
+        $this->assertNotEmpty(auth('session')->user()->last_active);
     }
 }

@@ -29,12 +29,12 @@ final class TokenFilterTest extends DatabaseTestCase
         $_SESSION = [];
 
         // Register our filter
-        $filterConfig                       = \config('Filters');
+        $filterConfig                       = config('Filters');
         $filterConfig->aliases['tokenAuth'] = TokenAuth::class;
         Factories::injectMock('filters', 'filters', $filterConfig);
 
         // Add a test route that we can visit to trigger.
-        $routes = \service('routes');
+        $routes = service('routes');
         $routes->group('/', ['filter' => 'tokenAuth'], static function ($routes) {
             $routes->get('protected-route', static function () {
                 echo 'Protected';
@@ -61,7 +61,7 @@ final class TokenFilterTest extends DatabaseTestCase
     public function testFilterSuccess()
     {
         /** @var User $user */
-        $user  = \fake(UserModel::class);
+        $user  = fake(UserModel::class);
         $token = $user->generateAccessToken('foo');
 
         $result = $this->withHeaders(['Authorization' => 'Bearer ' . $token->raw_token])
@@ -70,11 +70,11 @@ final class TokenFilterTest extends DatabaseTestCase
         $result->assertStatus(200);
         $result->assertSee('Protected');
 
-        $this->assertSame($user->id, \auth('tokens')->id());
-        $this->assertSame($user->id, \auth('tokens')->user()->id);
+        $this->assertSame($user->id, auth('tokens')->id());
+        $this->assertSame($user->id, auth('tokens')->user()->id);
 
         // User should have the current token set.
-        $this->assertInstanceOf(AccessToken::class, \auth('tokens')->user()->currentAccessToken());
-        $this->assertSame($token->id, \auth('tokens')->user()->currentAccessToken()->id);
+        $this->assertInstanceOf(AccessToken::class, auth('tokens')->user()->currentAccessToken());
+        $this->assertSame($token->id, auth('tokens')->user()->currentAccessToken()->id);
     }
 }
