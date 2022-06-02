@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Authentication\TokenGenerator;
 
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT;
 use CodeIgniter\Shield\Authentication\TokenGenerator\JWTGenerator;
 use CodeIgniter\Shield\Entities\User;
@@ -13,7 +14,7 @@ use Tests\Support\TestCase;
  */
 final class JWTGeneratorTest extends TestCase
 {
-    public function testGenerate()
+    public function testGenerateAccessToken()
     {
         /** @var User $user */
         $user      = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
@@ -28,7 +29,7 @@ final class JWTGeneratorTest extends TestCase
     }
 
     /**
-     * @depends testGenerate
+     * @depends testGenerateAccessToken
      */
     public function testTokenSubIsUserId(string $token)
     {
@@ -37,5 +38,41 @@ final class JWTGeneratorTest extends TestCase
         $payload = $auth->decodeJWT($token);
 
         $this->assertSame('1', $payload->sub);
+    }
+
+    public function testGenerate()
+    {
+        $currentTime = new Time('2022-06-01 12:00:00 +00:00');
+        $generator   = new JWTGenerator($currentTime);
+
+        $payload = [
+            'user_id' => '1',
+            'email'   => 'admin@example.jp',
+        ];
+
+        $token = $generator->generate($payload, 1 * DAY);
+
+        $this->assertIsString($token);
+        $this->assertStringStartsWith('eyJ', $token);
+
+        return $token;
+    }
+
+    /**
+     * @depends testGenerate
+     */
+    public function testTokenHasIatAndExp(string $token)
+    {
+        $auth = new JWT(new UserModel());
+
+        $payload = $auth->decodeJWT($token);
+
+        $expected = [
+            'user_id' => '1',
+            'email'   => 'admin@example.jp',
+            'iat'     => 1_654_084_800,
+            'exp'     => 1_654_171_200,
+        ];
+        $this->assertSame($expected, (array) $payload);
     }
 }

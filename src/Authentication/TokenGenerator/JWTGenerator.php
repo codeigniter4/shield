@@ -42,4 +42,40 @@ class JWTGenerator
             $config['algorithm']
         );
     }
+
+    /**
+     * Issues JWT
+     *
+     * @param int|null $ttl Time to live in seconds.
+     * @param string   $key The secret key.
+     */
+    public function generate(array $payload, ?int $ttl = null, $key = null, ?string $algorithm = null): string
+    {
+        assert(
+            (array_key_exists('exp', $payload) && ($ttl !== null)) === false,
+            'Cannot pass $payload[\'exp\'] and $ttl at the same time.'
+        );
+
+        $config = setting('Auth.jwtConfig');
+        $algorithm ??= $config['algorithm'];
+        $key ??= $config['secretKey'];
+
+        if (! array_key_exists('iat', $payload)) {
+            $payload['iat'] = $this->currentTime->getTimestamp();
+        }
+
+        if (! array_key_exists('exp', $payload)) {
+            $payload['exp'] = $payload['iat'] + $config['timeToLive'];
+        }
+
+        if ($ttl !== null) {
+            $payload['exp'] = $payload['iat'] + $ttl;
+        }
+
+        return $this->jwtAdapter->generate(
+            $payload,
+            $key,
+            $algorithm
+        );
+    }
 }
