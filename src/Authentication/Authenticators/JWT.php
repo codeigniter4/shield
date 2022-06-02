@@ -34,7 +34,7 @@ class JWT implements AuthenticatorInterface
 
     protected ?User $user = null;
     protected JWTAdapterInterface $jwtDecoder;
-    protected TokenLoginModel $loginModel;
+    protected TokenLoginModel $tokenLoginModel;
     protected ?stdClass $payload = null;
 
     public function __construct(UserModel $provider, ?JWTAdapterInterface $jwtDecoder = null)
@@ -42,7 +42,7 @@ class JWT implements AuthenticatorInterface
         $this->provider   = $provider;
         $this->jwtDecoder = $jwtDecoder ?? new FirebaseAdapter();
 
-        $this->loginModel = model(TokenLoginModel::class); // @phpstan-ignore-line
+        $this->tokenLoginModel = model(TokenLoginModel::class); // @phpstan-ignore-line
     }
 
     /**
@@ -63,7 +63,7 @@ class JWT implements AuthenticatorInterface
 
         if (! $result->isOK()) {
             // Always record a login attempt, whether success or not.
-            $this->loginModel->recordLoginAttempt(
+            $this->tokenLoginModel->recordLoginAttempt(
                 self::ID_TYPE_JWT,
                 $credentials['token'] ?? '',
                 false,
@@ -78,7 +78,7 @@ class JWT implements AuthenticatorInterface
 
         $this->login($user);
 
-        $this->loginModel->recordLoginAttempt(
+        $this->tokenLoginModel->recordLoginAttempt(
             self::ID_TYPE_JWT,
             $credentials['token'] ?? '',
             true,
