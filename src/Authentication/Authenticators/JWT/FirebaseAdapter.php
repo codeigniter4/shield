@@ -44,11 +44,8 @@ class FirebaseAdapter implements JWTAdapterInterface
      *
      * @param string $key
      */
-    public static function generate(
-        array $payload,
-        $key,
-        string $algorithm
-    ): string {
+    public static function generate(array $payload, $key, string $algorithm): string
+    {
         return JWT::encode($payload, $key, $algorithm);
     }
 }
