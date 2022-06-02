@@ -38,7 +38,7 @@ class LoginController extends BaseController
             return redirect()->route('login')->withInput()->with('error', $result->reason());
         }
 
-        $user = $result->extraInfo();
+        $result->extraInfo();
 
         Events::trigger('didLogin', $user);
 
@@ -56,7 +56,7 @@ class LoginController extends BaseController
      */
     public function logoutAction(): RedirectResponse
     {
-        $user = auth()->user();
+        auth()->user();
 
         auth()->logout();
 
