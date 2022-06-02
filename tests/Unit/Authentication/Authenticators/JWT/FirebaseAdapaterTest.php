@@ -13,7 +13,7 @@ use Tests\Support\TestCase;
 /**
  * @internal
  */
-final class FirebaseTest extends TestCase
+final class FirebaseAdapaterTest extends TestCase
 {
     public function testDecode()
     {

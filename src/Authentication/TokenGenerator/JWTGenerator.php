@@ -3,19 +3,19 @@
 namespace CodeIgniter\Shield\Authentication\TokenGenerator;
 
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Shield\Authentication\TokenGenerator\JWT\Firebase;
-use CodeIgniter\Shield\Authentication\TokenGenerator\JWT\JWTGeneratorInterface;
+use CodeIgniter\Shield\Authentication\Authenticators\JWT\FirebaseAdapter;
+use CodeIgniter\Shield\Authentication\Authenticators\JWT\JWTAdapterInterface;
 use CodeIgniter\Shield\Entities\User;
 
 class JWTGenerator
 {
     private Time $currentTime;
-    private JWTGeneratorInterface $jwtGenerator;
+    private JWTAdapterInterface $jwtGenerator;
 
-    public function __construct(?Time $currentTime = null, ?JWTGeneratorInterface $jwtGenerator = null)
+    public function __construct(?Time $currentTime = null, ?JWTAdapterInterface $jwtGenerator = null)
     {
         $this->currentTime  = $currentTime ?? new Time();
-        $this->jwtGenerator = $jwtGenerator ?? new Firebase();
+        $this->jwtGenerator = $jwtGenerator ?? new FirebaseAdapter();
     }
 
     /**
@@ -36,6 +36,10 @@ class JWTGenerator
             'exp' => $exp,                  // expiration time
         ];
 
-        return $this->jwtGenerator->generate($payload, $config['secretKey'], $config['algorithm']);
+        return $this->jwtGenerator->generate(
+            $payload,
+            $config['secretKey'],
+            $config['algorithm']
+        );
     }
 }

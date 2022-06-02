@@ -4,8 +4,15 @@ namespace CodeIgniter\Shield\Authentication\Authenticators\JWT;
 
 use stdClass;
 
-interface JWTDecoderInterface
+interface JWTAdapterInterface
 {
+    /**
+     * Issues JWT
+     *
+     * @param string $key The secret key.
+     */
+    public static function generate(array $payload, $key, string $algorithm): string;
+
     /**
      * Decode JWT
      *

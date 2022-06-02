@@ -7,7 +7,7 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT\FirebaseAdapter;
-use CodeIgniter\Shield\Authentication\Authenticators\JWT\JWTDecoderInterface;
+use CodeIgniter\Shield\Authentication\Authenticators\JWT\JWTAdapterInterface;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\TokenLoginModel;
@@ -33,11 +33,11 @@ class JWT implements AuthenticatorInterface
     protected UserModel $provider;
 
     protected ?User $user = null;
-    protected JWTDecoderInterface $jwtDecoder;
+    protected JWTAdapterInterface $jwtDecoder;
     protected TokenLoginModel $loginModel;
     protected ?stdClass $payload = null;
 
-    public function __construct(UserModel $provider, ?JWTDecoderInterface $jwtDecoder = null)
+    public function __construct(UserModel $provider, ?JWTAdapterInterface $jwtDecoder = null)
     {
         $this->provider   = $provider;
         $this->jwtDecoder = $jwtDecoder ?? new FirebaseAdapter();

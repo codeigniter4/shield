@@ -13,7 +13,7 @@ use InvalidArgumentException;
 use stdClass;
 use UnexpectedValueException;
 
-class FirebaseAdapter implements JWTDecoderInterface
+class FirebaseAdapter implements JWTAdapterInterface
 {
     /**
      * Decode JWT
@@ -37,5 +37,18 @@ class FirebaseAdapter implements JWTDecoderInterface
         ) {
             throw new RuntimeException('Invalid JWT: ' . $e->getMessage(), 0, $e);
         }
+    }
+
+    /**
+     * Issues JWT
+     *
+     * @param string $key
+     */
+    public static function generate(
+        array $payload,
+        $key,
+        string $algorithm
+    ): string {
+        return JWT::encode($payload, $key, $algorithm);
     }
 }
