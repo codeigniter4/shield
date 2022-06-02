@@ -31,12 +31,25 @@ final class ChainFilterTest extends TestCase
         $_SESSION = [];
 
         // Register our filter
-        $filterConfig                   = config('Filters');
-        $filterConfig->aliases['chain'] = ChainAuth::class;
-        Factories::injectMock('filters', 'filters', $filterConfig);
+        $this->registerFilter();
 
         // Add a test route that we can visit to trigger.
+        $this->addRoutes();
+    }
+
+    private function registerFilter(): void
+    {
+        $filterConfig = config('Filters');
+
+        $filterConfig->aliases['chain'] = ChainAuth::class;
+
+        Factories::injectMock('filters', 'filters', $filterConfig);
+    }
+
+    private function addRoutes(): void
+    {
         $routes = service('routes');
+
         $routes->group('/', ['filter' => 'chain'], static function ($routes) {
             $routes->get('protected-route', static function () {
                 echo 'Protected';
@@ -46,6 +59,7 @@ final class ChainFilterTest extends TestCase
             echo 'Open';
         });
         $routes->get('login', 'AuthController::login', ['as' => 'login']);
+
         Services::injectMock('routes', $routes);
     }
 

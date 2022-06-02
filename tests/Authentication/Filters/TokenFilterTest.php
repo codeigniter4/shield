@@ -22,19 +22,32 @@ final class TokenFilterTest extends DatabaseTestCase
 
     protected function setUp(): void
     {
+        $_SESSION = [];
+
         Services::reset(true);
 
         parent::setUp();
 
-        $_SESSION = [];
-
         // Register our filter
-        $filterConfig                       = config('Filters');
-        $filterConfig->aliases['tokenAuth'] = TokenAuth::class;
-        Factories::injectMock('filters', 'filters', $filterConfig);
+        $this->registerFilter();
 
         // Add a test route that we can visit to trigger.
+        $this->addRoutes();
+    }
+
+    private function registerFilter(): void
+    {
+        $filterConfig = config('Filters');
+
+        $filterConfig->aliases['tokenAuth'] = TokenAuth::class;
+
+        Factories::injectMock('filters', 'filters', $filterConfig);
+    }
+
+    private function addRoutes(): void
+    {
         $routes = service('routes');
+
         $routes->group('/', ['filter' => 'tokenAuth'], static function ($routes): void {
             $routes->get('protected-route', static function (): void {
                 echo 'Protected';
@@ -44,6 +57,7 @@ final class TokenFilterTest extends DatabaseTestCase
             echo 'Open';
         });
         $routes->get('login', 'AuthController::login', ['as' => 'login']);
+
         Services::injectMock('routes', $routes);
     }
 

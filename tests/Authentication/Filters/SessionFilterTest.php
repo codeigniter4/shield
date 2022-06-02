@@ -20,19 +20,32 @@ final class SessionFilterTest extends DatabaseTestCase
 
     protected function setUp(): void
     {
+        $_SESSION = [];
+
         Services::reset(true);
 
         parent::setUp();
 
-        $_SESSION = [];
-
         // Register our filter
-        $filterConfig                         = config('Filters');
-        $filterConfig->aliases['sessionAuth'] = SessionAuth::class;
-        Factories::injectMock('filters', 'filters', $filterConfig);
+        $this->registerFilter();
 
         // Add a test route that we can visit to trigger.
+        $this->addRoutes();
+    }
+
+    private function registerFilter(): void
+    {
+        $filterConfig = config('Filters');
+
+        $filterConfig->aliases['sessionAuth'] = SessionAuth::class;
+
+        Factories::injectMock('filters', 'filters', $filterConfig);
+    }
+
+    private function addRoutes(): void
+    {
         $routes = service('routes');
+
         $routes->group('/', ['filter' => 'sessionAuth'], static function ($routes): void {
             $routes->get('protected-route', static function (): void {
                 echo 'Protected';
