@@ -13,7 +13,7 @@ use InvalidArgumentException;
 use stdClass;
 use UnexpectedValueException;
 
-class Firebase implements JWTDecoderInterface
+class FirebaseAdapter implements JWTDecoderInterface
 {
     /**
      * Decode JWT

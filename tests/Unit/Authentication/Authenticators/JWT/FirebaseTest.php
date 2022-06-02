@@ -3,7 +3,7 @@
 namespace Tests\Unit\Authentication\Authenticators\JWT;
 
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Shield\Authentication\Authenticators\JWT\Firebase;
+use CodeIgniter\Shield\Authentication\Authenticators\JWT\FirebaseAdapter;
 use CodeIgniter\Shield\Authentication\TokenGenerator\JWTGenerator;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
@@ -19,7 +19,7 @@ final class FirebaseTest extends TestCase
     {
         $token = $this->generateJWT();
 
-        $jwtDecoder = new Firebase();
+        $jwtDecoder = new FirebaseAdapter();
 
         $payload = $jwtDecoder->decode($token);
 
@@ -46,7 +46,7 @@ final class FirebaseTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Invalid JWT: Signature verification failed');
 
-        $jwtDecoder = new Firebase();
+        $jwtDecoder = new FirebaseAdapter();
 
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJJc3N1ZXIgb2YgdGhlIEpXVCIsImF1ZCI6IkF1ZGllbmNlIG9mIHRoZSBKV1QiLCJzdWIiOiIxIiwiaWF0IjoxNjUzOTkxOTg5LCJleHAiOjE2NTM5OTU1ODl9.hgOYHEcT6RGHb3po1lspTcmjrylY1Cy1IvYmHOyx0CY';
         $jwtDecoder->decode($token);
@@ -57,7 +57,7 @@ final class FirebaseTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Expired JWT: Expired token');
 
-        $jwtDecoder = new Firebase();
+        $jwtDecoder = new FirebaseAdapter();
 
         $currentTime = new Time('-1 hour');
         $token       = $this->generateJWT($currentTime);
