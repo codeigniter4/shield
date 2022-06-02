@@ -9,7 +9,7 @@ use Tests\Support\TestCase;
  */
 final class AuthRoutesTest extends TestCase
 {
-    public function testRoutes()
+    public function testRoutes(): void
     {
         $collection = single_service('routes');
         $auth       = service('auth');
@@ -25,7 +25,7 @@ final class AuthRoutesTest extends TestCase
         $this->assertArrayHasKey('auth/a/show', $routes);
     }
 
-    public function testRoutesExcept()
+    public function testRoutesExcept(): void
     {
         $collection = single_service('routes');
         $auth       = service('auth');

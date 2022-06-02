@@ -22,7 +22,7 @@ final class LoginModelTest extends TestCase
         return new LoginModel();
     }
 
-    public function testRecordLoginAttemptThrowsException()
+    public function testRecordLoginAttemptThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(

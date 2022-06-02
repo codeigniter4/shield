@@ -34,7 +34,7 @@ final class LoginTest extends TestCase
         Services::injectMock('routes', $routes);
     }
 
-    public function testLoginBadEmail()
+    public function testLoginBadEmail(): void
     {
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
@@ -61,7 +61,7 @@ final class LoginTest extends TestCase
         $this->assertSame(lang('Auth.badAttempt'), session('error'));
     }
 
-    public function testLoginActionEmailSuccess()
+    public function testLoginActionEmailSuccess(): void
     {
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
@@ -91,7 +91,7 @@ final class LoginTest extends TestCase
         $this->assertSame($this->user->id, session('user')['id']);
     }
 
-    public function testLoginActionUsernameSuccess()
+    public function testLoginActionUsernameSuccess(): void
     {
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
@@ -121,7 +121,7 @@ final class LoginTest extends TestCase
         $this->assertSame($this->user->id, session('user')['id']);
     }
 
-    public function testLogoutAction()
+    public function testLogoutAction(): void
     {
         // log them in
         session()->set('user', ['id' => $this->user->id]);
@@ -134,7 +134,7 @@ final class LoginTest extends TestCase
         $this->assertNull(session('user'));
     }
 
-    public function testLoginRedirectsToActionIfDefined()
+    public function testLoginRedirectsToActionIfDefined(): void
     {
         // Ensure our action is defined
         $config                   = config('Auth');

@@ -30,7 +30,7 @@ final class PwnedValidatorTest extends CIUnitTestCase
         $this->validator = new PwnedValidator(new AuthConfig());
     }
 
-    public function testCheckFalseOnPwnedPassword()
+    public function testCheckFalseOnPwnedPassword(): void
     {
         $body = implode(
             "\r\n",
@@ -62,7 +62,7 @@ final class PwnedValidatorTest extends CIUnitTestCase
         $this->assertFalse($result->isOK());
     }
 
-    public function testCheckFalseOnPwnedLastInRange()
+    public function testCheckFalseOnPwnedLastInRange(): void
     {
         $body = "81102569463BE3512984154C66C098B92C5:1\r\n53623B121FD34EE5426C792E5C33AF8C227:22\r\nC528C1B79D1BB387A30C33C5C35B4AC5137:333\r\n621B377E1F35302585D82F1604DF01FE106:1\r\n8371797B4241EBAA28F6A746C4EB2EEDFA3:55555";
 
@@ -84,7 +84,7 @@ final class PwnedValidatorTest extends CIUnitTestCase
         $this->assertFalse($result->isOK());
     }
 
-    public function testCheckTrueOnNotFound()
+    public function testCheckTrueOnNotFound(): void
     {
         $body = implode(
             "\r\n",
@@ -116,7 +116,7 @@ final class PwnedValidatorTest extends CIUnitTestCase
         $this->assertTrue($result->isOK());
     }
 
-    public function testCheckCatchesAndRethrowsCurlExceptionAsAuthException()
+    public function testCheckCatchesAndRethrowsCurlExceptionAsAuthException(): void
     {
         $curlrequest = $this->getMockBuilder('CodeIgniter\HTTP\CURLRequest')
             ->disableOriginalConstructor()

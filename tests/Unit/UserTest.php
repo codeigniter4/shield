@@ -24,13 +24,13 @@ final class UserTest extends TestCase
     protected $namespace;
     protected $refresh = true;
 
-    public function testGetIdentitiesNone()
+    public function testGetIdentitiesNone(): void
     {
         // when none, returns empty array
         $this->assertEmpty($this->user->identities);
     }
 
-    public function testGetIdentitiesSome()
+    public function testGetIdentitiesSome(): void
     {
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
@@ -40,7 +40,7 @@ final class UserTest extends TestCase
         $this->assertCount(2, $identities);
     }
 
-    public function testGetIdentitiesByType()
+    public function testGetIdentitiesByType(): void
     {
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
@@ -53,7 +53,7 @@ final class UserTest extends TestCase
         $this->assertEmpty($this->user->getIdentities('foo'));
     }
 
-    public function testModelWithIdentities()
+    public function testModelWithIdentities(): void
     {
         fake(UserModel::class);
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
@@ -67,7 +67,7 @@ final class UserTest extends TestCase
         $this->assertCount(2, $identities);
     }
 
-    public function testLastLogin()
+    public function testLastLogin(): void
     {
         fake(
             UserIdentityModel::class,
@@ -105,7 +105,7 @@ final class UserTest extends TestCase
     /**
      * @see https://github.com/codeigniter4/shield/issues/103
      */
-    public function testUpdateEmail()
+    public function testUpdateEmail(): void
     {
         // Update user's email
         $this->user->email  = 'foo@bar.com';
@@ -126,7 +126,7 @@ final class UserTest extends TestCase
     /**
      * @see https://github.com/codeigniter4/shield/issues/103
      */
-    public function testUpdatePassword()
+    public function testUpdatePassword(): void
     {
         // Update user's email
         $this->user->email    = 'foo@bar.com';
@@ -144,7 +144,7 @@ final class UserTest extends TestCase
     /**
      * @see https://github.com/codeigniter4/shield/issues/103
      */
-    public function testUpdatePasswordHash()
+    public function testUpdatePasswordHash(): void
     {
         // Update user's email
         $hash                      = service('passwords')->hash('foobar');

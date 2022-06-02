@@ -24,7 +24,7 @@ final class GroupTest extends TestCase
         $this->groups = new Groups();
     }
 
-    public function testPermissions()
+    public function testPermissions(): void
     {
         $group = $this->groups->info('admin');
 
@@ -34,7 +34,7 @@ final class GroupTest extends TestCase
         $this->assertContains('users.create', $permissions);
     }
 
-    public function testSavePermissions()
+    public function testSavePermissions(): void
     {
         $group = $this->groups->info('admin');
 
@@ -47,7 +47,7 @@ final class GroupTest extends TestCase
         $this->assertNotContains('users.create', $permissions);
     }
 
-    public function testAddPermission()
+    public function testAddPermission(): void
     {
         $group = $this->groups->info('admin');
 
@@ -57,7 +57,7 @@ final class GroupTest extends TestCase
         $this->assertContains('foo.bar', $permissions);
     }
 
-    public function testRemovePermission()
+    public function testRemovePermission(): void
     {
         $group = $this->groups->info('admin');
 
@@ -67,7 +67,7 @@ final class GroupTest extends TestCase
         $this->assertNotContains('users.edit', $permissions);
     }
 
-    public function testCan()
+    public function testCan(): void
     {
         $group = $this->groups->info('admin');
 

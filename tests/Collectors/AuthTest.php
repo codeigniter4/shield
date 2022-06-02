@@ -30,17 +30,17 @@ final class AuthTest extends TestCase
         $this->collector = new Auth();
     }
 
-    public function testDisplayNotLoggedIn()
+    public function testDisplayNotLoggedIn(): void
     {
         $output = $this->collector->display();
 
         $this->assertStringContainsString('Not logged in', $output);
     }
 
-    public function testtestDisplayLoggedIn()
+    public function testtestDisplayLoggedIn(): void
     {
-        /** @var Session $authenticator */
         $authenticator = service('auth')->getAuthenticator();
+        assert($authenticator instanceof Session);
         $authenticator->login($this->user);
         $this->user->addGroup('admin', 'beta');
 
@@ -51,14 +51,14 @@ final class AuthTest extends TestCase
         $this->assertStringContainsString('<td>Groups</td><td>admin, beta</td>', $output);
     }
 
-    public function testGetTitleDetails()
+    public function testGetTitleDetails(): void
     {
         $output = $this->collector->getTitleDetails();
 
         $this->assertStringContainsString(Session::class, $output);
     }
 
-    public function testGetBadgeValueReturnsUserId()
+    public function testGetBadgeValueReturnsUserId(): void
     {
         /** @var Session $authenticator */
         $authenticator = service('auth')->getAuthenticator();

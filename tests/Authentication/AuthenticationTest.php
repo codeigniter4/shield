@@ -25,7 +25,7 @@ final class AuthenticationTest extends DatabaseTestCase
         $this->auth->setProvider(new UserModel());
     }
 
-    public function testThrowsOnUnknownAuthenticator()
+    public function testThrowsOnUnknownAuthenticator(): void
     {
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage(lang('Auth.unknownAuthenticator', ['foo']));
@@ -33,7 +33,7 @@ final class AuthenticationTest extends DatabaseTestCase
         $this->auth->factory('foo');
     }
 
-    public function testFactoryLoadsDefault()
+    public function testFactoryLoadsDefault(): void
     {
         $shield1 = $this->auth->factory();
         $shield2 = $this->auth->factory('session');

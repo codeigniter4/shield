@@ -10,14 +10,14 @@ use Tests\Support\DatabaseTestCase;
  */
 final class AccessTokenTest extends DatabaseTestCase
 {
-    public function testCanNoScopes()
+    public function testCanNoScopes(): void
     {
         $token = new AccessToken();
 
         $this->assertFalse($token->can('foo'));
     }
 
-    public function testCanWildcard()
+    public function testCanWildcard(): void
     {
         $token = new AccessToken([
             'extra' => ['*'],
@@ -27,7 +27,7 @@ final class AccessTokenTest extends DatabaseTestCase
         $this->assertTrue($token->can('bar'));
     }
 
-    public function testCanSuccess()
+    public function testCanSuccess(): void
     {
         $token = new AccessToken([
             'extra' => ['foo'],
@@ -37,14 +37,14 @@ final class AccessTokenTest extends DatabaseTestCase
         $this->assertFalse($token->can('bar'));
     }
 
-    public function testCantNoScopes()
+    public function testCantNoScopes(): void
     {
         $token = new AccessToken();
 
         $this->assertTrue($token->cant('foo'));
     }
 
-    public function testCantWildcard()
+    public function testCantWildcard(): void
     {
         $token = new AccessToken([
             'extra' => ['*'],
@@ -54,7 +54,7 @@ final class AccessTokenTest extends DatabaseTestCase
         $this->assertFalse($token->cant('bar'));
     }
 
-    public function testCantSuccess()
+    public function testCantSuccess(): void
     {
         $token = new AccessToken([
             'extra' => ['foo'],

@@ -32,7 +32,7 @@ final class AuthorizableTest extends TestCase
         db_connect()->table('auth_permissions_users')->truncate();
     }
 
-    public function testAddGroupWithNoExistingGroups()
+    public function testAddGroupWithNoExistingGroups(): void
     {
         $this->user->addGroup('admin', 'beta');
         // Make sure it doesn't record duplicates
@@ -52,7 +52,7 @@ final class AuthorizableTest extends TestCase
         $this->assertFalse($this->user->inGroup('user'));
     }
 
-    public function testAddGroupWithExistingGroups()
+    public function testAddGroupWithExistingGroups(): void
     {
         $this->hasInDatabase('auth_groups_users', [
             'user_id'    => $this->user->id,
@@ -87,19 +87,19 @@ final class AuthorizableTest extends TestCase
         $this->assertFalse($this->user->inGroup('user'));
     }
 
-    public function testAddGroupWithUnknownGroup()
+    public function testAddGroupWithUnknownGroup(): void
     {
         $this->expectException(AuthorizationException::class);
 
         $this->user->addGroup('admin', 'foo');
     }
 
-    public function testRemoveGroupNoGroups()
+    public function testRemoveGroupNoGroups(): void
     {
         $this->assertSame($this->user, $this->user->removeGroup('admin'));
     }
 
-    public function testRemoveGroupExistingGroup()
+    public function testRemoveGroupExistingGroup(): void
     {
         $this->hasInDatabase('auth_groups_users', [
             'user_id'    => $this->user->id,
@@ -128,7 +128,7 @@ final class AuthorizableTest extends TestCase
         ]);
     }
 
-    public function testSyncGroups()
+    public function testSyncGroups(): void
     {
         $this->hasInDatabase('auth_groups_users', [
             'user_id'    => $this->user->id,
@@ -153,7 +153,7 @@ final class AuthorizableTest extends TestCase
         ]);
     }
 
-    public function testAddPermissionWithNoExistingPermissions()
+    public function testAddPermissionWithNoExistingPermissions(): void
     {
         $this->user->addPermission('admin.access', 'beta.access');
         // Make sure it doesn't record duplicates
@@ -173,7 +173,7 @@ final class AuthorizableTest extends TestCase
         $this->assertFalse($this->user->can('user.manage'));
     }
 
-    public function testAddPermissionWithExistingPermissions()
+    public function testAddPermissionWithExistingPermissions(): void
     {
         $this->hasInDatabase('auth_permissions_users', [
             'user_id'    => $this->user->id,
@@ -208,19 +208,19 @@ final class AuthorizableTest extends TestCase
         $this->assertTrue($this->user->can('users.manage'));
     }
 
-    public function testAddPermissionsWithUnknownPermission()
+    public function testAddPermissionsWithUnknownPermission(): void
     {
         $this->expectException(AuthorizationException::class);
 
         $this->user->addPermission('admin.access', 'foo');
     }
 
-    public function testRemovePermissionNoPermissions()
+    public function testRemovePermissionNoPermissions(): void
     {
         $this->assertSame($this->user, $this->user->removePermission('Admin.access'));
     }
 
-    public function testRemovePermissionExistingPermissions()
+    public function testRemovePermissionExistingPermissions(): void
     {
         $this->hasInDatabase('auth_permissions_users', [
             'user_id'    => $this->user->id,
@@ -249,7 +249,7 @@ final class AuthorizableTest extends TestCase
         ]);
     }
 
-    public function testSyncPermissions()
+    public function testSyncPermissions(): void
     {
         $this->hasInDatabase('auth_permissions_users', [
             'user_id'    => $this->user->id,
@@ -274,7 +274,7 @@ final class AuthorizableTest extends TestCase
         ]);
     }
 
-    public function testHasPermission()
+    public function testHasPermission(): void
     {
         $this->user->addPermission('admin.access');
 
@@ -282,14 +282,14 @@ final class AuthorizableTest extends TestCase
         $this->assertFalse($this->user->hasPermission('beta.access'));
     }
 
-    public function testCanCascadesToGroupsSimple()
+    public function testCanCascadesToGroupsSimple(): void
     {
         $this->user->addGroup('admin');
 
         $this->assertTrue($this->user->can('admin.access'));
     }
 
-    public function testCanCascadesToGroupsWithWildcards()
+    public function testCanCascadesToGroupsWithWildcards(): void
     {
         $this->user->addGroup('superadmin');
 

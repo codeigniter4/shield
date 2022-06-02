@@ -33,19 +33,19 @@ final class SessionFilterTest extends DatabaseTestCase
 
         // Add a test route that we can visit to trigger.
         $routes = service('routes');
-        $routes->group('/', ['filter' => 'sessionAuth'], static function ($routes) {
-            $routes->get('protected-route', static function () {
+        $routes->group('/', ['filter' => 'sessionAuth'], static function ($routes): void {
+            $routes->get('protected-route', static function (): void {
                 echo 'Protected';
             });
         });
-        $routes->get('open-route', static function () {
+        $routes->get('open-route', static function (): void {
             echo 'Open';
         });
         $routes->get('login', 'AuthController::login', ['as' => 'login']);
         Services::injectMock('routes', $routes);
     }
 
-    public function testFilterNotAuthorized()
+    public function testFilterNotAuthorized(): void
     {
         $result = $this->call('get', 'protected-route');
 
@@ -56,7 +56,7 @@ final class SessionFilterTest extends DatabaseTestCase
         $result->assertSee('Open');
     }
 
-    public function testFilterSuccess()
+    public function testFilterSuccess(): void
     {
         $user                   = fake(UserModel::class);
         $_SESSION['user']['id'] = $user->id;

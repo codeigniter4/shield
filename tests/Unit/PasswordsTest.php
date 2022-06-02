@@ -12,7 +12,7 @@ use CodeIgniter\Test\CIUnitTestCase;
  */
 final class PasswordsTest extends CIUnitTestCase
 {
-    public function testEmptyPassword()
+    public function testEmptyPassword(): void
     {
         $passwords = new Passwords(new AuthConfig());
 

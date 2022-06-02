@@ -49,7 +49,7 @@ final class ChainFilterTest extends TestCase
         Services::injectMock('routes', $routes);
     }
 
-    public function testFilterNotAuthorized()
+    public function testFilterNotAuthorized(): void
     {
         $result = $this->call('get', 'protected-route');
 
@@ -60,7 +60,7 @@ final class ChainFilterTest extends TestCase
         $result->assertSee('Open');
     }
 
-    public function testFilterSuccessSeession()
+    public function testFilterSuccessSeession(): void
     {
         $_SESSION['user']['id'] = $this->user->id;
 
@@ -74,7 +74,7 @@ final class ChainFilterTest extends TestCase
         $this->assertSame($this->user->id, auth()->user()->id);
     }
 
-    public function testFilterSuccessTokens()
+    public function testFilterSuccessTokens(): void
     {
         $token = $this->user->generateAccessToken('foo');
 
