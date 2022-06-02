@@ -50,7 +50,7 @@ interface AuthenticatorInterface
      *
      * @see https://codeigniter4.github.io/CodeIgniter4/extending/authentication.html
      */
-    public function logout(): bool;
+    public function logout(): void;
 
     /**
      * Returns the currently logged in user.
