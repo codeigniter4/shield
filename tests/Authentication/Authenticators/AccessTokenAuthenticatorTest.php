@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Authentication;
+namespace Tests\Authentication\Authenticators;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authentication;

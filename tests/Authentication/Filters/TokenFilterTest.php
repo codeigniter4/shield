@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Authentication;
+namespace Tests\Authentication\Filters;
 
 use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Entities\AccessToken;

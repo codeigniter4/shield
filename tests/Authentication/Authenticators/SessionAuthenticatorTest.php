@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Authentication;
+namespace Tests\Authentication\Authenticators;
 
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;

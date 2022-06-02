@@ -1,10 +1,9 @@
 <?php
 
-namespace Tests\Authentication;
+namespace Tests\Authentication\Filters;
 
 use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Entities\AccessToken;
-use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Filters\ChainAuth;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
