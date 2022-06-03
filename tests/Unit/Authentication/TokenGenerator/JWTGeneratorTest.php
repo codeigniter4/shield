@@ -42,7 +42,7 @@ final class JWTGeneratorTest extends TestCase
 
     public function testGenerate()
     {
-        $currentTime = new Time('2022-06-01 12:00:00 +00:00');
+        $currentTime = new Time();
         $generator   = new JWTGenerator($currentTime);
 
         $payload = [
@@ -55,14 +55,16 @@ final class JWTGeneratorTest extends TestCase
         $this->assertIsString($token);
         $this->assertStringStartsWith('eyJ', $token);
 
-        return $token;
+        return [$token, $currentTime];
     }
 
     /**
      * @depends testGenerate
      */
-    public function testTokenHasIatAndExp(string $token)
+    public function testTokenHasIatAndExp(array $data)
     {
+        [$token, $currentTime] = $data;
+
         $auth = new JWT(new UserModel());
 
         $payload = $auth->decodeJWT($token);
@@ -70,8 +72,8 @@ final class JWTGeneratorTest extends TestCase
         $expected = [
             'user_id' => '1',
             'email'   => 'admin@example.jp',
-            'iat'     => 1_654_084_800,
-            'exp'     => 1_654_171_200,
+            'iat'     => $currentTime->getTimestamp(),
+            'exp'     => $currentTime->getTimestamp() + 1 * DAY,
         ];
         $this->assertSame($expected, (array) $payload);
     }
