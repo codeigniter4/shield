@@ -48,8 +48,12 @@ final class FirebaseAdapaterTest extends TestCase
 
         $jwtDecoder = new FirebaseAdapter();
 
+        $config    = setting('Auth.jwtConfig');
+        $key       = $config['secretKey'];
+        $algorithm = $config['algorithm'];
+
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJJc3N1ZXIgb2YgdGhlIEpXVCIsImF1ZCI6IkF1ZGllbmNlIG9mIHRoZSBKV1QiLCJzdWIiOiIxIiwiaWF0IjoxNjUzOTkxOTg5LCJleHAiOjE2NTM5OTU1ODl9.hgOYHEcT6RGHb3po1lspTcmjrylY1Cy1IvYmHOyx0CY';
-        $jwtDecoder->decode($token);
+        $jwtDecoder->decode($token, $key, $algorithm);
     }
 
     public function testDecodeExpiredException()
@@ -62,6 +66,10 @@ final class FirebaseAdapaterTest extends TestCase
         $currentTime = new Time('-1 hour');
         $token       = $this->generateJWT($currentTime);
 
-        $jwtDecoder->decode($token);
+        $config    = setting('Auth.jwtConfig');
+        $key       = $config['secretKey'];
+        $algorithm = $config['algorithm'];
+
+        $jwtDecoder->decode($token, $key, $algorithm);
     }
 }

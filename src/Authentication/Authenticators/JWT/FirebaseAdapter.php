@@ -18,15 +18,12 @@ class FirebaseAdapter implements JWTAdapterInterface
     /**
      * Decode JWT
      *
+     * @param string $key
+     *
      * @return stdClass Payload
      */
-    public static function decode(string $encodedToken): stdClass
+    public static function decode(string $encodedToken, $key, string $algorithm): stdClass
     {
-        $config = setting('Auth.jwtConfig');
-
-        $key       = $config['secretKey'];
-        $algorithm = $config['algorithm'];
-
         try {
             return JWT::decode($encodedToken, new Key($key, $algorithm));
         } catch (BeforeValidException|ExpiredException $e) {

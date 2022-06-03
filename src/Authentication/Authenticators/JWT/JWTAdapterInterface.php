@@ -16,7 +16,9 @@ interface JWTAdapterInterface
     /**
      * Decode JWT
      *
+     * @param string $key The secret key.
+     *
      * @return stdClass Payload
      */
-    public static function decode(string $encodedToken): stdClass;
+    public static function decode(string $encodedToken, $key, string $algorithm): stdClass;
 }
