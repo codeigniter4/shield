@@ -77,7 +77,7 @@ class MagicLinkController extends BaseController
 
         // Send the user an email with the code
         helper('email');
-        $email = emailer();
+        $email     = emailer();
         $emailSend = $email->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
             ->setTo($user->email)
             ->setSubject(lang('Auth.magicLinkSubject'))
