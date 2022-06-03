@@ -49,7 +49,7 @@ final class ActionsTest extends TestCase
         $this->user->createEmailIdentity(['email' => 'johnsmith@example.com', 'password' => 'secret123']);
     }
 
-    public function testActionShowNoneAvailable()
+    public function testActionShowNoneAvailable(): void
     {
         $this->expectException(PageNotFoundException::class);
 
@@ -59,7 +59,7 @@ final class ActionsTest extends TestCase
         $result->assertStatus(404);
     }
 
-    public function testEmail2FAShow()
+    public function testEmail2FAShow(): void
     {
         $this->insertIdentityEmal2FA();
 
@@ -82,7 +82,7 @@ final class ActionsTest extends TestCase
         ];
     }
 
-    public function testEmail2FAHandleInvalidEmail()
+    public function testEmail2FAHandleInvalidEmail(): void
     {
         $this->insertIdentityEmal2FA();
 
@@ -97,7 +97,7 @@ final class ActionsTest extends TestCase
         $result->assertSessionHas('error', lang('Auth.invalidEmail'));
     }
 
-    private function insertIdentityEmal2FA()
+    private function insertIdentityEmal2FA(): void
     {
         // An identity with 2FA info would have been stored previously
         $identities = model(UserIdentityModel::class);
@@ -110,7 +110,7 @@ final class ActionsTest extends TestCase
         ]);
     }
 
-    public function testEmail2FAHandleSendsEmail()
+    public function testEmail2FAHandleSendsEmail(): void
     {
         $this->insertIdentityEmal2FA();
 
@@ -127,7 +127,7 @@ final class ActionsTest extends TestCase
         $this->assertStringContainsString('Your authentication code is:', service('email')->archive['body']);
     }
 
-    public function testEmail2FAVerifyFails()
+    public function testEmail2FAVerifyFails(): void
     {
         $this->insertIdentityEmal2FA();
 
@@ -141,7 +141,7 @@ final class ActionsTest extends TestCase
         $result->assertSee(lang('Auth.invalid2FAToken'));
     }
 
-    public function testEmail2FAVerify()
+    public function testEmail2FAVerify(): void
     {
         $this->insertIdentityEmal2FA();
 
@@ -164,7 +164,7 @@ final class ActionsTest extends TestCase
         $result->assertSessionMissing('auth_action');
     }
 
-    public function testShowEmail2FACreatesIdentity()
+    public function testShowEmail2FACreatesIdentity(): void
     {
         $this->insertIdentityEmal2FA();
 
@@ -181,7 +181,7 @@ final class ActionsTest extends TestCase
         ]);
     }
 
-    public function testEmail2FACannotBeBypassed()
+    public function testEmail2FACannotBeBypassed(): void
     {
         // Ensure filter is enabled for all routes
         $config                      = config('Filters');
@@ -220,7 +220,7 @@ final class ActionsTest extends TestCase
         ]);
     }
 
-    public function testEmailActivateShow()
+    public function testEmailActivateShow(): void
     {
         $this->insertIdentityEmailActivate();
 
@@ -241,7 +241,7 @@ final class ActionsTest extends TestCase
         );
     }
 
-    public function testEmailActivateVerify()
+    public function testEmailActivateVerify(): void
     {
         $this->insertIdentityEmailActivate();
 
@@ -274,7 +274,7 @@ final class ActionsTest extends TestCase
         ]);
     }
 
-    public function testEmailActivateCannotBeBypassed()
+    public function testEmailActivateCannotBeBypassed(): void
     {
         // Ensure filter is enabled for all routes
         $config                      = config('Filters');

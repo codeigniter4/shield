@@ -35,7 +35,7 @@ final class MagicLinkTest extends TestCase
         Services::injectMock('routes', $routeCollection);
     }
 
-    public function testCanSeeMagicLinkForm()
+    public function testCanSeeMagicLinkForm(): void
     {
         $result = $this->get(route_to('magic-link'));
 
@@ -43,7 +43,7 @@ final class MagicLinkTest extends TestCase
         $result->assertSee(lang('Auth.useMagicLink'));
     }
 
-    public function testMagicLinkSubmitNoEmail()
+    public function testMagicLinkSubmitNoEmail(): void
     {
         $result = $this->post(route_to('magic-link'), [
             'email' => '',
@@ -53,7 +53,7 @@ final class MagicLinkTest extends TestCase
         $result->assertSessionHas('error', lang('Auth.invalidEmail'));
     }
 
-    public function testMagicLinkSubmitBadEmail()
+    public function testMagicLinkSubmitBadEmail(): void
     {
         $result = $this->post(route_to('magic-link'), [
             'email' => 'foo@example.com',
@@ -63,7 +63,7 @@ final class MagicLinkTest extends TestCase
         $result->assertSessionHas('error', lang('Auth.invalidEmail'));
     }
 
-    public function testMagicLinkSubmitSuccess()
+    public function testMagicLinkSubmitSuccess(): void
     {
         /**
          * @phpstan-var User
@@ -84,7 +84,7 @@ final class MagicLinkTest extends TestCase
         ]);
     }
 
-    public function testMagicLinkVerifyNoToken()
+    public function testMagicLinkVerifyNoToken(): void
     {
         $result = $this->get(route_to('verify-magic-link'));
 
@@ -92,7 +92,7 @@ final class MagicLinkTest extends TestCase
         $result->assertSessionHas('error', lang('Auth.magicTokenNotFound'));
     }
 
-    public function testMagicLinkVerifyExpired()
+    public function testMagicLinkVerifyExpired(): void
     {
         $identities = new UserIdentityModel();
         /**
@@ -113,7 +113,7 @@ final class MagicLinkTest extends TestCase
         $result->assertSessionHas('error', lang('Auth.magicLinkExpired'));
     }
 
-    public function testMagicLinkVerifySuccess()
+    public function testMagicLinkVerifySuccess(): void
     {
         $identities = new UserIdentityModel();
         /** @var User $user */

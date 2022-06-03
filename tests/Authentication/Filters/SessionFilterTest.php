@@ -2,50 +2,21 @@
 
 namespace Tests\Authentication\Filters;
 
-use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Filters\SessionAuth;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Test\FeatureTestTrait;
-use Config\Services;
-use Tests\Support\DatabaseTestCase;
+use CodeIgniter\Test\DatabaseTestTrait;
 
 /**
  * @internal
  */
-final class SessionFilterTest extends DatabaseTestCase
+final class SessionFilterTest extends AbstractFilterTest
 {
-    use FeatureTestTrait;
+    use DatabaseTestTrait;
 
-    protected $namespace;
+    protected string $alias     = 'sessionAuth';
+    protected string $classname = SessionAuth::class;
 
-    protected function setUp(): void
-    {
-        Services::reset(true);
-
-        parent::setUp();
-
-        $_SESSION = [];
-
-        // Register our filter
-        $filterConfig                         = config('Filters');
-        $filterConfig->aliases['sessionAuth'] = SessionAuth::class;
-        Factories::injectMock('filters', 'filters', $filterConfig);
-
-        // Add a test route that we can visit to trigger.
-        $routes = service('routes');
-        $routes->group('/', ['filter' => 'sessionAuth'], static function ($routes) {
-            $routes->get('protected-route', static function () {
-                echo 'Protected';
-            });
-        });
-        $routes->get('open-route', static function () {
-            echo 'Open';
-        });
-        $routes->get('login', 'AuthController::login', ['as' => 'login']);
-        Services::injectMock('routes', $routes);
-    }
-
-    public function testFilterNotAuthorized()
+    public function testFilterNotAuthorized(): void
     {
         $result = $this->call('get', 'protected-route');
 
@@ -56,7 +27,7 @@ final class SessionFilterTest extends DatabaseTestCase
         $result->assertSee('Open');
     }
 
-    public function testFilterSuccess()
+    public function testFilterSuccess(): void
     {
         $user                   = fake(UserModel::class);
         $_SESSION['user']['id'] = $user->id;

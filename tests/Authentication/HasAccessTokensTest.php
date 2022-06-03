@@ -23,7 +23,7 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $this->db->table('auth_identities')->truncate();
     }
 
-    public function testGenerateToken()
+    public function testGenerateToken(): void
     {
         $token = $this->user->generateAccessToken('foo');
 
@@ -40,7 +40,7 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $this->assertSame(['*'], $token->scopes);
     }
 
-    public function testAccessTokens()
+    public function testAccessTokens(): void
     {
         // Should return empty array when none exist
         $this->assertSame([], $this->user->accessTokens());
@@ -63,7 +63,7 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $this->assertSame($token2->id, $tokens[1]->id);
     }
 
-    public function testGetAccessToken()
+    public function testGetAccessToken(): void
     {
         // Should return null when not found
         $this->assertNull($this->user->getAccessToken('foo'));
@@ -76,7 +76,7 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $this->assertSame($token->id, $found->id);
     }
 
-    public function testGetAccessTokenById()
+    public function testGetAccessTokenById(): void
     {
         // Should return null when not found
         $this->assertNull($this->user->getAccessTokenById(123));
@@ -88,7 +88,7 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $this->assertSame($token->id, $found->id);
     }
 
-    public function testRevokeAccessToken()
+    public function testRevokeAccessToken(): void
     {
         $token = $this->user->generateAccessToken('foo');
 
@@ -99,7 +99,7 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $this->assertCount(0, $this->user->accessTokens());
     }
 
-    public function testRevokeAllAccessTokens()
+    public function testRevokeAllAccessTokens(): void
     {
         $this->user->generateAccessToken('foo');
         $this->user->generateAccessToken('foo');
@@ -111,12 +111,12 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $this->assertCount(0, $this->user->accessTokens());
     }
 
-    public function testTokenCanNoTokenSet()
+    public function testTokenCanNoTokenSet(): void
     {
         $this->assertFalse($this->user->tokenCan('foo'));
     }
 
-    public function testTokenCanBasics()
+    public function testTokenCanBasics(): void
     {
         $token = $this->user->generateAccessToken('foo', ['foo:bar']);
         $this->user->setAccessToken($token);
@@ -125,12 +125,12 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $this->assertFalse($this->user->tokenCan('foo:baz'));
     }
 
-    public function testTokenCantNoTokenSet()
+    public function testTokenCantNoTokenSet(): void
     {
         $this->assertTrue($this->user->tokenCant('foo'));
     }
 
-    public function testTokenCant()
+    public function testTokenCant(): void
     {
         $token = $this->user->generateAccessToken('foo', ['foo:bar']);
         $this->user->setAccessToken($token);

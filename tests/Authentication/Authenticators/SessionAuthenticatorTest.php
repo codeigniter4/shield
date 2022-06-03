@@ -46,12 +46,12 @@ final class SessionAuthenticatorTest extends TestCase
         $this->db->table('auth_identities')->truncate();
     }
 
-    public function testLoggedInFalse()
+    public function testLoggedInFalse(): void
     {
         $this->assertFalse($this->auth->loggedIn());
     }
 
-    public function testLoggedInTrue()
+    public function testLoggedInTrue(): void
     {
         $_SESSION['user']['id'] = $this->user->id;
 
@@ -62,7 +62,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($this->user->id, $authUser->id);
     }
 
-    public function testLoggedInWithRememberCookie()
+    public function testLoggedInWithRememberCookie(): void
     {
         unset($_SESSION['user']);
 
@@ -88,7 +88,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($this->user->id, $authUser->id);
     }
 
-    public function testLoginNoRemember()
+    public function testLoginNoRemember(): void
     {
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
@@ -101,7 +101,7 @@ final class SessionAuthenticatorTest extends TestCase
         ]);
     }
 
-    public function testLoginWithRemember()
+    public function testLoginWithRemember(): void
     {
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
@@ -118,7 +118,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertNotNull($response->getCookie('remember'));
     }
 
-    public function testLogout()
+    public function testLogout(): void
     {
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
         $this->auth->remember()->login($this->user);
@@ -131,7 +131,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
     }
 
-    public function testLoginByIdBadUser()
+    public function testLoginByIdBadUser(): void
     {
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage(lang('Auth.invalidUser'));
@@ -139,7 +139,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->auth->loginById(123);
     }
 
-    public function testLoginById()
+    public function testLoginById(): void
     {
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
@@ -150,7 +150,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
     }
 
-    public function testLoginByIdRemember()
+    public function testLoginByIdRemember(): void
     {
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
@@ -161,7 +161,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->seeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
     }
 
-    public function testForgetCurrentUser()
+    public function testForgetCurrentUser(): void
     {
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
         $this->auth->remember()->loginById($this->user->id);
@@ -174,7 +174,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
     }
 
-    public function testForgetAnotherUser()
+    public function testForgetAnotherUser(): void
     {
         fake(RememberModel::class, ['user_id' => $this->user->id]);
 
@@ -185,7 +185,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
     }
 
-    public function testCheckNoPassword()
+    public function testCheckNoPassword(): void
     {
         $result = $this->auth->check([
             'email' => 'johnsmith@example.com',
@@ -196,7 +196,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame(lang('Auth.badAttempt'), $result->reason());
     }
 
-    public function testCheckCannotFindUser()
+    public function testCheckCannotFindUser(): void
     {
         $result = $this->auth->check([
             'email'    => 'johnsmith@example.com',
@@ -208,7 +208,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame(lang('Auth.badAttempt'), $result->reason());
     }
 
-    public function testCheckBadPassword()
+    public function testCheckBadPassword(): void
     {
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
@@ -225,7 +225,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame(lang('Auth.invalidPassword'), $result->reason());
     }
 
-    public function testCheckSuccess()
+    public function testCheckSuccess(): void
     {
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
@@ -244,7 +244,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($this->user->id, $foundUser->id);
     }
 
-    public function testAttemptCannotFindUser()
+    public function testAttemptCannotFindUser(): void
     {
         $result = $this->auth->attempt([
             'email'    => 'johnsmith@example.com',
@@ -262,7 +262,7 @@ final class SessionAuthenticatorTest extends TestCase
         ]);
     }
 
-    public function testAttemptSuccess()
+    public function testAttemptSuccess(): void
     {
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
@@ -292,7 +292,7 @@ final class SessionAuthenticatorTest extends TestCase
         ]);
     }
 
-    public function testAttemptCaseInsensitive()
+    public function testAttemptCaseInsensitive(): void
     {
         $this->user->createEmailIdentity([
             'email'    => 'FOO@example.com',
@@ -322,7 +322,7 @@ final class SessionAuthenticatorTest extends TestCase
         ]);
     }
 
-    public function testAttemptUsernameOnly()
+    public function testAttemptUsernameOnly(): void
     {
         /** @var User $user */
         $user = fake(UserModel::class, ['username' => 'foorog']);

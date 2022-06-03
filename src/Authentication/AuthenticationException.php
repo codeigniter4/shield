@@ -35,10 +35,8 @@ class AuthenticationException extends Exception
     /**
      * Fires when no minimumPasswordLength has been set
      * in the Auth config file.
-     *
-     * @return self
      */
-    public static function forUnsetPasswordLength()
+    public static function forUnsetPasswordLength(): self
     {
         return new self(lang('Auth.unsetPasswordLength'), 500);
     }
@@ -46,10 +44,8 @@ class AuthenticationException extends Exception
     /**
      * When the cURL request (to Have I Been Pwned) in PwnedValidator
      * throws a HTTPException it is re-thrown as this one
-     *
-     * @return self
      */
-    public static function forHIBPCurlFail(HTTPException $e)
+    public static function forHIBPCurlFail(HTTPException $e): self
     {
         return new self($e->getMessage(), $e->getCode(), $e);
     }

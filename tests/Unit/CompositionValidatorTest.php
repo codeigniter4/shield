@@ -25,7 +25,7 @@ final class CompositionValidatorTest extends TestCase
         $this->validator = new CompositionValidator($this->config);
     }
 
-    public function testCheckThrowsException()
+    public function testCheckThrowsException(): void
     {
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage(lang('Auth.unsetPasswordLength'));
@@ -36,7 +36,7 @@ final class CompositionValidatorTest extends TestCase
         $this->validator->check($password);
     }
 
-    public function testCheckFalse()
+    public function testCheckFalse(): void
     {
         $password = '1234';
 
@@ -46,7 +46,7 @@ final class CompositionValidatorTest extends TestCase
         $this->assertSame(lang('Auth.errorPasswordLength', [$this->config->minimumPasswordLength]), $result->reason());
     }
 
-    public function testCheckTrue()
+    public function testCheckTrue(): void
     {
         $password = '1234567890';
 

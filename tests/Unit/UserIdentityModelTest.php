@@ -25,7 +25,7 @@ final class UserIdentityModelTest extends TestCase
         return new UserIdentityModel();
     }
 
-    public function testCreateDuplicateRecordThrowsException()
+    public function testCreateDuplicateRecordThrowsException(): void
     {
         $this->expectException(DatabaseException::class);
 
@@ -48,7 +48,7 @@ final class UserIdentityModelTest extends TestCase
         ]);
     }
 
-    public function testCreateCodeIdentityThrowsExceptionIfUniqueCodeIsNotGot()
+    public function testCreateCodeIdentityThrowsExceptionIfUniqueCodeIsNotGot(): void
     {
         $this->expectException(DatabaseException::class);
 

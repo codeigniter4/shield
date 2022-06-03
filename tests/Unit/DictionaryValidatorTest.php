@@ -22,7 +22,7 @@ final class DictionaryValidatorTest extends CIUnitTestCase
         $this->validator = new DictionaryValidator($config);
     }
 
-    public function testCheckFalseOnFoundPassword()
+    public function testCheckFalseOnFoundPassword(): void
     {
         $password = '!!!gerard!!!';
 
@@ -31,7 +31,7 @@ final class DictionaryValidatorTest extends CIUnitTestCase
         $this->assertFalse($result->isOK());
     }
 
-    public function testCheckTrueOnNotFound()
+    public function testCheckTrueOnNotFound(): void
     {
         $password = '!!!gerard!!!abootylicious';
 

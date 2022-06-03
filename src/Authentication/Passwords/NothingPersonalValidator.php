@@ -49,10 +49,8 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      *
      * isNotPersonal() returns true if no personal information can be found, or false
      * if such info is found.
-     *
-     * @return bool
      */
-    protected function isNotPersonal(string $password, ?User $user)
+    protected function isNotPersonal(string $password, ?User $user): bool
     {
         $userName = \strtolower($user->username);
         $email    = \strtolower($user->email);
@@ -150,10 +148,8 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      *
      * A $maxSimilarity value of 0 (zero) returns true without making a comparison.
      * In other words, 0 (zero) turns off similarity testing.
-     *
-     * @return bool
      */
-    protected function isNotSimilar(string $password, ?User $user)
+    protected function isNotSimilar(string $password, ?User $user): bool
     {
         $maxSimilarity = (float) $this->config->maxSimilarity;
         // sanity checking - working range 1-100, 0 is off
@@ -183,12 +179,8 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      *
      * Replaces all non-word characters and underscores in $str with a space.
      * Then it explodes that result using the space for a delimiter.
-     *
-     * @param string $str
-     *
-     * @return array
      */
-    protected function strip_explode($str)
+    protected function strip_explode(string $str): array
     {
         $stripped = \preg_replace('/[\W_]+/', ' ', $str);
         $parts    = \explode(' ', \trim($stripped));

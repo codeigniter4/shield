@@ -30,12 +30,12 @@ final class GroupsTest extends TestCase
         $this->groups = new Groups();
     }
 
-    public function testGroupInfoBadName()
+    public function testGroupInfoBadName(): void
     {
         $this->assertNull($this->groups->info('foo'));
     }
 
-    public function testGroupInfo()
+    public function testGroupInfo(): void
     {
         $group = $this->groups->info('admin');
 
@@ -45,7 +45,7 @@ final class GroupsTest extends TestCase
         $this->assertSame('admin', $group->alias);
     }
 
-    public function testSaveGroupCreatesNew()
+    public function testSaveGroupCreatesNew(): void
     {
         $group = new Group([
             'alias'       => 'foo',
@@ -58,7 +58,7 @@ final class GroupsTest extends TestCase
         $this->assertInstanceOf(Group::class, $this->groups->info('foo'));
     }
 
-    public function testSaveGroupCreatesNewMakesAlias()
+    public function testSaveGroupCreatesNewMakesAlias(): void
     {
         $group = new Group([
             'title'       => 'Foo Dog',
@@ -70,7 +70,7 @@ final class GroupsTest extends TestCase
         $this->assertInstanceOf(Group::class, $this->groups->info('foo-dog'));
     }
 
-    public function testSaveGroupThrowsOnMissingTitle()
+    public function testSaveGroupThrowsOnMissingTitle(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(lang('Auth.missingTitle'));

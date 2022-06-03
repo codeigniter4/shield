@@ -2,54 +2,23 @@
 
 namespace Tests\Authentication\Filters;
 
-use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Filters\ChainAuth;
 use CodeIgniter\Test\DatabaseTestTrait;
-use CodeIgniter\Test\FeatureTestTrait;
-use Config\Services;
 use Tests\Support\FakeUser;
-use Tests\Support\TestCase;
 
 /**
  * @internal
  */
-final class ChainFilterTest extends TestCase
+final class ChainFilterTest extends AbstractFilterTest
 {
     use DatabaseTestTrait;
-    use FeatureTestTrait;
     use FakeUser;
 
-    protected $namespace;
+    protected string $alias     = 'chain';
+    protected string $classname = ChainAuth::class;
 
-    protected function setUp(): void
-    {
-        Services::reset(true);
-
-        parent::setUp();
-
-        $_SESSION = [];
-
-        // Register our filter
-        $filterConfig                   = config('Filters');
-        $filterConfig->aliases['chain'] = ChainAuth::class;
-        Factories::injectMock('filters', 'filters', $filterConfig);
-
-        // Add a test route that we can visit to trigger.
-        $routes = service('routes');
-        $routes->group('/', ['filter' => 'chain'], static function ($routes) {
-            $routes->get('protected-route', static function () {
-                echo 'Protected';
-            });
-        });
-        $routes->get('open-route', static function () {
-            echo 'Open';
-        });
-        $routes->get('login', 'AuthController::login', ['as' => 'login']);
-        Services::injectMock('routes', $routes);
-    }
-
-    public function testFilterNotAuthorized()
+    public function testFilterNotAuthorized(): void
     {
         $result = $this->call('get', 'protected-route');
 
@@ -60,7 +29,7 @@ final class ChainFilterTest extends TestCase
         $result->assertSee('Open');
     }
 
-    public function testFilterSuccessSeession()
+    public function testFilterSuccessSeession(): void
     {
         $_SESSION['user']['id'] = $this->user->id;
 
@@ -74,7 +43,7 @@ final class ChainFilterTest extends TestCase
         $this->assertSame($this->user->id, auth()->user()->id);
     }
 
-    public function testFilterSuccessTokens()
+    public function testFilterSuccessTokens(): void
     {
         $token = $this->user->generateAccessToken('foo');
 

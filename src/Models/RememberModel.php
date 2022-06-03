@@ -42,10 +42,8 @@ class RememberModel extends Model
 
     /**
      * Returns the remember-me token info for a given selector.
-     *
-     * @return stdClass|null
      */
-    public function getRememberToken(string $selector)
+    public function getRememberToken(string $selector): ?stdClass
     {
         return $this->where('selector', $selector)
             ->get()

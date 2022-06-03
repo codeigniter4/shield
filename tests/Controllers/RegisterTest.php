@@ -41,7 +41,7 @@ final class RegisterTest extends DatabaseTestCase
         Factories::injectMock('config', 'Validation', $config);
     }
 
-    public function testRegisterActionSuccess()
+    public function testRegisterActionSuccess(): void
     {
         $result = $this->withSession()->post('/register', [
             'username'         => 'JohnDoe',
@@ -75,7 +75,7 @@ final class RegisterTest extends DatabaseTestCase
         $this->assertTrue($user->active);
     }
 
-    public function testRegisterDisplaysForm()
+    public function testRegisterDisplaysForm(): void
     {
         $result = $this->withSession()->get('/register');
 
@@ -83,7 +83,7 @@ final class RegisterTest extends DatabaseTestCase
         $result->assertSee(lang('Auth.register'));
     }
 
-    public function testRegisterRedirectsIfNotAllowed()
+    public function testRegisterRedirectsIfNotAllowed(): void
     {
         $config                    = config('Auth');
         $config->allowRegistration = false;
@@ -95,7 +95,7 @@ final class RegisterTest extends DatabaseTestCase
         $result->assertRedirect();
     }
 
-    public function testRegisterActionRedirectsIfNotAllowed()
+    public function testRegisterActionRedirectsIfNotAllowed(): void
     {
         $config                    = config('Auth');
         $config->allowRegistration = false;
@@ -107,7 +107,7 @@ final class RegisterTest extends DatabaseTestCase
         $result->assertRedirect();
     }
 
-    public function testRegisterActionInvalidData()
+    public function testRegisterActionInvalidData(): void
     {
         $result = $this->withSession()->post('/register');
 
@@ -115,7 +115,7 @@ final class RegisterTest extends DatabaseTestCase
         $this->assertCount(4, session('errors'));
     }
 
-    public function testRegisterRedirectsToActionIfDefined()
+    public function testRegisterRedirectsToActionIfDefined(): void
     {
         // Ensure our action is defined
         $config                      = config('Auth');
@@ -139,7 +139,7 @@ final class RegisterTest extends DatabaseTestCase
         ]);
     }
 
-    protected function setupConfig()
+    protected function setupConfig(): void
     {
         $config             = config('Validation');
         $config->ruleSets[] = ValidationRules::class;

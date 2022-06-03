@@ -31,21 +31,21 @@ final class AuthHelperTest extends TestCase
         $this->setPrivateProperty(auth(), 'alias', null);
     }
 
-    public function testAuthReturnsDefaultAuthenticator()
+    public function testAuthReturnsDefaultAuthenticator(): void
     {
         $authenticatorClassname = config('Auth')->authenticators[config('Auth')->defaultAuthenticator];
 
         $this->assertInstanceOf($authenticatorClassname, auth()->getAuthenticator());
     }
 
-    public function testAuthReturnsSpecifiedAuthenticator()
+    public function testAuthReturnsSpecifiedAuthenticator(): void
     {
         $authenticatorClassname = config('Auth')->authenticators['tokens'];
 
         $this->assertInstanceOf($authenticatorClassname, auth('tokens')->getAuthenticator());
     }
 
-    public function testAuthThrowsWithInvalidAuthenticator()
+    public function testAuthThrowsWithInvalidAuthenticator(): void
     {
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage(lang('Auth.unknownAuthenticator', ['foo']));
@@ -53,13 +53,13 @@ final class AuthHelperTest extends TestCase
         auth('foo')->user();
     }
 
-    public function testUserIdReturnsNull()
+    public function testUserIdReturnsNull(): void
     {
         $this->assertFalse(auth()->loggedIn());
         $this->assertNull(user_id());
     }
 
-    public function testUserIdReturnsId()
+    public function testUserIdReturnsId(): void
     {
         $user = fake(UserModel::class, ['id' => 1]);
         $this->setPrivateProperty(auth()->getAuthenticator(), 'user', $user);

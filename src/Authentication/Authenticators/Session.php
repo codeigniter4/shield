@@ -810,7 +810,7 @@ class Session implements AuthenticatorInterface
         return hash('sha256', $validator);
     }
 
-    private function refreshRememberMeToken(stdClass $token)
+    private function refreshRememberMeToken(stdClass $token): void
     {
         // Update validator.
         $validator = bin2hex(random_bytes(20));
