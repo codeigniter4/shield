@@ -94,7 +94,7 @@ the user that was logged in as `extraInfo()`.
 ```php
 $result = auth()->attempt($credentials);
 
-if($result->isOK()) {
+if ($result->isOK()) {
     $user = $result->extraInfo();
 }
 ```
