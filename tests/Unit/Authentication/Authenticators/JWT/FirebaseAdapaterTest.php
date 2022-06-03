@@ -21,10 +21,14 @@ final class FirebaseAdapaterTest extends TestCase
 
         $jwtDecoder = new FirebaseAdapter();
 
-        $payload = $jwtDecoder->decode($token);
+        $config    = setting('Auth.jwtConfig');
+        $key       = $config['secretKey'];
+        $algorithm = $config['algorithm'];
 
-        $this->assertSame(setting('Auth.jwtConfig')['issuer'], $payload->iss);
-        $this->assertSame(setting('Auth.jwtConfig')['audience'], $payload->aud);
+        $payload = $jwtDecoder->decode($token, $key, $algorithm);
+
+        $this->assertSame(setting('Auth.jwtConfig')['claims']['iss'], $payload->iss);
+        $this->assertSame(setting('Auth.jwtConfig')['claims']['aud'], $payload->aud);
         $this->assertSame('1', $payload->sub);
     }
 

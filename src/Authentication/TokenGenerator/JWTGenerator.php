@@ -28,13 +28,14 @@ class JWTGenerator
         $iat = $this->currentTime->getTimestamp();
         $exp = $iat + $config['timeToLive'];
 
-        $payload = [
-            'iss' => $config['issuer'],     // issuer
-            'aud' => $config['audience'],   // audience
-            'sub' => (string) $user->id,    // subject
-            'iat' => $iat,                  // issued at
-            'exp' => $exp,                  // expiration time
-        ];
+        $payload = array_merge(
+            $config['claims'],
+            [
+                'sub' => (string) $user->id,    // subject
+                'iat' => $iat,                  // issued at
+                'exp' => $exp,                  // expiration time
+            ]
+        );
 
         return $this->jwtAdapter->generate(
             $payload,
@@ -46,25 +47,28 @@ class JWTGenerator
     /**
      * Issues JWT
      *
-     * @param int|null $ttl Time to live in seconds.
-     * @param string   $key The secret key.
+     * @param array    $claims The payload items.
+     * @param int|null $ttl    Time to live in seconds.
+     * @param string   $key    The secret key.
      */
-    public function generate(array $payload, ?int $ttl = null, $key = null, ?string $algorithm = null): string
+    public function generate(array $claims, ?int $ttl = null, $key = null, ?string $algorithm = null): string
     {
         assert(
-            (array_key_exists('exp', $payload) && ($ttl !== null)) === false,
-            'Cannot pass $payload[\'exp\'] and $ttl at the same time.'
+            (array_key_exists('exp', $claims) && ($ttl !== null)) === false,
+            'Cannot pass $claims[\'exp\'] and $ttl at the same time.'
         );
 
         $config = setting('Auth.jwtConfig');
         $algorithm ??= $config['algorithm'];
         $key ??= $config['secretKey'];
 
-        if (! array_key_exists('iat', $payload)) {
+        $payload = $claims;
+
+        if (! array_key_exists('iat', $claims)) {
             $payload['iat'] = $this->currentTime->getTimestamp();
         }
 
-        if (! array_key_exists('exp', $payload)) {
+        if (! array_key_exists('exp', $claims)) {
             $payload['exp'] = $payload['iat'] + $config['timeToLive'];
         }
 
