@@ -191,11 +191,9 @@ class JWT implements AuthenticatorInterface
     /**
      * Logs the current user out.
      */
-    public function logout(): bool
+    public function logout(): void
     {
         $this->user = null;
-
-        return true;
     }
 
     /**
