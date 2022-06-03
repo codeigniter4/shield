@@ -39,9 +39,9 @@ helper('auth');
 auth()->user();
 
 // get the current user's id
-auth()->id()
+auth()->id();
 // or
-user_id()
+user_id();
 ```
 
 ## Authenticator Responses
@@ -94,8 +94,8 @@ the user that was logged in as `extraInfo()`.
 ```php
 $result = auth()->attempt($credentials);
 
-if($result->isOK()) {
-    $user = $result->extraInfo());
+if ($result->isOK()) {
+    $user = $result->extraInfo();
 }
 ```
 
