@@ -4,18 +4,19 @@ namespace CodeIgniter\Shield\Language\ja;
 
 return [
     // Exceptions
-    'unknownAuthenticator' => '{0} は有効なオーセンティケーターではありません。', // '{0} is not a valid authenticator.',
-    'unknownUserProvider'  => '使用するユーザープロバイダーを決定できません。', // 'Unable to determine the User Provider to use.',
-    'invalidUser'          => '指定されたユーザーを見つけることができません。', // 'Unable to locate the specified user.',
-    'badAttempt'           => 'ログインできません。認証情報を確認してください。', // 'Unable to log you in. Please check your credentials.',
-    'noPassword'           => 'パスワードのないユーザーは認証できません。', // 'Cannot validate a user without a password.',
-    'invalidPassword'      => 'ログインできません。パスワードを確認してください。', // 'Unable to log you in. Please check your password.',
-    'noToken'              => 'すべてのリクエストは、AuthorizationヘッダーにBearerトークンが必要です。', // 'Every request must have a bearer token in the Authorization header.',
-    'badToken'             => 'アクセストークンが無効です。', // 'The access token is invalid.',
-    'oldToken'             => 'アクセストークンの有効期限が切れています。', // 'The access token has expired.',
-    'noUserEntity'         => 'パスワード検証のため、Userエンティティを指定する必要があります。', // 'User Entity must be provided for password validation.',
-    'invalidEmail'         => 'メールアドレスが一致しません。', // 'Unable to verify the email address matches the email on record.',
-    'throttled'            => 'このIPアドレスからのリクエストが多すぎます。 {0}秒後に再試行できます。', // Too many requests made from this IP address. You may try again in {0} seconds.
+    'unknownAuthenticator'  => '{0} は有効なオーセンティケーターではありません。', // '{0} is not a valid authenticator.',
+    'unknownUserProvider'   => '使用するユーザープロバイダーを決定できません。', // 'Unable to determine the User Provider to use.',
+    'invalidUser'           => '指定されたユーザーを見つけることができません。', // 'Unable to locate the specified user.',
+    'badAttempt'            => 'ログインできません。認証情報を確認してください。', // 'Unable to log you in. Please check your credentials.',
+    'noPassword'            => 'パスワードのないユーザーは認証できません。', // 'Cannot validate a user without a password.',
+    'invalidPassword'       => 'ログインできません。パスワードを確認してください。', // 'Unable to log you in. Please check your password.',
+    'noToken'               => 'すべてのリクエストは、AuthorizationヘッダーにBearerトークンが必要です。', // 'Every request must have a bearer token in the Authorization header.',
+    'badToken'              => 'アクセストークンが無効です。', // 'The access token is invalid.',
+    'oldToken'              => 'アクセストークンの有効期限が切れています。', // 'The access token has expired.',
+    'noUserEntity'          => 'パスワード検証のため、Userエンティティを指定する必要があります。', // 'User Entity must be provided for password validation.',
+    'invalidEmail'          => 'メールアドレスが一致しません。', // 'Unable to verify the email address matches the email on record.',
+    'unableSendEmailToUser' => '申し訳ありませんが、メールの送信に問題がありました。 "{0}"にメールを送信できませんでした。', // 'Sorry, there was a problem sending the email. We could not send an email to "{0}".',
+    'throttled'             => 'このIPアドレスからのリクエストが多すぎます。 {0}秒後に再試行できます。', // Too many requests made from this IP address. You may try again in {0} seconds.
 
     'email'           => 'メールアドレス', // 'Email Address',
     'username'        => 'ユーザー名', // 'Username',
