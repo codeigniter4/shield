@@ -28,7 +28,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 
         $config = new Auth();
         $auth   = new Authentication($config);
-        $auth->setProvider(model(UserModel::class)); // @phpstan-ignore-line
+        $auth->setProvider(model(UserModel::class));
 
         /** @var AccessTokens $authenticator */
         $authenticator = $auth->factory('tokens');

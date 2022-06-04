@@ -70,9 +70,9 @@ class Session implements AuthenticatorInterface
 
         $this->provider = $provider;
 
-        $this->loginModel        = model(LoginModel::class); // @phpstan-ignore-line
-        $this->rememberModel     = model(RememberModel::class); // @phpstan-ignore-line
-        $this->userIdentityModel = model(UserIdentityModel::class); // @phpstan-ignore-line
+        $this->loginModel        = model(LoginModel::class);
+        $this->rememberModel     = model(RememberModel::class);
+        $this->userIdentityModel = model(UserIdentityModel::class);
     }
 
     /**

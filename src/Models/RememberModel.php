@@ -45,9 +45,7 @@ class RememberModel extends Model
      */
     public function getRememberToken(string $selector): ?stdClass
     {
-        return $this->where('selector', $selector)
-            ->get()
-            ->getRow();
+        return $this->where('selector', $selector)->get()->getRow(); // @phpstan-ignore-line
     }
 
     /**

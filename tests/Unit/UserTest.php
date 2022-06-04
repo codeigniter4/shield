@@ -60,7 +60,7 @@ final class UserTest extends TestCase
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
 
         // Grab the user again, using the model's identity helper
-        model(UserModel::class)->withIdentities()->findAll(); // @phpstan-ignore-line
+        model(UserModel::class)->withIdentities()->findAll();
 
         $identities = $this->user->identities;
 

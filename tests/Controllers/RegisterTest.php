@@ -6,6 +6,7 @@ use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords\ValidationRules;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
@@ -61,7 +62,9 @@ final class RegisterTest extends DatabaseTestCase
         ]);
 
         // User has email/password identity
+        /** @var User $user */
         $user = model(UserModel::class)->where('username', 'JohnDoe')->first();
+
         $this->seeInDatabase('auth_identities', [
             'user_id' => $user->id,
             'type'    => Session::ID_TYPE_EMAIL_PASSWORD,

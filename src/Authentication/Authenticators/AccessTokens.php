@@ -29,7 +29,7 @@ class AccessTokens implements AuthenticatorInterface
     {
         $this->provider = $provider;
 
-        $this->loginModel = model(TokenLoginModel::class); // @phpstan-ignore-line
+        $this->loginModel = model(TokenLoginModel::class);
     }
 
     /**
