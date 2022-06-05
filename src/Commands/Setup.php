@@ -70,9 +70,7 @@ class Setup extends BaseCommand
     {
         $this->replacer = new ContentReplacer();
 
-        if (! $this->determineSourcePath()) {
-            return;
-        }
+        $this->sourcePath = __DIR__ . '/../';
 
         $this->publishConfig();
     }
@@ -123,22 +121,6 @@ class Setup extends BaseCommand
         ];
 
         $this->copyAndReplace($file, $replaces);
-    }
-
-    /**
-     * Determines the current source path from which all other files are located.
-     */
-    private function determineSourcePath(): bool
-    {
-        $this->sourcePath = realpath(__DIR__ . '/../');
-
-        if ($this->sourcePath === '/' || $this->sourcePath === false) {
-            CLI::error('Unable to determine the correct source directory. Bailing.');
-
-            return false;
-        }
-
-        return true;
     }
 
     /**
