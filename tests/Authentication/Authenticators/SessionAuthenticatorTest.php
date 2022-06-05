@@ -34,7 +34,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $config = new Auth();
         $auth   = new Authentication($config);
-        $auth->setProvider(model(UserModel::class)); // @phpstan-ignore-line
+        $auth->setProvider(model(UserModel::class));
 
         /** @var Session $authenticator */
         $authenticator = $auth->factory('session');
