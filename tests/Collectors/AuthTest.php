@@ -37,7 +37,7 @@ final class AuthTest extends TestCase
         $this->assertStringContainsString('Not logged in', $output);
     }
 
-    public function testtestDisplayLoggedIn(): void
+    public function testDisplayLoggedIn(): void
     {
         $authenticator = service('auth')->getAuthenticator();
         assert($authenticator instanceof Session);
