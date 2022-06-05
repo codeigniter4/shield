@@ -4,7 +4,7 @@ namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
-use Config\Autoload;
+use CodeIgniter\Shield\Commands\Setup\ContentReplacer;
 
 class Setup extends BaseCommand
 {
@@ -60,11 +60,15 @@ class Setup extends BaseCommand
      */
     protected $sourcePath;
 
+    private ContentReplacer $replacer;
+
     /**
      * Displays the help for the spark cli script itself.
      */
     public function run(array $params)
     {
+        $this->replacer = new ContentReplacer();
+
         if (! $this->determineSourcePath()) {
             return;
         }
@@ -91,9 +95,7 @@ class Setup extends BaseCommand
 
         $content = file_get_contents($path);
 
-        foreach ($replaces as $search => $replace) {
-            $content = str_replace($search, $replace, $content);
-        }
+        $content = $this->replacer->replace($content, $replaces);
 
         $this->writeFile($file, $content);
     }
@@ -146,10 +148,7 @@ class Setup extends BaseCommand
      */
     protected function writeFile(string $file, string $content)
     {
-        $config  = new Autoload();
-        $appPath = $config->psr4[APP_NAMESPACE];
-
-        $path      = $appPath . $file;
+        $path      = APPPATH . $file;
         $cleanPath = clean_path($path);
 
         $directory = dirname($path);
@@ -179,33 +178,30 @@ class Setup extends BaseCommand
     }
 
     /**
-     * @param string $check Code to add.
-     * @param string $file  Relative file path like 'Controllers/BaseController.php'.
+     * @param string $code Code to add.
+     * @param string $file Relative file path like 'Controllers/BaseController.php'.
      */
-    protected function replace(string $file, string $check, string $pattern, string $replace)
+    protected function add(string $file, string $code, string $pattern, string $replace)
     {
-        $config    = new Autoload();
-        $appPath   = $config->psr4[APP_NAMESPACE];
-        $path      = $appPath . $file;
+        $path      = APPPATH . $file;
         $cleanPath = clean_path($path);
 
         $content = file_get_contents($path);
 
-        $return = preg_match('/' . preg_quote($check, '/') . '/u', $content);
-        if ($return === 1) {
+        $output = $this->replacer->add($content, $code, $pattern, $replace);
+
+        if ($output === true) {
             CLI::error("  Skipped {$cleanPath}. It has already been updated.");
 
             return;
         }
-        if ($return === false) {
+        if ($output === false) {
             CLI::error("  Error checking {$cleanPath}.");
 
             return;
         }
 
-        $content = preg_replace($pattern, $replace, $content);
-
-        if (write_file($path, $content)) {
+        if (write_file($path, $output)) {
             CLI::write(CLI::color('  Updated: ', 'green') . $cleanPath);
         } else {
             CLI::error("  Error updating {$cleanPath}.");
@@ -220,7 +216,7 @@ class Setup extends BaseCommand
         $pattern = '/(' . preg_quote('// Do Not Edit This Line', '/') . ')/u';
         $replace = $check . "\n\n        " . '$1';
 
-        $this->replace($file, $check, $pattern, $replace);
+        $this->add($file, $check, $pattern, $replace);
     }
 
     private function setupRoutes()
@@ -231,6 +227,6 @@ class Setup extends BaseCommand
         $pattern = '/(.*)(\n' . preg_quote('$routes->', '/') . '[^\n]+?\n)/su';
         $replace = '$1$2' . "\n" . $check . "\n";
 
-        $this->replace($file, $check, $pattern, $replace);
+        $this->add($file, $check, $pattern, $replace);
     }
 }
