@@ -688,7 +688,8 @@ class Session implements AuthenticatorInterface
         // Trigger logout event
         Events::trigger('logout', $this->user);
 
-        $this->user = null;
+        $this->user      = null;
+        $this->userState = self::STATE_ANONYMOUS;
     }
 
     /**
