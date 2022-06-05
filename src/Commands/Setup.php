@@ -60,6 +60,7 @@ class Setup extends BaseCommand
      */
     protected $sourcePath;
 
+    protected $distPath = APPPATH;
     private ContentReplacer $replacer;
 
     /**
@@ -148,7 +149,7 @@ class Setup extends BaseCommand
      */
     protected function writeFile(string $file, string $content)
     {
-        $path      = APPPATH . $file;
+        $path      = $this->distPath . $file;
         $cleanPath = clean_path($path);
 
         $directory = dirname($path);
@@ -183,7 +184,7 @@ class Setup extends BaseCommand
      */
     protected function add(string $file, string $code, string $pattern, string $replace)
     {
-        $path      = APPPATH . $file;
+        $path      = $this->distPath . $file;
         $cleanPath = clean_path($path);
 
         $content = file_get_contents($path);
