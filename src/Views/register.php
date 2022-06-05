@@ -15,7 +15,8 @@
                     <div class="alert alert-danger" role="alert">
                         <?php if (is_array(session('errors'))) : ?>
                             <?php foreach (session('errors') as $error) : ?>
-                                <?= $error . '<br>' ?>
+                                <?= $error ?>
+                                <br>
                             <?php endforeach ?>
                         <?php else : ?>
                             <?= session('errors') ?>
