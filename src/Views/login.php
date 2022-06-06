@@ -13,6 +13,10 @@
                 <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
                 <?php endif ?>
 
+                <?php if (session('message') !== null) : ?>
+                <div class="alert alert-success" role="alert"><?= session('message') ?></div>
+                <?php endif ?>
+
                 <form action="<?= route_to('login') ?>" method="post">
                     <?= csrf_field() ?>
 

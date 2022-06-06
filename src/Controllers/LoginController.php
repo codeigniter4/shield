@@ -60,6 +60,6 @@ class LoginController extends BaseController
 
         auth()->logout();
 
-        return redirect()->to(config('Auth')->logoutRedirect());
+        return redirect()->to(config('Auth')->logoutRedirect())->with('message', lang('Auth.successLogout'));
     }
 }
