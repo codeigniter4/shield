@@ -9,11 +9,7 @@ class ContentReplacer
      */
     public function replace(string $content, array $replaces): string
     {
-        foreach ($replaces as $search => $replace) {
-            $content = str_replace($search, $replace, $content);
-        }
-
-        return $content;
+        return strtr($content, $replaces);
     }
 
     /**
