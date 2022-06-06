@@ -130,6 +130,7 @@ final class LoginTest extends TestCase
         $result = $this->get('logout');
 
         $result->assertStatus(302);
+        $result->assertSessionHas('message', lang('Auth.successLogout'));
         $this->assertSame(site_url(config('Auth')->redirects['logout']), $result->getRedirectUrl());
 
         $this->assertNull(session('logged_in'));
