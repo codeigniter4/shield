@@ -66,7 +66,7 @@ class Setup extends BaseCommand
     /**
      * Displays the help for the spark cli script itself.
      */
-    public function run(array $params)
+    public function run(array $params): void
     {
         $this->replacer = new ContentReplacer();
 
@@ -75,7 +75,7 @@ class Setup extends BaseCommand
         $this->publishConfig();
     }
 
-    private function publishConfig()
+    private function publishConfig(): void
     {
         $this->publishConfigAuth();
         $this->publishConfigAuthGroups();
@@ -88,7 +88,7 @@ class Setup extends BaseCommand
      * @param string $file     Relative file path like 'Config/Auth.php'.
      * @param array  $replaces [search => replace]
      */
-    protected function copyAndReplace(string $file, array $replaces)
+    protected function copyAndReplace(string $file, array $replaces): void
     {
         $path = "{$this->sourcePath}/{$file}";
 
@@ -99,7 +99,7 @@ class Setup extends BaseCommand
         $this->writeFile($file, $content);
     }
 
-    private function publishConfigAuth()
+    private function publishConfigAuth(): void
     {
         $file     = 'Config/Auth.php';
         $replaces = [
@@ -111,7 +111,7 @@ class Setup extends BaseCommand
         $this->copyAndReplace($file, $replaces);
     }
 
-    private function publishConfigAuthGroups()
+    private function publishConfigAuthGroups(): void
     {
         $file     = 'Config/AuthGroups.php';
         $replaces = [
@@ -129,7 +129,7 @@ class Setup extends BaseCommand
      *
      * @param string $file Relative file path like 'Config/Auth.php'.
      */
-    protected function writeFile(string $file, string $content)
+    protected function writeFile(string $file, string $content): void
     {
         $path      = $this->distPath . $file;
         $cleanPath = clean_path($path);
@@ -164,7 +164,7 @@ class Setup extends BaseCommand
      * @param string $code Code to add.
      * @param string $file Relative file path like 'Controllers/BaseController.php'.
      */
-    protected function add(string $file, string $code, string $pattern, string $replace)
+    protected function add(string $file, string $code, string $pattern, string $replace): void
     {
         $path      = $this->distPath . $file;
         $cleanPath = clean_path($path);
@@ -191,7 +191,7 @@ class Setup extends BaseCommand
         }
     }
 
-    private function setupHelper()
+    private function setupHelper(): void
     {
         $file = 'Controllers/BaseController.php';
 
