@@ -4,7 +4,9 @@ namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
+use CodeIgniter\Commands\Database\Migrate;
 use CodeIgniter\Shield\Commands\Setup\ContentReplacer;
+use Config\Services;
 
 class Setup extends BaseCommand
 {
@@ -82,6 +84,8 @@ class Setup extends BaseCommand
 
         $this->setupHelper();
         $this->setupRoutes();
+
+        $this->runMigrations();
     }
 
     /**
@@ -211,5 +215,25 @@ class Setup extends BaseCommand
         $replace = '$1$2' . "\n" . $check . "\n";
 
         $this->add($file, $check, $pattern, $replace);
+    }
+
+    private function runMigrations(): void
+    {
+        if (
+           $this->cliPrompt('  Run `spark migrate --all` now?', ['y', 'n']) === 'n'
+        ) {
+            return;
+        }
+
+        $command = new Migrate(Services::logger(), Services::commands());
+        $command->run(['all' => null]);
+    }
+
+    /**
+     * This method is for testing.
+     */
+    protected function cliPrompt(string $field, array $options): string
+    {
+        return CLI::prompt($field, $options);
     }
 }
