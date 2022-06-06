@@ -65,6 +65,9 @@ final class SessionAuthenticatorTest extends TestCase
     public function testLoggedInWithRememberCookie(): void
     {
         unset($_SESSION['user']);
+        // Set Cookie.prefix
+        $cookiePrefix = 'prefix_';
+        setting('Cookie.prefix', $cookiePrefix);
 
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
@@ -77,8 +80,9 @@ final class SessionAuthenticatorTest extends TestCase
         $rememberModel->rememberUser($this->user, $selector, hash('sha256', $validator), $expires);
 
         // Set Cookie value for remember-me.
-        $token               = $selector . ':' . $validator;
-        $_COOKIE['remember'] = $token;
+        $token                = $selector . ':' . $validator;
+        $cookieName           = $cookiePrefix . setting('Auth.sessionConfig')['rememberCookieName'];
+        $_COOKIE[$cookieName] = $token;
 
         $this->assertTrue($this->auth->loggedIn());
 
@@ -86,6 +90,9 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertInstanceOf(User::class, $authUser);
         $this->assertSame($this->user->id, $authUser->id);
+
+        // Forget Cookie.prefix
+        setting()->forget('Cookie.prefix');
     }
 
     public function testLoginNoRemember(): void
