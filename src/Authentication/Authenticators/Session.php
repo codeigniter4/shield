@@ -666,8 +666,6 @@ class Session implements AuthenticatorInterface
             return;
         }
 
-        helper('cookie');
-
         // Destroy the session data - but ensure a session is still
         // available for flash messages, etc.
         /** @var \CodeIgniter\Session\Session $session */
@@ -688,7 +686,8 @@ class Session implements AuthenticatorInterface
         // Trigger logout event
         Events::trigger('logout', $this->user);
 
-        $this->user = null;
+        $this->user      = null;
+        $this->userState = self::STATE_ANONYMOUS;
     }
 
     /**
