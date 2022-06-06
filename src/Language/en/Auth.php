@@ -44,6 +44,7 @@ return [
     'magicLinkExpired'   => 'Sorry, link has expired.',
     'checkYourEmail'     => 'Check your email!',
     'magicLinkDetails'   => 'We just sent you an email with a Login link inside. It is only valid for {0} minutes.',
+    'successLogout'      => 'You have successfully logged out.',
 
     // Passwords
     'errorPasswordLength'       => 'Passwords must be at least {0, number} characters long.',
