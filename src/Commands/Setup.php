@@ -103,9 +103,9 @@ class Setup extends BaseCommand
     {
         $file     = 'Config/Auth.php';
         $replaces = [
-            'namespace CodeIgniter\Shield\Config'    => 'namespace Config',
-            "use CodeIgniter\\Config\\BaseConfig;" => 'CodeIgniter\\Shield\\Config\\Auth as ShieldAuth;',
-            'extends BaseConfig'                     => 'extends ShieldAuth',
+            'namespace CodeIgniter\Shield\Config'  => 'namespace Config',
+            'use CodeIgniter\\Config\\BaseConfig;' => 'CodeIgniter\\Shield\\Config\\Auth as ShieldAuth;',
+            'extends BaseConfig'                   => 'extends ShieldAuth',
         ];
 
         $this->copyAndReplace($file, $replaces);
@@ -115,9 +115,9 @@ class Setup extends BaseCommand
     {
         $file     = 'Config/AuthGroups.php';
         $replaces = [
-            'namespace CodeIgniter\Shield\Config'    => 'namespace Config',
-            "use CodeIgniter\\Config\\BaseConfig;" => 'CodeIgniter\\Shield\\Config\\AuthGroups as ShieldAuthGroups;',
-            'extends BaseConfig'                     => 'extends ShieldAuthGroups',
+            'namespace CodeIgniter\Shield\Config'  => 'namespace Config',
+            'use CodeIgniter\\Config\\BaseConfig;' => 'CodeIgniter\\Shield\\Config\\AuthGroups as ShieldAuthGroups;',
+            'extends BaseConfig'                   => 'extends ShieldAuthGroups',
         ];
 
         $this->copyAndReplace($file, $replaces);
