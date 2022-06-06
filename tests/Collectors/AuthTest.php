@@ -51,6 +51,18 @@ final class AuthTest extends TestCase
         $this->assertStringContainsString('<td>Groups</td><td>admin, beta</td>', $output);
     }
 
+    public function testDisplayNotLoggedInAfterLogout(): void
+    {
+        $authenticator = service('auth')->getAuthenticator();
+        assert($authenticator instanceof Session);
+        $authenticator->login($this->user);
+
+        $authenticator->logout();
+
+        $output = $this->collector->display();
+        $this->assertStringContainsString('Not logged in', $output);
+    }
+
     public function testGetTitleDetails(): void
     {
         $output = $this->collector->getTitleDetails();
