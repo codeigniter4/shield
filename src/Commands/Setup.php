@@ -104,8 +104,8 @@ class Setup extends BaseCommand
         $file     = 'Config/Auth.php';
         $replaces = [
             'namespace CodeIgniter\Shield\Config'    => 'namespace Config',
-            "use CodeIgniter\\Config\\BaseConfig;\n" => '',
-            'extends BaseConfig'                     => 'extends \\CodeIgniter\\Shield\\Config\\Auth',
+            "use CodeIgniter\\Config\\BaseConfig;" => 'CodeIgniter\\Shield\\Config\\Auth as ShieldAuth;',
+            'extends BaseConfig'                     => 'extends ShieldAuth',
         ];
 
         $this->copyAndReplace($file, $replaces);
