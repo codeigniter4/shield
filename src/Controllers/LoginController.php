@@ -39,8 +39,6 @@ class LoginController extends BaseController
             return redirect()->route('login')->withInput()->with('error', $result->reason());
         }
 
-        $user = $result->extraInfo();
-
         // If an action has been defined for login, start it up.
         $actionClass = setting('Auth.actions')['login'] ?? null;
         if (! empty($actionClass)) {
@@ -57,8 +55,6 @@ class LoginController extends BaseController
      */
     public function logoutAction()
     {
-        $user = auth()->user();
-
         auth()->logout();
 
         return redirect()->to(config('Auth')->logoutRedirect())->with('message', lang('Auth.successLogout'));

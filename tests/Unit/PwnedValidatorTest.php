@@ -16,10 +16,7 @@ use Config\App;
  */
 final class PwnedValidatorTest extends CIUnitTestCase
 {
-    /**
-     * @var PwnedValidator
-     */
-    protected $validator;
+    protected PwnedValidator $validator;
 
     protected function setUp(): void
     {
