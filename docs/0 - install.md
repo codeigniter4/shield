@@ -20,7 +20,7 @@ table to store configuration options. As such, you should run the migrations.
 
 ### Command Setup
 
-1. Run the following command. This command does *Manual Setup* 1. through 3. and runs the migrations.
+1. Run the following command. This command handles steps 1-3 of *Manual Setup* and runs the migrations.
 
 ```
 > php spark shield:setup
