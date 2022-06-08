@@ -4,6 +4,7 @@ namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\Response;
 
 class LoginController extends BaseController
@@ -12,9 +13,15 @@ class LoginController extends BaseController
 
     /**
      * Displays the form the login to the site.
+     *
+     * @return RedirectResponse|string
      */
-    public function loginView(): string
+    public function loginView()
     {
+        if (auth()->loggedIn()) {
+            return redirect()->to(config('Auth')->loginRedirect());
+        }
+
         return view(setting('Auth.views')['login']);
     }
 

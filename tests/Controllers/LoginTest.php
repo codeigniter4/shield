@@ -91,6 +91,22 @@ final class LoginTest extends TestCase
         $this->assertSame($this->user->id, session('user')['id']);
     }
 
+    public function testAfterLoggedInNotDesplayLoginPage(): void
+    {
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $result = $this->post('/login', [
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $result = $this->get('/login');
+        $result->assertRedirectTo(config('Auth')->loginRedirect());
+    }
+
     public function testLoginActionUsernameSuccess(): void
     {
         $this->user->createEmailIdentity([
