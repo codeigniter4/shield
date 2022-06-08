@@ -12,6 +12,8 @@ class LoginController extends BaseController
 
     /**
      * Displays the form the login to the site.
+     *
+     * @return
      */
     public function loginView()
     {
