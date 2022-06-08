@@ -62,6 +62,20 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($this->user->id, $authUser->id);
     }
 
+    public function testLoggedInAsDeletedUserWithSessionData(): void
+    {
+        $_SESSION['user']['id'] = $this->user->id;
+
+        // Delete the user.
+        $users = model(UserModel::class);
+        $users->delete($this->user->id);
+
+        $loggedIn = $this->auth->loggedIn();
+
+        $this->assertFalse($loggedIn);
+        $this->assertNull(session()->get('user'));
+    }
+
     public function testLoggedInWithRememberCookie(): void
     {
         unset($_SESSION['user']);
@@ -93,6 +107,33 @@ final class SessionAuthenticatorTest extends TestCase
 
         // Forget Cookie.prefix
         setting()->forget('Cookie.prefix');
+    }
+
+    public function testLoggedInAsDeletedUserWithRememberCookie(): void
+    {
+        unset($_SESSION['user']);
+
+        $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
+
+        // Insert remember-me token.
+        /** @var RememberModel $rememberModel */
+        $rememberModel = model(RememberModel::class);
+        $selector      = 'selector';
+        $validator     = 'validator';
+        $expires       = date('Y-m-d H:i:s', time() + setting('Auth.sessionConfig')['rememberLength']);
+        $rememberModel->rememberUser($this->user, $selector, hash('sha256', $validator), $expires);
+
+        // Set Cookie value for remember-me.
+        $token               = $selector . ':' . $validator;
+        $_COOKIE['remember'] = $token;
+
+        // Delete the user.
+        $users = model(UserModel::class);
+        $users->delete($this->user->id);
+
+        $loggedIn = $this->auth->loggedIn();
+
+        $this->assertFalse($loggedIn);
     }
 
     public function testLoginNoRemember(): void

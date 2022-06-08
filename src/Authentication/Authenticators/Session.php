@@ -347,6 +347,16 @@ class Session implements AuthenticatorInterface
         if ($userId !== null) {
             $this->user = $this->provider->findById($userId);
 
+            if ($this->user === null) {
+                // The user is deleted.
+                $this->userState = self::STATE_ANONYMOUS;
+
+                // Remove User Info in Session.
+                $this->removeSessionUserInfo();
+
+                return;
+            }
+
             // If having `auth_action`, it is pending.
             if ($this->getSessionKey('auth_action')) {
                 $this->userState = self::STATE_PENDING;
@@ -484,6 +494,16 @@ class Session implements AuthenticatorInterface
 
         $user = $this->provider->findById($token->user_id);
 
+        if ($user === null) {
+            // The user is deleted.
+            $this->userState = self::STATE_ANONYMOUS;
+
+            // Remove remember-me cookie.
+            $this->removeRememberCookie();
+
+            return false;
+        }
+
         $this->startLogin($user);
 
         $this->refreshRememberMeToken($token);
@@ -553,6 +573,14 @@ class Session implements AuthenticatorInterface
     private function getSessionUserInfo(): array
     {
         return session(setting('Auth.sessionConfig')['field']) ?? [];
+    }
+
+    /**
+     * Removes User Info in Session
+     */
+    private function removeSessionUserInfo(): void
+    {
+        session()->remove(setting('Auth.sessionConfig')['field']);
     }
 
     /**
@@ -630,16 +658,7 @@ class Session implements AuthenticatorInterface
             // Reset so it doesn't mess up future calls.
             $this->shouldRemember = false;
         } elseif ($this->getRememberMeToken()) {
-            /** @var Response $response */
-            $response = service('response');
-
-            // Remove incoming remember-me token
-            $response->deleteCookie(
-                setting('Auth.sessionConfig')['rememberCookieName'],
-                setting('Cookie.domain'),
-                setting('Cookie.path'),
-                setting('Cookie.prefix')
-            );
+            $this->removeRememberCookie();
 
             // @TODO delete the token record.
         }
@@ -650,6 +669,20 @@ class Session implements AuthenticatorInterface
         if (random_int(1, 100) <= 20) {
             $this->rememberModel->purgeOldRememberTokens();
         }
+    }
+
+    private function removeRememberCookie()
+    {
+        /** @var Response $response */
+        $response = service('response');
+
+        // Remove remember-me cookie
+        $response->deleteCookie(
+            setting('Auth.sessionConfig')['rememberCookieName'],
+            setting('Cookie.domain'),
+            setting('Cookie.path'),
+            setting('Cookie.prefix')
+        );
     }
 
     /**
