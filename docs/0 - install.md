@@ -9,6 +9,40 @@ If you have it installed as a phar, or othewise you will need to adjust the way 
 > composer require codeigniter4/shield
 ```
 
+---
+
+**IMPORTANT**: If you get the following error:
+
+```
+  Could not find a version of package codeigniter4/shield matching your minimum-stability (stable).
+  Require it with an explicit version constraint allowing its desired stability.
+```
+
+1. Add the following to change your [minimum-stability](https://getcomposer.org/doc/articles/versions.md#minimum-stability) in your project `composer.json`:
+
+```
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+```
+
+2. Or specify an explicit version:
+
+```
+> composer require codeigniter4/shield:dev-develop
+```
+
+The above specifies `develop` branch.
+See https://getcomposer.org/doc/articles/versions.md#branches
+
+```
+> composer require codeigniter4/shield:^1.0.0-beta
+```
+
+The above specifies `v1.0.0-beta` or later and before `v2.0.0`.
+See https://getcomposer.org/doc/articles/versions.md#caret-version-range-
+
+---
+
 This requires the [CodeIgniter Settings](https://github.com/codeigniter4/settings) package, which uses a database
 table to store configuration options. As such, you should run the migrations.
 
