@@ -495,9 +495,12 @@ class Session implements AuthenticatorInterface
 
     private function getRememberMeToken(): ?string
     {
-        helper('cookie');
+        /** @var IncomingRequest $request */
+        $request = service('request');
 
-        return get_cookie('remember');
+        $cookieName = setting('Cookie.prefix') . setting('Auth.sessionConfig')['rememberCookieName'];
+
+        return $request->getCookie($cookieName);
     }
 
     /**
@@ -627,8 +630,16 @@ class Session implements AuthenticatorInterface
             // Reset so it doesn't mess up future calls.
             $this->shouldRemember = false;
         } elseif ($this->getRememberMeToken()) {
+            /** @var Response $response */
+            $response = service('response');
+
             // Remove incoming remember-me token
-            delete_cookie(setting('Auth.sessionConfig')['rememberCookieName']);
+            $response->deleteCookie(
+                setting('Auth.sessionConfig')['rememberCookieName'],
+                setting('Cookie.domain'),
+                setting('Cookie.path'),
+                setting('Cookie.prefix')
+            );
 
             // @TODO delete the token record.
         }
