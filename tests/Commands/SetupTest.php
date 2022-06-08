@@ -53,6 +53,7 @@ final class SetupTest extends TestCase
 
         $auth = file_get_contents($appFolder . 'Config/Auth.php');
         $this->assertStringContainsString('namespace Config;', $auth);
+        $this->assertStringContainsString('use CodeIgniter\Shield\Config\Auth as ShieldAuth;', $auth);
 
         $routes = file_get_contents($appFolder . 'Config/Routes.php');
         $this->assertStringContainsString('service(\'auth\')->routes($routes);', $routes);
