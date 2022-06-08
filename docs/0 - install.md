@@ -18,6 +18,18 @@ table to store configuration options. As such, you should run the migrations.
 
 ## Initial Setup
 
+### Command Setup
+
+1. Run the following command. This command handles steps 1-3 of *Manual Setup* and runs the migrations.
+
+```
+> php spark shield:setup
+```
+
+2. If you are running CodeIgniter v4.1.x, go to *Manual Setup* 4.
+
+### Manual Setup
+
 There are a few setup items to do before you can start using Shield in
 your project.
 
