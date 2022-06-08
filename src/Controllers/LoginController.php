@@ -13,8 +13,12 @@ class LoginController extends BaseController
     /**
      * Displays the form the login to the site.
      */
-    public function loginView(): string
+    public function loginView()
     {
+        if (auth()->loggedIn()) {
+            return redirect()->to(config('Auth')->loginRedirect());
+        }
+
         return view(setting('Auth.views')['login']);
     }
 
