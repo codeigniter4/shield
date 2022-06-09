@@ -33,9 +33,15 @@ class MagicLinkController extends BaseController
     /**
      * Displays the view to enter their email address
      * so an email can be sent to them.
+     *
+     * @return RedirectResponse|string
      */
-    public function loginView(): string
+    public function loginView()
     {
+        if (auth()->loggedIn()) {
+            return redirect()->to(config('Auth')->loginRedirect());
+        }
+
         return view(setting('Auth.views')['magic-link-login']);
     }
 
