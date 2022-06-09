@@ -31,7 +31,7 @@ final class MagicLinkTest extends TestCase
         Services::injectMock('routes', $routes);
     }
 
-    public function testAfterLoggedInNotAllowDesplaMagicLink()
+    public function testAfterLoggedInNotAllowDesplayMagicLink()
     {
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
