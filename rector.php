@@ -1,6 +1,5 @@
 <?php
 
-use Rector\Config\RectorConfig;
 use Rector\CodeQuality\Rector\BooleanAnd\SimplifyEmptyArrayCheckRector;
 use Rector\CodeQuality\Rector\Expression\InlineIfToExplicitIfRector;
 use Rector\CodeQuality\Rector\For_\ForToForeachRector;
@@ -18,9 +17,11 @@ use Rector\CodeQuality\Rector\Ternary\UnnecessaryTernaryExpressionRector;
 use Rector\CodingStyle\Rector\ClassMethod\FuncGetArgsToVariadicParamRector;
 use Rector\CodingStyle\Rector\ClassMethod\MakeInheritedMethodVisibilitySameAsParentRector;
 use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
+use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPromotedPropertyRector;
 use Rector\DeadCode\Rector\MethodCall\RemoveEmptyMethodCallRector;
+use Rector\DeadCode\Rector\StmtsAwareInterface\RemoveJustPropertyFetchForAssignRector;
 use Rector\EarlyReturn\Rector\Foreach_\ChangeNestedForeachIfsToEarlyContinueRector;
 use Rector\EarlyReturn\Rector\If_\ChangeIfElseValueAssignToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\If_\RemoveAlwaysElseRector;
@@ -90,6 +91,11 @@ return static function (RectorConfig $rectorConfig): void {
 
         // May be uninitialized on purpose
         AddDefaultValueForUndefinedVariableRector::class,
+
+        // See https://github.com/codeigniter4/shield/issues/228
+        RemoveJustPropertyFetchForAssignRector::class => [
+            __DIR__ . '/src/Models/UserModel.php',
+        ],
     ]);
     $rectorConfig->rule(SimplifyUselessVariableRector::class);
     $rectorConfig->rule(RemoveAlwaysElseRector::class);
