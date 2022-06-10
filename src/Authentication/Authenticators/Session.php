@@ -706,6 +706,8 @@ class Session implements AuthenticatorInterface
      */
     public function logout(): void
     {
+        $this->checkUserState();
+
         if ($this->user === null) {
             return;
         }
