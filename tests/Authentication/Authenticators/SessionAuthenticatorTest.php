@@ -355,7 +355,7 @@ final class SessionAuthenticatorTest extends TestCase
             'password' => 'secret123',
         ]);
 
-        $result = $this->auth->attempt([
+        $this->auth->attempt([
             'email'    => $this->user->email,
             'password' => 'secret123',
         ]);
