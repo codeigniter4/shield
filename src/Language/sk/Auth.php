@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeIgniter\Shield\Language\en;
+namespace CodeIgniter\Shield\Language\sk;
 
 return [
     // Exceptions
