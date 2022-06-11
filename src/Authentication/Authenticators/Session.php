@@ -550,6 +550,20 @@ class Session implements AuthenticatorInterface
      */
     public function startLogin(User $user): void
     {
+        /** @var int|string|null $userId */
+        $userId = $this->getSessionKey('id');
+
+        // Check if already logged in.
+        if ($userId !== null) {
+            throw new LogicException(
+                'The user has User Info in Session, so already logged in or in pending login state.'
+                . ' If a logged in user logs in again with other account, the session data of the previous'
+                . ' user will be used as the new user.'
+                . ' Fix your code to prevent users from logging in without logging out or delete the session data.'
+                . ' user_id: ' . $userId
+            );
+        }
+
         $this->user = $user;
 
         // Regenerate the session ID to help protect against session fixation

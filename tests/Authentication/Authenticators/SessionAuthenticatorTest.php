@@ -7,6 +7,7 @@ use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\RememberModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
@@ -337,6 +338,26 @@ final class SessionAuthenticatorTest extends TestCase
         $this->seeInDatabase('auth_logins', [
             'identifier' => $this->user->email,
             'success'    => 1,
+        ]);
+    }
+
+    public function testAttemptUserHavingSessionDataAttemptsAgain(): void
+    {
+        $_SESSION['user']['id'] = '999';
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage(
+            'The user has User Info in Session, so already logged in or in pending login state.'
+        );
+
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $this->auth->attempt([
+            'email'    => $this->user->email,
+            'password' => 'secret123',
         ]);
     }
 
