@@ -94,6 +94,29 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $this->assertTrue($result->isOK());
     }
 
+    public function testTrueWhenNoUsername(): void
+    {
+        $config                 = new Auth();
+        $config->maxSimilarity  = 50;
+        $config->personalFields = [
+            'firstname',
+            'lastname',
+        ];
+        $this->validator = new NothingPersonalValidator($config);
+
+        $user = new User([
+            'email'     => 'jsmith@example.com',
+            'firstname' => 'Joseph',
+            'lastname'  => 'Smith',
+        ]);
+
+        $password = 'opensesame';
+
+        $result = $this->validator->check($password, $user);
+
+        $this->assertTrue($result->isOK());
+    }
+
     /**
      * The dataProvider is a list of passwords to be tested.
      * Some of them clearly contain elements of the username.
