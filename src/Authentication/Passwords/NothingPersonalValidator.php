@@ -52,7 +52,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      */
     protected function isNotPersonal(string $password, ?User $user): bool
     {
-        $userName = \strtolower($user->username);
+        $userName = \strtolower($user->username ?? '');
         $email    = \strtolower($user->email);
         $valid    = true;
 
@@ -151,6 +151,10 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      */
     protected function isNotSimilar(string $password, ?User $user): bool
     {
+        if ($user->username === null) {
+            return true;
+        }
+
         $maxSimilarity = (float) $this->config->maxSimilarity;
         // sanity checking - working range 1-100, 0 is off
         if ($maxSimilarity < 1) {
