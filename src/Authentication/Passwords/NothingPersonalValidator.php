@@ -20,7 +20,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      */
     public function check(string $password, ?User $user = null): Result
     {
-        $password = \strtolower($password);
+        $password = strtolower($password);
 
         if ($valid = $this->isNotPersonal($password, $user) === true) {
             $valid = $this->isNotSimilar($password, $user);
@@ -52,8 +52,8 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      */
     protected function isNotPersonal(string $password, ?User $user): bool
     {
-        $userName = \strtolower($user->username ?? '');
-        $email    = \strtolower($user->email);
+        $userName = strtolower($user->username ?? '');
+        $email    = strtolower($user->email);
         $valid    = true;
 
         // The most obvious transgressions
@@ -73,20 +73,20 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
             [
                 $localPart,
                 $domain,
-            ] = \explode('@', $email);
+            ] = explode('@', $email);
             // might be john.doe@example.com and we want all the needles we can get
             $emailParts = $this->strip_explode($localPart);
             if (! empty($domain)) {
                 $emailParts[] = $domain;
             }
-            $needles = \array_merge($needles, $emailParts);
+            $needles = array_merge($needles, $emailParts);
 
             // Get any other "personal" fields defined in config
             $personalFields = $this->config->personalFields;
 
             foreach ($personalFields as $value) {
                 if (! empty($user->{$value})) {
-                    $needles[] = \strtolower($user->{$value});
+                    $needles[] = strtolower($user->{$value});
                 }
             }
 
@@ -164,7 +164,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
         }
 
         if (! empty($maxSimilarity)) {
-            $userName = \strtolower($user->username);
+            $userName = strtolower($user->username);
 
             similar_text($password, $userName, $similarity);
             if ($similarity >= $maxSimilarity) {
@@ -186,8 +186,8 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      */
     protected function strip_explode(string $str): array
     {
-        $stripped = \preg_replace('/[\W_]+/', ' ', $str);
-        $parts    = \explode(' ', \trim($stripped));
+        $stripped = preg_replace('/[\W_]+/', ' ', $str);
+        $parts    = explode(' ', trim($stripped));
 
         // If it's not already there put the untouched input at the top of the array
         if (! in_array($str, $parts, true)) {
