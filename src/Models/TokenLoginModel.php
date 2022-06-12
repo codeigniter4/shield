@@ -22,7 +22,7 @@ class TokenLoginModel extends LoginModel
             'ip_address' => $faker->ipv4,
             'identifier' => 'token: ' . random_string('crypto', 64),
             'user_id'    => fake(UserModel::class)->id,
-            'date'       => Time::parse('-1 day')->toDateTimeString(),
+            'date'       => Time::parse('-1 day')->format('Y-m-d H:i:s'),
             'success'    => true,
         ]);
     }

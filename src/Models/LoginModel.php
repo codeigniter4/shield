@@ -75,7 +75,7 @@ class LoginModel extends Model
             'ip_address' => $faker->ipv4,
             'identifier' => $faker->email,
             'user_id'    => null,
-            'date'       => Time::parse('-1 day')->toDateTimeString(),
+            'date'       => Time::parse('-1 day')->format('Y-m-d H:i:s'),
             'success'    => true,
         ];
     }

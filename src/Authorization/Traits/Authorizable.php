@@ -370,7 +370,7 @@ trait Authorizable
                 $inserts[] = [
                     'user_id'    => $this->id,
                     $type        => $item,
-                    'created_at' => Time::now()->toDateTimeString(),
+                    'created_at' => Time::now()->format('Y-m-d H:i:s'),
                 ];
             }
             db_connect()->table($table)->insertBatch($inserts);
