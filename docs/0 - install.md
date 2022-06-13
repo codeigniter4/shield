@@ -9,7 +9,7 @@ If you have it installed as a phar, or othewise you will need to adjust the way 
 
 ---
 
-#### **IMPORTANT**:
+#### IMPORTANT: composer error
 
 If you get the following error:
 
@@ -52,7 +52,7 @@ table to store configuration options. As such, you should run the migrations.
 
 ---
 
-#### **Note**:
+#### Note: migration error
 
 When you run `spark migrate --all`, if you get `Class "SQLite3" not found` error:
 
