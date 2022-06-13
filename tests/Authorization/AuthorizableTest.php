@@ -6,6 +6,7 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authorization\AuthorizationException;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
+use Locale;
 use Tests\Support\FakeUser;
 use Tests\Support\TestCase;
 
@@ -294,5 +295,25 @@ final class AuthorizableTest extends TestCase
         $this->user->addGroup('superadmin');
 
         $this->assertTrue($this->user->can('admin.access'));
+    }
+
+    // see https://github.com/codeigniter4/shield/pull/238
+    public function testCreatedAtIfDefaultLocaleSetFaWithAddGroup(): void
+    {
+        locale::setDefault('fa');
+
+        $this->hasInDatabase('auth_groups_users', [
+            'user_id'    => $this->user->id,
+            'group'      => 'admin',
+            'created_at' => Time::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        $this->user->addGroup('admin');
+
+        $this->dontSeeInDatabase('auth_groups_users', [
+            'user_id'    => $this->user->id,
+            'group'      => 'admin',
+            'created_at' => '0000-00-00 00:00:00',
+        ]);
     }
 }
