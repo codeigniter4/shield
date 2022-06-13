@@ -180,6 +180,15 @@ final class SessionAuthenticatorTest extends TestCase
         $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
     }
 
+    public function testLogoutOnlyLogoutCalled(): void
+    {
+        $_SESSION['user']['id'] = $this->user->id;
+
+        $this->auth->logout();
+
+        $this->assertArrayNotHasKey('user', $_SESSION);
+    }
+
     public function testLoginByIdBadUser(): void
     {
         $this->expectException(AuthenticationException::class);
