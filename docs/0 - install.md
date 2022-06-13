@@ -11,7 +11,9 @@ If you have it installed as a phar, or othewise you will need to adjust the way 
 
 ---
 
-**IMPORTANT**: If you get the following error:
+#### IMPORTANT: composer error
+
+If you get the following error:
 
 ```
   Could not find a version of package codeigniter4/shield matching your minimum-stability (stable).
@@ -49,6 +51,17 @@ table to store configuration options. As such, you should run the migrations.
 ```
 > php spark migrate --all
 ```
+
+---
+
+#### Note: migration error
+
+When you run `spark migrate --all`, if you get `Class "SQLite3" not found` error:
+
+1. Remove sample migration files in `tests/_support/Database/Migrations/`
+2. Or install `sqlite3` php extension
+
+---
 
 ## Initial Setup
 
