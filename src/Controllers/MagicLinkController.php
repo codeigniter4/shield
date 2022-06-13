@@ -57,10 +57,17 @@ class MagicLinkController extends BaseController
      */
     public function loginAction()
     {
+        // Validate email format
+        $rules = $this->getValidationRules();
+        if (! $this->validate($rules)) {
+            return redirect()->route('magic-link')->with('error', lang('Auth.invalidEmail'));
+        }
+
+        // Check if the user exists
         $email = $this->request->getPost('email');
         $user  = $this->provider->findByCredentials(['email' => $email]);
 
-        if (empty($email) || $user === null) {
+        if ($user === null) {
             return redirect()->route('magic-link')->with('error', lang('Auth.invalidEmail'));
         }
 
@@ -174,5 +181,17 @@ class MagicLinkController extends BaseController
             $this->request->getUserAgent(),
             $userId
         );
+    }
+
+    /**
+     * Returns the rules that should be used for validation.
+     *
+     * @return array<string, string>
+     */
+    protected function getValidationRules(): array
+    {
+        return [
+            'email' => 'required|max_length[254]|valid_email',
+        ];
     }
 }
