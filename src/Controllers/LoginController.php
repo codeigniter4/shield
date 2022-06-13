@@ -28,17 +28,25 @@ class LoginController extends BaseController
     /**
      * Attempts to log the user in.
      *
-     * @return Response|string
+     * @return RedirectResponse
      */
-    public function loginAction()
+    public function loginAction(): RedirectResponse
     {
-        /** @var IncomingRequest $request */
-        $request = service('request');
+        // Validate here first, since some things,
+        // like the password, can only be validated properly here.
+        $rules = $this->getValidationRules();
 
-        $credentials             = $request->getPost(setting('Auth.validFields'));
+        /** @var Validation $validation */
+        $validation = service('validation');
+
+        if (! $this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        $credentials             = $this->request->getPost(setting('Auth.validFields'));
         $credentials             = array_filter($credentials);
-        $credentials['password'] = $request->getPost('password');
-        $remember                = (bool) $request->getPost('remember');
+        $credentials['password'] = $this->request->getPost('password');
+        $remember                = (bool) $this->request->getPost('remember');
 
         // Attempt to login
         $result = auth('session')->remember($remember)->attempt($credentials);
@@ -56,9 +64,28 @@ class LoginController extends BaseController
     }
 
     /**
+     * Returns the rules that should be used for validation.
+     *
+     * @return string[]
+     */
+    protected function getValidationRules(): array
+    {
+        $rules = [
+            'email'            => 'required',
+            'password'         => 'required',
+        ];
+
+        if (setting('Auth.validFields') === ['email']) {
+            $rules['email'] .= '|valid_email';
+        }
+
+        return $rules;
+    }
+
+    /**
      * Logs the current user out.
      *
-     * @return Response|string
+     * @return RedirectResponse
      */
     public function logoutAction()
     {
