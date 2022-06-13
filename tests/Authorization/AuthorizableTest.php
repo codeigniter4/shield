@@ -297,7 +297,9 @@ final class AuthorizableTest extends TestCase
         $this->assertTrue($this->user->can('admin.access'));
     }
 
-    // see https://github.com/codeigniter4/shield/pull/238
+    /**
+     * @see https://github.com/codeigniter4/shield/pull/238
+     */
     public function testCreatedAtIfDefaultLocaleSetFaWithAddGroup(): void
     {
         locale::setDefault('fa');
