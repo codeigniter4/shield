@@ -48,6 +48,17 @@ table to store configuration options. As such, you should run the migrations.
 > php spark migrate --all
 ```
 
+---
+
+#### **Note**:
+
+When you run `spark migrate --all`, if you get `Class "SQLite3" not found` error:
+
+1. Remove sample migration files in `tests/_support/Database/Migrations/`
+2. Or install `sqlite3` php extension
+
+---
+
 ## Initial Setup
 
 There are a few setup items to do before you can start using Shield in 
