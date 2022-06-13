@@ -71,8 +71,8 @@ class LoginController extends BaseController
     protected function getValidationRules(): array
     {
         $rules = [
-            'email'            => 'required',
-            'password'         => 'required',
+            'email'    => 'required',
+            'password' => 'required',
         ];
 
         if (setting('Auth.validFields') === ['email']) {
