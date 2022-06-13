@@ -66,6 +66,11 @@ class RegisterController extends BaseController
 
         $user->fill($this->request->getPost($allowedPostFields));
 
+        // Workaround for email only registration/login
+        if ($user->username === null) {
+            $user->username = null;
+        }
+
         if (! $users->save($user)) {
             return redirect()->back()->withInput()->with('errors', $users->errors());
         }

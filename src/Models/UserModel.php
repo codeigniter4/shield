@@ -222,6 +222,7 @@ class UserModel extends Model
                 lang('Database.emptyDataset', ['update']),
             ];
             if (in_array($e->getMessage(), $messages, true)) {
+                // @TODO Why true? Shouldn't this workaround be removed?
                 return true;
             }
 
