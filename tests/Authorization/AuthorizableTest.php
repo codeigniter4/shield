@@ -302,7 +302,8 @@ final class AuthorizableTest extends TestCase
      */
     public function testCreatedAtIfDefaultLocaleSetFaWithAddGroup(): void
     {
-        locale::setDefault('fa');
+        $currentLocale = Locale::getDefault();
+        Locale::setDefault('fa');
 
         $this->hasInDatabase('auth_groups_users', [
             'user_id'    => $this->user->id,
