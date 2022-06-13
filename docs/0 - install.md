@@ -11,7 +11,9 @@ If you have it installed as a phar, or othewise you will need to adjust the way 
 
 ---
 
-**IMPORTANT**: If you get the following error:
+#### **IMPORTANT**:
+
+If you get the following error:
 
 ```
   Could not find a version of package codeigniter4/shield matching your minimum-stability (stable).
