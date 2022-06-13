@@ -318,5 +318,6 @@ final class AuthorizableTest extends TestCase
             'group'      => 'admin',
             'created_at' => '0000-00-00 00:00:00',
         ]);
+        Locale::setDefault($currentLocale);
     }
 }
