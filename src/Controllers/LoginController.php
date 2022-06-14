@@ -71,7 +71,8 @@ class LoginController extends BaseController
     protected function getValidationRules(): array
     {
         $rules = [
-            'email'    => 'required',
+            'email'    => 'required_without[username]|permit_empty|max_length[254]|valid_email',
+            'username' => 'required_without[email]|permit_empty|alpha_numeric_space|min_length[3]',
             'password' => 'required',
         ];
 
