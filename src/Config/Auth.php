@@ -129,6 +129,17 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Login validation rules
+     * --------------------------------------------------------------------
+     * Returns the rules that should be used for user login validation.
+     */
+    public array $loginRules = [
+        'email'    => 'required|valid_email',
+        'password' => 'required',
+    ];
+
+    /**
+     * --------------------------------------------------------------------
      * Allow Registration
      * --------------------------------------------------------------------
      * Determines whether users can register for the site.

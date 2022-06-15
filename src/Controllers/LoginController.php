@@ -28,15 +28,12 @@ class LoginController extends BaseController
      */
     public function loginAction(): RedirectResponse
     {
-        $credentials = $this->request->getPost(setting('Auth.validFields'));
-        $credentials = array_filter($credentials);
-
-        $rules = $this->getValidationRules($credentials);
-
-        if (! $this->validate($rules)) {
+        if (! $this->validate(setting('Auth.loginRules'))) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        $credentials             = $this->request->getPost(setting('Auth.validFields'));
+        $credentials             = array_filter($credentials);
         $credentials['password'] = $this->request->getPost('password');
         $remember                = (bool) $this->request->getPost('remember');
 
@@ -53,33 +50,6 @@ class LoginController extends BaseController
         }
 
         return redirect()->to(config('Auth')->loginRedirect())->withCookies();
-    }
-
-    /**
-     * Returns the rules that should be used for validation.
-     *
-     * @param array $identifier email or username
-     *
-     * @return string[]
-     */
-    protected function getValidationRules(array $identifier): array
-    {
-        $rules = [
-            'password' => 'required',
-        ];
-
-        if (isset($identifier['email'])) {
-            $rules['email'] = 'required|max_length[254]|valid_email';
-        }
-        if (isset($identifier['username'])) {
-            $rules['username'] = 'required|alpha_numeric_space|min_length[3]';
-        }
-
-        if (count($rules) === 1) {
-            $rules['email'] = 'required|max_length[254]|valid_email';
-        }
-
-        return $rules;
     }
 
     /**
