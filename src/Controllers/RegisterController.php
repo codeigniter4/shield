@@ -8,7 +8,6 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Validation\Validation;
 
 /**
  * Class RegisterController
