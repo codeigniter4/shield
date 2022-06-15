@@ -137,6 +137,19 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Register validation rules
+     * --------------------------------------------------------------------
+     * Returns the rules that should be used for user register validation.
+     */
+    public array $registerRules = [
+        'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
+        'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
+        'password'         => 'required|strong_password',
+        'password_confirm' => 'required|matches[password]',
+    ];
+
+    /**
+     * --------------------------------------------------------------------
      * Record Last Active Date
      * --------------------------------------------------------------------
      * If true, will always update the `last_active` datetime for the

@@ -51,13 +51,8 @@ class RegisterController extends BaseController
 
         // Validate here first, since some things,
         // like the password, can only be validated properly here.
-        $rules = $this->getValidationRules();
-
-        /** @var Validation $validation */
-        $validation = service('validation');
-
-        if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        if (! $this->validate(setting('Auth.registerRules'))) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Save the user
@@ -125,20 +120,5 @@ class RegisterController extends BaseController
     protected function getUserEntity(): User
     {
         return new User();
-    }
-
-    /**
-     * Returns the rules that should be used for validation.
-     *
-     * @return string[]
-     */
-    protected function getValidationRules(): array
-    {
-        return [
-            'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
-            'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
-            'password'         => 'required|strong_password',
-            'password_confirm' => 'required|matches[password]',
-        ];
     }
 }
