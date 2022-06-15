@@ -3,9 +3,7 @@
 namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
-use CodeIgniter\HTTP\Response;
 
 class LoginController extends BaseController
 {
@@ -27,24 +25,18 @@ class LoginController extends BaseController
 
     /**
      * Attempts to log the user in.
-     *
-     * @return RedirectResponse
      */
     public function loginAction(): RedirectResponse
     {
-        // Validate here first, since some things,
-        // like the password, can only be validated properly here.
-        $rules = $this->getValidationRules();
+        $credentials = $this->request->getPost(setting('Auth.validFields'));
+        $credentials = array_filter($credentials);
 
-        /** @var Validation $validation */
-        $validation = service('validation');
+        $rules = $this->getValidationRules($credentials);
 
         if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $credentials             = $this->request->getPost(setting('Auth.validFields'));
-        $credentials             = array_filter($credentials);
         $credentials['password'] = $this->request->getPost('password');
         $remember                = (bool) $this->request->getPost('remember');
 
@@ -66,18 +58,25 @@ class LoginController extends BaseController
     /**
      * Returns the rules that should be used for validation.
      *
+     * @param array $identifier email or username
+     *
      * @return string[]
      */
-    protected function getValidationRules(): array
+    protected function getValidationRules(array $identifier): array
     {
         $rules = [
-            'email'    => 'required_without[username]|permit_empty|max_length[254]|valid_email',
-            'username' => 'required_without[email]|permit_empty|alpha_numeric_space|min_length[3]',
             'password' => 'required',
         ];
 
-        if (setting('Auth.validFields') === ['email']) {
-            $rules['email'] .= '|valid_email';
+        if (isset($identifier['email'])) {
+            $rules['email'] = 'required|max_length[254]|valid_email';
+        }
+        if (isset($identifier['username'])) {
+            $rules['username'] = 'required|alpha_numeric_space|min_length[3]';
+        }
+
+        if (count($rules) === 1) {
+            $rules['email'] = 'required|max_length[254]|valid_email';
         }
 
         return $rules;
