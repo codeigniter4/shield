@@ -57,7 +57,7 @@ class LoginController extends BaseController
      *
      * @return RedirectResponse
      */
-    public function logoutAction()
+    public function logoutAction(): RedirectResponse
     {
         auth()->logout();
 
