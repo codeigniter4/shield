@@ -5,6 +5,7 @@ namespace Tests\Controllers;
 use CodeIgniter\Config\Factories;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\Email2FA;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
@@ -73,6 +74,7 @@ final class LoginTest extends TestCase
             'password' => 'secret123',
         ]);
 
+        $result->assertSessionHas('user', ['id' => 1]);
         $result->assertStatus(302);
         $result->assertRedirect();
         $this->assertSame(site_url(), $result->getRedirectUrl());
@@ -109,6 +111,14 @@ final class LoginTest extends TestCase
 
     public function testLoginActionUsernameSuccess(): void
     {
+        // Change the validation rules
+        $config             = new Auth();
+        $config->loginRules = [
+            'username' => 'required|max_length[30]|alpha_numeric_space|min_length[3]',
+            'password' => 'required',
+        ];
+        Factories::injectMock('config', 'Auth', $config);
+
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
             'password' => 'secret123',
@@ -119,6 +129,7 @@ final class LoginTest extends TestCase
             'password' => 'secret123',
         ]);
 
+        $result->assertSessionHas('user', ['id' => 1]);
         $result->assertStatus(302);
         $result->assertRedirect();
         $this->assertSame(site_url(), $result->getRedirectUrl());
