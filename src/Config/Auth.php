@@ -129,17 +129,6 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
-     * Login validation rules
-     * --------------------------------------------------------------------
-     * Returns the rules that should be used for user login validation.
-     */
-    public array $loginRules = [
-        'email'    => 'required|valid_email|max_length[254]',
-        'password' => 'required',
-    ];
-
-    /**
-     * --------------------------------------------------------------------
      * Allow Registration
      * --------------------------------------------------------------------
      * Determines whether users can register for the site.
@@ -232,6 +221,18 @@ class Auth extends BaseConfig
     public array $validFields = [
         'email',
         'username',
+    ];
+
+    /**
+     * --------------------------------------------------------------------
+     * Login validation rules
+     * --------------------------------------------------------------------
+     * Returns the rules that should be used for user login validation.
+     */
+    public array $loginRules = [
+        // 'username' => 'required|max_length[30]|alpha_numeric_space|min_length[3]',
+        'email'    => 'required|valid_email|max_length[254]',
+        'password' => 'required',
     ];
 
     /**
