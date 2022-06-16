@@ -2,6 +2,7 @@
 
 namespace Tests\Authorization;
 
+use CodeIgniter\CodeIgniter;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authorization\AuthorizationException;
 use CodeIgniter\Shield\Models\UserModel;
@@ -302,22 +303,23 @@ final class AuthorizableTest extends TestCase
      */
     public function testCreatedAtIfDefaultLocaleSetFaWithAddGroup(): void
     {
+        if (version_compare(CodeIgniter::CI_VERSION, '4.2.1', '<')) {
+            $this->markTestSkipped('This test does not work on CI v4.2.0 or before due to a bug.');
+        }
+
         $currentLocale = Locale::getDefault();
         Locale::setDefault('fa');
 
-        $this->hasInDatabase('auth_groups_users', [
-            'user_id'    => $this->user->id,
-            'group'      => 'admin',
-            'created_at' => Time::now()->format('Y-m-d H:i:s'),
-        ]);
+        Time::setTestNow('March 10, 2017', 'America/Chicago');
 
         $this->user->addGroup('admin');
 
-        $this->dontSeeInDatabase('auth_groups_users', [
+        $this->seeInDatabase('auth_groups_users', [
             'user_id'    => $this->user->id,
             'group'      => 'admin',
-            'created_at' => '0000-00-00 00:00:00',
+            'created_at' => '2017-03-10 00:00:00',
         ]);
+
         Locale::setDefault($currentLocale);
     }
 }
