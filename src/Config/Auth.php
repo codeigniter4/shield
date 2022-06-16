@@ -134,7 +134,7 @@ class Auth extends BaseConfig
      * Returns the rules that should be used for user login validation.
      */
     public array $loginRules = [
-        'email'    => 'required|valid_email',
+        'email'    => 'required|valid_email|max_length[254]',
         'password' => 'required',
     ];
 
