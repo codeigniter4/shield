@@ -116,7 +116,7 @@ For example:
 
 ```php
 /**
- * Registers the validation.
+ * Registers validation rules for registration.
  */
 public static function Validation()
 {
