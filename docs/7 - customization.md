@@ -112,6 +112,7 @@ public $registration = [
 ```
 
 Or use `Registrar`. If you are not aware of the Registrar, you can read more about the class [here](https://codeigniter4.github.io/CodeIgniter4/general/configuration.html#registrars).
+For example:
 
 ```php
 /**
