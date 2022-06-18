@@ -81,3 +81,51 @@ class LoginController extends ShieldLogin
     }
 }
 ```
+
+## Custom validation rules
+
+### Registration
+
+The shield has the following rules for registration:
+
+```php
+[
+    'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
+    'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
+    'password'         => 'required|strong_password',
+    'password_confirm' => 'required|matches[password]',
+];
+```
+
+If you need a different set of rules for registration, you can specify them in `Validation` configuration. You can use the configuration in `app\Config\Validation` and specify registration rules like:
+
+```php
+//--------------------------------------------------------------------
+// Rules
+//--------------------------------------------------------------------
+public $registration = [
+    'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
+    'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
+    'password'         => 'required|strong_password',
+    'password_confirm' => 'required|matches[password]',
+];
+```
+
+Or use `Registrar`. If you are not aware of the Registrar, you can read more about the class [here](https://codeigniter4.github.io/CodeIgniter4/general/configuration.html#registrars).
+
+```php
+/**
+ * Registers the validation.
+ */
+public static function Validation()
+{
+    return [
+        $registration = [
+            'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
+            'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
+            'password'         => 'required|strong_password',
+            'password_confirm' => 'required|matches[password]',
+        ];
+    ];
+}
+```
