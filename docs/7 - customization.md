@@ -86,7 +86,7 @@ class LoginController extends ShieldLogin
 
 ### Registration
 
-The shield has the following rules for registration:
+Shield has the following rules for registration:
 
 ```php
 [
