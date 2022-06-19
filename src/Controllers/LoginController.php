@@ -28,7 +28,11 @@ class LoginController extends BaseController
      */
     public function loginAction(): RedirectResponse
     {
-        if (! $this->validate(setting('Auth.loginRules'))) {
+        // Validate here first, since some things,
+        // like the password, can only be validated properly here.
+        $rules = $this->getValidationRules();
+
+        if (! $this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
@@ -50,6 +54,20 @@ class LoginController extends BaseController
         }
 
         return redirect()->to(config('Auth')->loginRedirect())->withCookies();
+    }
+
+    /**
+     * Returns the rules that should be used for validation.
+     *
+     * @return string[]
+     */
+    protected function getValidationRules(): array
+    {
+        return setting('Validation.login') ?? [
+            //'username' => 'required|max_length[30]|alpha_numeric_space|min_length[3]',
+            'email'    => 'required|valid_email|max_length[254]',
+            'password' => 'required',
+        ];
     }
 
     /**

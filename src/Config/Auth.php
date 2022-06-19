@@ -225,18 +225,6 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
-     * Login validation rules
-     * --------------------------------------------------------------------
-     * Returns the rules that should be used for user login validation.
-     */
-    public array $loginRules = [
-        // 'username' => 'required|max_length[30]|alpha_numeric_space|min_length[3]',
-        'email'    => 'required|valid_email|max_length[254]',
-        'password' => 'required',
-    ];
-
-    /**
-     * --------------------------------------------------------------------
      * Additional Fields for "Nothing Personal"
      * --------------------------------------------------------------------
      * The NothingPersonalValidator prevents personal information from
