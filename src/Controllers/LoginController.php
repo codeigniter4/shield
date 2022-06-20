@@ -65,7 +65,7 @@ class LoginController extends BaseController
     {
         return setting('Validation.login') ?? [
             //'username' => 'required|max_length[30]|alpha_numeric_space|min_length[3]',
-            'email'    => 'required|valid_email|max_length[254]',
+            'email'    => 'required|max_length[254]|valid_email',
             'password' => 'required',
         ];
     }
