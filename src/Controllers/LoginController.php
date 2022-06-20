@@ -41,7 +41,7 @@ class LoginController extends BaseController
         $remember                = (bool) $request->getPost('remember');
 
         // Attempt to login
-        $result = auth('session')->remember($remember)->attempt($credentials);
+        $result = auth(setting('Auth.defaultAuthenticator'))->remember($remember)->attempt($credentials);
         if (! $result->isOK()) {
             return redirect()->route('login')->withInput()->with('error', $result->reason());
         }
