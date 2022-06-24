@@ -8,7 +8,6 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Validation\Validation;
 
 /**
  * Class RegisterController
@@ -53,11 +52,8 @@ class RegisterController extends BaseController
         // like the password, can only be validated properly here.
         $rules = $this->getValidationRules();
 
-        /** @var Validation $validation */
-        $validation = service('validation');
-
         if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Save the user
@@ -134,7 +130,7 @@ class RegisterController extends BaseController
      */
     protected function getValidationRules(): array
     {
-        return [
+        return setting('Validation.registration') ?? [
             'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
             'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
             'password'         => 'required|strong_password',
