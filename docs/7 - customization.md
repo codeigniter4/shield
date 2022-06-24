@@ -110,25 +110,3 @@ public $registration = [
     'password_confirm' => 'required|matches[password]',
 ];
 ```
-
-Or use `Registrar`. If you are not aware of the Registrar, you can read more about the class [here](https://codeigniter4.github.io/CodeIgniter4/general/configuration.html#registrars).
-
-For example:
-
-
-```php
-/**
- * Registers validation rules for registration.
- */
-public static function Validation()
-{
-    return [
-        $registration = [
-            'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
-            'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
-            'password'         => 'required|strong_password',
-            'password_confirm' => 'required|matches[password]',
-        ];
-    ];
-}
-```
