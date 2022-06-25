@@ -194,6 +194,7 @@ Note: The example above can also be done through a [controller filter](https://c
 ## Managing Users
 
 Shield uses a more complex user setup than many other systems, separating [User Identities](1-concepts.md#identities) from the user accounts themselves. This quick overview should help you feel more confident when working with users on a day-to-day basis.
+Since Shield uses a more complex user setup than many other systems, due to the [User Identities](1-concepts.md#user-identities), this quick overview should help you feel more confident when working with users on a day-to-day basis.
 
 ### Creating Users
 
@@ -222,8 +223,10 @@ A user's data can be spread over a few different tables so you might be concerne
 
 ```php
 $users = model('UserModel');
-$users->delete($user->id);
+$users->delete($user->id, true);
 ```
+
+NOTE: The User rows use [soft deletes](https://codeigniter.com/user_guide/models/model.html#usesoftdeletes) so they are not actually deleted from the database unless the second parameter is `true`, like above.
 
 ### Editing A User
 
