@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-Learning any new authentication system can, especially as the get more flexible and sophisticated. This guide is intended to provide short examples for common actions you'll take when working Shield. It is not intended to be the exhaustive documentation for each section. That's better handled through the area-specific doc files.
+Learning any new authentication system can be difficult, especially as they get more flexible and sophisticated. This guide is intended to provide short examples for common actions you'll take when working with Shield. It is not intended to be the exhaustive documentation for each section. That's better handled through the area-specific doc files.
 
 NOTE: The examples assume that you have run the setup script and that you have copies of the `Auth` and `AuthGroups` config files in your application's `app/Config` folder.
 
@@ -16,7 +16,7 @@ public array $redirects = [
 ];
 ```
 
-NOTE: This redirect happens after the specified action is complete. In the case of register or login, it might not happen immediately. For example, if you have any Auth Actions specified, they will be redirected when those actions are completed successfully. If no Auth Actions are specified, they will be redirect immediately after registration or login.
+NOTE: This redirect happens after the specified action is complete. In the case of register or login, it might not happen immediately. For example, if you have any Auth Actions specified, they will be redirected when those actions are completed successfully. If no Auth Actions are specified, they will be redirected immediately after registration or login.
 
 ### Customize login redirect
 
@@ -61,7 +61,7 @@ public function logoutRedirect(): string
 
 ### Customize Remember-me functionality
 
-Remember-me functionality is enabled by default for the `Session` handler. While this is handled in a secure manner, some sites may want it disbled. You might also want to change how long it remberers a user and doesn't require additional login.
+Remember-me functionality is enabled by default for the `Session` handler. While this is handled in a secure manner, some sites may want it disabled. You might also want to change how long it remembers a user and doesn't require additional login.
 
 ```php
 public array $sessionConfig = [
@@ -74,7 +74,7 @@ public array $sessionConfig = [
 
 ### Change Access Token Lifetime
 
-By default, Access Tokens can be used for 1 year since they last use. This can be easily modified in the `Auth` config file.
+By default, Access Tokens can be used for 1 year since the last use. This can be easily modified in the `Auth` config file.
 
 ```php
 public int $unusedTokenLifetime = YEAR;
@@ -93,7 +93,7 @@ public array $actions = [
 
 ### Enable Account Activation via Email
 
-By deafult, once a user registers they have an active account that can be used. You enable Shield's built-in email-based activation flow within the `Auth` config file.
+By default, once a user registers they have an active account that can be used. You can enable Shield's built-in, email-based activation flow within the `Auth` config file.
 
 ```php
 public array $actions = [
@@ -127,7 +127,7 @@ When a user registers on your site, they are assigned the group specified at `Co
 
 ### Change Available Permissions
 
-The permissions on the site are store in the `AuthGroups` config file, also. Each one is defined by a string that represents a context and a permission, joined with a decimal point.
+The permissions on the site are stored in the `AuthGroups` config file also. Each one is defined by a string that represents a context and a permission, joined with a decimal point.
 
 ```php
 public array $permissions = [
@@ -159,7 +159,7 @@ public array $matrix = [
 
 ### Assign Permissions to a User
 
-Permissions can also be assigned directly to a user, irregardless of what groups they are a part of. This is done programatically on the `User` Entity.
+Permissions can also be assigned directly to a user, regardless of what groups they belong to. This is done programatically on the `User` Entity.
 
 ```php
 $user = auth()->user();
@@ -177,7 +177,7 @@ $user->syncPermissions(['users.create', 'beta.access']);
 
 ## Check If a User Has Permission
 
-When you need to check if a user has a specific permission, you want to check both within the groups they are a part of, as well as any specifically assigned to them, you should use the `can()` method on the `User` entity.
+When you need to check if a user has a specific permission use the `can()` method on the `User` entity. This method checks permissions within the groups they belong to and permissions directly assigned to the user.
 
 ```php
 if (! auth()->user()->can('users.create')) {
@@ -185,7 +185,7 @@ if (! auth()->user()->can('users.create')) {
 }
 ```
 
-This can also be done through a [controller filter](https://codeigniter.com/user_guide/incoming/filters.html) if you want to apply it to multiple pages of your site.
+Note: The example above can also be done through a [controller filter](https://codeigniter.com/user_guide/incoming/filters.html) if you want to apply it to multiple pages of your site.
 
 
 
@@ -193,7 +193,7 @@ This can also be done through a [controller filter](https://codeigniter.com/user
 
 ## Managing Users
 
-Since Shield uses a more complex user setup than many other systems, due to the [User Identities](1-concepts.md#identities), this quick overview should help you feel more confident when working with users on a day-to-day basis.
+Shield uses a more complex user setup than many other systems, separating [User Identities](1-concepts.md#identities) from the user accounts themselves. This quick overview should help you feel more confident when working with users on a day-to-day basis.
 
 ### Creating Users
 
@@ -227,11 +227,11 @@ $users->delete($user->id);
 
 ### Editing A User
 
-The `UserModel::save()` method has been modified to ensure that an email or password previously set on the `User` entity will be automatically in the correct `UserIdentity` record.
+The `UserModel::save()` method has been modified to ensure that an email or password previously set on the `User` entity will be automatically updated in the correct `UserIdentity` record.
 
 ```php
 $users = model('UserModel');
-$user = $users->findById(123);
+$user  = $users->findById(123);
 
 $user->fill([
     'username' => 'JoeSmith111',
@@ -241,7 +241,7 @@ $user->fill([
 $users->save($user);
 ```
 
-If you prefer to user the `update()` method, than you will have to update the user's appropriate UserIdentity manually.
+If you prefer to use the `update()` method then you will have to update the user's appropriate UserIdentity manually.
 
 ```php
 $users = model('UserModel');
@@ -254,7 +254,7 @@ $user->fill([
 ]);
 
 // Saves the username field
-$users->save($user);
+$users->update($user);
 // Updates the email and password
 $user->saveEmailIdentity();
 ```
