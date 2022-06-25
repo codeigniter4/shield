@@ -141,7 +141,7 @@ final class AuthorizableTest extends TestCase
             'created_at' => Time::now()->toDateTimeString(),
         ]);
 
-        $this->user->syncGroups(['admin', 'beta']);
+        $this->user->syncGroups('admin', 'beta');
         $this->assertSame(['admin', 'beta'], $this->user->getGroups());
         $this->seeInDatabase('auth_groups_users', [
             'user_id' => $this->user->id,
@@ -262,7 +262,7 @@ final class AuthorizableTest extends TestCase
             'created_at' => Time::now()->toDateTimeString(),
         ]);
 
-        $this->user->syncPermissions(['admin.access', 'beta.access']);
+        $this->user->syncPermissions('admin.access', 'beta.access');
         $this->assertSame(['admin.access', 'beta.access'], $this->user->getPermissions());
         $this->seeInDatabase('auth_permissions_users', [
             'user_id'    => $this->user->id,
