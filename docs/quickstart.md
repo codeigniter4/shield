@@ -4,6 +4,27 @@ Learning any new authentication system can be difficult, especially as they get 
 
 NOTE: The examples assume that you have run the setup script and that you have copies of the `Auth` and `AuthGroups` config files in your application's `app/Config` folder.
 
+- [Quick Start Guide](#quick-start-guide)
+  - [Authentication Flow](#authentication-flow)
+    - [Customize login redirect](#customize-login-redirect)
+    - [Customize register redirect](#customize-register-redirect)
+    - [Customize logout redirect](#customize-logout-redirect)
+    - [Customize Remember-me functionality](#customize-remember-me-functionality)
+    - [Change Access Token Lifetime](#change-access-token-lifetime)
+    - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
+    - [Enable Account Activation via Email](#enable-account-activation-via-email)
+  - [Authorization Flow](#authorization-flow)
+    - [Change Available Groups](#change-available-groups)
+    - [Set the Default Group](#set-the-default-group)
+    - [Change Available Permissions](#change-available-permissions)
+    - [Assign Permissions to a Group](#assign-permissions-to-a-group)
+    - [Assign Permissions to a User](#assign-permissions-to-a-user)
+  - [Check If a User Has Permission](#check-if-a-user-has-permission)
+  - [Managing Users](#managing-users)
+    - [Creating Users](#creating-users)
+    - [Deleting Users](#deleting-users)
+    - [Editing A User](#editing-a-user)
+
 ## Authentication Flow
 
 If you need everyone to redirect to a single URL after login/logout/register actions, you can modify the `Config\Auth::redirects` array to specify the url to redirect to.

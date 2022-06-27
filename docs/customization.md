@@ -1,5 +1,10 @@
 # Customizing Shield
 
+- [Customizing Shield](#customizing-shield)
+  - [Route Configuration](#route-configuration)
+  - [Custom Redirect URLs](#custom-redirect-urls)
+  - [Extending the Controllers](#extending-the-controllers)
+
 ## Route Configuration
 
 If you need to customize how any of the auth features are handled, you will likely need to update the routes to point to the correct controllers. You can still use the `service('auth')->routes()` helper, but you will need to pass the `except` option with a list of routes to customize:
