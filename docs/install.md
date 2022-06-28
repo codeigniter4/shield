@@ -1,6 +1,7 @@
 # Installation
 
 - [Installation](#installation)
+    - [Troubleshooting](#troubleshooting)
       - [IMPORTANT: composer error](#important-composer-error)
       - [Note: migration error](#note-migration-error)
   - [Initial Setup](#initial-setup)
@@ -19,6 +20,8 @@ If you have it installed as a phar, or othewise you will need to adjust the way 
 ```
 
 ---
+
+### Troubleshooting
 
 #### IMPORTANT: composer error
 
