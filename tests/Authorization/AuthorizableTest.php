@@ -2,7 +2,6 @@
 
 namespace Tests\Authorization;
 
-use CodeIgniter\CodeIgniter;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authorization\AuthorizationException;
 use CodeIgniter\Shield\Models\UserModel;
