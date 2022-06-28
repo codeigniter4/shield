@@ -61,7 +61,7 @@ class LoginModel extends Model
             'id_type'    => $idType,
             'identifier' => $identifier,
             'user_id'    => $userId,
-            'date'       => date('Y-m-d H:i:s'),
+            'date'       => Time::now()->format('Y-m-d H:i:s'),
             'success'    => (int) $success,
         ]);
 

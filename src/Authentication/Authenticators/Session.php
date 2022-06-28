@@ -836,10 +836,9 @@ class Session implements AuthenticatorInterface
 
     private function calcExpires(): string
     {
-        return date(
-            'Y-m-d H:i:s',
-            time() + setting('Auth.sessionConfig')['rememberLength']
-        );
+        $timestamp = Time::now()->getTimestamp() + setting('Auth.sessionConfig')['rememberLength'];
+
+        return Time::createFromTimestamp($timestamp)->format('Y-m-d H:i:s');
     }
 
     private function setRememberMeCookie(string $rawToken): void
