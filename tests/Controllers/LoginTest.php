@@ -93,6 +93,8 @@ final class LoginTest extends TestCase
 
         // Session should have `logged_in` value with user's id
         $this->assertSame($this->user->id, session('user')['id']);
+
+        Time::setTestNow();
     }
 
     public function testAfterLoggedInNotDesplayLoginPage(): void
@@ -151,6 +153,8 @@ final class LoginTest extends TestCase
 
         // Session should have `logged_in` value with user's id
         $this->assertSame($this->user->id, session('user')['id']);
+
+        Time::setTestNow();
     }
 
     public function testLogoutAction(): void
