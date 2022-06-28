@@ -303,11 +303,6 @@ final class AuthorizableTest extends TestCase
      */
     public function testCreatedAtIfDefaultLocaleSetFaWithAddGroup(): void
     {
-        // @phpstan-ignore-next-line
-        if (version_compare(CodeIgniter::CI_VERSION, '4.2.1', '<')) {
-            $this->markTestSkipped('This test does not work on CI v4.2.0 or before due to a bug.');
-        }
-
         $currentLocale = Locale::getDefault();
         Locale::setDefault('fa');
 
