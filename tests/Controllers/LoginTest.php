@@ -64,6 +64,8 @@ final class LoginTest extends TestCase
 
     public function testLoginActionEmailSuccess(): void
     {
+        Time::setTestNow('March 10, 2017', 'America/Chicago');
+
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
             'password' => 'secret123',
@@ -87,7 +89,7 @@ final class LoginTest extends TestCase
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();
-        $this->assertCloseEnough($identity->last_used_at->getTimestamp(), Time::now()->getTimestamp());
+        $this->assertSame(Time::now()->getTimestamp(), $identity->last_used_at->getTimestamp());
 
         // Session should have `logged_in` value with user's id
         $this->assertSame($this->user->id, session('user')['id']);
@@ -111,6 +113,8 @@ final class LoginTest extends TestCase
 
     public function testLoginActionUsernameSuccess(): void
     {
+        Time::setTestNow('March 10, 2017', 'America/Chicago');
+
         // Change the validation rules
         $config           = new class () extends Validation {
             public $login = [
@@ -143,7 +147,7 @@ final class LoginTest extends TestCase
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();
-        $this->assertCloseEnough($identity->last_used_at->getTimestamp(), Time::now()->getTimestamp());
+        $this->assertSame(Time::now()->getTimestamp(), $identity->last_used_at->getTimestamp());
 
         // Session should have `logged_in` value with user's id
         $this->assertSame($this->user->id, session('user')['id']);
