@@ -91,7 +91,7 @@ class LoginModel extends Model
             'id_type'    => Session::ID_TYPE_EMAIL_PASSWORD,
             'identifier' => $faker->email,
             'user_id'    => null,
-            'date'       => Time::parse('-1 day')->toDateTimeString(),
+            'date'       => Time::parse('-1 day')->format('Y-m-d H:i:s'),
             'success'    => true,
         ]);
     }
