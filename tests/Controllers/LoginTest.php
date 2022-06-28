@@ -97,7 +97,7 @@ final class LoginTest extends TestCase
         Time::setTestNow();
     }
 
-    public function testAfterLoggedInNotDesplayLoginPage(): void
+    public function testAfterLoggedInNotDisplayLoginPage(): void
     {
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
