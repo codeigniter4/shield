@@ -2,6 +2,7 @@
 
 namespace CodeIgniter\Shield\Models;
 
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
@@ -247,7 +248,7 @@ class UserIdentityModel extends Model
      */
     public function touchIdentity(UserIdentity $identity): void
     {
-        $identity->last_used_at = date('Y-m-d H:i:s');
+        $identity->last_used_at = Time::now()->format('Y-m-d H:i:s');
 
         $return = $this->save($identity);
 
