@@ -1,5 +1,22 @@
 # Authorization
 
+- [Authorization](#authorization)
+  - [Defining Available Groups](#defining-available-groups)
+    - [Default User Group](#default-user-group)
+  - [Defining Available Permissions](#defining-available-permissions)
+  - [Assigning Permissions to Groups](#assigning-permissions-to-groups)
+  - [Authorizing Users](#authorizing-users)
+      - [can()](#can)
+      - [inGroup()](#ingroup)
+  - [Managing User Permissions](#managing-user-permissions)
+      - [addPermission()](#addpermission)
+      - [removePermission()](#removepermission)
+      - [syncPermissions()](#syncpermissions)
+  - [Managing User Groups](#managing-user-groups)
+      - [addGroup()](#addgroup)
+      - [removeGroup()](#removegroup)
+      - [syncGroups()](#syncgroups)
+
 Authorization happens once a user has been identified through authentication. It is the process of
 determining what actions a user is allowed to do within your site.
 

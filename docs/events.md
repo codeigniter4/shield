@@ -2,6 +2,14 @@
 
 Shield fires off several events during the lifecycle of the application that your code can tap into.
 
+- [Events](#events)
+  - [Responding to Events](#responding-to-events)
+    - [Event List](#event-list)
+      - [register](#register)
+      - [login](#login)
+      - [failedLogin](#failedlogin)
+      - [logout](#logout)
+
 ## Responding to Events
 
 When you want to respond to an event that Shield publishes, you will need to add it to your `app/Config/Events.php`

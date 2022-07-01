@@ -1,5 +1,26 @@
 # Authentication
 
+- [Authentication](#authentication)
+  - [Available Authenticators](#available-authenticators)
+  - [Auth Helper](#auth-helper)
+  - [Authenticator Responses](#authenticator-responses)
+    - [isOK()](#isok)
+    - [reason()](#reason)
+    - [extraInfo()](#extrainfo)
+  - [Session Authenticator](#session-authenticator)
+    - [attempt()](#attempt)
+    - [check()](#check)
+    - [loggedIn()](#loggedin)
+    - [logout()](#logout)
+    - [forget()](#forget)
+  - [Access Token Authenticator](#access-token-authenticator)
+    - [Access Token/API Authentication](#access-tokenapi-authentication)
+    - [Generating Access Tokens](#generating-access-tokens)
+    - [Revoking Access Tokens](#revoking-access-tokens)
+    - [Retrieving Access Tokens](#retrieving-access-tokens)
+    - [Access Token Lifetime](#access-token-lifetime)
+    - [Access Token Scopes](#access-token-scopes)
+
 Authentication is the process of determining that a visitor actually belongs to your website,
 and identifying them. Shield provides a flexible and secure authentication system for your
 web apps and APIs.

@@ -2,6 +2,13 @@
 
 This document covers some of the base concepts used throughout the library.
 
+- [Shield Concepts](#shield-concepts)
+  - [Repository State](#repository-state)
+  - [Settings](#settings)
+  - [User Providers](#user-providers)
+  - [User Identities](#user-identities)
+  - [Password Validators](#password-validators)
+
 ## Repository State
 
 Shield is designed so that the initial setup of your application can all happen in code with nothing required to be
@@ -25,6 +32,7 @@ The only requirement is that your new class MUST extend the provided `UserModel`
 public $userProvider = 'CodeIgniter\Shield\Models\UserModel';
 ```
 
+<a name="identities" />
 ## User Identities
 
 User accounts are stored separately from the information needed to identify that user. These identifying pieces of data are
