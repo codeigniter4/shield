@@ -193,7 +193,7 @@ This will add all new permissions. You can also sync permissions so that the use
 ```php
 $user = auth()->user();
 
-$user->syncPermissions(['users.create', 'beta.access']);
+$user->syncPermissions('users.create', 'beta.access');
 ```
 
 ## Check If a User Has Permission

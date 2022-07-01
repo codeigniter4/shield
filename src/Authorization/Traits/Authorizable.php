@@ -80,7 +80,7 @@ trait Authorizable
      *
      * @return $this
      */
-    public function syncGroups(array $groups): self
+    public function syncGroups(...$groups): self
     {
         $this->populateGroups();
 
@@ -189,7 +189,7 @@ trait Authorizable
      *
      * @return $this
      */
-    public function syncPermissions(array $permissions): self
+    public function syncPermissions(...$permissions): self
     {
         $this->populatePermissions();
 
