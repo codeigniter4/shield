@@ -242,7 +242,7 @@ You can check if a user belongs to a group with the `inGroup` method.
 
 ```php
 $user = auth()->user();
-if($user->inGroup('admin')) {
+if ($user->inGroup('admin')) {
     // do something
 }
 ```
@@ -251,7 +251,7 @@ You can pass more than one group to the method and it will return `true` if the 
 
 ```php
 $user = auth()->user();
-if($user->inGroup('admin', 'beta')) {
+if ($user->inGroup('admin', 'beta')) {
     // do something
 }
 ```
