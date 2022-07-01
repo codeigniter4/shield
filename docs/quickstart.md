@@ -20,6 +20,9 @@ NOTE: The examples assume that you have run the setup script and that you have c
     - [Assign Permissions to a Group](#assign-permissions-to-a-group)
     - [Assign Permissions to a User](#assign-permissions-to-a-user)
   - [Check If a User Has Permission](#check-if-a-user-has-permission)
+    - [Adding A Group To A User](#adding-a-group-to-a-user)
+    - [Removing A Group From A User](#removing-a-group-from-a-user)
+    - [Checking If User Belongs To A Group](#checking-if-user-belongs-to-a-group)
   - [Managing Users](#managing-users)
     - [Creating Users](#creating-users)
     - [Deleting Users](#deleting-users)
@@ -208,7 +211,50 @@ if (! auth()->user()->can('users.create')) {
 
 Note: The example above can also be done through a [controller filter](https://codeigniter.com/user_guide/incoming/filters.html) if you want to apply it to multiple pages of your site.
 
+### Adding A Group To A User
 
+Groups are assigned to a user via the `addGroup` method. You can pass multiple groups in and they will all be assigned to the user.
+
+```php
+$user = auth()->user();
+$user->addGroup('admin', 'beta');
+```
+
+This will add all new groups. You can also sync groups so that the user ONLY belongs to the groups directly assigned to them. Any not in the provided list are removed from the user.
+
+```php
+$user = auth()->user();
+$user->syncGroups('admin', 'beta');
+```
+
+### Removing A Group From A User
+
+Groups are removed from a user via the `removeGroup` method. Multiple groups may be removed at once by passing all of their names into the method.
+
+```php
+$user = auth()->user();
+$user->removeGroup('admin', 'beta');
+```
+
+### Checking If User Belongs To A Group
+
+You can check if a user belongs to a group with the `inGroup` method.
+
+```php
+$user = auth()->user();
+if($user->inGroup('admin')) {
+    // do something
+}
+```
+
+You can pass more than one group to the method and it will return `true` if the user belongs to any of the specified groups.
+
+```php
+$user = auth()->user();
+if($user->inGroup('admin', 'beta')) {
+    // do something
+}
+```
 
 
 
