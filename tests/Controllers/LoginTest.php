@@ -8,6 +8,7 @@ use CodeIgniter\Shield\Authentication\Actions\Email2FA;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
+use Config\Validation;
 use Tests\Support\FakeUser;
 use Tests\Support\TestCase;
 
@@ -63,6 +64,8 @@ final class LoginTest extends TestCase
 
     public function testLoginActionEmailSuccess(): void
     {
+        Time::setTestNow('March 10, 2017', 'America/Chicago');
+
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
             'password' => 'secret123',
@@ -73,6 +76,7 @@ final class LoginTest extends TestCase
             'password' => 'secret123',
         ]);
 
+        $result->assertSessionHas('user', ['id' => 1]);
         $result->assertStatus(302);
         $result->assertRedirect();
         $this->assertSame(site_url(), $result->getRedirectUrl());
@@ -85,13 +89,15 @@ final class LoginTest extends TestCase
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();
-        $this->assertCloseEnough($identity->last_used_at->getTimestamp(), Time::now()->getTimestamp());
+        $this->assertSame(Time::now()->getTimestamp(), $identity->last_used_at->getTimestamp());
 
         // Session should have `logged_in` value with user's id
         $this->assertSame($this->user->id, session('user')['id']);
+
+        Time::setTestNow();
     }
 
-    public function testAfterLoggedInNotDesplayLoginPage(): void
+    public function testAfterLoggedInNotDisplayLoginPage(): void
     {
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
@@ -109,6 +115,17 @@ final class LoginTest extends TestCase
 
     public function testLoginActionUsernameSuccess(): void
     {
+        Time::setTestNow('March 10, 2017', 'America/Chicago');
+
+        // Change the validation rules
+        $config           = new class () extends Validation {
+            public $login = [
+                'username' => 'required|max_length[30]|alpha_numeric_space|min_length[3]',
+                'password' => 'required',
+            ];
+        };
+        Factories::injectMock('config', 'Validation', $config);
+
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
             'password' => 'secret123',
@@ -119,6 +136,7 @@ final class LoginTest extends TestCase
             'password' => 'secret123',
         ]);
 
+        $result->assertSessionHas('user', ['id' => 1]);
         $result->assertStatus(302);
         $result->assertRedirect();
         $this->assertSame(site_url(), $result->getRedirectUrl());
@@ -131,10 +149,12 @@ final class LoginTest extends TestCase
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();
-        $this->assertCloseEnough($identity->last_used_at->getTimestamp(), Time::now()->getTimestamp());
+        $this->assertSame(Time::now()->getTimestamp(), $identity->last_used_at->getTimestamp());
 
         // Session should have `logged_in` value with user's id
         $this->assertSame($this->user->id, session('user')['id']);
+
+        Time::setTestNow();
     }
 
     public function testLogoutAction(): void

@@ -3,9 +3,7 @@
 namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
-use CodeIgniter\HTTP\Response;
 
 class LoginController extends BaseController
 {
@@ -27,18 +25,21 @@ class LoginController extends BaseController
 
     /**
      * Attempts to log the user in.
-     *
-     * @return Response|string
      */
-    public function loginAction()
+    public function loginAction(): RedirectResponse
     {
-        /** @var IncomingRequest $request */
-        $request = service('request');
+        // Validate here first, since some things,
+        // like the password, can only be validated properly here.
+        $rules = $this->getValidationRules();
 
-        $credentials             = $request->getPost(setting('Auth.validFields'));
+        if (! $this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $credentials             = $this->request->getPost(setting('Auth.validFields'));
         $credentials             = array_filter($credentials);
-        $credentials['password'] = $request->getPost('password');
-        $remember                = (bool) $request->getPost('remember');
+        $credentials['password'] = $this->request->getPost('password');
+        $remember                = (bool) $this->request->getPost('remember');
 
         // Attempt to login
         $result = auth('session')->remember($remember)->attempt($credentials);
@@ -56,11 +57,23 @@ class LoginController extends BaseController
     }
 
     /**
-     * Logs the current user out.
+     * Returns the rules that should be used for validation.
      *
-     * @return Response|string
+     * @return string[]
      */
-    public function logoutAction()
+    protected function getValidationRules(): array
+    {
+        return setting('Validation.login') ?? [
+            //'username' => 'required|max_length[30]|alpha_numeric_space|min_length[3]',
+            'email'    => 'required|max_length[254]|valid_email',
+            'password' => 'required',
+        ];
+    }
+
+    /**
+     * Logs the current user out.
+     */
+    public function logoutAction(): RedirectResponse
     {
         auth()->logout();
 
