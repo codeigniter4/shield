@@ -139,6 +139,8 @@ final class LoginTest extends TestCase
         $result->assertSessionHas('user', ['id' => 1]);
         $result->assertStatus(302);
         $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionMissing('errors');
         $this->assertSame(site_url(), $result->getRedirectUrl());
 
         // Login should have been recorded successfully
@@ -191,6 +193,8 @@ final class LoginTest extends TestCase
         // Should have been redirected to the action's page.
         $result->assertStatus(302);
         $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionMissing('errors');
         $this->assertSame(site_url('auth/a/show'), $result->getRedirectUrl());
     }
 }
