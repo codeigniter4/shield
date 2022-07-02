@@ -120,10 +120,10 @@ final class LoginTest extends TestCase
         // Change the validation rules
         $config           = new class () extends Validation {
             public $login = [
-                'username' => 'required|max_length[30]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|min_length[3]',
                 'password' => 'required',
             ];
         };
+        $config->login['username'] = setting('Auth.validationRulesUsername');
         Factories::injectMock('config', 'Validation', $config);
 
         $this->user->createEmailIdentity([

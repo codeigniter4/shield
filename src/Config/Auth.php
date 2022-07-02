@@ -225,6 +225,20 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Validation Rules for username
+     * --------------------------------------------------------------------
+     *
+     * @var string[]
+     */
+    public array $validationRulesUsername = [
+        'required',
+        'max_length[30]',
+        'min_length[3]',
+        'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+    ];
+
+    /**
+     * --------------------------------------------------------------------
      * Additional Fields for "Nothing Personal"
      * --------------------------------------------------------------------
      * The NothingPersonalValidator prevents personal information from

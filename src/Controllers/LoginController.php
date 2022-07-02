@@ -64,7 +64,7 @@ class LoginController extends BaseController
     protected function getValidationRules(): array
     {
         return setting('Validation.login') ?? [
-            //'username' => 'required|max_length[30]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|min_length[3]',
+            //'username' => setting('Auth.validationRulesUsername'),
             'email'    => 'required|max_length[254]|valid_email',
             'password' => 'required',
         ];
