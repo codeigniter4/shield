@@ -1,6 +1,6 @@
 <?php
 
-namespace Shield\Filters;
+namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
