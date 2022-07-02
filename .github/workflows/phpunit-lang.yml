@@ -58,7 +58,7 @@ jobs:
           fi
 
       - name: Test with PHPUnit
-        run: vendor/bin/phpunit --verbose --coverage-text --testsuite lang
+        run: vendor/bin/phpunit --verbose --no-coverage --testsuite lang
         env:
           TERM: xterm-256color
           TACHYCARDIA_MONITOR_GA: enabled
