@@ -21,13 +21,13 @@ class GroupFilter implements FilterInterface
      * sent back to the client, allowing for error pages,
      * redirects, etc.
      *
-     * @param array|null $params
+     * @param array|null $arguments
      *
      * @return mixed
      */
-    public function before(RequestInterface $request, $params = null)
+    public function before(RequestInterface $request, $arguments = null)
     {
-        if (empty($params)) {
+        if (empty($arguments)) {
             return;
         }
 
@@ -39,7 +39,7 @@ class GroupFilter implements FilterInterface
             return redirect()->to('login');
         }
 
-        foreach ($params as $group) {
+        foreach ($arguments as $group) {
             if (auth()->user()->inGroup($group)) {
                 return;
             }

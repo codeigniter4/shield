@@ -21,13 +21,13 @@ class PermissionFilter implements FilterInterface
      * sent back to the client, allowing for error pages,
      * redirects, etc.
      *
-     * @param array|null $params
+     * @param array|null $arguments
      *
      * @return mixed
      */
-    public function before(RequestInterface $request, $params = null)
+    public function before(RequestInterface $request, $arguments = null)
     {
-        if (empty($params)) {
+        if (empty($arguments)) {
             return;
         }
 
@@ -41,7 +41,7 @@ class PermissionFilter implements FilterInterface
 
         $result = true;
 
-        foreach ($params as $permission) {
+        foreach ($arguments as $permission) {
             $result = $result && auth()->user()->can($permission);
         }
 
