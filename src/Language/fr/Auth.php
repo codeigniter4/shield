@@ -48,7 +48,7 @@ return [
 
     // Passwords
     'errorPasswordLength'       => 'Le mot de passe doit contenir au moins {0, number} caractères.',
-    'suggestPasswordLength'     => 'Pass phrases - up to 255 characters long - make more secure passwords that are easy to remember.',
+    'suggestPasswordLength'     => 'Phrases secrètes - d\'une longueur maximale de 255 caractères - permettent de créer des mots de passe plus sécurisés et faciles à retenir.',
     'errorPasswordCommon'       => 'Le mot de passe ne doit pas être un mot de passe courant.',
     'suggestPasswordCommon'     => 'Le mot de passe a été comparé à plus de 65 000 mots de passe couramment utilisés ou à des mots de passe qui ont été divulgués lors de piratages.',
     'errorPasswordPersonal'     => 'Le mot de passe ne peut pas contenir des informations de votre identifiant ou de votre email.',
