@@ -131,7 +131,7 @@ class RegisterController extends BaseController
     protected function getValidationRules(): array
     {
         return setting('Validation.registration') ?? [
-            'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
+            'username'         => 'required|max_length[30]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|min_length[3]|is_unique[users.username]',
             'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
             'password'         => 'required|strong_password',
             'password_confirm' => 'required|matches[password]',

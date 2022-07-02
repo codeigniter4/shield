@@ -120,7 +120,7 @@ final class LoginTest extends TestCase
         // Change the validation rules
         $config           = new class () extends Validation {
             public $login = [
-                'username' => 'required|max_length[30]|alpha_numeric_space|min_length[3]',
+                'username' => 'required|max_length[30]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|min_length[3]',
                 'password' => 'required',
             ];
         };
