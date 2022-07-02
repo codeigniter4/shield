@@ -51,7 +51,7 @@ abstract class AbstractTranslationTestCase extends TestCase
         //        GermanTranslationTest::class             => 'de',
         //        SpanishTranslationTest::class            => 'es',
         FarsiTranslationTest::class => 'fa',
-        //        FrenchTranslationTest::class             => 'fr',
+        FrenchTranslationTest::class => 'fr',
         //        HungarianTranslationTest::class          => 'hu',
         //        IndonesianTranslationTest::class         => 'id',
         //        ItalianTranslationTest::class            => 'it',
