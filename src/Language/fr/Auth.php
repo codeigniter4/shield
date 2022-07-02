@@ -4,18 +4,19 @@ namespace CodeIgniter\Shield\Language\fr;
 
 return [
     // Exceptions
-    'unknownAuthenticator' => '{0} n\'est pas un authentificateur valide.',
-    'unknownUserProvider'  => 'Impossible de déterminer le User Provider à utiliser.',
-    'invalidUser'          => 'Impossible de trouver l\'utilisateur.',
-    'badAttempt'           => 'Connexion impossible. Veuillez vérifier les informations saisies.',
-    'noPassword'           => 'Impossible de valider un utilisateur sans mot de passe.',
-    'invalidPassword'      => 'Connexion impossible. Veuillez vérifier votre mot de passe.',
-    'noToken'              => 'Chaque demande doit comporter un jeton d\'accès dans l\'en-tête d\'autorisation.',
-    'badToken'             => 'Le jeton d\'accès est invalide.',
-    'oldToken'             => 'Le jeton d\'accès a expiré.',
-    'noUserEntity'         => 'User Entity doit être fournie pour la validation du mot de passe.',
-    'invalidEmail'         => 'Impossible de vérifier que l\'adresse email existe.',
-    'throttled'            => 'Trop de requêtes faites depuis cette adresse IP. Vous pouvez réessayer dans {0} secondes.',
+    'unknownAuthenticator'  => '{0} n\'est pas un authentificateur valide.',
+    'unknownUserProvider'   => 'Impossible de déterminer le User Provider à utiliser.',
+    'invalidUser'           => 'Impossible de trouver l\'utilisateur.',
+    'badAttempt'            => 'Connexion impossible. Veuillez vérifier les informations saisies.',
+    'noPassword'            => 'Impossible de valider un utilisateur sans mot de passe.',
+    'invalidPassword'       => 'Connexion impossible. Veuillez vérifier votre mot de passe.',
+    'noToken'               => 'Chaque demande doit comporter un jeton d\'accès dans l\'en-tête d\'autorisation.',
+    'badToken'              => 'Le jeton d\'accès est invalide.',
+    'oldToken'              => 'Le jeton d\'accès a expiré.',
+    'noUserEntity'          => 'User Entity doit être fournie pour la validation du mot de passe.',
+    'invalidEmail'          => 'Impossible de vérifier que l\'adresse email existe.',
+    'unableSendEmailToUser' => 'Désolé, il y a eu un problème lors de l\'envoi de l\'email. Nous ne pouvons pas envoyer un email à "{0}".',
+    'throttled'             => 'Trop de requêtes faites depuis cette adresse IP. Vous pouvez réessayer dans {0} secondes.',
 
     'email'           => 'Adresse email',
     'username'        => 'Identifiant',
@@ -43,6 +44,7 @@ return [
     'magicLinkExpired'   => 'Désolé, le lien a expiré.',
     'checkYourEmail'     => 'Vérifier votre email !',
     'magicLinkDetails'   => 'Nous venons de vous envoyer un email contenant un lien de connexion. Il n\'est valable que {0} minutes.',
+    'successLogout'      => 'Vous avez été déconnecté avec succès.',
 
     // Passwords
     'errorPasswordLength'       => 'Le mot de passe doit contenir au moins {0, number} caractères.',
