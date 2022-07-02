@@ -50,6 +50,8 @@ final class RegisterTest extends DatabaseTestCase
 
         $result->assertStatus(302);
         $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionMissing('errors');
 
         $this->assertSame(site_url(), $result->getRedirectUrl());
 
@@ -89,6 +91,7 @@ final class RegisterTest extends DatabaseTestCase
 
         $result->assertStatus(302);
         $result->assertRedirect();
+        $result->assertSessionHas('error');
     }
 
     public function testRegisterActionRedirectsIfNotAllowed()
@@ -101,6 +104,7 @@ final class RegisterTest extends DatabaseTestCase
 
         $result->assertStatus(302);
         $result->assertRedirect();
+        $result->assertSessionHas('error');
     }
 
     public function testRegisterActionInvalidData()
