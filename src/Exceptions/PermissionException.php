@@ -2,9 +2,8 @@
 
 namespace CodeIgniter\Shield\Exceptions;
 
-use CodeIgniter\Exceptions\ExceptionInterface;
-use RuntimeException;
+use CodeIgniter\Shield\Authorization\AuthorizationException;
 
-class PermissionException extends RuntimeException implements ExceptionInterface
+class PermissionException extends AuthorizationException
 {
 }

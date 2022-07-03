@@ -39,13 +39,11 @@ class GroupFilter implements FilterInterface
             return redirect()->to('login');
         }
 
-        foreach ($arguments as $group) {
-            if (auth()->user()->inGroup($group)) {
-                return;
-            }
+        if (auth()->user()->inGroup(...$arguments)) {
+            return;
         }
 
-        throw new GroupException(lang('Auth.notEnoughPrivilege'));
+        throw GroupException::forUnknownGroup(...$arguments);
     }
 
     /**

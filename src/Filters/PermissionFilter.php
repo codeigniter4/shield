@@ -46,7 +46,7 @@ class PermissionFilter implements FilterInterface
         }
 
         if (! $result) {
-            throw new PermissionException(lang('Auth.notEnoughPrivilege'));
+            throw PermissionException::forUnknownPermission(...$arguments);
         }
     }
 
