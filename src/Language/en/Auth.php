@@ -17,7 +17,6 @@ return [
     'invalidEmail'          => 'Unable to verify the email address matches the email on record.',
     'unableSendEmailToUser' => 'Sorry, there was a problem sending the email. We could not send an email to "{0}".',
     'throttled'             => 'Too many requests made from this IP address. You may try again in {0} seconds.',
-    'notEnoughPrivilege'    => 'You do not have sufficient permissions to access that page.',
 
     'email'           => 'Email Address',
     'username'        => 'Username',
