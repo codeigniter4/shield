@@ -122,7 +122,7 @@ class User extends Entity
     }
 
     /**
-     * If $user, $password, or $password_hash have been updated,
+     * If $email, $password, or $password_hash have been updated,
      * will update the user's email identity record with the
      * correct values.
      */
