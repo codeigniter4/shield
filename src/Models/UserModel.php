@@ -204,10 +204,18 @@ class UserModel extends Model
             $result = parent::save($data);
 
             if ($result && $data instanceof User) {
-                /** @var User $user */
-                $user = $data->id === null
-                    ? $this->find($this->db->insertID())
-                    : $data;
+                if ($data->id === null) {
+                    // Insert
+                    /** @var User $user */
+                    $user = $this->find($this->db->insertID());
+
+                    $user->email         = $data->email ?? null;
+                    $user->password      = $data->password ?? '';
+                    $user->password_hash = $data->password_hash ?? '';
+                } else {
+                    // Update
+                    $user = $data;
+                }
 
                 if (! $user->saveEmailIdentity()) {
                     throw new RuntimeException('Unable to save email identity.');
