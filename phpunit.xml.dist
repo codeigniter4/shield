@@ -41,7 +41,7 @@
 			<directory>./tests</directory>
             <exclude>./tests/Language</exclude>
 		</testsuite>
-		<testsuite name="language">
+		<testsuite name="lang">
 			<directory>./tests/Language</directory>
 		</testsuite>
 	</testsuites>
