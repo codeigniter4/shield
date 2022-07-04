@@ -56,20 +56,20 @@ class RegisterController extends BaseController
         }
 
         // Save the user
-        $allowedPostFields = array_merge(setting('Auth.validFields'), setting('Auth.personalFields'));
-        $user              = $this->getUserEntity();
-
+        $allowedPostFields = array_merge(
+            setting('Auth.validFields'),
+            setting('Auth.personalFields'),
+            ['password']
+        );
+        $user = $this->getUserEntity();
         $user->fill($this->request->getPost($allowedPostFields));
 
         if (! $users->save($user)) {
             return redirect()->back()->withInput()->with('errors', $users->errors());
         }
 
-        // Get the updated user so we have the ID...
+        // To get the complete user object with ID, we need to get from the database
         $user = $users->findById($users->getInsertID());
-
-        // Store the email/password identity for this user.
-        $user->createEmailIdentity($this->request->getPost(['email', 'password']));
 
         // Add to default group
         $users->addToDefaultGroup($user);
