@@ -7,7 +7,6 @@ use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
-use CodeIgniter\Shield\Exceptions\RuntimeException;
 use Faker\Generator;
 
 class UserModel extends Model
@@ -202,39 +201,44 @@ class UserModel extends Model
     public function save($data): bool
     {
         try {
+            /** @throws DataException */
             $result = parent::save($data);
-
-            if ($result && $data instanceof User) {
-                if ($data->id === null) {
-                    // Insert
-                    /** @var User $user */
-                    $user = $this->find($this->db->insertID());
-
-                    $user->email         = $data->email ?? null;
-                    $user->password      = $data->password ?? '';
-                    $user->password_hash = $data->password_hash ?? '';
-                } else {
-                    // Update
-                    $user = $data;
-                }
-
-                if (! $user->saveEmailIdentity()) {
-                    throw new RuntimeException('Unable to save email identity.');
-                }
-            }
-
-            return $result;
         } catch (DataException $e) {
             $messages = [
                 lang('Database.emptyDataset', ['insert']),
                 lang('Database.emptyDataset', ['update']),
             ];
             if (in_array($e->getMessage(), $messages, true)) {
-                // @TODO Why true? Shouldn't this workaround be removed?
+                // Save updated email identity
+                if ($data instanceof User) {
+                    $user = $data;
+
+                    $user->saveEmailIdentity();
+                }
+
                 return true;
             }
 
             throw $e;
         }
+
+        if ($result && $data instanceof User) {
+            if ($data->id === null) {
+                // Insert
+                /** @var User $user */
+                $user = $this->find($this->db->insertID());
+
+                $user->email         = $data->email ?? null;
+                $user->password      = $data->password ?? '';
+                $user->password_hash = $data->password_hash ?? '';
+            } else {
+                // Update
+                $user = $data;
+            }
+
+            $user->saveEmailIdentity();
+        }
+
+        return true;
     }
 }
