@@ -172,6 +172,8 @@ class User extends Entity
             if (in_array($e->getMessage(), $messages, true)) {
                 return true;
             }
+
+            throw $e;
         }
 
         return true;
