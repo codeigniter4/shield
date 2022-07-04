@@ -175,5 +175,5 @@ Updates the user's groups to only include the groups in the given list. Any exis
 not in this list will be removed.
 
 ```php
-$user->syncGroups(['admin', 'beta']);
+$user->syncGroups('admin', 'beta');
 ```
