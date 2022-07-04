@@ -170,6 +170,7 @@ class UserModel extends Model
             $user                = new User($data);
             $user->email         = $email;
             $user->password_hash = $password_hash;
+            $user->syncOriginal();
 
             return $user;
         }
