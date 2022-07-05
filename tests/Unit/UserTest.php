@@ -112,7 +112,7 @@ final class UserTest extends TestCase
         $this->user->active = 0;
 
         $users = model(UserModel::class);
-        $users->save($this->user);
+        $users->saveWithEmailIdentity($this->user);
 
         $user = $users->find($this->user->id);
 
@@ -134,7 +134,7 @@ final class UserTest extends TestCase
         $this->user->active   = 0;
 
         $users = model(UserModel::class);
-        $users->save($this->user);
+        $users->saveWithEmailIdentity($this->user);
 
         $user = $users->find($this->user->id);
 
@@ -153,7 +153,7 @@ final class UserTest extends TestCase
         $this->user->active        = 0;
 
         $users = model(UserModel::class);
-        $users->save($this->user);
+        $users->saveWithEmailIdentity($this->user);
 
         $user = $users->find($this->user->id);
 

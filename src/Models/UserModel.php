@@ -184,21 +184,14 @@ class UserModel extends Model
     {
         $user->active = true;
 
-        $return = $this->save($user);
-
-        $this->checkQueryReturn($return);
+        $this->saveWithEmailIdentity($user);
     }
 
     /**
-     * Override the BaseModel's `save()` method to allow
-     * updating of user email, password, or password_hash
-     * fields if they've been modified.
-     *
-     * @param array|User $data
-     *
-     * @TODO can't change the return type to void.
+     * Save User and its Email Identity (email, password, or password_hash fields)
+     * if they've been modified.
      */
-    public function save($data): bool
+    public function saveWithEmailIdentity(User $data): void
     {
         try {
             /** @throws DataException */
@@ -210,13 +203,10 @@ class UserModel extends Model
             ];
             if (in_array($e->getMessage(), $messages, true)) {
                 // Save updated email identity
-                if ($data instanceof User) {
-                    $user = $data;
+                $user = $data;
+                $user->saveEmailIdentity();
 
-                    $user->saveEmailIdentity();
-                }
-
-                return true;
+                return;
             }
 
             throw $e;
@@ -238,7 +228,5 @@ class UserModel extends Model
 
             $user->saveEmailIdentity();
         }
-
-        return true;
     }
 }

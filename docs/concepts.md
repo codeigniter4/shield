@@ -46,8 +46,8 @@ While this has the potential to make the system more complex, the `email` and `p
 looked up for you when attempting to access them from the User entity. Caution should be used to craft queries that will pull
 in the `email` field when you need to display it to the user, as you could easily run into some n+1 slow queries otherwise.
 
-When you `save($user)` a `User` instance in the `UserModel`, the email/password identity will automatically be updated.
-If no email/password identity exists, you must pass both the email and the password to the User instance prior to calling `save()`.
+When you `saveWithEmailIdentity($user)` a `User` instance in the `UserModel`, the email/password identity will automatically be updated.
+If no email/password identity exists, you must pass both the email and the password to the User instance prior to calling `saveWithEmailIdentity()`.
 
 ## Password Validators
 

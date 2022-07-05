@@ -232,6 +232,6 @@ class AccessTokens implements AuthenticatorInterface
 
         $this->user->last_active = Time::now();
 
-        $this->provider->save($this->user);
+        $this->provider->saveWithEmailIdentity($this->user);
     }
 }

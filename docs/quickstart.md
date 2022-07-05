@@ -274,7 +274,7 @@ $user = new User([
     'email'    => 'foo.bar@example.com',
     'password' => 'secret plain text password',
 ]);
-$users->save($user);
+$users->saveWithEmailIdentity($user);
 
 // To get the complete user object with ID, we need to get from the database
 $user = $users->findById($users->getInsertID());
@@ -296,7 +296,7 @@ NOTE: The User rows use [soft deletes](https://codeigniter.com/user_guide/models
 
 ### Editing A User
 
-The `UserModel::save()` method has been modified to ensure that an email or password previously set on the `User` entity will be automatically updated in the correct `UserIdentity` record.
+The `UserModel::saveWithEmailIdentity()` method ensures that an email or password previously set on the `User` entity will be automatically updated in the correct `UserIdentity` record.
 
 ```php
 $users = model('UserModel');
@@ -307,7 +307,7 @@ $user->fill([
     'email' => 'joe.smith@example.com',
     'password' => 'secret123'
 ]);
-$users->save($user);
+$users->saveWithEmailIdentity($user);
 ```
 
 If you prefer to use the `update()` method then you will have to update the user's appropriate UserIdentity manually.

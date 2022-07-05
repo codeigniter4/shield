@@ -28,7 +28,7 @@ final class UserModelTest extends TestCase
 
         $user = $this->createNewUser();
 
-        $users->save($user);
+        $users->saveWithEmailIdentity($user);
 
         $user = $users->findByCredentials(['email' => 'foo@bar.com']);
         $this->seeInDatabase('auth_identities', [
@@ -56,7 +56,7 @@ final class UserModelTest extends TestCase
     {
         $users = $this->createUserModel();
         $user  = $this->createNewUser();
-        $users->save($user);
+        $users->saveWithEmailIdentity($user);
 
         $user = $users->findByCredentials(['email' => 'foo@bar.com']);
 
@@ -64,7 +64,7 @@ final class UserModelTest extends TestCase
         $user->email    = 'bar@bar.com';
         $user->active   = 1;
 
-        $users->save($user);
+        $users->saveWithEmailIdentity($user);
 
         $this->seeInDatabase('auth_identities', [
             'user_id' => $user->id,
@@ -80,13 +80,13 @@ final class UserModelTest extends TestCase
     {
         $users = $this->createUserModel();
         $user  = $this->createNewUser();
-        $users->save($user);
+        $users->saveWithEmailIdentity($user);
 
         $user = $users->findByCredentials(['email' => 'foo@bar.com']);
 
         $user->email = 'bar@bar.com';
 
-        $users->save($user);
+        $users->saveWithEmailIdentity($user);
 
         $this->seeInDatabase('auth_identities', [
             'user_id' => $user->id,

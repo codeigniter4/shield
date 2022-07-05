@@ -70,9 +70,7 @@ class RegisterController extends BaseController
             $user->username = null;
         }
 
-        if (! $users->save($user)) {
-            return redirect()->back()->withInput()->with('errors', $users->errors());
-        }
+        $users->saveWithEmailIdentity($user);
 
         // To get the complete user object with ID, we need to get from the database
         $user = $users->findById($users->getInsertID());
