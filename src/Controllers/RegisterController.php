@@ -130,13 +130,15 @@ class RegisterController extends BaseController
      */
     protected function getValidationRules(): array
     {
-        $usernameRules = array_merge(
-            setting('Auth.validationRulesUsername'),
+        $usernameRules = setting('Validation._username') ?? LoginController::getUsernameRules();
+
+        $registrationUsernameRules = array_merge(
+            $usernameRules,
             ['is_unique[users.username]']
         );
 
         return setting('Validation.registration') ?? [
-            'username'         => $usernameRules,
+            'username'         => $registrationUsernameRules,
             'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
             'password'         => 'required|strong_password',
             'password_confirm' => 'required|matches[password]',
