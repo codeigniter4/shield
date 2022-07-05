@@ -228,5 +228,7 @@ class UserModel extends Model
 
             $user->saveEmailIdentity();
         }
+
+        $this->checkQueryReturn($result);
     }
 }
