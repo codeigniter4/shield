@@ -13,7 +13,7 @@
             <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
             <?php endif ?>
 
-            <form action="<?= route_to('magic-link') ?>" method="post">
+            <form action="<?= url_to('magic-link') ?>" method="post">
                 <?= csrf_field() ?>
 
                 <!-- Email -->
