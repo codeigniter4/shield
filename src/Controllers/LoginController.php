@@ -65,7 +65,7 @@ class LoginController extends BaseController
     {
         return setting('Validation.login') ?? [
             //'username' => setting('Validation._username') ?? $this->getUsernameRules(),
-            'email'    => $this->getEmailRules(),
+            'email'    => static::getEmailRules(),
             'password' => 'required',
         ];
     }
