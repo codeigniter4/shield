@@ -120,8 +120,6 @@ if (! $user->inGroup('superadmin', 'admin')) {
 Permissions can be granted on a user level as well as on a group level. Any user-level permissions granted will
 override the group, so it's possible that a user can perform an action that their groups cannot.
 
-None of the changes are saved on the User entity until you `save()` with the `UserModel`.
-
 #### addPermission()
 
 Adds one or more permissions to the user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
