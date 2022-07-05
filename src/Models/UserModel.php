@@ -212,7 +212,7 @@ class UserModel extends Model
             throw $e;
         }
 
-        if ($result && $data instanceof User) {
+        if ($result) {
             if ($data->id === null) {
                 // Insert
                 /** @var User $user */
