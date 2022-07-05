@@ -37,7 +37,7 @@ final class MagicLinkTest extends TestCase
 
     public function testCanSeeMagicLinkForm(): void
     {
-        $result = $this->get(url_to('magic-link'));
+        $result = $this->get(route_to('magic-link'));
 
         $result->assertOK();
         $result->assertSee(lang('Auth.useMagicLink'));
@@ -45,21 +45,21 @@ final class MagicLinkTest extends TestCase
 
     public function testMagicLinkSubmitNoEmail(): void
     {
-        $result = $this->post(url_to('magic-link'), [
+        $result = $this->post(route_to('magic-link'), [
             'email' => '',
         ]);
 
-        $result->assertRedirectTo(url_to('magic-link'));
+        $result->assertRedirectTo(route_to('magic-link'));
         $result->assertSessionHas('error', lang('Auth.invalidEmail'));
     }
 
     public function testMagicLinkSubmitBadEmail(): void
     {
-        $result = $this->post(url_to('magic-link'), [
+        $result = $this->post(route_to('magic-link'), [
             'email' => 'foo@example.com',
         ]);
 
-        $result->assertRedirectTo(url_to('magic-link'));
+        $result->assertRedirectTo(route_to('magic-link'));
         $result->assertSessionHas('error', lang('Auth.invalidEmail'));
     }
 
@@ -71,7 +71,7 @@ final class MagicLinkTest extends TestCase
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
 
-        $result = $this->post(url_to('magic-link'), [
+        $result = $this->post(route_to('magic-link'), [
             'email' => 'foo@example.com',
         ]);
 
@@ -86,9 +86,9 @@ final class MagicLinkTest extends TestCase
 
     public function testMagicLinkVerifyNoToken(): void
     {
-        $result = $this->get(url_to('verify-magic-link'));
+        $result = $this->get(route_to('verify-magic-link'));
 
-        $result->assertRedirectTo(url_to('magic-link'));
+        $result->assertRedirectTo(route_to('magic-link'));
         $result->assertSessionHas('error', lang('Auth.magicTokenNotFound'));
     }
 
@@ -107,9 +107,9 @@ final class MagicLinkTest extends TestCase
             'expires' => Time::now()->subDays(5),
         ]);
 
-        $result = $this->get(url_to('verify-magic-link') . '?token=' . 'abasdasdf');
+        $result = $this->get(route_to('verify-magic-link') . '?token=' . 'abasdasdf');
 
-        $result->assertRedirectTo(url_to('magic-link'));
+        $result->assertRedirectTo(route_to('magic-link'));
         $result->assertSessionHas('error', lang('Auth.magicLinkExpired'));
     }
 
@@ -126,7 +126,7 @@ final class MagicLinkTest extends TestCase
             'expires' => Time::now()->addMinutes(60),
         ]);
 
-        $result = $this->get(url_to('verify-magic-link') . '?token=' . 'abasdasdf');
+        $result = $this->get(route_to('verify-magic-link') . '?token=' . 'abasdasdf');
 
         $result->assertRedirectTo(site_url());
         $result->assertSessionHas('user', ['id' => $user->id]);
