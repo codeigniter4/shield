@@ -186,12 +186,12 @@ class MagicLinkController extends BaseController
     /**
      * Returns the rules that should be used for validation.
      *
-     * @return array<string, string>
+     * @return array<string, array<string, string>>
      */
     protected function getValidationRules(): array
     {
         return [
-            'email' => 'required|max_length[254]|valid_email',
+            'email' => LoginController::getEmailRules(),
         ];
     }
 }

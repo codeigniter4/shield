@@ -136,10 +136,14 @@ class RegisterController extends BaseController
             $usernameRules,
             ['is_unique[users.username]']
         );
+        $registrationEmailRules = array_merge(
+            LoginController::getEmailRules(),
+            ['is_unique[auth_identities.secret]']
+        );
 
         return setting('Validation.registration') ?? [
             'username'         => $registrationUsernameRules,
-            'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
+            'email'            => $registrationEmailRules,
             'password'         => 'required|strong_password',
             'password_confirm' => 'required|matches[password]',
         ];

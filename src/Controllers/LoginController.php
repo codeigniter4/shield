@@ -65,7 +65,7 @@ class LoginController extends BaseController
     {
         return setting('Validation.login') ?? [
             //'username' => setting('Validation._username') ?? $this->getUsernameRules(),
-            'email'    => 'required|max_length[254]|valid_email',
+            'email'    => $this->getEmailRules(),
             'password' => 'required',
         ];
     }
@@ -82,6 +82,20 @@ class LoginController extends BaseController
             'max_length[30]',
             'min_length[3]',
             'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+        ];
+    }
+
+    /**
+     * Returns the validation rules for email
+     *
+     * @return string[]
+     */
+    public static function getEmailRules(): array
+    {
+        return [
+            'required',
+            'max_length[254]',
+            'valid_email',
         ];
     }
 
