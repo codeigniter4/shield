@@ -17,7 +17,7 @@
                 <div class="alert alert-success" role="alert"><?= session('message') ?></div>
                 <?php endif ?>
 
-                <form action="<?= route_to('login') ?>" method="post">
+                <form action="<?= url_to('login') ?>" method="post">
                     <?= csrf_field() ?>
 
                     <!-- Email -->
@@ -45,11 +45,11 @@
                     </div>
 
                     <?php if (setting('Auth.allowMagicLinkLogins')) : ?>
-                        <p class="text-center"><?= lang('Auth.forgotPassword') ?> <a href="<?= route_to('magic-link') ?>"><?= lang('Auth.useMagicLink') ?></a></p>
+                        <p class="text-center"><?= lang('Auth.forgotPassword') ?> <a href="<?= url_to('magic-link') ?>"><?= lang('Auth.useMagicLink') ?></a></p>
                     <?php endif ?>
 
                     <?php if (setting('Auth.allowRegistration')) : ?>
-                        <p class="text-center"><?= lang('Auth.needAccount') ?> <a href="<?= route_to('register') ?>"><?= lang('Auth.register') ?></a></p>
+                        <p class="text-center"><?= lang('Auth.needAccount') ?> <a href="<?= url_to('register') ?>"><?= lang('Auth.register') ?></a></p>
                     <?php endif ?>
 
                 </form>
