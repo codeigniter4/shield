@@ -15,7 +15,7 @@
                 <div class="alert alert-danger"><?= session('error') ?></div>
             <?php endif ?>
 
-            <form action="<?= site_url(route_to('auth-action-handle')) ?>" method="post">
+            <form action="<?= url_to('auth-action-handle') ?>" method="post">
                 <?= csrf_field() ?>
 
                 <!-- Email -->
