@@ -4,7 +4,6 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Entities\Login;
-use Exception;
 use Faker\Generator;
 
 class TokenLoginModel extends LoginModel
@@ -13,8 +12,6 @@ class TokenLoginModel extends LoginModel
 
     /**
      * Generate a fake login for testing
-     *
-     * @throws Exception
      */
     public function fake(Generator &$faker): Login
     {

@@ -20,7 +20,6 @@ use CodeIgniter\Shield\Models\RememberModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
-use Exception;
 use stdClass;
 
 class Session implements AuthenticatorInterface
@@ -812,8 +811,6 @@ class Session implements AuthenticatorInterface
      * and stores the necessary info in the db and a cookie.
      *
      * @see https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence
-     *
-     * @throws Exception
      */
     protected function rememberUser(User $user): void
     {
