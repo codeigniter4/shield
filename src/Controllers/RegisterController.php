@@ -7,6 +7,7 @@ use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Models\UserModel;
 
 /**
@@ -70,7 +71,11 @@ class RegisterController extends BaseController
             $user->username = null;
         }
 
-        $users->saveWithEmailIdentity($user);
+        try {
+            $users->saveWithEmailIdentity($user);
+        } catch (ValidationException $e) {
+            return redirect()->back()->withInput()->with('errors', $users->errors());
+        }
 
         // To get the complete user object with ID, we need to get from the database
         $user = $users->findById($users->getInsertID());
