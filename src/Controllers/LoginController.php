@@ -64,7 +64,7 @@ class LoginController extends BaseController
     protected function getValidationRules(): array
     {
         return setting('Validation.login') ?? [
-            //'username' => setting('Validation._username') ?? $this->getUsernameRules(),
+            //'username' => static::getUsernameRules(),
             'email'    => static::getEmailRules(),
             'password' => 'required',
         ];
