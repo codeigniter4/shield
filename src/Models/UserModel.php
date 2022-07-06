@@ -2,14 +2,13 @@
 
 namespace CodeIgniter\Shield\Models;
 
-use CodeIgniter\Database\Database;
 use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use Faker\Generator;
-use InvalidArgumentException;
 
 class UserModel extends Model
 {
