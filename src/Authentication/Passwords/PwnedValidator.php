@@ -3,9 +3,9 @@
 namespace CodeIgniter\Shield\Authentication\Passwords;
 
 use CodeIgniter\Config\Services;
-use CodeIgniter\HTTP\Exceptions\HTTPException;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Exceptions\HTTPException;
 use CodeIgniter\Shield\Result;
 
 /**
