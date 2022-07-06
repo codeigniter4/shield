@@ -5,7 +5,7 @@
 <?= $this->section('main') ?>
 
     <div class="container d-flex justify-content-center p-5">
-        <div class="card col-5 shadow-sm">
+        <div class="card col-12 col-md-5 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title mb-5"><?= lang('Auth.login') ?></h5>
 
@@ -40,7 +40,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <div class="d-grid col-8 mx-auto m-3">
+                    <div class="d-grid col-12 col-md-8 mx-auto m-3">
                         <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.login') ?></button>
                     </div>
 
