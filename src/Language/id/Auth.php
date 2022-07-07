@@ -36,7 +36,7 @@ return [
     // Login
     'login'              => 'Masuk',
     'needAccount'        => 'Butuh Akun?',
-    'rememberMe'         => 'Ingatkan saya?',
+    'rememberMe'         => 'Ingat saya?',
     'forgotPassword'     => 'Lupa kata sandi?',
     'useMagicLink'       => 'Gunakan tautan masuk',
     'magicLinkSubject'   => 'Tautan masuk Anda',
