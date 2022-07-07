@@ -310,7 +310,7 @@ class Session implements AuthenticatorInterface
         // logged in.
         if ($passwords->needsRehash($user->password_hash)) {
             $user->password_hash = $passwords->hash($givenPassword);
-            $this->provider->saveWithEmailIdentity($user);
+            $this->provider->save($user);
         }
 
         return new Result([
@@ -803,7 +803,7 @@ class Session implements AuthenticatorInterface
 
         $this->user->last_active = Time::now();
 
-        $this->provider->saveWithEmailIdentity($this->user);
+        $this->provider->save($this->user);
     }
 
     /**

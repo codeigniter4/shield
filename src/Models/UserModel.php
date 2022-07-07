@@ -7,6 +7,7 @@ use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
+use CodeIgniter\Shield\Exceptions\ValidationException;
 use Faker\Generator;
 
 class UserModel extends Model
@@ -188,8 +189,28 @@ class UserModel extends Model
     }
 
     /**
+     * Override the BaseModel's `save()` method to allow
+     * updating of user email, password, or password_hash fields
+     * if they've been modified.
+     *
+     * @param User $data
+     *
+     * @throws ValidationException
+     */
+    public function save($data): bool
+    {
+        assert($data instanceof User);
+
+        $this->saveWithEmailIdentity($data);
+
+        return true;
+    }
+
+    /**
      * Save User and its Email Identity (email, password, or password_hash fields)
      * if they've been modified.
+     *
+     * @throws ValidationException
      */
     public function saveWithEmailIdentity(User $data): void
     {
