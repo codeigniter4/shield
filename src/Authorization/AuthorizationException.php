@@ -2,9 +2,9 @@
 
 namespace CodeIgniter\Shield\Authorization;
 
-use CodeIgniter\Shield\Exceptions\HTTPException;
+use CodeIgniter\Shield\Exceptions\RuntimeException;
 
-class AuthorizationException extends HTTPException
+class AuthorizationException extends RuntimeException
 {
     protected $code = 401;
 
