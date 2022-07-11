@@ -220,7 +220,7 @@ class Setup extends BaseCommand
     private function runMigrations(): void
     {
         if (
-           $this->cliPrompt('  Run `spark migrate --all` now?', ['y', 'n']) === 'n'
+            $this->cliPrompt('  Run `spark migrate --all` now?', ['y', 'n']) === 'n'
         ) {
             return;
         }
