@@ -5,7 +5,6 @@ namespace Tests\Controllers;
 use CodeIgniter\Config\Factories;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\Email2FA;
-use CodeIgniter\Shield\Controllers\LoginController;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
@@ -124,7 +123,7 @@ final class LoginTest extends TestCase
                 'password' => 'required',
             ];
         };
-        $config->login['username'] = LoginController::getUsernameRules();
+        $config->login['username'] = config('AuthSession')->usernameValidationRules;
         Factories::injectMock('config', 'Validation', $config);
 
         $this->user->createEmailIdentity([

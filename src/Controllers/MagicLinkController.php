@@ -191,7 +191,7 @@ class MagicLinkController extends BaseController
     protected function getValidationRules(): array
     {
         return [
-            'email' => LoginController::getEmailRules(),
+            'email' => config('AuthSession')->emailValidationRules,
         ];
     }
 }

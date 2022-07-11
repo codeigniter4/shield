@@ -64,38 +64,9 @@ class LoginController extends BaseController
     protected function getValidationRules(): array
     {
         return setting('Validation.login') ?? [
-            //'username' => static::getUsernameRules(),
-            'email'    => static::getEmailRules(),
+            //'username' => config('AuthSession')->usernameValidationRules,
+            'email'    => config('AuthSession')->emailValidationRules,
             'password' => 'required',
-        ];
-    }
-
-    /**
-     * Returns the validation rules for username
-     *
-     * @return string[]
-     */
-    public static function getUsernameRules(): array
-    {
-        return [
-            'required',
-            'max_length[30]',
-            'min_length[3]',
-            'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
-        ];
-    }
-
-    /**
-     * Returns the validation rules for email
-     *
-     * @return string[]
-     */
-    public static function getEmailRules(): array
-    {
-        return [
-            'required',
-            'max_length[254]',
-            'valid_email',
         ];
     }
 
