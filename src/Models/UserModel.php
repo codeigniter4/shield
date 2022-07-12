@@ -29,12 +29,19 @@ class UserModel extends Model
     ];
     protected $useTimestamps = true;
     protected $afterFind     = ['fetchIdentities'];
+    protected $afterInsert   = ['saveEmailIdentity'];
+    protected $afterUpdate   = ['saveEmailIdentity'];
 
     /**
      * Whether identity records should be included
      * when user records are fetched from the database.
      */
     protected bool $fetchIdentities = false;
+
+    /**
+     * Save the User for afterInsert and afterUpdate
+     */
+    protected ?User $tempUser = null;
 
     /**
      * Mark the next find* query to include identities
@@ -53,7 +60,7 @@ class UserModel extends Model
      * returned from a find* method. Called
      * automatically when $this->fetchIdentities == true
      *
-     * Model event callback called `afterFind`.
+     * Model event callback called by `afterFind`.
      */
     protected function fetchIdentities(array $data): array
     {
@@ -185,7 +192,61 @@ class UserModel extends Model
     {
         $user->active = true;
 
-        $this->saveWithEmailIdentity($user);
+        $this->save($user);
+    }
+
+    /**
+     * @param User $data
+     *
+     * @throws ValidationException
+     *
+     * @retrun true|int|string Insert ID if $returnID is true
+     */
+    public function insert($data = null, bool $returnID = true)
+    {
+        assert($data instanceof User);
+
+        $this->tempUser = $data;
+
+        $result = parent::insert($data, $returnID);
+
+        $this->checkQueryReturn($result);
+
+        return $returnID ? $this->insertID : $result;
+    }
+
+    /**
+     * @param array|int|string|null $id
+     * @param User                  $data
+     *
+     * @throws ValidationException
+     */
+    public function update($id = null, $data = null): bool
+    {
+        assert($data instanceof User);
+
+        $this->tempUser = $data;
+
+        try {
+            /** @throws DataException */
+            $result = parent::update($id, $data);
+        } catch (DataException $e) {
+            $messages = [
+                lang('Database.emptyDataset', ['update']),
+            ];
+
+            if (in_array($e->getMessage(), $messages, true)) {
+                $this->tempUser->saveEmailIdentity();
+
+                return true;
+            }
+
+            throw $e;
+        }
+
+        $this->checkQueryReturn($result);
+
+        return true;
     }
 
     /**
@@ -201,55 +262,37 @@ class UserModel extends Model
     {
         assert($data instanceof User);
 
-        $this->saveWithEmailIdentity($data);
+        $result = parent::save($data);
+
+        $this->checkQueryReturn($result);
 
         return true;
     }
 
     /**
-     * Save User and its Email Identity (email, password, or password_hash fields)
-     * if they've been modified.
+     * Save Email Identity
      *
-     * @throws ValidationException
+     * Model event callback called by `afterInsert` and `afterUpdate`.
      */
-    public function saveWithEmailIdentity(User $data): void
+    protected function saveEmailIdentity(array $data): array
     {
-        try {
-            /** @throws DataException */
-            $result = parent::save($data);
-        } catch (DataException $e) {
-            $messages = [
-                lang('Database.emptyDataset', ['insert']),
-                lang('Database.emptyDataset', ['update']),
-            ];
-            if (in_array($e->getMessage(), $messages, true)) {
-                // Save updated email identity
-                $user = $data;
-                $user->saveEmailIdentity();
+        // Insert
+        if ($this->tempUser->id === null) {
+            /** @var User $user */
+            $user = $this->find($this->db->insertID());
 
-                return;
-            }
-
-            throw $e;
-        }
-
-        if ($result) {
-            if ($data->id === null) {
-                // Insert
-                /** @var User $user */
-                $user = $this->find($this->db->insertID());
-
-                $user->email         = $data->email ?? null;
-                $user->password      = $data->password ?? '';
-                $user->password_hash = $data->password_hash ?? '';
-            } else {
-                // Update
-                $user = $data;
-            }
+            $user->email         = $this->tempUser->email ?? '';
+            $user->password      = $this->tempUser->password ?? '';
+            $user->password_hash = $this->tempUser->password_hash ?? '';
 
             $user->saveEmailIdentity();
+
+            return $data;
         }
 
-        $this->checkQueryReturn($result);
+        // Update
+        $this->tempUser->saveEmailIdentity();
+
+        return $data;
     }
 }

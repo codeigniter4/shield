@@ -247,7 +247,7 @@ final class ActionsTest extends TestCase
 
         $this->user->active = false;
         $model              = auth()->getProvider();
-        $model->saveWithEmailIdentity($this->user);
+        $model->save($this->user);
 
         $result = $this->actingAs($this->user, true)
             ->withSession($this->getSessionUserInfo(EmailActivator::class))

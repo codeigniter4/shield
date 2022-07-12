@@ -41,6 +41,25 @@ final class UserModelTest extends TestCase
         ]);
     }
 
+    public function testInsertUser(): void
+    {
+        $users = $this->createUserModel();
+
+        $user = $this->createNewUser();
+
+        $users->insert($user);
+
+        $user = $users->findByCredentials(['email' => 'foo@bar.com']);
+        $this->seeInDatabase('auth_identities', [
+            'user_id' => $user->id,
+            'secret'  => 'foo@bar.com',
+        ]);
+        $this->seeInDatabase('users', [
+            'id'     => $user->id,
+            'active' => 0,
+        ]);
+    }
+
     private function createNewUser(): User
     {
         $user           = new User();
@@ -76,6 +95,30 @@ final class UserModelTest extends TestCase
         ]);
     }
 
+    public function testUpdateUserWithUserDataToUpdate(): void
+    {
+        $users = $this->createUserModel();
+        $user  = $this->createNewUser();
+        $users->save($user);
+
+        $user = $users->findByCredentials(['email' => 'foo@bar.com']);
+
+        $user->username = 'bar';
+        $user->email    = 'bar@bar.com';
+        $user->active   = 1;
+
+        $users->update(null, $user);
+
+        $this->seeInDatabase('auth_identities', [
+            'user_id' => $user->id,
+            'secret'  => 'bar@bar.com',
+        ]);
+        $this->seeInDatabase('users', [
+            'id'     => $user->id,
+            'active' => 1,
+        ]);
+    }
+
     public function testSaveUpdateUserWithNoUserDataToUpdate(): void
     {
         $users = $this->createUserModel();
@@ -86,7 +129,25 @@ final class UserModelTest extends TestCase
 
         $user->email = 'bar@bar.com';
 
-        $users->saveWithEmailIdentity($user);
+        $users->save($user);
+
+        $this->seeInDatabase('auth_identities', [
+            'user_id' => $user->id,
+            'secret'  => 'bar@bar.com',
+        ]);
+    }
+
+    public function testUpdateUserWithNoUserDataToUpdate(): void
+    {
+        $users = $this->createUserModel();
+        $user  = $this->createNewUser();
+        $users->save($user);
+
+        $user = $users->findByCredentials(['email' => 'foo@bar.com']);
+
+        $user->email = 'bar@bar.com';
+
+        $users->update(null, $user);
 
         $this->seeInDatabase('auth_identities', [
             'user_id' => $user->id,
