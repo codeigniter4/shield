@@ -296,7 +296,7 @@ NOTE: The User rows use [soft deletes](https://codeigniter.com/user_guide/models
 
 ### Editing A User
 
-The `UserModel::save()` method has been modified to ensure that an email or password previously set on the `User` entity will be automatically updated in the correct `UserIdentity` record.
+The `UserModel::save()`, `update()` and `insert()` methods have been modified to ensure that an email or password previously set on the `User` entity will be automatically updated in the correct `UserIdentity` record.
 
 ```php
 $users = model('UserModel');
@@ -308,22 +308,4 @@ $user->fill([
     'password' => 'secret123'
 ]);
 $users->save($user);
-```
-
-If you prefer to use the `update()` method then you will have to update the user's appropriate UserIdentity manually.
-
-```php
-$users = model('UserModel');
-$user = $users->findById(123);
-
-$user->fill([
-    'username' => 'JoeSmith111',
-    'email' => 'joe.smith@example.com',
-    'password' => 'secret123'
-]);
-
-// Saves the username field
-$users->update($user);
-// Updates the email and password
-$user->saveEmailIdentity();
 ```
