@@ -196,7 +196,10 @@ class UserModel extends Model
     }
 
     /**
-     * @param User $data
+     * Override the BaseModel's `insert()` method.
+     * If you pass User object, also inserts Email Identity.
+     *
+     * @param array|User $data
      *
      * @throws ValidationException
      *
@@ -204,9 +207,7 @@ class UserModel extends Model
      */
     public function insert($data = null, bool $returnID = true)
     {
-        assert($data instanceof User);
-
-        $this->tempUser = $data;
+        $this->tempUser = $data instanceof User ? $data : null;
 
         $result = parent::insert($data, $returnID);
 
@@ -216,16 +217,17 @@ class UserModel extends Model
     }
 
     /**
+     * Override the BaseModel's `update()` method.
+     * If you pass User object, also updates Email Identity.
+     *
      * @param array|int|string|null $id
-     * @param User                  $data
+     * @param array|User            $data
      *
      * @throws ValidationException
      */
     public function update($id = null, $data = null): bool
     {
-        assert($data instanceof User);
-
-        $this->tempUser = $data;
+        $this->tempUser = $data instanceof User ? $data : null;
 
         try {
             /** @throws DataException */
@@ -250,18 +252,15 @@ class UserModel extends Model
     }
 
     /**
-     * Override the BaseModel's `save()` method to allow
-     * updating of user email, password, or password_hash fields
-     * if they've been modified.
+     * Override the BaseModel's `save()` method.
+     * If you pass User object, also updates Email Identity.
      *
-     * @param User $data
+     * @param array|User $data
      *
      * @throws ValidationException
      */
     public function save($data): bool
     {
-        assert($data instanceof User);
-
         $result = parent::save($data);
 
         $this->checkQueryReturn($result);
@@ -276,6 +275,11 @@ class UserModel extends Model
      */
     protected function saveEmailIdentity(array $data): array
     {
+        // If insert()/update() gets an array data, do nothing.
+        if ($this->tempUser === null) {
+            return $data;
+        }
+
         // Insert
         if ($this->tempUser->id === null) {
             /** @var User $user */
