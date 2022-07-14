@@ -108,7 +108,7 @@ Shield has the following rules for registration:
 ];
 ```
 
-If you need a different set of rules for registration, you can specify them in your `Validation` configuration (**app\Config\Validation.php**) like:
+If you need a different set of rules for registration, you can specify them in your `Validation` configuration (**app/Config/Validation.php**) like:
 
 ```php
 //--------------------------------------------------------------------
