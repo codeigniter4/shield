@@ -211,7 +211,7 @@ class Setup extends BaseCommand
         $file = 'Config/Routes.php';
 
         $check   = 'service(\'auth\')->routes($routes);';
-        $pattern = '/(.*)(\n' . preg_quote('$routes->', '/') . '[^\n]+?\n)/su';
+        $pattern = '/(.*)(\n' . preg_quote('$routes->', '/') . '[^\n]+?;\n)/su';
         $replace = '$1$2' . "\n" . $check . "\n";
 
         $this->add($file, $check, $pattern, $replace);

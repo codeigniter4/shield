@@ -61,6 +61,11 @@ final class ContentReplacerTest extends TestCase
 
             $routes->get('/', 'Home::index');
 
+            $routes->group('admin', static function ($routes) {
+                $routes->get('users', 'Admin\Users::index');
+                $routes->get('blog', 'Admin\Blog::index');
+            });
+
             /**
              * You will have access to the $routes object within that file without
              * needing to reload it.
@@ -69,7 +74,7 @@ final class ContentReplacerTest extends TestCase
             FILE;
 
         $text    = 'service(\'auth\')->routes($routes);';
-        $pattern = '/(.*)(\n' . preg_quote('$routes->', '/') . '[^\n]+?\n)/su';
+        $pattern = '/(.*)(\n' . preg_quote('$routes->', '/') . '[^\n]+?;\n)/su';
         $replace = '$1$2' . "\n" . $text . "\n";
         $output  = $replacer->add($content, $text, $pattern, $replace);
 
@@ -87,6 +92,11 @@ final class ContentReplacerTest extends TestCase
             $routes->get('/', 'Home::index');
 
             service('auth')->routes($routes);
+
+            $routes->group('admin', static function ($routes) {
+                $routes->get('users', 'Admin\Users::index');
+                $routes->get('blog', 'Admin\Blog::index');
+            });
 
             /**
              * You will have access to the $routes object within that file without
