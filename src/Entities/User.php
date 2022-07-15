@@ -2,6 +2,7 @@
 
 namespace CodeIgniter\Shield\Entities;
 
+use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Traits\HasAccessTokens;
@@ -122,7 +123,7 @@ class User extends Entity
     }
 
     /**
-     * If $user, $password, or $password_hash have been updated,
+     * If $email, $password, or $password_hash have been updated,
      * will update the user's email identity record with the
      * correct values.
      */
@@ -159,7 +160,23 @@ class User extends Entity
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->save($identity);
+        try {
+            /** @throws DataException */
+            $identityModel->save($identity);
+        } catch (DataException $e) {
+            // There may be no data to update.
+            $messages = [
+                lang('Database.emptyDataset', ['insert']),
+                lang('Database.emptyDataset', ['update']),
+            ];
+            if (in_array($e->getMessage(), $messages, true)) {
+                return true;
+            }
+
+            throw $e;
+        }
+
+        return true;
     }
 
     /**

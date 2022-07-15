@@ -265,20 +265,19 @@ Since Shield uses a more complex user setup than many other systems, due to the 
 
 ### Creating Users
 
-By default, the only values stored in a user is the username. The first step is to create the user record with the username. If you don't have a username, be sure to set the value to `null` anyway, so that it passes CodeIgniter's empty data check.
+By default, the only values stored in the users table is the username. The first step is to create the user record with the username. If you don't have a username, be sure to set the value to `null` anyway, so that it passes CodeIgniter's empty data check.
 
 ```php
 $users = model('UserModel');
 $user = new User([
-    'username' => 'foo-bar'
+    'username' => 'foo-bar',
+    'email'    => 'foo.bar@example.com',
+    'password' => 'secret plain text password',
 ]);
 $users->save($user);
 
-// Get the updated user so we have the ID...
+// To get the complete user object with ID, we need to get from the database
 $user = $users->findById($users->getInsertID());
-
-// Store the email/password identity for this user.
-$user->createEmailIdentity($this->request->getPost(['email', 'password']));
 
 // Add to default group
 $users->addToDefaultGroup($user);
@@ -297,7 +296,7 @@ NOTE: The User rows use [soft deletes](https://codeigniter.com/user_guide/models
 
 ### Editing A User
 
-The `UserModel::save()` method has been modified to ensure that an email or password previously set on the `User` entity will be automatically updated in the correct `UserIdentity` record.
+The `UserModel::save()`, `update()` and `insert()` methods have been modified to ensure that an email or password previously set on the `User` entity will be automatically updated in the correct `UserIdentity` record.
 
 ```php
 $users = model('UserModel');
@@ -309,22 +308,4 @@ $user->fill([
     'password' => 'secret123'
 ]);
 $users->save($user);
-```
-
-If you prefer to use the `update()` method then you will have to update the user's appropriate UserIdentity manually.
-
-```php
-$users = model('UserModel');
-$user = $users->findById(123);
-
-$user->fill([
-    'username' => 'JoeSmith111',
-    'email' => 'joe.smith@example.com',
-    'password' => 'secret123'
-]);
-
-// Saves the username field
-$users->update($user);
-// Updates the email and password
-$user->saveEmailIdentity();
 ```

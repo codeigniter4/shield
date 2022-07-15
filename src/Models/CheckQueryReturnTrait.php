@@ -2,7 +2,7 @@
 
 namespace CodeIgniter\Shield\Models;
 
-use CodeIgniter\Shield\Exceptions\RuntimeException;
+use CodeIgniter\Shield\Exceptions\ValidationException;
 use ReflectionObject;
 use ReflectionProperty;
 
@@ -36,7 +36,7 @@ trait CheckQueryReturnTrait
                 $message .= ' [' . $field . '] ' . $error;
             }
 
-            throw new RuntimeException($message);
+            throw new ValidationException($message);
         }
     }
 
