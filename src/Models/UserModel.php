@@ -290,12 +290,14 @@ class UserModel extends Model
             $user->password_hash = $this->tempUser->password_hash ?? '';
 
             $user->saveEmailIdentity();
+            $this->tempUser = null;
 
             return $data;
         }
 
         // Update
         $this->tempUser->saveEmailIdentity();
+        $this->tempUser = null;
 
         return $data;
     }
