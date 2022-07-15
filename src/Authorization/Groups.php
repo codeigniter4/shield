@@ -3,7 +3,7 @@
 namespace CodeIgniter\Shield\Authorization;
 
 use CodeIgniter\Shield\Entities\Group;
-use RuntimeException;
+use CodeIgniter\Shield\Exceptions\RuntimeException;
 
 /**
  * Provides utility feature for working with

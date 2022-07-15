@@ -13,14 +13,13 @@ use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
+use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\RememberModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
-use Exception;
-use InvalidArgumentException;
 use stdClass;
 
 class Session implements AuthenticatorInterface
@@ -812,8 +811,6 @@ class Session implements AuthenticatorInterface
      * and stores the necessary info in the db and a cookie.
      *
      * @see https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence
-     *
-     * @throws Exception
      */
     protected function rememberUser(User $user): void
     {

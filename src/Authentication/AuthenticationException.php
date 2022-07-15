@@ -3,9 +3,9 @@
 namespace CodeIgniter\Shield\Authentication;
 
 use CodeIgniter\HTTP\Exceptions\HTTPException;
-use Exception;
+use CodeIgniter\Shield\Exceptions\RuntimeException;
 
-class AuthenticationException extends Exception
+class AuthenticationException extends RuntimeException
 {
     protected $code = 403;
 

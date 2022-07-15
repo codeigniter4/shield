@@ -7,7 +7,6 @@ use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User;
-use Exception;
 use Faker\Generator;
 
 class LoginModel extends Model
@@ -81,8 +80,6 @@ class LoginModel extends Model
 
     /**
      * Generate a fake login for testing
-     *
-     * @throws Exception
      */
     public function fake(Generator &$faker): Login
     {
