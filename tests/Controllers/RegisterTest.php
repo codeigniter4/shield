@@ -11,6 +11,7 @@ use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
 use Tests\Support\DatabaseTestCase;
+use Tests\Support\FakeUser;
 
 /**
  * @internal
@@ -18,6 +19,7 @@ use Tests\Support\DatabaseTestCase;
 final class RegisterTest extends DatabaseTestCase
 {
     use FeatureTestTrait;
+    use FakeUser;
 
     protected $namespace;
 
@@ -144,6 +146,18 @@ final class RegisterTest extends DatabaseTestCase
             'username' => 'foo',
             'active'   => 0,
         ]);
+    }
+
+    public function testRegisterRedirectsIfLoggedIn(): void
+    {
+        // log them in
+        session()->set('user', ['id' => $this->user->id]);
+
+        $result = $this->withSession()->get('/register');
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertRedirectTo(config('Auth')->registerRedirect());
     }
 
     protected function setupConfig(): void
