@@ -118,7 +118,7 @@ class UserModel extends Model
     public function fake(Generator &$faker): User
     {
         return new User([
-            'username' => str_replace('.', ' ', $faker->userName),
+            'username' => $faker->userName,
             'active'   => true,
         ]);
     }

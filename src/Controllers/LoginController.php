@@ -64,8 +64,8 @@ class LoginController extends BaseController
     protected function getValidationRules(): array
     {
         return setting('Validation.login') ?? [
-            //'username' => 'required|max_length[30]|alpha_numeric_space|min_length[3]',
-            'email'    => 'required|max_length[254]|valid_email',
+            //'username' => config('AuthSession')->usernameValidationRules,
+            'email'    => config('AuthSession')->emailValidationRules,
             'password' => 'required',
         ];
     }

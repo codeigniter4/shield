@@ -141,7 +141,7 @@ $credentials = [
     'password' => $this->request->getPost('password')
 ];
 
-$validCreds? = auth()->check($credentials);
+$validCreds = auth()->check($credentials);
 
 if (! $validCreds->isOK()) {
     return redirect()->back()->with('error', $loginAttempt->reason());
