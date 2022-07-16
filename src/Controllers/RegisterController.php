@@ -45,6 +45,10 @@ class RegisterController extends BaseController
      */
     public function registerAction(): RedirectResponse
     {
+        if (auth()->loggedIn()) {
+            return redirect()->to(config('Auth')->registerRedirect());
+        }
+
         // Check if registration is allowed
         if (! setting('Auth.allowRegistration')) {
             return redirect()->back()->withInput()

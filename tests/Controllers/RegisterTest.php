@@ -160,6 +160,23 @@ final class RegisterTest extends DatabaseTestCase
         $result->assertRedirectTo(config('Auth')->registerRedirect());
     }
 
+    public function testRegisterActionRedirectsIfLoggedIn(): void
+    {
+        // log them in
+        session()->set('user', ['id' => $this->user->id]);
+
+        $result = $this->withSession()->post('/register', [
+            'username'         => 'JohnDoe',
+            'email'            => 'john.doe@example.com',
+            'password'         => 'secret things might happen here',
+            'password_confirm' => 'secret things might happen here',
+        ]);
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertRedirectTo(config('Auth')->registerRedirect());
+    }
+
     protected function setupConfig(): void
     {
         $config             = config('Validation');
