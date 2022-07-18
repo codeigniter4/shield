@@ -74,11 +74,10 @@ class LoginModel extends Model
      */
     public function previousLogin(User $user): ?Login
     {
-        $previous = $this->where('success', 1)
+        return $this->where('success', 1)
             ->where('user_id', $user->id)
             ->orderBy('id', 'desc')
-            ->findAll(1, 1);
-        return ($previous) ? $previous[0] : NULL;
+            ->limit(1, 1)->first();
     }
 
     /**
