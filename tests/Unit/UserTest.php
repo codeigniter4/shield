@@ -123,7 +123,7 @@ final class UserTest extends TestCase
 
         // No logins found.
         $this->assertNull($this->user->previousLogin());
-        
+
         fake(
             LoginModel::class,
             ['id_type' => 'email', 'identifier' => $this->user->email, 'user_id' => $this->user->id]
