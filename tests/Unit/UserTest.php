@@ -132,7 +132,7 @@ final class UserTest extends TestCase
         // The very most login is skipped.
         $this->assertNull($this->user->previousLogin());
 
-        $login2 = fake(
+        $login1 = fake(
             LoginModel::class,
             ['id_type' => 'email', 'identifier' => $this->user->email, 'user_id' => $this->user->id]
         );
@@ -149,7 +149,7 @@ final class UserTest extends TestCase
         $previous = $this->user->previousLogin();
 
         $this->assertInstanceOf(Login::class, $previous); // @phpstan-ignore-line
-        $this->assertSame($login2->id, $previous->id);
+        $this->assertSame($login1->id, $previous->id);
         $this->assertInstanceOf(Time::class, $previous->date);
     }
 
