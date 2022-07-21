@@ -93,6 +93,7 @@ class UserModel extends Model
     /**
      * Map our users by ID to make assigning simpler
      *
+     * @param array          $data       Event $data
      * @param UserIdentity[] $identities
      *
      * @return User[] UserId => User object
@@ -110,11 +111,13 @@ class UserModel extends Model
         unset($users);
 
         // Now assign the identities to the user
-        foreach ($identities as $id) {
-            $array   = $mappedUsers[$id->user_id]->identities;
-            $array[] = $id;
+        foreach ($identities as $identity) {
+            $userId = $identity->user_id;
 
-            $mappedUsers[$id->user_id]->identities = $array;
+            $newIdentities   = $mappedUsers[$userId]->identities;
+            $newIdentities[] = $identity;
+
+            $mappedUsers[$userId]->identities = $newIdentities;
         }
 
         return $mappedUsers;
