@@ -6,6 +6,7 @@ use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use Faker\Generator;
@@ -82,11 +83,26 @@ class UserModel extends Model
             return $data;
         }
 
-        // Map our users by ID to make assigning simpler
+        $mappedUsers = $this->assignIdentities($data, $identities);
+
+        $data['data'] = $data['singleton'] ? $mappedUsers[$data['id']] : $mappedUsers;
+
+        return $data;
+    }
+
+    /**
+     * Map our users by ID to make assigning simpler
+     *
+     * @param UserIdentity[] $identities
+     *
+     * @return User[] UserId => User object
+     * @phpstan-return array<int|string, User> UserId => User object
+     */
+    private function assignIdentities(array $data, array $identities): array
+    {
         $mappedUsers = [];
-        $users       = $data['singleton']
-            ? [$data['data']]
-            : $data['data'];
+
+        $users = $data['singleton'] ? [$data['data']] : $data['data'];
 
         foreach ($users as $user) {
             $mappedUsers[$user->id] = $user;
@@ -95,14 +111,13 @@ class UserModel extends Model
 
         // Now assign the identities to the user
         foreach ($identities as $id) {
-            $array                                 = $mappedUsers[$id->user_id]->identities;
-            $array[]                               = $id;
+            $array   = $mappedUsers[$id->user_id]->identities;
+            $array[] = $id;
+
             $mappedUsers[$id->user_id]->identities = $array;
         }
 
-        $data['data'] = $data['singleton'] ? $mappedUsers[$id->user_id] : $mappedUsers;
-
-        return $data;
+        return $mappedUsers;
     }
 
     /**
