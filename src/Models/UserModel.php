@@ -85,7 +85,7 @@ class UserModel extends Model
         // Map our users by ID to make assigning simpler
         $mappedUsers = [];
         $users       = $data['singleton']
-            ? $data
+            ? [$data['data']]
             : $data['data'];
 
         foreach ($users as $user) {
@@ -100,7 +100,7 @@ class UserModel extends Model
             $mappedUsers[$id->user_id]->identities = $array;
         }
 
-        $data['data'] = $mappedUsers;
+        $data['data'] = $data['singleton'] ? $mappedUsers[$id->user_id] : $mappedUsers;
 
         return $data;
     }

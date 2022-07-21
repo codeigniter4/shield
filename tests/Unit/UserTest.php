@@ -53,7 +53,7 @@ final class UserTest extends TestCase
         $this->assertEmpty($this->user->getIdentities('foo'));
     }
 
-    public function testModelWithIdentities(): void
+    public function testModelfindAllWithIdentities(): void
     {
         fake(UserModel::class);
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
@@ -65,6 +65,18 @@ final class UserTest extends TestCase
         $identities = $this->user->identities;
 
         $this->assertCount(2, $identities);
+    }
+
+    public function testModelfindByIdWithIdentities(): void
+    {
+        fake(UserModel::class);
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
+
+        // Grab the user again, using the model's identity helper
+        $user = model(UserModel::class)->withIdentities()->findById(1);
+
+        $this->assertCount(2, $user->identities);
     }
 
     public function testLastLogin(): void
