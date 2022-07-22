@@ -124,7 +124,7 @@ Updates the user's permissions to only include the permissions in the given list
 not in this list will be removed.
 
 ```php
-$user->syncPermissions(['admin.access', 'beta.access']);
+$user->syncPermissions('admin.access', 'beta.access');
 ```
 
 ## Managing User Groups
