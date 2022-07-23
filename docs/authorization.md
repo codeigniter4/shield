@@ -8,14 +8,17 @@
   - [Authorizing Users](#authorizing-users)
       - [can()](#can)
       - [inGroup()](#ingroup)
+      - [hasPermission()](#haspermission)
   - [Managing User Permissions](#managing-user-permissions)
       - [addPermission()](#addpermission)
       - [removePermission()](#removepermission)
       - [syncPermissions()](#syncpermissions)
+      - [getPermissions()](#getpermissions)
   - [Managing User Groups](#managing-user-groups)
       - [addGroup()](#addgroup)
       - [removeGroup()](#removegroup)
       - [syncGroups()](#syncgroups)
+      - [getGroups()](#getgroups)
 
 Authorization happens once a user has been identified through authentication. It is the process of
 determining what actions a user is allowed to do within your site.
@@ -115,6 +118,16 @@ if (! $user->inGroup('superadmin', 'admin')) {
 }
 ```
 
+#### hasPermission()
+
+Checks to see if the user has the permission set directly on themselves. This disregards any groups they are part of.
+
+```php
+if (! $user->hasPermission('users.create')) {
+    //
+}
+```
+
 ## Managing User Permissions
 
 Permissions can be granted on a user level as well as on a group level. Any user-level permissions granted will
@@ -147,6 +160,14 @@ not in this list will be removed.
 $user->syncPermissions('admin.access', 'beta.access');
 ```
 
+#### getPermissions()
+
+Returns all permissions this user has assigned directly to them.
+
+```php
+$user->getPermissions();
+```
+
 ## Managing User Groups
 
 #### addGroup()
@@ -174,4 +195,12 @@ not in this list will be removed.
 
 ```php
 $user->syncGroups('admin', 'beta');
+```
+
+#### getGroups()
+
+Returns all groups this user is a part of. 
+
+```php
+$user->getGroups();
 ```
