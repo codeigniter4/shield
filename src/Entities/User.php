@@ -243,6 +243,17 @@ class User extends Entity
     }
 
     /**
+     * Returns the previous login information for this user
+     */
+    public function previousLogin(): ?Login
+    {
+        /** @var LoginModel $logins */
+        $logins = model(LoginModel::class);
+
+        return $logins->previousLogin($this);
+    }
+
+    /**
      * Returns the last login information for this user as
      */
     public function lastLogin(): ?Login

@@ -68,6 +68,19 @@ class LoginModel extends Model
     }
 
     /**
+     * Returns the previous login information for the user,
+     * useful to display to the user the last time the account
+     * was accessed.
+     */
+    public function previousLogin(User $user): ?Login
+    {
+        return $this->where('success', 1)
+            ->where('user_id', $user->id)
+            ->orderBy('id', 'desc')
+            ->limit(1, 1)->first();
+    }
+
+    /**
      * Returns the last login information for the user
      */
     public function lastLogin(User $user): ?Login

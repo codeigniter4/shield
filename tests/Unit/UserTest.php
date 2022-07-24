@@ -114,6 +114,45 @@ final class UserTest extends TestCase
         $this->assertInstanceOf(Time::class, $last->date);
     }
 
+    public function testPreviousLogin(): void
+    {
+        fake(
+            UserIdentityModel::class,
+            ['user_id' => $this->user->id, 'type' => Session::ID_TYPE_EMAIL_PASSWORD, 'secret' => 'foo@example.com']
+        );
+
+        // No logins found.
+        $this->assertNull($this->user->previousLogin());
+
+        $login1 = fake(
+            LoginModel::class,
+            ['id_type' => 'email', 'identifier' => $this->user->email, 'user_id' => $this->user->id]
+        );
+
+        // The very most login is skipped.
+        $this->assertNull($this->user->previousLogin());
+
+        fake(
+            LoginModel::class,
+            ['id_type' => 'email', 'identifier' => $this->user->email, 'user_id' => $this->user->id]
+        );
+        fake(
+            LoginModel::class,
+            [
+                'id_type'    => 'email',
+                'identifier' => $this->user->email,
+                'user_id'    => $this->user->id,
+                'success'    => false,
+            ]
+        );
+
+        $previous = $this->user->previousLogin();
+
+        $this->assertInstanceOf(Login::class, $previous); // @phpstan-ignore-line
+        $this->assertSame($login1->id, $previous->id);
+        $this->assertInstanceOf(Time::class, $previous->date);
+    }
+
     /**
      * @see https://github.com/codeigniter4/shield/issues/103
      */
