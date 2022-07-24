@@ -63,10 +63,12 @@ class Auth extends BaseCollector
     public function display(): string
     {
         if ($this->auth->loggedIn()) {
-            $user   = $this->auth->user();
-            $groups = $user->getGroups();
+            $user        = $this->auth->user();
+            $groups      = $user->getGroups();
+            $permissions = $user->getPermissions();
 
-            $groupsForUser = implode(', ', $groups);
+            $groupsForUser      = implode(', ', $groups);
+            $permissionsForUser = implode(', ', $permissions);
 
             $html = '<h3>Current User</h3>';
             $html .= '<table><tbody>';
@@ -74,6 +76,7 @@ class Auth extends BaseCollector
             $html .= "<tr><td>Username</td><td>{$user->username}</td></tr>";
             $html .= "<tr><td>Email</td><td>{$user->email}</td></tr>";
             $html .= "<tr><td>Groups</td><td>{$groupsForUser}</td></tr>";
+            $html .= "<tr><td>Permissions</td><td>{$permissionsForUser}</td></tr>";
             $html .= '</tbody></table>';
         } else {
             $html = '<p>Not logged in.</p>';

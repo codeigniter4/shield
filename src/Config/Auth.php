@@ -161,8 +161,9 @@ class Auth extends BaseConfig
      * Magic Link Lifetime
      * --------------------------------------------------------------------
      * Specifies the amount of time, in seconds, that a magic link is valid.
+     * You can use Time Constants or any desired number.
      */
-    public int $magicLinkLifetime = 1 * HOUR;
+    public int $magicLinkLifetime = HOUR;
 
     /**
      * --------------------------------------------------------------------
