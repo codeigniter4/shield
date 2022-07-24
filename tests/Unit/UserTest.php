@@ -132,7 +132,7 @@ final class UserTest extends TestCase
         // The very most login is skipped.
         $this->assertNull($this->user->previousLogin());
 
-        $login2 = fake(
+        fake(
             LoginModel::class,
             ['id_type' => 'email', 'identifier' => $this->user->email, 'user_id' => $this->user->id]
         );
