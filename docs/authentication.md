@@ -193,7 +193,7 @@ in all future requests.
 Using access tokens requires that you either use/extend `CodeIgniter\Shield\Models\UserModel` or
 use the `CodeIgniter\Shield\Authentication\Traits\HasAccessTokens` on your own user model. This trait
 provides all of the custom methods needed to implement access tokens in your application. The necessary
-database table, `auth_access_tokens`, is created in Shield's only migration class, which must be ran
+database table, `auth_identities`, is created in Shield's only migration class, which must be run
 before first using any of the features of Shield.
 
 ### Generating Access Tokens
