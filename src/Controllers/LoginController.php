@@ -5,6 +5,7 @@ namespace Sparks\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 
 class LoginController extends BaseController
 {
