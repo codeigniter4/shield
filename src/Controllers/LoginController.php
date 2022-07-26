@@ -4,6 +4,7 @@ namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 
 class LoginController extends BaseController
 {
@@ -47,9 +48,14 @@ class LoginController extends BaseController
             return redirect()->route('login')->withInput()->with('error', $result->reason());
         }
 
+        // custom bit of information
+        $user = $result->extraInfo();
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
         // If an action has been defined for login, start it up.
-        $actionClass = setting('Auth.actions')['login'] ?? null;
-        if (! empty($actionClass)) {
+        $hasAction = $authenticator->startUpAction('login', $user);
+        if ($hasAction) {
             return redirect()->route('auth-action-show')->withCookies();
         }
 
