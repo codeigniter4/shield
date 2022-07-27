@@ -156,6 +156,30 @@ class Session implements AuthenticatorInterface
             return false;
         }
 
+        $hasCancelAction = setting('Auth.cancelActions')['groups'] !== null
+                            || setting('Auth.cancelActions')['permissions'] !== null
+                            || setting('Auth.cancelActions')['usersId'] !== null;
+
+        if ($hasCancelAction) {
+            $userPermissions = $user->getPermissions();
+            $userGroups      = $user->getGroups();
+            $userId          = (array) $user->id;
+
+            $currentUserInfo = array_merge($userPermissions, $userGroups, $userId);
+
+            $casesforCancelAction = array_merge(
+                setting('Auth.cancelActions')['groups'] ?? [],
+                setting('Auth.cancelActions')['permissions'] ?? [],
+                setting('Auth.cancelActions')['usersId'] ?? [],
+            );
+
+            foreach ($casesforCancelAction as $casesCancel) {
+                if (in_array($casesCancel, $currentUserInfo, true)) {
+                    return false;
+                }
+            }
+        }
+
         $action = Factories::actions($actionClass); // @phpstan-ignore-line
 
         // Create identity for the action.
