@@ -2,7 +2,9 @@
 
 - [Authentication Actions](#authentication-actions)
   - [Configuring Actions](#configuring-actions)
+  - [Cancel Actions For Custom Cases](#cancel-actions-for-custom-cases)
   - [Defining New Actions](#defining-new-actions)
+
 
 Authentication Actions are a way to group actions that can happen after login or registration.
 Shield ships with two actions you can use, and makes it simple for you to define your own.
@@ -54,6 +56,23 @@ Views for all of these pages are defined in the `Auth` config file, with the `$v
         'action_email_activate_show'  => '\CodeIgniter\Shield\Views\email_activate_show',
     ];
 ```
+
+## Cancel Actions For Custom Cases
+
+By default, if the actions are set with the `$actions` variable, Actions will be applied regardless of the limit.
+If you need actions cancel for custom cases, you can complete the following cases.
+
+```php
+public array $cancelActions = [
+    'groups'      => ['superadmin', 'admin'],
+    'permissions' => ['users.create', 'users.edit'],
+    'usersId'     => null,
+];
+```
+
+In the above example, given that the groups value and permissions are set, if the target user
+has one of the `superadmin` or `admin` groups, or one of the permissions `users.create` or `users.edit`,
+The actions is not executed for him.
 
 ## Defining New Actions
 
