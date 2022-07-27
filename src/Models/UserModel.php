@@ -26,7 +26,6 @@ class UserModel extends Model
         'active',
         'last_active',
         'deleted_at',
-        'permissions',
     ];
     protected $useTimestamps = true;
     protected $afterFind     = ['fetchIdentities'];
