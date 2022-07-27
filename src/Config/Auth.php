@@ -67,6 +67,30 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Cancel Authentication Actions For Custom Cases
+     * --------------------------------------------------------------------
+     * By default, if the actions are set, they will be applied regardless of the limit.
+     * If you need actions cancel for custom cases,you can complete the following cases.
+     *
+     * Method of set values:
+     * - groups:      ['superadmin', 'admin'],
+     * - permissions: ['users.create'],
+     * - usersId:     ['1','2','3'],
+     *
+     * Example:
+     * If set this, actions not applay for users have groups "superadmin" or "admin"
+     * - groups:      ['superadmin', 'admin'],
+     *
+     * @var array<string, array|null>
+     */
+    public array $cancelActions = [
+        'groups'      => ['superadmin', 'staff'],
+        'permissions' => null,
+        'usersId'     => null,
+    ];
+
+    /**
+     * --------------------------------------------------------------------
      * Authenticators
      * --------------------------------------------------------------------
      * The available authentication systems, listed
