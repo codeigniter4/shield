@@ -567,7 +567,7 @@ class Session implements AuthenticatorInterface
 
         // Regenerate the session ID to help protect against session fixation
         if (ENVIRONMENT !== 'testing') {
-            session()->regenerate();
+            session()->regenerate(true);
         }
 
         // Let the session know we're logged in
