@@ -260,8 +260,8 @@ if ($user->inGroup('admin', 'beta')) {
 
 ## Managing Users
 
-Shield uses a more complex user setup than many other systems, separating [User Identities](1-concepts.md#identities) from the user accounts themselves. This quick overview should help you feel more confident when working with users on a day-to-day basis.
-Since Shield uses a more complex user setup than many other systems, due to the [User Identities](1-concepts.md#user-identities), this quick overview should help you feel more confident when working with users on a day-to-day basis.
+Shield uses a more complex user setup than many other systems, separating [User Identities](concepts.md#identities) from the user accounts themselves. This quick overview should help you feel more confident when working with users on a day-to-day basis.
+Since Shield uses a more complex user setup than many other systems, due to the [User Identities](concepts.md#user-identities), this quick overview should help you feel more confident when working with users on a day-to-day basis.
 
 ### Creating Users
 
