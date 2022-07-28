@@ -268,6 +268,8 @@ Since Shield uses a more complex user setup than many other systems, due to the 
 By default, the only values stored in the users table is the username. The first step is to create the user record with the username. If you don't have a username, be sure to set the value to `null` anyway, so that it passes CodeIgniter's empty data check.
 
 ```php
+use CodeIgniter\Shield\Entities\User;
+
 $users = model('UserModel');
 $user = new User([
     'username' => 'foo-bar',
