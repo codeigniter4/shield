@@ -20,6 +20,7 @@ use CodeIgniter\Shield\Models\RememberModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
+use Config\Services;
 use stdClass;
 
 class Session implements AuthenticatorInterface
@@ -568,6 +569,9 @@ class Session implements AuthenticatorInterface
         // Regenerate the session ID to help protect against session fixation
         if (ENVIRONMENT !== 'testing') {
             session()->regenerate(true);
+
+            // Regenerate CSRF token even if `security.regenerate = false`.
+            Services::security()->generateHash();
         }
 
         // Let the session know we're logged in
