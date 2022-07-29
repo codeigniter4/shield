@@ -260,14 +260,16 @@ if ($user->inGroup('admin', 'beta')) {
 
 ## Managing Users
 
-Shield uses a more complex user setup than many other systems, separating [User Identities](1-concepts.md#identities) from the user accounts themselves. This quick overview should help you feel more confident when working with users on a day-to-day basis.
-Since Shield uses a more complex user setup than many other systems, due to the [User Identities](1-concepts.md#user-identities), this quick overview should help you feel more confident when working with users on a day-to-day basis.
+Shield uses a more complex user setup than many other systems, separating [User Identities](concepts.md#identities) from the user accounts themselves. This quick overview should help you feel more confident when working with users on a day-to-day basis.
+Since Shield uses a more complex user setup than many other systems, due to the [User Identities](concepts.md#user-identities), this quick overview should help you feel more confident when working with users on a day-to-day basis.
 
 ### Creating Users
 
 By default, the only values stored in the users table is the username. The first step is to create the user record with the username. If you don't have a username, be sure to set the value to `null` anyway, so that it passes CodeIgniter's empty data check.
 
 ```php
+use CodeIgniter\Shield\Entities\User;
+
 $users = model('UserModel');
 $user = new User([
     'username' => 'foo-bar',
