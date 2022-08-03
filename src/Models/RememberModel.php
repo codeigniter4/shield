@@ -28,7 +28,7 @@ class RememberModel extends Model
     public function fake(Generator &$faker): stdClass
     {
         return (object) [
-            'user_id'         => fake(UserModel::class)->id,
+            'user_id'         => 1,
             'selector'        => 'selector',
             'hashedValidator' => 'validator',
             'expires'         => Time::parse('+1 day')->format('Y-m-d H:i:s'),
