@@ -40,10 +40,9 @@ class User extends Entity
      * @var array<string, string>
      */
     protected $casts = [
-        'active'           => 'boolean',
-        'force_pass_reset' => 'boolean',
-        'permissions'      => 'array',
-        'groups'           => 'array',
+        'active'      => 'boolean',
+        'permissions' => 'array',
+        'groups'      => 'array',
     ];
 
     /**
