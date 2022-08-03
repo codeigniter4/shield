@@ -298,7 +298,9 @@ class UserModel extends Model
         }
 
         // Insert
-        if ($this->tempUser->id === null) {
+        // If we use Entity Property Casting ['id' => 'integer'],
+        // `id` returns 0 when not set.
+        if ($this->tempUser->id === null || $this->tempUser->id === 0) {
             /** @var User $user */
             $user = $this->find($this->db->insertID());
 
