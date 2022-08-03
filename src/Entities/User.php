@@ -36,10 +36,9 @@ class User extends Entity implements \Sparks\Shield\Interfaces\Authenticatable
     ];
 
     protected $casts = [
-        'active'           => 'boolean',
-        'force_pass_reset' => 'boolean',
-        'permissions'      => 'array',
-        'groups'           => 'array',
+        'active'      => 'boolean',
+        'permissions' => 'array',
+        'groups'      => 'array',
     ];
 
     /**
