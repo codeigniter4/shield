@@ -870,8 +870,8 @@ class Session implements AuthenticatorInterface
         // Update validator.
         $validator = bin2hex(random_bytes(20));
 
-        $token->validator = $this->hashValidator($validator);
-        $token->expires   = $this->calcExpires();
+        $token->hashedValidator = $this->hashValidator($validator);
+        $token->expires         = $this->calcExpires();
 
         $this->rememberModel->updateRememberValidator($token);
 
