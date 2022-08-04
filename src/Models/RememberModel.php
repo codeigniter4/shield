@@ -2,9 +2,11 @@
 
 namespace CodeIgniter\Shield\Models;
 
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Entities\User;
 use DateTime;
+use Faker\Generator;
 use stdClass;
 
 class RememberModel extends Model
@@ -22,6 +24,16 @@ class RememberModel extends Model
         'expires',
     ];
     protected $useTimestamps = true;
+
+    public function fake(Generator &$faker): stdClass
+    {
+        return (object) [
+            'user_id'         => 1,
+            'selector'        => 'selector',
+            'hashedValidator' => 'validator',
+            'expires'         => Time::parse('+1 day')->format('Y-m-d H:i:s'),
+        ];
+    }
 
     /**
      * Stores a remember-me token for the user.
