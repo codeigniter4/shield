@@ -1,0 +1,9 @@
+blank_issues_enabled: false
+contact_links:
+  - name: GitHub Discussions
+    url: https://github.com/codeigniter4/shield/discussions
+    about: Please ask your support questions in the Discussions. Thanks!
+
+  - name: CodeIgniter Slack channel
+    url: https://codeigniterchat.slack.com
+    about: Engage with other members of the community in our Slack channel.
