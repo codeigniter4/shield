@@ -62,7 +62,7 @@ Every open-source project depends on it's contributors to be a success. The foll
 contributed in one manner or another in making Shield:
 
 <a href="https://github.com/codeigniter4/shield/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=codeigniter4/shield" />
+  <img src="https://contrib.rocks/image?repo=codeigniter4/shield" alt="Contributors">
 </a>
 
 Made with [contrib.rocks](https://contrib.rocks).
