@@ -96,7 +96,7 @@ final class UserModelTest extends TestCase
         $user->username = 'foo';
         $user->email    = 'foo@bar.com';
         $user->password = 'password';
-        $user->active   = 0;
+        $user->active   = false;
 
         return $user;
     }
@@ -111,7 +111,7 @@ final class UserModelTest extends TestCase
 
         $user->username = 'bar';
         $user->email    = 'bar@bar.com';
-        $user->active   = 1;
+        $user->active   = true;
 
         $users->save($user);
 
@@ -135,7 +135,7 @@ final class UserModelTest extends TestCase
 
         $user->username = 'bar';
         $user->email    = 'bar@bar.com';
-        $user->active   = 1;
+        $user->active   = true;
 
         $users->update(null, $user);
 
@@ -167,7 +167,7 @@ final class UserModelTest extends TestCase
 
         $user->username = 'bar';
         $user->email    = 'bar@bar.com';
-        $user->active   = 1;
+        $user->active   = true;
 
         $userArray = $user->toArray();
         // Fix value type
