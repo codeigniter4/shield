@@ -10,7 +10,10 @@ trait CheckQueryReturnTrait
 {
     private ?bool $currentDBDebug = null;
 
-    private function checkQueryReturn(bool $return): void
+    /**
+     * @param bool|int|string $return insert() returns insert ID.
+     */
+    private function checkQueryReturn($return): void
     {
         $this->restoreDBDebug();
 
