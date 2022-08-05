@@ -60,6 +60,14 @@ final class UserModelTest extends TestCase
         ]);
     }
 
+    /**
+     * This test is not correct.
+     *
+     * Entity's `toArray()` method returns array with properties and values.
+     * The array may have different keys with the DB column names.
+     * And the values may be different types with the DB column types.
+     * So $userArray is not data to be inserted into the database.
+     */
     public function testInsertUserArray(): void
     {
         $users = $this->createUserModel();
@@ -67,7 +75,10 @@ final class UserModelTest extends TestCase
         $user = $this->createNewUser();
 
         $userArray = $user->toArray();
-        $id        = $users->insert($userArray);
+        // Fix value type
+        $userArray['active'] = (int) $userArray['active'];
+
+        $id = $users->insert($userArray);
 
         $this->dontSeeInDatabase('auth_identities', [
             'user_id' => $id,
@@ -138,6 +149,14 @@ final class UserModelTest extends TestCase
         ]);
     }
 
+    /**
+     * This test is not correct.
+     *
+     * Entity's `toArray()` method returns array with properties and values.
+     * The array may have different keys with the DB column names.
+     * And the values may be different types with the DB column types.
+     * So $userArray is not data to be inserted into the database.
+     */
     public function testUpdateUserArrayWithUserDataToUpdate(): void
     {
         $users = $this->createUserModel();
@@ -151,6 +170,9 @@ final class UserModelTest extends TestCase
         $user->active   = 1;
 
         $userArray = $user->toArray();
+        // Fix value type
+        $userArray['active'] = (int) $userArray['active'];
+
         $users->update(null, $userArray);
 
         $this->dontSeeInDatabase('auth_identities', [
