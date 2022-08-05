@@ -98,7 +98,7 @@ class Session implements AuthenticatorInterface
         $request = service('request');
 
         $ipAddress = $request->getIPAddress();
-        $userAgent = $request->getUserAgent();
+        $userAgent = (string) $request->getUserAgent();
 
         $result = $this->check($credentials);
 

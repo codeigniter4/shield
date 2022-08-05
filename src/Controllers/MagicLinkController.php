@@ -178,7 +178,7 @@ class MagicLinkController extends BaseController
             $identifier,
             $success,
             $this->request->getIPAddress(),
-            $this->request->getUserAgent(),
+            (string) $this->request->getUserAgent(),
             $userId
         );
     }
