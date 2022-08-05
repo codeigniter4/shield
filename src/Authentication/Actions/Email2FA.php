@@ -77,7 +77,7 @@ class Email2FA implements ActionInterface
         $email->setMessage(view(setting('Auth.views')['action_email_2fa_email'], ['code' => $identity->secret]));
 
         if ($email->send(false) === false) {
-            throw new RuntimeException('Cannot send email for user: ' . $user->email . ' '. $email->printDebugger(['headers']));
+            throw new RuntimeException('Cannot send email for user: ' . $user->email . ' ' . $email->printDebugger(['headers']));
         }
 
         return view(setting('Auth.views')['action_email_2fa_verify']);
