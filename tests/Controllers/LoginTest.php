@@ -81,7 +81,7 @@ final class LoginTest extends TestCase
         $this->seeInDatabase('auth_logins', [
             'identifier' => 'foo@example.com',
             'user_id'    => $this->user->id,
-            'success'    => true,
+            'success'    => 1,
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();
@@ -113,7 +113,7 @@ final class LoginTest extends TestCase
         $this->seeInDatabase('auth_logins', [
             'identifier' => $this->user->username,
             'user_id'    => $this->user->id,
-            'success'    => true,
+            'success'    => 1,
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();
