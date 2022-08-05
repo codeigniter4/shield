@@ -18,16 +18,12 @@ body:
 
         ---
 
-  - type: dropdown
+  - type: input
     id: php-version
     attributes:
       label: PHP Version
-      description: Which PHP versions did you run your code?
-      multiple: true
-      options:
-        - '7.4'
-        - '8.0'
-        - '8.1'
+      description: |
+        e.g. 8.1.8
     validations:
       required: true
 
