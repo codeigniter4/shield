@@ -73,6 +73,10 @@ When you run `spark migrate --all`, if you get `Class "SQLite3" not found` error
 1. Remove sample migration files in `tests/_support/Database/Migrations/`
 2. Or install `sqlite3` php extension
 
+If you get `Specified key was too long` error:
+
+1. Use InnoDB, not MyISAM.
+
 ---
 
 ## Initial Setup
