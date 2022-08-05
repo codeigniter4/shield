@@ -21,7 +21,7 @@ trait CheckQueryReturnTrait
             $message = 'Query error: ' . $error['code'] . ', '
                 . $error['message'] . ', query: ' . $this->db->getLastQuery();
 
-            throw new DatabaseException($message, $error['code']);
+            throw new DatabaseException($message, (int) $error['code']);
         }
     }
 
