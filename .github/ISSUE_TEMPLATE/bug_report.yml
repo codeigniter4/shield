@@ -83,6 +83,16 @@ body:
       required: true
 
   - type: textarea
+    id: shield-customization
+    attributes:
+      label: Did you customize Shield?
+      description: |
+        If "Yes," please tell us which classes you customized and how.
+        If "No," please indicate "No."
+    validations:
+      required: true
+
+  - type: textarea
     id: description
     attributes:
       label: What happened?
