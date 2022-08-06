@@ -47,7 +47,7 @@ class EmailActivator implements ActionInterface
         $email->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]));
 
         if ($email->send(false) === false) {
-            throw new RuntimeException('Cannot send email for user: ' . $user->email . ' ' . $email->printDebugger(['headers']));
+            throw new RuntimeException('Cannot send email for user: ' . $user->email . '\n' . $email->printDebugger(['headers']));
         }
 
         // Display the info page
@@ -100,7 +100,7 @@ class EmailActivator implements ActionInterface
         $this->createIdentity($user);
     }
 
-    protected function createIdentity(User $user): string
+    private function createIdentity(User $user): string
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
