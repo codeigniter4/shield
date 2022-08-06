@@ -3,7 +3,6 @@
 namespace CodeIgniter\Shield\Entities;
 
 use CodeIgniter\Database\Exceptions\DataException;
-use CodeIgniter\Entity\Entity;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Traits\HasAccessTokens;
 use CodeIgniter\Shield\Authorization\Traits\Authorizable;
@@ -41,7 +40,7 @@ class User extends Entity
      */
     protected $casts = [
         'id'          => '?integer',
-        'active'      => 'boolean',
+        'active'      => 'int_bool',
         'permissions' => 'array',
         'groups'      => 'array',
     ];

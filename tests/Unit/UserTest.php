@@ -160,7 +160,7 @@ final class UserTest extends TestCase
     {
         // Update user's email
         $this->user->email  = 'foo@bar.com';
-        $this->user->active = 0;
+        $this->user->active = false;
 
         $users = model(UserModel::class);
         $users->save($this->user);
@@ -182,7 +182,7 @@ final class UserTest extends TestCase
         // Update user's email
         $this->user->email    = 'foo@bar.com';
         $this->user->password = 'foobar';
-        $this->user->active   = 0;
+        $this->user->active   = false;
 
         $users = model(UserModel::class);
         $users->save($this->user);
@@ -201,7 +201,7 @@ final class UserTest extends TestCase
         $hash                      = service('passwords')->hash('foobar');
         $this->user->email         = 'foo@bar.com';
         $this->user->password_hash = $hash;
-        $this->user->active        = 0;
+        $this->user->active        = false;
 
         $users = model(UserModel::class);
         $users->save($this->user);
