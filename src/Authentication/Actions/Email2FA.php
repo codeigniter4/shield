@@ -115,7 +115,7 @@ class Email2FA implements ActionInterface
         $this->createIdentity($user);
     }
 
-    protected function createIdentity(User $user): void
+    final protected function createIdentity(User $user): void
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
