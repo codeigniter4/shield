@@ -43,6 +43,9 @@ if (! defined('emailer')) {
         /** @var Email $email */
         $email = service('email');
 
+        // Clear previous email states since this is shared
+        $email->clear();
+
         return $email->initialize($config);
     }
 }
