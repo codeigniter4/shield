@@ -35,7 +35,7 @@ access for a mobile application that you build.
 
 Usage of Shield requires the following:
 
-- A [CodeIgniter 4](https://github.com/codeigniter4/CodeIgniter4/)-based project
+- A [CodeIgniter 4.2.3+](https://github.com/codeigniter4/CodeIgniter4/) based project
 - [Composer](https://getcomposer.org/) for package management
 - PHP 7.4.3+
 
