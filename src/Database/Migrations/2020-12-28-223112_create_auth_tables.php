@@ -22,7 +22,7 @@ class CreateAuthTables extends Migration
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('username');
-        $this->forge->createTable('users', true);
+        $this->forge->createTable('users');
 
         /*
          * Auth Identities Table
@@ -46,7 +46,7 @@ class CreateAuthTables extends Migration
         $this->forge->addUniqueKey(['type', 'secret']);
         $this->forge->addKey('user_id');
         $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
-        $this->forge->createTable('auth_identities', true);
+        $this->forge->createTable('auth_identities');
 
         /**
          * Auth Login Attempts Table
@@ -67,7 +67,7 @@ class CreateAuthTables extends Migration
         $this->forge->addKey(['id_type', 'identifier']);
         $this->forge->addKey('user_id');
         // NOTE: Do NOT delete the user_id or identifier when the user is deleted for security audits
-        $this->forge->createTable('auth_logins', true);
+        $this->forge->createTable('auth_logins');
 
         /*
          * Auth Token Login Attempts Table
@@ -87,7 +87,7 @@ class CreateAuthTables extends Migration
         $this->forge->addKey(['id_type', 'identifier']);
         $this->forge->addKey('user_id');
         // NOTE: Do NOT delete the user_id or identifier when the user is deleted for security audits
-        $this->forge->createTable('auth_token_logins', true);
+        $this->forge->createTable('auth_token_logins');
 
         /*
          * Auth Remember Tokens (remember-me) Table
@@ -105,7 +105,7 @@ class CreateAuthTables extends Migration
         $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('selector');
         $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
-        $this->forge->createTable('auth_remember_tokens', true);
+        $this->forge->createTable('auth_remember_tokens');
 
         // Groups Users Table
         $this->forge->addField([
@@ -116,7 +116,7 @@ class CreateAuthTables extends Migration
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
-        $this->forge->createTable('auth_groups_users', true);
+        $this->forge->createTable('auth_groups_users');
 
         // Users Permissions Table
         $this->forge->addField([
@@ -127,7 +127,7 @@ class CreateAuthTables extends Migration
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
-        $this->forge->createTable('auth_permissions_users', true);
+        $this->forge->createTable('auth_permissions_users');
     }
 
     //--------------------------------------------------------------------
