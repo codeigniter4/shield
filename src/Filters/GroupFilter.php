@@ -9,6 +9,9 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 use CodeIgniter\Shield\Exceptions\GroupException;
 
+/**
+ * Group Authorization Filter.
+ */
 class GroupFilter implements FilterInterface
 {
     /**

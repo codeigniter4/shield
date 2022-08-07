@@ -9,6 +9,9 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 use CodeIgniter\Shield\Exceptions\PermissionException;
 
+/**
+ * Permission Authorization Filter.
+ */
 class PermissionFilter implements FilterInterface
 {
     /**
