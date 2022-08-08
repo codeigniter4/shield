@@ -17,4 +17,9 @@ class AuthorizationException extends Exception
     {
         return new self(lang('Auth.unknownPermission', [$permission]));
     }
+
+    public static function forUnauthorized(): self
+    {
+        return new self(lang('Auth.notEnoughPrivilege'));
+    }
 }
