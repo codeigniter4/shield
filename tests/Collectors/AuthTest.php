@@ -43,12 +43,14 @@ final class AuthTest extends TestCase
         assert($authenticator instanceof Session);
         $authenticator->login($this->user);
         $this->user->addGroup('admin', 'beta');
+        $this->user->addPermission('users.create', 'users.edit');
 
         $output = $this->collector->display();
 
         $this->assertStringContainsString('Current Use', $output);
         $this->assertStringContainsString('<td>Username</td><td>John Smith</td>', $output);
         $this->assertStringContainsString('<td>Groups</td><td>admin, beta</td>', $output);
+        $this->assertStringContainsString('<td>Permissions</td><td>users.create, users.edit</td>', $output);
     }
 
     public function testDisplayNotLoggedInAfterLogout(): void

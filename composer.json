@@ -18,12 +18,12 @@
     ],
     "homepage": "https://github.com/codeigniter4/shield",
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^7.4.3 || ^8.0",
         "codeigniter4/settings": "^2.0"
     },
     "require-dev": {
         "codeigniter4/devkit": "^1.0",
-        "codeigniter4/framework": "^4.1",
+        "codeigniter4/framework": "^4.2.3",
         "mockery/mockery": "^1.0"
     },
     "provide": {
@@ -64,7 +64,6 @@
             "rector process",
             "@style"
         ],
-        "cs-fix": "@style",
         "deduplicate": "phpcpd app/ src/",
         "inspect": "deptrac analyze --cache-file=build/deptrac.cache",
         "mutate": "infection --threads=2 --skip-initial-tests --coverage=build/phpunit",
@@ -72,7 +71,8 @@
             "phpstan analyze",
             "psalm"
         ],
-        "style": "php-cs-fixer fix --verbose --ansi --using-cache=no",
+        "cs-fix": "php-cs-fixer fix --ansi --verbose --diff --using-cache=yes",
+        "style": "@cs-fix",
         "test": "phpunit"
     }
 }

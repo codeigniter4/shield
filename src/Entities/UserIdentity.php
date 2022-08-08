@@ -2,7 +2,6 @@
 
 namespace CodeIgniter\Shield\Entities;
 
-use CodeIgniter\Entity\Entity;
 use CodeIgniter\Shield\Authentication\Passwords;
 
 /**
@@ -25,7 +24,7 @@ class UserIdentity extends Entity
      * @var array<string, string>
      */
     protected $casts = [
-        'force_reset' => 'boolean',
+        'force_reset' => 'int_bool',
     ];
 
     /**

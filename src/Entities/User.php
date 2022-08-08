@@ -2,7 +2,7 @@
 
 namespace CodeIgniter\Shield\Entities;
 
-use CodeIgniter\Entity\Entity;
+use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Traits\HasAccessTokens;
 use CodeIgniter\Shield\Authorization\Traits\Authorizable;
@@ -39,10 +39,10 @@ class User extends Entity
      * @var array<string, string>
      */
     protected $casts = [
-        'active'           => 'boolean',
-        'force_pass_reset' => 'boolean',
-        'permissions'      => 'array',
-        'groups'           => 'array',
+        'id'          => '?integer',
+        'active'      => 'int_bool',
+        'permissions' => 'array',
+        'groups'      => 'array',
     ];
 
     /**
@@ -122,7 +122,7 @@ class User extends Entity
     }
 
     /**
-     * If $user, $password, or $password_hash have been updated,
+     * If $email, $password, or $password_hash have been updated,
      * will update the user's email identity record with the
      * correct values.
      */
@@ -159,7 +159,23 @@ class User extends Entity
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->save($identity);
+        try {
+            /** @throws DataException */
+            $identityModel->save($identity);
+        } catch (DataException $e) {
+            // There may be no data to update.
+            $messages = [
+                lang('Database.emptyDataset', ['insert']),
+                lang('Database.emptyDataset', ['update']),
+            ];
+            if (in_array($e->getMessage(), $messages, true)) {
+                return true;
+            }
+
+            throw $e;
+        }
+
+        return true;
     }
 
     /**
@@ -223,6 +239,17 @@ class User extends Entity
         }
 
         return $this->password_hash;
+    }
+
+    /**
+     * Returns the previous login information for this user
+     */
+    public function previousLogin(): ?Login
+    {
+        /** @var LoginModel $logins */
+        $logins = model(LoginModel::class);
+
+        return $logins->previousLogin($this);
     }
 
     /**

@@ -53,7 +53,7 @@ final class UserTest extends TestCase
         $this->assertEmpty($this->user->getIdentities('foo'));
     }
 
-    public function testModelWithIdentities(): void
+    public function testModelfindAllWithIdentities(): void
     {
         fake(UserModel::class);
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
@@ -65,6 +65,18 @@ final class UserTest extends TestCase
         $identities = $this->user->identities;
 
         $this->assertCount(2, $identities);
+    }
+
+    public function testModelfindByIdWithIdentities(): void
+    {
+        fake(UserModel::class);
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
+
+        // Grab the user again, using the model's identity helper
+        $user = model(UserModel::class)->withIdentities()->findById(1);
+
+        $this->assertCount(2, $user->identities);
     }
 
     public function testLastLogin(): void
@@ -102,6 +114,45 @@ final class UserTest extends TestCase
         $this->assertInstanceOf(Time::class, $last->date);
     }
 
+    public function testPreviousLogin(): void
+    {
+        fake(
+            UserIdentityModel::class,
+            ['user_id' => $this->user->id, 'type' => Session::ID_TYPE_EMAIL_PASSWORD, 'secret' => 'foo@example.com']
+        );
+
+        // No logins found.
+        $this->assertNull($this->user->previousLogin());
+
+        $login1 = fake(
+            LoginModel::class,
+            ['id_type' => 'email', 'identifier' => $this->user->email, 'user_id' => $this->user->id]
+        );
+
+        // The very most login is skipped.
+        $this->assertNull($this->user->previousLogin());
+
+        fake(
+            LoginModel::class,
+            ['id_type' => 'email', 'identifier' => $this->user->email, 'user_id' => $this->user->id]
+        );
+        fake(
+            LoginModel::class,
+            [
+                'id_type'    => 'email',
+                'identifier' => $this->user->email,
+                'user_id'    => $this->user->id,
+                'success'    => false,
+            ]
+        );
+
+        $previous = $this->user->previousLogin();
+
+        $this->assertInstanceOf(Login::class, $previous); // @phpstan-ignore-line
+        $this->assertSame($login1->id, $previous->id);
+        $this->assertInstanceOf(Time::class, $previous->date);
+    }
+
     /**
      * @see https://github.com/codeigniter4/shield/issues/103
      */
@@ -109,7 +160,7 @@ final class UserTest extends TestCase
     {
         // Update user's email
         $this->user->email  = 'foo@bar.com';
-        $this->user->active = 0;
+        $this->user->active = false;
 
         $users = model(UserModel::class);
         $users->save($this->user);
@@ -131,7 +182,7 @@ final class UserTest extends TestCase
         // Update user's email
         $this->user->email    = 'foo@bar.com';
         $this->user->password = 'foobar';
-        $this->user->active   = 0;
+        $this->user->active   = false;
 
         $users = model(UserModel::class);
         $users->save($this->user);
@@ -150,7 +201,7 @@ final class UserTest extends TestCase
         $hash                      = service('passwords')->hash('foobar');
         $this->user->email         = 'foo@bar.com';
         $this->user->password_hash = $hash;
-        $this->user->active        = 0;
+        $this->user->active        = false;
 
         $users = model(UserModel::class);
         $users->save($this->user);

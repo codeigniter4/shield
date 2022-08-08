@@ -95,23 +95,47 @@ Shield has the following rules for registration:
 
 ```php
 [
-    'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
-    'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
-    'password'         => 'required|strong_password',
-    'password_confirm' => 'required|matches[password]',
+    'username' => [
+        'label' =>  'Auth.username',
+        'rules' => 'required|max_length[30]|min_length[3]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|is_unique[users.username]',
+    ],
+    'email' => [
+        'label' =>  'Auth.email',
+        'rules' => 'required|max_length[254]|valid_email|is_unique[auth_identities.secret]',
+    ],
+    'password' => [
+        'label' =>  'Auth.password',
+        'rules' => 'required|strong_password',
+    ],
+    'password_confirm' => [
+        'label' =>  'Auth.passwordConfirm',
+        'rules' => 'required|matches[password]',
+    ],
 ];
 ```
 
-If you need a different set of rules for registration, you can specify them in your `Validation` configuration (**app\Config\Validation.php**) like:
+If you need a different set of rules for registration, you can specify them in your `Validation` configuration (**app/Config/Validation.php**) like:
 
 ```php
-//--------------------------------------------------------------------
-// Rules
-//--------------------------------------------------------------------
-public $registration = [
-    'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
-    'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
-    'password'         => 'required|strong_password',
-    'password_confirm' => 'required|matches[password]',
-];
+    //--------------------------------------------------------------------
+    // Rules
+    //--------------------------------------------------------------------
+    public $registration = [
+        'username' => [
+            'label' =>  'Auth.username',
+            'rules' => 'required|max_length[30]|min_length[3]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|is_unique[users.username]',
+        ],
+        'email' => [
+            'label' =>  'Auth.email',
+            'rules' => 'required|max_length[254]|valid_email|is_unique[auth_identities.secret]',
+        ],
+        'password' => [
+            'label' =>  'Auth.password',
+            'rules' => 'required|strong_password',
+        ],
+        'password_confirm' => [
+            'label' =>  'Auth.passwordConfirm',
+            'rules' => 'required|matches[password]',
+        ],
+    ];
 ```

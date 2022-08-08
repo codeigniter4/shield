@@ -101,7 +101,7 @@ class EmailActivator implements ActionInterface
         $this->createIdentity($user);
     }
 
-    private function createIdentity(User $user): string
+    final protected function createIdentity(User $user): string
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);

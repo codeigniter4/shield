@@ -4,6 +4,7 @@ namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 
 class LoginController extends BaseController
 {
@@ -47,10 +48,15 @@ class LoginController extends BaseController
             return redirect()->route('login')->withInput()->with('error', $result->reason());
         }
 
+        // custom bit of information
+        $user = $result->extraInfo();
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
         // If an action has been defined for login, start it up.
-        $actionClass = setting('Auth.actions')['login'] ?? null;
-        if (! empty($actionClass)) {
-            return redirect()->to(route_to('auth-action-show'))->withCookies();
+        $hasAction = $authenticator->startUpAction('login', $user);
+        if ($hasAction) {
+            return redirect()->route('auth-action-show')->withCookies();
         }
 
         return redirect()->to(config('Auth')->loginRedirect())->withCookies();
@@ -64,9 +70,18 @@ class LoginController extends BaseController
     protected function getValidationRules(): array
     {
         return setting('Validation.login') ?? [
-            //'username' => 'required|max_length[30]|alpha_numeric_space|min_length[3]',
-            'email'    => 'required|max_length[254]|valid_email',
-            'password' => 'required',
+            // 'username' => [
+            //     'label' => 'Auth.username',
+            //     'rules' => config('AuthSession')->usernameValidationRules,
+            // ],
+            'email' => [
+                'label' => 'Auth.email',
+                'rules' => config('AuthSession')->emailValidationRules,
+            ],
+            'password' => [
+                'label' => 'Auth.password',
+                'rules' => 'required',
+            ],
         ];
     }
 

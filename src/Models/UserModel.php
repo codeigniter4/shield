@@ -2,14 +2,14 @@
 
 namespace CodeIgniter\Shield\Models;
 
-use CodeIgniter\Database\Database;
 use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Exceptions\RuntimeException;
+use CodeIgniter\Shield\Entities\UserIdentity;
+use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
+use CodeIgniter\Shield\Exceptions\ValidationException;
 use Faker\Generator;
-use InvalidArgumentException;
 
 class UserModel extends Model
 {
@@ -26,16 +26,22 @@ class UserModel extends Model
         'active',
         'last_active',
         'deleted_at',
-        'permissions',
     ];
     protected $useTimestamps = true;
     protected $afterFind     = ['fetchIdentities'];
+    protected $afterInsert   = ['saveEmailIdentity'];
+    protected $afterUpdate   = ['saveEmailIdentity'];
 
     /**
      * Whether identity records should be included
      * when user records are fetched from the database.
      */
     protected bool $fetchIdentities = false;
+
+    /**
+     * Save the User for afterInsert and afterUpdate
+     */
+    protected ?User $tempUser = null;
 
     /**
      * Mark the next find* query to include identities
@@ -54,7 +60,7 @@ class UserModel extends Model
      * returned from a find* method. Called
      * automatically when $this->fetchIdentities == true
      *
-     * Model event callback called `afterFind`.
+     * Model event callback called by `afterFind`.
      */
     protected function fetchIdentities(array $data): array
     {
@@ -76,11 +82,27 @@ class UserModel extends Model
             return $data;
         }
 
-        // Map our users by ID to make assigning simpler
+        $mappedUsers = $this->assignIdentities($data, $identities);
+
+        $data['data'] = $data['singleton'] ? $mappedUsers[$data['id']] : $mappedUsers;
+
+        return $data;
+    }
+
+    /**
+     * Map our users by ID to make assigning simpler
+     *
+     * @param array          $data       Event $data
+     * @param UserIdentity[] $identities
+     *
+     * @return User[] UserId => User object
+     * @phpstan-return array<int|string, User> UserId => User object
+     */
+    private function assignIdentities(array $data, array $identities): array
+    {
         $mappedUsers = [];
-        $users       = $data['singleton']
-            ? $data
-            : $data['data'];
+
+        $users = $data['singleton'] ? [$data['data']] : $data['data'];
 
         foreach ($users as $user) {
             $mappedUsers[$user->id] = $user;
@@ -88,15 +110,16 @@ class UserModel extends Model
         unset($users);
 
         // Now assign the identities to the user
-        foreach ($identities as $id) {
-            $array                                 = $mappedUsers[$id->user_id]->identities;
-            $array[]                               = $id;
-            $mappedUsers[$id->user_id]->identities = $array;
+        foreach ($identities as $identity) {
+            $userId = $identity->user_id;
+
+            $newIdentities   = $mappedUsers[$userId]->identities;
+            $newIdentities[] = $identity;
+
+            $mappedUsers[$userId]->identities = $newIdentities;
         }
 
-        $data['data'] = $mappedUsers;
-
-        return $data;
+        return $mappedUsers;
     }
 
     /**
@@ -118,7 +141,7 @@ class UserModel extends Model
     public function fake(Generator &$faker): User
     {
         return new User([
-            'username' => str_replace('.', ' ', $faker->userName),
+            'username' => $faker->userName,
             'active'   => true,
         ]);
     }
@@ -171,6 +194,7 @@ class UserModel extends Model
             $user                = new User($data);
             $user->email         = $email;
             $user->password_hash = $password_hash;
+            $user->syncOriginal();
 
             return $user;
         }
@@ -185,48 +209,113 @@ class UserModel extends Model
     {
         $user->active = true;
 
-        $return = $this->save($user);
-
-        $this->checkQueryReturn($return);
+        $this->save($user);
     }
 
     /**
-     * Override the BaseModel's `save()` method to allow
-     * updating of user email, password, or password_hash
-     * fields if they've been modified.
+     * Override the BaseModel's `insert()` method.
+     * If you pass User object, also inserts Email Identity.
      *
      * @param array|User $data
      *
-     * @TODO can't change the return type to void.
+     * @throws ValidationException
+     *
+     * @retrun true|int|string Insert ID if $returnID is true
      */
-    public function save($data): bool
+    public function insert($data = null, bool $returnID = true)
     {
+        $this->tempUser = $data instanceof User ? $data : null;
+
+        $result = parent::insert($data, $returnID);
+
+        $this->checkQueryReturn($result);
+
+        return $returnID ? $this->insertID : $result;
+    }
+
+    /**
+     * Override the BaseModel's `update()` method.
+     * If you pass User object, also updates Email Identity.
+     *
+     * @param array|int|string|null $id
+     * @param array|User            $data
+     *
+     * @throws ValidationException
+     */
+    public function update($id = null, $data = null): bool
+    {
+        $this->tempUser = $data instanceof User ? $data : null;
+
         try {
-            $result = parent::save($data);
-
-            if ($result && $data instanceof User) {
-                /** @var User $user */
-                $user = $data->id === null
-                    ? $this->find($this->db->insertID())
-                    : $data;
-
-                if (! $user->saveEmailIdentity()) {
-                    throw new RuntimeException('Unable to save email identity.');
-                }
-            }
-
-            return $result;
+            /** @throws DataException */
+            $result = parent::update($id, $data);
         } catch (DataException $e) {
             $messages = [
-                lang('Database.emptyDataset', ['insert']),
                 lang('Database.emptyDataset', ['update']),
             ];
+
             if (in_array($e->getMessage(), $messages, true)) {
-                // @TODO Why true? Shouldn't this workaround be removed?
+                $this->tempUser->saveEmailIdentity();
+
                 return true;
             }
 
             throw $e;
         }
+
+        $this->checkQueryReturn($result);
+
+        return true;
+    }
+
+    /**
+     * Override the BaseModel's `save()` method.
+     * If you pass User object, also updates Email Identity.
+     *
+     * @param array|User $data
+     *
+     * @throws ValidationException
+     */
+    public function save($data): bool
+    {
+        $result = parent::save($data);
+
+        $this->checkQueryReturn($result);
+
+        return true;
+    }
+
+    /**
+     * Save Email Identity
+     *
+     * Model event callback called by `afterInsert` and `afterUpdate`.
+     */
+    protected function saveEmailIdentity(array $data): array
+    {
+        // If insert()/update() gets an array data, do nothing.
+        if ($this->tempUser === null) {
+            return $data;
+        }
+
+        // Insert
+        if ($this->tempUser->id === null) {
+            /** @var User $user */
+            $user = $this->find($this->db->insertID());
+
+            $user->email         = $this->tempUser->email ?? '';
+            $user->password      = $this->tempUser->password ?? '';
+            $user->password_hash = $this->tempUser->password_hash ?? '';
+
+            $user->saveEmailIdentity();
+            $this->tempUser = null;
+
+            return $data;
+        }
+
+        // Update
+        $this->tempUser->saveEmailIdentity();
+        $this->tempUser = null;
+
+        return $data;
     }
 }

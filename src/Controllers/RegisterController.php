@@ -7,6 +7,7 @@ use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Models\UserModel;
 
 /**
@@ -26,6 +27,10 @@ class RegisterController extends BaseController
      */
     public function registerView()
     {
+        if (auth()->loggedIn()) {
+            return redirect()->to(config('Auth')->registerRedirect());
+        }
+
         // Check if registration is allowed
         if (! setting('Auth.allowRegistration')) {
             return redirect()->back()->withInput()
@@ -40,6 +45,10 @@ class RegisterController extends BaseController
      */
     public function registerAction(): RedirectResponse
     {
+        if (auth()->loggedIn()) {
+            return redirect()->to(config('Auth')->registerRedirect());
+        }
+
         // Check if registration is allowed
         if (! setting('Auth.allowRegistration')) {
             return redirect()->back()->withInput()
@@ -57,9 +66,12 @@ class RegisterController extends BaseController
         }
 
         // Save the user
-        $allowedPostFields = array_merge(setting('Auth.validFields'), setting('Auth.personalFields'));
-        $user              = $this->getUserEntity();
-
+        $allowedPostFields = array_merge(
+            setting('Auth.validFields'),
+            setting('Auth.personalFields'),
+            ['password']
+        );
+        $user = $this->getUserEntity();
         $user->fill($this->request->getPost($allowedPostFields));
 
         // Workaround for email only registration/login
@@ -67,15 +79,14 @@ class RegisterController extends BaseController
             $user->username = null;
         }
 
-        if (! $users->save($user)) {
+        try {
+            $users->save($user);
+        } catch (ValidationException $e) {
             return redirect()->back()->withInput()->with('errors', $users->errors());
         }
 
-        // Get the updated user so we have the ID...
+        // To get the complete user object with ID, we need to get from the database
         $user = $users->findById($users->getInsertID());
-
-        // Store the email/password identity for this user.
-        $user->createEmailIdentity($this->request->getPost(['email', 'password']));
 
         // Add to default group
         $users->addToDefaultGroup($user);
@@ -87,7 +98,7 @@ class RegisterController extends BaseController
 
         $authenticator->startLogin($user);
 
-        // If an action has been defined for login, start it up.
+        // If an action has been defined for register, start it up.
         $hasAction = $authenticator->startUpAction('register', $user);
         if ($hasAction) {
             return redirect()->to('auth/a/show');
@@ -130,11 +141,32 @@ class RegisterController extends BaseController
      */
     protected function getValidationRules(): array
     {
+        $registrationUsernameRules = array_merge(
+            config('AuthSession')->usernameValidationRules,
+            ['is_unique[users.username]']
+        );
+        $registrationEmailRules = array_merge(
+            config('AuthSession')->emailValidationRules,
+            ['is_unique[auth_identities.secret]']
+        );
+
         return setting('Validation.registration') ?? [
-            'username'         => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
-            'email'            => 'required|valid_email|is_unique[auth_identities.secret]',
-            'password'         => 'required|strong_password',
-            'password_confirm' => 'required|matches[password]',
+            'username' => [
+                'label' => 'Auth.username',
+                'rules' => $registrationUsernameRules,
+            ],
+            'email' => [
+                'label' => 'Auth.email',
+                'rules' => $registrationEmailRules,
+            ],
+            'password' => [
+                'label' => 'Auth.password',
+                'rules' => 'required|strong_password',
+            ],
+            'password_confirm' => [
+                'label' => 'Auth.passwordConfirm',
+                'rules' => 'required|matches[password]',
+            ],
         ];
     }
 }

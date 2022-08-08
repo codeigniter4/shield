@@ -2,8 +2,6 @@
 
 namespace CodeIgniter\Shield\Entities;
 
-use CodeIgniter\Entity\Entity;
-
 class Login extends Entity
 {
     /**
@@ -11,6 +9,6 @@ class Login extends Entity
      */
     protected $casts = [
         'date'    => 'datetime',
-        'success' => 'boolean',
+        'success' => 'int_bool',
     ];
 }

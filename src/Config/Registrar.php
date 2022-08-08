@@ -32,10 +32,6 @@ class Registrar
             'ruleSets' => [
                 PasswordRules::class,
             ],
-            'users' => [
-                'email'    => 'required|valid_email|unique_email[{id}]',
-                'username' => 'required|string|is_unique[users.username,id,{id}]',
-            ],
         ];
     }
 

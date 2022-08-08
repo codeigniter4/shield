@@ -2,7 +2,7 @@
 
 namespace CodeIgniter\Shield\Models;
 
-use CodeIgniter\Shield\Exceptions\RuntimeException;
+use CodeIgniter\Shield\Exceptions\ValidationException;
 use ReflectionObject;
 use ReflectionProperty;
 
@@ -10,7 +10,10 @@ trait CheckQueryReturnTrait
 {
     private ?bool $currentDBDebug = null;
 
-    private function checkQueryReturn(bool $return): void
+    /**
+     * @param bool|int|string $return insert() returns insert ID.
+     */
+    private function checkQueryReturn($return): void
     {
         $this->restoreDBDebug();
 
@@ -21,7 +24,7 @@ trait CheckQueryReturnTrait
             $message = 'Query error: ' . $error['code'] . ', '
                 . $error['message'] . ', query: ' . $this->db->getLastQuery();
 
-            throw new DatabaseException($message, $error['code']);
+            throw new DatabaseException($message, (int) $error['code']);
         }
     }
 
@@ -36,7 +39,7 @@ trait CheckQueryReturnTrait
                 $message .= ' [' . $field . '] ' . $error;
             }
 
-            throw new RuntimeException($message);
+            throw new ValidationException($message);
         }
     }
 

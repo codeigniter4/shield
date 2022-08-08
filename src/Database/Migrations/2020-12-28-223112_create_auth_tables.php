@@ -136,14 +136,13 @@ class CreateAuthTables extends Migration
     {
         $this->db->disableForeignKeyChecks();
 
-        $this->forge->dropTable('users', true);
         $this->forge->dropTable('auth_logins', true);
         $this->forge->dropTable('auth_token_logins', true);
         $this->forge->dropTable('auth_remember_tokens', true);
-        $this->forge->dropTable('auth_access_tokens', true);
         $this->forge->dropTable('auth_identities', true);
         $this->forge->dropTable('auth_groups_users', true);
         $this->forge->dropTable('auth_permissions_users', true);
+        $this->forge->dropTable('users', true);
 
         $this->db->enableForeignKeyChecks();
     }

@@ -11,6 +11,7 @@ use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
 use Tests\Support\DatabaseTestCase;
+use Tests\Support\FakeUser;
 
 /**
  * @internal
@@ -18,6 +19,7 @@ use Tests\Support\DatabaseTestCase;
 final class RegisterTest extends DatabaseTestCase
 {
     use FeatureTestTrait;
+    use FakeUser;
 
     protected $namespace;
 
@@ -28,7 +30,6 @@ final class RegisterTest extends DatabaseTestCase
         parent::setUp();
 
         helper('auth');
-        Factories::reset();
 
         // Add auth routes
         $routes = service('routes');
@@ -53,6 +54,8 @@ final class RegisterTest extends DatabaseTestCase
 
         $result->assertStatus(302);
         $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionMissing('errors');
 
         $this->assertSame(site_url(), $result->getRedirectUrl());
 
@@ -96,6 +99,7 @@ final class RegisterTest extends DatabaseTestCase
 
         $result->assertStatus(302);
         $result->assertRedirect();
+        $result->assertSessionHas('error');
     }
 
     public function testRegisterActionRedirectsIfNotAllowed(): void
@@ -108,6 +112,7 @@ final class RegisterTest extends DatabaseTestCase
 
         $result->assertStatus(302);
         $result->assertRedirect();
+        $result->assertSessionHas('error');
     }
 
     public function testRegisterActionInvalidData(): void
@@ -140,6 +145,35 @@ final class RegisterTest extends DatabaseTestCase
             'username' => 'foo',
             'active'   => 0,
         ]);
+    }
+
+    public function testRegisterRedirectsIfLoggedIn(): void
+    {
+        // log them in
+        session()->set('user', ['id' => $this->user->id]);
+
+        $result = $this->withSession()->get('/register');
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertRedirectTo(config('Auth')->registerRedirect());
+    }
+
+    public function testRegisterActionRedirectsIfLoggedIn(): void
+    {
+        // log them in
+        session()->set('user', ['id' => $this->user->id]);
+
+        $result = $this->withSession()->post('/register', [
+            'username'         => 'JohnDoe',
+            'email'            => 'john.doe@example.com',
+            'password'         => 'secret things might happen here',
+            'password_confirm' => 'secret things might happen here',
+        ]);
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertRedirectTo(config('Auth')->registerRedirect());
     }
 
     protected function setupConfig(): void

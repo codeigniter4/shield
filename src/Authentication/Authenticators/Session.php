@@ -13,14 +13,16 @@ use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
+use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Exceptions\LogicException;
+use CodeIgniter\Shield\Exceptions\SecurityException;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\RememberModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
-use Exception;
-use InvalidArgumentException;
+use Config\Security;
+use Config\Services;
 use stdClass;
 
 class Session implements AuthenticatorInterface
@@ -73,6 +75,25 @@ class Session implements AuthenticatorInterface
         $this->loginModel        = model(LoginModel::class);
         $this->rememberModel     = model(RememberModel::class);
         $this->userIdentityModel = model(UserIdentityModel::class);
+
+        $this->checkSecurityConfig();
+    }
+
+    /**
+     * Checks less secure Configuration.
+     */
+    private function checkSecurityConfig(): void
+    {
+        /** @var Security $securityConfig */
+        $securityConfig = config('Security');
+
+        if ($securityConfig->csrfProtection === 'cookie') {
+            throw new SecurityException(
+                'Config\Security::$csrfProtection is set to \'cookie\'.'
+                . ' Same-site attackers may bypass the CSRF protection.'
+                . ' Please set it to \'session\'.'
+            );
+        }
     }
 
     /**
@@ -99,7 +120,7 @@ class Session implements AuthenticatorInterface
         $request = service('request');
 
         $ipAddress = $request->getIPAddress();
-        $userAgent = $request->getUserAgent();
+        $userAgent = (string) $request->getUserAgent();
 
         $result = $this->check($credentials);
 
@@ -568,7 +589,10 @@ class Session implements AuthenticatorInterface
 
         // Regenerate the session ID to help protect against session fixation
         if (ENVIRONMENT !== 'testing') {
-            session()->regenerate();
+            session()->regenerate(true);
+
+            // Regenerate CSRF token even if `security.regenerate = false`.
+            Services::security()->generateHash();
         }
 
         // Let the session know we're logged in
@@ -812,8 +836,6 @@ class Session implements AuthenticatorInterface
      * and stores the necessary info in the db and a cookie.
      *
      * @see https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence
-     *
-     * @throws Exception
      */
     protected function rememberUser(User $user): void
     {
@@ -873,8 +895,8 @@ class Session implements AuthenticatorInterface
         // Update validator.
         $validator = bin2hex(random_bytes(20));
 
-        $token->validator = $this->hashValidator($validator);
-        $token->expires   = $this->calcExpires();
+        $token->hashedValidator = $this->hashValidator($validator);
+        $token->expires         = $this->calcExpires();
 
         $this->rememberModel->updateRememberValidator($token);
 

@@ -33,5 +33,10 @@ abstract class TestCase extends CIUnitTestCase
         $config          = config('Auth');
         $config->actions = ['login' => null, 'register' => null];
         Factories::injectMock('config', 'Auth', $config);
+
+        // Set Config\Security::$csrfProtection to 'session'
+        $config                 = config('Security');
+        $config->csrfProtection = 'session';
+        Factories::injectMock('config', 'Security', $config);
     }
 }

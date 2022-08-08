@@ -178,7 +178,7 @@ class MagicLinkController extends BaseController
             $identifier,
             $success,
             $this->request->getIPAddress(),
-            $this->request->getUserAgent(),
+            (string) $this->request->getUserAgent(),
             $userId
         );
     }
@@ -186,12 +186,15 @@ class MagicLinkController extends BaseController
     /**
      * Returns the rules that should be used for validation.
      *
-     * @return array<string, string>
+     * @return array<string, array<string, string>>
      */
     protected function getValidationRules(): array
     {
         return [
-            'email' => 'required|max_length[254]|valid_email',
+            'email' => [
+                'label' => 'Auth.email',
+                'rules' => config('AuthSession')->emailValidationRules,
+            ],
         ];
     }
 }

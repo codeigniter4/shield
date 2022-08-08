@@ -12,6 +12,12 @@
 
 These instructions assume that you have already [installed the CodeIgniter 4 app starter](https://codeigniter.com/user_guide/installation/installing_composer.html) as the basis for your new project, set up your `.env` file, and created a database that you can access via the Spark CLI script.
 
+> **Note**
+> CodeIgniter Shield requires Codeigniter v4.2.3 or later.
+
+> **Note**
+> You must set ``Config\Security::$csrfProtection`` to `'session'` (or set `security.csrfProtection = session` in your `.env` file) for security reasons, if you use Session Authenticator.
+
 Installation is done through [Composer](https://getcomposer.org). The example assumes you have it installed globally.
 If you have it installed as a phar, or othewise you will need to adjust the way you call composer itself.
 
@@ -72,6 +78,10 @@ When you run `spark migrate --all`, if you get `Class "SQLite3" not found` error
 
 1. Remove sample migration files in `tests/_support/Database/Migrations/`
 2. Or install `sqlite3` php extension
+
+If you get `Specified key was too long` error:
+
+1. Use InnoDB, not MyISAM.
 
 ---
 
