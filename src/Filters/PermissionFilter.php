@@ -42,14 +42,10 @@ class PermissionFilter implements FilterInterface
             return redirect()->to('login');
         }
 
-        $result = true;
-
         foreach ($arguments as $permission) {
-            $result = $result && auth()->user()->can($permission);
-        }
-
-        if (! $result) {
-            throw PermissionException::forUnknownPermission(...$arguments);
+            if (! auth()->user()->can($permission)) {
+                throw PermissionException::forUnauthorized();
+            }
         }
     }
 

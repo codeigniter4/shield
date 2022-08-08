@@ -46,7 +46,7 @@ class GroupFilter implements FilterInterface
             return;
         }
 
-        throw GroupException::forUnknownGroup(...$arguments);
+        throw GroupException::forUnauthorized();
     }
 
     /**
