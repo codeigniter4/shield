@@ -151,10 +151,22 @@ class RegisterController extends BaseController
         );
 
         return setting('Validation.registration') ?? [
-            'username'         => $registrationUsernameRules,
-            'email'            => $registrationEmailRules,
-            'password'         => 'required|strong_password',
-            'password_confirm' => 'required|matches[password]',
+            'username' => [
+                'label' => 'Auth.username',
+                'rules' => $registrationUsernameRules,
+            ],
+            'email' => [
+                'label' => 'Auth.email',
+                'rules' => $registrationEmailRules,
+            ],
+            'password' => [
+                'label' => 'Auth.password',
+                'rules' => 'required|strong_password',
+            ],
+            'password_confirm' => [
+                'label' => 'Auth.passwordConfirm',
+                'rules' => 'required|matches[password]',
+            ],
         ];
     }
 }
