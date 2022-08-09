@@ -46,4 +46,15 @@ final class MagicLinkTest extends TestCase
         $result = $this->get('/login/magic-link');
         $result->assertRedirectTo(config('Auth')->loginRedirect());
     }
+
+    public function testShowValidateErrorsInMagicLink()
+    {
+        $result = $this->post('/login/magic-link', [
+            'email' => 'foo@example',
+        ]);
+
+        $expected = ['email' => 'The Email Address field must contain a valid email address.'];
+
+        $result->assertSessionHas('errors', $expected);
+    }
 }

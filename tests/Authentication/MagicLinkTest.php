@@ -49,7 +49,9 @@ final class MagicLinkTest extends TestCase
         ]);
 
         $result->assertRedirectTo(route_to('magic-link'));
-        $result->assertSessionHas('error', lang('Auth.invalidEmail'));
+        $expected = ['email' => 'The Email Address field is required.'];
+
+        $result->assertSessionHas('errors', $expected);
     }
 
     public function testMagicLinkSubmitBadEmail()
