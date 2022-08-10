@@ -152,6 +152,9 @@ class Session implements AuthenticatorInterface
         // Update the user's last used date on their password identity.
         $user->touchIdentity($user->getEmailIdentity());
 
+        // Check ID_TYPE_EMAIL_ACTIVATE identity
+        $hasEmailActivate = $this->setAuthActionEmailActivate();
+
         // If an action has been defined for login, start it up.
         $hasAction = $this->startUpAction('login', $user);
 
@@ -161,7 +164,7 @@ class Session implements AuthenticatorInterface
 
         $this->issueRememberMeToken();
 
-        if (! $hasAction) {
+        if (! $hasAction && ! $hasEmailActivate) {
             $this->completeLogin($user);
         }
 
