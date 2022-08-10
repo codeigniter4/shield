@@ -4,7 +4,7 @@ namespace CodeIgniter\Shield\Language\es;
 
 return [
     // Excepciones
-    'unknownHandler'        => '{0} no es un handler válido.',
+    'unknownAuthenticator'  => '{0} no es un handler válido.',
     'unknownUserProvider'   => 'No podemos determinar que Proveedor de Usuarios usar.',
     'invalidUser'           => 'No podemos localizar este usuario.',
     'badAttempt'            => 'No puedes entrar. Por favor, comprueba tus creenciales.',
@@ -63,13 +63,13 @@ return [
     'resetTokenExpired'         => 'Lo sentimos. Tu token de reseteo ha caducado.',
 
     // 2FA
-    'email2FATitle'    	  => 'Authenticación de Doble Factor',
+    'email2FATitle'       => 'Authenticación de Doble Factor',
     'confirmEmailAddress' => 'Confirma tu dirección de email.',
-    'emailEnterCode'   	  => 'Confirma tu Email',
-    'emailConfirmCode' 	  => 'teclea el código de 6 dígitos qu ete hemos enviado a tu dirección email.',
-    'email2FASubject'  	  => 'Tu código de autenticación',
+    'emailEnterCode'      => 'Confirma tu Email',
+    'emailConfirmCode'    => 'teclea el código de 6 dígitos qu ete hemos enviado a tu dirección email.',
+    'email2FASubject'     => 'Tu código de autenticación',
     'email2FAMailBody'    => 'Tu código de autenticación es:',
-    'invalid2FAToken'  	  => 'El token era incorrecto.',
+    'invalid2FAToken'     => 'El token era incorrecto.',
     'need2FA'             => 'Debes completar la verificación de doble factor.',
     'needVerification'    => 'Comprueba tu buzón para completar la activación de la cuenta.',
 
