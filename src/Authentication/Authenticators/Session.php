@@ -15,11 +15,14 @@ use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Exceptions\LogicException;
+use CodeIgniter\Shield\Exceptions\SecurityException;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\RememberModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
+use Config\Security;
+use Config\Services;
 use stdClass;
 
 class Session implements AuthenticatorInterface
@@ -72,6 +75,25 @@ class Session implements AuthenticatorInterface
         $this->loginModel        = model(LoginModel::class);
         $this->rememberModel     = model(RememberModel::class);
         $this->userIdentityModel = model(UserIdentityModel::class);
+
+        $this->checkSecurityConfig();
+    }
+
+    /**
+     * Checks less secure Configuration.
+     */
+    private function checkSecurityConfig(): void
+    {
+        /** @var Security $securityConfig */
+        $securityConfig = config('Security');
+
+        if ($securityConfig->csrfProtection === 'cookie') {
+            throw new SecurityException(
+                'Config\Security::$csrfProtection is set to \'cookie\'.'
+                . ' Same-site attackers may bypass the CSRF protection.'
+                . ' Please set it to \'session\'.'
+            );
+        }
     }
 
     /**
@@ -567,7 +589,10 @@ class Session implements AuthenticatorInterface
 
         // Regenerate the session ID to help protect against session fixation
         if (ENVIRONMENT !== 'testing') {
-            session()->regenerate();
+            session()->regenerate(true);
+
+            // Regenerate CSRF token even if `security.regenerate = false`.
+            Services::security()->generateHash();
         }
 
         // Let the session know we're logged in

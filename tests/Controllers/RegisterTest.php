@@ -30,7 +30,6 @@ final class RegisterTest extends DatabaseTestCase
         parent::setUp();
 
         helper('auth');
-        Factories::reset();
 
         // Add auth routes
         $routes = service('routes');

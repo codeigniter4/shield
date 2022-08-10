@@ -70,9 +70,18 @@ class LoginController extends BaseController
     protected function getValidationRules(): array
     {
         return setting('Validation.login') ?? [
-            //'username' => config('AuthSession')->usernameValidationRules,
-            'email'    => config('AuthSession')->emailValidationRules,
-            'password' => 'required',
+            // 'username' => [
+            //     'label' => 'Auth.username',
+            //     'rules' => config('AuthSession')->usernameValidationRules,
+            // ],
+            'email' => [
+                'label' => 'Auth.email',
+                'rules' => config('AuthSession')->emailValidationRules,
+            ],
+            'password' => [
+                'label' => 'Auth.password',
+                'rules' => 'required',
+            ],
         ];
     }
 
