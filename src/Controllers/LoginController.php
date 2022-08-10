@@ -44,14 +44,18 @@ class LoginController extends BaseController
         $credentials['password'] = $this->request->getPost('password');
         $remember                = (bool) $this->request->getPost('remember');
 
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
         // Attempt to login
-        $result = auth('session')->remember($remember)->attempt($credentials);
+        $result = $authenticator->remember($remember)->attempt($credentials);
         if (! $result->isOK()) {
             return redirect()->route('login')->withInput()->with('error', $result->reason());
         }
 
         // custom bit of information
         $user = $result->extraInfo();
+
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
