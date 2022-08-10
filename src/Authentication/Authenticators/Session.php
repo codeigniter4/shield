@@ -412,15 +412,38 @@ class Session implements AuthenticatorInterface
     }
 
     /**
-     * Gets identities for action from database, and set session.
+     * Has Auth Action?
      */
-    private function setAuthAction(): void
+    public function hasAction(): bool
     {
+        // Check the Session
+        if ($this->getSessionKey('auth_action')) {
+            return true;
+        }
+
+        // Check the database
+        return $this->setAuthAction();
+    }
+
+    /**
+     * Gets identities for action from database, and set session.
+     *
+     * @return bool true if the action is set in the session.
+     */
+    private function setAuthAction(): bool
+    {
+        if ($this->user === null) {
+            return false;
+        }
+
         // First, check ID_TYPE_EMAIL_ACTIVATE identity
-        $this->setAuthActionEmailActivate();
+        $hasAction = $this->setAuthActionEmailActivate();
+        if ($hasAction) {
+            return true;
+        }
 
         // Next, check ID_TYPE_EMAIL_2FA identity
-        $this->setAuthActionEmail2FA();
+        return $this->setAuthActionEmail2FA();
     }
 
     /**
