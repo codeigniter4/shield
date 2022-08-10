@@ -35,14 +35,17 @@ class Session implements AuthenticatorInterface
      */
     public const ID_TYPE_USERNAME = 'username';
 
+    // Identity types
     public const ID_TYPE_EMAIL_PASSWORD = 'email_password';
     public const ID_TYPE_MAGIC_LINK     = 'magic-link';
     public const ID_TYPE_EMAIL_2FA      = 'email_2fa';
     public const ID_TYPE_EMAIL_ACTIVATE = 'email_activate';
-    private const STATE_UNKNOWN         = 0;
-    private const STATE_ANONYMOUS       = 1;
-    private const STATE_PENDING         = 2;
-    private const STATE_LOGGED_IN       = 3;
+
+    // User states
+    private const STATE_UNKNOWN   = 0; // Not checked yet.
+    private const STATE_ANONYMOUS = 1;
+    private const STATE_PENDING   = 2; // 2FA or Activation required.
+    private const STATE_LOGGED_IN = 3;
 
     /**
      * The persistence engine
