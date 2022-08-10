@@ -41,14 +41,13 @@ class EmailActivator implements ActionInterface
 
         // Send the email
         helper('email');
-        $return = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
-            ->setTo($userEmail)
-            ->setSubject(lang('Auth.emailActivateSubject'))
-            ->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]))
-            ->send();
+        $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
+        $email->setTo($userEmail);
+        $email->setSubject(lang('Auth.emailActivateSubject'));
+        $email->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]));
 
-        if ($return === false) {
-            throw new RuntimeException('Cannot send email for user: ' . $user->email);
+        if ($email->send(false) === false) {
+            throw new RuntimeException('Cannot send email for user: ' . $user->email . "\n" . $email->printDebugger(['headers']));
         }
 
         // Display the info page
