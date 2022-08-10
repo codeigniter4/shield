@@ -413,11 +413,21 @@ class Session implements AuthenticatorInterface
      */
     private function setAuthAction(): void
     {
-        // Get identities for action
-        $identities = $this->getIdentitiesForAction();
+        // First, check ID_TYPE_EMAIL_ACTIVATE identity
+        $this->setAuthActionEmailActivate();
 
-        // Having an action?
-        foreach ($identities as $identity) {
+        // Next, check ID_TYPE_EMAIL_2FA identity
+        $this->setAuthActionEmail2FA();
+    }
+
+    private function setAuthActionEmailActivate(): bool
+    {
+        $identity = $this->userIdentityModel->getIdentityByType(
+            $this->user,
+            self::ID_TYPE_EMAIL_ACTIVATE
+        );
+
+        if ($identity) {
             $actionClass = setting('Auth.actions')[$identity->name];
 
             if ($actionClass) {
@@ -426,9 +436,34 @@ class Session implements AuthenticatorInterface
                 $this->setSessionKey('auth_action', $actionClass);
                 $this->setSessionKey('auth_action_message', $identity->extra);
 
-                return;
+                return true;
             }
         }
+
+        return false;
+    }
+
+    private function setAuthActionEmail2FA(): bool
+    {
+        $identity = $this->userIdentityModel->getIdentityByType(
+            $this->user,
+            self::ID_TYPE_EMAIL_2FA
+        );
+
+        if ($identity) {
+            $actionClass = setting('Auth.actions')[$identity->name];
+
+            if ($actionClass) {
+                $this->userState = self::STATE_PENDING;
+
+                $this->setSessionKey('auth_action', $actionClass);
+                $this->setSessionKey('auth_action_message', $identity->extra);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
