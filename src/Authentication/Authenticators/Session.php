@@ -423,6 +423,9 @@ class Session implements AuthenticatorInterface
         $this->setAuthActionEmail2FA();
     }
 
+    /**
+     * @return bool true if the action is set in the session.
+     */
     private function setAuthActionEmailActivate(): bool
     {
         $identity = $this->userIdentityModel->getIdentityByType(
@@ -446,6 +449,9 @@ class Session implements AuthenticatorInterface
         return false;
     }
 
+    /**
+     * @return bool true if the action is set in the session.
+     */
     private function setAuthActionEmail2FA(): bool
     {
         $identity = $this->userIdentityModel->getIdentityByType(
