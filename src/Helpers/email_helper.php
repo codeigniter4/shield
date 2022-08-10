@@ -41,7 +41,7 @@ if (! defined('emailer')) {
         }
 
         /** @var Email $email */
-        $email = service('email', false);
+        $email = service('email');
 
         return $email->initialize($config);
     }

@@ -50,6 +50,9 @@ class EmailActivator implements ActionInterface
             throw new RuntimeException('Cannot send email for user: ' . $user->email . "\n" . $email->printDebugger(['headers']));
         }
 
+        // Clear the email
+        $email->clear();
+
         // Display the info page
         return view(setting('Auth.views')['action_email_activate_show'], ['user' => $user]);
     }

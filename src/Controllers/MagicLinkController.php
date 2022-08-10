@@ -101,6 +101,9 @@ class MagicLinkController extends BaseController
             return redirect()->route('magic-link')->with('error', lang('Auth.unableSendEmailToUser', [$user->email]));
         }
 
+        // Clear the email
+        $email->clear();
+
         return $this->displayMessage();
     }
 

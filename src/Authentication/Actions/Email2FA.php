@@ -80,6 +80,9 @@ class Email2FA implements ActionInterface
             throw new RuntimeException('Cannot send email for user: ' . $user->email . "\n" . $email->printDebugger(['headers']));
         }
 
+        // Clear the email
+        $email->clear();
+
         return view(setting('Auth.views')['action_email_2fa_verify']);
     }
 
