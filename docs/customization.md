@@ -5,6 +5,8 @@
   - [Custom Redirect URLs](#custom-redirect-urls)
   - [Extending the Controllers](#extending-the-controllers)
   - [Custom Validation Rules](#custom-validation-rules)
+    - [Registration](#registration)
+    - [Login](#login)
 
 ## Route Configuration
 
@@ -119,7 +121,7 @@ If you need a different set of rules for registration, you can specify them in y
 
 ```php
     //--------------------------------------------------------------------
-    // Rules
+    // Rules For Registration
     //--------------------------------------------------------------------
     public $registration = [
         'username' => [
@@ -137,6 +139,30 @@ If you need a different set of rules for registration, you can specify them in y
         'password_confirm' => [
             'label' =>  'Auth.passwordConfirm',
             'rules' => 'required|matches[password]',
+        ],
+    ];
+```
+
+### Login
+
+Similar to what was explained about the setting of validation rules for **Registration** section, you can add the rules of the login form in file (**app/Config/Validation.php**) and change the rules.
+
+```php
+    //--------------------------------------------------------------------
+    // Rules For Login 
+    //--------------------------------------------------------------------
+    public $login = [
+        // 'username' => [
+        //     'label' =>  'Auth.username',
+        //     'rules' => 'required|max_length[30]|min_length[3]|regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+        // ],
+        'email' => [
+            'label' =>  'Auth.email',
+            'rules' => 'required|max_length[254]|valid_email',
+        ],
+        'password' => [
+            'label' =>  'Auth.password',
+            'rules' => 'required',
         ],
     ];
 ```
