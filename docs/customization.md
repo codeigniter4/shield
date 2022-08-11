@@ -4,6 +4,7 @@
   - [Route Configuration](#route-configuration)
   - [Custom Redirect URLs](#custom-redirect-urls)
   - [Extending the Controllers](#extending-the-controllers)
+  - [Custom Validation Rules](#custom-validation-rules)
 
 ## Route Configuration
 
@@ -87,7 +88,7 @@ class LoginController extends ShieldLogin
 }
 ```
 
-## Custom validation rules
+## Custom Validation Rules
 
 ### Registration
 
