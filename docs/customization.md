@@ -145,7 +145,7 @@ If you need a different set of rules for registration, you can specify them in y
 
 ### Login
 
-Similar to what was explained about the setting of validation rules for **Registration** section, you can add the rules of the login form in file (**app/Config/Validation.php**) and change the rules.
+Similar to the process for validation rules in the **Registration** section, you can add rules for the login form to **app/Config/Validation.php** and change the rules.
 
 ```php
     //--------------------------------------------------------------------
