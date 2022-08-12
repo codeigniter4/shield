@@ -47,6 +47,10 @@
         },
         "exclude-from-classmap": [
             "**/Database/Migrations/**"
+        ],
+        "files": [
+            "src/Helpers/auth_helper.php",
+            "src/Helpers/email_helper.php"
         ]
     },
     "autoload-dev": {
