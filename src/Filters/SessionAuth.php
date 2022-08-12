@@ -32,7 +32,7 @@ class SessionAuth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        helper(['auth', 'setting']);
+        helper('setting');
 
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();

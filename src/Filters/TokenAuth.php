@@ -32,7 +32,7 @@ class TokenAuth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        helper(['auth', 'setting']);
+        helper('setting');
 
         /** @var AccessTokens $authenticator */
         $authenticator = auth('tokens')->getAuthenticator();

@@ -29,8 +29,6 @@ final class RegisterTest extends DatabaseTestCase
 
         parent::setUp();
 
-        helper('auth');
-
         // Add auth routes
         $routes = service('routes');
         auth()->routes($routes);

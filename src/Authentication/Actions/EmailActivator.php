@@ -40,7 +40,6 @@ class EmailActivator implements ActionInterface
         $code = $this->createIdentity($user);
 
         // Send the email
-        helper('email');
         $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
         $email->setTo($userEmail);
         $email->setSubject(lang('Auth.emailActivateSubject'));
