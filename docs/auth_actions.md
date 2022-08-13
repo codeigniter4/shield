@@ -49,8 +49,8 @@ Views for all of these pages are defined in the `Auth` config file, with the `$v
     public $views = [
         'action_email_2fa'            => '\CodeIgniter\Shield\Views\email_2fa_show',
         'action_email_2fa_verify'     => '\CodeIgniter\Shield\Views\email_2fa_verify',
-        'action_email_2fa_email'      => '\CodeIgniter\Shield\Views\email_2fa_email',
-        'action_email_activate_email' => '\CodeIgniter\Shield\Views\email_activate_email',
+        'action_email_2fa_email'      => '\CodeIgniter\Shield\Views\Email\email_2fa_email',
+        'action_email_activate_email' => '\CodeIgniter\Shield\Views\Email\email_activate_email',
         'action_email_activate_show'  => '\CodeIgniter\Shield\Views\email_activate_show',
     ];
 ```
