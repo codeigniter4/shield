@@ -20,12 +20,12 @@ class Registrar
     {
         return [
             'aliases' => [
-                'session'           => SessionAuth::class,
-                'tokens'            => TokenAuth::class,
-                'chain'             => ChainAuth::class,
-                'auth-rates'        => AuthRates::class,
-                'group-filter'      => GroupFilter::class,
-                'permission-filter' => PermissionFilter::class,
+                'session'    => SessionAuth::class,
+                'tokens'     => TokenAuth::class,
+                'chain'      => ChainAuth::class,
+                'auth-rates' => AuthRates::class,
+                'group'      => GroupFilter::class,
+                'permission' => PermissionFilter::class,
             ],
         ];
     }
