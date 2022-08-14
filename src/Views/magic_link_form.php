@@ -37,6 +37,8 @@
                     <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.send') ?></button>
                 </div>
 
+                <p class="text-center"><a href="<?= url_to('login') ?>"><?= lang('Auth.backLogin') ?></a></p>
+
             </form>
         </div>
     </div>
