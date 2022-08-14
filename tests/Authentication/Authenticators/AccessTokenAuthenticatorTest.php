@@ -121,7 +121,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $this->assertSame(lang('Auth.badToken'), $result->reason());
     }
 
-    public function testCheckOldToken()
+    public function testCheckOldToken(): void
     {
         /** @var User $user */
         $user = fake(UserModel::class);
