@@ -156,12 +156,15 @@ public $ruleSets = [
 
 ## Controller Filters
 
-Shield provides 4 [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can
-use to protect your routes, `session`, `tokens`, and `chained`. The first two cover the `Session` and
-`AccessTokens` authenticators, respectively. The `chained` filter will check both authenticators in sequence
-to see if the user is logged in through either of authenticators, allowing a single API endpoint to
-work for both an SPA using session auth, and a mobile app using access tokens. The fourth, `auth-rates`,
-provides a good basis for rate limiting of auth-related routes.
+The [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can use to protect your routes the shield provides are:
+
+Filters | Description
+--- | ---
+session and tokens | The `Session` and `AccessTokens` authenticators, respectively.
+chained | The filter will check both authenticators in sequence to see if the user is logged in through either of authenticators, allowing a single API endpoint to work for both an SPA using session auth, and a mobile app using access tokens.
+auth-rates | Provides a good basis for rate limiting of auth-related routes.
+group-filter | ??
+permission-filter | ??
 
 These filters are already loaded for you by the registrar class located at `src/Config/Registrar.php`.
 
@@ -172,6 +175,8 @@ public $aliases = [
     'tokens'     => \CodeIgniter\Shield\Filters\TokenAuth::class,
     'chain'      => \CodeIgniter\Shield\Filters\ChainAuth::class,
     'auth-rates' => \CodeIgniter\Shield\Filters\AuthRates::class,
+    'group'      => \CodeIgniter\Shield\Filters\GroupFilter::class,
+    'permission' => \CodeIgniter\Shield\Filters\PermissionFilter::class,
 ];
 ```
 
