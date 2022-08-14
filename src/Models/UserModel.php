@@ -222,7 +222,7 @@ class UserModel extends Model
      *
      * @throws ValidationException
      *
-     * @retrun true|int|string Insert ID if $returnID is true
+     * @return int|string|true Insert ID if $returnID is true
      */
     public function insert($data = null, bool $returnID = true)
     {
