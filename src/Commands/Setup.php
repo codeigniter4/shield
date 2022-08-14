@@ -234,8 +234,7 @@ class Setup extends BaseCommand
         $replaces = [
             '$this->helpers = array_merge($this->helpers, [\'auth\', \'setting\']);' => $check,
         ];
-        $return = $this->replace($file, $replaces);
-        if ($return) {
+        if ($this->replace($file, $replaces)) {
             return;
         }
 
