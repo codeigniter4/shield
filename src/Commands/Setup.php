@@ -196,10 +196,12 @@ class Setup extends BaseCommand
     }
 
     /**
+     * Replace for setupHelper()
+     *
      * @param string $file     Relative file path like 'Controllers/BaseController.php'.
      * @param array  $replaces [search => replace]
      */
-    protected function replace(string $file, array $replaces): void
+    private function replace(string $file, array $replaces): bool
     {
         $path      = $this->distPath . $file;
         $cleanPath = clean_path($path);
@@ -209,16 +211,18 @@ class Setup extends BaseCommand
         $output = $this->replacer->replace($content, $replaces);
 
         if ($output === $content) {
-            CLI::error("  Skipped {$cleanPath}. It has already been updated.");
-
-            return;
+            return false;
         }
 
         if (write_file($path, $output)) {
             CLI::write(CLI::color('  Updated: ', 'green') . $cleanPath);
-        } else {
-            CLI::error("  Error updating {$cleanPath}.");
+
+            return true;
         }
+
+        CLI::error("  Error updating {$cleanPath}.");
+
+        return false;
     }
 
     private function setupHelper(): void
@@ -230,7 +234,10 @@ class Setup extends BaseCommand
         $replaces = [
             '$this->helpers = array_merge($this->helpers, [\'auth\', \'setting\']);' => $check,
         ];
-        $this->replace($file, $replaces);
+        $return = $this->replace($file, $replaces);
+        if ($return) {
+            return;
+        }
 
         // Add helper setup
         $pattern = '/(' . preg_quote('// Do Not Edit This Line', '/') . ')/u';
