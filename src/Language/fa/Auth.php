@@ -44,6 +44,7 @@ return [
 
     // Login
     'login'              => 'ورود',
+    'backLogin'          => 'بازگشت به صفحه ورود',
     'needAccount'        => 'نیاز به یک حساب کاربری دارید؟',
     'rememberMe'         => 'مرا به خاطر بسپار؟',
     'forgotPassword'     => 'رمز عبور را فراموش کرده اید؟',

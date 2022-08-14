@@ -35,6 +35,7 @@ return [
 
     // Login
     'login'              => 'Login',
+    'backLogin'          => 'Back to login',
     'needAccount'        => 'Need an account?',
     'rememberMe'         => 'Remember me?',
     'forgotPassword'     => 'Forgot your password?',
