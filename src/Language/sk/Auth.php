@@ -35,6 +35,7 @@ return [
 
     // Login
     'login'              => 'Prihlásenie',
+    'backLogin'          => 'Späť na prihlásenie',
     'needAccount'        => 'Potrebujete účet?',
     'rememberMe'         => 'Zapamätať si ma?',
     'forgotPassword'     => 'Zabudli ste heslo?',

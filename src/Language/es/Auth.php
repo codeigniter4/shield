@@ -35,6 +35,7 @@ return [
 
     // Login
     'login'              => 'Entrar',
+    'backLogin'          => 'Atrás para iniciar sesión',
     'needAccount'        => '¿Necesitas una cuenta?',
     'rememberMe'         => '¿Recordarme?',
     'forgotPassword'     => '¿Has olvidado tu contraseña?',
