@@ -27,8 +27,6 @@ final class LoginTest extends TestCase
     {
         parent::setUp();
 
-        helper('auth');
-
         // Add auth routes
         $routes = service('routes');
         auth()->routes($routes);

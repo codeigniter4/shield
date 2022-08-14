@@ -31,8 +31,6 @@ final class ActionsTest extends TestCase
     {
         parent::setUp();
 
-        helper('auth');
-
         // Ensure our actions are registered with the system
         $config                      = config('Auth');
         $config->actions['login']    = Email2FA::class;

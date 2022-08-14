@@ -20,8 +20,6 @@ final class AuthHelperTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-
-        helper(['auth']);
     }
 
     protected function setUp(): void

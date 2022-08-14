@@ -28,7 +28,6 @@ final class MagicLinkTest extends TestCase
         parent::setUp();
 
         // Load our Auth routes in the collection
-        helper('auth');
         $routeCollection = service('routes');
         auth()->routes($routeCollection);
 

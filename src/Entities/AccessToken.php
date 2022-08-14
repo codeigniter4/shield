@@ -36,8 +36,6 @@ class AccessToken extends Entity
     public function user(): ?User
     {
         if ($this->user === null) {
-            helper('auth');
-
             $users      = auth()->getProvider();
             $this->user = $users->findById($this->user_id);
         }

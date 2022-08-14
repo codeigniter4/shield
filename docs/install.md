@@ -117,12 +117,12 @@ class Auth extends ShieldAuth
 }
 ```
 
-2. **Helper Setup** The `auth` and `setting` helpers need to be included in almost every page. The simplest way to do this is to add them to the `BaseController::initController` method:
+2. **Helper Setup** The `setting` helper needs to be included in almost every page. The simplest way to do this is to add them to the `BaseController::initController` method:
 
 ```php
 public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
 {
-    $this->helpers = array_merge($this->helpers, ['auth', 'setting']);
+    $this->helpers = array_merge($this->helpers, ['setting']);
 
     // Do Not Edit This Line
     parent::initController($request, $response, $logger);
