@@ -60,7 +60,7 @@ class MagicLinkController extends BaseController
         // Validate email format
         $rules = $this->getValidationRules();
         if (! $this->validate($rules)) {
-            return redirect()->route('magic-link')->with('error', lang('Auth.invalidEmail'));
+            return redirect()->route('magic-link')->with('errors', $this->validator->getErrors());
         }
 
         // Check if the user exists
@@ -89,16 +89,19 @@ class MagicLinkController extends BaseController
         ]);
 
         // Send the user an email with the code
-        helper('email');
-        $return = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
-            ->setTo($user->email)
-            ->setSubject(lang('Auth.magicLinkSubject'))
-            ->setMessage(view(setting('Auth.views')['magic-link-email'], ['token' => $token]))
-            ->send();
+        $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
+        $email->setTo($user->email);
+        $email->setSubject(lang('Auth.magicLinkSubject'));
+        $email->setMessage(view(setting('Auth.views')['magic-link-email'], ['token' => $token]));
 
-        if ($return === false) {
+        if ($email->send(false) === false) {
+            log_message('error', $email->printDebugger(['headers']));
+
             return redirect()->route('magic-link')->with('error', lang('Auth.unableSendEmailToUser', [$user->email]));
         }
+
+        // Clear the email
+        $email->clear();
 
         return $this->displayMessage();
     }

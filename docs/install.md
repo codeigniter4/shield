@@ -95,8 +95,6 @@ If you get `Specified key was too long` error:
 > php spark shield:setup
 ```
 
-2. If you are running CodeIgniter v4.1.x, go to *Manual Setup* 4.
-
 ### Manual Setup
 
 There are a few setup items to do before you can start using Shield in
@@ -119,12 +117,12 @@ class Auth extends ShieldAuth
 }
 ```
 
-2. **Helper Setup** The `auth` and `setting` helpers need to be included in almost every page. The simplest way to do this is to add them to the `BaseController::initController` method:
+2. **Helper Setup** The `setting` helper needs to be included in almost every page. The simplest way to do this is to add them to the `BaseController::initController` method:
 
 ```php
 public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
 {
-    $this->helpers = array_merge($this->helpers, ['auth', 'setting']);
+    $this->helpers = array_merge($this->helpers, ['setting']);
 
     // Do Not Edit This Line
     parent::initController($request, $response, $logger);
@@ -137,21 +135,6 @@ This requires that all of your controllers extend the `BaseController`, but that
 
 ```php
 service('auth')->routes($routes);
-```
-
-4. (If you are running CodeIgniter v4.2.0 or higher you can skip this step). Add the new password validation rules
-by editing `app/Config/Validation.php`:
-
-```php
-use CodeIgniter\Shield\Authentication\Passwords\ValidationRules as PasswordRules;
-
-public $ruleSets = [
-        Rules::class,
-        FormatRules::class,
-        FileRules::class,
-        CreditCardRules::class,
-        PasswordRules::class     // <!-- add this line
-    ];
 ```
 
 ## Controller Filters

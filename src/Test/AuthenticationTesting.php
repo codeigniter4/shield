@@ -21,9 +21,6 @@ trait AuthenticationTesting
      */
     public function actingAs(User $user, bool $pending = false): self
     {
-        // Ensure the helper is loaded during tests.
-        helper('auth');
-
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 

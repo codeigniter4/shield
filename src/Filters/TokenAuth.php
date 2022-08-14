@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 
 /**
  * Access Token Authentication Filter.
@@ -31,9 +32,12 @@ class TokenAuth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        helper(['auth', 'setting']);
+        helper('setting');
 
-        $result = auth('tokens')->authenticate([
+        /** @var AccessTokens $authenticator */
+        $authenticator = auth('tokens')->getAuthenticator();
+
+        $result = $authenticator->attempt([
             'token' => $request->getHeaderLine(setting('Auth.authenticatorHeader')['tokens'] ?? 'Authorization'),
         ]);
 

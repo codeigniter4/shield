@@ -8,7 +8,7 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 
 class LoginController extends BaseController
 {
-    protected $helpers = ['auth', 'setting'];
+    protected $helpers = ['setting'];
 
     /**
      * Displays the form the login to the site.

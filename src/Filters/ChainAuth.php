@@ -33,7 +33,7 @@ class ChainAuth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        helper(['auth', 'settings']);
+        helper('settings');
 
         $chain = config('Auth')->authenticationChain;
 
