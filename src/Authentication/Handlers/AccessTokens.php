@@ -129,7 +129,10 @@ class AccessTokens implements AuthenticatorInterface
         }
 
         $token->last_used_at = Time::now()->format('Y-m-d H:i:s');
-        $identityModel->save($token);
+
+        if ($token->hasChanged()) {
+            $identityModel->save($token);
+        }
 
         // Ensure the token is set as the current token
         $user = $token->user();
