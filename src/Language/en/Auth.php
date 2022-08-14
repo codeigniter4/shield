@@ -17,7 +17,6 @@ return [
     'invalidEmail'          => 'Unable to verify the email address matches the email on record.',
     'unableSendEmailToUser' => 'Sorry, there was a problem sending the email. We could not send an email to "{0}".',
     'throttled'             => 'Too many requests made from this IP address. You may try again in {0} seconds.',
-    'notEnoughPrivilege'    => 'You do not have the necessary permission to perform the desired operation.',
 
     'email'           => 'Email Address',
     'username'        => 'Username',
@@ -36,6 +35,7 @@ return [
 
     // Login
     'login'              => 'Login',
+    'backLogin'          => 'Back to login',
     'needAccount'        => 'Need an account?',
     'rememberMe'         => 'Remember me?',
     'forgotPassword'     => 'Forgot your password?',
