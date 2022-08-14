@@ -16,7 +16,8 @@ return [
     'noUserEntity'          => 'Se debe dar una Entidad de Usuario para validar la contraseña.',
     'invalidEmail'          => 'No podemos verificar que el email coincida con un email registrado.',
     'unableSendEmailToUser' => 'Lo sentimaos, ha habido un problema al enviar el email. No podemos enviar un email a "{0}".',
-    'throttled'             => 'demasiadas peticiones hechas desde esta IP. Puedes intentarlo de nuevo en {0} segundos.',
+    'throttled'             => 'Demasiadas peticiones hechas desde esta IP. Puedes intentarlo de nuevo en {0} segundos.',
+    'notEnoughPrivilege'    => 'No tiene los permisos necesarios para realizar la operación deseada.',
 
     'email'           => 'Dirección Email',
     'username'        => 'Usuario',
