@@ -35,7 +35,7 @@ return [
 
     // Login
     'login'              => 'ログイン', // 'Login',
-    'backLogin'          => 'ログインに戻る', // 'Back to login',
+    'backToLogin'          => 'ログインに戻る', // 'Back to login',
     'needAccount'        => 'アカウントが必要な方', // 'Need an account?',
     'rememberMe'         => 'ログイン状態を保持する', // 'Remember me?',
     'forgotPassword'     => 'パスワードをお忘れの方', // 'Forgot your password?',

@@ -35,7 +35,7 @@ return [
 
     // Login
     'login'              => 'Se connecter',
-    'backLogin'          => 'Retour connexion',
+    'backToLogin'          => 'Retour connexion',
     'needAccount'        => 'Pas encore de compte ?',
     'rememberMe'         => 'Se souvenir de moi',
     'forgotPassword'     => 'Mot de passe oublié ?',
