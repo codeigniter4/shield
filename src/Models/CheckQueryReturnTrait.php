@@ -32,7 +32,7 @@ trait CheckQueryReturnTrait
 
     private function checkValidationError(): void
     {
-        $validationErrors = $this->validation->getErrors();
+        $validationErrors = $this->getValidationErrors();
 
         if ($validationErrors !== []) {
             $message = 'Validation error:';
@@ -43,6 +43,25 @@ trait CheckQueryReturnTrait
 
             throw new ValidationException($message);
         }
+    }
+
+    /**
+     * Gets real validation errors that are not saved in the Session.
+     *
+     * @return string[]
+     */
+    private function getValidationErrors(): array
+    {
+        return $this->getValidationPropertyErrors();
+    }
+
+    private function getValidationPropertyErrors(): array
+    {
+        $refClass    = new ReflectionObject($this->validation);
+        $refProperty = $refClass->getProperty('errors');
+        $refProperty->setAccessible(true);
+
+        return $refProperty->getValue($this->validation);
     }
 
     private function disableDBDebug(): void
