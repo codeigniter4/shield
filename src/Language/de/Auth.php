@@ -35,7 +35,7 @@ return [
 
     // Login
     'login'              => 'Anmelden',
-    'backLogin'          => 'Zurück zur Anmeldung',
+    'backToLogin'          => 'Zurück zur Anmeldung',
     'needAccount'        => 'Brauchen Sie ein Konto?',
     'rememberMe'         => 'Angemeldet bleiben',
     'forgotPassword'     => 'Passwort vergessen?',
