@@ -75,7 +75,7 @@
             "phpstan analyze",
             "psalm"
         ],
-        "cs-fix": "php-cs-fixer fix --ansi --verbose --diff --using-cache=yes",
+        "cs-fix": "php-cs-fixer fix --ansi --verbose --diff",
         "style": "@cs-fix",
         "test": "phpunit"
     }
