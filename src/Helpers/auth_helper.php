@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use CodeIgniter\Shield\Auth;
 
 if (! function_exists('auth')) {
