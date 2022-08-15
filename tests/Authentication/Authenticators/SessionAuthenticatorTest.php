@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Authentication\Authenticators;
 
 use CodeIgniter\Shield\Authentication\Authentication;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\BaseCommand;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Collectors;
 
 use CodeIgniter\Shield\Authentication\Authenticators\Session;

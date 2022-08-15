@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use CodeIgniter\Email\Email;
 
 if (! defined('emailer')) {

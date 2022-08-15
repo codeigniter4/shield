@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Authentication\Filters;
 
 use CodeIgniter\Config\Factories;
