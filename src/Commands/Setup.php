@@ -86,6 +86,8 @@ class Setup extends BaseCommand
         $this->setupRoutes();
 
         $this->runMigrations();
+
+        $this->setSecurityItem();
     }
 
     /**
@@ -95,6 +97,10 @@ class Setup extends BaseCommand
     protected function copyAndReplace(string $file, array $replaces): void
     {
         $path = "{$this->sourcePath}/{$file}";
+
+        if ($file === 'Config/Security.php'){
+            $path = "{$this->distPath}/{$file}";
+        }
 
         $content = file_get_contents($path);
 
@@ -144,7 +150,7 @@ class Setup extends BaseCommand
             mkdir($directory, 0777, true);
         }
 
-        if (file_exists($path)) {
+        if (file_exists($path) && $file !== 'Config/Security.php') {
             $overwrite = (bool) CLI::getOption('f');
 
             if (
@@ -155,6 +161,15 @@ class Setup extends BaseCommand
 
                 return;
             }
+        }
+
+        if ($file === 'Config/Security.php'){
+            if (write_file($path, $content)) {
+                CLI::write(CLI::color('  Update: ', 'green') . "We have updated file '{$cleanPath}' for security reasons.");
+            } else {
+                CLI::error("  Error Update {$cleanPath}.");
+            }
+            exit();
         }
 
         if (write_file($path, $content)) {
@@ -268,6 +283,19 @@ class Setup extends BaseCommand
         $command->run(['all' => null]);
     }
 
+    /**
+     * @see https://github.com/codeigniter4/shield/security/advisories/GHSA-5hm8-vh6r-2cjq
+     */    
+    private function setSecurityItem(): void
+    {
+        $file     = 'Config/Security.php';
+        $replaces = [
+            'public $csrfProtection = \'cookie\';'  => 'public $csrfProtection = \'session\';',
+        ];
+
+        $this->copyAndReplace($file, $replaces);
+    }
+    
     /**
      * This method is for testing.
      */
