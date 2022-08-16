@@ -98,7 +98,7 @@ class Setup extends BaseCommand
     {
         $path = "{$this->sourcePath}/{$file}";
 
-        if ($file === 'Config/Security.php'){
+        if ($file === 'Config/Security.php') {
             $path = "{$this->distPath}/{$file}";
         }
 
@@ -163,12 +163,13 @@ class Setup extends BaseCommand
             }
         }
 
-        if ($file === 'Config/Security.php'){
+        if ($file === 'Config/Security.php') {
             if (write_file($path, $content)) {
                 CLI::write(CLI::color('  Update: ', 'green') . "We have updated file '{$cleanPath}' for security reasons.");
             } else {
                 CLI::error("  Error Update {$cleanPath}.");
             }
+
             exit();
         }
 
@@ -285,17 +286,17 @@ class Setup extends BaseCommand
 
     /**
      * @see https://github.com/codeigniter4/shield/security/advisories/GHSA-5hm8-vh6r-2cjq
-     */    
+     */
     private function setSecurityItem(): void
     {
         $file     = 'Config/Security.php';
         $replaces = [
-            'public $csrfProtection = \'cookie\';'  => 'public $csrfProtection = \'session\';',
+            'public $csrfProtection = \'cookie\';' => 'public $csrfProtection = \'session\';',
         ];
 
         $this->copyAndReplace($file, $replaces);
     }
-    
+
     /**
      * This method is for testing.
      */
