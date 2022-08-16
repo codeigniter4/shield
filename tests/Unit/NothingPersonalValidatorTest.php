@@ -152,7 +152,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $this->assertNotSame($isNotPersonal, $isNotSimilar);
     }
 
-    public function passwordProvider()
+    public function passwordProvider(): array
     {
         return [
             ['JoeTheCaptain'],

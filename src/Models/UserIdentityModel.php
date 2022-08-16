@@ -203,6 +203,8 @@ class UserIdentityModel extends Model
     }
 
     /**
+     * Returns all identities.
+     *
      * @return UserIdentity[]
      */
     public function getIdentities(User $user): array
@@ -220,6 +222,9 @@ class UserIdentityModel extends Model
         return $this->whereIn('user_id', $userIds)->orderBy($this->primaryKey)->findAll();
     }
 
+    /**
+     * Returns the first identity of the type.
+     */
     public function getIdentityByType(User $user, string $type): ?UserIdentity
     {
         return $this->where('user_id', $user->id)
@@ -229,6 +234,8 @@ class UserIdentityModel extends Model
     }
 
     /**
+     * Returns all identities for the specific types.
+     *
      * @param string[] $types
      *
      * @return UserIdentity[]

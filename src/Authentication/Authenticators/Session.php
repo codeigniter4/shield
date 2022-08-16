@@ -408,7 +408,7 @@ class Session implements AuthenticatorInterface
     /**
      * Gets identities for action from database, and set session.
      */
-    private function setAuthAction()
+    private function setAuthAction(): void
     {
         // Get identities for action
         $identities = $this->getIdentitiesForAction();
@@ -711,7 +711,7 @@ class Session implements AuthenticatorInterface
         }
     }
 
-    private function removeRememberCookie()
+    private function removeRememberCookie(): void
     {
         /** @var Response $response */
         $response = service('response');

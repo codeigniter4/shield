@@ -247,7 +247,7 @@ class Setup extends BaseCommand
         $this->add($file, $check, $pattern, $replace);
     }
 
-    private function setupRoutes()
+    private function setupRoutes(): void
     {
         $file = 'Config/Routes.php';
 

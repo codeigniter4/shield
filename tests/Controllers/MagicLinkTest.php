@@ -31,7 +31,7 @@ final class MagicLinkTest extends TestCase
         Services::injectMock('routes', $routes);
     }
 
-    public function testAfterLoggedInNotAllowDisplayMagicLink()
+    public function testAfterLoggedInNotAllowDisplayMagicLink(): void
     {
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
@@ -47,7 +47,7 @@ final class MagicLinkTest extends TestCase
         $result->assertRedirectTo(config('Auth')->loginRedirect());
     }
 
-    public function testShowValidateErrorsInMagicLink()
+    public function testShowValidateErrorsInMagicLink(): void
     {
         $result = $this->post('/login/magic-link', [
             'email' => 'foo@example',

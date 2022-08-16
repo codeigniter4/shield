@@ -57,10 +57,8 @@ class TokenAuth implements FilterInterface
      *
      * @param Response|ResponseInterface $response
      * @param array|null                 $arguments
-     *
-     * @return void
      */
-    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null): void
     {
     }
 }
