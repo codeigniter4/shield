@@ -67,16 +67,12 @@ final class SetupTest extends TestCase
             '  Created: vfs://root/Config/Auth.php
   Created: vfs://root/Config/AuthGroups.php
   Updated: vfs://root/Controllers/BaseController.php
-  Updated: vfs://root/Config/Routes.php',
+  Updated: vfs://root/Config/Routes.php
+  Updated: We have updated file \'vfs://root/Config/Security.php\' for security reasons.',
             $result
         );
         $this->assertStringContainsString(
             'Running all new migrations...',
-            $result
-        );
-
-        $this->assertStringContainsString(
-            'Update: We have updated file \'vfs://root/Config/Security.php\' for security reasons.',
             $result
         );
     }
