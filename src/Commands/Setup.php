@@ -87,9 +87,9 @@ class Setup extends BaseCommand
         $this->setupHelper();
         $this->setupRoutes();
 
-        $this->runMigrations();
-
         $this->setSecurityCSRF();
+
+        $this->runMigrations();
     }
 
     /**
@@ -260,18 +260,6 @@ class Setup extends BaseCommand
         $this->add($file, $check, $pattern, $replace);
     }
 
-    private function runMigrations(): void
-    {
-        if (
-            $this->cliPrompt('  Run `spark migrate --all` now?', ['y', 'n']) === 'n'
-        ) {
-            return;
-        }
-
-        $command = new Migrate(Services::logger(), Services::commands());
-        $command->run(['all' => null]);
-    }
-
     /**
      * @see https://github.com/codeigniter4/shield/security/advisories/GHSA-5hm8-vh6r-2cjq
      */
@@ -302,10 +290,22 @@ class Setup extends BaseCommand
         }
 
         if (write_file($path, $output)) {
-            CLI::write(CLI::color('  Update: ', 'green') . "We have updated file '{$cleanPath}' for security reasons.");
+            CLI::write(CLI::color('  Updated: ', 'green') . "We have updated file '{$cleanPath}' for security reasons.");
         } else {
             CLI::error("  Error updating file '{$cleanPath}'.");
         }
+    }
+
+    private function runMigrations(): void
+    {
+        if (
+            $this->cliPrompt('  Run `spark migrate --all` now?', ['y', 'n']) === 'n'
+        ) {
+            return;
+        }
+
+        $command = new Migrate(Services::logger(), Services::commands());
+        $command->run(['all' => null]);
     }
 
     /**
