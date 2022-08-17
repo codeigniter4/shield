@@ -15,9 +15,6 @@ These instructions assume that you have already [installed the CodeIgniter 4 app
 > **Note**
 > CodeIgniter Shield requires Codeigniter v4.2.3 or later.
 
-> **Note**
-> You must set ``Config\Security::$csrfProtection`` to `'session'` (or set `security.csrfProtection = session` in your `.env` file) for security reasons, if you use Session Authenticator.
-
 Installation is done through [Composer](https://getcomposer.org). The example assumes you have it installed globally.
 If you have it installed as a phar, or othewise you will need to adjust the way you call composer itself.
 
@@ -89,7 +86,7 @@ If you get `Specified key was too long` error:
 
 ### Command Setup
 
-1. Run the following command. This command handles steps 1-3 of *Manual Setup* and runs the migrations.
+1. Run the following command. This command handles steps 1-4 of *Manual Setup* and runs the migrations.
 
 ```
 > php spark shield:setup
@@ -136,6 +133,8 @@ This requires that all of your controllers extend the `BaseController`, but that
 ```php
 service('auth')->routes($routes);
 ```
+
+4. **Security Setup** Set `Config\Security::$csrfProtection` to `'session'` (or set `security.csrfProtection = session` in your `.env` file) for security reasons, if you use Session Authenticator.
 
 ## Controller Filters
 
