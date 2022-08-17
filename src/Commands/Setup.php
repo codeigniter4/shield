@@ -89,7 +89,7 @@ class Setup extends BaseCommand
 
         $this->runMigrations();
 
-        $this->setSecurityItem();
+        $this->setSecurityCSRF();
     }
 
     /**
@@ -99,10 +99,6 @@ class Setup extends BaseCommand
     protected function copyAndReplace(string $file, array $replaces): void
     {
         $path = "{$this->sourcePath}/{$file}";
-
-        if ($file === 'Config/Security.php') {
-            $path = "{$this->distPath}/{$file}";
-        }
 
         $content = file_get_contents($path);
 
@@ -152,7 +148,7 @@ class Setup extends BaseCommand
             mkdir($directory, 0777, true);
         }
 
-        if (file_exists($path) && $file !== 'Config/Security.php') {
+        if (file_exists($path)) {
             $overwrite = (bool) CLI::getOption('f');
 
             if (
@@ -163,16 +159,6 @@ class Setup extends BaseCommand
 
                 return;
             }
-        }
-
-        if ($file === 'Config/Security.php') {
-            if (write_file($path, $content)) {
-                CLI::write(CLI::color('  Update: ', 'green') . "We have updated file '{$cleanPath}' for security reasons.");
-            } else {
-                CLI::error("  Error Update {$cleanPath}.");
-            }
-
-            exit();
         }
 
         if (write_file($path, $content)) {
@@ -289,14 +275,37 @@ class Setup extends BaseCommand
     /**
      * @see https://github.com/codeigniter4/shield/security/advisories/GHSA-5hm8-vh6r-2cjq
      */
-    private function setSecurityItem(): void
+    private function setSecurityCSRF(): void
     {
         $file     = 'Config/Security.php';
         $replaces = [
             'public $csrfProtection = \'cookie\';' => 'public $csrfProtection = \'session\';',
         ];
 
-        $this->copyAndReplace($file, $replaces);
+        $path      = $this->distPath . $file;
+        $cleanPath = clean_path($path);
+
+        if (! is_file($path)) {
+            CLI::error("  Not found file '{$cleanPath}'.");
+
+            return;
+        }
+
+        $content = file_get_contents($path);
+        $output  = $this->replacer->replace($content, $replaces);
+
+        // check $csrfProtection = 'session'
+        if ($output === $content) {
+            CLI::write(CLI::color('  Security Setup: ', 'green') . 'Everything is fine.');
+
+            return;
+        }
+
+        if (write_file($path, $output)) {
+            CLI::write(CLI::color('  Update: ', 'green') . "We have updated file '{$cleanPath}' for security reasons.");
+        } else {
+            CLI::error("  Error updating file '{$cleanPath}'.");
+        }
     }
 
     /**
