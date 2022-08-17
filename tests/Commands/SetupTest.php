@@ -60,6 +60,9 @@ final class SetupTest extends TestCase
         $routes = file_get_contents($appFolder . 'Config/Routes.php');
         $this->assertStringContainsString('service(\'auth\')->routes($routes);', $routes);
 
+        $security = file_get_contents($appFolder . 'Config/Security.php');
+        $this->assertStringContainsString('public $csrfProtection = \'session\';', $security);
+
         $result = str_replace(["\033[0;32m", "\033[0m"], '', CITestStreamFilter::$buffer);
 
         $this->assertStringContainsString(
@@ -71,6 +74,11 @@ final class SetupTest extends TestCase
         );
         $this->assertStringContainsString(
             'Running all new migrations...',
+            $result
+        );
+
+        $this->assertStringContainsString(
+            'Update: We have updated file \'vfs://root/Config/Security.php\' for security reasons.',
             $result
         );
     }
