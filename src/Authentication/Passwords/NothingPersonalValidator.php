@@ -114,8 +114,8 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
             $haystacks = $this->strip_explode($password);
 
             foreach ($haystacks as $haystack) {
-                if (empty($haystack) || in_array($haystack, $trivial, true)) {
-                    continue;  //ignore trivial words
+                if (empty($haystack) || in_array($haystack, $trivial, true) || strlen($haystack)<3) {
+                    continue;  //ignore trivial words, or little words of less than 3 characters
                 }
 
                 foreach ($needles as $needle) {
