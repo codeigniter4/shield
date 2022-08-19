@@ -37,6 +37,7 @@ return [
 
     // Login
     'login'              => 'Masuk',
+    'backToLogin'        => 'Kembali untuk masuk',
     'needAccount'        => 'Butuh Akun?',
     'rememberMe'         => 'Ingat saya?',
     'forgotPassword'     => 'Lupa kata sandi?',
