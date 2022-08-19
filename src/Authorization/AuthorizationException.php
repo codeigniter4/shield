@@ -19,4 +19,9 @@ class AuthorizationException extends RuntimeException
     {
         return new self(lang('Auth.unknownPermission', [$permission]));
     }
+
+    public static function forUnauthorized(): self
+    {
+        return new self(lang('Auth.notEnoughPrivilege'));
+    }
 }
