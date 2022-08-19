@@ -830,7 +830,7 @@ class Session implements AuthenticatorInterface
 
         $this->user->last_active = Time::now();
 
-        $this->provider->save($this->user);
+        $this->provider->updateActiveDate($this->user);
     }
 
     /**
