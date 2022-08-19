@@ -45,4 +45,16 @@ final class SessionFilterTest extends AbstractFilterTest
         // Last Active should have been updated
         $this->assertNotEmpty(auth('session')->user()->last_active);
     }
+
+    public function testRecordActiveDate(): void
+    {
+        $user                   = fake(UserModel::class);
+        $_SESSION['user']['id'] = $user->id;
+
+        $this->withSession(['user' => ['id' => $user->id]])
+            ->get('protected-route');
+
+        // Last Active should be greater than 'updated_at' column
+        $this->assertGreaterThan(auth('session')->user()->updated_at, auth('session')->user()->last_active);
+    }
 }

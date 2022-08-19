@@ -50,4 +50,17 @@ final class TokenFilterTest extends AbstractFilterTest
         $this->assertInstanceOf(AccessToken::class, auth('tokens')->user()->currentAccessToken());
         $this->assertSame($token->id, auth('tokens')->user()->currentAccessToken()->id);
     }
+
+    public function testRecordActiveDate(): void
+    {
+        /** @var User $user */
+        $user  = fake(UserModel::class);
+        $token = $user->generateAccessToken('foo');
+
+        $this->withHeaders(['Authorization' => 'Bearer ' . $token->raw_token])
+            ->get('protected-route');
+
+        // Last Active should be greater than 'updated_at' column
+        $this->assertGreaterThan(auth('tokens')->user()->updated_at, auth('tokens')->user()->last_active);
+    }
 }
