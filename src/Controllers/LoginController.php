@@ -61,9 +61,6 @@ class LoginController extends BaseController
             return redirect()->route('login')->withInput()->with('error', $result->reason());
         }
 
-        // custom bit of information
-        $user = $result->extraInfo();
-
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
