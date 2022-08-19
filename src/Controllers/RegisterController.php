@@ -39,6 +39,14 @@ class RegisterController extends BaseController
                 ->with('error', lang('Auth.registerDisabled'));
         }
 
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        // If an action has been defined, start it up.
+        if ($authenticator->hasAction()) {
+            return redirect()->route('auth-action-show');
+        }
+
         return view(setting('Auth.views')['register']);
     }
 
