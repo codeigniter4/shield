@@ -8,6 +8,8 @@ use CodeIgniter\Shield\Authentication\Passwords\ValidationRules as PasswordRules
 use CodeIgniter\Shield\Collectors\Auth;
 use CodeIgniter\Shield\Filters\AuthRates;
 use CodeIgniter\Shield\Filters\ChainAuth;
+use CodeIgniter\Shield\Filters\GroupFilter;
+use CodeIgniter\Shield\Filters\PermissionFilter;
 use CodeIgniter\Shield\Filters\SessionAuth;
 use CodeIgniter\Shield\Filters\TokenAuth;
 
@@ -24,6 +26,8 @@ class Registrar
                 'tokens'     => TokenAuth::class,
                 'chain'      => ChainAuth::class,
                 'auth-rates' => AuthRates::class,
+                'group'      => GroupFilter::class,
+                'permission' => PermissionFilter::class,
             ],
         ];
     }
