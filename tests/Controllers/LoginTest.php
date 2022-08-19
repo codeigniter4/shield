@@ -118,7 +118,7 @@ final class LoginTest extends TestCase
         Time::setTestNow('March 10, 2017', 'America/Chicago');
 
         // Change the validation rules
-        $config           = new class () extends Validation {
+        $config = new class () extends Validation {
             public $login = [
                 'password' => 'required',
             ];
