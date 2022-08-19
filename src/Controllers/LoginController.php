@@ -26,7 +26,7 @@ class LoginController extends BaseController
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
-        // If an action has been defined for login, start it up.
+        // If an action has been defined, start it up.
         if ($authenticator->hasAction()) {
             return redirect()->route('auth-action-show');
         }
