@@ -29,8 +29,7 @@
 
                 <!-- Email -->
                 <div class="mb-2">
-                    <input type="email" class="form-control" name="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
-                           value="<?= old('email', auth()->user()->email ?? null) ?>" required />
+                    <input type="email" class="form-control" name="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email', auth()->user()->email ?? null) ?>" required />
                 </div>
 
                 <div class="d-grid col-12 col-md-8 mx-auto m-3">
