@@ -19,6 +19,7 @@ return [
     'invalidEmail'          => 'メールアドレスが一致しません。', // 'Unable to verify the email address matches the email on record.',
     'unableSendEmailToUser' => '申し訳ありませんが、メールの送信に問題がありました。 "{0}"にメールを送信できませんでした。', // 'Sorry, there was a problem sending the email. We could not send an email to "{0}".',
     'throttled'             => 'このIPアドレスからのリクエストが多すぎます。 {0}秒後に再試行できます。', // Too many requests made from this IP address. You may try again in {0} seconds.
+    'notEnoughPrivilege'    => '目的の操作を実行するために必要な権限がありません。', // You do not have the necessary permission to perform the desired operation.
 
     'email'           => 'メールアドレス', // 'Email Address',
     'username'        => 'ユーザー名', // 'Username',
