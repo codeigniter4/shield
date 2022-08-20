@@ -51,6 +51,13 @@ interface ActionInterface
     public function getType(): string;
 
     /**
+     * Creates an identity for the action of the user.
+     *
+     * @return string secret
+     */
+    public function createIdentity(User $user): string;
+
+    /**
      * Returns an identity for the action of the user.
      */
     public function getIdentity(User $user): ?UserIdentity;

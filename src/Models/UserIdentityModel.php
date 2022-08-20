@@ -76,6 +76,8 @@ class UserIdentityModel extends Model
      * Create an identity with 6 digits code for auth action
      *
      * @param callable $codeGenerator generate secret code
+     *
+     * @return string secret
      */
     public function createCodeIdentity(
         User $user,

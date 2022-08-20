@@ -186,14 +186,11 @@ class Session implements AuthenticatorInterface
             return false;
         }
 
+        /** @var ActionInterface $action */
         $action = Factories::actions($actionClass); // @phpstan-ignore-line
 
         // Create identity for the action.
-        // E.g., afterRegister()
-        $method = 'after' . ucfirst($type);
-        if (method_exists($action, $method)) {
-            $action->{$method}($user);
-        }
+        $action->createIdentity($user);
 
         $this->setAuthAction();
 

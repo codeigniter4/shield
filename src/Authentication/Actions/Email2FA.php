@@ -112,21 +112,18 @@ class Email2FA implements ActionInterface
     }
 
     /**
-     * Called from `Session::attempt()`.
+     * Creates an identity for the action of the user.
+     *
+     * @return string secret
      */
-    public function afterLogin(User $user): void
-    {
-        $this->createIdentity($user);
-    }
-
-    final protected function createIdentity(User $user): void
+    public function createIdentity(User $user): string
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         $generator = static fn (): string => random_string('nozero', 6);
 
-        $identityModel->createCodeIdentity(
+        return $identityModel->createCodeIdentity(
             $user,
             [
                 'type'  => $this->type,

@@ -101,14 +101,11 @@ class EmailActivator implements ActionInterface
     }
 
     /**
-     * Called from `RegisterController::registerAction()`
+     * Creates an identity for the action of the user.
+     *
+     * @return string secret
      */
-    public function afterRegister(User $user): void
-    {
-        $this->createIdentity($user);
-    }
-
-    final protected function createIdentity(User $user): string
+    public function createIdentity(User $user): string
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
