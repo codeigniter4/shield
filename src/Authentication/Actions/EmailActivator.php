@@ -133,7 +133,7 @@ class EmailActivator implements ActionInterface
 
         return $identityModel->getIdentityByType(
             $user,
-            Session::ID_TYPE_EMAIL_ACTIVATE
+            $this->type
         );
     }
 

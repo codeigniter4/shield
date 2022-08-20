@@ -144,7 +144,7 @@ class Email2FA implements ActionInterface
 
         return $identityModel->getIdentityByType(
             $user,
-            Session::ID_TYPE_EMAIL_2FA
+            $this->type
         );
     }
 
