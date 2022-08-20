@@ -134,6 +134,9 @@ class Email2FA implements ActionInterface
         );
     }
 
+    /**
+     * Returns an identity for the action of the user.
+     */
     public function getIdentity(User $user): ?UserIdentity
     {
         /** @var UserIdentityModel $identityModel */
@@ -145,6 +148,9 @@ class Email2FA implements ActionInterface
         );
     }
 
+    /**
+     * Returns the string type of the action class.
+     */
     public function getType(): string
     {
         return $this->type;
