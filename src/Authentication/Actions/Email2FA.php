@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 
@@ -133,6 +134,17 @@ class Email2FA implements ActionInterface
                 'extra' => lang('Auth.need2FA'),
             ],
             $generator
+        );
+    }
+
+    public function getIdentity(User $user): ?UserIdentity
+    {
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        return $identityModel->getIdentityByType(
+            $user,
+            Session::ID_TYPE_EMAIL_2FA
         );
     }
 

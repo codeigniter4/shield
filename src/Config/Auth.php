@@ -54,15 +54,17 @@ class Auth extends BaseConfig
      * Specifies the class that represents an action to take after
      * the user logs in or registers a new account at the site.
      *
+     * You must register actions in the order of the actions to be performed.
+     *
      * Available actions with Shield:
-     * - login:    CodeIgniter\Shield\Authentication\Actions\Email2FA
-     * - register: CodeIgniter\Shield\Authentication\Actions\EmailActivator
+     * - register: 'CodeIgniter\Shield\Authentication\Actions\EmailActivator'
+     * - login:    'CodeIgniter\Shield\Authentication\Actions\Email2FA'
      *
      * @var array<string, class-string<ActionInterface>|null>
      */
     public array $actions = [
-        'login'    => null,
         'register' => null,
+        'login'    => null,
     ];
 
     /**

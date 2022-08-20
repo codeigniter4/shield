@@ -6,6 +6,8 @@ namespace CodeIgniter\Shield\Authentication\Actions;
 
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\Response;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Entities\UserIdentity;
 
 /**
  * Interface ActionInterface
@@ -47,4 +49,9 @@ interface ActionInterface
      * E.g., 'email_2fa', 'email_activate'.
      */
     public function getType(): string;
+
+    /**
+     * Returns an identity for the action of the user.
+     */
+    public function getIdentity(User $user): ?UserIdentity;
 }

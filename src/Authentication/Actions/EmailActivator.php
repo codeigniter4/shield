@@ -10,6 +10,7 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
@@ -122,6 +123,17 @@ class EmailActivator implements ActionInterface
                 'extra' => lang('Auth.needVerification'),
             ],
             $generator
+        );
+    }
+
+    public function getIdentity(User $user): ?UserIdentity
+    {
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        return $identityModel->getIdentityByType(
+            $user,
+            Session::ID_TYPE_EMAIL_ACTIVATE
         );
     }
 

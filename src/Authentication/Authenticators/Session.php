@@ -152,11 +152,11 @@ class Session implements AuthenticatorInterface
         // Update the user's last used date on their password identity.
         $user->touchIdentity($user->getEmailIdentity());
 
-        // Check ID_TYPE_EMAIL_ACTIVATE identity
-        $hasEmailActivate = $this->setAuthActionEmailActivate();
+        // Set auth action from database.
+        $this->setAuthAction();
 
         // If an action has been defined for login, start it up.
-        $hasAction = $this->startUpAction('login', $user);
+        $this->startUpAction('login', $user);
 
         $this->startLogin($user);
 
@@ -164,7 +164,7 @@ class Session implements AuthenticatorInterface
 
         $this->issueRememberMeToken();
 
-        if (! $hasAction && ! $hasEmailActivate) {
+        if (! $this->hasAction()) {
             $this->completeLogin($user);
         }
 
@@ -426,7 +426,8 @@ class Session implements AuthenticatorInterface
     }
 
     /**
-     * Gets identities for action from database, and set session.
+     * Finds an identity for actions from database, and sets the identity
+     * that is found first in the session.
      *
      * @return bool true if the action is set in the session.
      */
@@ -436,56 +437,19 @@ class Session implements AuthenticatorInterface
             return false;
         }
 
-        // First, check ID_TYPE_EMAIL_ACTIVATE identity
-        $hasAction = $this->setAuthActionEmailActivate();
-        if ($hasAction) {
-            return true;
-        }
+        $authActions = setting('Auth.actions');
 
-        // Next, check ID_TYPE_EMAIL_2FA identity
-        return $this->setAuthActionEmail2FA();
-    }
-
-    /**
-     * @return bool true if the action is set in the session.
-     */
-    private function setAuthActionEmailActivate(): bool
-    {
-        $identity = $this->userIdentityModel->getIdentityByType(
-            $this->user,
-            self::ID_TYPE_EMAIL_ACTIVATE
-        );
-
-        if ($identity) {
-            $actionClass = setting('Auth.actions')[$identity->name];
-
-            if ($actionClass) {
-                $this->userState = self::STATE_PENDING;
-
-                $this->setSessionKey('auth_action', $actionClass);
-                $this->setSessionKey('auth_action_message', $identity->extra);
-
-                return true;
+        foreach ($authActions as $actionClass) {
+            if ($actionClass === null) {
+                continue;
             }
-        }
 
-        return false;
-    }
+            /** @var ActionInterface $action */
+            $action = Factories::actions($actionClass);  // @phpstan-ignore-line
 
-    /**
-     * @return bool true if the action is set in the session.
-     */
-    private function setAuthActionEmail2FA(): bool
-    {
-        $identity = $this->userIdentityModel->getIdentityByType(
-            $this->user,
-            self::ID_TYPE_EMAIL_2FA
-        );
+            $identity = $action->getIdentity($this->user);
 
-        if ($identity) {
-            $actionClass = setting('Auth.actions')[$identity->name];
-
-            if ($actionClass) {
+            if ($identity) {
                 $this->userState = self::STATE_PENDING;
 
                 $this->setSessionKey('auth_action', $actionClass);
