@@ -52,8 +52,8 @@ trait CheckQueryReturnTrait
      */
     private function getValidationErrors(): array
     {
-        // @TODO When CI v4.3 is released, you can use `$this->validation->getErrors(false)`.
-        // See https://github.com/codeigniter4/CodeIgniter4/pull/6381
+        // @TODO When CI v4.3 is released, you don't need this hack.
+        //       See https://github.com/codeigniter4/CodeIgniter4/pull/6384
         return $this->getValidationPropertyErrors();
     }
 
