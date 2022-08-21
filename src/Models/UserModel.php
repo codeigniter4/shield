@@ -320,4 +320,14 @@ class UserModel extends Model
 
         return $data;
     }
+
+    /**
+     * Updates the user's last active date.
+     */
+    public function updateActiveDate(User $user): void
+    {
+        $this->builder->set('last_active', $user->last_active)
+            ->where('id', $user->id)
+            ->update();
+    }
 }
