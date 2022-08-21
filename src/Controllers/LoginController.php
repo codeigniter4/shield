@@ -23,6 +23,14 @@ class LoginController extends BaseController
             return redirect()->to(config('Auth')->loginRedirect());
         }
 
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        // If an action has been defined, start it up.
+        if ($authenticator->hasAction()) {
+            return redirect()->route('auth-action-show');
+        }
+
         return view(setting('Auth.views')['login']);
     }
 
@@ -44,20 +52,20 @@ class LoginController extends BaseController
         $credentials['password'] = $this->request->getPost('password');
         $remember                = (bool) $this->request->getPost('remember');
 
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
         // Attempt to login
-        $result = auth('session')->remember($remember)->attempt($credentials);
+        $result = $authenticator->remember($remember)->attempt($credentials);
         if (! $result->isOK()) {
             return redirect()->route('login')->withInput()->with('error', $result->reason());
         }
 
-        // custom bit of information
-        $user = $result->extraInfo();
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
         // If an action has been defined for login, start it up.
-        $hasAction = $authenticator->startUpAction('login', $user);
-        if ($hasAction) {
+        if ($authenticator->hasAction()) {
             return redirect()->route('auth-action-show')->withCookies();
         }
 

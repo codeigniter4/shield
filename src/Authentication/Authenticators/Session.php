@@ -35,14 +35,17 @@ class Session implements AuthenticatorInterface
      */
     public const ID_TYPE_USERNAME = 'username';
 
+    // Identity types
     public const ID_TYPE_EMAIL_PASSWORD = 'email_password';
     public const ID_TYPE_MAGIC_LINK     = 'magic-link';
     public const ID_TYPE_EMAIL_2FA      = 'email_2fa';
     public const ID_TYPE_EMAIL_ACTIVATE = 'email_activate';
-    private const STATE_UNKNOWN         = 0;
-    private const STATE_ANONYMOUS       = 1;
-    private const STATE_PENDING         = 2;
-    private const STATE_LOGGED_IN       = 3;
+
+    // User states
+    private const STATE_UNKNOWN   = 0; // Not checked yet.
+    private const STATE_ANONYMOUS = 1;
+    private const STATE_PENDING   = 2; // 2FA or Activation required.
+    private const STATE_LOGGED_IN = 3;
 
     /**
      * The persistence engine
@@ -149,6 +152,9 @@ class Session implements AuthenticatorInterface
         // Update the user's last used date on their password identity.
         $user->touchIdentity($user->getEmailIdentity());
 
+        // Check ID_TYPE_EMAIL_ACTIVATE identity
+        $hasEmailActivate = $this->setAuthActionEmailActivate();
+
         // If an action has been defined for login, start it up.
         $hasAction = $this->startUpAction('login', $user);
 
@@ -158,7 +164,7 @@ class Session implements AuthenticatorInterface
 
         $this->issueRememberMeToken();
 
-        if (! $hasAction) {
+        if (! $hasAction && ! $hasEmailActivate) {
             $this->completeLogin($user);
         }
 
@@ -406,15 +412,51 @@ class Session implements AuthenticatorInterface
     }
 
     /**
-     * Gets identities for action from database, and set session.
+     * Has Auth Action?
      */
-    private function setAuthAction(): void
+    public function hasAction(): bool
     {
-        // Get identities for action
-        $identities = $this->getIdentitiesForAction();
+        // Check the Session
+        if ($this->getSessionKey('auth_action')) {
+            return true;
+        }
 
-        // Having an action?
-        foreach ($identities as $identity) {
+        // Check the database
+        return $this->setAuthAction();
+    }
+
+    /**
+     * Gets identities for action from database, and set session.
+     *
+     * @return bool true if the action is set in the session.
+     */
+    private function setAuthAction(): bool
+    {
+        if ($this->user === null) {
+            return false;
+        }
+
+        // First, check ID_TYPE_EMAIL_ACTIVATE identity
+        $hasAction = $this->setAuthActionEmailActivate();
+        if ($hasAction) {
+            return true;
+        }
+
+        // Next, check ID_TYPE_EMAIL_2FA identity
+        return $this->setAuthActionEmail2FA();
+    }
+
+    /**
+     * @return bool true if the action is set in the session.
+     */
+    private function setAuthActionEmailActivate(): bool
+    {
+        $identity = $this->userIdentityModel->getIdentityByType(
+            $this->user,
+            self::ID_TYPE_EMAIL_ACTIVATE
+        );
+
+        if ($identity) {
             $actionClass = setting('Auth.actions')[$identity->name];
 
             if ($actionClass) {
@@ -423,9 +465,37 @@ class Session implements AuthenticatorInterface
                 $this->setSessionKey('auth_action', $actionClass);
                 $this->setSessionKey('auth_action_message', $identity->extra);
 
-                return;
+                return true;
             }
         }
+
+        return false;
+    }
+
+    /**
+     * @return bool true if the action is set in the session.
+     */
+    private function setAuthActionEmail2FA(): bool
+    {
+        $identity = $this->userIdentityModel->getIdentityByType(
+            $this->user,
+            self::ID_TYPE_EMAIL_2FA
+        );
+
+        if ($identity) {
+            $actionClass = setting('Auth.actions')[$identity->name];
+
+            if ($actionClass) {
+                $this->userState = self::STATE_PENDING;
+
+                $this->setSessionKey('auth_action', $actionClass);
+                $this->setSessionKey('auth_action_message', $identity->extra);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
