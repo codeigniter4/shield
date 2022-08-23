@@ -32,7 +32,10 @@ public $actions = [
 ];
 ```
 
-Once configured, everything should work out of the box. The routes are added with the basic `auth()->routes($routes)`
+You must register actions in the order of the actions to be performed.
+Once configured, everything should work out of the box.
+
+The routes are added with the basic `auth()->routes($routes)`
 call, but can be manually added if you choose not to use this helper method.
 
 ```php
