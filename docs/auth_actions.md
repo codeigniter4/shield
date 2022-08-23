@@ -18,8 +18,8 @@ Actions are setup in the `Auth` config file, with the `$actions` variable.
 
 ```php
 public $actions = [
-    'login'    => null,
     'register' => null,
+    'login'    => null,
 ];
 ```
 
@@ -27,8 +27,8 @@ To define an action to happen you will specify the class name as the value for t
 
 ```php
 public $actions = [
-    'login'    => 'CodeIgniter\Shield\Authentication\Actions\Email2FA',
     'register' => 'CodeIgniter\Shield\Authentication\Actions\EmailActivator',
+    'login'    => 'CodeIgniter\Shield\Authentication\Actions\Email2FA',
 ];
 ```
 
