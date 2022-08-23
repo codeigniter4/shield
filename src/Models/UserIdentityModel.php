@@ -90,9 +90,6 @@ class UserIdentityModel extends Model
 
         helper('text');
 
-        // Delete any previous identities for action
-        $this->deleteIdentitiesByType($user, $data['type']);
-
         // Create an identity for the action
         $maxTry          = 5;
         $data['user_id'] = $user->id;

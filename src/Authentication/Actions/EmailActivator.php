@@ -110,6 +110,9 @@ class EmailActivator implements ActionInterface
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
+        // Delete any previous identities for action
+        $identityModel->deleteIdentitiesByType($user, $this->type);
+
         $generator = static fn (): string => random_string('nozero', 6);
 
         return $identityModel->createCodeIdentity(
