@@ -441,7 +441,7 @@ class Session implements AuthenticatorInterface
             /** @var ActionInterface $action */
             $action = Factories::actions($actionClass);  // @phpstan-ignore-line
 
-            $identity = $action->getIdentity($this->user);
+            $identity = $this->userIdentityModel->getIdentityByType($this->user, $action->getType());
 
             if ($identity) {
                 $this->userState = self::STATE_PENDING;

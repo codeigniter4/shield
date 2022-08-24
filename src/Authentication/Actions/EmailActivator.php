@@ -136,7 +136,7 @@ class EmailActivator implements ActionInterface
     /**
      * Returns an identity for the action of the user.
      */
-    public function getIdentity(User $user): ?UserIdentity
+    private function getIdentity(User $user): ?UserIdentity
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
