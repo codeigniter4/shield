@@ -215,10 +215,9 @@ class Session implements AuthenticatorInterface
     /**
      * Check token in Action
      *
-     * @param string $type  Action type. 'email_2fa' or 'email_activate'
      * @param string $token Token to check
      */
-    public function checkAction(string $type, string $token): bool
+    public function checkAction(UserIdentity $identity, string $token): bool
     {
         $user = ($this->loggedIn() || $this->isPending()) ? $this->user : null;
 
@@ -226,14 +225,12 @@ class Session implements AuthenticatorInterface
             throw new LogicException('Cannot get the User.');
         }
 
-        $identity = $user->getIdentity($type);
-
         if (empty($token) || $token !== $identity->secret) {
             return false;
         }
 
-        // On success - remove the identity and clean up session
-        $this->userIdentityModel->deleteIdentitiesByType($user, $type);
+        // On success - remove the identity
+        $this->userIdentityModel->deleteIdentitiesByType($user, $identity->type);
 
         // Clean up our session
         $this->removeSessionKey('auth_action');

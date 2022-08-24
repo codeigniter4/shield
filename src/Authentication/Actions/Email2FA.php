@@ -95,13 +95,20 @@ class Email2FA implements ActionInterface
      */
     public function verify(IncomingRequest $request)
     {
-        $token = $request->getPost('token');
-
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
+        $postedToken = $request->getPost('token');
+
+        $user = $authenticator->getPendingUser();
+        if ($user === null) {
+            throw new RuntimeException('Cannot get the pending login User.');
+        }
+
+        $identity = $this->getIdentity($user);
+
         // Token mismatch? Let them try again...
-        if (! $authenticator->checkAction($this->type, $token)) {
+        if (! $authenticator->checkAction($identity, $postedToken)) {
             session()->setFlashdata('error', lang('Auth.invalid2FAToken'));
 
             return view(setting('Auth.views')['action_email_2fa_verify']);
