@@ -198,7 +198,7 @@ class Session implements AuthenticatorInterface
     }
 
     /**
-     * Returns an action object.
+     * Returns an action object from the session data
      */
     public function getAction(): ?ActionInterface
     {
