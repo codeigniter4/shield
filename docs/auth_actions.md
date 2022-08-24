@@ -64,7 +64,7 @@ While the provided email-based activation and 2FA will work for many sites, othe
 needs, like using SMS to verify or something completely different. Actions have only one requirement:
 they must implement `CodeIgniter\Shield\Authentication\Actions\ActionInterface`.
 
-The interface defines three methods:
+The interface defines three methods for `ActionController`:
 
 **show()** should display the initial page the user lands on immediately after the authentication task,
 like login. It will typically display instructions to the user and provide an action to take, like
@@ -80,4 +80,4 @@ and provides feedback. In the `Email2FA` class, it verifies the code against wha
 database and either sends them back to the previous form to try again or redirects the user to the
 page that a `login` task would have redirected them to anyway.
 
-All methods should return either a `RedirectResponse` or a view string (e.g. using the `view()` function).
+All methods should return either a `Response` or a view string (e.g. using the `view()` function).
