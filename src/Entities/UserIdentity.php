@@ -26,6 +26,7 @@ class UserIdentity extends Entity
      * @var array<string, string>
      */
     protected $casts = [
+        'id'          => '?integer',
         'force_reset' => 'int_bool',
     ];
 
