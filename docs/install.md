@@ -15,7 +15,7 @@ These instructions assume that you have already [installed the CodeIgniter 4 app
 ## Requirements
 
 - [Composer](https://getcomposer.org)
-- Codeigniter v4.2.3 or later
+- Codeigniter **v4.2.3** or later
 - A created database that you can access via the Spark CLI script
 
 ## Composer Installation
