@@ -17,7 +17,7 @@ final class EmailActivatorTest extends TestCase
     public function testShowCannotGetPendingLoginUser(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Cannot get the pending login User');
+        $this->expectExceptionMessage('Cannot get the pending login User.');
 
         $activator = new EmailActivator();
 
@@ -27,7 +27,7 @@ final class EmailActivatorTest extends TestCase
     public function testVerifyCannotGetPendingLoginUser(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Cannot get the pending login User');
+        $this->expectExceptionMessage('Cannot get the pending login User.');
 
         $activator = new EmailActivator();
         $request   = Services::incomingrequest(null, false);
