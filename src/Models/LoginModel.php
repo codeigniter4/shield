@@ -56,6 +56,8 @@ class LoginModel extends Model
         ?string $userAgent = null,
         $userId = null
     ): void {
+        $this->disableDBDebug();
+
         $return = $this->insert([
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent,
