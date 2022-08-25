@@ -13,6 +13,7 @@ use CodeIgniter\Entity\Entity;
 class AccessToken extends Entity
 {
     protected $casts = [
+        'id'           => '?integer',
         'last_used_at' => 'datetime',
         'extra'        => 'array',
         'expires'      => 'datetime',
