@@ -40,21 +40,21 @@ If you get the following error:
 
 1. Add the following to change your [minimum-stability](https://getcomposer.org/doc/articles/versions.md#minimum-stability) in your project `composer.json`:
 
-    ```
+    ```json
         "minimum-stability": "dev",
         "prefer-stable": true,
     ```
 
 2. Or specify an explicit version:
 
-    ```
+    ```console
     > composer require codeigniter4/shield:dev-develop
     ```
 
     The above specifies `develop` branch.
     See https://getcomposer.org/doc/articles/versions.md#branches
 
-    ```
+    ```console
     > composer require codeigniter4/shield:^1.0.0-beta
     ```
 
@@ -67,7 +67,7 @@ If you get the following error:
 
 1. Run the following command. This command handles steps 1-5 of *Manual Setup* and runs the migrations.
 
-    ```
+    ```console
     > php spark shield:setup
     ```
 
@@ -117,7 +117,7 @@ your project.
 
 5. **Migration** Run the migrations.
 
-    ```
+    ```console
     > php spark migrate --all
     ```
 
