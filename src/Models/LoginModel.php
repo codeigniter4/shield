@@ -58,6 +58,10 @@ class LoginModel extends Model
     ): void {
         $this->disableDBDebug();
 
+        if ($this->db->getPlatform() === 'OCI8' && $identifier === '') {
+            $identifier = ' ';
+        }
+
         $return = $this->insert([
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent,
