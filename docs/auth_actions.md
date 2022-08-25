@@ -7,10 +7,10 @@
 Authentication Actions are a way to group actions that can happen after login or registration.
 Shield ships with two actions you can use, and makes it simple for you to define your own.
 
-1. **Email-based Two Factor Authentication** (Email2FA) will send a 6-digit code to the user's
+1. **Email-based Account Activation** (EmailActivate) confirms a new user's email address by
+   sending them an email with a link they must follow in order to have their account activated.
+2. **Email-based Two Factor Authentication** (Email2FA) will send a 6-digit code to the user's
     email address that they must confirm before they can continue.
-2. **Email-based Account Activation** (EmailActivate) confirms a new user's email address by
-    sending them an email with a link they must follow in order to have their account activated.
 
 ## Configuring Actions
 
