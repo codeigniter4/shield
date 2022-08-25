@@ -20,6 +20,7 @@ class AccessToken extends Entity
      * @var array<string, string>
      */
     protected $casts = [
+        'id'           => '?integer',
         'last_used_at' => 'datetime',
         'extra'        => 'array',
         'expires'      => 'datetime',
