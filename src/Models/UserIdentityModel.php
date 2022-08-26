@@ -75,7 +75,11 @@ class UserIdentityModel extends Model
     /**
      * Create an identity with 6 digits code for auth action
      *
+     * @phpstan-param array{type: string, name: string, extra: string} $data
+     *
      * @param callable $codeGenerator generate secret code
+     *
+     * @return string secret
      */
     public function createCodeIdentity(
         User $user,
@@ -83,12 +87,8 @@ class UserIdentityModel extends Model
         callable $codeGenerator
     ): string {
         assert($user->id !== null);
-        assert(isset($data['type']));
 
         helper('text');
-
-        // Delete any previous identities for action
-        $this->deleteIdentitiesByType($user, $data['type']);
 
         // Create an identity for the action
         $maxTry          = 5;

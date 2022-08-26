@@ -110,8 +110,8 @@ Turned off by default, Shield's Email-based 2FA can be enabled by specifying the
 
 ```php
 public array $actions = [
-    'login'    => 'CodeIgniter\Shield\Authentication\Actions\Email2FA',
     'register' => null,
+    'login'    => 'CodeIgniter\Shield\Authentication\Actions\Email2FA',
 ];
 ```
 
@@ -121,8 +121,8 @@ By default, once a user registers they have an active account that can be used. 
 
 ```php
 public array $actions = [
-    'login'    => null,
     'register' => 'CodeIgniter\Shield\Authentication\Actions\EmailActivator',
+    'login'    => null,
 ];
 ```
 
