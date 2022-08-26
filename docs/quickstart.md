@@ -177,7 +177,6 @@ public array $matrix = [
 ];
 ```
 
-
 ### Assign Permissions to a User
 
 Permissions can also be assigned directly to a user, regardless of what groups they belong to. This is done programatically on the `User` Entity.
@@ -252,8 +251,6 @@ if ($user->inGroup('admin', 'beta')) {
     // do something
 }
 ```
-
-
 
 ## Managing Users
 
