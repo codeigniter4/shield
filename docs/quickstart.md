@@ -11,8 +11,8 @@ NOTE: The examples assume that you have run the setup script and that you have c
     - [Customize logout redirect](#customize-logout-redirect)
     - [Customize Remember-me functionality](#customize-remember-me-functionality)
     - [Change Access Token Lifetime](#change-access-token-lifetime)
-    - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
     - [Enable Account Activation via Email](#enable-account-activation-via-email)
+    - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
   - [Authorization Flow](#authorization-flow)
     - [Change Available Groups](#change-available-groups)
     - [Set the Default Group](#set-the-default-group)
@@ -104,17 +104,6 @@ By default, Access Tokens can be used for 1 year since the last use. This can be
 public int $unusedTokenLifetime = YEAR;
 ```
 
-### Enable Two-Factor Authentication
-
-Turned off by default, Shield's Email-based 2FA can be enabled by specifying the class to use in the `Auth` config file.
-
-```php
-public array $actions = [
-    'register' => null,
-    'login'    => 'CodeIgniter\Shield\Authentication\Actions\Email2FA',
-];
-```
-
 ### Enable Account Activation via Email
 
 By default, once a user registers they have an active account that can be used. You can enable Shield's built-in, email-based activation flow within the `Auth` config file.
@@ -126,8 +115,16 @@ public array $actions = [
 ];
 ```
 
+### Enable Two-Factor Authentication
 
+Turned off by default, Shield's Email-based 2FA can be enabled by specifying the class to use in the `Auth` config file.
 
+```php
+public array $actions = [
+    'register' => null,
+    'login'    => 'CodeIgniter\Shield\Authentication\Actions\Email2FA',
+];
+```
 
 ## Authorization Flow
 
