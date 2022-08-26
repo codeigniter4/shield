@@ -6,8 +6,8 @@ NOTE: The examples assume that you have run the setup script and that you have c
 
 - [Quick Start Guide](#quick-start-guide)
   - [Authentication Flow](#authentication-flow)
-    - [Customize login redirect](#customize-login-redirect)
     - [Customize register redirect](#customize-register-redirect)
+    - [Customize login redirect](#customize-login-redirect)
     - [Customize logout redirect](#customize-logout-redirect)
     - [Customize Remember-me functionality](#customize-remember-me-functionality)
     - [Change Access Token Lifetime](#change-access-token-lifetime)
@@ -42,6 +42,19 @@ public array $redirects = [
 
 NOTE: This redirect happens after the specified action is complete. In the case of register or login, it might not happen immediately. For example, if you have any Auth Actions specified, they will be redirected when those actions are completed successfully. If no Auth Actions are specified, they will be redirected immediately after registration or login.
 
+### Customize register redirect
+
+You can customize where a user is redirected to after registration in the `registerRedirect` method of the `Auth` config file.
+
+```php
+public function registerRedirect(): string
+{
+    $url = setting('Auth.redirects')['register'];
+
+    return $this->getUrl($url);
+}
+```
+
 ### Customize login redirect
 
 You can further customize where a user is redirected to on login with the `loginRedirect` method of the `Auth` config file. This is handy if you want to redirect based on user group or other criteria.
@@ -52,19 +65,6 @@ public function loginRedirect(): string
     $url = auth()->user()->inGroup('admin')
         ? '/admin'
         : setting('Auth.redirects')['login'];
-
-    return $this->getUrl($url);
-}
-```
-
-### Customize register redirect
-
-You can customize where a user is redirected to after registration in the `registerRedirect` method of the `Auth` config file.
-
-```php
-public function registerRedirect(): string
-{
-    $url = setting('Auth.redirects')['register'];
 
     return $this->getUrl($url);
 }
