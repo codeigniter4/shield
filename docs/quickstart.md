@@ -6,13 +6,13 @@ NOTE: The examples assume that you have run the setup script and that you have c
 
 - [Quick Start Guide](#quick-start-guide)
   - [Authentication Flow](#authentication-flow)
-    - [Customize login redirect](#customize-login-redirect)
     - [Customize register redirect](#customize-register-redirect)
+    - [Customize login redirect](#customize-login-redirect)
     - [Customize logout redirect](#customize-logout-redirect)
     - [Customize Remember-me functionality](#customize-remember-me-functionality)
     - [Change Access Token Lifetime](#change-access-token-lifetime)
-    - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
     - [Enable Account Activation via Email](#enable-account-activation-via-email)
+    - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
   - [Authorization Flow](#authorization-flow)
     - [Change Available Groups](#change-available-groups)
     - [Set the Default Group](#set-the-default-group)
@@ -42,6 +42,19 @@ public array $redirects = [
 
 NOTE: This redirect happens after the specified action is complete. In the case of register or login, it might not happen immediately. For example, if you have any Auth Actions specified, they will be redirected when those actions are completed successfully. If no Auth Actions are specified, they will be redirected immediately after registration or login.
 
+### Customize register redirect
+
+You can customize where a user is redirected to after registration in the `registerRedirect` method of the `Auth` config file.
+
+```php
+public function registerRedirect(): string
+{
+    $url = setting('Auth.redirects')['register'];
+
+    return $this->getUrl($url);
+}
+```
+
 ### Customize login redirect
 
 You can further customize where a user is redirected to on login with the `loginRedirect` method of the `Auth` config file. This is handy if you want to redirect based on user group or other criteria.
@@ -52,19 +65,6 @@ public function loginRedirect(): string
     $url = auth()->user()->inGroup('admin')
         ? '/admin'
         : setting('Auth.redirects')['login'];
-
-    return $this->getUrl($url);
-}
-```
-
-### Customize register redirect
-
-You can customize where a user is redirected to after registration in the `registerRedirect` method of the `Auth` config file.
-
-```php
-public function registerRedirect(): string
-{
-    $url = setting('Auth.redirects')['register'];
 
     return $this->getUrl($url);
 }
@@ -104,17 +104,6 @@ By default, Access Tokens can be used for 1 year since the last use. This can be
 public int $unusedTokenLifetime = YEAR;
 ```
 
-### Enable Two-Factor Authentication
-
-Turned off by default, Shield's Email-based 2FA can be enabled by specifying the class to use in the `Auth` config file.
-
-```php
-public array $actions = [
-    'register' => null,
-    'login'    => 'CodeIgniter\Shield\Authentication\Actions\Email2FA',
-];
-```
-
 ### Enable Account Activation via Email
 
 By default, once a user registers they have an active account that can be used. You can enable Shield's built-in, email-based activation flow within the `Auth` config file.
@@ -126,8 +115,16 @@ public array $actions = [
 ];
 ```
 
+### Enable Two-Factor Authentication
 
+Turned off by default, Shield's Email-based 2FA can be enabled by specifying the class to use in the `Auth` config file.
 
+```php
+public array $actions = [
+    'register' => null,
+    'login'    => 'CodeIgniter\Shield\Authentication\Actions\Email2FA',
+];
+```
 
 ## Authorization Flow
 
@@ -179,7 +176,6 @@ public array $matrix = [
     //
 ];
 ```
-
 
 ### Assign Permissions to a User
 
@@ -255,8 +251,6 @@ if ($user->inGroup('admin', 'beta')) {
     // do something
 }
 ```
-
-
 
 ## Managing Users
 
