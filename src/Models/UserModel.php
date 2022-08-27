@@ -326,7 +326,10 @@ class UserModel extends Model
      */
     public function updateActiveDate(User $user): void
     {
-        $this->builder->set('last_active', $user->last_active)
+        // Safe date string for database
+        $last_active = $user->last_active->format('Y-m-d H:i:s');
+
+        $this->builder->set('last_active', $last_active)
             ->where('id', $user->id)
             ->update();
     }
