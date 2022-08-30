@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
+use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
@@ -34,6 +35,10 @@ class SessionAuth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
+        if (! $request instanceof IncomingRequest) {
+            return;
+        }
+
         helper('setting');
 
         /** @var Session $authenticator */
