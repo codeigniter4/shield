@@ -169,18 +169,16 @@ class UserModel extends Model
         $email = $credentials['email'] ?? null;
         unset($credentials['email']);
 
-        $prefix = $this->db->DBPrefix;
-
         // any of the credentials used should be case-insensitive
         foreach ($credentials as $key => $value) {
-            $this->where("LOWER({$prefix}users.{$key})", strtolower($value));
+            $this->where('LOWER(' . $this->db->protectIdentifiers("users.{$key}") . ')', strtolower($value));
         }
 
         if (! empty($email)) {
             $data = $this->select('users.*, auth_identities.secret as email, auth_identities.secret2 as password_hash')
                 ->join('auth_identities', 'auth_identities.user_id = users.id')
                 ->where('auth_identities.type', Session::ID_TYPE_EMAIL_PASSWORD)
-                ->where("LOWER({$prefix}auth_identities.secret)", strtolower($email))
+                ->where('LOWER(' . $this->db->protectIdentifiers('auth_identities.secret') . ')', strtolower($email))
                 ->asArray()
                 ->first();
 
