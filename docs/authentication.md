@@ -240,7 +240,7 @@ token, you would need to get the user's access tokens and delete them manually.
 You can revoke all access tokens with the `revokeAllAccessTokens()` method.
 
 ```php
-$user->revokeAllAccessTokens($token);
+$user->revokeAllAccessTokens();
 ```
 
 ### Retrieving Access Tokens
