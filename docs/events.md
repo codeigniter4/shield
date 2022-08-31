@@ -65,3 +65,9 @@ When the magic link login fails, the following array will be provided:
 #### logout
 
 Fired immediately after a successful logout. The only argument is the `User` entity.
+
+### Event Timing
+
+To learn more about Event timing, please see the list below.
+
+- [Session Authenticator Event and Logging](./session_auth_event_and_logging.md).
