@@ -259,7 +259,7 @@ class Auth extends BaseConfig
         ],
         'secretKey'  => '<Set secret random string like MQ4GfWut1OYZxPY9fXAIq2YP6KzTSKOGNS7dJNcRrR8=>',
         'algorithm'  => 'HS256',
-        'timeToLive' => 1 * HOUR,
+        'timeToLive' => HOUR,
     ];
 
     /**

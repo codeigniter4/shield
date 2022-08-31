@@ -52,7 +52,7 @@ final class JWTGeneratorTest extends TestCase
             'email'   => 'admin@example.jp',
         ];
 
-        $token = $generator->generate($payload, 1 * DAY);
+        $token = $generator->generate($payload, DAY);
 
         $this->assertIsString($token);
         $this->assertStringStartsWith('eyJ', $token);
@@ -75,7 +75,7 @@ final class JWTGeneratorTest extends TestCase
             'user_id' => '1',
             'email'   => 'admin@example.jp',
             'iat'     => $currentTime->getTimestamp(),
-            'exp'     => $currentTime->getTimestamp() + 1 * DAY,
+            'exp'     => $currentTime->getTimestamp() + DAY,
         ];
         $this->assertSame($expected, (array) $payload);
     }
