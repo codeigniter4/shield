@@ -131,7 +131,7 @@ public array $actions = [
 
 ### Responding to Magic Link Logins
 
-Magic Link logins allow a user that has forgotten their password that have an email sent with a unique login link that will provide a one-time login for them. Once they've logged in you can decide how to respond. In some cases, you might want to redirect them to a special page where the must choose a new password. In other cases, you might simply want to display a one-time message prompting them to go to their account page and choose a new password there.
+Magic Link logins allow a user that has forgotten their password to have an email sent with a unique, one-time login link. Once they've logged in you can decide how to respond. In some cases, you might want to redirect them to a special page where they must choose a new password. In other cases, you might simply want to display a one-time message prompting them to go to their account page and choose a new password.
 
 #### Session Notification
 
