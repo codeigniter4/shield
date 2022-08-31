@@ -114,6 +114,9 @@ final class MagicLinkTest extends TestCase
 
         $result->assertRedirectTo(route_to('magic-link'));
         $result->assertSessionHas('error', lang('Auth.magicLinkExpired'));
+
+        // It should have set temp session var
+        $this->assertFalse(session()->has('magic_link_login'));
     }
 
     public function testMagicLinkVerifySuccess(): void
@@ -134,5 +137,9 @@ final class MagicLinkTest extends TestCase
         $result->assertRedirectTo(site_url());
         $result->assertSessionHas('user', ['id' => $user->id]);
         $this->assertTrue(auth()->loggedIn());
+
+        // It should have set temp session var
+        $this->assertTrue(session()->has('magic_link_login'));
+        $this->assertTrue(session('magic_link_login'));
     }
 }

@@ -13,6 +13,7 @@ NOTE: The examples assume that you have run the setup script and that you have c
     - [Change Access Token Lifetime](#change-access-token-lifetime)
     - [Enable Account Activation via Email](#enable-account-activation-via-email)
     - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
+    - [Responding to Magic Link Logins](#responding-to-magic-link-logins)
   - [Authorization Flow](#authorization-flow)
     - [Change Available Groups](#change-available-groups)
     - [Set the Default Group](#set-the-default-group)
@@ -124,6 +125,24 @@ public array $actions = [
     'register' => null,
     'login'    => 'CodeIgniter\Shield\Authentication\Actions\Email2FA',
 ];
+```
+
+### Responding to Magic Link Logins
+
+Magic Link logins allow a user that has forgotten their password that have an email sent with a unique login link that will provide a one-time login for them. Once they've logged in you can decide how to respond. In some cases, you might want to redirect them to a special page where the must choose a new password. In other cases, you might simply want to display a one-time message prompting them to go to their account page and choose a new password there.
+
+You can detect if a user has finished the magic link login by checking for a session value, `magic_link_login`. If they have recently completed the flow, it will exist and have a value of `true`.
+
+```php
+if (session('magic_link_login')) {
+    return redirect()->route('set_password');
+}
+```
+
+This value sticks around in the session for 5 minutes. Once you no longer need to take any actions, you might want to delete the value from the session.
+
+```php
+session()->removeTempData('magic_link_login');
 ```
 
 ## Authorization Flow
