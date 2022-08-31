@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Authentication\TokenGenerator;
 
 use CodeIgniter\I18n\Time;
@@ -31,7 +33,7 @@ final class JWTGeneratorTest extends TestCase
     /**
      * @depends testGenerateAccessToken
      */
-    public function testTokenSubIsUserId(string $token)
+    public function testTokenSubIsUserId(string $token): void
     {
         $auth = new JWT(new UserModel());
 
@@ -61,7 +63,7 @@ final class JWTGeneratorTest extends TestCase
     /**
      * @depends testGenerate
      */
-    public function testTokenHasIatAndExp(array $data)
+    public function testTokenHasIatAndExp(array $data): void
     {
         [$token, $currentTime] = $data;
 

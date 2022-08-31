@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
@@ -79,10 +81,8 @@ class JWTAuth implements FilterInterface
      *
      * @param Response|ResponseInterface $response
      * @param array|null                 $arguments
-     *
-     * @return void
      */
-    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null): void
     {
     }
 }

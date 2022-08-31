@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Authentication\Authenticators;
 
 use CodeIgniter\I18n\Time;
@@ -47,7 +49,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         return \fake(UserModel::class);
     }
 
-    public function testLogin()
+    public function testLogin(): void
     {
         $user = $this->createUser();
 
@@ -58,7 +60,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $this->assertSame($user->id, $this->auth->getUser()->id);
     }
 
-    public function testLogout()
+    public function testLogout(): void
     {
         // this one's a little odd since it's stateless, but roll with it...
 
@@ -71,7 +73,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $this->assertNull($this->auth->getUser());
     }
 
-    public function testLoginById()
+    public function testLoginById(): void
     {
         $user = $this->createUser();
 
@@ -82,7 +84,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $this->assertTrue($this->auth->loggedIn());
     }
 
-    public function testLoginByIdNoUser()
+    public function testLoginByIdNoUser(): void
     {
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage('Unable to locate the specified user.');
@@ -94,7 +96,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $this->auth->loginById(9999);
     }
 
-    public function testCheckNoToken()
+    public function testCheckNoToken(): void
     {
         $result = $this->auth->check([]);
 
@@ -102,7 +104,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $this->assertSame(\lang('Auth.noToken'), $result->reason());
     }
 
-    public function testCheckBadSignatureToken()
+    public function testCheckBadSignatureToken(): void
     {
         $result = $this->auth->check(['token' => self::BAD_JWT]);
 
@@ -110,7 +112,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $this->assertSame('Invalid JWT: Signature verification failed', $result->reason());
     }
 
-    public function testCheckNoSubToken()
+    public function testCheckNoSubToken(): void
     {
         $config  = setting('Auth.jwtConfig');
         $payload = [
@@ -125,7 +127,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $this->assertSame('Invalid JWT: no user_id', $result->reason());
     }
 
-    public function testCheckOldToken()
+    public function testCheckOldToken(): void
     {
         $currentTime = new Time('-1 hour');
         $token       = $this->generateJWT($currentTime);
@@ -136,7 +138,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $this->assertSame('Expired JWT: Expired token', $result->reason());
     }
 
-    public function testCheckNoUserInDatabase()
+    public function testCheckNoUserInDatabase(): void
     {
         $token = $this->generateJWT();
 
@@ -149,7 +151,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $this->assertSame(\lang('Auth.invalidUser'), $result->reason());
     }
 
-    public function testCheckSuccess()
+    public function testCheckSuccess(): void
     {
         $token = $this->generateJWT();
 
@@ -160,7 +162,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $this->assertSame(1, $result->extraInfo()->id);
     }
 
-    public function testGetPayload()
+    public function testGetPayload(): void
     {
         $token = $this->generateJWT();
 
@@ -171,7 +173,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $this->assertSame((\setting('Auth.jwtConfig')['claims']['iss']), $payload->iss);
     }
 
-    public function testAttemptBadSignatureToken()
+    public function testAttemptBadSignatureToken(): void
     {
         $result = $this->auth->attempt([
             'token' => self::BAD_JWT,
@@ -189,7 +191,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         ]);
     }
 
-    public function testAttemptSuccess()
+    public function testAttemptSuccess(): void
     {
         $token = $this->generateJWT();
 
@@ -213,7 +215,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         ]);
     }
 
-    public function testRecordActiveDateNoUser()
+    public function testRecordActiveDateNoUser(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
