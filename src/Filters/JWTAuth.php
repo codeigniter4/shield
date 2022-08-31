@@ -3,6 +3,7 @@
 namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
+use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -32,6 +33,10 @@ class JWTAuth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
+        if (! $request instanceof IncomingRequest) {
+            return;
+        }
+
         helper(['auth', 'setting']);
 
         /** @var JWT $authenticator */
@@ -56,6 +61,8 @@ class JWTAuth implements FilterInterface
 
     private function getTokenFromHeader(RequestInterface $request): string
     {
+        assert($request instanceof IncomingRequest);
+
         $tokenHeader = $request->getHeaderLine(
             setting('Auth.authenticatorHeader')['jwt'] ?? 'Authorization'
         );
