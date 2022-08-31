@@ -33,7 +33,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
 
         $config = new Auth();
         $auth   = new Authentication($config);
-        $auth->setProvider(\model(UserModel::class)); // @phpstan-ignore-line
+        $auth->setProvider(\model(UserModel::class));
 
         /** @var JWT $authenticator */
         $authenticator = $auth->factory('jwt');

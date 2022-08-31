@@ -42,7 +42,7 @@ class JWT implements AuthenticatorInterface
         $this->provider   = $provider;
         $this->jwtAdapter = $jwtAdapter ?? new FirebaseAdapter();
 
-        $this->tokenLoginModel = model(TokenLoginModel::class); // @phpstan-ignore-line
+        $this->tokenLoginModel = model(TokenLoginModel::class);
     }
 
     /**
