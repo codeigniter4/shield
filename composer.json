@@ -68,8 +68,8 @@
             "Composer\\Config::disableProcessTimeout",
             "@cs",
             "@deduplicate",
-            "@analyze",
             "@inspect",
+            "@analyze",
             "@test"
         ],
         "cs": "php-cs-fixer fix --ansi --verbose --dry-run --diff",
