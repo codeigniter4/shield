@@ -58,24 +58,25 @@
         "post-update-cmd": [
             "bash admin/setup.sh"
         ],
-        "analyze": "phpstan analyze",
+        "analyze": [
+            "phpstan analyze",
+            "psalm",
+            "rector process --dry-run"
+        ],
+        "sa": "@analyze",
         "ci": [
             "Composer\\Config::disableProcessTimeout",
+            "@cs",
             "@deduplicate",
-            "@sa",
-            "@test",
+            "@analyze",
             "@inspect",
-            "rector process",
-            "@style"
+            "@test"
         ],
-        "deduplicate": "phpcpd app/ src/",
+        "cs": "php-cs-fixer fix --ansi --verbose --dry-run --diff",
+        "cs-fix": "php-cs-fixer fix --ansi --verbose --diff",
+        "deduplicate": "phpcpd app/ src/ --exclude src/Database/Migrations/2020-12-28-223112_create_auth_tables.php",
         "inspect": "deptrac analyze --cache-file=build/deptrac.cache",
         "mutate": "infection --threads=2 --skip-initial-tests --coverage=build/phpunit",
-        "sa": [
-            "phpstan analyze",
-            "psalm"
-        ],
-        "cs-fix": "php-cs-fixer fix --ansi --verbose --diff",
         "style": "@cs-fix",
         "test": "phpunit"
     }
