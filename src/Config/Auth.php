@@ -122,6 +122,7 @@ class Auth extends BaseConfig
      * If no match is found, then the next in the chain will be checked.
      *
      * @var string[]
+     *
      * @phpstan-var list<string>
      */
     public array $authenticationChain = [
