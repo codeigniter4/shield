@@ -139,7 +139,7 @@ final class MagicLinkTest extends TestCase
         $this->assertTrue(auth()->loggedIn());
 
         // It should have set temp session var
-        $this->assertTrue(session()->has('magic_link_login'));
-        $this->assertTrue(session('magic_link_login'));
+        $this->assertTrue(session()->has('magic_login'));
+        $this->assertTrue(session('magic_login'));
     }
 }
