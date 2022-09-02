@@ -63,4 +63,27 @@ final class TokenFilterTest extends AbstractFilterTest
         // Last Active should be greater than 'updated_at' column
         $this->assertGreaterThan(auth('tokens')->user()->updated_at, auth('tokens')->user()->last_active);
     }
+
+    public function testFiltersProtectsWithScopes(): void
+    {
+        /** @var User $user1 */
+        $user1  = fake(UserModel::class);
+        $token1 = $user1->generateAccessToken('foo', ['users-read']);
+        /** @var User $user2 */
+        $user2  = fake(UserModel::class);
+        $token2 = $user2->generateAccessToken('foo', ['users-write']);
+
+        // User 1 should be able to access the route
+        $this->withHeaders(['Authorization' => 'Bearer ' . $token1->raw_token])
+            ->get('protected-user-route');
+
+        // Last Active should be greater than 'updated_at' column
+        $this->assertGreaterThan(auth('tokens')->user()->updated_at, auth('tokens')->user()->last_active);
+
+        // User 2 should NOT be able to access the route
+        $result = $this->withHeaders(['Authorization' => 'Bearer ' . $token2->raw_token])
+            ->get('protected-user-route');
+
+        $result->assertRedirectTo('/login');
+    }
 }
