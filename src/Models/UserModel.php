@@ -98,6 +98,7 @@ class UserModel extends Model
      * @param UserIdentity[] $identities
      *
      * @return User[] UserId => User object
+     *
      * @phpstan-return array<int|string, User> UserId => User object
      */
     private function assignIdentities(array $data, array $identities): array
