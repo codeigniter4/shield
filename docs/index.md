@@ -9,3 +9,6 @@
 * [Events](events.md)
 * [Testing](testing.md)
 * [Customization](customization.md)
+
+Guides:
+* [Protecting an API with Access Tokens](guides/api-tokens.md)

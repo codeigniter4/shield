@@ -1,4 +1,4 @@
-# API Tokens
+# Protecting an API with Access Tokens
 
 Access Tokens can be used to authenticate users for your own site, or when allowing third-party developers to access your API. When making requests using access tokens, the token should be included in the `Authorization` header as a `Bearer` token.
 
