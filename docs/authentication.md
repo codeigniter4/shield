@@ -146,7 +146,7 @@ $credentials = [
 $validCreds = auth()->check($credentials);
 
 if (! $validCreds->isOK()) {
-    return redirect()->back()->with('error', $loginAttempt->reason());
+    return redirect()->back()->with('error', $validCreds->reason());
 }
 ```
 
