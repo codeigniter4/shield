@@ -121,11 +121,11 @@ $credentials = [
 $validCreds? = auth()->check($credentials); 
 
 if (! $validCreds->isOK()) {
-    return redirect()->back()->with('error', $loginAttempt->reason());
+    return redirect()->back()->with('error', $validCreds->reason());
 }
 ```
 
-The Result instance returned contains the logged in user as `extraInfo()`.
+The Result instance returned contains the valid user as `extraInfo()`.
 
 ### loggedIn()
 
