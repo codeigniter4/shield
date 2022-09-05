@@ -150,7 +150,7 @@ if (! $validCreds->isOK()) {
 }
 ```
 
-The Result instance returned contains the logged in user as `extraInfo()`.
+The Result instance returned contains the valid user object as `extraInfo()`.
 
 ### loggedIn()
 
