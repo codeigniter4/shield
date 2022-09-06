@@ -38,5 +38,5 @@ The following is a list of Events and Logging for Session Authenticator.
         - OK → no event
         - NG → no event
     2. Send request with token
-        - OK → event `login` / table `auth_logins`
+        - OK → event `login` and `magicLogin` / table `auth_logins`
         - NG → event `failedLogin` / table `auth_logins`

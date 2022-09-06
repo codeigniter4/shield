@@ -9,6 +9,8 @@ Shield fires off several events during the lifecycle of the application that you
       - [login](#login)
       - [failedLogin](#failedlogin)
       - [logout](#logout)
+      - [magicLogin](#magiclogin)
+    - [Event Timing](#event-timing)
 
 ## Responding to Events
 
@@ -65,6 +67,18 @@ When the magic link login fails, the following array will be provided:
 #### logout
 
 Fired immediately after a successful logout. The only argument is the `User` entity.
+
+#### magicLogin
+
+Fired when a user has been successfully logged in via a magic link. This event does not have any parameters passed in. The authenticated user can be discovered through the `auth()` helper.
+
+```php
+Events::on('magicLogin', function() {
+    $user = auth()->user();
+
+    //
+})
+```
 
 ### Event Timing
 
