@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Entities;
 
 use CodeIgniter\Entity\Entity;
+use CodeIgniter\I18n\Time;
 
 /**
  * Class AccessToken
  *
  * Represents a single Personal Access Token, used
  * for authenticating users for an API.
+ *
+ * @property Time|null $last_used_at
  */
 class AccessToken extends Entity
 {

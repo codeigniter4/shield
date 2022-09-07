@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Database\Exceptions\DataException;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
@@ -325,6 +326,8 @@ class UserModel extends Model
      */
     public function updateActiveDate(User $user): void
     {
+        assert($user->last_active instanceof Time);
+
         // Safe date string for database
         $last_active = $user->last_active->format('Y-m-d H:i:s');
 

@@ -89,6 +89,7 @@ final class LoginTest extends TestCase
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();
+        $this->assertInstanceOf(Time::class, $identity->last_used_at);
         $this->assertSame(Time::now()->getTimestamp(), $identity->last_used_at->getTimestamp());
 
         // Session should have `logged_in` value with user's id
@@ -151,6 +152,7 @@ final class LoginTest extends TestCase
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();
+        $this->assertInstanceOf(Time::class, $identity->last_used_at);
         $this->assertSame(Time::now()->getTimestamp(), $identity->last_used_at->getTimestamp());
 
         // Session should have `logged_in` value with user's id
