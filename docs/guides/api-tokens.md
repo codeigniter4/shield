@@ -4,7 +4,7 @@ Access Tokens can be used to authenticate users for your own site, or when allow
 
 Tokens are issued with the `generateAccessToken()` method on the user. This returns a `CodeIgniter\Shield\Entities\AccessToken` instance. Tokens are hashed using a SHA-256 algorithm before being saved to the database. The access token returned when you generate it will include a `raw_token` field that contains the plain-text, un-hashed, token. You should display this to your user at once so they have a chance to copy it somewhere safe, as this is the only time this will be available. After this request, there is no way to get the raw token.
 
-The `generateAccessToken` method requires a name for the token. These are free strings and are often used to identify the user/device the token was generated from, like 'Johns MacBook Air'.
+The `generateAccessToken()` method requires a name for the token. These are free strings and are often used to identify the user/device the token was generated from, like 'Johns MacBook Air'.
 
 ```php
 $routes->get('/access/token', static function() {
@@ -31,9 +31,10 @@ Access tokens can be given `scopes`, which are basically permission strings, for
 return $user->generateAccessToken('token-name', ['users-read'])->raw_token;
 ```
 
-NOTE: At this time, scope names should avoid using a colon (:) as this causes issues with the route filters being correctly recognized.
+> **Note**
+> At this time, scope names should avoid using a colon (`:`) as this causes issues with the route filters being correctly recognized.
 
-When handling incoming requests you can check if the token has been granted access to the scope with the `tokenCan` method.
+When handling incoming requests you can check if the token has been granted access to the scope with the `tokenCan()` method.
 
 ```php
 if ($user->tokenCan('users-read')) {
@@ -73,4 +74,5 @@ $routes->get('users', 'UserController::list', ['filter' => 'tokens:users-read'])
 
 When the filter runs, it checks the `Authorization` header for a `Bearer` value that has the raw token. It then hashes the raw token and looks it up in the database. Once found, it can determine the correct user, which will then be available through an `auth()->user()` call.
 
-Note: Currently only a single scope can be used on a route filter. If multiple scopes are passed in, only the first one is checked.
+> **Note**
+> Currently only a single scope can be used on a route filter. If multiple scopes are passed in, only the first one is checked.
