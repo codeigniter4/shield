@@ -13,7 +13,11 @@ use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 
 /**
- * @property Time|null $last_active
+ * @property string|null         $email
+ * @property UserIdentity[]|null $identities
+ * @property Time|null           $last_active
+ * @property string|null         $password
+ * @property string|null         $password_hash
  */
 class User extends Entity
 {
