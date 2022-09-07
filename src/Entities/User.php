@@ -5,12 +5,20 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Entities;
 
 use CodeIgniter\Database\Exceptions\DataException;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Traits\HasAccessTokens;
 use CodeIgniter\Shield\Authorization\Traits\Authorizable;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 
+/**
+ * @property string|null         $email
+ * @property UserIdentity[]|null $identities
+ * @property Time|null           $last_active
+ * @property string|null         $password
+ * @property string|null         $password_hash
+ */
 class User extends Entity
 {
     use Authorizable;

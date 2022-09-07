@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Entities;
 
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Passwords;
 
 /**
@@ -19,6 +20,8 @@ use CodeIgniter\Shield\Authentication\Passwords;
  * OAUTH or JWT tokens, etc. A user can have multiple of each,
  * though a Authenticator may want to enforce only one exists for that
  * user, like a password.
+ *
+ * @property Time|null $last_used_at
  */
 class UserIdentity extends Entity
 {
