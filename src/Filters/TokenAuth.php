@@ -48,7 +48,7 @@ class TokenAuth implements FilterInterface
             'token' => $request->getHeaderLine(setting('Auth.authenticatorHeader')['tokens'] ?? 'Authorization'),
         ]);
 
-        if (! $result->isOK()) {
+        if (! $result->isOK() || (! empty($arguments) && $result->extraInfo()->tokenCant($arguments[0]))) {
             return redirect()->to('/login');
         }
 
