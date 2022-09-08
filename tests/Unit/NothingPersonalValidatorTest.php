@@ -117,7 +117,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $this->assertTrue($result->isOK());
     }
 
-    public function testTrueForAllowedTooSmallMatch(): Void
+    public function testTrueForAllowedTooSmallMatch(): void
     {
         $user = new User([
             'email'    => 'xxx@example.com',
@@ -131,7 +131,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $this->assertTrue($result->isOK());
     }
 
-    public function testFalseForSensibleMatch(): Void
+    public function testFalseForSensibleMatch(): void
     {
         $user = new User([
             'email'    => 'xxx@example.com',
