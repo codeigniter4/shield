@@ -115,7 +115,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
 
             foreach ($haystacks as $haystack) {
                 if (empty($haystack) || in_array($haystack, $trivial, true) || mb_strlen($haystack, 'UTF-8') < 3) {
-                    continue;  //ignore trivial words
+                    continue;  // ignore trivial words
                 }
 
                 foreach ($needles as $needle) {
