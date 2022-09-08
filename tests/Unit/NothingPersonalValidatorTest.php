@@ -117,6 +117,34 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $this->assertTrue($result->isOK());
     }
 
+    public function testTrueForAllowedTooSmallMatch(): Void
+    {
+        $user = new User([
+            'email'    => 'xxx@example.com',
+            'username' => 'john doe',
+        ]);
+
+        $password = 'xx-test@123';
+
+        $result = $this->validator->check($password, $user);
+
+        $this->assertTrue($result->isOK());
+    }
+
+    public function testFalseForSensibleMatch(): Void
+    {
+        $user = new User([
+            'email'    => 'xxx@example.com',
+            'username' => 'john doe',
+        ]);
+
+        $password = 'xxx-test@123';
+
+        $result = $this->validator->check($password, $user);
+
+        $this->assertFalse($result->isOK());
+    }
+
     /**
      * The dataProvider is a list of passwords to be tested.
      * Some of them clearly contain elements of the username.
