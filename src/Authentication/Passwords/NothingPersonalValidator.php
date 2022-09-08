@@ -119,7 +119,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
                 }
 
                 foreach ($needles as $needle) {
-                    if (empty($needle) || in_array($needle, $trivial, true)|| mb_strlen($needle, 'UTF-8') < 3) {
+                    if (empty($needle) || in_array($needle, $trivial, true) || mb_strlen($needle, 'UTF-8') < 3) {
                         continue;
                     }
 
