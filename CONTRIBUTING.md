@@ -1,4 +1,4 @@
-# Contributing to CodeIgniter4
+# Contributing to CodeIgniter Shield
 
 CodeIgniter is a community driven project and accepts contributions of
 code and documentation from the community.
