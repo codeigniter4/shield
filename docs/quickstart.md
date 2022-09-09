@@ -135,10 +135,10 @@ Magic Link logins allow a user that has forgotten their password to have an emai
 
 #### Session Notification
 
-You can detect if a user has finished the magic link login by checking for a session value, `magic_link_login`. If they have recently completed the flow, it will exist and have a value of `true`.
+You can detect if a user has finished the magic link login by checking for a session value, `magicLogin`. If they have recently completed the flow, it will exist and have a value of `true`.
 
 ```php
-if (session('magic_login')) {
+if (session('magicLogin')) {
     return redirect()->route('set_password');
 }
 ```
@@ -146,15 +146,15 @@ if (session('magic_login')) {
 This value sticks around in the session for 5 minutes. Once you no longer need to take any actions, you might want to delete the value from the session.
 
 ```php
-session()->removeTempData('magic_link_login');
+session()->removeTempData('magicLogin');
 ```
 
 #### Event
 
-At the same time the above session variable is set, a `magic_login` [event](https://codeigniter.com/user_guide/extending/events.html) is fired off that you may subscribe to. Note that no data is passed to the event as you can easily grab the current user from the `user()` helper or the `auth()->user()` method.
+At the same time the above session variable is set, a `magicLogin` [event](https://codeigniter.com/user_guide/extending/events.html) is fired off that you may subscribe to. Note that no data is passed to the event as you can easily grab the current user from the `user()` helper or the `auth()->user()` method.
 
 ```php
-Events::on('magic_login', static function () {
+Events::on('magicLogin', static function () {
     // ...
 });
 ```
