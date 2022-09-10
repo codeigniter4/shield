@@ -146,7 +146,7 @@ if (session('magicLogin')) {
 This value sticks around in the session for 5 minutes. Once you no longer need to take any actions, you might want to delete the value from the session.
 
 ```php
-session()->removeTempData('magicLogin');
+session()->removeTempdata('magicLogin');
 ```
 
 #### Event
