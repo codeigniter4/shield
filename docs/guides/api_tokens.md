@@ -8,7 +8,7 @@ The `generateAccessToken()` method requires a name for the token. These are free
 
 ```php
 $routes->get('/access/token', static function() {
-    $token = auth()->user()->generateAccessToken(service('request')->getVar('token_name));
+    $token = auth()->user()->generateAccessToken(service('request')->getVar('token_name'));
 
     return json_encode(['token' => $token->raw_token]);
 });
