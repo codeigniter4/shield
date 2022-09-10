@@ -11,4 +11,4 @@
 * [Customization](customization.md)
 
 Guides:
-* [Protecting an API with Access Tokens](guides/api-tokens.md)
+* [Protecting an API with Access Tokens](guides/api_tokens.md)
