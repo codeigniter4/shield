@@ -64,6 +64,12 @@ return [
     'userDoesNotExist'          => 'No se ha cambiado la contraseña. No existe el usuario',
     'resetTokenExpired'         => 'Lo sentimos. Tu token de reseteo ha caducado.',
 
+    // Email Globals
+    'emailInfo'      => 'Algunos datos sobre la persona que pidió el código:',
+    'emailIpAddress' => 'Dirección IP:',
+    'emailDevice'    => 'Dispositivo:',
+    'emailDate'      => 'Fecha:',
+
     // 2FA
     'email2FATitle'       => 'Authenticación de Doble Factor',
     'confirmEmailAddress' => 'Confirma tu dirección de email.',

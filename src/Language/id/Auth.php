@@ -64,6 +64,12 @@ return [
     'userDoesNotExist'          => 'Kata sandi tidak diubah. User tidak ditemukan',
     'resetTokenExpired'         => 'Maaf, token setel ulang Anda sudah habis waktu.',
 
+    // Email Globals
+    'emailInfo'      => 'Some information about the person who asked for the code:',
+    'emailIpAddress' => 'IP Address:',
+    'emailDevice'    => 'Device:',
+    'emailDate'      => 'Date:',
+
     // 2FA
     'email2FATitle'       => 'Otentikasi Dua Faktor',
     'confirmEmailAddress' => 'Alamat email konfirmasi Anda.',

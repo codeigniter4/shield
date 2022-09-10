@@ -64,6 +64,12 @@ return [
     'userDoesNotExist'          => 'Heslo nebolo zmenené. Používateľ neexistuje',
     'resetTokenExpired'         => 'Prepáčte. Platnosť vášho resetovacieho tokenu vypršala.',
 
+    // Email Globals
+    'emailInfo'      => 'Niektoré informácie o osobe, ktorá požiadala o kód:',
+    'emailIpAddress' => 'IP Adresa:',
+    'emailDevice'    => 'Zariadenie:',
+    'emailDate'      => 'Dátum:',
+
     // 2FA
     'email2FATitle'       => 'Dvojfaktorová autentifikácia',
     'confirmEmailAddress' => 'Potvrďte svoju e-mailovú adresu.',

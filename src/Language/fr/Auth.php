@@ -64,6 +64,12 @@ return [
     'userDoesNotExist'          => 'Le mot de passe n\'a pas été modifié. L\'utilisateur n\'existe pas',
     'resetTokenExpired'         => 'Désolé. Votre jeton de réinitialisation a expiré.',
 
+    // Email Globals
+    'emailInfo'      => 'Quelques informations sur la personne qui a demandé le code:',
+    'emailIpAddress' => 'Adresse IP:',
+    'emailDevice'    => 'Dispositif',
+    'emailDate'      => 'Date:',
+
     // 2FA
     'email2FATitle'       => 'Authentification à deux facteurs',
     'confirmEmailAddress' => 'Confirmer votre adresse email.',

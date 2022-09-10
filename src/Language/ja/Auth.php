@@ -64,6 +64,12 @@ return [
     'userDoesNotExist'          => 'パスワードは変更されていません。ユーザーは存在しません', // 'Password was not changed. User does not exist',
     'resetTokenExpired'         => '申し訳ありません。リセットトークンの有効期限が切れました。', // 'Sorry. Your reset token has expired.',
 
+    // Email Globals
+    'emailInfo'      => 'Some information about the person who asked for the code:',
+    'emailIpAddress' => 'IP Address:',
+    'emailDevice'    => 'Device:',
+    'emailDate'      => 'Date:',
+
     // 2FA
     'email2FATitle'       => '二要素認証', // 'Two Factor Authentication',
     'confirmEmailAddress' => 'メールアドレスを確認してください。', // 'Confirm your email address.',
