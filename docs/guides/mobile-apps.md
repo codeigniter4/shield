@@ -49,7 +49,7 @@ class LoginController extends BaseController
         }
 
         // Generate token and return to client
-        $token = auth()->user()->generateAccessToken(request()->getVar('device_name'));
+        $token = auth()->user()->generateAccessToken(service('request')->getVar('device_name'));
 
         return $this->response
             ->setJSON(['token' => $token->raw_token]);
