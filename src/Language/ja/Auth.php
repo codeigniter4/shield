@@ -65,10 +65,10 @@ return [
     'resetTokenExpired'         => '申し訳ありません。リセットトークンの有効期限が切れました。', // 'Sorry. Your reset token has expired.',
 
     // Email Globals
-    'emailInfo'      => 'Some information about the person who asked for the code:',
-    'emailIpAddress' => 'IP Address:',
-    'emailDevice'    => 'Device:',
-    'emailDate'      => 'Date:',
+    'emailInfo'      => 'コードを要求した人に関する情報:',
+    'emailIpAddress' => 'IPアドレス:',
+    'emailDevice'    => 'デバイス:',
+    'emailDate'      => '日時:',
 
     // 2FA
     'email2FATitle'       => '二要素認証', // 'Two Factor Authentication',
