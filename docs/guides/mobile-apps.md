@@ -22,7 +22,7 @@ class LoginController extends BaseController
 {
     public function mobileLogin()
     {
-        // Valide credentials
+        // Validate credentials
         $rules = setting('Validation.login') ?? [
             'email' => [
                 'label' => 'Auth.email',
