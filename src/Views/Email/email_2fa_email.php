@@ -10,7 +10,7 @@
 <body>
     <p><?= lang('Auth.email2FAMailBody') ?></p>
     <div style="text-align: center"><h1><?= $code ?></h1></div>
-    <b><?= lang('Auth.emaiInfo') ?></b>
+    <b><?= lang('Auth.emailInfo') ?></b>
     <p><?= lang('Auth.emailIpAddress') ?> <?= $ipAddress ?></p>
     <p><?= lang('Auth.emailDevice') ?> <?= $userAgent ?></p>
     <p><?= lang('Auth.emailDate') ?> <?= $date ?></p>
