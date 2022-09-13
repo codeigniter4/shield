@@ -31,20 +31,15 @@ access for a mobile application that you build.
 
 ## Some Important Features
 
-1. Session-based authentication (traditional email/password with remember me)
-2. Stateless authentication using Personal Access Tokens
-3. Optional Email verification on account registration
-4. Optional Email-based Two Factor Authentication after login
-5. Magic Login Links when a user forgets their password
-6. Flexible groups-based access control (think roles, but more flexible)
-7. Users can be granted additional permissions
-8. User Entity and UserModel ready for you to use or extend
-9. A simple helper that provides access to the most common auth actions
-10. Easily extendable controllers
-11. All required views that can be used as is or swapped out for your own
-12. Highly configurable
-13. Built to extend and modify
-14. Save initial settings in your code so it can be in version control, but can also be updated in the database, thanks to our [Settings library](https://github.com/codeigniter4/settings)
+* Session-based authentication (traditional email/password with remember me)
+* Stateless authentication using Personal Access Tokens
+* Optional Email verification on account registration
+* Optional Email-based Two Factor Authentication after login
+* Magic Login Links when a user forgets their password
+* Flexible groups-based access control (think roles, but more flexible)
+* Users can be granted additional permissions
+
+See the [An Official Auth Library](https://codeigniter.com/news/shield) for more Info.
 
 ## Getting Started
 
