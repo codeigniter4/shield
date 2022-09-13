@@ -142,7 +142,7 @@ use to protect your routes, `session`, `tokens`, and `chained`. The first two co
 to see if the user is logged in through either of authenticators, allowing a single API endpoint to
 work for both an SPA using session auth, and a mobile app using access tokens. The fourth, `auth-rates`,
 provides a good basis for rate limiting of auth-related routes.
-These can be used in any of the [normal filter config settings](https://codeigniter4.github.io/CodeIgniter4/incoming/filters.html#globals), or [within the routes file](https://codeigniter.com/user_guide/incoming/routing.html#applying-filters).
+These can be used in any of the [normal filter config settings](https://codeigniter.com/user_guide/incoming/filters.html?highlight=filter#globals), or [within the routes file](https://codeigniter.com/user_guide/incoming/routing.html?highlight=routs#applying-filters).
 
 ### Protect All Pages
 
