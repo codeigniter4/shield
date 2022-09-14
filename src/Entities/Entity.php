@@ -16,7 +16,6 @@ abstract class Entity extends FrameworkEntity
      * Custom convert handlers
      *
      * @var array<string, string>
-     *
      * @phpstan-var array<string, class-string>
      */
     protected $castHandlers = [
