@@ -78,9 +78,9 @@ trait Authorizable
      * so only those groups are valid for this user, removing
      * all groups not in this list.
      *
-     * @throws AuthorizationException
-     *
      * @return $this
+     *
+     * @throws AuthorizationException
      */
     public function syncGroups(string ...$groups): self
     {
@@ -124,9 +124,9 @@ trait Authorizable
     /**
      * Adds one or more permissions to the current user.
      *
-     * @throws AuthorizationException
-     *
      * @return $this
+     *
+     * @throws AuthorizationException
      */
     public function addPermission(string ...$permissions): self
     {
@@ -187,9 +187,9 @@ trait Authorizable
      * so only those permissions are valid for this user, removing
      * all permissions not in this list.
      *
-     * @throws AuthorizationException
-     *
      * @return $this
+     *
+     * @throws AuthorizationException
      */
     public function syncPermissions(string ...$permissions): self
     {
@@ -342,7 +342,6 @@ trait Authorizable
 
     /**
      * @phpstan-param 'group'|'permission' $type
-     *
      * @param GroupModel|PermissionModel $model
      */
     private function saveGroupsOrPermissions(string $type, $model, array $cache): void

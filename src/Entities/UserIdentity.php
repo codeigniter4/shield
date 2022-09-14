@@ -35,9 +35,7 @@ class UserIdentity extends Entity
 
     /**
      * @var string[]
-     *
      * @phpstan-var list<string>
-     *
      * @psalm-var list<string>
      */
     protected $dates = [

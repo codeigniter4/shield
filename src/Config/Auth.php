@@ -122,7 +122,6 @@ class Auth extends BaseConfig
      * If no match is found, then the next in the chain will be checked.
      *
      * @var string[]
-     *
      * @phpstan-var list<string>
      */
     public array $authenticationChain = [
@@ -213,7 +212,7 @@ class Auth extends BaseConfig
         'CodeIgniter\Shield\Authentication\Passwords\CompositionValidator',
         'CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator',
         'CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator',
-        //'CodeIgniter\Shield\Authentication\Passwords\PwnedValidator',
+        // 'CodeIgniter\Shield\Authentication\Passwords\PwnedValidator',
     ];
 
     /**

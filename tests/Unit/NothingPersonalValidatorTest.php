@@ -281,7 +281,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
             [
                 66,
                 false,
-            ],            [
+            ], [
                 0,
                 true,
             ],

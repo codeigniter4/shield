@@ -99,7 +99,6 @@ class UserModel extends Model
      * @param UserIdentity[] $identities
      *
      * @return User[] UserId => User object
-     *
      * @phpstan-return array<int|string, User> UserId => User object
      */
     private function assignIdentities(array $data, array $identities): array
@@ -220,9 +219,9 @@ class UserModel extends Model
      *
      * @param array|User $data
      *
-     * @throws ValidationException
-     *
      * @return int|string|true Insert ID if $returnID is true
+     *
+     * @throws ValidationException
      */
     public function insert($data = null, bool $returnID = true)
     {

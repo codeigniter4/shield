@@ -132,7 +132,7 @@ class CreateAuthTables extends Migration
         $this->forge->createTable('auth_permissions_users');
     }
 
-    //--------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
     public function down(): void
     {
