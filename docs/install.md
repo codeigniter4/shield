@@ -4,10 +4,12 @@
   - [Requirements](#requirements)
   - [Composer Installation](#composer-installation)
     - [Troubleshooting](#troubleshooting)
+      - [IMPORTANT: composer error](#important-composer-error)
   - [Initial Setup](#initial-setup)
     - [Command Setup](#command-setup)
     - [Manual Setup](#manual-setup)
   - [Controller Filters](#controller-filters)
+    - [Protect All Pages](#protect-all-pages)
     - [Rate Limiting](#rate-limiting)
 
 These instructions assume that you have already [installed the CodeIgniter 4 app starter](https://codeigniter.com/user_guide/installation/installing_composer.html) as the basis for your new project, set up your `.env` file, and created a database that you can access via the Spark CLI script.
@@ -140,8 +142,19 @@ use to protect your routes, `session`, `tokens`, and `chained`. The first two co
 to see if the user is logged in through either of authenticators, allowing a single API endpoint to
 work for both an SPA using session auth, and a mobile app using access tokens. The fourth, `auth-rates`,
 provides a good basis for rate limiting of auth-related routes.
+These can be used in any of the [normal filter config settings](https://codeigniter.com/user_guide/incoming/filters.html?highlight=filter#globals), or [within the routes file](https://codeigniter.com/user_guide/incoming/routing.html?highlight=routs#applying-filters).
 
-These filters are already loaded for you by the registrar class located at `src/Config/Registrar.php`.
+### Protect All Pages
+
+If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/panel` and ...), you need to add the following code in the `app\Config\Filters.php` file.
+
+```php
+public $filters = [
+    'session' => ['except' => ['login*', 'register*']],
+];
+```
+
+> **Note** These filters are already loaded for you by the registrar class located at `src/Config/Registrar.php`.
 
 ```php
 public $aliases = [
@@ -152,8 +165,6 @@ public $aliases = [
     'auth-rates' => \CodeIgniter\Shield\Filters\AuthRates::class,
 ];
 ```
-
-These can be used in any of the normal filter config settings, or within the routes file.
 
 ### Rate Limiting
 
