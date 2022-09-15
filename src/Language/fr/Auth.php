@@ -68,7 +68,7 @@ return [
     'emailInfo'      => 'Quelques informations sur la personne qui a demandé le code:',
     'emailIpAddress' => 'Adresse IP:',
     'emailDevice'    => 'Dispositif',
-    'emailDate'      => 'Date:',
+    'emailDate'      => 'Jour:',
 
     // 2FA
     'email2FATitle'       => 'Authentification à deux facteurs',
