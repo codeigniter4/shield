@@ -79,5 +79,12 @@
         "mutate": "infection --threads=2 --skip-initial-tests --coverage=build/phpunit",
         "style": "@cs-fix",
         "test": "phpunit"
+    },
+    "support": {
+        "forum": "https://github.com/codeigniter4/shield/discussions",
+        "slack": "https://codeigniterchat.slack.com",
+        "source": "https://github.com/codeigniter4/shield",
+        "issues": "https://github.com/codeigniter4/shield/issues",
+        "docs": "https://github.com/codeigniter4/shield/blob/develop/docs/index.md"
     }
 }
