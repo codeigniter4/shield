@@ -65,10 +65,10 @@ return [
     'resetTokenExpired'         => 'Maaf, token setel ulang Anda sudah habis waktu.',
 
     // Email Globals
-    'emailInfo'      => 'Some information about the person who asked for the code:',
-    'emailIpAddress' => 'IP Address:',
-    'emailDevice'    => 'Device:',
-    'emailDate'      => 'Date:',
+    'emailInfo'      => '(To be translated) Some information about the person who asked for the code:',
+    'emailIpAddress' => '(To be translated) IP Address:',
+    'emailDevice'    => '(To be translated) Device:',
+    'emailDate'      => '(To be translated) Date:',
 
     // 2FA
     'email2FATitle'       => 'Otentikasi Dua Faktor',
