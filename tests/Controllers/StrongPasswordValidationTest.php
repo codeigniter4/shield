@@ -37,8 +37,6 @@ final class StrongPasswordValidationTest extends DatabaseTestCase
 
         parent::setUp();
 
-        $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
-
         // Inject mock router.
         $this->routes = Services::routes();
         auth()->routes($this->routes);
