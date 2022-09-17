@@ -12,7 +12,7 @@ return [
     'badAttempt'            => 'Unable to log you in. Please check your credentials.',
     'noPassword'            => 'Cannot validate a user without a password.',
     'invalidPassword'       => 'Unable to log you in. Please check your password.',
-    'noToken'               => 'Every request must have a bearer token in the Authorization header.',
+    'noToken'               => 'Every request must have a bearer token in the {0} header.',
     'badToken'              => 'The access token is invalid.',
     'oldToken'              => 'The access token has expired.',
     'noUserEntity'          => 'User Entity must be provided for password validation.',

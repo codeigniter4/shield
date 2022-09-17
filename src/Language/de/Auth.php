@@ -12,7 +12,7 @@ return [
     'badAttempt'            => 'Sie konnten nicht angemeldet werden. Bitte überprüfen Sie Ihre Anmeldedaten.',
     'noPassword'            => 'Kann einen Benutzer ohne Passwort nicht validieren.',
     'invalidPassword'       => 'Sie können nicht angemeldet werden. Bitte überprüfen Sie Ihr Passwort.',
-    'noToken'               => 'Jede Anfrage muss ein Überbringer-Token im Authorization-Header enthalten.',
+    'noToken'               => 'Jede Anfrage muss ein Überbringer-Token im {0}-Header enthalten.',
     'badToken'              => 'Das Zugriffstoken ist ungültig.',
     'oldToken'              => 'Das Zugriffstoken ist abgelaufen.',
     'noUserEntity'          => 'Die Benutzerentität muss für die Passwortüberprüfung angegeben werden.',

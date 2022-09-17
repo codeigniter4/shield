@@ -12,7 +12,7 @@ return [
     'badAttempt'            => 'ログインできません。認証情報を確認してください。', // 'Unable to log you in. Please check your credentials.',
     'noPassword'            => 'パスワードのないユーザーは認証できません。', // 'Cannot validate a user without a password.',
     'invalidPassword'       => 'ログインできません。パスワードを確認してください。', // 'Unable to log you in. Please check your password.',
-    'noToken'               => 'すべてのリクエストは、AuthorizationヘッダーにBearerトークンが必要です。', // 'Every request must have a bearer token in the Authorization header.',
+    'noToken'               => 'すべてのリクエストは、{0}ヘッダーにBearerトークンが必要です。', // 'Every request must have a bearer token in the Authorization header.',
     'badToken'              => 'アクセストークンが無効です。', // 'The access token is invalid.',
     'oldToken'              => 'アクセストークンの有効期限が切れています。', // 'The access token has expired.',
     'noUserEntity'          => 'パスワード検証のため、Userエンティティを指定する必要があります。', // 'User Entity must be provided for password validation.',
