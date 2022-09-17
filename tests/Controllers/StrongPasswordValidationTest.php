@@ -6,8 +6,6 @@ namespace Tests\Controllers;
 
 use CodeIgniter\Config\Factories;
 use CodeIgniter\Router\RouteCollection;
-use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
-use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords\ValidationRules;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
@@ -16,9 +14,6 @@ use CodeIgniter\Test\FilterTestTrait;
 use Config\Services;
 use Tests\Support\DatabaseTestCase;
 use Tests\Support\FakeUser;
-use CodeIgniter\Test\Mock\MockCodeIgniter;
-use CodeIgniter\Test\Mock\MockResourceController;
-use Config\App;
 
 /**
  * @internal
@@ -41,7 +36,7 @@ final class StrongPasswordValidationTest extends DatabaseTestCase
         Services::reset(true);
 
         parent::setUp();
-        
+
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
 
         // Inject mock router.
@@ -68,7 +63,7 @@ final class StrongPasswordValidationTest extends DatabaseTestCase
 
         $expected = [
             'errors' => [
-                'password' => "Passwords cannot contain re-hashed personal information.",
+                'password' => 'Passwords cannot contain re-hashed personal information.',
             ],
         ];
 
@@ -83,11 +78,11 @@ final class StrongPasswordValidationTest extends DatabaseTestCase
         $filterConfig->filters = array_merge($filterConfig->filters, [
             'tokens' => [
                 'before' => [
-                    'api/users/signup', 
+                    'api/users/signup',
                 ],
             ],
         ]);
-        
+
         Factories::injectMock('config', 'Filters', $filterConfig);
 
         $this->assertHasFilters('api/users/signup', 'before');
@@ -116,7 +111,7 @@ final class StrongPasswordValidationTest extends DatabaseTestCase
 
         $expected = [
             'errors' => [
-                'password' => "Passwords cannot contain re-hashed personal information.",
+                'password' => 'Passwords cannot contain re-hashed personal information.',
             ],
         ];
 
