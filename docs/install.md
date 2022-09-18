@@ -149,8 +149,18 @@ These can be used in any of the [normal filter config settings](https://codeigni
 If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/panel` and ...), you need to add the following code in the `app\Config\Filters.php` file.
 
 ```php
-public $filters = [
-    'session' => ['except' => ['login*', 'register*']],
+public $globals = [
+    'before' => [
+        // 'honeypot',
+        // 'csrf',
+        // 'invalidchars',
+        'session' => ['except' => ['login*', 'register*']],
+    ],
+    'after' => [
+        'toolbar',
+        // 'honeypot',
+        // 'secureheaders',
+    ],
 ];
 ```
 
