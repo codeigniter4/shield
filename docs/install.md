@@ -151,16 +151,10 @@ If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/pa
 ```php
 public $globals = [
     'before' => [
-        // 'honeypot',
-        // 'csrf',
-        // 'invalidchars',
+        // ...
         'session' => ['except' => ['login*', 'register*']],
     ],
-    'after' => [
-        'toolbar',
-        // 'honeypot',
-        // 'secureheaders',
-    ],
+    // ...
 ];
 ```
 
