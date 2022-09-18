@@ -146,7 +146,7 @@ class UserIdentityModel extends Model
     {
         return $this
             ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
-            ->where('secret', hash('sha256', $rawToken))
+            ->where('secret', $rawToken)
             ->asObject(AccessToken::class)
             ->first();
     }
