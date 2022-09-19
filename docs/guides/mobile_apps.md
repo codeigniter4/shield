@@ -44,7 +44,7 @@ class LoginController extends BaseController
         $result = auth()->attempt($this->request->getPost(setting('Auth.validFields')));
         if (! $result->isOK()) {
             return $this->response
-                ->setJSON(['error' => $result->reason])
+                ->setJSON(['error' => $result->reason()])
                 ->setStatusCode(401);
         }
 
