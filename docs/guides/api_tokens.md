@@ -2,6 +2,8 @@
 
 Access Tokens can be used to authenticate users for your own site, or when allowing third-party developers to access your API. When making requests using access tokens, the token should be included in the `Authorization` header as a `Bearer` token.
 
+> **Note**  By default, `$authenticatorHeader['tokens']` is set to `Authorization`. You can change this value by setting the `$authenticatorHeader['tokens']` value in the `Auth.php` config file.
+
 Tokens are issued with the `generateAccessToken()` method on the user. This returns a `CodeIgniter\Shield\Entities\AccessToken` instance. Tokens are hashed using a SHA-256 algorithm before being saved to the database. The access token returned when you generate it will include a `raw_token` field that contains the plain-text, un-hashed, token. You should display this to your user at once so they have a chance to copy it somewhere safe, as this is the only time this will be available. After this request, there is no way to get the raw token.
 
 The `generateAccessToken()` method requires a name for the token. These are free strings and are often used to identify the user/device the token was generated from, like 'Johns MacBook Air'.
