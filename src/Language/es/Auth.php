@@ -12,7 +12,7 @@ return [
     'badAttempt'            => 'No puedes entrar. Por favor, comprueba tus creenciales.',
     'noPassword'            => 'No se puede validar un usuario sin una contraseña.',
     'invalidPassword'       => 'No uedes entrar. Por favor, comprueba tu contraseña.',
-    'noToken'               => 'Cada petición debe tenerun token en la Authorización.',
+    'noToken'               => 'Cada petición debe tenerun token en la {0}.',
     'badToken'              => 'Token de acceso no válido.',
     'oldToken'              => 'El token de acceso ha caducado.',
     'noUserEntity'          => 'Se debe dar una Entidad de Usuario para validar la contraseña.',

@@ -12,7 +12,7 @@ return [
     'badAttempt'            => 'Connexion impossible. Veuillez vérifier les informations saisies.',
     'noPassword'            => 'Impossible de valider un utilisateur sans mot de passe.',
     'invalidPassword'       => 'Connexion impossible. Veuillez vérifier votre mot de passe.',
-    'noToken'               => 'Chaque demande doit comporter un jeton d\'accès dans l\'en-tête d\'autorisation.',
+    'noToken'               => 'Chaque demande doit comporter un jeton d\'accès dans l\'en-tête d\'{0}.',
     'badToken'              => 'Le jeton d\'accès est invalide.',
     'oldToken'              => 'Le jeton d\'accès a expiré.',
     'noUserEntity'          => 'User Entity doit être fournie pour la validation du mot de passe.',

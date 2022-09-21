@@ -95,7 +95,7 @@ class AccessTokens implements AuthenticatorInterface
         if (! array_key_exists('token', $credentials) || empty($credentials['token'])) {
             return new Result([
                 'success' => false,
-                'reason'  => lang('Auth.noToken'),
+                'reason'  => lang('Auth.noToken', [config('Auth')->authenticatorHeader['tokens']]),
             ]);
         }
 

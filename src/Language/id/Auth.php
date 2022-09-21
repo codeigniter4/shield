@@ -12,7 +12,7 @@ return [
     'badAttempt'            => 'Anda tidak dapat masuk. Harap periksa kredensial Anda.',
     'noPassword'            => 'Tidak dapat memvalidasi pengguna tanpa kata sandi.',
     'invalidPassword'       => 'Anda tidak dapat masuk. Harap periksa kata sandi Anda.',
-    'noToken'               => 'Setiap permintaan harus memiliki token pembawa di header Authorization.',
+    'noToken'               => 'Setiap permintaan harus memiliki token pembawa di header {0}.',
     'badToken'              => 'Akses token tidak sah.',
     'oldToken'              => 'Akses token sudah tidak berlaku.',
     'noUserEntity'          => 'Entitas Pengguna harus disediakan untuk validasi kata sandi.',
