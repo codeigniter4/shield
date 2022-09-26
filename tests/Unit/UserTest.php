@@ -230,4 +230,16 @@ final class UserTest extends TestCase
         $identity = $this->user->getEmailIdentity();
         $this->assertSame('foo@example.com', $identity->secret);
     }
+
+    public function testSaveEmailIdentity(): void
+    {
+        $hash                      = service('passwords')->hash('passbar');
+        $this->user->email         = 'foo@example.com';
+        $this->user->password_hash = $hash;
+
+        $this->user->saveEmailIdentity();
+
+        $identity = $this->user->getEmailIdentity();
+        $this->assertSame('foo@example.com', $identity->secret);
+    }
 }
