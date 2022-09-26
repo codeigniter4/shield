@@ -216,4 +216,18 @@ final class UserTest extends TestCase
             'secret2' => $hash,
         ]);
     }
+
+    public function testCreateEmailIdentity(): void
+    {
+        $identity = $this->user->getEmailIdentity();
+        $this->assertNull($identity);
+
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'passbar',
+        ]);
+
+        $identity = $this->user->getEmailIdentity();
+        $this->assertSame('foo@example.com', $identity->secret);
+    }
 }

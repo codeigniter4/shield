@@ -121,6 +121,9 @@ class User extends Entity
         $identityModel = model(UserIdentityModel::class);
 
         $identityModel->createEmailIdentity($this, $credentials);
+
+        // Ensure we will reload all identities
+        $this->identities = null;
     }
 
     /**
