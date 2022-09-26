@@ -225,11 +225,17 @@ class UserModel extends Model
      */
     public function insert($data = null, bool $returnID = true)
     {
-        $this->tempUser = $data instanceof User ? $data : null;
+        // Clone User object for not changing the passed object.
+        $this->tempUser = $data instanceof User ? clone $data : null;
 
         $result = parent::insert($data, $returnID);
 
         $this->checkQueryReturn($result);
+
+        // Set user id to the passed User object.
+        if ($data instanceof User) {
+            $data->id = $this->insertID;
+        }
 
         return $returnID ? $this->insertID : $result;
     }
@@ -245,7 +251,8 @@ class UserModel extends Model
      */
     public function update($id = null, $data = null): bool
     {
-        $this->tempUser = $data instanceof User ? $data : null;
+        // Clone User object for not changing the passed object.
+        $this->tempUser = $data instanceof User ? clone $data : null;
 
         try {
             /** @throws DataException */
