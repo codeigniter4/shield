@@ -63,6 +63,21 @@ final class UserModelTest extends TestCase
     }
 
     /**
+     * @see https://github.com/codeigniter4/shield/issues/450
+     */
+    public function testSaveNewUserAndGetEmailIdentity(): void
+    {
+        $users = $this->createUserModel();
+        $user  = $this->createNewUser();
+
+        $users->save($user);
+
+        $identity = $user->getEmailIdentity();
+
+        $this->assertSame('foo@bar.com', $identity->secret);
+    }
+
+    /**
      * This test is not correct.
      *
      * Entity's `toArray()` method returns array with properties and values.
