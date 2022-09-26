@@ -154,6 +154,7 @@ class User extends Entity
                 'email'    => $this->email,
                 'password' => '',
             ]);
+
             $identity = $this->getEmailIdentity();
         }
 
