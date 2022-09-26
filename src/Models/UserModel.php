@@ -303,6 +303,9 @@ class UserModel extends Model
             /** @var User $user */
             $user = $this->find($this->db->insertID());
 
+            // If you get identity (email/password), the User object must have the id.
+            $this->tempUser->id = $user->id;
+
             $user->email         = $this->tempUser->email ?? '';
             $user->password      = $this->tempUser->password ?? '';
             $user->password_hash = $this->tempUser->password_hash ?? '';

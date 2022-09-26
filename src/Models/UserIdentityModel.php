@@ -59,6 +59,8 @@ class UserIdentityModel extends Model
      */
     public function createEmailIdentity(User $user, array $credentials): void
     {
+        assert($user->id !== null, '"$user->id" must not be null.');
+
         /** @var Passwords $passwords */
         $passwords = service('passwords');
 
@@ -85,7 +87,7 @@ class UserIdentityModel extends Model
         array $data,
         callable $codeGenerator
     ): string {
-        assert($user->id !== null);
+        assert($user->id !== null, '"$user->id" must not be null.');
 
         helper('text');
 
@@ -120,6 +122,8 @@ class UserIdentityModel extends Model
      */
     public function generateAccessToken(User $user, string $name, array $scopes = ['*']): AccessToken
     {
+        assert($user->id !== null, '"$user->id" must not be null.');
+
         helper('text');
 
         $return = $this->insert([
@@ -153,6 +157,8 @@ class UserIdentityModel extends Model
 
     public function getAccessToken(User $user, string $rawToken): ?AccessToken
     {
+        assert($user->id !== null, '"$user->id" must not be null.');
+
         return $this->where('user_id', $user->id)
             ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->where('secret', hash('sha256', $rawToken))
@@ -167,6 +173,8 @@ class UserIdentityModel extends Model
      */
     public function getAccessTokenById($id, User $user): ?AccessToken
     {
+        assert($user->id !== null, '"$user->id" must not be null.');
+
         return $this->where('user_id', $user->id)
             ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->where('id', $id)
@@ -179,6 +187,8 @@ class UserIdentityModel extends Model
      */
     public function getAllAccessTokens(User $user): array
     {
+        assert($user->id !== null, '"$user->id" must not be null.');
+
         return $this
             ->where('user_id', $user->id)
             ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
@@ -208,6 +218,8 @@ class UserIdentityModel extends Model
      */
     public function getIdentities(User $user): array
     {
+        assert($user->id !== null, '"$user->id" must not be null.');
+
         return $this->where('user_id', $user->id)->orderBy($this->primaryKey)->findAll();
     }
 
@@ -226,6 +238,8 @@ class UserIdentityModel extends Model
      */
     public function getIdentityByType(User $user, string $type): ?UserIdentity
     {
+        assert($user->id !== null, '"$user->id" must not be null.');
+
         return $this->where('user_id', $user->id)
             ->where('type', $type)
             ->orderBy($this->primaryKey)
@@ -241,6 +255,8 @@ class UserIdentityModel extends Model
      */
     public function getIdentitiesByTypes(User $user, array $types): array
     {
+        assert($user->id !== null, '"$user->id" must not be null.');
+
         if ($types === []) {
             return [];
         }
@@ -265,6 +281,8 @@ class UserIdentityModel extends Model
 
     public function deleteIdentitiesByType(User $user, string $type): void
     {
+        assert($user->id !== null, '"$user->id" must not be null.');
+
         $return = $this->where('user_id', $user->id)
             ->where('type', $type)
             ->delete();
@@ -277,6 +295,8 @@ class UserIdentityModel extends Model
      */
     public function revokeAccessToken(User $user, string $rawToken): void
     {
+        assert($user->id !== null, '"$user->id" must not be null.');
+
         $return = $this->where('user_id', $user->id)
             ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->where('secret', hash('sha256', $rawToken))
@@ -290,6 +310,8 @@ class UserIdentityModel extends Model
      */
     public function revokeAllAccessTokens(User $user): void
     {
+        assert($user->id !== null, '"$user->id" must not be null.');
+
         $return = $this->where('user_id', $user->id)
             ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->delete();
