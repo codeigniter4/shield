@@ -12,6 +12,7 @@ use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
+use CodeIgniter\Shield\Exceptions\LogicException;
 use Faker\Generator;
 
 class UserIdentityModel extends Model
@@ -59,6 +60,8 @@ class UserIdentityModel extends Model
      */
     public function createEmailIdentity(User $user, array $credentials): void
     {
+        $this->checkUserId($user);
+
         /** @var Passwords $passwords */
         $passwords = service('passwords');
 
@@ -70,6 +73,15 @@ class UserIdentityModel extends Model
         ]);
 
         $this->checkQueryReturn($return);
+    }
+
+    private function checkUserId(User $user): void
+    {
+        if ($user->id === null) {
+            throw new LogicException(
+                '"$user->id" is null. You should not use the incomplete User object.'
+            );
+        }
     }
 
     /**
@@ -85,7 +97,7 @@ class UserIdentityModel extends Model
         array $data,
         callable $codeGenerator
     ): string {
-        assert($user->id !== null);
+        $this->checkUserId($user);
 
         helper('text');
 
@@ -120,6 +132,8 @@ class UserIdentityModel extends Model
      */
     public function generateAccessToken(User $user, string $name, array $scopes = ['*']): AccessToken
     {
+        $this->checkUserId($user);
+
         helper('text');
 
         $return = $this->insert([
@@ -153,6 +167,8 @@ class UserIdentityModel extends Model
 
     public function getAccessToken(User $user, string $rawToken): ?AccessToken
     {
+        $this->checkUserId($user);
+
         return $this->where('user_id', $user->id)
             ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->where('secret', hash('sha256', $rawToken))
@@ -167,6 +183,8 @@ class UserIdentityModel extends Model
      */
     public function getAccessTokenById($id, User $user): ?AccessToken
     {
+        $this->checkUserId($user);
+
         return $this->where('user_id', $user->id)
             ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->where('id', $id)
@@ -179,6 +197,8 @@ class UserIdentityModel extends Model
      */
     public function getAllAccessTokens(User $user): array
     {
+        $this->checkUserId($user);
+
         return $this
             ->where('user_id', $user->id)
             ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
@@ -208,6 +228,8 @@ class UserIdentityModel extends Model
      */
     public function getIdentities(User $user): array
     {
+        $this->checkUserId($user);
+
         return $this->where('user_id', $user->id)->orderBy($this->primaryKey)->findAll();
     }
 
@@ -226,6 +248,8 @@ class UserIdentityModel extends Model
      */
     public function getIdentityByType(User $user, string $type): ?UserIdentity
     {
+        $this->checkUserId($user);
+
         return $this->where('user_id', $user->id)
             ->where('type', $type)
             ->orderBy($this->primaryKey)
@@ -241,6 +265,8 @@ class UserIdentityModel extends Model
      */
     public function getIdentitiesByTypes(User $user, array $types): array
     {
+        $this->checkUserId($user);
+
         if ($types === []) {
             return [];
         }
@@ -265,6 +291,8 @@ class UserIdentityModel extends Model
 
     public function deleteIdentitiesByType(User $user, string $type): void
     {
+        $this->checkUserId($user);
+
         $return = $this->where('user_id', $user->id)
             ->where('type', $type)
             ->delete();
@@ -277,6 +305,8 @@ class UserIdentityModel extends Model
      */
     public function revokeAccessToken(User $user, string $rawToken): void
     {
+        $this->checkUserId($user);
+
         $return = $this->where('user_id', $user->id)
             ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->where('secret', hash('sha256', $rawToken))
@@ -290,6 +320,8 @@ class UserIdentityModel extends Model
      */
     public function revokeAllAccessTokens(User $user): void
     {
+        $this->checkUserId($user);
+
         $return = $this->where('user_id', $user->id)
             ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
             ->delete();

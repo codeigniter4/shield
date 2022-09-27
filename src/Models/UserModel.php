@@ -225,7 +225,8 @@ class UserModel extends Model
      */
     public function insert($data = null, bool $returnID = true)
     {
-        $this->tempUser = $data instanceof User ? $data : null;
+        // Clone User object for not changing the passed object.
+        $this->tempUser = $data instanceof User ? clone $data : null;
 
         $result = parent::insert($data, $returnID);
 
@@ -245,7 +246,8 @@ class UserModel extends Model
      */
     public function update($id = null, $data = null): bool
     {
-        $this->tempUser = $data instanceof User ? $data : null;
+        // Clone User object for not changing the passed object.
+        $this->tempUser = $data instanceof User ? clone $data : null;
 
         try {
             /** @throws DataException */
@@ -302,6 +304,9 @@ class UserModel extends Model
         if ($this->tempUser->id === null) {
             /** @var User $user */
             $user = $this->find($this->db->insertID());
+
+            // If you get identity (email/password), the User object must have the id.
+            $this->tempUser->id = $user->id;
 
             $user->email         = $this->tempUser->email ?? '';
             $user->password      = $this->tempUser->password ?? '';
