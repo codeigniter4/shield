@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
 use Tests\Support\TestCase;
@@ -67,14 +68,15 @@ final class UserModelTest extends TestCase
      */
     public function testSaveNewUserAndGetEmailIdentity(): void
     {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('"$user->id" is null. You should not use the incomplete User object.');
+
         $users = $this->createUserModel();
         $user  = $this->createNewUser();
 
         $users->save($user);
 
-        $identity = $user->getEmailIdentity();
-
-        $this->assertSame('foo@bar.com', $identity->secret);
+        $user->getEmailIdentity();
     }
 
     /**

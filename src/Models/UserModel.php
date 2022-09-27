@@ -232,11 +232,6 @@ class UserModel extends Model
 
         $this->checkQueryReturn($result);
 
-        // Set user id to the passed User object.
-        if ($data instanceof User) {
-            $data->id = $this->insertID;
-        }
-
         return $returnID ? $this->insertID : $result;
     }
 
