@@ -16,7 +16,7 @@ $routes->post('auth/token', '\App\Controllers\Auth\LoginController::mobileLogin'
 // LoginController.php
 namespace App\Controllers\Auth;
 
-use CodeIgniter\Controllers\BaseController;
+use App\Controllers\BaseController;
 
 class LoginController extends BaseController
 {
