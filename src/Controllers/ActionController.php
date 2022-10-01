@@ -18,7 +18,7 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 class ActionController extends BaseController
 {
     protected ?ActionInterface $action = null;
-    protected $helpers                 = ['auth', 'setting'];
+    protected $helpers                 = ['setting'];
 
     /**
      * Perform an initial check if we have a valid action or not.
