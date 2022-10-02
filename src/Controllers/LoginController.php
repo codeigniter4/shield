@@ -61,9 +61,6 @@ class LoginController extends BaseController
             return redirect()->route('login')->withInput()->with('error', $result->reason());
         }
 
-        /** @var Session $authenticator */
-        $authenticator = auth('session')->getAuthenticator();
-
         // If an action has been defined for login, start it up.
         if ($authenticator->hasAction()) {
             return redirect()->route('auth-action-show')->withCookies();
