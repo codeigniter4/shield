@@ -10,9 +10,12 @@
                 <h5 class="card-title mb-5"><?= lang('Auth.login') ?></h5>
 
                 <?php if (session('error') !== null) : ?>
-                    <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+                    <div class="alert alert-danger" role="alert"><?= session('error') ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 <?php elseif (session('errors') !== null) : ?>
                     <div class="alert alert-danger" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         <?php if (is_array(session('errors'))) : ?>
                             <?php foreach (session('errors') as $error) : ?>
                                 <?= $error ?>
@@ -25,7 +28,9 @@
                 <?php endif ?>
 
                 <?php if (session('message') !== null) : ?>
-                <div class="alert alert-success" role="alert"><?= session('message') ?></div>
+                <div class="alert alert-success" role="alert"><?= session('message') ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 <?php endif ?>
 
                 <form action="<?= url_to('login') ?>" method="post">
@@ -68,4 +73,8 @@
         </div>
     </div>
 
+<?= $this->endSection() ?>
+
+<?= $this->section('pageScripts') ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <?= $this->endSection() ?>
