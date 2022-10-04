@@ -21,7 +21,7 @@ use CodeIgniter\Shield\Authentication\Passwords;
  * though a Authenticator may want to enforce only one exists for that
  * user, like a password.
  *
- * @property Time|null   $last_used_at
+ * @property Time|null|string   $last_used_at
  * @property string|null $secret
  * @property string|null $secret2
  */
