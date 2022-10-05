@@ -23,7 +23,7 @@ These instructions assume that you have already [installed the CodeIgniter 4 app
 ## Composer Installation
 
 Installation is done through [Composer](https://getcomposer.org). The example assumes you have it installed globally.
-If you have it installed as a phar, or othewise you will need to adjust the way you call composer itself.
+If you have it installed as a phar, or otherwise you will need to adjust the way you call composer itself.
 
 ```
 > composer require codeigniter4/shield
