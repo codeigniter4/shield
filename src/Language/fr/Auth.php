@@ -67,7 +67,7 @@ return [
     // Email Globals
     'emailInfo'      => 'Quelques informations sur la personne qui a demandé le code:',
     'emailIpAddress' => 'Adresse IP:',
-    'emailDevice'    => 'Dispositif',
+    'emailDevice'    => 'Dispositif:',
     'emailDate'      => 'Jour:',
 
     // 2FA
