@@ -13,7 +13,7 @@ use CodeIgniter\I18n\Time;
  * Represents a single Personal Access Token, used
  * for authenticating users for an API.
  *
- * @property Time|null $last_used_at
+ * @property string|Time|null $last_used_at
  */
 class AccessToken extends Entity
 {
