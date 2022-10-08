@@ -75,7 +75,7 @@ return [
 
     // Email Globals
     'emailInfo'      => 'برخی از اطلاعات درخواست کننده کد:',
-    'emailIpAddress' => '(To be translated) IP Address:',
+    'emailIpAddress' => 'آدرس ای پی:',
     'emailDevice'    => '(To be translated) Device:',
     'emailDate'      => '(To be translated) Date:',
 
