@@ -76,7 +76,7 @@ return [
     // Email Globals
     'emailInfo'      => 'برخی از اطلاعات درخواست کننده کد:',
     'emailIpAddress' => 'آدرس ای پی:',
-    'emailDevice'    => '(To be translated) Device:',
+    'emailDevice'    => 'دستگاه:',
     'emailDate'      => '(To be translated) Date:',
 
     // 2FA
