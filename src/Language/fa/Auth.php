@@ -74,7 +74,7 @@ return [
     'resetTokenExpired'         => 'متاسفانه، توکن بازنشانی شما منقضی شده است.',
 
     // Email Globals
-    'emailInfo'      => '(To be translated) Some information about the person who asked for the code:',
+    'emailInfo'      => 'برخی از اطلاعات درخواست کننده کد:',
     'emailIpAddress' => '(To be translated) IP Address:',
     'emailDevice'    => '(To be translated) Device:',
     'emailDate'      => '(To be translated) Date:',
