@@ -77,7 +77,7 @@ return [
     'emailInfo'      => 'برخی از اطلاعات درخواست کننده کد:',
     'emailIpAddress' => 'آدرس ای پی:',
     'emailDevice'    => 'دستگاه:',
-    'emailDate'      => '(To be translated) Date:',
+    'emailDate'      => 'زمان:',
 
     // 2FA
     'email2FATitle'       => 'احراز هویت دو عاملی',
