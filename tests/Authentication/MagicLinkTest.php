@@ -108,7 +108,7 @@ final class MagicLinkTest extends TestCase
             'expires' => Time::now()->subDays(5),
         ]);
 
-        $result = $this->get(route_to('verify-magic-link') . '?token=' . 'abasdasdf');
+        $result = $this->get(route_to('verify-magic-link') . '?token=abasdasdf');
 
         $result->assertRedirectTo(route_to('magic-link'));
         $result->assertSessionHas('error', lang('Auth.magicLinkExpired'));
@@ -129,7 +129,7 @@ final class MagicLinkTest extends TestCase
             'expires' => Time::now()->addMinutes(60),
         ]);
 
-        $result = $this->get(route_to('verify-magic-link') . '?token=' . 'abasdasdf');
+        $result = $this->get(route_to('verify-magic-link') . '?token=abasdasdf');
 
         $result->assertRedirectTo(site_url());
         $result->assertSessionHas('logged_in', $user->id);
