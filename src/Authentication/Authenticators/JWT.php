@@ -10,6 +10,7 @@ use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT\FirebaseAdapter;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT\JWTAdapterInterface;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
@@ -56,6 +57,9 @@ class JWT implements AuthenticatorInterface
      */
     public function attempt(array $credentials): Result
     {
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
+
         /** @var IncomingRequest $request */
         $request = service('request');
 
@@ -65,14 +69,16 @@ class JWT implements AuthenticatorInterface
         $result = $this->check($credentials);
 
         if (! $result->isOK()) {
-            // Always record a login attempt, whether success or not.
-            $this->tokenLoginModel->recordLoginAttempt(
-                self::ID_TYPE_JWT,
-                $credentials['token'] ?? '',
-                false,
-                $ipAddress,
-                $userAgent
-            );
+            if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
+                // Record a failed login attempt.
+                $this->tokenLoginModel->recordLoginAttempt(
+                    self::ID_TYPE_JWT,
+                    $credentials['token'] ?? '',
+                    false,
+                    $ipAddress,
+                    $userAgent
+                );
+            }
 
             return $result;
         }
@@ -81,14 +87,17 @@ class JWT implements AuthenticatorInterface
 
         $this->login($user);
 
-        $this->tokenLoginModel->recordLoginAttempt(
-            self::ID_TYPE_JWT,
-            $credentials['token'] ?? '',
-            true,
-            $ipAddress,
-            $userAgent,
-            $this->user->id
-        );
+        if ($config->recordLoginAttempt === Auth::RECORD_LOGIN_ATTEMPT_ALL) {
+            // Record a successful login attempt.
+            $this->tokenLoginModel->recordLoginAttempt(
+                self::ID_TYPE_JWT,
+                $credentials['token'] ?? '',
+                true,
+                $ipAddress,
+                $userAgent,
+                $this->user->id
+            );
+        }
 
         return $result;
     }

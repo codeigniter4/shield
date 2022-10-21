@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Config;
 
 use CodeIgniter\Config\BaseConfig;
-use CodeIgniter\Shield\Authentication\Authenticators\JWT;
 
 /**
  * JWT Authenticator Configuration
@@ -38,4 +37,14 @@ class AuthJWT extends BaseConfig
      * Specifies the amount of time, in seconds, that a token is valid.
      */
     public int $timeToLive = HOUR;
+
+    /**
+     * Whether login attempts are recorded in the database.
+     *
+     * Valid values are:
+     * - Auth::RECORD_LOGIN_ATTEMPT_NONE
+     * - Auth::RECORD_LOGIN_ATTEMPT_FAILURE
+     * - Auth::RECORD_LOGIN_ATTEMPT_ALL
+     */
+    public int $recordLoginAttempt = Auth::RECORD_LOGIN_ATTEMPT_FAILURE;
 }

@@ -19,6 +19,10 @@ use CodeIgniter\Shield\Models\UserModel;
 
 class Auth extends BaseConfig
 {
+    public const RECORD_LOGIN_ATTEMPT_NONE    = 0; // Do not record at all
+    public const RECORD_LOGIN_ATTEMPT_FAILURE = 1; // Record only failures
+    public const RECORD_LOGIN_ATTEMPT_ALL     = 2; // Record all login attempts
+
     /**
      * ////////////////////////////////////////////////////////////////////
      * AUTHENTICATION
