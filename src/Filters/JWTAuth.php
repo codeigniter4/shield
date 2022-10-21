@@ -39,7 +39,7 @@ class JWTAuth implements FilterInterface
             return;
         }
 
-        helper(['auth', 'setting']);
+        helper('setting');
 
         /** @var JWT $authenticator */
         $authenticator = auth('jwt')->getAuthenticator();
