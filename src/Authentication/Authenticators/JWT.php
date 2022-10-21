@@ -227,7 +227,7 @@ class JWT implements AuthenticatorInterface
      */
     public function decodeJWT(string $encodedToken): stdClass
     {
-        $config = setting('Auth.jwtConfig');
+        $config = setting('AuthJWT.config');
 
         $key       = $config['secretKey'];
         $algorithm = $config['algorithm'];

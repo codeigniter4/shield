@@ -114,7 +114,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
 
     public function testCheckNoSubToken(): void
     {
-        $config  = setting('Auth.jwtConfig');
+        $config  = setting('AuthJWT.config');
         $payload = [
             'iss' => $config['claims']['iss'], // issuer
             'aud' => $config['claims']['aud'], // audience
@@ -170,7 +170,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $payload = $this->auth->getPayload();
 
         $this->assertSame((string) $this->user->id, $payload->sub);
-        $this->assertSame((\setting('Auth.jwtConfig')['claims']['iss']), $payload->iss);
+        $this->assertSame((\setting('AuthJWT.config')['claims']['iss']), $payload->iss);
     }
 
     public function testAttemptBadSignatureToken(): void

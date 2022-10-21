@@ -23,14 +23,14 @@ final class FirebaseAdapaterTest extends TestCase
 
         $jwtDecoder = new FirebaseAdapter();
 
-        $config    = setting('Auth.jwtConfig');
+        $config    = setting('AuthJWT.config');
         $key       = $config['secretKey'];
         $algorithm = $config['algorithm'];
 
         $payload = $jwtDecoder->decode($token, $key, $algorithm);
 
-        $this->assertSame(setting('Auth.jwtConfig')['claims']['iss'], $payload->iss);
-        $this->assertSame(setting('Auth.jwtConfig')['claims']['aud'], $payload->aud);
+        $this->assertSame(setting('AuthJWT.config')['claims']['iss'], $payload->iss);
+        $this->assertSame(setting('AuthJWT.config')['claims']['aud'], $payload->aud);
         $this->assertSame('1', $payload->sub);
     }
 
@@ -54,7 +54,7 @@ final class FirebaseAdapaterTest extends TestCase
 
         $jwtDecoder = new FirebaseAdapter();
 
-        $config    = setting('Auth.jwtConfig');
+        $config    = setting('AuthJWT.config');
         $key       = $config['secretKey'];
         $algorithm = $config['algorithm'];
 
@@ -72,7 +72,7 @@ final class FirebaseAdapaterTest extends TestCase
         $currentTime = new Time('-1 hour');
         $token       = $this->generateJWT($currentTime);
 
-        $config    = setting('Auth.jwtConfig');
+        $config    = setting('AuthJWT.config');
         $key       = $config['secretKey'];
         $algorithm = $config['algorithm'];
 
