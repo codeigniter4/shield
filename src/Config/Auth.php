@@ -140,7 +140,6 @@ class Auth extends BaseConfig
      */
     public array $authenticatorHeader = [
         'tokens' => 'Authorization',
-        'jwt'    => 'Authorization',
     ];
 
     /**

@@ -12,6 +12,16 @@ use CodeIgniter\Config\BaseConfig;
 class AuthJWT extends BaseConfig
 {
     /**
+     * --------------------------------------------------------------------
+     * Name of Authenticator Header
+     * --------------------------------------------------------------------
+     * The name of Header that the Authorization token should be found.
+     * According to the specs, this should be `Authorization`, but rare
+     * circumstances might need a different header.
+     */
+    public string $authenticatorHeader = 'Authorization';
+
+    /**
      * The payload items that all JWT have.
      *
      * @var string[]

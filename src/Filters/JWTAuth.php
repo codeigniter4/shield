@@ -10,6 +10,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT;
+use CodeIgniter\Shield\Config\AuthJWT;
 use Config\Services;
 
 /**
@@ -65,8 +66,11 @@ class JWTAuth implements FilterInterface
     {
         assert($request instanceof IncomingRequest);
 
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
+
         $tokenHeader = $request->getHeaderLine(
-            setting('Auth.authenticatorHeader')['jwt'] ?? 'Authorization'
+            $config->authenticatorHeader ?? 'Authorization'
         );
 
         if (strpos($tokenHeader, 'Bearer') === 0) {

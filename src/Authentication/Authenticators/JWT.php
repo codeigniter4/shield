@@ -169,8 +169,11 @@ class JWT implements AuthenticatorInterface
         /** @var IncomingRequest $request */
         $request = service('request');
 
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
+
         return $this->attempt([
-            'token' => $request->getHeaderLine(config('Auth')->authenticatorHeader['jwt']),
+            'token' => $request->getHeaderLine($config->authenticatorHeader),
         ])->isOK();
     }
 
