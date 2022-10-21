@@ -10,6 +10,7 @@ use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT;
 use CodeIgniter\Shield\Authentication\TokenGenerator\JWTGenerator;
 use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
@@ -114,12 +115,13 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
 
     public function testCheckNoSubToken(): void
     {
-        $config  = setting('AuthJWT.config');
+        /** @var AuthJWT $config */
+        $config  = config('AuthJWT');
         $payload = [
-            'iss' => $config['claims']['iss'], // issuer
-            'aud' => $config['claims']['aud'], // audience
+            'iss' => $config->claims['iss'], // issuer
+            'aud' => $config->claims['aud'], // audience
         ];
-        $token = FirebaseJWT::encode($payload, $config['secretKey'], $config['algorithm']);
+        $token = FirebaseJWT::encode($payload, $config->secretKey, $config->algorithm);
 
         $result = $this->auth->check(['token' => $token]);
 
@@ -170,7 +172,9 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $payload = $this->auth->getPayload();
 
         $this->assertSame((string) $this->user->id, $payload->sub);
-        $this->assertSame((\setting('AuthJWT.config')['claims']['iss']), $payload->iss);
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
+        $this->assertSame($config->claims['iss'], $payload->iss);
     }
 
     public function testAttemptBadSignatureToken(): void

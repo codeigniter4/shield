@@ -10,6 +10,7 @@ use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT\FirebaseAdapter;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT\JWTAdapterInterface;
+use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\TokenLoginModel;
@@ -227,10 +228,11 @@ class JWT implements AuthenticatorInterface
      */
     public function decodeJWT(string $encodedToken): stdClass
     {
-        $config = setting('AuthJWT.config');
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
 
-        $key       = $config['secretKey'];
-        $algorithm = $config['algorithm'];
+        $key       = $config->secretKey;
+        $algorithm = $config->algorithm;
 
         return $this->jwtAdapter->decode($encodedToken, $key, $algorithm);
     }

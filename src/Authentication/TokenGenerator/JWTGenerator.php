@@ -7,6 +7,7 @@ namespace CodeIgniter\Shield\Authentication\TokenGenerator;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT\FirebaseAdapter;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT\JWTAdapterInterface;
+use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 
 class JWTGenerator
@@ -25,13 +26,14 @@ class JWTGenerator
      */
     public function generateAccessToken(User $user): string
     {
-        $config = setting('AuthJWT.config');
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
 
         $iat = $this->currentTime->getTimestamp();
-        $exp = $iat + $config['timeToLive'];
+        $exp = $iat + $config->timeToLive;
 
         $payload = array_merge(
-            $config['claims'],
+            $config->claims,
             [
                 'sub' => (string) $user->id,    // subject
                 'iat' => $iat,                  // issued at
@@ -41,8 +43,8 @@ class JWTGenerator
 
         return $this->jwtAdapter->generate(
             $payload,
-            $config['secretKey'],
-            $config['algorithm']
+            $config->secretKey,
+            $config->algorithm
         );
     }
 
@@ -60,9 +62,10 @@ class JWTGenerator
             'Cannot pass $claims[\'exp\'] and $ttl at the same time.'
         );
 
-        $config = setting('AuthJWT.config');
-        $algorithm ??= $config['algorithm'];
-        $key ??= $config['secretKey'];
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
+        $algorithm ??= $config->algorithm;
+        $key ??= $config->secretKey;
 
         $payload = $claims;
 
@@ -71,7 +74,7 @@ class JWTGenerator
         }
 
         if (! array_key_exists('exp', $claims)) {
-            $payload['exp'] = $payload['iat'] + $config['timeToLive'];
+            $payload['exp'] = $payload['iat'] + $config->timeToLive;
         }
 
         if ($ttl !== null) {

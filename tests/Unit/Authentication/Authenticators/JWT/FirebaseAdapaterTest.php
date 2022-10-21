@@ -7,6 +7,7 @@ namespace Tests\Unit\Authentication\Authenticators\JWT;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT\FirebaseAdapter;
 use CodeIgniter\Shield\Authentication\TokenGenerator\JWTGenerator;
+use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserModel;
@@ -23,14 +24,16 @@ final class FirebaseAdapaterTest extends TestCase
 
         $jwtDecoder = new FirebaseAdapter();
 
-        $config    = setting('AuthJWT.config');
-        $key       = $config['secretKey'];
-        $algorithm = $config['algorithm'];
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
+
+        $key       = $config->secretKey;
+        $algorithm = $config->algorithm;
 
         $payload = $jwtDecoder->decode($token, $key, $algorithm);
 
-        $this->assertSame(setting('AuthJWT.config')['claims']['iss'], $payload->iss);
-        $this->assertSame(setting('AuthJWT.config')['claims']['aud'], $payload->aud);
+        $this->assertSame($config->claims['iss'], $payload->iss);
+        $this->assertSame($config->claims['aud'], $payload->aud);
         $this->assertSame('1', $payload->sub);
     }
 
@@ -54,9 +57,10 @@ final class FirebaseAdapaterTest extends TestCase
 
         $jwtDecoder = new FirebaseAdapter();
 
-        $config    = setting('AuthJWT.config');
-        $key       = $config['secretKey'];
-        $algorithm = $config['algorithm'];
+        /** @var AuthJWT $config */
+        $config    = config('AuthJWT');
+        $key       = $config->secretKey;
+        $algorithm = $config->algorithm;
 
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJJc3N1ZXIgb2YgdGhlIEpXVCIsImF1ZCI6IkF1ZGllbmNlIG9mIHRoZSBKV1QiLCJzdWIiOiIxIiwiaWF0IjoxNjUzOTkxOTg5LCJleHAiOjE2NTM5OTU1ODl9.hgOYHEcT6RGHb3po1lspTcmjrylY1Cy1IvYmHOyx0CY';
         $jwtDecoder->decode($token, $key, $algorithm);
@@ -72,9 +76,10 @@ final class FirebaseAdapaterTest extends TestCase
         $currentTime = new Time('-1 hour');
         $token       = $this->generateJWT($currentTime);
 
-        $config    = setting('AuthJWT.config');
-        $key       = $config['secretKey'];
-        $algorithm = $config['algorithm'];
+        /** @var AuthJWT $config */
+        $config    = config('AuthJWT');
+        $key       = $config->secretKey;
+        $algorithm = $config->algorithm;
 
         $jwtDecoder->decode($token, $key, $algorithm);
     }
