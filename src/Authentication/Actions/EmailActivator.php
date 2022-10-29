@@ -49,7 +49,7 @@ class EmailActivator implements ActionInterface
 
         $ipAddress = $request->getIPAddress();
         $userAgent = (string) $request->getUserAgent();
-        $date      = Time::now()->toLocalizedString('MMM d, yyyy');
+        $date      = Time::now()->toDateTimeString();
 
         // Send the email
         $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
