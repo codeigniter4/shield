@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Authentication\Authenticators;
 
 use CodeIgniter\Config\Factories;
@@ -33,14 +35,17 @@ class Session implements AuthenticatorInterface
      */
     public const ID_TYPE_USERNAME = 'username';
 
+    // Identity types
     public const ID_TYPE_EMAIL_PASSWORD = 'email_password';
     public const ID_TYPE_MAGIC_LINK     = 'magic-link';
     public const ID_TYPE_EMAIL_2FA      = 'email_2fa';
     public const ID_TYPE_EMAIL_ACTIVATE = 'email_activate';
-    private const STATE_UNKNOWN         = 0;
-    private const STATE_ANONYMOUS       = 1;
-    private const STATE_PENDING         = 2;
-    private const STATE_LOGGED_IN       = 3;
+
+    // User states
+    private const STATE_UNKNOWN   = 0; // Not checked yet.
+    private const STATE_ANONYMOUS = 1;
+    private const STATE_PENDING   = 2; // 2FA or Activation required.
+    private const STATE_LOGGED_IN = 3;
 
     /**
      * The persistence engine
@@ -147,8 +152,11 @@ class Session implements AuthenticatorInterface
         // Update the user's last used date on their password identity.
         $user->touchIdentity($user->getEmailIdentity());
 
+        // Set auth action from database.
+        $this->setAuthAction();
+
         // If an action has been defined for login, start it up.
-        $hasAction = $this->startUpAction('login', $user);
+        $this->startUpAction('login', $user);
 
         $this->startLogin($user);
 
@@ -156,7 +164,7 @@ class Session implements AuthenticatorInterface
 
         $this->issueRememberMeToken();
 
-        if (! $hasAction) {
+        if (! $this->hasAction()) {
             $this->completeLogin($user);
         }
 
@@ -178,14 +186,11 @@ class Session implements AuthenticatorInterface
             return false;
         }
 
+        /** @var ActionInterface $action */
         $action = Factories::actions($actionClass); // @phpstan-ignore-line
 
         // Create identity for the action.
-        // E.g., afterRegister()
-        $method = 'after' . ucfirst($type);
-        if (method_exists($action, $method)) {
-            $action->{$method}($user);
-        }
+        $action->createIdentity($user);
 
         $this->setAuthAction();
 
@@ -193,7 +198,7 @@ class Session implements AuthenticatorInterface
     }
 
     /**
-     * Returns an action object.
+     * Returns an action object from the session data
      */
     public function getAction(): ?ActionInterface
     {
@@ -210,10 +215,9 @@ class Session implements AuthenticatorInterface
     /**
      * Check token in Action
      *
-     * @param string $type  Action type. 'email_2fa' or 'email_activate'
      * @param string $token Token to check
      */
-    public function checkAction(string $type, string $token): bool
+    public function checkAction(UserIdentity $identity, string $token): bool
     {
         $user = ($this->loggedIn() || $this->isPending()) ? $this->user : null;
 
@@ -221,14 +225,12 @@ class Session implements AuthenticatorInterface
             throw new LogicException('Cannot get the User.');
         }
 
-        $identity = $user->getIdentity($type);
-
         if (empty($token) || $token !== $identity->secret) {
             return false;
         }
 
-        // On success - remove the identity and clean up session
-        $this->userIdentityModel->deleteIdentitiesByType($user, $type);
+        // On success - remove the identity
+        $this->userIdentityModel->deleteIdentitiesByType($user, $identity->type);
 
         // Clean up our session
         $this->removeSessionKey('auth_action');
@@ -404,26 +406,54 @@ class Session implements AuthenticatorInterface
     }
 
     /**
-     * Gets identities for action from database, and set session.
+     * Has Auth Action?
      */
-    private function setAuthAction()
+    public function hasAction(): bool
     {
-        // Get identities for action
-        $identities = $this->getIdentitiesForAction();
+        // Check the Session
+        if ($this->getSessionKey('auth_action')) {
+            return true;
+        }
 
-        // Having an action?
-        foreach ($identities as $identity) {
-            $actionClass = setting('Auth.actions')[$identity->name];
+        // Check the database
+        return $this->setAuthAction();
+    }
 
-            if ($actionClass) {
+    /**
+     * Finds an identity for actions from database, and sets the identity
+     * that is found first in the session.
+     *
+     * @return bool true if the action is set in the session.
+     */
+    private function setAuthAction(): bool
+    {
+        if ($this->user === null) {
+            return false;
+        }
+
+        $authActions = setting('Auth.actions');
+
+        foreach ($authActions as $actionClass) {
+            if ($actionClass === null) {
+                continue;
+            }
+
+            /** @var ActionInterface $action */
+            $action = Factories::actions($actionClass);  // @phpstan-ignore-line
+
+            $identity = $this->userIdentityModel->getIdentityByType($this->user, $action->getType());
+
+            if ($identity) {
                 $this->userState = self::STATE_PENDING;
 
                 $this->setSessionKey('auth_action', $actionClass);
                 $this->setSessionKey('auth_action_message', $identity->extra);
 
-                return;
+                return true;
             }
         }
+
+        return false;
     }
 
     /**
@@ -709,7 +739,7 @@ class Session implements AuthenticatorInterface
         }
     }
 
-    private function removeRememberCookie()
+    private function removeRememberCookie(): void
     {
         /** @var Response $response */
         $response = service('response');
@@ -828,7 +858,7 @@ class Session implements AuthenticatorInterface
 
         $this->user->last_active = Time::now();
 
-        $this->provider->save($this->user);
+        $this->provider->updateActiveDate($this->user);
     }
 
     /**

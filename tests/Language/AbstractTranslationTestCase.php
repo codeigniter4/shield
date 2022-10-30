@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of CodeIgniter 4 framework.
  *
@@ -48,10 +50,10 @@ abstract class AbstractTranslationTestCase extends TestCase
         //        ArabicTranslationTest::class             => 'ar',
         //        BosnianTranslationTest::class            => 'bs',
         //        CzechTranslationTest::class              => 'cs',
-        GermanTranslationTest::class => 'de',
-        //        SpanishTranslationTest::class            => 'es',
-        FarsiTranslationTest::class  => 'fa',
-        FrenchTranslationTest::class => 'fr',
+        GermanTranslationTest::class  => 'de',
+        SpanishTranslationTest::class => 'es',
+        FarsiTranslationTest::class   => 'fa',
+        FrenchTranslationTest::class  => 'fr',
         //        HungarianTranslationTest::class          => 'hu',
         IndonesianTranslationTest::class => 'id',
         //        ItalianTranslationTest::class            => 'it',
@@ -89,9 +91,9 @@ abstract class AbstractTranslationTestCase extends TestCase
      */
     protected array $excludedLocaleKeyTranslations = [];
 
-    //-------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
     // TESTS
-    //-------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
 
     /**
      * This tests that all language files configured in the main CI4 repository
@@ -326,9 +328,9 @@ abstract class AbstractTranslationTestCase extends TestCase
         ));
     }
 
-    //-------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
     // UTILITIES
-    //-------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
 
     /**
      * Get all the ISO 639-1 and 639-2 locale codes.

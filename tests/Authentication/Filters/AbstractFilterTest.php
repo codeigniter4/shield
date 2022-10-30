@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Authentication\Filters;
 
 use CodeIgniter\Config\Factories;
@@ -59,6 +61,9 @@ abstract class AbstractFilterTest extends TestCase
             echo 'Open';
         });
         $routes->get('login', 'AuthController::login', ['as' => 'login']);
+        $routes->get('protected-user-route', static function (): void {
+            echo 'Protected';
+        }, ['filter' => $this->alias . ':users-read']);
 
         Services::injectMock('routes', $routes);
     }

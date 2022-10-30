@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Controllers;
 
 use CodeIgniter\Config\Factories;
@@ -28,8 +30,6 @@ final class RegisterTest extends DatabaseTestCase
         Services::reset(true);
 
         parent::setUp();
-
-        helper('auth');
 
         // Add auth routes
         $routes = service('routes');
@@ -145,6 +145,83 @@ final class RegisterTest extends DatabaseTestCase
             'username' => 'foo',
             'active'   => 0,
         ]);
+    }
+
+    public function testRegisteredButNotActivatedAndLogin(): void
+    {
+        // Ensure our action is defined
+        $config                      = config('Auth');
+        $config->actions['register'] = EmailActivator::class;
+        Factories::injectMock('config', 'Auth', $config);
+
+        $result = $this->post('/register', [
+            'email'            => 'foo@example.com',
+            'username'         => 'foo',
+            'password'         => 'abkdhflkjsdflkjasd;lkjf',
+            'password_confirm' => 'abkdhflkjsdflkjasd;lkjf',
+        ]);
+
+        // Should have been redirected to the action's page.
+        $result->assertRedirectTo('/auth/a/show');
+
+        // Not activated yet, but login again.
+        $result = $this->withSession()->get('/login');
+
+        // Should have been redirected to the action's page.
+        $result->assertRedirectTo('/auth/a/show');
+    }
+
+    public function testRegisteredButNotActivatedAndRegisterAgain(): void
+    {
+        // Ensure our action is defined
+        $config                      = config('Auth');
+        $config->actions['register'] = EmailActivator::class;
+        Factories::injectMock('config', 'Auth', $config);
+
+        $password = 'abkdhflkjsdflkjasd;lkjf';
+
+        $result = $this->post('/register', [
+            'email'            => 'foo@example.com',
+            'username'         => 'foo',
+            'password'         => $password,
+            'password_confirm' => $password,
+        ]);
+
+        // Should have been redirected to the action's page.
+        $result->assertRedirectTo('/auth/a/show');
+
+        // Not activated yet, but register again.
+        $result = $this->withSession()->get('/register');
+
+        // Should have been redirected to the action's page.
+        $result->assertRedirectTo('/auth/a/show');
+    }
+
+    public function testRegisteredAndSessionExpiredAndLogin(): void
+    {
+        // Ensure our action is defined
+        $config                      = config('Auth');
+        $config->actions['register'] = EmailActivator::class;
+        Factories::injectMock('config', 'Auth', $config);
+
+        $result = $this->post('/register', [
+            'email'            => 'foo@example.com',
+            'username'         => 'foo',
+            'password'         => 'abkdhflkjsdflkjasd;lkjf',
+            'password_confirm' => 'abkdhflkjsdflkjasd;lkjf',
+        ]);
+
+        // Should have been redirected to the action's page.
+        $result->assertRedirectTo('/auth/a/show');
+
+        // Not activated yet, and do not set Session (= the session is expired) and login again.
+        $result = $this->post('/login', [
+            'email'    => 'foo@example.com',
+            'password' => 'abkdhflkjsdflkjasd;lkjf',
+        ]);
+
+        // Should have been redirected to the action's page.
+        $result->assertRedirectTo('/auth/a/show');
     }
 
     public function testRegisterRedirectsIfLoggedIn(): void

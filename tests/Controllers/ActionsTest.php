@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Controllers;
 
 use CodeIgniter\Config\Factories;
@@ -30,8 +32,6 @@ final class ActionsTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        helper('auth');
 
         // Ensure our actions are registered with the system
         $config                      = config('Auth');

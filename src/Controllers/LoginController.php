@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
@@ -8,7 +10,7 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 
 class LoginController extends BaseController
 {
-    protected $helpers = ['auth', 'setting'];
+    protected $helpers = ['setting'];
 
     /**
      * Displays the form the login to the site.
@@ -19,6 +21,14 @@ class LoginController extends BaseController
     {
         if (auth()->loggedIn()) {
             return redirect()->to(config('Auth')->loginRedirect());
+        }
+
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        // If an action has been defined, start it up.
+        if ($authenticator->hasAction()) {
+            return redirect()->route('auth-action-show');
         }
 
         return view(setting('Auth.views')['login']);
@@ -42,20 +52,17 @@ class LoginController extends BaseController
         $credentials['password'] = $this->request->getPost('password');
         $remember                = (bool) $this->request->getPost('remember');
 
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
         // Attempt to login
-        $result = auth('session')->remember($remember)->attempt($credentials);
+        $result = $authenticator->remember($remember)->attempt($credentials);
         if (! $result->isOK()) {
             return redirect()->route('login')->withInput()->with('error', $result->reason());
         }
 
-        // custom bit of information
-        $user = $result->extraInfo();
-        /** @var Session $authenticator */
-        $authenticator = auth('session')->getAuthenticator();
-
         // If an action has been defined for login, start it up.
-        $hasAction = $authenticator->startUpAction('login', $user);
-        if ($hasAction) {
+        if ($authenticator->hasAction()) {
             return redirect()->route('auth-action-show')->withCookies();
         }
 
@@ -70,9 +77,18 @@ class LoginController extends BaseController
     protected function getValidationRules(): array
     {
         return setting('Validation.login') ?? [
-            //'username' => config('AuthSession')->usernameValidationRules,
-            'email'    => config('AuthSession')->emailValidationRules,
-            'password' => 'required',
+            // 'username' => [
+            //     'label' => 'Auth.username',
+            //     'rules' => config('AuthSession')->usernameValidationRules,
+            // ],
+            'email' => [
+                'label' => 'Auth.email',
+                'rules' => config('AuthSession')->emailValidationRules,
+            ],
+            'password' => [
+                'label' => 'Auth.password',
+                'rules' => 'required',
+            ],
         ];
     }
 

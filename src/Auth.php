@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield;
 
 use CodeIgniter\Router\RouteCollection;
@@ -104,7 +106,7 @@ class Auth
 
         $routes->group('/', ['namespace' => 'CodeIgniter\Shield\Controllers'], static function (RouteCollection $routes) use ($authRoutes, $config): void {
             foreach ($authRoutes as $name => $row) {
-                if (! isset($config['except']) || (isset($config['except']) && ! in_array($name, $config['except'], true))) {
+                if (! isset($config['except']) || ! in_array($name, $config['except'], true)) {
                     foreach ($row as $params) {
                         $options = isset($params[3])
                             ? ['as' => $params[3]]

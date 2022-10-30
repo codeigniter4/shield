@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit;
 
 use CodeIgniter\I18n\Time;
@@ -53,7 +55,7 @@ final class UserTest extends TestCase
         $this->assertEmpty($this->user->getIdentities('foo'));
     }
 
-    public function testModelfindAllWithIdentities(): void
+    public function testModelFindAllWithIdentities(): void
     {
         fake(UserModel::class);
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
@@ -67,7 +69,7 @@ final class UserTest extends TestCase
         $this->assertCount(2, $identities);
     }
 
-    public function testModelfindByIdWithIdentities(): void
+    public function testModelFindByIdWithIdentities(): void
     {
         fake(UserModel::class);
         fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
@@ -213,5 +215,31 @@ final class UserTest extends TestCase
             'secret'  => 'foo@bar.com',
             'secret2' => $hash,
         ]);
+    }
+
+    public function testCreateEmailIdentity(): void
+    {
+        $identity = $this->user->getEmailIdentity();
+        $this->assertNull($identity);
+
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'passbar',
+        ]);
+
+        $identity = $this->user->getEmailIdentity();
+        $this->assertSame('foo@example.com', $identity->secret);
+    }
+
+    public function testSaveEmailIdentity(): void
+    {
+        $hash                      = service('passwords')->hash('passbar');
+        $this->user->email         = 'foo@example.com';
+        $this->user->password_hash = $hash;
+
+        $this->user->saveEmailIdentity();
+
+        $identity = $this->user->getEmailIdentity();
+        $this->assertSame('foo@example.com', $identity->secret);
     }
 }

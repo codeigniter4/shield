@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Commands\Setup;
 
 use CodeIgniter\Shield\Commands\Setup\ContentReplacer;

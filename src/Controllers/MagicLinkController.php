@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
@@ -60,7 +62,7 @@ class MagicLinkController extends BaseController
         // Validate email format
         $rules = $this->getValidationRules();
         if (! $this->validate($rules)) {
-            return redirect()->route('magic-link')->with('error', lang('Auth.invalidEmail'));
+            return redirect()->route('magic-link')->with('errors', $this->validator->getErrors());
         }
 
         // Check if the user exists
@@ -89,16 +91,19 @@ class MagicLinkController extends BaseController
         ]);
 
         // Send the user an email with the code
-        helper('email');
-        $return = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
-            ->setTo($user->email)
-            ->setSubject(lang('Auth.magicLinkSubject'))
-            ->setMessage(view(setting('Auth.views')['magic-link-email'], ['token' => $token]))
-            ->send();
+        $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
+        $email->setTo($user->email);
+        $email->setSubject(lang('Auth.magicLinkSubject'));
+        $email->setMessage(view(setting('Auth.views')['magic-link-email'], ['token' => $token]));
 
-        if ($return === false) {
+        if ($email->send(false) === false) {
+            log_message('error', $email->printDebugger(['headers']));
+
             return redirect()->route('magic-link')->with('error', lang('Auth.unableSendEmailToUser', [$user->email]));
         }
+
+        // Clear the email
+        $email->clear();
 
         return $this->displayMessage();
     }
@@ -158,6 +163,12 @@ class MagicLinkController extends BaseController
 
         $this->recordLoginAttempt($identifier, true, $user->id);
 
+        // Give the developer a way to know the user
+        // logged in via a magic link.
+        session()->setTempdata('magicLogin', true);
+
+        Events::trigger('magicLogin');
+
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
     }
@@ -191,7 +202,10 @@ class MagicLinkController extends BaseController
     protected function getValidationRules(): array
     {
         return [
-            'email' => config('AuthSession')->emailValidationRules,
+            'email' => [
+                'label' => 'Auth.email',
+                'rules' => config('AuthSession')->emailValidationRules,
+            ],
         ];
     }
 }

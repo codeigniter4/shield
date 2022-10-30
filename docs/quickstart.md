@@ -6,13 +6,16 @@ NOTE: The examples assume that you have run the setup script and that you have c
 
 - [Quick Start Guide](#quick-start-guide)
   - [Authentication Flow](#authentication-flow)
-    - [Customize login redirect](#customize-login-redirect)
     - [Customize register redirect](#customize-register-redirect)
+    - [Customize login redirect](#customize-login-redirect)
     - [Customize logout redirect](#customize-logout-redirect)
     - [Customize Remember-me functionality](#customize-remember-me-functionality)
     - [Change Access Token Lifetime](#change-access-token-lifetime)
-    - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
     - [Enable Account Activation via Email](#enable-account-activation-via-email)
+    - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
+    - [Responding to Magic Link Logins](#responding-to-magic-link-logins)
+      - [Session Notification](#session-notification)
+      - [Event](#event)
   - [Authorization Flow](#authorization-flow)
     - [Change Available Groups](#change-available-groups)
     - [Set the Default Group](#set-the-default-group)
@@ -42,6 +45,19 @@ public array $redirects = [
 
 NOTE: This redirect happens after the specified action is complete. In the case of register or login, it might not happen immediately. For example, if you have any Auth Actions specified, they will be redirected when those actions are completed successfully. If no Auth Actions are specified, they will be redirected immediately after registration or login.
 
+### Customize register redirect
+
+You can customize where a user is redirected to after registration in the `registerRedirect` method of the `Auth` config file.
+
+```php
+public function registerRedirect(): string
+{
+    $url = setting('Auth.redirects')['register'];
+
+    return $this->getUrl($url);
+}
+```
+
 ### Customize login redirect
 
 You can further customize where a user is redirected to on login with the `loginRedirect` method of the `Auth` config file. This is handy if you want to redirect based on user group or other criteria.
@@ -52,19 +68,6 @@ public function loginRedirect(): string
     $url = auth()->user()->inGroup('admin')
         ? '/admin'
         : setting('Auth.redirects')['login'];
-
-    return $this->getUrl($url);
-}
-```
-
-### Customize register redirect
-
-You can customize where a user is redirected to after registration in the `registerRedirect` method of the `Auth` config file.
-
-```php
-public function registerRedirect(): string
-{
-    $url = setting('Auth.redirects')['register'];
 
     return $this->getUrl($url);
 }
@@ -104,29 +107,57 @@ By default, Access Tokens can be used for 1 year since the last use. This can be
 public int $unusedTokenLifetime = YEAR;
 ```
 
-### Enable Two-Factor Authentication
-
-Turned off by default, Shield's Email-based 2FA can be enabled by specifying the class to use in the `Auth` config file.
-
-```php
-public array $actions = [
-    'login'    => 'CodeIgniter\Shield\Authentication\Actions\Email2FA',
-    'register' => null,
-];
-```
-
 ### Enable Account Activation via Email
 
 By default, once a user registers they have an active account that can be used. You can enable Shield's built-in, email-based activation flow within the `Auth` config file.
 
 ```php
 public array $actions = [
-    'login'    => null,
     'register' => 'CodeIgniter\Shield\Authentication\Actions\EmailActivator',
+    'login'    => null,
 ];
 ```
 
+### Enable Two-Factor Authentication
 
+Turned off by default, Shield's Email-based 2FA can be enabled by specifying the class to use in the `Auth` config file.
+
+```php
+public array $actions = [
+    'register' => null,
+    'login'    => 'CodeIgniter\Shield\Authentication\Actions\Email2FA',
+];
+```
+
+### Responding to Magic Link Logins
+
+Magic Link logins allow a user that has forgotten their password to have an email sent with a unique, one-time login link. Once they've logged in you can decide how to respond. In some cases, you might want to redirect them to a special page where they must choose a new password. In other cases, you might simply want to display a one-time message prompting them to go to their account page and choose a new password.
+
+#### Session Notification
+
+You can detect if a user has finished the magic link login by checking for a session value, `magicLogin`. If they have recently completed the flow, it will exist and have a value of `true`.
+
+```php
+if (session('magicLogin')) {
+    return redirect()->route('set_password');
+}
+```
+
+This value sticks around in the session for 5 minutes. Once you no longer need to take any actions, you might want to delete the value from the session.
+
+```php
+session()->removeTempdata('magicLogin');
+```
+
+#### Event
+
+At the same time the above session variable is set, a `magicLogin` [event](https://codeigniter.com/user_guide/extending/events.html) is fired off that you may subscribe to. Note that no data is passed to the event as you can easily grab the current user from the `user()` helper or the `auth()->user()` method.
+
+```php
+Events::on('magicLogin', static function () {
+    // ...
+});
+```
 
 
 ## Authorization Flow
@@ -179,7 +210,6 @@ public array $matrix = [
     //
 ];
 ```
-
 
 ### Assign Permissions to a User
 
@@ -256,12 +286,9 @@ if ($user->inGroup('admin', 'beta')) {
 }
 ```
 
-
-
 ## Managing Users
 
-Shield uses a more complex user setup than many other systems, separating [User Identities](concepts.md#identities) from the user accounts themselves. This quick overview should help you feel more confident when working with users on a day-to-day basis.
-Since Shield uses a more complex user setup than many other systems, due to the [User Identities](concepts.md#user-identities), this quick overview should help you feel more confident when working with users on a day-to-day basis.
+Since Shield uses a more complex user setup than many other systems, separating [User Identities](concepts.md#user-identities) from the user accounts themselves. This quick overview should help you feel more confident when working with users on a day-to-day basis.
 
 ### Creating Users
 

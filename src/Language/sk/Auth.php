@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Language\sk;
 
 return [
@@ -10,7 +12,7 @@ return [
     'badAttempt'            => 'Prihlásenie zlyhalo. Skontrolujte svoje prihlasovacie údaje.',
     'noPassword'            => 'Nie je možné overiť používateľa bez hesla.',
     'invalidPassword'       => 'Prihlásenie zlyhalo. Skontrolujte svoje heslo.',
-    'noToken'               => 'Každá požiadavka musí mať v hlavičke Autorizácia nosný token',
+    'noToken'               => 'Každá požiadavka musí mať v hlavičke {0} nosný token',
     'badToken'              => 'Prístupový token je neplatný.',
     'oldToken'              => 'Platnosť prístupového tokenu vypršala.',
     'noUserEntity'          => 'Na overenie hesla je potrebné zadať entitu používateľa.',

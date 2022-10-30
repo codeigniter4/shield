@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
+use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 
 /**
  * Access Token Authentication Filter.
@@ -31,18 +35,25 @@ class TokenAuth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        helper(['auth', 'setting']);
+        if (! $request instanceof IncomingRequest) {
+            return;
+        }
 
-        $result = auth('tokens')->authenticate([
+        helper('setting');
+
+        /** @var AccessTokens $authenticator */
+        $authenticator = auth('tokens')->getAuthenticator();
+
+        $result = $authenticator->attempt([
             'token' => $request->getHeaderLine(setting('Auth.authenticatorHeader')['tokens'] ?? 'Authorization'),
         ]);
 
-        if (! $result->isOK()) {
+        if (! $result->isOK() || (! empty($arguments) && $result->extraInfo()->tokenCant($arguments[0]))) {
             return redirect()->to('/login');
         }
 
         if (setting('Auth.recordActiveDate')) {
-            auth('tokens')->recordActiveDate();
+            $authenticator->recordActiveDate();
         }
     }
 
@@ -51,10 +62,8 @@ class TokenAuth implements FilterInterface
      *
      * @param Response|ResponseInterface $response
      * @param array|null                 $arguments
-     *
-     * @return void
      */
-    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null): void
     {
     }
 }

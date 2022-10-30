@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Entities;
 
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Passwords;
 
 /**
@@ -17,6 +20,10 @@ use CodeIgniter\Shield\Authentication\Passwords;
  * OAUTH or JWT tokens, etc. A user can have multiple of each,
  * though a Authenticator may want to enforce only one exists for that
  * user, like a password.
+ *
+ * @property string|Time|null $last_used_at
+ * @property string|null      $secret
+ * @property string|null      $secret2
  */
 class UserIdentity extends Entity
 {
@@ -24,6 +31,7 @@ class UserIdentity extends Entity
      * @var array<string, string>
      */
     protected $casts = [
+        'id'          => '?integer',
         'force_reset' => 'int_bool',
     ];
 

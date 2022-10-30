@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
+use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
@@ -29,6 +32,10 @@ class AuthRates implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
+        if (! $request instanceof IncomingRequest) {
+            return;
+        }
+
         $throttler = service('throttler');
 
         // Restrict an IP address to no more than 10 requests
@@ -46,10 +53,8 @@ class AuthRates implements FilterInterface
      *
      * @param Response|ResponseInterface $response
      * @param array|null                 $arguments
-     *
-     * @return void
      */
-    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null): void
     {
         // Nothing required
     }

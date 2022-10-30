@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Authentication\Actions;
 
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 
@@ -70,16 +73,17 @@ class Email2FA implements ActionInterface
         }
 
         // Send the user an email with the code
-        helper('email');
-        $return = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
-            ->setTo($user->email)
-            ->setSubject(lang('Auth.email2FASubject'))
-            ->setMessage(view(setting('Auth.views')['action_email_2fa_email'], ['code' => $identity->secret]))
-            ->send();
+        $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
+        $email->setTo($user->email);
+        $email->setSubject(lang('Auth.email2FASubject'));
+        $email->setMessage(view(setting('Auth.views')['action_email_2fa_email'], ['code' => $identity->secret]));
 
-        if ($return === false) {
-            throw new RuntimeException('Cannot send email for user: ' . $user->email);
+        if ($email->send(false) === false) {
+            throw new RuntimeException('Cannot send email for user: ' . $user->email . "\n" . $email->printDebugger(['headers']));
         }
+
+        // Clear the email
+        $email->clear();
 
         return view(setting('Auth.views')['action_email_2fa_verify']);
     }
@@ -91,13 +95,20 @@ class Email2FA implements ActionInterface
      */
     public function verify(IncomingRequest $request)
     {
-        $token = $request->getPost('token');
-
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
+        $postedToken = $request->getPost('token');
+
+        $user = $authenticator->getPendingUser();
+        if ($user === null) {
+            throw new RuntimeException('Cannot get the pending login User.');
+        }
+
+        $identity = $this->getIdentity($user);
+
         // Token mismatch? Let them try again...
-        if (! $authenticator->checkAction($this->type, $token)) {
+        if (! $authenticator->checkAction($identity, $postedToken)) {
             session()->setFlashdata('error', lang('Auth.invalid2FAToken'));
 
             return view(setting('Auth.views')['action_email_2fa_verify']);
@@ -108,21 +119,21 @@ class Email2FA implements ActionInterface
     }
 
     /**
-     * Called from `Session::attempt()`.
+     * Creates an identity for the action of the user.
+     *
+     * @return string secret
      */
-    public function afterLogin(User $user): void
-    {
-        $this->createIdentity($user);
-    }
-
-    final protected function createIdentity(User $user): void
+    public function createIdentity(User $user): string
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
+        // Delete any previous identities for action
+        $identityModel->deleteIdentitiesByType($user, $this->type);
+
         $generator = static fn (): string => random_string('nozero', 6);
 
-        $identityModel->createCodeIdentity(
+        return $identityModel->createCodeIdentity(
             $user,
             [
                 'type'  => $this->type,
@@ -133,6 +144,23 @@ class Email2FA implements ActionInterface
         );
     }
 
+    /**
+     * Returns an identity for the action of the user.
+     */
+    private function getIdentity(User $user): ?UserIdentity
+    {
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        return $identityModel->getIdentityByType(
+            $user,
+            $this->type
+        );
+    }
+
+    /**
+     * Returns the string type of the action class.
+     */
     public function getType(): string
     {
         return $this->type;

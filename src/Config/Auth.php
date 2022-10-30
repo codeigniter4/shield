@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Config;
 
 use CodeIgniter\Config\BaseConfig;
@@ -20,17 +22,15 @@ class Auth extends BaseConfig
     public array $views = [
         'login'                       => '\CodeIgniter\Shield\Views\login',
         'register'                    => '\CodeIgniter\Shield\Views\register',
-        'forgotPassword'              => '\CodeIgniter\Shield\Views\forgot_password',
-        'resetPassword'               => '\CodeIgniter\Shield\Views\reset_password',
         'layout'                      => '\CodeIgniter\Shield\Views\layout',
         'action_email_2fa'            => '\CodeIgniter\Shield\Views\email_2fa_show',
         'action_email_2fa_verify'     => '\CodeIgniter\Shield\Views\email_2fa_verify',
-        'action_email_2fa_email'      => '\CodeIgniter\Shield\Views\email_2fa_email',
-        'action_email_activate_email' => '\CodeIgniter\Shield\Views\email_activate_email',
+        'action_email_2fa_email'      => '\CodeIgniter\Shield\Views\Email\email_2fa_email',
         'action_email_activate_show'  => '\CodeIgniter\Shield\Views\email_activate_show',
+        'action_email_activate_email' => '\CodeIgniter\Shield\Views\Email\email_activate_email',
         'magic-link-login'            => '\CodeIgniter\Shield\Views\magic_link_form',
         'magic-link-message'          => '\CodeIgniter\Shield\Views\magic_link_message',
-        'magic-link-email'            => '\CodeIgniter\Shield\Views\magic_link_email',
+        'magic-link-email'            => '\CodeIgniter\Shield\Views\Email\magic_link_email',
     ];
 
     /**
@@ -54,15 +54,17 @@ class Auth extends BaseConfig
      * Specifies the class that represents an action to take after
      * the user logs in or registers a new account at the site.
      *
+     * You must register actions in the order of the actions to be performed.
+     *
      * Available actions with Shield:
-     * - login:    CodeIgniter\Shield\Authentication\Actions\Email2FA
-     * - register: CodeIgniter\Shield\Authentication\Actions\EmailActivator
+     * - register: 'CodeIgniter\Shield\Authentication\Actions\EmailActivator'
+     * - login:    'CodeIgniter\Shield\Authentication\Actions\Email2FA'
      *
      * @var array<string, class-string<ActionInterface>|null>
      */
     public array $actions = [
-        'login'    => null,
         'register' => null,
+        'login'    => null,
     ];
 
     /**
@@ -210,7 +212,7 @@ class Auth extends BaseConfig
         'CodeIgniter\Shield\Authentication\Passwords\CompositionValidator',
         'CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator',
         'CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator',
-        //'CodeIgniter\Shield\Authentication\Passwords\PwnedValidator',
+        // 'CodeIgniter\Shield\Authentication\Passwords\PwnedValidator',
     ];
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Authentication;
 
 use CodeIgniter\I18n\Time;
@@ -28,7 +30,6 @@ final class MagicLinkTest extends TestCase
         parent::setUp();
 
         // Load our Auth routes in the collection
-        helper('auth');
         $routeCollection = service('routes');
         auth()->routes($routeCollection);
 
@@ -50,7 +51,9 @@ final class MagicLinkTest extends TestCase
         ]);
 
         $result->assertRedirectTo(route_to('magic-link'));
-        $result->assertSessionHas('error', lang('Auth.invalidEmail'));
+        $expected = ['email' => 'The Email Address field is required.'];
+
+        $result->assertSessionHas('errors', $expected);
     }
 
     public function testMagicLinkSubmitBadEmail(): void
@@ -107,10 +110,13 @@ final class MagicLinkTest extends TestCase
             'expires' => Time::now()->subDays(5),
         ]);
 
-        $result = $this->get(route_to('verify-magic-link') . '?token=' . 'abasdasdf');
+        $result = $this->get(route_to('verify-magic-link') . '?token=abasdasdf');
 
         $result->assertRedirectTo(route_to('magic-link'));
         $result->assertSessionHas('error', lang('Auth.magicLinkExpired'));
+
+        // It should have set temp session var
+        $this->assertFalse(session()->has('magicLogin'));
     }
 
     public function testMagicLinkVerifySuccess(): void
@@ -126,10 +132,14 @@ final class MagicLinkTest extends TestCase
             'expires' => Time::now()->addMinutes(60),
         ]);
 
-        $result = $this->get(route_to('verify-magic-link') . '?token=' . 'abasdasdf');
+        $result = $this->get(route_to('verify-magic-link') . '?token=abasdasdf');
 
         $result->assertRedirectTo(site_url());
         $result->assertSessionHas('user', ['id' => $user->id]);
         $this->assertTrue(auth()->loggedIn());
+
+        // It should have set temp session var
+        $this->assertTrue(session()->has('magicLogin'));
+        $this->assertTrue(session('magicLogin'));
     }
 }

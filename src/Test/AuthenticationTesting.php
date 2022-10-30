@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Test;
 
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
@@ -21,9 +23,6 @@ trait AuthenticationTesting
      */
     public function actingAs(User $user, bool $pending = false): self
     {
-        // Ensure the helper is loaded during tests.
-        helper('auth');
-
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
@@ -54,6 +56,12 @@ class LoginModel extends Model
         ?string $userAgent = null,
         $userId = null
     ): void {
+        $this->disableDBDebug();
+
+        if ($this->db->getPlatform() === 'OCI8' && $identifier === '') {
+            $identifier = ' ';
+        }
+
         $return = $this->insert([
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Authentication\Authenticators;
 
 use CodeIgniter\HTTP\IncomingRequest;
@@ -93,7 +95,7 @@ class AccessTokens implements AuthenticatorInterface
         if (! array_key_exists('token', $credentials) || empty($credentials['token'])) {
             return new Result([
                 'success' => false,
-                'reason'  => lang('Auth.noToken'),
+                'reason'  => lang('Auth.noToken', [config('Auth')->authenticatorHeader['tokens']]),
             ]);
         }
 
@@ -113,6 +115,8 @@ class AccessTokens implements AuthenticatorInterface
             ]);
         }
 
+        assert($token->last_used_at instanceof Time || $token->last_used_at === null);
+
         // Hasn't been used in a long time
         if (
             $token->last_used_at
@@ -125,7 +129,10 @@ class AccessTokens implements AuthenticatorInterface
         }
 
         $token->last_used_at = Time::now()->format('Y-m-d H:i:s');
-        $identityModel->save($token);
+
+        if ($token->hasChanged()) {
+            $identityModel->save($token);
+        }
 
         // Ensure the token is set as the current token
         $user = $token->user();
@@ -232,6 +239,6 @@ class AccessTokens implements AuthenticatorInterface
 
         $this->user->last_active = Time::now();
 
-        $this->provider->save($this->user);
+        $this->provider->updateActiveDate($this->user);
     }
 }

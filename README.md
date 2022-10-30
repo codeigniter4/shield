@@ -1,8 +1,8 @@
 # CodeIgniter Shield
 
-[![Unit Tests](https://github.com/codeigniter4/shield/workflows/PHPUnit/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/test.yml)
-[![Static Analysis](https://github.com/codeigniter4/shield/workflows/PHPStan/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/analyze.yml)
-[![Architecture](https://github.com/codeigniter4/shield/workflows/Deptrac/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/inspect.yml)
+[![Unit Tests](https://github.com/codeigniter4/shield/workflows/PHPUnit/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/phpunit.yml)
+[![Static Analysis](https://github.com/codeigniter4/shield/workflows/PHPStan/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/phpstan.yml)
+[![Architecture](https://github.com/codeigniter4/shield/workflows/Deptrac/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/deptrac.yml)
 [![Coverage Status](https://coveralls.io/repos/github/codeigniter4/shield/badge.svg?branch=develop)](https://coveralls.io/github/codeigniter4/shield?branch=develop)
 
 Shield is an authentication and authorization framework for CodeIgniter 4. While it does provide a base set of tools
@@ -28,6 +28,18 @@ basic views for all standard functionality, like registration, login, forgot pas
 These are much like the access codes that GitHub uses, where they are unique to a single user, and a single user
 can have more than one. This can be used for API authentication of third-party users, and even for allowing
 access for a mobile application that you build.
+
+## Some Important Features
+
+* Session-based authentication (traditional email/password with remember me)
+* Stateless authentication using Personal Access Tokens
+* Optional Email verification on account registration
+* Optional Email-based Two Factor Authentication after login
+* Magic Login Links when a user forgets their password
+* Flexible groups-based access control (think roles, but more flexible)
+* Users can be granted additional permissions
+
+See the [An Official Auth Library](https://codeigniter.com/news/shield) for more Info.
 
 ## Getting Started
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Authentication;
 
 use CodeIgniter\Shield\Authentication\AuthenticationException;
@@ -20,8 +22,6 @@ final class AuthHelperTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-
-        helper(['auth']);
     }
 
     protected function setUp(): void

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use CodeIgniter\CodingStandard\CodeIgniter4;
 use Nexus\CsConfig\Factory;
 use PhpCsFixer\Finder;
@@ -13,7 +15,10 @@ $finder = Finder::create()
     ->exclude('build')
     ->append([__FILE__]);
 
-$overrides = [];
+$overrides = [
+    'declare_strict_types' => true,
+    'void_return'          => true,
+];
 
 $options = [
     'finder'    => $finder,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Controllers;
 
 use CodeIgniter\Config\Factories;
@@ -26,8 +28,6 @@ final class LoginTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        helper('auth');
 
         // Add auth routes
         $routes = service('routes');
@@ -89,6 +89,7 @@ final class LoginTest extends TestCase
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();
+        $this->assertInstanceOf(Time::class, $identity->last_used_at);
         $this->assertSame(Time::now()->getTimestamp(), $identity->last_used_at->getTimestamp());
 
         // Session should have `logged_in` value with user's id
@@ -118,7 +119,7 @@ final class LoginTest extends TestCase
         Time::setTestNow('March 10, 2017', 'America/Chicago');
 
         // Change the validation rules
-        $config           = new class () extends Validation {
+        $config = new class () extends Validation {
             public $login = [
                 'password' => 'required',
             ];
@@ -151,6 +152,7 @@ final class LoginTest extends TestCase
         ]);
         // Last Used date should have been set
         $identity = $this->user->getEmailIdentity();
+        $this->assertInstanceOf(Time::class, $identity->last_used_at);
         $this->assertSame(Time::now()->getTimestamp(), $identity->last_used_at->getTimestamp());
 
         // Session should have `logged_in` value with user's id

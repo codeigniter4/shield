@@ -1,14 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Entities;
 
 use CodeIgniter\Entity\Entity;
+use CodeIgniter\I18n\Time;
 
 /**
  * Class AccessToken
  *
  * Represents a single Personal Access Token, used
  * for authenticating users for an API.
+ *
+ * @property string|Time|null $last_used_at
  */
 class AccessToken extends Entity
 {
@@ -18,6 +23,7 @@ class AccessToken extends Entity
      * @var array<string, string>
      */
     protected $casts = [
+        'id'           => '?integer',
         'last_used_at' => 'datetime',
         'extra'        => 'array',
         'expires'      => 'datetime',
@@ -36,8 +42,6 @@ class AccessToken extends Entity
     public function user(): ?User
     {
         if ($this->user === null) {
-            helper('auth');
-
             $users      = auth()->getProvider();
             $this->user = $users->findById($this->user_id);
         }

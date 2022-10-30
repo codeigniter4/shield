@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit;
 
 use CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator;
@@ -117,6 +119,34 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $this->assertTrue($result->isOK());
     }
 
+    public function testTrueForAllowedTooSmallMatch(): void
+    {
+        $user = new User([
+            'email'    => 'xxx@example.com',
+            'username' => 'john doe',
+        ]);
+
+        $password = 'xx-test@123';
+
+        $result = $this->validator->check($password, $user);
+
+        $this->assertTrue($result->isOK());
+    }
+
+    public function testFalseForSensibleMatch(): void
+    {
+        $user = new User([
+            'email'    => 'xxx@example.com',
+            'username' => 'john doe',
+        ]);
+
+        $password = 'xxx-test@123';
+
+        $result = $this->validator->check($password, $user);
+
+        $this->assertFalse($result->isOK());
+    }
+
     /**
      * The dataProvider is a list of passwords to be tested.
      * Some of them clearly contain elements of the username.
@@ -150,7 +180,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $this->assertNotSame($isNotPersonal, $isNotSimilar);
     }
 
-    public function passwordProvider()
+    public function passwordProvider(): array
     {
         return [
             ['JoeTheCaptain'],
@@ -251,7 +281,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
             [
                 66,
                 false,
-            ],            [
+            ], [
                 0,
                 true,
             ],

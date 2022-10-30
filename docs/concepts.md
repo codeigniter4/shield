@@ -88,3 +88,17 @@ public $passwordValidators = [
     //'CodeIgniter\Shield\Authentication\Passwords\PwnedValidator',
 ];
 ```
+
+You use `strong_password` rule for password validation explained above.
+
+> **Note**
+> The `strong_password` rule only supports use cases to check the user's own password.
+> It fetches the authenticated user's data for **NothingPersonalValidator**
+> if the visitor is authenticated.
+>
+> If you want to have use cases that set and check another user's password,
+> you can't use `strong_password`. You need to use `service('passwords')` directly
+> to check the password.
+>
+> But remember, it is not good practice to set passwords for other users.
+> This is because the password should be known only by that user.

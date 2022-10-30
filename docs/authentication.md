@@ -54,8 +54,6 @@ helper method provides the `auth()` command which returns a convenient interface
 used functionality within the auth libraries. This must be loaded before it can be used.
 
 ```php
-helper('auth');
-
 // get the current user
 auth()->user();
 
@@ -64,6 +62,10 @@ auth()->id();
 // or
 user_id();
 ```
+
+> **Note**
+> The `auth_helper` is autoloaded by Composer. If you want to *override* the functions,
+> you need to define them in `app/Common.php`.
 
 ## Authenticator Responses
 
@@ -144,11 +146,11 @@ $credentials = [
 $validCreds = auth()->check($credentials);
 
 if (! $validCreds->isOK()) {
-    return redirect()->back()->with('error', $loginAttempt->reason());
+    return redirect()->back()->with('error', $validCreds->reason());
 }
 ```
 
-The Result instance returned contains the logged in user as `extraInfo()`.
+The Result instance returned contains the valid user as `extraInfo()`.
 
 ### loggedIn()
 
@@ -238,7 +240,7 @@ token, you would need to get the user's access tokens and delete them manually.
 You can revoke all access tokens with the `revokeAllAccessTokens()` method.
 
 ```php
-$user->revokeAllAccessTokens($token);
+$user->revokeAllAccessTokens();
 ```
 
 ### Retrieving Access Tokens

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Authentication\Authenticators;
 
 use CodeIgniter\I18n\Time;
@@ -108,7 +110,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $result = $this->auth->check([]);
 
         $this->assertFalse($result->isOK());
-        $this->assertSame(lang('Auth.noToken'), $result->reason());
+        $this->assertSame(lang('Auth.noToken', [config('Auth')->authenticatorHeader['tokens']]), $result->reason());
     }
 
     public function testCheckBadToken(): void
@@ -119,7 +121,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $this->assertSame(lang('Auth.badToken'), $result->reason());
     }
 
-    public function testCheckOldToken()
+    public function testCheckOldToken(): void
     {
         /** @var User $user */
         $user = fake(UserModel::class);
@@ -155,6 +157,9 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 
         $updatedToken = $result->extraInfo()->currentAccessToken();
         $this->assertNotEmpty($updatedToken->last_used_at);
+
+        // Checking token in the same second does not throw "DataException : There is no data to update."
+        $this->auth->check(['token' => $token->raw_token]);
     }
 
     public function testAttemptCannotFindUser(): void

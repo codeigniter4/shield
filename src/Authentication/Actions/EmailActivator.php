@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Authentication\Actions;
 
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\HTTP\Response;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
@@ -40,16 +44,17 @@ class EmailActivator implements ActionInterface
         $code = $this->createIdentity($user);
 
         // Send the email
-        helper('email');
-        $return = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '')
-            ->setTo($userEmail)
-            ->setSubject(lang('Auth.emailActivateSubject'))
-            ->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]))
-            ->send();
+        $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
+        $email->setTo($userEmail);
+        $email->setSubject(lang('Auth.emailActivateSubject'));
+        $email->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]));
 
-        if ($return === false) {
-            throw new RuntimeException('Cannot send email for user: ' . $user->email);
+        if ($email->send(false) === false) {
+            throw new RuntimeException('Cannot send email for user: ' . $user->email . "\n" . $email->printDebugger(['headers']));
         }
+
+        // Clear the email
+        $email->clear();
 
         // Display the info page
         return view(setting('Auth.views')['action_email_activate_show'], ['user' => $user]);
@@ -57,6 +62,8 @@ class EmailActivator implements ActionInterface
 
     /**
      * This method is unused.
+     *
+     * @return Response|string
      */
     public function handle(IncomingRequest $request)
     {
@@ -71,13 +78,20 @@ class EmailActivator implements ActionInterface
      */
     public function verify(IncomingRequest $request)
     {
-        $token = $request->getVar('token');
-
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
+        $postedToken = $request->getVar('token');
+
+        $user = $authenticator->getPendingUser();
+        if ($user === null) {
+            throw new RuntimeException('Cannot get the pending login User.');
+        }
+
+        $identity = $this->getIdentity($user);
+
         // No match - let them try again.
-        if (! $authenticator->checkAction($this->type, $token)) {
+        if (! $authenticator->checkAction($identity, $postedToken)) {
             session()->setFlashdata('error', lang('Auth.invalidActivateToken'));
 
             return view(setting('Auth.views')['action_email_activate_show']);
@@ -94,17 +108,17 @@ class EmailActivator implements ActionInterface
     }
 
     /**
-     * Called from `RegisterController::registerAction()`
+     * Creates an identity for the action of the user.
+     *
+     * @return string secret
      */
-    public function afterRegister(User $user): void
-    {
-        $this->createIdentity($user);
-    }
-
-    final protected function createIdentity(User $user): string
+    public function createIdentity(User $user): string
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
+
+        // Delete any previous identities for action
+        $identityModel->deleteIdentitiesByType($user, $this->type);
 
         $generator = static fn (): string => random_string('nozero', 6);
 
@@ -119,6 +133,23 @@ class EmailActivator implements ActionInterface
         );
     }
 
+    /**
+     * Returns an identity for the action of the user.
+     */
+    private function getIdentity(User $user): ?UserIdentity
+    {
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        return $identityModel->getIdentityByType(
+            $user,
+            $this->type
+        );
+    }
+
+    /**
+     * Returns the string type of the action class.
+     */
     public function getType(): string
     {
         return $this->type;

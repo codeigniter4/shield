@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
+use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
@@ -32,7 +35,11 @@ class SessionAuth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        helper(['auth', 'setting']);
+        if (! $request instanceof IncomingRequest) {
+            return;
+        }
+
+        helper('setting');
 
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
@@ -58,10 +65,8 @@ class SessionAuth implements FilterInterface
      *
      * @param Response|ResponseInterface $response
      * @param array|null                 $arguments
-     *
-     * @return void
      */
-    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null): void
     {
     }
 }

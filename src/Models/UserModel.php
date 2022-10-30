@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Database\Exceptions\DataException;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
@@ -167,18 +170,16 @@ class UserModel extends Model
         $email = $credentials['email'] ?? null;
         unset($credentials['email']);
 
-        $prefix = $this->db->DBPrefix;
-
         // any of the credentials used should be case-insensitive
         foreach ($credentials as $key => $value) {
-            $this->where("LOWER({$prefix}users.{$key})", strtolower($value));
+            $this->where('LOWER(' . $this->db->protectIdentifiers("users.{$key}") . ')', strtolower($value));
         }
 
         if (! empty($email)) {
             $data = $this->select('users.*, auth_identities.secret as email, auth_identities.secret2 as password_hash')
                 ->join('auth_identities', 'auth_identities.user_id = users.id')
                 ->where('auth_identities.type', Session::ID_TYPE_EMAIL_PASSWORD)
-                ->where("LOWER({$prefix}auth_identities.secret)", strtolower($email))
+                ->where('LOWER(' . $this->db->protectIdentifiers('auth_identities.secret') . ')', strtolower($email))
                 ->asArray()
                 ->first();
 
@@ -218,13 +219,14 @@ class UserModel extends Model
      *
      * @param array|User $data
      *
-     * @throws ValidationException
+     * @return int|string|true Insert ID if $returnID is true
      *
-     * @retrun true|int|string Insert ID if $returnID is true
+     * @throws ValidationException
      */
     public function insert($data = null, bool $returnID = true)
     {
-        $this->tempUser = $data instanceof User ? $data : null;
+        // Clone User object for not changing the passed object.
+        $this->tempUser = $data instanceof User ? clone $data : null;
 
         $result = parent::insert($data, $returnID);
 
@@ -244,7 +246,8 @@ class UserModel extends Model
      */
     public function update($id = null, $data = null): bool
     {
-        $this->tempUser = $data instanceof User ? $data : null;
+        // Clone User object for not changing the passed object.
+        $this->tempUser = $data instanceof User ? clone $data : null;
 
         try {
             /** @throws DataException */
@@ -302,6 +305,9 @@ class UserModel extends Model
             /** @var User $user */
             $user = $this->find($this->db->insertID());
 
+            // If you get identity (email/password), the User object must have the id.
+            $this->tempUser->id = $user->id;
+
             $user->email         = $this->tempUser->email ?? '';
             $user->password      = $this->tempUser->password ?? '';
             $user->password_hash = $this->tempUser->password_hash ?? '';
@@ -317,5 +323,20 @@ class UserModel extends Model
         $this->tempUser = null;
 
         return $data;
+    }
+
+    /**
+     * Updates the user's last active date.
+     */
+    public function updateActiveDate(User $user): void
+    {
+        assert($user->last_active instanceof Time);
+
+        // Safe date string for database
+        $last_active = $user->last_active->format('Y-m-d H:i:s');
+
+        $this->builder->set('last_active', $last_active)
+            ->where('id', $user->id)
+            ->update();
     }
 }

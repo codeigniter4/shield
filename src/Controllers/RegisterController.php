@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
@@ -35,6 +37,14 @@ class RegisterController extends BaseController
         if (! setting('Auth.allowRegistration')) {
             return redirect()->back()->withInput()
                 ->with('error', lang('Auth.registerDisabled'));
+        }
+
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        // If an action has been defined, start it up.
+        if ($authenticator->hasAction()) {
+            return redirect()->route('auth-action-show');
         }
 
         return view(setting('Auth.views')['register']);
@@ -151,10 +161,22 @@ class RegisterController extends BaseController
         );
 
         return setting('Validation.registration') ?? [
-            'username'         => $registrationUsernameRules,
-            'email'            => $registrationEmailRules,
-            'password'         => 'required|strong_password',
-            'password_confirm' => 'required|matches[password]',
+            'username' => [
+                'label' => 'Auth.username',
+                'rules' => $registrationUsernameRules,
+            ],
+            'email' => [
+                'label' => 'Auth.email',
+                'rules' => $registrationEmailRules,
+            ],
+            'password' => [
+                'label' => 'Auth.password',
+                'rules' => 'required|strong_password',
+            ],
+            'password_confirm' => [
+                'label' => 'Auth.passwordConfirm',
+                'rules' => 'required|matches[password]',
+            ],
         ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
@@ -84,6 +86,8 @@ class Setup extends BaseCommand
 
         $this->setupHelper();
         $this->setupRoutes();
+
+        $this->setSecurityCSRF();
 
         $this->runMigrations();
     }
@@ -195,18 +199,57 @@ class Setup extends BaseCommand
         }
     }
 
+    /**
+     * Replace for setupHelper()
+     *
+     * @param string $file     Relative file path like 'Controllers/BaseController.php'.
+     * @param array  $replaces [search => replace]
+     */
+    private function replace(string $file, array $replaces): bool
+    {
+        $path      = $this->distPath . $file;
+        $cleanPath = clean_path($path);
+
+        $content = file_get_contents($path);
+
+        $output = $this->replacer->replace($content, $replaces);
+
+        if ($output === $content) {
+            return false;
+        }
+
+        if (write_file($path, $output)) {
+            CLI::write(CLI::color('  Updated: ', 'green') . $cleanPath);
+
+            return true;
+        }
+
+        CLI::error("  Error updating {$cleanPath}.");
+
+        return false;
+    }
+
     private function setupHelper(): void
     {
-        $file = 'Controllers/BaseController.php';
+        $file  = 'Controllers/BaseController.php';
+        $check = '$this->helpers = array_merge($this->helpers, [\'setting\']);';
 
-        $check   = '$this->helpers = array_merge($this->helpers, [\'auth\', \'setting\']);';
+        // Replace old helper setup
+        $replaces = [
+            '$this->helpers = array_merge($this->helpers, [\'auth\', \'setting\']);' => $check,
+        ];
+        if ($this->replace($file, $replaces)) {
+            return;
+        }
+
+        // Add helper setup
         $pattern = '/(' . preg_quote('// Do Not Edit This Line', '/') . ')/u';
         $replace = $check . "\n\n        " . '$1';
 
         $this->add($file, $check, $pattern, $replace);
     }
 
-    private function setupRoutes()
+    private function setupRoutes(): void
     {
         $file = 'Config/Routes.php';
 
@@ -215,6 +258,42 @@ class Setup extends BaseCommand
         $replace = '$1$2' . "\n" . $check . "\n";
 
         $this->add($file, $check, $pattern, $replace);
+    }
+
+    /**
+     * @see https://github.com/codeigniter4/shield/security/advisories/GHSA-5hm8-vh6r-2cjq
+     */
+    private function setSecurityCSRF(): void
+    {
+        $file     = 'Config/Security.php';
+        $replaces = [
+            'public $csrfProtection = \'cookie\';' => 'public $csrfProtection = \'session\';',
+        ];
+
+        $path      = $this->distPath . $file;
+        $cleanPath = clean_path($path);
+
+        if (! is_file($path)) {
+            CLI::error("  Not found file '{$cleanPath}'.");
+
+            return;
+        }
+
+        $content = file_get_contents($path);
+        $output  = $this->replacer->replace($content, $replaces);
+
+        // check $csrfProtection = 'session'
+        if ($output === $content) {
+            CLI::write(CLI::color('  Security Setup: ', 'green') . 'Everything is fine.');
+
+            return;
+        }
+
+        if (write_file($path, $output)) {
+            CLI::write(CLI::color('  Updated: ', 'green') . "We have updated file '{$cleanPath}' for security reasons.");
+        } else {
+            CLI::error("  Error updating file '{$cleanPath}'.");
+        }
     }
 
     private function runMigrations(): void
