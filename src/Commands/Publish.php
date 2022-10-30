@@ -7,6 +7,7 @@ namespace CodeIgniter\Shield\Commands;
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\Shield\Commands\Setup\ContentReplacer;
+use Throwable;
 
 class Publish extends BaseCommand
 {
@@ -120,7 +121,7 @@ class Publish extends BaseCommand
             directory_mirror($copyFrom, $pasteTo);
             CLI::write(CLI::color('  Copy Views: ', 'green') . 'All files copy to "App/Views/Shield".');
         } catch (Throwable $e) {
-            CLI::error('  Error.') . 'There was a problem with the copy original views.';
+            CLI::error('  Error. There was a problem with the copy original views.');
         }
     }
 
