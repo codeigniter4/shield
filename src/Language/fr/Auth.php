@@ -65,7 +65,7 @@ return [
     'resetTokenExpired'         => 'Désolé. Votre jeton de réinitialisation a expiré.',
 
     // Email Globals
-    'emailInfo'      => 'Quelques informations sur la personne qui a demandé le code:',
+    'emailInfo'      => 'Quelques informations sur la personne:',
     'emailIpAddress' => 'Adresse IP:',
     'emailDevice'    => 'Dispositif:',
     'emailDate'      => 'Jour:',

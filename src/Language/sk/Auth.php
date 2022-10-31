@@ -65,7 +65,7 @@ return [
     'resetTokenExpired'         => 'Prepáčte. Platnosť vášho resetovacieho tokenu vypršala.',
 
     // Email Globals
-    'emailInfo'      => 'Niektoré informácie o osobe, ktorá požiadala o kód:',
+    'emailInfo'      => 'Niektoré informácie o osobe:',
     'emailIpAddress' => 'IP Adresa:',
     'emailDevice'    => 'Zariadenie:',
     'emailDate'      => 'Dátum:',

@@ -65,7 +65,7 @@ return [
     'resetTokenExpired'         => 'Sorry. Your reset token has expired.',
 
     // Email Globals
-    'emailInfo'      => 'Some information about the person who asked for the code:',
+    'emailInfo'      => 'Some information about the person:',
     'emailIpAddress' => 'IP Address:',
     'emailDevice'    => 'Device:',
     'emailDate'      => 'Date:',

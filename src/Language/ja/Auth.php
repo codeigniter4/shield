@@ -65,7 +65,7 @@ return [
     'resetTokenExpired'         => '申し訳ありません。リセットトークンの有効期限が切れました。', // 'Sorry. Your reset token has expired.',
 
     // Email Globals
-    'emailInfo'      => 'コードを要求した人に関する情報:',
+    'emailInfo'      => '本人に関する情報:',
     'emailIpAddress' => 'IPアドレス:',
     'emailDevice'    => 'デバイス:',
     'emailDate'      => '日時:',

@@ -65,7 +65,7 @@ return [
     'resetTokenExpired'         => 'Maaf, token setel ulang Anda sudah habis waktu.',
 
     // Email Globals
-    'emailInfo'      => 'Beberapa informasi tentang seseorang yang meminta kode:',
+    'emailInfo'      => 'Beberapa informasi tentang seseorang:',
     'emailIpAddress' => 'Alamat IP:',
     'emailDevice'    => 'Perangkat:',
     'emailDate'      => 'Tanggal:',
