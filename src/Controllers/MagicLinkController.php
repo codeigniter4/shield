@@ -165,7 +165,7 @@ class MagicLinkController extends BaseController
 
         // Give the developer a way to know the user
         // logged in via a magic link.
-        session()->setTempdata('magicLogin', true);
+        session()->setTempdata(['magicLogin' => true], null, 300);
 
         Events::trigger('magicLogin');
 
