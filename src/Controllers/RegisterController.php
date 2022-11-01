@@ -79,7 +79,7 @@ class RegisterController extends BaseController
         $allowedPostFields = array_merge(
             setting('Auth.validFields'),
             setting('Auth.personalFields'),
-            ['password']
+            array_keys($rules),
         );
         $user = $this->getUserEntity();
         $user->fill($this->request->getPost($allowedPostFields));
