@@ -81,6 +81,7 @@ return [
     'emailActivateSubject'  => 'アクティベーションコード', // 'Your activation code',
     'emailActivateMailBody' => '以下のコードを使用してアカウントを有効化し、サイトの利用を開始してください。', // 'Please use the code below to activate your account and start using the site.',
     'invalidActivateToken'  => 'コードが間違っています。', // 'The code was incorrect.',
+    'needActivate'          => '(To be translated) You must complete your registration by confirming the code sent to your email address.',
 
     // Groups
     'unknownGroup' => '{0} は有効なグループではありません。', // '{0} is not a valid group.',

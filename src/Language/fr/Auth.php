@@ -81,6 +81,7 @@ return [
     'emailActivateSubject'  => 'Votre code d\'activation',
     'emailActivateMailBody' => 'Veuillez utiliser le code suivant pour activer votre compte et commencer à utiliser le site.',
     'invalidActivateToken'  => 'Le code était incorrect.',
+    'needActivate'          => '(To be translated) You must complete your registration by confirming the code sent to your email address.',
 
     // Groups
     'unknownGroup' => '{0} n\'est pas un groupe valide.',

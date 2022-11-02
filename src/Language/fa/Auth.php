@@ -90,6 +90,7 @@ return [
     'emailActivateSubject'  => 'کد فعالسازی شما',
     'emailActivateMailBody' => 'لطفا برای فعالسازی حساب کاربری و استفاده از سایت از کد زیر استفاده کنید.',
     'invalidActivateToken'  => 'کد صحیح نمی باشد.',
+    'needActivate'          => '(To be translated) You must complete your registration by confirming the code sent to your email address.',
 
     // Groups
     'unknownGroup' => '{0} گروهی معتبر نیست.',
