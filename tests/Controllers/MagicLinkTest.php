@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Controllers;
 
+use CodeIgniter\Config\Factories;
+use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
@@ -56,5 +63,52 @@ final class MagicLinkTest extends TestCase
         $expected = ['email' => 'The Email Address field must contain a valid email address.'];
 
         $result->assertSessionHas('errors', $expected);
+    }
+
+    public function testMagicLinkVerifyPendingRegistrationActivation(): void
+    {
+        // Enable Register action (Email Activation)
+        $config                      = config('Auth');
+        $config->actions['register'] = EmailActivator::class;
+        Factories::injectMock('config', 'Auth', $config);
+
+        /** @var User $user */
+        $user = fake(UserModel::class);
+        $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
+
+        $identities = model(UserIdentityModel::class);
+
+        // Insert User Identity for Email Activation
+        $identities->insert([
+            'user_id' => $user->id,
+            'type'    => Session::ID_TYPE_EMAIL_ACTIVATE,
+            'secret'  => '123456',
+            'name'    => 'register',
+            'extra'   => lang('Auth.needVerification'),
+        ]);
+        // Insert User Identity for Magic link login
+        $identities->insert([
+            'user_id' => $user->id,
+            'type'    => Session::ID_TYPE_MAGIC_LINK,
+            'secret'  => 'abasdasdf',
+            'expires' => Time::now()->addMinutes(60),
+        ]);
+
+        $result = $this->get(route_to('verify-magic-link') . '?token=abasdasdf');
+
+        $result->assertRedirectTo(route_to('auth-action-show'));
+        $result->assertSessionHas(
+            'error',
+            lang('Auth.needActivate'),
+        );
+        $result->assertSessionHas(
+            'user',
+            [
+                'id'                  => $user->id,
+                'auth_action'         => 'CodeIgniter\Shield\Authentication\Actions\EmailActivator',
+                'auth_action_message' => lang('Auth.needVerification'),
+            ]
+        );
+        $this->assertFalse(auth()->loggedIn());
     }
 }
