@@ -16,10 +16,11 @@ final class UserModelGeneratorTest extends CIUnitTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         CITestStreamFilter::$buffer = '';
         $this->streamFilter         = stream_filter_append(STDOUT, 'CITestStreamFilter');
         $this->streamFilter         = stream_filter_append(STDERR, 'CITestStreamFilter');
-        parent::setUp();
     }
 
     protected function tearDown(): void
