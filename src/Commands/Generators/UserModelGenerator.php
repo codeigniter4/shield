@@ -26,7 +26,7 @@ class UserModelGenerator extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'shield:make';
+    protected $name = 'shield:model';
 
     /**
      * The Command's Description
@@ -40,7 +40,7 @@ class UserModelGenerator extends BaseCommand
      *
      * @var string
      */
-    protected $usage = 'shield:make <name> [options]';
+    protected $usage = 'shield:model <name> [options]';
 
     /**
      * The Command's Arguments

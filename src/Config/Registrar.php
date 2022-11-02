@@ -50,7 +50,7 @@ class Registrar
     {
         return [
             'views' => [
-                'shield:make' => 'CodeIgniter\Shield\Commands\Generators\Views\usermodel.tpl.php',
+                'shield:model' => 'CodeIgniter\Shield\Commands\Generators\Views\usermodel.tpl.php',
             ],
         ];
     }
