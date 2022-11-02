@@ -74,12 +74,4 @@ class UserModelGenerator extends BaseCommand
         $this->classNameLang = 'CLI.generator.className.model';
         $this->execute($params);
     }
-
-    /**
-     * Prepare options and do the necessary replacements.
-     */
-    protected function prepare(string $class): string
-    {
-        return $this->parseTemplate($class);
-    }
 }
