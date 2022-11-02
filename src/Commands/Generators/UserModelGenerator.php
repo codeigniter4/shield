@@ -45,7 +45,7 @@ class UserModelGenerator extends BaseCommand
     /**
      * The Command's Arguments
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $arguments = [
         'name' => 'The model class name.',
