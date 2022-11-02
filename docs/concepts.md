@@ -32,7 +32,7 @@ The only requirement is that your new class MUST extend the provided `UserModel`
 php spark shield:model MyUserModel
 ```
 
-You should set the `Config\Auth->userProvider` as below:
+You should set `Config\Auth::$userProvider` as follows:
 
 ```php
 public $userProvider = 'App\Models\MyUserModel';
