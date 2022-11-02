@@ -253,6 +253,11 @@ class UserModel extends Model
             /** @throws DataException */
             $result = parent::update($id, $data);
         } catch (DataException $e) {
+            // When $data is an array.
+            if ($this->tempUser === null) {
+                throw $e;
+            }
+
             $messages = [
                 lang('Database.emptyDataset', ['update']),
             ];
