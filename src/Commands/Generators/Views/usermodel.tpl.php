@@ -11,10 +11,11 @@ class {class} extends UserModel
     protected function initialize(): void
     {
         // Merge properties with parent
-        $this->allowedFields = array_merge($this->allowedFields, [
+        $this->allowedFields = [
+            ...$this->allowedFields,
             // Add here your custom fields
             // 'first_name',
-        ]);
+        ];
     }
 }
 
