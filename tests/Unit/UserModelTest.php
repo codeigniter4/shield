@@ -244,7 +244,7 @@ final class UserModelTest extends TestCase
     /**
      * @see https://github.com/codeigniter4/shield/issues/471
      */
-    public function testSaveArrayNoDataTUpdate(): void
+    public function testSaveArrayNoDataToUpdate(): void
     {
         $this->expectException(DataException::class);
         $this->expectExceptionMessage('There is no data to update.');
