@@ -1,0 +1,46 @@
+site_name: CodeIgniter Shield
+site_description: Documentation for the official Authentication and Authorization framework for CodeIgniter 4
+
+theme:
+  name: material
+  logo: assets/codeigniter-flame-white.svg
+  favicon: assets/favicon.ico
+  icon:
+    repo: fontawesome/brands/github
+  font:
+    text: Raleway
+  palette:
+    primary: deep orange
+  features:
+    - navigation.sections
+
+extra:
+  homepage: https://codeigniter.net
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/codeigniter4/shield
+      name: GitHub
+
+repo_url: https://github.com/codeigniter4/shield
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      use_pygments: true
+  - pymdownx.superfences
+
+nav:
+  - Home: index.md
+  - Installation: install.md
+  - Concepts: concepts.md
+  - Quick Start Guide: quickstart.md
+  - Authentication: authentication.md
+  - Authorization: authorization.md
+  - Auth Actions: auth_actions.md
+  - Events: events.md
+  - Testing: testing.md
+  - Customization: customization.md
+  - session_auth_event_and_logging.md
+  - Guides:
+    - guides/api_tokens.md
+    - guides/mobile_apps.md
