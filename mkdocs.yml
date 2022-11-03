@@ -3,7 +3,7 @@ site_description: Documentation for the official Authentication and Authorizatio
 
 theme:
   name: material
-  logo: assets/codeigniter-flame-white.svg
+  logo: assets/flame.svg
   favicon: assets/favicon.ico
   icon:
     repo: fontawesome/brands/github
