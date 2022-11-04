@@ -6,6 +6,7 @@ namespace CodeIgniter\Shield\Authorization\Traits;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authorization\AuthorizationException;
+use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\GroupModel;
 use CodeIgniter\Shield\Models\PermissionModel;
 
@@ -226,9 +227,18 @@ trait Authorizable
     /**
      * Checks user permissions and their group permissions
      * to see if the user has a specific permission.
+     *
+     * @param string $permission string consisting of a scope and action, like `users.create`
      */
     public function can(string $permission): bool
     {
+        if (strpos($permission, '.') === false) {
+            throw new LogicException(
+                'A permission must be a string consisting of a scope and action, like `users.create`.'
+                . ' Invalid permission: ' . $permission
+            );
+        }
+
         $this->populatePermissions();
 
         $permission = strtolower($permission);
