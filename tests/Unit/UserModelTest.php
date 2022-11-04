@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\UserModel;
@@ -238,5 +239,19 @@ final class UserModelTest extends TestCase
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
+    }
+
+    /**
+     * @see https://github.com/codeigniter4/shield/issues/471
+     */
+    public function testSaveArrayNoDataToUpdate(): void
+    {
+        $this->expectException(DataException::class);
+        $this->expectExceptionMessage('There is no data to update.');
+
+        $users = $this->createUserModel();
+        $user  = fake(UserModel::class);
+
+        $users->save(['id' => $user->id]);
     }
 }
