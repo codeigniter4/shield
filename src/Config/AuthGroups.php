@@ -22,7 +22,7 @@ class AuthGroups extends BaseConfig
      * --------------------------------------------------------------------
      * The available groups in the system. 
      * Where the key is the group name, and the values are an 
-     * array of any additional fields you would like for that group.
+     * array of the group info.
      * Whatever value you assign as the key, will be used to refer to the group when using functions such as:
      *      $user->addGroup('superadmin')
      * ref: https://github.com/codeigniter4/shield/blob/develop/docs/quickstart.md#change-available-groups for more info
