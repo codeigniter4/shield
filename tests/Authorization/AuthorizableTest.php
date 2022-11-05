@@ -6,6 +6,7 @@ namespace Tests\Authorization;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authorization\AuthorizationException;
+use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
 use Locale;
@@ -297,6 +298,16 @@ final class AuthorizableTest extends TestCase
         $this->user->addGroup('superadmin');
 
         $this->assertTrue($this->user->can('admin.access'));
+    }
+
+    public function testCanGetsInvalidPermission(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('Invalid permission: developer');
+
+        $this->user->addGroup('superadmin');
+
+        $this->assertTrue($this->user->can('developer'));
     }
 
     /**
