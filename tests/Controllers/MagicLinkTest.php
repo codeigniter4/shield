@@ -65,6 +65,9 @@ final class MagicLinkTest extends TestCase
         $result->assertSessionHas('errors', $expected);
     }
 
+    /**
+     * @see https://github.com/codeigniter4/shield/issues/465
+     */
     public function testMagicLinkVerifyPendingRegistrationActivation(): void
     {
         // Enable Register action (Email Activation)
