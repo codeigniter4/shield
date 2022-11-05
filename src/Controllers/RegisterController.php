@@ -76,12 +76,8 @@ class RegisterController extends BaseController
         }
 
         // Save the user
-        $allowedPostFields = array_merge(
-            setting('Auth.validFields'),
-            setting('Auth.personalFields'),
-            array_keys($rules),
-        );
-        $user = $this->getUserEntity();
+        $allowedPostFields = array_keys($rules);
+        $user              = $this->getUserEntity();
         $user->fill($this->request->getPost($allowedPostFields));
 
         // Workaround for email only registration/login
