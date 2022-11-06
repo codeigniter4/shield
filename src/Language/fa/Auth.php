@@ -73,6 +73,12 @@ return [
     'userDoesNotExist'          => 'رمز عبور تغییر نکرد. کاربر وجود ندارد.',
     'resetTokenExpired'         => 'متاسفانه، توکن بازنشانی شما منقضی شده است.',
 
+    // Email Globals
+    'emailInfo'      => 'برخی از اطلاعات درخواست کننده:',
+    'emailIpAddress' => 'آدرس ای پی:',
+    'emailDevice'    => 'دستگاه:',
+    'emailDate'      => 'زمان:',
+
     // 2FA
     'email2FATitle'       => 'احراز هویت دو عاملی',
     'confirmEmailAddress' => 'آدرس ایمیل خود را تایید کنید.',

@@ -236,7 +236,7 @@ final class ActionsTest extends TestCase
             service('email')->archive['body']
         );
         $this->assertMatchesRegularExpression(
-            '!<p>[0-9]{6}</p>!',
+            '!<h1>[0-9]{6}</h1>!',
             service('email')->archive['body']
         );
     }

@@ -8,6 +8,7 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\Response;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
@@ -43,11 +44,18 @@ class EmailActivator implements ActionInterface
 
         $code = $this->createIdentity($user);
 
+        /** @var IncomingRequest $request */
+        $request = service('request');
+
+        $ipAddress = $request->getIPAddress();
+        $userAgent = (string) $request->getUserAgent();
+        $date      = Time::now()->toDateTimeString();
+
         // Send the email
         $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
         $email->setTo($userEmail);
         $email->setSubject(lang('Auth.emailActivateSubject'));
-        $email->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]));
+        $email->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date]));
 
         if ($email->send(false) === false) {
             throw new RuntimeException('Cannot send email for user: ' . $user->email . "\n" . $email->printDebugger(['headers']));

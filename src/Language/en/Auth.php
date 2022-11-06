@@ -64,6 +64,12 @@ return [
     'userDoesNotExist'          => 'Password was not changed. User does not exist',
     'resetTokenExpired'         => 'Sorry. Your reset token has expired.',
 
+    // Email Globals
+    'emailInfo'      => 'Some information about the person:',
+    'emailIpAddress' => 'IP Address:',
+    'emailDevice'    => 'Device:',
+    'emailDate'      => 'Date:',
+
     // 2FA
     'email2FATitle'       => 'Two Factor Authentication',
     'confirmEmailAddress' => 'Confirm your email address.',

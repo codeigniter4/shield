@@ -64,6 +64,12 @@ return [
     'userDoesNotExist'          => 'Passwort wurde nicht geändert. Der Benutzer existiert nicht',
     'resetTokenExpired'         => 'Tut mir leid. Ihr Reset-Token ist abgelaufen.',
 
+    // Email Globals
+    'emailInfo'      => 'Einige Informationen über die Person:',
+    'emailIpAddress' => 'IP Adresse:',
+    'emailDevice'    => 'Gerät:',
+    'emailDate'      => 'Datum:',
+
     // 2FA
     'email2FATitle'       => 'Zwei-Faktor-Authentifizierung',
     'confirmEmailAddress' => 'Bestätigen Sie Ihre E-Mail-Adresse.',
