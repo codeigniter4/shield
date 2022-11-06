@@ -15,7 +15,8 @@ theme:
     - navigation.sections
 
 extra:
-  homepage: https://codeigniter.net
+  homepage: https://codeigniter.com
+
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/codeigniter4/shield
