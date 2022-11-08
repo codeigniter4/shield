@@ -407,9 +407,28 @@ class Session implements AuthenticatorInterface
 
     /**
      * Has Auth Action?
+     *
+     * @param int|string|null $userId Provide user id only when checking a
+     *                                not-logged-in user
+     *                                (e.g. user who tries magic-link login)
      */
-    public function hasAction(): bool
+    public function hasAction($userId = null): bool
     {
+        // Check not-logged-in user
+        if ($userId !== null) {
+            $user = $this->provider->findById($userId);
+
+            // Check identities for actions
+            if ($this->getIdentitiesForAction($user) !== []) {
+                // Make pending login state
+                $this->user = $user;
+                $this->setSessionKey('id', $user->id);
+                $this->setAuthAction();
+
+                return true;
+            }
+        }
+
         // Check the Session
         if ($this->getSessionKey('auth_action')) {
             return true;
@@ -461,10 +480,10 @@ class Session implements AuthenticatorInterface
      *
      * @return UserIdentity[]
      */
-    private function getIdentitiesForAction(): array
+    private function getIdentitiesForAction(User $user): array
     {
         return $this->userIdentityModel->getIdentitiesByTypes(
-            $this->user,
+            $user,
             $this->getActionTypes()
         );
     }
@@ -693,7 +712,7 @@ class Session implements AuthenticatorInterface
         $this->user = $user;
 
         // Check identities for actions
-        if ($this->getIdentitiesForAction() !== []) {
+        if ($this->getIdentitiesForAction($user) !== []) {
             throw new LogicException(
                 'The user has identities for action, so cannot complete login.'
                 . ' If you want to start to login with auth action, use startLogin() instead.'

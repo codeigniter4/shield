@@ -164,6 +164,11 @@ class MagicLinkController extends BaseController
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
+        // If an action has been defined
+        if ($authenticator->hasAction($identity->user_id)) {
+            return redirect()->route('auth-action-show')->with('error', lang('Auth.needActivate'));
+        }
+
         // Log the user in
         $authenticator->loginById($identity->user_id);
 
