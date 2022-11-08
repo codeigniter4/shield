@@ -26,6 +26,8 @@ repo_url: https://github.com/codeigniter4/shield
 
 markdown_extensions:
   - pymdownx.superfences
+  - pymdownx.highlight:
+      use_pygments: false
 
 extra_css:
   - https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/github.min.css
