@@ -32,8 +32,6 @@ The only requirement is that your new class MUST extend the provided `UserModel`
 public $userProvider = 'CodeIgniter\Shield\Models\UserModel';
 ```
 
-<a name="identities" />
-
 ## User Identities
 
 User accounts are stored separately from the information needed to identify that user. These identifying pieces of data are
