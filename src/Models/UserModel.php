@@ -75,6 +75,10 @@ class UserModel extends Model
             ? array_column($data, 'id')
             : array_column($data['data'], 'id');
 
+        if ($userIds === []) {
+            return $data;
+        }
+
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
