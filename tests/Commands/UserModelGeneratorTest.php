@@ -85,9 +85,7 @@ final class UserModelGeneratorTest extends CIUnitTestCase
         $this->assertStringContainsString('File overwritten: ', CITestStreamFilter::$buffer);
 
         $filepath = APPPATH . 'Models/MyUserModel.php';
-        if (is_file($filepath)) {
-            unlink($filepath);
-        }
+        $this->assertFileExists($filepath);
     }
 
     public function testGenerateUserModelWithSuffix(): void
