@@ -35,7 +35,7 @@ php spark shield:model MyUserModel
 You should set `Config\Auth::$userProvider` as follows:
 
 ```php
-public $userProvider = 'App\Models\MyUserModel';
+public $userProvider = \App\Models\MyUserModel::class;
 ```
 
 <a name="identities" />
