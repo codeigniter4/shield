@@ -14,10 +14,12 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
 
 /**
  * @property string|null         $email
+ * @property int|string|null     $id
  * @property UserIdentity[]|null $identities
  * @property Time|null           $last_active
  * @property string|null         $password
  * @property string|null         $password_hash
+ * @property string|null         $username
  */
 class User extends Entity
 {

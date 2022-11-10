@@ -129,6 +129,7 @@ class Auth
             return $this->userProvider;
         }
 
+        /** @var \CodeIgniter\Shield\Config\Auth $config */
         $config = config('Auth');
 
         if (! property_exists($config, 'userProvider')) {
