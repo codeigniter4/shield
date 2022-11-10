@@ -97,7 +97,6 @@ final class UserModelGeneratorTest extends CIUnitTestCase
 
         $this->assertStringContainsString('File created: ', CITestStreamFilter::$buffer);
         $this->assertFileExists($filepath);
-
         $this->assertStringContainsString('class MyUserModel extends UserModel', $this->getFileContents($filepath));
     }
 }
