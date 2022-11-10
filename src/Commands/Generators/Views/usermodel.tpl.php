@@ -10,7 +10,6 @@ class {class} extends UserModel
 {
     protected function initialize(): void
     {
-        // Merge properties with parent
         $this->allowedFields = [
             ...$this->allowedFields,
             // Add here your custom fields
