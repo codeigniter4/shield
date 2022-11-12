@@ -54,8 +54,9 @@ Usage of Shield requires the following:
 ### Installation
 
 Installation is done through Composer.
-
-    > composer require codeigniter4/shield
+```console
+composer require codeigniter4/shield
+```
 
 See the [docs](docs/index.md) for more specific instructions on installation and usage recommendations.
 
