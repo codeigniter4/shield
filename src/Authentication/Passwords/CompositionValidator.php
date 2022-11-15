@@ -32,7 +32,7 @@ class CompositionValidator extends BaseValidator implements ValidatorInterface
             throw AuthenticationException::forUnsetPasswordLength();
         }
 
-        $passed = strlen($password) >= $this->config->minimumPasswordLength;
+        $passed = mb_strlen($password) >= $this->config->minimumPasswordLength;
 
         if (! $passed) {
             return new Result([
