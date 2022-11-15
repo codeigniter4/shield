@@ -296,10 +296,10 @@ class Auth extends BaseConfig
      * the "time_cost" and the number of "threads", whenever a password hash is
      * created.
      */
-    public int $hashMemoryCost = 2048;  // PASSWORD_ARGON2_DEFAULT_MEMORY_COST;
+    public int $hashMemoryCost = 65536; // PASSWORD_ARGON2_DEFAULT_MEMORY_COST;
 
-    public int $hashTimeCost = 4;       // PASSWORD_ARGON2_DEFAULT_TIME_COST;
-    public int $hashThreads  = 4;        // PASSWORD_ARGON2_DEFAULT_THREADS;
+    public int $hashTimeCost = 4;   // PASSWORD_ARGON2_DEFAULT_TIME_COST;
+    public int $hashThreads  = 1;   // PASSWORD_ARGON2_DEFAULT_THREADS;
 
     /**
      * --------------------------------------------------------------------
