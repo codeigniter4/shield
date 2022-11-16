@@ -64,6 +64,12 @@ return [
     'userDoesNotExist'          => 'Le mot de passe n\'a pas été modifié. L\'utilisateur n\'existe pas',
     'resetTokenExpired'         => 'Désolé. Votre jeton de réinitialisation a expiré.',
 
+    // Email Globals
+    'emailInfo'      => 'Quelques informations sur la personne:',
+    'emailIpAddress' => 'Adresse IP:',
+    'emailDevice'    => 'Dispositif:',
+    'emailDate'      => 'Jour:',
+
     // 2FA
     'email2FATitle'       => 'Authentification à deux facteurs',
     'confirmEmailAddress' => 'Confirmer votre adresse email.',
@@ -81,6 +87,7 @@ return [
     'emailActivateSubject'  => 'Votre code d\'activation',
     'emailActivateMailBody' => 'Veuillez utiliser le code suivant pour activer votre compte et commencer à utiliser le site.',
     'invalidActivateToken'  => 'Le code était incorrect.',
+    'needActivate'          => 'Complétez votre inscription en confirmant le code envoyé à votre email.',
 
     // Groups
     'unknownGroup' => '{0} n\'est pas un groupe valide.',

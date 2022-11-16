@@ -64,6 +64,12 @@ return [
     'userDoesNotExist'          => 'Kata sandi tidak diubah. User tidak ditemukan',
     'resetTokenExpired'         => 'Maaf, token setel ulang Anda sudah habis waktu.',
 
+    // Email Globals
+    'emailInfo'      => 'Beberapa informasi tentang seseorang:',
+    'emailIpAddress' => 'Alamat IP:',
+    'emailDevice'    => 'Perangkat:',
+    'emailDate'      => 'Tanggal:',
+
     // 2FA
     'email2FATitle'       => 'Otentikasi Dua Faktor',
     'confirmEmailAddress' => 'Alamat email konfirmasi Anda.',
@@ -81,6 +87,7 @@ return [
     'emailActivateSubject'  => 'Kode aktivasi Anda',
     'emailActivateMailBody' => 'Silahkan gunakan kode dibawah ini untuk mengaktivasi akun Anda.',
     'invalidActivateToken'  => 'Kode tidak sesuai.',
+    'needActivate'          => '(To be translated) You must complete your registration by confirming the code sent to your email address.',
 
     // Groups
     'unknownGroup' => '{0} bukan grup yang sah.',

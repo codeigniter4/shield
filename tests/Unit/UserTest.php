@@ -69,6 +69,13 @@ final class UserTest extends TestCase
         $this->assertCount(2, $identities);
     }
 
+    public function testModelFindAllWithIdentitiesUserNotExists(): void
+    {
+        $users = model(UserModel::class)->where('active', 0)->withIdentities()->findAll();
+
+        $this->assertSame([], $users);
+    }
+
     public function testModelFindByIdWithIdentities(): void
     {
         fake(UserModel::class);
@@ -79,6 +86,13 @@ final class UserTest extends TestCase
         $user = model(UserModel::class)->withIdentities()->findById(1);
 
         $this->assertCount(2, $user->identities);
+    }
+
+    public function testModelFindByIdWithIdentitiesUserNotExists(): void
+    {
+        $user = model(UserModel::class)->where('active', 0)->withIdentities()->findById(1);
+
+        $this->assertNull($user);
     }
 
     public function testLastLogin(): void

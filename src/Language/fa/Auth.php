@@ -73,6 +73,12 @@ return [
     'userDoesNotExist'          => 'رمز عبور تغییر نکرد. کاربر وجود ندارد.',
     'resetTokenExpired'         => 'متاسفانه، توکن بازنشانی شما منقضی شده است.',
 
+    // Email Globals
+    'emailInfo'      => 'برخی از اطلاعات درخواست کننده:',
+    'emailIpAddress' => 'آدرس ای پی:',
+    'emailDevice'    => 'دستگاه:',
+    'emailDate'      => 'زمان:',
+
     // 2FA
     'email2FATitle'       => 'احراز هویت دو عاملی',
     'confirmEmailAddress' => 'آدرس ایمیل خود را تایید کنید.',
@@ -90,6 +96,7 @@ return [
     'emailActivateSubject'  => 'کد فعالسازی شما',
     'emailActivateMailBody' => 'لطفا برای فعالسازی حساب کاربری و استفاده از سایت از کد زیر استفاده کنید.',
     'invalidActivateToken'  => 'کد صحیح نمی باشد.',
+    'needActivate'          => 'شما باید با ارائه کد ارسال شده به ایمیلتان، ثبت نام را تکمیل کنید.',
 
     // Groups
     'unknownGroup' => '{0} گروهی معتبر نیست.',

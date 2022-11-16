@@ -17,7 +17,7 @@ These instructions assume that you have already [installed the CodeIgniter 4 app
 ## Requirements
 
 - [Composer](https://getcomposer.org)
-- Codeigniter **v4.2.3** or later
+- Codeigniter **v4.2.7** or later
 - A created database that you can access via the Spark CLI script
 
 ## Composer Installation
@@ -25,8 +25,8 @@ These instructions assume that you have already [installed the CodeIgniter 4 app
 Installation is done through [Composer](https://getcomposer.org). The example assumes you have it installed globally.
 If you have it installed as a phar, or otherwise you will need to adjust the way you call composer itself.
 
-```
-> composer require codeigniter4/shield
+```console
+composer require codeigniter4/shield
 ```
 
 ### Troubleshooting
@@ -35,29 +35,29 @@ If you have it installed as a phar, or otherwise you will need to adjust the way
 
 If you get the following error:
 
-```
-  Could not find a version of package codeigniter4/shield matching your minimum-stability (stable).
-  Require it with an explicit version constraint allowing its desired stability.
+```console
+Could not find a version of package codeigniter4/shield matching your minimum-stability (stable).
+Require it with an explicit version constraint allowing its desired stability.
 ```
 
 1. Add the following to change your [minimum-stability](https://getcomposer.org/doc/articles/versions.md#minimum-stability) in your project `composer.json`:
 
     ```json
-        "minimum-stability": "dev",
-        "prefer-stable": true,
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     ```
 
 2. Or specify an explicit version:
 
     ```console
-    > composer require codeigniter4/shield:dev-develop
+    composer require codeigniter4/shield:dev-develop
     ```
 
     The above specifies `develop` branch.
     See https://getcomposer.org/doc/articles/versions.md#branches
 
     ```console
-    > composer require codeigniter4/shield:^1.0.0-beta
+    composer require codeigniter4/shield:^1.0.0-beta
     ```
 
     The above specifies `v1.0.0-beta` or later and before `v2.0.0`.
@@ -70,7 +70,7 @@ If you get the following error:
 1. Run the following command. This command handles steps 1-5 of *Manual Setup* and runs the migrations.
 
     ```console
-    > php spark shield:setup
+    php spark shield:setup
     ```
 
 ### Manual Setup
@@ -120,7 +120,7 @@ your project.
 5. **Migration** Run the migrations.
 
     ```console
-    > php spark migrate --all
+    php spark migrate --all
     ```
 
     #### Note: migration error

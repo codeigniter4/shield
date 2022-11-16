@@ -64,6 +64,12 @@ return [
     'userDoesNotExist'          => 'パスワードは変更されていません。ユーザーは存在しません', // 'Password was not changed. User does not exist',
     'resetTokenExpired'         => '申し訳ありません。リセットトークンの有効期限が切れました。', // 'Sorry. Your reset token has expired.',
 
+    // Email Globals
+    'emailInfo'      => '本人に関する情報:',
+    'emailIpAddress' => 'IPアドレス:',
+    'emailDevice'    => 'デバイス:',
+    'emailDate'      => '日時:',
+
     // 2FA
     'email2FATitle'       => '二要素認証', // 'Two Factor Authentication',
     'confirmEmailAddress' => 'メールアドレスを確認してください。', // 'Confirm your email address.',
@@ -81,6 +87,7 @@ return [
     'emailActivateSubject'  => 'アクティベーションコード', // 'Your activation code',
     'emailActivateMailBody' => '以下のコードを使用してアカウントを有効化し、サイトの利用を開始してください。', // 'Please use the code below to activate your account and start using the site.',
     'invalidActivateToken'  => 'コードが間違っています。', // 'The code was incorrect.',
+    'needActivate'          => 'メールアドレスに送信されたコードを確認し、登録を完了する必要があります。', // 'You must complete your registration by confirming the code sent to your email address.',
 
     // Groups
     'unknownGroup' => '{0} は有効なグループではありません。', // '{0} is not a valid group.',

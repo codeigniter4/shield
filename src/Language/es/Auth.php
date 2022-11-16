@@ -64,6 +64,12 @@ return [
     'userDoesNotExist'          => 'No se ha cambiado la contraseña. No existe el usuario',
     'resetTokenExpired'         => 'Lo sentimos. Tu token de reseteo ha caducado.',
 
+    // Email Globals
+    'emailInfo'      => 'Algunos datos sobre la persona:',
+    'emailIpAddress' => 'Dirección IP:',
+    'emailDevice'    => 'Dispositivo:',
+    'emailDate'      => 'Fecha:',
+
     // 2FA
     'email2FATitle'       => 'Authenticación de Doble Factor',
     'confirmEmailAddress' => 'Confirma tu dirección de email.',
@@ -81,6 +87,7 @@ return [
     'emailActivateSubject'  => 'Tu código de activación',
     'emailActivateMailBody' => 'Por favor, usa el código de abajo para activar tu cuenta y empezar a usar el sitio.',
     'invalidActivateToken'  => 'El código no es correcto.',
+    'needActivate'          => '(To be translated) You must complete your registration by confirming the code sent to your email address.',
 
     // Grupos
     'unknownGroup' => '{0} no es un grupo válido.',
