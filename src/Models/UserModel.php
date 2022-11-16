@@ -15,7 +15,7 @@ use CodeIgniter\Shield\Exceptions\ValidationException;
 use Faker\Generator;
 
 /**
- * @psalm-consistent-constructor
+ * @phpstan-consistent-constructor
  */
 class UserModel extends Model
 {
