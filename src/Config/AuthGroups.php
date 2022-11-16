@@ -26,6 +26,7 @@ class AuthGroups extends BaseConfig
      * Whatever value you assign as the key will be used to refer to the group when using functions such as:
      *      $user->addGroup('superadmin');
      *
+     *
      * @var array<string, array<string, string>>
      * @see https://github.com/codeigniter4/shield/blob/develop/docs/quickstart.md#change-available-groups for more info
      */
