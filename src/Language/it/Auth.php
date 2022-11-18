@@ -22,8 +22,8 @@ return [
 
     'email'           => 'Indirizzo Email',
     'username'        => 'Nome Utente',
-    'password'        => 'Parola d\'ordine',
-    'passwordConfirm' => 'Parola d\'ordine (ancora)',
+    'password'        => 'Password',
+    'passwordConfirm' => 'Password (ancora)',
     'haveAccount'     => 'Hai già un account?',
 
     // Buttons
@@ -36,7 +36,7 @@ return [
     'registerSuccess'  => 'Benvenuto a bordo!',
 
     // Login
-    'login'              => 'Accesso',
+    'login'              => 'Login',
     'needAccount'        => 'Hai bisogno di un account?',
     'rememberMe'         => 'Ricordami?',
     'forgotPassword'     => 'Password dimenticata?',
