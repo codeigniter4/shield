@@ -87,7 +87,7 @@ abstract class AbstractTranslationTestCase extends TestCase
      * class and the contained values will be skipped in
      * testAllIncludedLanguageKeysAreTranslated.
      *
-     * @var array<string, string>
+     * @var list<string>
      */
     protected array $excludedLocaleKeyTranslations = [];
 
