@@ -32,7 +32,7 @@ return [
 
     // Registration
     'register'         => 'Register',
-    'registerDisabled' => 'LA registrazione non è al momento consentita.',
+    'registerDisabled' => 'La registrazione non è al momento consentita.',
     'registerSuccess'  => 'Benvenuto a bordo!',
 
     // Login
