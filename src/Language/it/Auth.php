@@ -21,9 +21,9 @@ return [
     'throttled'             => 'Troppe richieste effettuate da questo indirizzo IP. Potrai riprovare tra {0} secondi.',
 
     'email'           => 'Indirizzo Email',
-    'username'        => 'Username',
-    'password'        => 'Password',
-    'passwordConfirm' => 'Password (ancora)',
+    'username'        => 'Nome Utente',
+    'password'        => 'Parola d\'ordine',
+    'passwordConfirm' => 'Parola d\'ordine (ancora)',
     'haveAccount'     => 'Hai già un account?',
 
     // Buttons
@@ -31,12 +31,12 @@ return [
     'send'    => 'Invia',
 
     // Registration
-    'register'         => 'Register',
+    'register'         => 'Registrazione',
     'registerDisabled' => 'La registrazione non è al momento consentita.',
     'registerSuccess'  => 'Benvenuto a bordo!',
 
     // Login
-    'login'              => 'Login',
+    'login'              => 'Accesso',
     'needAccount'        => 'Hai bisogno di un account?',
     'rememberMe'         => 'Ricordami?',
     'forgotPassword'     => 'Password dimenticata?',
