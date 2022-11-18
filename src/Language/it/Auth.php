@@ -18,7 +18,6 @@ return [
     'noUserEntity'          => 'Deve essere fornita una User Entity per la validazione della password.',
     'invalidEmail'          => 'Impossibile verificare che l\'indirizzo email corrisponda all\'email nel record.',
     'unableSendEmailToUser' => 'Spiacente, c\'è stato un problema inviando l\'email. Non possiamo inviare un\'email a "{0}".',
-    'throttled'             => 'Too many requests made from this IP address. You may try again in {0} seconds.',
     'throttled'             => 'Troppe richieste effettuate da questo indirizzo IP. Potrai riprovare tra {0} secondi.',
 
     'email'           => 'Indirizzo Email',
@@ -47,7 +46,6 @@ return [
     'magicLinkExpired'   => 'Spiacente, il link è scaduto.',
     'checkYourEmail'     => 'Controlla la tua email!',
     'magicLinkDetails'   => 'Ti abbiamo appena inviato una mail contenente un Login link. È valido solo per {0} minuti.',
-    'successLogout'      => 'You have successfully logged out.',
     'successLogout'      => 'Hai effettuato il logout con successo.',
 
     // Passwords
