@@ -14,6 +14,9 @@ use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use Faker\Generator;
 
+/**
+ * @phpstan-consistent-constructor
+ */
 class UserModel extends Model
 {
     use CheckQueryReturnTrait;
