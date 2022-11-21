@@ -18,14 +18,8 @@ use CodeIgniter\Shield\Exceptions\PermissionException;
 class PermissionFilter implements FilterInterface
 {
     /**
-     * Do whatever processing this filter needs to do.
-     * By default it should not return anything during
-     * normal execution. However, when an abnormal state
-     * is found, it should return an instance of
-     * CodeIgniter\HTTP\Response. If it does, script
-     * execution will end and that Response will be
-     * sent back to the client, allowing for error pages,
-     * redirects, etc.
+     * Ensures the user is logged in and has one or
+     * more permissions as specified in the filter.
      *
      * @param array|null $arguments
      *
@@ -38,14 +32,23 @@ class PermissionFilter implements FilterInterface
         }
 
         if (! auth()->loggedIn()) {
-            return redirect()->to('login');
+            return redirect()->route('login');
         }
 
         foreach ($arguments as $permission) {
-            if (! auth()->user()->can($permission)) {
-                throw PermissionException::forUnauthorized();
+            if (auth()->user()->can($permission)) {
+                return;
             }
         }
+
+        // If the previous_url is from this site, then
+        // we can redirect back to it.
+        if (strpos(previous_url(), site_url()) === 0) {
+            return redirect()->back()->with('error', lang('Auth.notEnoughPrivilege'));
+        }
+
+        // Otherwise, we'll just send them to the home page.
+        return redirect()->to('/')->with('error', lang('Auth.notEnoughPrivilege'));
     }
 
     /**

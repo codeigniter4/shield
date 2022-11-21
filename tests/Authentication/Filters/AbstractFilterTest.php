@@ -8,6 +8,7 @@ use CodeIgniter\Config\Factories;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
 use Tests\Support\TestCase;
+use CodeIgniter\Shield\Test\AuthenticationTesting;
 
 /**
  * @internal
@@ -15,6 +16,7 @@ use Tests\Support\TestCase;
 abstract class AbstractFilterTest extends TestCase
 {
     use FeatureTestTrait;
+    use AuthenticationTesting;
 
     protected $namespace;
     protected string $alias;
@@ -25,6 +27,7 @@ abstract class AbstractFilterTest extends TestCase
         $_SESSION = [];
 
         Services::reset(true);
+        helper('test');
 
         parent::setUp();
 
@@ -48,9 +51,13 @@ abstract class AbstractFilterTest extends TestCase
     {
         $routes = service('routes');
 
+        $filterString = ! empty($this->routeFilter)
+            ? $this->routeFilter
+            : $this->alias;
+
         $routes->group(
             '/',
-            ['filter' => $this->alias],
+            ['filter' => $filterString],
             static function ($routes): void {
                 $routes->get('protected-route', static function (): void {
                     echo 'Protected';
