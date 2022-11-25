@@ -9,6 +9,10 @@ use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Authentication\Passwords\CompositionValidator;
+use CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator;
+use CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator;
+use CodeIgniter\Shield\Authentication\Passwords\PwnedValidator;
 use CodeIgniter\Shield\Authentication\Passwords\ValidatorInterface;
 use CodeIgniter\Shield\Models\UserModel;
 
@@ -57,8 +61,8 @@ class Auth extends BaseConfig
      * You must register actions in the order of the actions to be performed.
      *
      * Available actions with Shield:
-     * - register: 'CodeIgniter\Shield\Authentication\Actions\EmailActivator'
-     * - login:    'CodeIgniter\Shield\Authentication\Actions\Email2FA'
+     * - register: \CodeIgniter\Shield\Authentication\Actions\EmailActivator::class
+     * - login:    \CodeIgniter\Shield\Authentication\Actions\Email2FA::class
      *
      * @var array<string, class-string<ActionInterface>|null>
      */
@@ -209,10 +213,10 @@ class Auth extends BaseConfig
      * @var class-string<ValidatorInterface>[]
      */
     public array $passwordValidators = [
-        'CodeIgniter\Shield\Authentication\Passwords\CompositionValidator',
-        'CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator',
-        'CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator',
-        // 'CodeIgniter\Shield\Authentication\Passwords\PwnedValidator',
+        CompositionValidator::class,
+        NothingPersonalValidator::class,
+        DictionaryValidator::class,
+        // PwnedValidator::class,
     ];
 
     /**
@@ -333,7 +337,7 @@ class Auth extends BaseConfig
      *
      * @var class-string<UserModel>
      */
-    public string $userProvider = 'CodeIgniter\Shield\Models\UserModel';
+    public string $userProvider = UserModel::class;
 
     /**
      * Returns the URL that a user should be redirected
