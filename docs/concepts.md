@@ -29,7 +29,7 @@ is provided for you at `CodeIgniter\Shield\Models\UserModel`. You can change thi
 The only requirement is that your new class MUST extend the provided `UserModel`.
 
 ```php
-public $userProvider = UserModel::class;
+public string $userProvider = UserModel::class;
 ```
 
 ## User Identities
