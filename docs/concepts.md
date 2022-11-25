@@ -29,7 +29,7 @@ is provided for you at `CodeIgniter\Shield\Models\UserModel`. You can change thi
 The only requirement is that your new class MUST extend the provided `UserModel`.
 
 ```php
-public $userProvider = 'CodeIgniter\Shield\Models\UserModel';
+public string $userProvider = UserModel::class;
 ```
 
 ## User Identities
@@ -80,10 +80,10 @@ You can choose which validators are used in `Config\Auth::$passwordValidators`:
 
 ```php
 public $passwordValidators = [
-    'CodeIgniter\Shield\Authentication\Passwords\CompositionValidator',
-    'CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator',
-    'CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator',
-    //'CodeIgniter\Shield\Authentication\Passwords\PwnedValidator',
+    CompositionValidator::class,
+    NothingPersonalValidator::class,
+    DictionaryValidator::class,
+    // PwnedValidator::class,
 ];
 ```
 
