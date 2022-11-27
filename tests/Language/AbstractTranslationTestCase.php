@@ -70,7 +70,7 @@ abstract class AbstractTranslationTestCase extends TestCase
         SlovakTranslationTest::class => 'sk',
         //        SwedishTranslationTest::class            => 'sv-SE',
         //        ThaiTranslationTest::class               => 'th',
-        //        TurkishTranslationTest::class            => 'tr',
+        TurkishTranslationTest::class => 'tr',
         //        UkrainianTranslationTest::class          => 'uk',
         //        VietnameseTranslationTest::class         => 'vi',
         //        SimplifiedChineseTranslationTest::class  => 'zh-CN',
