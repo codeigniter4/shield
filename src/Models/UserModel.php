@@ -185,7 +185,7 @@ class UserModel extends Model
             );
         }
 
-        if (! empty($email)) {
+        if ($email !== null) {
             $data = $this->select(
                 'users.*, auth_identities.secret as email, auth_identities.secret2 as password_hash'
             )
