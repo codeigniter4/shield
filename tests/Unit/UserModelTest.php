@@ -48,7 +48,7 @@ final class UserModelTest extends TestCase
     /**
      * @see https://github.com/codeigniter4/shield/issues/546
      */
-    public function testfindByCredentialsEmptyEmail(): void
+    public function testFindByCredentialsEmptyEmail(): void
     {
         $users = $this->createUserModel();
         $user  = $this->createNewUser();
