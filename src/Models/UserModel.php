@@ -177,6 +177,10 @@ class UserModel extends Model
         $email = $credentials['email'] ?? null;
         unset($credentials['email']);
 
+        if ($email === null && $credentials === []) {
+            return null;
+        }
+
         // any of the credentials used should be case-insensitive
         foreach ($credentials as $key => $value) {
             $this->where(
