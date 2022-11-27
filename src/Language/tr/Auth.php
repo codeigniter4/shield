@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\en;
+namespace CodeIgniter\Shield\Language\tr;
 
 return [
     // Exceptions
