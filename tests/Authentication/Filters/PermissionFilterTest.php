@@ -33,7 +33,7 @@ final class PermissionFilterTest extends AbstractFilterTest
 
     public function testFilterSuccess(): void
     {
-        /** @var User */
+        /** @var User user */
         $user = fake(UserModel::class);
         $user->addPermission('admin.access');
 
@@ -50,7 +50,7 @@ final class PermissionFilterTest extends AbstractFilterTest
 
     public function testFilterIncorrectGroupNoPrevious(): void
     {
-        /** @var User */
+        /** @var User user */
         $user = fake(UserModel::class);
         $user->addPermission('beta.access');
 
@@ -66,7 +66,7 @@ final class PermissionFilterTest extends AbstractFilterTest
 
     public function testFilterIncorrectGroupWithPrevious(): void
     {
-        /** @var User */
+        /** @var User user */
         $user = fake(UserModel::class);
         $user->addPermission('beta.access');
 
