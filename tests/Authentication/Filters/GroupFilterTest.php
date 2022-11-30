@@ -33,7 +33,7 @@ final class GroupFilterTest extends AbstractFilterTest
 
     public function testFilterSuccess(): void
     {
-        /** @var User user */
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->addGroup('admin');
 
@@ -50,7 +50,7 @@ final class GroupFilterTest extends AbstractFilterTest
 
     public function testFilterIncorrectGroupNoPrevious(): void
     {
-        /** @var User user */
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->addGroup('beta');
 
@@ -66,7 +66,7 @@ final class GroupFilterTest extends AbstractFilterTest
 
     public function testFilterIncorrectGroupWithPrevious(): void
     {
-        /** @var User user */
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->addGroup('beta');
 
