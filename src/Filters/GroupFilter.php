@@ -10,8 +10,6 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
 
-use CodeIgniter\Shield\Exceptions\GroupException;
-
 /**
  * Group Authorization Filter.
  */

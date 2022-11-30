@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Authentication\Filters;
 
 use CodeIgniter\Config\Factories;
+use CodeIgniter\Shield\Test\AuthenticationTesting;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
 use Tests\Support\TestCase;
-use CodeIgniter\Shield\Test\AuthenticationTesting;
 
 /**
  * @internal

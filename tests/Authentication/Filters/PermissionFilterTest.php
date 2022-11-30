@@ -9,12 +9,15 @@ use CodeIgniter\Shield\Filters\PermissionFilter;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
 
+/**
+ * @internal
+ */
 final class PermissionFilterTest extends AbstractFilterTest
 {
     use DatabaseTestTrait;
 
-    protected string $alias     = 'permission';
-    protected string $classname = PermissionFilter::class;
+    protected string $alias       = 'permission';
+    protected string $classname   = PermissionFilter::class;
     protected string $routeFilter = 'permission:admin.access';
 
     public function testFilterNotAuthorized(): void
@@ -28,7 +31,7 @@ final class PermissionFilterTest extends AbstractFilterTest
         $result->assertSee('Open');
     }
 
-    public function testFilterSuccess()
+    public function testFilterSuccess(): void
     {
         /** @var User */
         $user = fake(UserModel::class);
@@ -45,7 +48,7 @@ final class PermissionFilterTest extends AbstractFilterTest
         $this->assertSame($user->id, auth('session')->user()->id);
     }
 
-    public function testFilterIncorrectGroupNoPrevious()
+    public function testFilterIncorrectGroupNoPrevious(): void
     {
         /** @var User */
         $user = fake(UserModel::class);
@@ -61,7 +64,7 @@ final class PermissionFilterTest extends AbstractFilterTest
         $result->assertSessionHas('error');
     }
 
-    public function testFilterIncorrectGroupWithPrevious()
+    public function testFilterIncorrectGroupWithPrevious(): void
     {
         /** @var User */
         $user = fake(UserModel::class);
@@ -77,5 +80,4 @@ final class PermissionFilterTest extends AbstractFilterTest
 
         $result->assertSessionHas('error');
     }
-
 }

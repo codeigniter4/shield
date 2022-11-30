@@ -9,12 +9,15 @@ use CodeIgniter\Shield\Filters\GroupFilter;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
 
+/**
+ * @internal
+ */
 final class GroupFilterTest extends AbstractFilterTest
 {
     use DatabaseTestTrait;
 
-    protected string $alias     = 'group';
-    protected string $classname = GroupFilter::class;
+    protected string $alias       = 'group';
+    protected string $classname   = GroupFilter::class;
     protected string $routeFilter = 'group:admin';
 
     public function testFilterNotAuthorized(): void
@@ -28,7 +31,7 @@ final class GroupFilterTest extends AbstractFilterTest
         $result->assertSee('Open');
     }
 
-    public function testFilterSuccess()
+    public function testFilterSuccess(): void
     {
         /** @var User */
         $user = fake(UserModel::class);
@@ -45,7 +48,7 @@ final class GroupFilterTest extends AbstractFilterTest
         $this->assertSame($user->id, auth('session')->user()->id);
     }
 
-    public function testFilterIncorrectGroupNoPrevious()
+    public function testFilterIncorrectGroupNoPrevious(): void
     {
         /** @var User */
         $user = fake(UserModel::class);
@@ -61,7 +64,7 @@ final class GroupFilterTest extends AbstractFilterTest
         $result->assertSessionHas('error');
     }
 
-    public function testFilterIncorrectGroupWithPrevious()
+    public function testFilterIncorrectGroupWithPrevious(): void
     {
         /** @var User */
         $user = fake(UserModel::class);
@@ -77,5 +80,4 @@ final class GroupFilterTest extends AbstractFilterTest
 
         $result->assertSessionHas('error');
     }
-
 }
