@@ -359,7 +359,8 @@ class UserModel extends Model
         // Safe date string for database
         $last_active = $user->last_active->format('Y-m-d H:i:s');
 
-        $this->builder->set('last_active', $last_active)
+        $this->builder()
+            ->set('last_active', $last_active)
             ->where('id', $user->id)
             ->update();
     }
