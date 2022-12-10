@@ -75,7 +75,7 @@ final class GroupFilterTest extends AbstractFilterTest
             ->withSession(['_ci_previous_url' => site_url('open-route')])
             ->get('protected-route');
 
-        // Should redirect to home page since previous_url is not set
+        // Should redirect to the previous url (open-route)
         $result->assertRedirectTo(site_url('open-route'));
 
         $result->assertSessionHas('error');
