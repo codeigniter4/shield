@@ -19,6 +19,7 @@ return [
     'invalidEmail'          => 'E-posta adresinin kayıtlı e-posta ile eşleştiği doğrulanamıyor.',
     'unableSendEmailToUser' => 'Üzgünüz, e-posta gönderilirken bir sorun oluştu. "{0}" adresine e-posta gönderemedik.',
     'throttled'             => 'Bu IP adresinden çok fazla istek yapıldı. {0} saniye sonra tekrar deneyebilirsiniz.',
+    'notEnoughPrivilege'    => 'İstediğiniz işlemi gerçekleştirmek için gerekli izne sahip değilsiniz.',
 
     'email'           => 'E-posta Adresi',
     'username'        => 'Kullanıcı Adı',
