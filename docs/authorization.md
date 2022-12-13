@@ -9,6 +9,8 @@
       - [can()](#can)
       - [inGroup()](#ingroup)
       - [hasPermission()](#haspermission)
+      - [Authorizing via Filters](#authorizing-via-filters)
+      - [Authorizing via Routes](#authorizing-via-routes)
   - [Managing User Permissions](#managing-user-permissions)
       - [addPermission()](#addpermission)
       - [removePermission()](#removepermission)
@@ -128,6 +130,28 @@ if (! $user->hasPermission('users.create')) {
 }
 ```
 
+#### Authorizing via Filters
+
+You can restrict access to multiple routes through a [Controller Filter](https://codeigniter.com/user_guide/incoming/filters.html). One is provided for both restricting via groups the user belongs to, as well as which permission they need. The filters are automatically registered with the system under the `group` and `permission` aliases, respectively. You can define the protections within `app/Config/Filters.php`:
+
+```php
+public $filters = [
+    'group:admin,superadmin' => ['before' => ['admin/*']],
+    'permission:users.manage' => ['before' => ['admin/users/*']],
+];
+```
+
+#### Authorizing via Routes
+
+The filters can also be used on a route or route group level:
+
+```php
+$routes->group('admin', ['filter' => 'group:admin,superadmin'], static function ($routes) {
+    $routes->resource('users');
+});
+
+```
+
 ## Managing User Permissions
 
 Permissions can be granted on a user level as well as on a group level. Any user-level permissions granted will
@@ -199,7 +223,7 @@ $user->syncGroups('admin', 'beta');
 
 #### getGroups()
 
-Returns all groups this user is a part of. 
+Returns all groups this user is a part of.
 
 ```php
 $user->getGroups();
