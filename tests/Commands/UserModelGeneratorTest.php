@@ -12,15 +12,18 @@ use CodeIgniter\Test\Filters\CITestStreamFilter;
  */
 final class UserModelGeneratorTest extends CIUnitTestCase
 {
-    protected $streamFilter;
+    private $streamFilter;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         CITestStreamFilter::$buffer = '';
-        $this->streamFilter         = stream_filter_append(STDOUT, 'CITestStreamFilter');
-        $this->streamFilter         = stream_filter_append(STDERR, 'CITestStreamFilter');
+
+        $this->streamFilter = stream_filter_append(STDOUT, 'CITestStreamFilter');
+        $this->streamFilter = stream_filter_append(STDERR, 'CITestStreamFilter');
+
+        $this->deleteTestFiles();
     }
 
     protected function tearDown(): void
@@ -28,72 +31,76 @@ final class UserModelGeneratorTest extends CIUnitTestCase
         parent::tearDown();
 
         stream_filter_remove($this->streamFilter);
-        $result = str_replace(["\033[0;32m", "\033[0m", "\n"], '', CITestStreamFilter::$buffer);
+        $this->deleteTestFiles();
+    }
 
-        $filepath = str_replace('APPPATH' . DIRECTORY_SEPARATOR, APPPATH, trim(substr($result, 14)));
-        if (is_file($filepath)) {
-            unlink($filepath);
+    private function deleteTestFiles(): void
+    {
+        $possibleFiles = [
+            APPPATH . 'Models/MyUserModel.php',
+            HOMEPATH . 'src/Models/MyUserModel.php',
+        ];
+
+        foreach ($possibleFiles as $file) {
+            clearstatcache(true, $file);
+
+            if (is_file($file)) {
+                unlink($file);
+            }
         }
     }
 
-    protected function getFileContents(string $filepath): string
+    private function getFileContents(string $filepath): string
     {
-        if (! file_exists($filepath)) {
-            return '';
-        }
-
-        return file_get_contents($filepath) ?: '';
+        return (string) @file_get_contents($filepath);
     }
 
     public function testGenerateUserModel(): void
     {
         command('shield:model MyUserModel');
-        $filepath = APPPATH . 'Models/MyUserModel.php';
 
+        $filepath = APPPATH . 'Models/MyUserModel.php';
         $this->assertStringContainsString('File created: ', CITestStreamFilter::$buffer);
         $this->assertFileExists($filepath);
 
-        $this->assertStringContainsString('namespace App\Models;', $this->getFileContents($filepath));
-        $this->assertStringContainsString('class MyUserModel extends UserModel', $this->getFileContents($filepath));
-        $this->assertStringContainsString('use CodeIgniter\Shield\Models\UserModel;', $this->getFileContents($filepath));
-        $this->assertStringContainsString('protected function initialize(): void', $this->getFileContents($filepath));
+        $contents = $this->getFileContents($filepath);
+        $this->assertStringContainsString('namespace App\Models;', $contents);
+        $this->assertStringContainsString('class MyUserModel extends UserModel', $contents);
+        $this->assertStringContainsString('use CodeIgniter\Shield\Models\UserModel;', $contents);
+        $this->assertStringContainsString('protected function initialize(): void', $contents);
     }
 
     public function testGenerateUserModelCustomNamespace(): void
     {
         command('shield:model MyUserModel --namespace CodeIgniter\\\\Shield');
-        $filepath = HOMEPATH . 'src/Models/MyUserModel.php';
 
+        $filepath = HOMEPATH . 'src/Models/MyUserModel.php';
         $this->assertStringContainsString('File created: ', CITestStreamFilter::$buffer);
         $this->assertFileExists($filepath);
 
-        $this->assertStringContainsString('namespace CodeIgniter\Shield\Models;', $this->getFileContents($filepath));
-        $this->assertStringContainsString('class MyUserModel extends UserModel', $this->getFileContents($filepath));
-        $this->assertStringContainsString('use CodeIgniter\Shield\Models\UserModel;', $this->getFileContents($filepath));
-        $this->assertStringContainsString('protected function initialize(): void', $this->getFileContents($filepath));
-
-        if (is_file($filepath)) {
-            unlink($filepath);
-        }
+        $contents = $this->getFileContents($filepath);
+        $this->assertStringContainsString('namespace CodeIgniter\Shield\Models;', $contents);
+        $this->assertStringContainsString('class MyUserModel extends UserModel', $contents);
+        $this->assertStringContainsString('use CodeIgniter\Shield\Models\UserModel;', $contents);
+        $this->assertStringContainsString('protected function initialize(): void', $contents);
     }
 
     public function testGenerateUserModelWithForce(): void
     {
         command('shield:model MyUserModel');
-
         command('shield:model MyUserModel --force');
-        $this->assertStringContainsString('File overwritten: ', CITestStreamFilter::$buffer);
 
-        $filepath = APPPATH . 'Models/MyUserModel.php';
-        $this->assertFileExists($filepath);
+        $this->assertStringContainsString('File overwritten: ', CITestStreamFilter::$buffer);
+        $this->assertFileExists(APPPATH . 'Models/MyUserModel.php');
     }
 
     public function testGenerateUserModelWithSuffix(): void
     {
         command('shield:model MyUser --suffix');
-        $filepath = APPPATH . 'Models/MyUserModel.php';
 
         $this->assertStringContainsString('File created: ', CITestStreamFilter::$buffer);
+
+        $filepath = APPPATH . 'Models/MyUserModel.php';
         $this->assertFileExists($filepath);
         $this->assertStringContainsString('class MyUserModel extends UserModel', $this->getFileContents($filepath));
     }
