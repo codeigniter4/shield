@@ -8,36 +8,28 @@ use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\GeneratorTrait;
 
 /**
- * Generates a skeleton command file.
+ * Generates a custom user model file.
  */
 class UserModelGenerator extends BaseCommand
 {
     use GeneratorTrait;
 
     /**
-     * The Command's Group
-     *
      * @var string
      */
     protected $group = 'Shield';
 
     /**
-     * The Command's Name
-     *
      * @var string
      */
     protected $name = 'shield:model';
 
     /**
-     * The Command's Description
-     *
      * @var string
      */
-    protected $description = 'Generates a new UserModel file.';
+    protected $description = 'Generate a new UserModel file.';
 
     /**
-     * The Command's Usage
-     *
      * @var string
      */
     protected $usage = 'shield:model <name> [options]';
@@ -52,8 +44,6 @@ class UserModelGenerator extends BaseCommand
     ];
 
     /**
-     * The Command's Options
-     *
      * @var array<string, string>
      */
     protected $options = [
@@ -63,7 +53,7 @@ class UserModelGenerator extends BaseCommand
     ];
 
     /**
-     * Actually execute a command.
+     * Actually execute the command.
      */
     public function run(array $params): void
     {
@@ -72,6 +62,7 @@ class UserModelGenerator extends BaseCommand
         $this->template  = 'usermodel.tpl.php';
 
         $this->classNameLang = 'CLI.generator.className.model';
+
         $this->execute($params);
     }
 }
