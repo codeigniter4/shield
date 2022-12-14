@@ -128,8 +128,4 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(MakeInheritedMethodVisibilitySameAsParentRector::class);
     $rectorConfig->rule(SimplifyEmptyArrayCheckRector::class);
     $rectorConfig->rule(NormalizeNamespaceByPSR4ComposerAutoloadRector::class);
-    $rectorConfig
-        ->ruleWithConfiguration(TypedPropertyRector::class, [
-            TypedPropertyRector::INLINE_PUBLIC => false,
-        ]);
 };
