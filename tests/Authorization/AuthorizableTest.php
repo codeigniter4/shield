@@ -23,13 +23,10 @@ final class AuthorizableTest extends TestCase
 
     protected $refresh = true;
     protected $namespace;
-    protected UserModel $model;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->model = new UserModel();
 
         // Refresh should take care of this....
         db_connect()->table('auth_groups_users')->truncate();
