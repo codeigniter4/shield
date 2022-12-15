@@ -33,6 +33,7 @@ use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Php56\Rector\FunctionLike\AddDefaultValueForUndefinedVariableRector;
 use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\Php73\Rector\FuncCall\StringifyStrNeedlesRector;
+use Rector\PHPUnit\Rector\Class_\AnnotationWithValueToAttributeRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
 use Rector\PSR4\Rector\FileWithoutNamespace\NormalizeNamespaceByPSR4ComposerAutoloadRector;
@@ -85,6 +86,7 @@ return static function (RectorConfig $rectorConfig): void {
 
         // Note: requires php 8
         RemoveUnusedPromotedPropertyRector::class,
+        AnnotationWithValueToAttributeRector::class,
 
         // Ignore tests that might make calls without a result
         RemoveEmptyMethodCallRector::class => [
