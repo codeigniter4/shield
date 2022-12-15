@@ -22,7 +22,7 @@ use Tests\Support\DatabaseTestCase;
  */
 final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 {
-    protected AccessTokens $auth;
+    private AccessTokens $auth;
 
     protected function setUp(): void
     {

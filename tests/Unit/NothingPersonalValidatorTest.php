@@ -14,7 +14,7 @@ use CodeIgniter\Test\CIUnitTestCase;
  */
 final class NothingPersonalValidatorTest extends CIUnitTestCase
 {
-    protected NothingPersonalValidator $validator;
+    private NothingPersonalValidator $validator;
 
     protected function setUp(): void
     {
