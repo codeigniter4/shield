@@ -305,12 +305,12 @@ abstract class AbstractTranslationTestCase extends TestCase
     /**
      * @return string[][]
      */
-    final public function localesProvider(): iterable
+    final public static function localesProvider(): iterable
     {
         $locale = self::$locales[static::class] ?? null;
 
         if (null === $locale) {
-            $this->fail('The locale code should be defined in the $locales property.');
+            static::fail('The locale code should be defined in the $locales property.');
         }
 
         return [$locale => [$locale]];

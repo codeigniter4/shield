@@ -31,7 +31,7 @@ final class FilterInCliTest extends TestCase
         $filter->before($clirequest);
     }
 
-    public function filterProvider(): Generator
+    public static function filterProvider(): Generator
     {
         yield from [
             [new AuthRates()],

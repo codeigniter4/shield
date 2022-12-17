@@ -27,9 +27,9 @@ final class SessionAuthenticatorTest extends TestCase
     use DatabaseTestTrait;
     use FakeUser;
 
-    protected Session $auth;
+    private Session $auth;
     protected $namespace;
-    protected $events;
+    private MockEvents $events;
 
     protected function setUp(): void
     {

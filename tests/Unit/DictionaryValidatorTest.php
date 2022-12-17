@@ -13,7 +13,7 @@ use CodeIgniter\Test\CIUnitTestCase;
  */
 final class DictionaryValidatorTest extends CIUnitTestCase
 {
-    protected DictionaryValidator $validator;
+    private DictionaryValidator $validator;
 
     protected function setUp(): void
     {

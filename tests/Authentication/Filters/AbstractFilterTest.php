@@ -18,6 +18,7 @@ abstract class AbstractFilterTest extends TestCase
     use FeatureTestTrait;
     use AuthenticationTesting;
 
+    protected string $routeFilter;
     protected $namespace;
     protected string $alias;
     protected string $classname;

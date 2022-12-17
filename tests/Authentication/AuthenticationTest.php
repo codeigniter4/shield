@@ -16,7 +16,7 @@ use Tests\Support\DatabaseTestCase;
  */
 final class AuthenticationTest extends DatabaseTestCase
 {
-    protected Authentication $auth;
+    private Authentication $auth;
 
     protected function setUp(): void
     {

@@ -15,7 +15,7 @@ use Tests\Support\DatabaseTestCase;
  */
 final class HasAccessTokensTest extends DatabaseTestCase
 {
-    protected User $user;
+    private User $user;
 
     protected function setUp(): void
     {

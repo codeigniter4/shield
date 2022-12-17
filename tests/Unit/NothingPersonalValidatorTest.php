@@ -14,7 +14,7 @@ use CodeIgniter\Test\CIUnitTestCase;
  */
 final class NothingPersonalValidatorTest extends CIUnitTestCase
 {
-    protected NothingPersonalValidator $validator;
+    private NothingPersonalValidator $validator;
 
     protected function setUp(): void
     {
@@ -180,7 +180,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $this->assertNotSame($isNotPersonal, $isNotSimilar);
     }
 
-    public function passwordProvider(): array
+    public static function passwordProvider(): array
     {
         return [
             ['JoeTheCaptain'],
@@ -225,7 +225,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $this->assertSame($expected, $result->isOK());
     }
 
-    public function firstLastNameProvider()
+    public static function firstLastNameProvider()
     {
         return [
             [
@@ -275,7 +275,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $this->assertSame($expected, $result->isOK());
     }
 
-    public function maxSimilarityProvider()
+    public static function maxSimilarityProvider()
     {
         return [
             [

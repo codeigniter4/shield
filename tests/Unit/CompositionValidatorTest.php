@@ -14,8 +14,8 @@ use Tests\Support\TestCase;
  */
 final class CompositionValidatorTest extends TestCase
 {
-    protected CompositionValidator $validator;
-    protected Auth $config;
+    private CompositionValidator $validator;
+    private Auth $config;
 
     protected function setUp(): void
     {
