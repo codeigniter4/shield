@@ -50,7 +50,7 @@ class RegisterController extends BaseController
             return redirect()->route('auth-action-show');
         }
 
-        return $this->renderView(setting('Auth.views')['register']);
+        return $this->view(setting('Auth.views')['register']);
     }
 
     /**

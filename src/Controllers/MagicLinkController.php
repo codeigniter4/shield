@@ -51,7 +51,7 @@ class MagicLinkController extends BaseController
             return redirect()->to(config('Auth')->loginRedirect());
         }
 
-        return $this->renderView(setting('Auth.views')['magic-link-login']);
+        return $this->view(setting('Auth.views')['magic-link-login']);
     }
 
     /**
@@ -105,7 +105,7 @@ class MagicLinkController extends BaseController
         $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
         $email->setTo($user->email);
         $email->setSubject(lang('Auth.magicLinkSubject'));
-        $email->setMessage($this->renderView(setting('Auth.views')['magic-link-email'], ['token' => $token, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date]));
+        $email->setMessage($this->view(setting('Auth.views')['magic-link-email'], ['token' => $token, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date]));
 
         if ($email->send(false) === false) {
             log_message('error', $email->printDebugger(['headers']));
@@ -124,7 +124,7 @@ class MagicLinkController extends BaseController
      */
     protected function displayMessage(): string
     {
-        return $this->renderView(setting('Auth.views')['magic-link-message']);
+        return $this->view(setting('Auth.views')['magic-link-message']);
     }
 
     /**
