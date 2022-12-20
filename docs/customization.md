@@ -103,7 +103,7 @@ class MyLoginController extends LoginController
 {
     use Themable;
 
-    protected function view(string $view, array $data=[], array $options=[])
+    protected function view(string $view, array $data = [], array $options = []): string
     {
         return $this->themedView($view, $data, $options);
     }
