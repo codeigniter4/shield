@@ -11,6 +11,7 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Traits\Viewable;
 
 /**
  * Class RegisterController
@@ -20,6 +21,8 @@ use CodeIgniter\Shield\Models\UserModel;
  */
 class RegisterController extends BaseController
 {
+    use Viewable;
+
     protected $helpers = ['setting'];
 
     /**
@@ -47,7 +50,7 @@ class RegisterController extends BaseController
             return redirect()->route('auth-action-show');
         }
 
-        return view(setting('Auth.views')['register']);
+        return $this->view(setting('Auth.views')['register']);
     }
 
     /**

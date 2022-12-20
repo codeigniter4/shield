@@ -15,9 +15,12 @@ use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Traits\Viewable;
 
 class EmailActivator implements ActionInterface
 {
+    use Viewable;
+
     private string $type = Session::ID_TYPE_EMAIL_ACTIVATE;
 
     /**
@@ -55,7 +58,7 @@ class EmailActivator implements ActionInterface
         $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
         $email->setTo($userEmail);
         $email->setSubject(lang('Auth.emailActivateSubject'));
-        $email->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date]));
+        $email->setMessage($this->view(setting('Auth.views')['action_email_activate_email'], ['code' => $code, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date]));
 
         if ($email->send(false) === false) {
             throw new RuntimeException('Cannot send email for user: ' . $user->email . "\n" . $email->printDebugger(['headers']));
@@ -65,7 +68,7 @@ class EmailActivator implements ActionInterface
         $email->clear();
 
         // Display the info page
-        return view(setting('Auth.views')['action_email_activate_show'], ['user' => $user]);
+        return $this->view(setting('Auth.views')['action_email_activate_show'], ['user' => $user]);
     }
 
     /**
@@ -102,7 +105,7 @@ class EmailActivator implements ActionInterface
         if (! $authenticator->checkAction($identity, $postedToken)) {
             session()->setFlashdata('error', lang('Auth.invalidActivateToken'));
 
-            return view(setting('Auth.views')['action_email_activate_show']);
+            return $this->view(setting('Auth.views')['action_email_activate_show']);
         }
 
         $user = $authenticator->getUser();

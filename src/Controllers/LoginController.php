@@ -7,9 +7,12 @@ namespace CodeIgniter\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Traits\Viewable;
 
 class LoginController extends BaseController
 {
+    use Viewable;
+
     protected $helpers = ['setting'];
 
     /**
@@ -31,7 +34,7 @@ class LoginController extends BaseController
             return redirect()->route('auth-action-show');
         }
 
-        return view(setting('Auth.views')['login']);
+        return $this->view(setting('Auth.views')['login']);
     }
 
     /**
