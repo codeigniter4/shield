@@ -109,6 +109,8 @@ public int $unusedTokenLifetime = YEAR;
 
 ### Enable Account Activation via Email
 
+> **Note** You need to configure `app/Config/Email.php` to allow Shield to send emails. See [Installation](install.md#initial-setup).
+
 By default, once a user registers they have an active account that can be used. You can enable Shield's built-in, email-based activation flow within the `Auth` config file.
 
 ```php
@@ -120,6 +122,8 @@ public array $actions = [
 
 ### Enable Two-Factor Authentication
 
+> **Note** You need to configure `app/Config/Email.php` to allow Shield to send emails. See [Installation](install.md#initial-setup).
+
 Turned off by default, Shield's Email-based 2FA can be enabled by specifying the class to use in the `Auth` config file.
 
 ```php
@@ -130,6 +134,8 @@ public array $actions = [
 ```
 
 ### Responding to Magic Link Logins
+
+> **Note** You need to configure `app/Config/Email.php` to allow Shield to send emails. See [Installation](install.md#initial-setup).
 
 Magic Link logins allow a user that has forgotten their password to have an email sent with a unique, one-time login link. Once they've logged in you can decide how to respond. In some cases, you might want to redirect them to a special page where they must choose a new password. In other cases, you might simply want to display a one-time message prompting them to go to their account page and choose a new password.
 
