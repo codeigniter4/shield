@@ -73,7 +73,7 @@ Require it with an explicit version constraint allowing its desired stability.
     php spark shield:setup
     ```
 
-2. Configure `app/Config/Email.php` to allow Shield to send emails.
+2. Configure `app/Config/Email.php` to allow Shield to send emails with the [Email Class](https://codeigniter.com/user_guide/libraries/email.html).
 
     ```php
     <?php
