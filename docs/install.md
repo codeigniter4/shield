@@ -73,6 +73,31 @@ Require it with an explicit version constraint allowing its desired stability.
     php spark shield:setup
     ```
 
+2. Configure `app/Config/Email.php` to allow Shield to send emails with the [Email Class](https://codeigniter.com/user_guide/libraries/email.html).
+
+    ```php
+    <?php
+
+    namespace Config;
+
+    use CodeIgniter\Config\BaseConfig;
+
+    class Email extends BaseConfig
+    {
+        /**
+         * @var string
+         */
+        public $fromEmail = 'your_mail@example.com';
+
+        /**
+         * @var string
+         */
+        public $fromName = 'your name';
+
+        // ...
+    }
+    ```
+
 ### Manual Setup
 
 There are a few setup items to do before you can start using Shield in
@@ -133,6 +158,31 @@ your project.
     If you get `Specified key was too long` error:
 
     1. Use InnoDB, not MyISAM.
+
+6. Configure `app/Config/Email.php` to allow Shield to send emails.
+
+    ```php
+    <?php
+
+    namespace Config;
+
+    use CodeIgniter\Config\BaseConfig;
+
+    class Email extends BaseConfig
+    {
+        /**
+         * @var string
+         */
+        public $fromEmail = 'your_mail@example.com';
+
+        /**
+         * @var string
+         */
+        public $fromName = 'your name';
+
+        // ...
+    }
+    ```
 
 ## Controller Filters
 The [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can use to protect your routes the shield provides are:
