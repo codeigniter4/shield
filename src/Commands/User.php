@@ -121,13 +121,26 @@ class User extends BaseCommand
                     break;
 
                 case 'addgroup':
-                    $this->addgroup($group, $username, $email);
+                    if(!$group) {
+                        CLI::write('Group option is missing', 'red');
+                    }
+                    else {
+                        $this->addgroup($group, $username, $email);
+                    }
                     break;
 
                 case 'removegroup':
-                    $this->removegroup($group, $username, $email);
+                    if(!$group) {
+                        CLI::write('Group option is missing', 'red');
+                    }
+                    else {
+                        $this->removegroup($group, $username, $email);
+                    }
                     break;
             }
+        }
+        else {
+            CLI::write('Specify a valid action : ' . implode(',', $this->valid_actions), 'red');
         }
     }
 
