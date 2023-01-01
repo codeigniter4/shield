@@ -58,6 +58,7 @@ class RegisterController extends BaseController
      */
     public function registerAction(): RedirectResponse
     {
+        // Get the userProvider
         $users = $this->getUserProvider();
 
         // Validate here first, since some things,
