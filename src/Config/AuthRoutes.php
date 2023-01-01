@@ -14,6 +14,7 @@ class AuthRoutes extends BaseConfig
                 'get',
                 'register',
                 'RegisterController::registerView',
+                'register', // Route name
             ],
             [
                 'post',
@@ -26,6 +27,7 @@ class AuthRoutes extends BaseConfig
                 'get',
                 'login',
                 'LoginController::loginView',
+                'login', // Route name
             ],
             [
                 'post',
@@ -57,6 +59,7 @@ class AuthRoutes extends BaseConfig
                 'get',
                 'logout',
                 'LoginController::logoutAction',
+                'logout', // Route name
             ],
         ],
         'auth-actions' => [
@@ -64,19 +67,19 @@ class AuthRoutes extends BaseConfig
                 'get',
                 'auth/a/show',
                 'ActionController::show',
-                'auth-action-show',
+                'auth-action-show', // Route name
             ],
             [
                 'post',
                 'auth/a/handle',
                 'ActionController::handle',
-                'auth-action-handle',
+                'auth-action-handle', // Route name
             ],
             [
                 'post',
                 'auth/a/verify',
                 'ActionController::verify',
-                'auth-action-verify',
+                'auth-action-verify', // Route name
             ],
         ],
     ];
