@@ -58,12 +58,6 @@ class RegisterController extends BaseController
      */
     public function registerAction(): RedirectResponse
     {
-        // Check if registration is allowed
-        if (! setting('Auth.allowRegistration')) {
-            return redirect()->back()->withInput()
-                ->with('error', lang('Auth.registerDisabled'));
-        }
-
         $users = $this->getUserProvider();
 
         // Validate here first, since some things,
