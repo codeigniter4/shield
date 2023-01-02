@@ -36,6 +36,8 @@ command in the terminal:
 php spark shield:model UserModel
 ```
 
+The class name is optional. If none is provided, the generated class name would be `UserModel`.
+
 You should set `Config\Auth::$userProvider` as follows:
 
 ```php

@@ -113,4 +113,30 @@ final class UserModelGeneratorTest extends CIUnitTestCase
         $this->assertFileExists($filepath);
         $this->assertStringContainsString('class UserModel extends ShieldUserModel', $this->getFileContents($filepath));
     }
+
+    public function testGenerateUserModelWithoutClassNameInput(): void
+    {
+        command('shield:model');
+
+        $this->assertStringContainsString('File created: ', CITestStreamFilter::$buffer);
+
+        $filepath = APPPATH . 'Models/UserModel.php';
+        $this->assertFileExists($filepath);
+        $this->assertStringContainsString('class UserModel extends ShieldUserModel', $this->getFileContents($filepath));
+    }
+
+    public function testGenerateUserCannotAcceptShieldUserModelAsInput(): void
+    {
+        command('shield:model ShieldUserModel');
+
+        $this->assertStringContainsString('Cannot use `ShieldUserModel` as class name as this conflicts with the parent class.', CITestStreamFilter::$buffer);
+        $this->assertFileDoesNotExist(APPPATH . 'Models/UserModel.php');
+
+        CITestStreamFilter::$buffer = '';
+
+        command('shield:model ShieldUser --suffix');
+
+        $this->assertStringContainsString('Cannot use `ShieldUserModel` as class name as this conflicts with the parent class.', CITestStreamFilter::$buffer);
+        $this->assertFileDoesNotExist(APPPATH . 'Models/UserModel.php');
+    }
 }

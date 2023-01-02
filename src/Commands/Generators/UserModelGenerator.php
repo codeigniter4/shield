@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Commands\Generators;
 
 use CodeIgniter\CLI\BaseCommand;
+use CodeIgniter\CLI\CLI;
 use CodeIgniter\CLI\GeneratorTrait;
 
 /**
@@ -32,15 +33,13 @@ class UserModelGenerator extends BaseCommand
     /**
      * @var string
      */
-    protected $usage = 'shield:model <name> [options]';
+    protected $usage = 'shield:model [<name>] [options]';
 
     /**
-     * The Command's Arguments
-     *
      * @var array<string, string>
      */
     protected $arguments = [
-        'name' => 'The model class name.',
+        'name' => 'The model class name. If not provided, this will default to `UserModel`.',
     ];
 
     /**
@@ -62,6 +61,17 @@ class UserModelGenerator extends BaseCommand
         $this->template  = 'usermodel.tpl.php';
 
         $this->classNameLang = 'CLI.generator.className.model';
+        $this->setHasClassName(false);
+
+        $class = $params[0] ?? CLI::getSegment(2) ?? 'UserModel';
+
+        if (in_array(strtolower($class), ['shielduser', 'shieldusermodel'], true)) {
+            CLI::error('Cannot use `ShieldUserModel` as class name as this conflicts with the parent class.', 'light_gray', 'red');
+
+            return; // @TODO when CI4 is at v4.3+, change this to `return 1;` to signify failing exit
+        }
+
+        $params[0] = $class;
 
         $this->execute($params);
     }
