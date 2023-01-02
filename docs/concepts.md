@@ -29,17 +29,17 @@ A default model is provided for you by the `CodeIgniter\Shield\Models\UserModel`
 this in the `Config\Auth::$userProvider` setting. The only requirement is that your new class
 MUST extend the provided `UserModel`.
 
-Shield has a CLI command to quickly create a custom `MyUserModel` class by running the following
+Shield has a CLI command to quickly create a custom `UserModel` class by running the following
 command in the terminal:
 
 ```console
-php spark shield:model MyUserModel
+php spark shield:model UserModel
 ```
 
 You should set `Config\Auth::$userProvider` as follows:
 
 ```php
-public string $userProvider = \App\Models\MyUserModel::class;
+public string $userProvider = \App\Models\UserModel::class;
 ```
 
 ## User Identities

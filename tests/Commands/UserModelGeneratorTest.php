@@ -23,6 +23,10 @@ final class UserModelGeneratorTest extends CIUnitTestCase
         $this->streamFilter = stream_filter_append(STDOUT, 'CITestStreamFilter');
         $this->streamFilter = stream_filter_append(STDERR, 'CITestStreamFilter');
 
+        if (is_file(HOMEPATH . 'src/Models/UserModel.php')) {
+            copy(HOMEPATH . 'src/Models/UserModel.php', HOMEPATH . 'src/Models/UserModel.php.bak');
+        }
+
         $this->deleteTestFiles();
     }
 
@@ -32,13 +36,18 @@ final class UserModelGeneratorTest extends CIUnitTestCase
 
         stream_filter_remove($this->streamFilter);
         $this->deleteTestFiles();
+
+        if (is_file(HOMEPATH . 'src/Models/UserModel.php.bak')) {
+            copy(HOMEPATH . 'src/Models/UserModel.php.bak', HOMEPATH . 'src/Models/UserModel.php');
+            unlink(HOMEPATH . 'src/Models/UserModel.php.bak');
+        }
     }
 
     private function deleteTestFiles(): void
     {
         $possibleFiles = [
-            APPPATH . 'Models/MyUserModel.php',
-            HOMEPATH . 'src/Models/MyUserModel.php',
+            APPPATH . 'Models/UserModel.php',
+            HOMEPATH . 'src/Models/UserModel.php',
         ];
 
         foreach ($possibleFiles as $file) {
@@ -57,51 +66,51 @@ final class UserModelGeneratorTest extends CIUnitTestCase
 
     public function testGenerateUserModel(): void
     {
-        command('shield:model MyUserModel');
+        command('shield:model UserModel');
 
-        $filepath = APPPATH . 'Models/MyUserModel.php';
+        $filepath = APPPATH . 'Models/UserModel.php';
         $this->assertStringContainsString('File created: ', CITestStreamFilter::$buffer);
         $this->assertFileExists($filepath);
 
         $contents = $this->getFileContents($filepath);
         $this->assertStringContainsString('namespace App\Models;', $contents);
-        $this->assertStringContainsString('class MyUserModel extends UserModel', $contents);
-        $this->assertStringContainsString('use CodeIgniter\Shield\Models\UserModel;', $contents);
+        $this->assertStringContainsString('class UserModel extends ShieldUserModel', $contents);
+        $this->assertStringContainsString('use CodeIgniter\Shield\Models\UserModel as ShieldUserModel;', $contents);
         $this->assertStringContainsString('protected function initialize(): void', $contents);
     }
 
     public function testGenerateUserModelCustomNamespace(): void
     {
-        command('shield:model MyUserModel --namespace CodeIgniter\\\\Shield');
+        command('shield:model UserModel --namespace CodeIgniter\\\\Shield');
 
-        $filepath = HOMEPATH . 'src/Models/MyUserModel.php';
+        $filepath = HOMEPATH . 'src/Models/UserModel.php';
         $this->assertStringContainsString('File created: ', CITestStreamFilter::$buffer);
         $this->assertFileExists($filepath);
 
         $contents = $this->getFileContents($filepath);
         $this->assertStringContainsString('namespace CodeIgniter\Shield\Models;', $contents);
-        $this->assertStringContainsString('class MyUserModel extends UserModel', $contents);
-        $this->assertStringContainsString('use CodeIgniter\Shield\Models\UserModel;', $contents);
+        $this->assertStringContainsString('class UserModel extends ShieldUserModel', $contents);
+        $this->assertStringContainsString('use CodeIgniter\Shield\Models\UserModel as ShieldUserModel;', $contents);
         $this->assertStringContainsString('protected function initialize(): void', $contents);
     }
 
     public function testGenerateUserModelWithForce(): void
     {
-        command('shield:model MyUserModel');
-        command('shield:model MyUserModel --force');
+        command('shield:model UserModel');
+        command('shield:model UserModel --force');
 
         $this->assertStringContainsString('File overwritten: ', CITestStreamFilter::$buffer);
-        $this->assertFileExists(APPPATH . 'Models/MyUserModel.php');
+        $this->assertFileExists(APPPATH . 'Models/UserModel.php');
     }
 
     public function testGenerateUserModelWithSuffix(): void
     {
-        command('shield:model MyUser --suffix');
+        command('shield:model User --suffix');
 
         $this->assertStringContainsString('File created: ', CITestStreamFilter::$buffer);
 
-        $filepath = APPPATH . 'Models/MyUserModel.php';
+        $filepath = APPPATH . 'Models/UserModel.php';
         $this->assertFileExists($filepath);
-        $this->assertStringContainsString('class MyUserModel extends UserModel', $this->getFileContents($filepath));
+        $this->assertStringContainsString('class UserModel extends ShieldUserModel', $this->getFileContents($filepath));
     }
 }
