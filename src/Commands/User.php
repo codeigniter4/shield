@@ -121,25 +121,14 @@ class User extends BaseCommand
                     break;
 
                 case 'addgroup':
-                    if(!$group) {
-                        CLI::write('Group option is missing', 'red');
-                    }
-                    else {
-                        $this->addgroup($group, $username, $email);
-                    }
+                    $this->addgroup($group, $username, $email);
                     break;
 
                 case 'removegroup':
-                    if(!$group) {
-                        CLI::write('Group option is missing', 'red');
-                    }
-                    else {
-                        $this->removegroup($group, $username, $email);
-                    }
+                    $this->removegroup($group, $username, $email);
                     break;
             }
-        }
-        else {
+        } else {
             CLI::write('Specify a valid action : ' . implode(',', $this->valid_actions), 'red');
         }
     }
@@ -400,8 +389,12 @@ class User extends BaseCommand
      * @param $username User name to search for (optional)
      * @param $email User email to search for (optional)
      */
-    private function addgroup(string $group, $username = null, $email = null): void
+    private function addgroup($group = null, $username = null, $email = null): void
     {
+        if (! $group) {
+            $group = CLI::prompt('Group', null, 'required');
+        }
+
         $user = $this->findUser('Add user to group', $username, $email);
 
         $confirm = CLI::prompt('Add the user: ' . $user->username . ' to the group: ' . $group . ' ?', ['y', 'n']);
@@ -420,8 +413,12 @@ class User extends BaseCommand
      * @param $username User name to search for (optional)
      * @param $email User email to search for (optional)
      */
-    private function removegroup(string $group, $username = null, $email = null): void
+    private function removegroup($group = null, $username = null, $email = null): void
     {
+        if (! $group) {
+            $group = CLI::prompt('Group', null, 'required');
+        }
+
         $user = $this->findUser('Remove user from group', $username, $email);
 
         $confirm = CLI::prompt('Remove the user: ' . $user->username . ' fromt the group: ' . $group . ' ?', ['y', 'n']);
