@@ -255,14 +255,6 @@ class Session implements AuthenticatorInterface
     }
 
     /**
-     * Activate a User
-     */
-    public function activateUser(User $user): void
-    {
-        $this->provider->activate($user);
-    }
-
-    /**
      * @param int|string|null $userId
      */
     private function recordLoginAttempt(

@@ -87,6 +87,7 @@ return [
     'emailActivateMailBody' => 'Pomocou nižšie uvedeného kódu aktivujte svoj účet a môžete začať používať stránku.',
     'invalidActivateToken'  => 'Kód bol nesprávny',
     'needActivate'          => 'Registráciu musíte dokončiť potvrdením kódu zaslaného na vašu e-mailovú adresu.',
+    'activationBlocked'     => '(to be translated) You must activate your account before logging in.',
 
     // Groups
     'unknownGroup' => '{0} nie je platná skupina.',

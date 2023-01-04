@@ -87,6 +87,7 @@ return [
     'emailActivateMailBody' => 'Veuillez utiliser le code suivant pour activer votre compte et commencer à utiliser le site.',
     'invalidActivateToken'  => 'Le code était incorrect.',
     'needActivate'          => 'Complétez votre inscription en confirmant le code envoyé à votre email.',
+    'activationBlocked'     => '(to be translated) You must activate your account before logging in.',
 
     // Groups
     'unknownGroup' => '{0} n\'est pas un groupe valide.',

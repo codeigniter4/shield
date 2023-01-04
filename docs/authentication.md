@@ -70,7 +70,7 @@ user_id();
 ## Authenticator Responses
 
 Many of the authenticator methods will return a `CodeIgniter\Shield\Result` class. This provides a consistent
-way of checking the results and can have additional information return along with it. The class
+way of checking the results and can have additional information returned along with it. The class
 has the following methods:
 
 ### isOK()

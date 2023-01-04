@@ -12,7 +12,6 @@ use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
 
 /**
- * @method void      activateUser(User $user)                 [Session]
  * @method Result    attempt(array $credentials)
  * @method Result    check(array $credentials)
  * @method bool      checkAction(string $token, string $type) [Session]

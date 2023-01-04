@@ -87,6 +87,7 @@ return [
     'emailActivateMailBody' => 'Hesabınızı etkinleştirmek ve siteyi kullanmaya başlamak için lütfen aşağıdaki kodu kullanın.',
     'invalidActivateToken'  => 'Kod yanlıştı.',
     'needActivate'          => 'E-posta adresinize gönderilen kodu onaylayarak kaydınızı tamamlamanız gerekmektedir.',
+    'activationBlocked'     => '(to be translated) You must activate your account before logging in.',
 
     // Groups
     'unknownGroup' => '{0} geçerli bir grup değil.',

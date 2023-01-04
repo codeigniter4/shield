@@ -114,7 +114,7 @@ class RegisterController extends BaseController
         }
 
         // Set the user active
-        $authenticator->activateUser($user);
+        $user->activate();
 
         $authenticator->completeLogin($user);
 

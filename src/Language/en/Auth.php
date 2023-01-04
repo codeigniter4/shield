@@ -48,7 +48,7 @@ return [
     'successLogout'      => 'You have successfully logged out.',
 
     // Passwords
-    'errorPasswordLength'       => 'Passwords must be at least {0, number} characters long.',
+    'errorPasswordLength'       => 'Passwords must be at least {0activationBlocked, number} characters long.',
     'suggestPasswordLength'     => 'Pass phrases - up to 255 characters long - make more secure passwords that are easy to remember.',
     'errorPasswordCommon'       => 'Password must not be a common password.',
     'suggestPasswordCommon'     => 'The password was checked against over 65k commonly used passwords or passwords that have been leaked through hacks.',
@@ -87,6 +87,7 @@ return [
     'emailActivateMailBody' => 'Please use the code below to activate your account and start using the site.',
     'invalidActivateToken'  => 'The code was incorrect.',
     'needActivate'          => 'You must complete your registration by confirming the code sent to your email address.',
+    'activationBlocked'     => 'You must activate your account before logging in.',
 
     // Groups
     'unknownGroup' => '{0} is not a valid group.',

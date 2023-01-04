@@ -12,6 +12,7 @@ use CodeIgniter\Shield\Authorization\Traits\Authorizable;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Traits\Resettable;
+use CodeIgniter\Shield\Traits\Activatable;
 
 /**
  * @property string|null         $email
@@ -27,6 +28,7 @@ class User extends Entity
     use Authorizable;
     use HasAccessTokens;
     use Resettable;
+    use Activatable;
 
     /**
      * @var UserIdentity[]|null
