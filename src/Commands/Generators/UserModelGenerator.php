@@ -65,7 +65,7 @@ class UserModelGenerator extends BaseCommand
 
         $class = $params[0] ?? CLI::getSegment(2) ?? 'UserModel';
 
-        if (in_array(strtolower($class), ['shielduser', 'shieldusermodel'], true)) {
+        if (! $this->verifyChosenModelClassName($class, $params)) {
             CLI::error('Cannot use `ShieldUserModel` as class name as this conflicts with the parent class.', 'light_gray', 'red');
 
             return; // @TODO when CI4 is at v4.3+, change this to `return 1;` to signify failing exit
@@ -74,5 +74,19 @@ class UserModelGenerator extends BaseCommand
         $params[0] = $class;
 
         $this->execute($params);
+    }
+
+    /**
+     * The chosen class name should not conflict with the alias of the parent class.
+     */
+    private function verifyChosenModelClassName(string $class, array $params): bool
+    {
+        helper('inflector');
+
+        if (array_key_exists('suffix', $params) && ! strripos($class, 'Model')) {
+            $class .= 'Model';
+        }
+
+        return strtolower(pascalize($class)) !== 'shieldusermodel';
     }
 }
