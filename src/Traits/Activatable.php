@@ -29,7 +29,6 @@ trait Activatable
      */
     public function activate(): bool
     {
-        helper('auth');
         $model = auth()->getProvider();
 
         return $model->update($this->id, ['active' => 1]);
@@ -40,7 +39,6 @@ trait Activatable
      */
     public function deactivate(): bool
     {
-        helper('auth');
         $model = auth()->getProvider();
 
         return $model->update($this->id, ['active' => 0]);

@@ -48,7 +48,7 @@ return [
     'successLogout'      => 'You have successfully logged out.',
 
     // Passwords
-    'errorPasswordLength'       => 'Passwords must be at least {0activationBlocked, number} characters long.',
+    'errorPasswordLength'       => 'Passwords must be at least {0, number} characters long.',
     'suggestPasswordLength'     => 'Pass phrases - up to 255 characters long - make more secure passwords that are easy to remember.',
     'errorPasswordCommon'       => 'Password must not be a common password.',
     'suggestPasswordCommon'     => 'The password was checked against over 65k commonly used passwords or passwords that have been leaked through hacks.',

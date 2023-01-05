@@ -87,7 +87,7 @@ return [
     'emailActivateMailBody' => 'لطفا برای فعالسازی حساب کاربری و استفاده از سایت از کد زیر استفاده کنید.',
     'invalidActivateToken'  => 'کد صحیح نمی باشد.',
     'needActivate'          => 'شما باید با ارائه کد ارسال شده به ایمیلتان، ثبت نام را تکمیل کنید.',
-    'activationBlocked'     => '(to be translated) You must activate your account before logging in.',
+    'activationBlocked'     => 'قبل از تلاش برای ورود، باید اکانت خود را فعال کنید.',
 
     // Groups
     'unknownGroup' => '{0} گروهی معتبر نیست.',

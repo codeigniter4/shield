@@ -252,7 +252,7 @@ if ($user->isActivated()) {
 }
 ```
 
-Note: If no activator is specified in the `Auth` config file, `actions['register']` property, then this will always return `true`.
+> **Note** If no activator is specified in the `Auth` config file, `actions['register']` property, then this will always return `true`.
 
 You can check if a user has not been activated yet via the `isNotActivated()` method.
 
