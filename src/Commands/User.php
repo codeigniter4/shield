@@ -56,12 +56,12 @@ class User extends BaseCommand
      * @var array
      */
     protected $options = [
-        '-i'  => 'User id',
-        '-u'  => 'User name',
-        '-e'  => 'User email',
-        '-nu' => 'New username',
-        '-ne' => 'New email',
-        '-g'  => 'Group name',
+        '-i' => 'User id',
+        '-u' => 'User name',
+        '-e' => 'User email',
+        '-n' => 'New username',
+        '-m' => 'New email',
+        '-g' => 'Group name',
     ];
 
     /**
@@ -83,8 +83,8 @@ class User extends BaseCommand
             $userid       = (int) CLI::getOption('i');
             $username     = CLI::getOption('u');
             $email        = CLI::getOption('e');
-            $new_username = CLI::getOption('nu');
-            $new_email    = CLI::getOption('ne');
+            $new_username = CLI::getOption('n');
+            $new_email    = CLI::getOption('m');
             $group        = CLI::getOption('g');
 
             switch ($action) {
@@ -364,7 +364,7 @@ class User extends BaseCommand
      * @param $username User name to search for (optional)
      * @param $email User email to search for (optional)
      */
-    private function list($username = null, $email = null): void
+    private function list(?string $username = null, ?string $email = null): void
     {
         $users = model('CodeIgniter\Shield\Models\UserModel');
         $users = $users->join('auth_identities', 'auth_identities.user_id = users.id');
