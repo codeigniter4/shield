@@ -49,4 +49,13 @@ class Registrar
             ],
         ];
     }
+
+    public static function Generators(): array
+    {
+        return [
+            'views' => [
+                'shield:model' => 'CodeIgniter\Shield\Commands\Generators\Views\usermodel.tpl.php',
+            ],
+        ];
+    }
 }
