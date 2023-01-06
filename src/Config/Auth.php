@@ -377,7 +377,7 @@ class Auth extends BaseConfig
         // To accommodate all url patterns
         $final_url = '';
 
-        switch ($url) {
+        switch (true) {
             case strpos($url, 'http') === 0: // URL begins with 'http'. E.g. http://example.com
                 $final_url = $url;
                 break;
