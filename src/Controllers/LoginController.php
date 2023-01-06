@@ -102,7 +102,7 @@ class LoginController extends BaseController
     public function logoutAction(): RedirectResponse
     {
         // Capture logout redirect URL before auth logout,
-        // otherwise 'Call to a member function inGroup() on null' is thrown
+        // otherwise you cannot check the user in `logoutRedirect()`.
         $url = config('Auth')->logoutRedirect();
 
         auth()->logout();
