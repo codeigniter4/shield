@@ -39,7 +39,7 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
-     * Redirect urLs
+     * Redirect URLs
      * --------------------------------------------------------------------
      * The default URL that a user will be redirected to after
      * various auth actions. If you need more flexibility you can
