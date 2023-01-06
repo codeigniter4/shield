@@ -390,7 +390,7 @@ class Auth extends BaseConfig
                 break;
 
             case route_to($url) !== false: // URL is a named-route
-                $final_url = url_to($url);
+                $final_url = rtrim(url_to($url), '/ ');
                 break;
 
             default: // URL is a route (URI path)
