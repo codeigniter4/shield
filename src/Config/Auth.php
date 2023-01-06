@@ -365,9 +365,10 @@ class Auth extends BaseConfig
 
     /**
      * Accepts a string which can be an absolute URL or
-     * a named route or just a URI path.
-     * @param string $url
-     * @return string
+     * a named route or just a URI path, and returns the
+     * full path.
+     *
+     * @param string $url an absolute URL or a named route or just URI path
      */
     protected function getUrl(string $url): string
     {
