@@ -363,6 +363,12 @@ class Auth extends BaseConfig
         return $this->getUrl($url);
     }
 
+    /**
+     * Accepts a string which can be an absolute URL or
+     * a named route or just a URI path.
+     * @param string $url
+     * @return string
+     */
     protected function getUrl(string $url): string
     {
         // To accommodate all url patterns
