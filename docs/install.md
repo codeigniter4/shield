@@ -240,3 +240,24 @@ public $filters = [
     ]
 ];
 ```
+
+> **Note** If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the `App/Config/Filter.php` file.
+
+For example, if you configured your routes like so:
+
+```php
+$routes->group('accounts', static function($routes) {
+    service('auth')->routes($routes);
+});
+```
+Then the global `before` filter for `session` should look like so:
+
+```php
+public $globals = [
+    'before' => [
+        // ...
+        'session' => ['except' => ['accounts/login*', 'accounts/register', 'accounts/auth/a/*']]
+    ]
+]
+```
+The same should apply for the Rate Limiting.
