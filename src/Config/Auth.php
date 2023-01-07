@@ -33,9 +33,15 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * Redirect URLs
      * --------------------------------------------------------------------
-     * The default URL or a named route that a user will be redirected to
-     * after various auth actions. If you need more flexibility you can
-     * override the `getUrl()` method to apply any logic you may need.
+     * The default URL that a user will be redirected to after various auth
+     * auth actions. This can be either of the following:
+     * 
+     * 1. An absolute URL. E.g. http://example.com OR https://example.com
+     * 2. A named route that can be accessed using route_to() or url_to
+     * 3. A URI path within the application. e.g 'admin', 'login', 'expath'
+     * 
+     * If you need more flexibility you can override the `getUrl()` method
+     * to apply any logic you may need.
      */
     public $redirects = [
         'register' => '/',
