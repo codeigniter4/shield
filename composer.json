@@ -29,6 +29,9 @@
     "provide": {
         "codeigniter4/authentication-implementation": "1.0"
     },
+    "suggest": {
+        "ext-curl": "Required to use the password validation rule via PwnedValidator class."
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
