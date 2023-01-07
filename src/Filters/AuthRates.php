@@ -10,7 +10,6 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
-use CodeIgniter\Shield\Auth;
 
 /**
  * Auth Rate-Limiting Filter.
@@ -43,7 +42,7 @@ class AuthRates implements FilterInterface
         if ($throttler->check(md5($request->getIPAddress()), 10, MINUTE, 1) === false) {
             return service('response')->setStatusCode(
                 429,
-                $message = lang('Auth.throttled', [$throttler->getTokenTime()])
+                lang('Auth.throttled', [$throttler->getTokenTime()]) // message
             );
         }
     }
