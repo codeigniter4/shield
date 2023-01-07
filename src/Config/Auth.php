@@ -33,8 +33,8 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * Redirect URLs
      * --------------------------------------------------------------------
-     * The default URL that a user will be redirected to after
-     * various auth actions. If you need more flexibility you can
+     * The default URL or a named route that a user will be redirected to
+     * after various auth actions. If you need more flexibility you can
      * override the `getUrl()` method to apply any logic you may need.
      */
     public $redirects = [
