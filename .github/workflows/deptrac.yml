@@ -70,3 +70,6 @@ jobs:
         run: |
           sudo phive --no-progress install --global --trust-gpg-keys B8F640134AB1782E,A98E898BB53EB748 qossmic/deptrac
           deptrac analyze --cache-file=build/deptrac.cache
+        env:
+          GITHUB_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
