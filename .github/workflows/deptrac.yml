@@ -72,4 +72,3 @@ jobs:
           deptrac analyze --cache-file=build/deptrac.cache
         env:
           GITHUB_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
