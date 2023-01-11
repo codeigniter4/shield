@@ -114,9 +114,13 @@ return static function (RectorConfig $rectorConfig): void {
         // Ignore tests that use CodeIgniter::CI_VERSION
         UnwrapFutureCompatibleIfPhpVersionRector::class => [
             __DIR__ . '/tests/Commands/UserModelGeneratorTest.php',
+            __DIR__ . '/tests/Controllers/LoginTest.php',
+            __DIR__ . '/tests/Commands/SetupTest.php',
         ],
         RemoveUnusedPrivatePropertyRector::class => [
             __DIR__ . '/tests/Commands/UserModelGeneratorTest.php',
+            __DIR__ . '/tests/Controllers/LoginTest.php',
+            __DIR__ . '/tests/Commands/SetupTest.php',
         ],
     ]);
     // auto import fully qualified class names
