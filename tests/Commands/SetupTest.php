@@ -61,7 +61,7 @@ final class SetupTest extends TestCase
         $this->assertStringContainsString('service(\'auth\')->routes($routes);', $routes);
 
         $security = file_get_contents($appFolder . 'Config/Security.php');
-        $this->assertStringContainsString('public $csrfProtection = \'session\';', $security);
+        $this->assertStringContainsString('$csrfProtection = \'session\';', $security);
 
         $result = str_replace(["\033[0;32m", "\033[0m"], '', CITestStreamFilter::$buffer);
 
