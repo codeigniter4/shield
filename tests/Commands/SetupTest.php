@@ -2,6 +2,7 @@
 
 namespace Tests\Commands;
 
+use CodeIgniter\CodeIgniter;
 use CodeIgniter\Shield\Commands\Setup;
 use CodeIgniter\Test\Filters\CITestStreamFilter;
 use Config\Services;
@@ -19,15 +20,27 @@ final class SetupTest extends TestCase
     {
         parent::setUp();
 
-        CITestStreamFilter::$buffer = '';
-        $this->streamFilter         = stream_filter_append(STDOUT, 'CITestStreamFilter');
+        // @phpstan-ignore-next-line
+        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
+            CITestStreamFilter::registration();
+            CITestStreamFilter::addOutputFilter();
+        } else {
+            CITestStreamFilter::$buffer = '';
+            $this->streamFilter         = stream_filter_append(STDOUT, 'CITestStreamFilter');
+        }
     }
 
     protected function tearDown(): void
     {
         parent::tearDown();
 
-        stream_filter_remove($this->streamFilter);
+        // @phpstan-ignore-next-line
+        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
+            CITestStreamFilter::removeOutputFilter();
+            CITestStreamFilter::removeErrorFilter();
+        } else {
+            stream_filter_remove($this->streamFilter);
+        }
     }
 
     public function testRun(): void
