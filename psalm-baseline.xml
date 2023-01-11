@@ -8,4 +8,10 @@
   <file src="src/Models/UserIdentityModel.php">
     <ReservedWord occurrences="1"/>
   </file>
+  <file src="src/Controllers/MagicLinkController.php">
+    <ReservedWord occurrences="1"/>
+  </file>
+  <file src="src/Models/GroupModel.php">
+    <ReservedWord occurrences="1"/>
+  </file>
 </files>
