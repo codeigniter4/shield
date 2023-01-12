@@ -18,9 +18,12 @@ on:
       - 'phpunit*'
       - '.github/workflows/phpunit.yml'
 
+env:
+  COMPOSER_UPDATE_FLAGS: ""
+
 jobs:
   main:
-    name: PHP ${{ matrix.php-versions }} - ${{ matrix.db-platforms }}
+    name: PHP ${{ matrix.php-versions }} - ${{ matrix.db-platforms }} - ${{ matrix.dependencies }}
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     strategy:
@@ -28,10 +31,16 @@ jobs:
         php-versions: ['7.4', '8.0', '8.1']
         db-platforms: ['MySQLi', 'Postgre', 'SQLite3', 'SQLSRV', 'OCI8']
         mysql-versions: [ '5.7' ]
+        dependencies: ['highest']
         include:
           - php-versions: '7.4'
             db-platforms: MySQLi
             mysql-versions: '8.0'
+            dependencies: 'highest'
+          - php-versions: '7.4'
+            db-platforms: MySQLi
+            mysql-versions: '5.7'
+            dependencies: 'lowest'
 
     services:
       mysql:
@@ -121,12 +130,16 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
+      - name: Handle lowest dependencies update
+        if: contains(matrix.dependencies, 'lowest')
+        run: echo "COMPOSER_UPDATE_FLAGS=$COMPOSER_UPDATE_FLAGS --prefer-lowest" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: |
           if [ -f composer.lock ]; then
-            composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
+            composer install ${{ env.COMPOSER_UPDATE_FLAGS }} --no-progress --no-interaction --prefer-dist --optimize-autoloader
           else
-            composer update --no-progress --no-interaction --prefer-dist --optimize-autoloader
+            composer update ${{ env.COMPOSER_UPDATE_FLAGS }} --no-progress --no-interaction --prefer-dist --optimize-autoloader
           fi
 
       - name: Test with PHPUnit
