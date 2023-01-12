@@ -65,7 +65,6 @@ final class LoginTest extends TestCase
 
     public function testLoginActionEmailSuccess(): void
     {
-        // @phpstan-ignore-next-line
         if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
             Time::setTestNow('March 10, 2017', 'UTC');
         } else {
@@ -122,7 +121,6 @@ final class LoginTest extends TestCase
 
     public function testLoginActionUsernameSuccess(): void
     {
-        // @phpstan-ignore-next-line
         if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
             Time::setTestNow('March 10, 2017', 'UTC');
         } else {

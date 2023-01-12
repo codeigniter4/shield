@@ -22,7 +22,6 @@ final class SetupTest extends TestCase
     {
         parent::setUp();
 
-        // @phpstan-ignore-next-line
         if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
             CITestStreamFilter::registration();
             CITestStreamFilter::addOutputFilter();
@@ -36,7 +35,6 @@ final class SetupTest extends TestCase
     {
         parent::tearDown();
 
-        // @phpstan-ignore-next-line
         if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
             CITestStreamFilter::removeOutputFilter();
             CITestStreamFilter::removeErrorFilter();
