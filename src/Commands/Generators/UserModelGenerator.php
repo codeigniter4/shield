@@ -54,7 +54,7 @@ class UserModelGenerator extends BaseCommand
     /**
      * Actually execute the command.
      */
-    public function run(array $params): void
+    public function run(array $params): int
     {
         $this->component = 'Model';
         $this->directory = 'Models';
@@ -68,12 +68,15 @@ class UserModelGenerator extends BaseCommand
         if (! $this->verifyChosenModelClassName($class, $params)) {
             CLI::error('Cannot use `ShieldUserModel` as class name as this conflicts with the parent class.', 'light_gray', 'red');
 
-            return; // @TODO when CI4 is at v4.3+, change this to `return 1;` to signify failing exit
+            return 1;
         }
 
         $params[0] = $class;
 
-        $this->execute($params);
+        // @TODO execute() is deprecated in CI v4.3.0.
+        $this->execute($params); // @phpstan-ignore-line suppress deprecated error.
+
+        return 0;
     }
 
     /**
