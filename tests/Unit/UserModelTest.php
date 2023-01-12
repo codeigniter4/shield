@@ -173,7 +173,7 @@ final class UserModelTest extends TestCase
         $user->email    = 'bar@bar.com';
         $user->active   = true;
 
-        $users->update(null, $user);
+        $users->update($user->id, $user);
 
         $this->seeInDatabase('auth_identities', [
             'user_id' => $user->id,
@@ -209,7 +209,7 @@ final class UserModelTest extends TestCase
         // Fix value type
         $userArray['active'] = (int) $userArray['active'];
 
-        $users->update(null, $userArray);
+        $users->update($user->id, $userArray);
 
         $this->dontSeeInDatabase('auth_identities', [
             'user_id' => $user->id,
