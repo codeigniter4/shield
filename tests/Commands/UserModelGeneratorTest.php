@@ -19,7 +19,6 @@ final class UserModelGeneratorTest extends CIUnitTestCase
     {
         parent::setUp();
 
-        // @phpstan-ignore-next-line
         if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
             CITestStreamFilter::registration();
             CITestStreamFilter::addOutputFilter();
@@ -42,7 +41,6 @@ final class UserModelGeneratorTest extends CIUnitTestCase
     {
         parent::tearDown();
 
-        // @phpstan-ignore-next-line
         if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
             CITestStreamFilter::removeOutputFilter();
             CITestStreamFilter::removeErrorFilter();
