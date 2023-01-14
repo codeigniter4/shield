@@ -23,7 +23,9 @@ use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
 use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPromotedPropertyRector;
+use Rector\DeadCode\Rector\If_\UnwrapFutureCompatibleIfPhpVersionRector;
 use Rector\DeadCode\Rector\MethodCall\RemoveEmptyMethodCallRector;
+use Rector\DeadCode\Rector\Property\RemoveUnusedPrivatePropertyRector;
 use Rector\DeadCode\Rector\StmtsAwareInterface\RemoveJustPropertyFetchForAssignRector;
 use Rector\EarlyReturn\Rector\Foreach_\ChangeNestedForeachIfsToEarlyContinueRector;
 use Rector\EarlyReturn\Rector\If_\ChangeIfElseValueAssignToEarlyReturnRector;
@@ -107,6 +109,18 @@ return static function (RectorConfig $rectorConfig): void {
         // See https://github.com/codeigniter4/shield/issues/228
         RemoveJustPropertyFetchForAssignRector::class => [
             __DIR__ . '/src/Models/UserModel.php',
+        ],
+
+        // Ignore tests that use CodeIgniter::CI_VERSION
+        UnwrapFutureCompatibleIfPhpVersionRector::class => [
+            __DIR__ . '/tests/Commands/UserModelGeneratorTest.php',
+            __DIR__ . '/tests/Controllers/LoginTest.php',
+            __DIR__ . '/tests/Commands/SetupTest.php',
+        ],
+        RemoveUnusedPrivatePropertyRector::class => [
+            __DIR__ . '/tests/Commands/UserModelGeneratorTest.php',
+            __DIR__ . '/tests/Controllers/LoginTest.php',
+            __DIR__ . '/tests/Commands/SetupTest.php',
         ],
     ]);
     // auto import fully qualified class names

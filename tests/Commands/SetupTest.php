@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Commands;
 
+use CodeIgniter\CodeIgniter;
 use CodeIgniter\Shield\Commands\Setup;
 use CodeIgniter\Test\Filters\CITestStreamFilter;
 use Config\Services;
@@ -21,15 +22,25 @@ final class SetupTest extends TestCase
     {
         parent::setUp();
 
-        CITestStreamFilter::$buffer = '';
-        $this->streamFilter         = stream_filter_append(STDOUT, 'CITestStreamFilter');
+        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
+            CITestStreamFilter::registration();
+            CITestStreamFilter::addOutputFilter();
+        } else {
+            CITestStreamFilter::$buffer = '';
+            $this->streamFilter         = stream_filter_append(STDOUT, 'CITestStreamFilter');
+        }
     }
 
     protected function tearDown(): void
     {
         parent::tearDown();
 
-        stream_filter_remove($this->streamFilter);
+        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
+            CITestStreamFilter::removeOutputFilter();
+            CITestStreamFilter::removeErrorFilter();
+        } else {
+            stream_filter_remove($this->streamFilter);
+        }
     }
 
     public function testRun(): void
@@ -61,7 +72,7 @@ final class SetupTest extends TestCase
         $this->assertStringContainsString('service(\'auth\')->routes($routes);', $routes);
 
         $security = file_get_contents($appFolder . 'Config/Security.php');
-        $this->assertStringContainsString('public $csrfProtection = \'session\';', $security);
+        $this->assertStringContainsString('$csrfProtection = \'session\';', $security);
 
         $result = str_replace(["\033[0;32m", "\033[0m"], '', CITestStreamFilter::$buffer);
 

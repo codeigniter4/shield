@@ -39,11 +39,17 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
-     * Redirect urLs
+     * Redirect URLs
      * --------------------------------------------------------------------
-     * The default URL that a user will be redirected to after
-     * various auth actions. If you need more flexibility you can
-     * override the `getUrl()` method to apply any logic you may need.
+     * The default URL that a user will be redirected to after various auth
+     * auth actions. This can be either of the following:
+     *
+     * 1. An absolute URL. E.g. http://example.com OR https://example.com
+     * 2. A named route that can be accessed using `route_to()` or `url_to()`
+     * 3. A URI path within the application. e.g 'admin', 'login', 'expath'
+     *
+     * If you need more flexibility you can override the `getUrl()` method
+     * to apply any logic you may need.
      */
     public array $redirects = [
         'register' => '/',
@@ -372,10 +378,32 @@ class Auth extends BaseConfig
         return $this->getUrl($url);
     }
 
+    /**
+     * Accepts a string which can be an absolute URL or
+     * a named route or just a URI path, and returns the
+     * full path.
+     *
+     * @param string $url an absolute URL or a named route or just URI path
+     */
     protected function getUrl(string $url): string
     {
-        return strpos($url, 'http') === 0
-            ? $url
-            : rtrim(site_url($url), '/ ');
+        // To accommodate all url patterns
+        $final_url = '';
+
+        switch (true) {
+            case strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0: // URL begins with 'http' or 'https'. E.g. http://example.com
+                $final_url = $url;
+                break;
+
+            case route_to($url) !== false: // URL is a named-route
+                $final_url = rtrim(url_to($url), '/ ');
+                break;
+
+            default: // URL is a route (URI path)
+                $final_url = rtrim(site_url($url), '/ ');
+                break;
+        }
+
+        return $final_url;
     }
 }

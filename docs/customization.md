@@ -24,12 +24,10 @@ $routes->get('login', '\App\Controllers\Auth\LoginController::loginView');
 $routes->get('register', '\App\Controllers\Auth\RegisterController::registerView');
 ```
 
-
-
 ## Custom Redirect URLs
 
 By default, a successful login or register attempt will all redirect to `/`, while a logout action
-will redirect to `/login`. You can change the default URLs used within the `Auth` config file:
+will redirect to a [named route](https://codeigniter.com/user_guide/incoming/routing.html#using-named-routes "See routing docs") `login` or a *URI path* `/login`. You can change the default URLs used within the `Auth` config file:
 
 ```php
 public array $redirects = [
@@ -63,13 +61,10 @@ Shield has the following controllers that can be extended to handle
 various parts of the authentication process:
 
 - **ActionController** handles the after-login and after-registration actions, like Two Factor Authentication and Email Verification.
-
 - **LoginController** handles the login process.
-
 - **RegisterController** handles the registration process. Overriding this class allows you to customize the User Provider, the User Entity, and the validation rules.
-
 - **MagicLinkController** handles the "lost password" process that allows a user to login with a link sent to their email. This allows you to
-override the message that is displayed to a user to describe what is happening, if you'd like to provide more information than simply swapping out the view used.
+  override the message that is displayed to a user to describe what is happening, if you'd like to provide more information than simply swapping out the view used.
 
 It is not recommended to copy the entire controller into **app/Controllers** and change its namespace. Instead, you should create a new controller that extends
 the existing controller and then only override the methods needed. This allows the other methods to stay up to date with any security

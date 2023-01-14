@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.4.0@62db5d4f6a7ae0a20f7cc5a4952d730272fc0863">
+  <file src="src/Models/RememberModel.php">
+    <ReservedWord occurrences="1">
+      <code>$this-&gt;where(['user_id' =&gt; $user-&gt;id])-&gt;delete()</code>
+    </ReservedWord>
+  </file>
+  <file src="src/Models/UserIdentityModel.php">
+    <ReservedWord occurrences="1"/>
+  </file>
+  <file src="src/Controllers/MagicLinkController.php">
+    <ReservedWord occurrences="1"/>
+  </file>
+  <file src="src/Models/GroupModel.php">
+    <ReservedWord occurrences="1"/>
+  </file>
+</files>

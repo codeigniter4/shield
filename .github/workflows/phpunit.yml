@@ -20,18 +20,41 @@ on:
 
 jobs:
   main:
-    name: PHP ${{ matrix.php-versions }} - ${{ matrix.db-platforms }}
+    name: PHP ${{ matrix.php-versions }} - ${{ matrix.db-platforms }} - ${{ matrix.dependencies }}
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     strategy:
       matrix:
-        php-versions: ['7.4', '8.0', '8.1']
-        db-platforms: ['MySQLi', 'Postgre', 'SQLite3', 'SQLSRV', 'OCI8']
-        mysql-versions: [ '5.7' ]
+        php-versions: ['7.4', '8.0', '8.1', '8.2']
+        db-platforms: ['MySQLi', 'SQLite3']
+        mysql-versions: ['5.7']
+        dependencies: ['highest']
         include:
+          # MySQL 8.0
           - php-versions: '7.4'
             db-platforms: MySQLi
             mysql-versions: '8.0'
+            dependencies: 'highest'
+          # Lowest Dependency
+          - php-versions: '7.4'
+            db-platforms: MySQLi
+            mysql-versions: '5.7'
+            dependencies: 'lowest'
+          # Postgre
+          - php-versions: '7.4'
+            db-platforms: Postgre
+            mysql-versions: '5.7'
+            dependencies: 'highest'
+          # SQLSRV
+          - php-versions: '7.4'
+            db-platforms: SQLSRV
+            mysql-versions: '5.7'
+            dependencies: 'highest'
+          # OCI8
+          - php-versions: '7.4'
+            db-platforms: OCI8
+            mysql-versions: '5.7'
+            dependencies: 'highest'
 
     services:
       mysql:
@@ -124,10 +147,12 @@ jobs:
       - name: Install dependencies
         run: |
           if [ -f composer.lock ]; then
-            composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
+            composer install ${{ env.COMPOSER_UPDATE_FLAGS }} --no-progress --no-interaction --prefer-dist --optimize-autoloader
           else
-            composer update --no-progress --no-interaction --prefer-dist --optimize-autoloader
+            composer update ${{ env.COMPOSER_UPDATE_FLAGS }} --no-progress --no-interaction --prefer-dist --optimize-autoloader
           fi
+        env:
+          COMPOSER_UPDATE_FLAGS: ${{ matrix.dependencies == 'lowest' && '--prefer-lowest' || '' }}
 
       - name: Test with PHPUnit
         run: vendor/bin/phpunit --verbose --coverage-text --testsuite main

@@ -40,11 +40,11 @@ Could not find a version of package codeigniter4/shield matching your minimum-st
 Require it with an explicit version constraint allowing its desired stability.
 ```
 
-1. Add the following to change your [minimum-stability](https://getcomposer.org/doc/articles/versions.md#minimum-stability) in your project `composer.json`:
+1. Run the following commands to change your [minimum-stability](https://getcomposer.org/doc/articles/versions.md#minimum-stability) in your project `composer.json`:
 
-    ```json
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    ```console
+    composer config minimum-stability dev
+    composer config prefer-stable true
     ```
 
 2. Or specify an explicit version:
@@ -240,3 +240,24 @@ public $filters = [
     ]
 ];
 ```
+
+> **Note** If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the `App/Config/Filter.php` file.
+
+For example, if you configured your routes like so:
+
+```php
+$routes->group('accounts', static function($routes) {
+    service('auth')->routes($routes);
+});
+```
+Then the global `before` filter for `session` should look like so:
+
+```php
+public $globals = [
+    'before' => [
+        // ...
+        'session' => ['except' => ['accounts/login*', 'accounts/register', 'accounts/auth/a/*']]
+    ]
+]
+```
+The same should apply for the Rate Limiting.

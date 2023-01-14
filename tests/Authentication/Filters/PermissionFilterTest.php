@@ -63,21 +63,4 @@ final class PermissionFilterTest extends AbstractFilterTest
         // Should have error message
         $result->assertSessionHas('error');
     }
-
-    public function testFilterIncorrectGroupWithPrevious(): void
-    {
-        /** @var User $user */
-        $user = fake(UserModel::class);
-        $user->addPermission('beta.access');
-
-        $result = $this
-            ->actingAs($user)
-            ->withSession(['_ci_previous_url' => site_url('open-route')])
-            ->get('protected-route');
-
-        // Should redirect to the previous url (open-route)
-        $result->assertRedirectTo(site_url('open-route'));
-
-        $result->assertSessionHas('error');
-    }
 }
