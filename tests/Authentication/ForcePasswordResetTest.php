@@ -9,6 +9,7 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Test\AuthenticationTesting;
 use CodeIgniter\Test\DatabaseTestTrait;
+use CodeIgniter\Test\Fabricator;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
 use Tests\Support\TestCase;
@@ -99,5 +100,30 @@ final class ForcePasswordResetTest extends TestCase
         // This should redirect to the stated url in Auth redirects
         $result->assertStatus(302);
         $result->assertRedirectTo(config('Auth')->forcePasswordResetRedirect());
+    }
+
+    public function testForceGlobalPasswordReset(): void
+    {
+        /**
+         * @phpstan-var User
+         */
+        $user = fake(UserModel::class);
+        $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
+        $this->actingAs($user);
+
+        /**
+         * @phpstan-var Fabricator
+         */
+        $fabricator = new Fabricator(UserIdentityModel::class);
+        $fabricator->create(100);
+
+        /**
+         * @phpstan-var UserIdentityModel
+         */
+        $identities = model(UserIdentityModel::class);
+
+        $response = $identities->forceGlobalPasswordReset();
+        $this->assertTrue($response);
+        $this->assertFalse($user->requiresPasswordReset());
     }
 }
