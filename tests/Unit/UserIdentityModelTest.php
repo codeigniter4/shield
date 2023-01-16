@@ -9,7 +9,9 @@ use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\DatabaseException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Test\AuthenticationTesting;
 use CodeIgniter\Test\DatabaseTestTrait;
+use CodeIgniter\Test\Fabricator;
 use Tests\Support\TestCase;
 
 /**
@@ -18,6 +20,7 @@ use Tests\Support\TestCase;
 final class UserIdentityModelTest extends TestCase
 {
     use DatabaseTestTrait;
+    use AuthenticationTesting;
 
     protected $namespace;
     protected $refresh = true;
@@ -71,5 +74,53 @@ final class UserIdentityModelTest extends TestCase
             ],
             $generator
         );
+    }
+
+    public function testForceMultiplePasswordReset(): void
+    {
+        /**
+         * @phpstan-var Fabricator
+         */
+        $fabricator = new Fabricator(UserIdentityModel::class);
+        $fabricator->create(10);
+
+        /**
+         * @phpstan-var UserIdentityModel
+         */
+        $identities = model(UserIdentityModel::class);
+        $result     = $identities->select('user_id')->findAll();
+        $userIds    = [];
+
+        foreach ($result as $row) {
+            $userIds[] = $row->user_id;
+        }
+
+        $response = $identities->forceMultiplePasswordReset($userIds);
+        $this->assertTrue($response);
+    }
+
+    public function testforceGlobalPasswordReset(): void
+    {
+        /**
+         * @phpstan-var User
+         */
+        $user = fake(UserModel::class);
+        $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
+        $this->actingAs($user);
+
+        /**
+         * @phpstan-var Fabricator
+         */
+        $fabricator = new Fabricator(UserIdentityModel::class);
+        $fabricator->create(100);
+
+        /**
+         * @phpstan-var UserIdentityModel
+         */
+        $identities = model(UserIdentityModel::class);
+
+        $response = $identities->forceGlobalPasswordReset();
+        $this->assertTrue($response);
+        $this->assertFalse($user->requiresPasswordReset());
     }
 }
