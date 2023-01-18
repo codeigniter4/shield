@@ -39,6 +39,9 @@ Learning any new authentication system can be difficult, especially as they get 
 
 If you need everyone to redirect to a single URL after login/logout/register actions, you can modify the `Config\Auth::$redirects` array in `app/Config/Auth.php` to specify the url to redirect to.
 
+By default, a successful login or register attempt will all redirect to `/`, while a logout action
+will redirect to a [named route](https://codeigniter.com/user_guide/incoming/routing.html#using-named-routes "See routing docs") `login` or a *URI path* `/login`. You can change the default URLs used within the `app/Config/Auth.php` config file:
+
 ```php
 public array $redirects = [
     'register' => '/',

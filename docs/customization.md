@@ -29,20 +29,9 @@ $routes->get('register', '\App\Controllers\Auth\RegisterController::registerView
 
 ## Custom Redirect URLs
 
-By default, a successful login or register attempt will all redirect to `/`, while a logout action
-will redirect to a [named route](https://codeigniter.com/user_guide/incoming/routing.html#using-named-routes "See routing docs") `login` or a *URI path* `/login`. You can change the default URLs used within the `app/Config/Auth.php` config file:
-
-```php
-public array $redirects = [
-    'register' => '/',
-    'login'    => '/',
-    'logout'   => 'login',
-];
-```
-
 ### Customize Login Redirect
 
-You can further customize where a user is redirected to on login with the `loginRedirect()` method of the `app/Config/Auth.php` config file. This is handy if you want to redirect based on user group or other criteria.
+You can customize where a user is redirected to on login with the `loginRedirect()` method of the `app/Config/Auth.php` config file. This is handy if you want to redirect based on user group or other criteria.
 
 ```php
 public function loginRedirect(): string
