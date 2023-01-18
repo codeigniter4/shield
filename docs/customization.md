@@ -3,9 +3,9 @@
 - [Customizing Shield](#customizing-shield)
   - [Route Configuration](#route-configuration)
   - [Custom Redirect URLs](#custom-redirect-urls)
-    - [Customize login redirect](#customize-login-redirect)
-    - [Customize register redirect](#customize-register-redirect)
-    - [Customize logout redirect](#customize-logout-redirect)
+    - [Customize Login Redirect](#customize-login-redirect)
+    - [Customize Register Redirect](#customize-register-redirect)
+    - [Customize Logout Redirect](#customize-logout-redirect)
   - [Extending the Controllers](#extending-the-controllers)
   - [Integrating Custom View Libraries](#integrating-custom-view-libraries)
   - [Custom Validation Rules](#custom-validation-rules)
@@ -40,7 +40,7 @@ public array $redirects = [
 ];
 ```
 
-### Customize login redirect
+### Customize Login Redirect
 
 You can further customize where a user is redirected to on login with the `loginRedirect()` method of the `Auth` config file. This is handy if you want to redirect based on user group or other criteria.
 
@@ -73,7 +73,7 @@ public function loginRedirect(): string
 }
 ```
 
-### Customize register redirect
+### Customize Register Redirect
 
 You can customize where a user is redirected to after registration in the `registerRedirect` method of the `Auth` config file.
 
@@ -86,7 +86,7 @@ public function registerRedirect(): string
 }
 ```
 
-### Customize logout redirect
+### Customize Logout Redirect
 
 The logout redirect can also be overridden by the `logoutRedirect` method of the `Auth` config file. This will not be used as often as login and register, but you might find the need. For example, if you programatically logged a user out you might want to take them to a page that specifies why they were logged out. Otherwise, you might take them to the home page or even the login page.
 
