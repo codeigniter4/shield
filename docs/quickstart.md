@@ -6,9 +6,7 @@ Learning any new authentication system can be difficult, especially as they get 
 
 - [Quick Start Guide](#quick-start-guide)
   - [Authentication Flow](#authentication-flow)
-    - [Customize register redirect](#customize-register-redirect)
-    - [Customize login redirect](#customize-login-redirect)
-    - [Customize logout redirect](#customize-logout-redirect)
+    - [Configure Redirect URLs](#configure-redirect-urls)
     - [Customize Remember-me functionality](#customize-remember-me-functionality)
     - [Change Access Token Lifetime](#change-access-token-lifetime)
     - [Enable Account Activation via Email](#enable-account-activation-via-email)
@@ -33,7 +31,9 @@ Learning any new authentication system can be difficult, especially as they get 
 
 ## Authentication Flow
 
-If you need everyone to redirect to a single URL after login/logout/register actions, you can modify the `Config\Auth::redirects` array to specify the url to redirect to.
+### Configure Redirect URLs
+
+If you need everyone to redirect to a single URL after login/logout/register actions, you can modify the `Config\Auth::$redirects` array to specify the url to redirect to.
 
 ```php
 public array $redirects = [
@@ -44,47 +44,6 @@ public array $redirects = [
 ```
 
 > **Note** This redirect happens after the specified action is complete. In the case of register or login, it might not happen immediately. For example, if you have any Auth Actions specified, they will be redirected when those actions are completed successfully. If no Auth Actions are specified, they will be redirected immediately after registration or login.
-
-### Customize register redirect
-
-You can customize where a user is redirected to after registration in the `registerRedirect` method of the `Auth` config file.
-
-```php
-public function registerRedirect(): string
-{
-    $url = setting('Auth.redirects')['register'];
-
-    return $this->getUrl($url);
-}
-```
-
-### Customize login redirect
-
-You can further customize where a user is redirected to on login with the `loginRedirect` method of the `Auth` config file. This is handy if you want to redirect based on user group or other criteria.
-
-```php
-public function loginRedirect(): string
-{
-    $url = auth()->user()->inGroup('admin')
-        ? '/admin'
-        : setting('Auth.redirects')['login'];
-
-    return $this->getUrl($url);
-}
-```
-
-### Customize logout redirect
-
-The logout redirect can also be overridden by the `logoutRedirect` method of the `Auth` config file. This will not be used as often as login and register, but you might find the need. For example, if you programatically logged a user out you might want to take them to a page that specifies why they were logged out. Otherwise, you might take them to the home page or even the login page.
-
-```php
-public function logoutRedirect(): string
-{
-    $url = setting('Auth.redirects')['logout'];
-
-    return $this->getUrl($url);
-}
-```
 
 ### Customize Remember-me functionality
 

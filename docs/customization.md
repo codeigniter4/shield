@@ -3,6 +3,9 @@
 - [Customizing Shield](#customizing-shield)
   - [Route Configuration](#route-configuration)
   - [Custom Redirect URLs](#custom-redirect-urls)
+    - [Customize login redirect](#customize-login-redirect)
+    - [Customize register redirect](#customize-register-redirect)
+    - [Customize logout redirect](#customize-logout-redirect)
   - [Extending the Controllers](#extending-the-controllers)
   - [Integrating Custom View Libraries](#integrating-custom-view-libraries)
   - [Custom Validation Rules](#custom-validation-rules)
@@ -37,6 +40,21 @@ public array $redirects = [
 ];
 ```
 
+### Customize login redirect
+
+You can further customize where a user is redirected to on login with the `loginRedirect()` method of the `Auth` config file. This is handy if you want to redirect based on user group or other criteria.
+
+```php
+public function loginRedirect(): string
+{
+    $url = auth()->user()->inGroup('admin')
+        ? '/admin'
+        : setting('Auth.redirects')['login'];
+
+    return $this->getUrl($url);
+}
+```
+
 Oftentimes, you will want to have different redirects for different user groups. A simple example
 might be that you want admins redirected to `/admin` while all other groups redirect to `/`.
 The `Auth` config file also includes methods that you can add additional logic to in order to
@@ -50,6 +68,32 @@ public function loginRedirect(): string
     }
 
     $url = setting('Auth.redirects')['login'];
+
+    return $this->getUrl($url);
+}
+```
+
+### Customize register redirect
+
+You can customize where a user is redirected to after registration in the `registerRedirect` method of the `Auth` config file.
+
+```php
+public function registerRedirect(): string
+{
+    $url = setting('Auth.redirects')['register'];
+
+    return $this->getUrl($url);
+}
+```
+
+### Customize logout redirect
+
+The logout redirect can also be overridden by the `logoutRedirect` method of the `Auth` config file. This will not be used as often as login and register, but you might find the need. For example, if you programatically logged a user out you might want to take them to a page that specifies why they were logged out. Otherwise, you might take them to the home page or even the login page.
+
+```php
+public function logoutRedirect(): string
+{
+    $url = setting('Auth.redirects')['logout'];
 
     return $this->getUrl($url);
 }
