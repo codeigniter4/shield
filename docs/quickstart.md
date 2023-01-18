@@ -6,20 +6,22 @@ Learning any new authentication system can be difficult, especially as they get 
 
 - [Quick Start Guide](#quick-start-guide)
   - [Authentication Flow](#authentication-flow)
-    - [Configure Redirect URLs](#configure-redirect-urls)
-    - [Configure Remember-me Functionality](#configure-remember-me-functionality)
-    - [Change Access Token Lifetime](#change-access-token-lifetime)
-    - [Enable Account Activation via Email](#enable-account-activation-via-email)
-    - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
+    - [Configure Config\\Auth](#configure-configauth)
+      - [Configure Redirect URLs](#configure-redirect-urls)
+      - [Configure Remember-me Functionality](#configure-remember-me-functionality)
+      - [Change Access Token Lifetime](#change-access-token-lifetime)
+      - [Enable Account Activation via Email](#enable-account-activation-via-email)
+      - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
     - [Responding to Magic Link Logins](#responding-to-magic-link-logins)
       - [Session Notification](#session-notification)
       - [Event](#event)
   - [Authorization Flow](#authorization-flow)
-    - [Change Available Groups](#change-available-groups)
-    - [Set the Default Group](#set-the-default-group)
-    - [Change Available Permissions](#change-available-permissions)
-    - [Assign Permissions to a Group](#assign-permissions-to-a-group)
-    - [Assign Permissions to a User](#assign-permissions-to-a-user)
+    - [Configure Config\\AuthGroups](#configure-configauthgroups)
+      - [Change Available Groups](#change-available-groups)
+      - [Set the Default Group](#set-the-default-group)
+      - [Change Available Permissions](#change-available-permissions)
+      - [Assign Permissions to a Group](#assign-permissions-to-a-group)
+      - [Assign Permissions to a User](#assign-permissions-to-a-user)
   - [Check If a User Has Permission](#check-if-a-user-has-permission)
     - [Adding a Group To a User](#adding-a-group-to-a-user)
     - [Removing a Group From a User](#removing-a-group-from-a-user)
@@ -31,9 +33,11 @@ Learning any new authentication system can be difficult, especially as they get 
 
 ## Authentication Flow
 
-### Configure Redirect URLs
+### Configure Config\Auth
 
-If you need everyone to redirect to a single URL after login/logout/register actions, you can modify the `Config\Auth::$redirects` array to specify the url to redirect to.
+#### Configure Redirect URLs
+
+If you need everyone to redirect to a single URL after login/logout/register actions, you can modify the `Config\Auth::$redirects` array in `app/Config/Auth.php` to specify the url to redirect to.
 
 ```php
 public array $redirects = [
@@ -45,7 +49,7 @@ public array $redirects = [
 
 > **Note** This redirect happens after the specified action is complete. In the case of register or login, it might not happen immediately. For example, if you have any Auth Actions specified, they will be redirected when those actions are completed successfully. If no Auth Actions are specified, they will be redirected immediately after registration or login.
 
-### Configure Remember-me Functionality
+#### Configure Remember-me Functionality
 
 Remember-me functionality is enabled by default for the `Session` handler. While this is handled in a secure manner, some sites may want it disabled. You might also want to change how long it remembers a user and doesn't require additional login.
 
@@ -58,7 +62,7 @@ public array $sessionConfig = [
 ];
 ```
 
-### Change Access Token Lifetime
+#### Change Access Token Lifetime
 
 By default, Access Tokens can be used for 1 year since the last use. This can be easily modified in the `Auth` config file.
 
@@ -66,7 +70,7 @@ By default, Access Tokens can be used for 1 year since the last use. This can be
 public int $unusedTokenLifetime = YEAR;
 ```
 
-### Enable Account Activation via Email
+#### Enable Account Activation via Email
 
 > **Note** You need to configure `app/Config/Email.php` to allow Shield to send emails. See [Installation](install.md#initial-setup).
 
@@ -79,7 +83,7 @@ public array $actions = [
 ];
 ```
 
-### Enable Two-Factor Authentication
+#### Enable Two-Factor Authentication
 
 > **Note** You need to configure `app/Config/Email.php` to allow Shield to send emails. See [Installation](install.md#initial-setup).
 
@@ -127,9 +131,11 @@ Events::on('magicLogin', static function () {
 
 ## Authorization Flow
 
-### Change Available Groups
+### Configure Config\AuthGroups
 
-The available groups are defined in the `AuthGroups` config file, under the `$groups` property. Add new entries to the array, or remove existing ones to make them available throughout your application.
+#### Change Available Groups
+
+The available groups are defined in the `app/Config/AuthGroups.php` config file, under the `$groups` property. Add new entries to the array, or remove existing ones to make them available throughout your application.
 
 ```php
 public array $groups = [
@@ -141,11 +147,11 @@ public array $groups = [
 ];
 ```
 
-### Set the Default Group
+#### Set the Default Group
 
 When a user registers on your site, they are assigned the group specified at `Config\AuthGroups::$defaultGroup`. Change this to one of the keys in the `$groups` array to update this.
 
-### Change Available Permissions
+#### Change Available Permissions
 
 The permissions on the site are stored in the `AuthGroups` config file also. Each one is defined by a string that represents a context and a permission, joined with a decimal point.
 
@@ -161,7 +167,7 @@ public array $permissions = [
 ];
 ```
 
-### Assign Permissions to a Group
+#### Assign Permissions to a Group
 
 Each group can have its own specific set of permissions. These are defined in `Config\AuthGroups::$matrix`. You can specify each permission by it's full name, or using the context and an asterisk (*) to specify all permissions within that context.
 
@@ -176,7 +182,7 @@ public array $matrix = [
 ];
 ```
 
-### Assign Permissions to a User
+#### Assign Permissions to a User
 
 Permissions can also be assigned directly to a user, regardless of what groups they belong to. This is done programatically on the `User` Entity.
 
