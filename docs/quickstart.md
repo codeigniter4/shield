@@ -7,7 +7,7 @@ Learning any new authentication system can be difficult, especially as they get 
 - [Quick Start Guide](#quick-start-guide)
   - [Authentication Flow](#authentication-flow)
     - [Configure Redirect URLs](#configure-redirect-urls)
-    - [Customize Remember-me functionality](#customize-remember-me-functionality)
+    - [Configure Remember-me Functionality](#configure-remember-me-functionality)
     - [Change Access Token Lifetime](#change-access-token-lifetime)
     - [Enable Account Activation via Email](#enable-account-activation-via-email)
     - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
@@ -21,13 +21,13 @@ Learning any new authentication system can be difficult, especially as they get 
     - [Assign Permissions to a Group](#assign-permissions-to-a-group)
     - [Assign Permissions to a User](#assign-permissions-to-a-user)
   - [Check If a User Has Permission](#check-if-a-user-has-permission)
-    - [Adding A Group To A User](#adding-a-group-to-a-user)
-    - [Removing A Group From A User](#removing-a-group-from-a-user)
-    - [Checking If User Belongs To A Group](#checking-if-user-belongs-to-a-group)
+    - [Adding a Group To a User](#adding-a-group-to-a-user)
+    - [Removing a Group From a User](#removing-a-group-from-a-user)
+    - [Checking If User Belongs To a Group](#checking-if-user-belongs-to-a-group)
   - [Managing Users](#managing-users)
     - [Creating Users](#creating-users)
     - [Deleting Users](#deleting-users)
-    - [Editing A User](#editing-a-user)
+    - [Editing a User](#editing-a-user)
 
 ## Authentication Flow
 
@@ -45,7 +45,7 @@ public array $redirects = [
 
 > **Note** This redirect happens after the specified action is complete. In the case of register or login, it might not happen immediately. For example, if you have any Auth Actions specified, they will be redirected when those actions are completed successfully. If no Auth Actions are specified, they will be redirected immediately after registration or login.
 
-### Customize Remember-me functionality
+### Configure Remember-me Functionality
 
 Remember-me functionality is enabled by default for the `Session` handler. While this is handled in a secure manner, some sites may want it disabled. You might also want to change how long it remembers a user and doesn't require additional login.
 
@@ -206,7 +206,7 @@ if (! auth()->user()->can('users.create')) {
 
 Note: The example above can also be done through a [controller filter](https://codeigniter.com/user_guide/incoming/filters.html) if you want to apply it to multiple pages of your site.
 
-### Adding A Group To A User
+### Adding a Group To a User
 
 Groups are assigned to a user via the `addGroup` method. You can pass multiple groups in and they will all be assigned to the user.
 
@@ -222,7 +222,7 @@ $user = auth()->user();
 $user->syncGroups('admin', 'beta');
 ```
 
-### Removing A Group From A User
+### Removing a Group From a User
 
 Groups are removed from a user via the `removeGroup` method. Multiple groups may be removed at once by passing all of their names into the method.
 
@@ -231,7 +231,7 @@ $user = auth()->user();
 $user->removeGroup('admin', 'beta');
 ```
 
-### Checking If User Belongs To A Group
+### Checking If User Belongs To a Group
 
 You can check if a user belongs to a group with the `inGroup` method.
 
@@ -288,7 +288,7 @@ $users->delete($user->id, true);
 
 > **Note** The User rows use [soft deletes](https://codeigniter.com/user_guide/models/model.html#usesoftdeletes) so they are not actually deleted from the database unless the second parameter is `true`, like above.
 
-### Editing A User
+### Editing a User
 
 The `UserModel::save()`, `update()` and `insert()` methods have been modified to ensure that an email or password previously set on the `User` entity will be automatically updated in the correct `UserIdentity` record.
 
