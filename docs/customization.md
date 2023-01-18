@@ -75,7 +75,7 @@ public function loginRedirect(): string
 
 ### Customize Register Redirect
 
-You can customize where a user is redirected to after registration in the `registerRedirect` method of the `app/Config/Auth.php` config file.
+You can customize where a user is redirected to after registration in the `registerRedirect()` method of the `app/Config/Auth.php` config file.
 
 ```php
 public function registerRedirect(): string
@@ -88,7 +88,7 @@ public function registerRedirect(): string
 
 ### Customize Logout Redirect
 
-The logout redirect can also be overridden by the `logoutRedirect` method of the `app/Config/Auth.php` config file. This will not be used as often as login and register, but you might find the need. For example, if you programatically logged a user out you might want to take them to a page that specifies why they were logged out. Otherwise, you might take them to the home page or even the login page.
+The logout redirect can also be overridden by the `logoutRedirect()` method of the `app/Config/Auth.php` config file. This will not be used as often as login and register, but you might find the need. For example, if you programatically logged a user out you might want to take them to a page that specifies why they were logged out. Otherwise, you might take them to the home page or even the login page.
 
 ```php
 public function logoutRedirect(): string

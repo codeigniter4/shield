@@ -214,7 +214,7 @@ Note: The example above can also be done through a [controller filter](https://c
 
 ### Adding a Group To a User
 
-Groups are assigned to a user via the `addGroup` method. You can pass multiple groups in and they will all be assigned to the user.
+Groups are assigned to a user via the `addGroup()` method. You can pass multiple groups in and they will all be assigned to the user.
 
 ```php
 $user = auth()->user();
@@ -230,7 +230,7 @@ $user->syncGroups('admin', 'beta');
 
 ### Removing a Group From a User
 
-Groups are removed from a user via the `removeGroup` method. Multiple groups may be removed at once by passing all of their names into the method.
+Groups are removed from a user via the `removeGroup()` method. Multiple groups may be removed at once by passing all of their names into the method.
 
 ```php
 $user = auth()->user();
@@ -239,7 +239,7 @@ $user->removeGroup('admin', 'beta');
 
 ### Checking If User Belongs To a Group
 
-You can check if a user belongs to a group with the `inGroup` method.
+You can check if a user belongs to a group with the `inGroup()` method.
 
 ```php
 $user = auth()->user();
