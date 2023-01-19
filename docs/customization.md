@@ -185,10 +185,9 @@ Similar to the process for validation rules in the **Registration** section, you
 
 ## Custom User Provider
 
-You can use your own "[User Provider](./concepts.md#user-providers)" class.
-A default model is provided for you by the `CodeIgniter\Shield\Models\UserModel` class. You can change
-this in the `Config\Auth::$userProvider` setting. The only requirement is that your new class
-MUST extend the provided `UserModel`.
+If you want to customize user attributes, you need to create your own
+[User Provider](./concepts.md#user-providers) class.
+The only requirement is that your new class MUST extend the provided `CodeIgniter\Shield\Models\UserModel`.
 
 Shield has a CLI command to quickly create a custom `UserModel` class by running the following
 command in the terminal:
@@ -199,7 +198,7 @@ php spark shield:model UserModel
 
 The class name is optional. If none is provided, the generated class name would be `UserModel`.
 
-You should set `Config\Auth::$userProvider` as follows:
+After creating the class, set the `$userProvider` property in **app/Config/Auth.php** as follows:
 
 ```php
 public string $userProvider = \App\Models\UserModel::class;
