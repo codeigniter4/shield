@@ -207,7 +207,7 @@ auth-rates | Provides a good basis for rate limiting of auth-related routes.
 group | Checks if the user is in one of the groups passed in.
 permission | Checks if the user has the passed permissions.
 
-These can be used in any of the [normal filter config settings](https://codeigniter.com/user_guide/incoming/filters.html?highlight=filter#globals), or [within the routes file](https://codeigniter.com/user_guide/incoming/routing.html?highlight=routs#applying-filters).
+These can be used in any of the [normal filter config settings](https://codeigniter.com/user_guide/incoming/filters.html#globals), or [within the routes file](https://codeigniter.com/user_guide/incoming/routing.html#applying-filters).
 
 > **Note** These filters are already loaded for you by the registrar class located at **src/Config/Registrar.php**.
 
