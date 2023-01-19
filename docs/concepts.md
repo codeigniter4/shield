@@ -25,25 +25,10 @@ on the standard Config class if nothing is found in the database.
 
 ## User Providers
 
-You can use your own models to handle user persistence. Shield calls this the "User Provider" class.
-A default model is provided for you by the `CodeIgniter\Shield\Models\UserModel` class. You can change
-this in the `Config\Auth::$userProvider` setting. The only requirement is that your new class
-MUST extend the provided `UserModel`.
+Shield has a model to handle user persistence. Shield calls this the "User Provider" class.
+A default model is provided for you by the `CodeIgniter\Shield\Models\UserModel` class.
 
-Shield has a CLI command to quickly create a custom `UserModel` class by running the following
-command in the terminal:
-
-```console
-php spark shield:model UserModel
-```
-
-The class name is optional. If none is provided, the generated class name would be `UserModel`.
-
-You should set `Config\Auth::$userProvider` as follows:
-
-```php
-public string $userProvider = \App\Models\UserModel::class;
-```
+You can use your own model. See [Customizing Shield](./customization.md#custom-user-provider) for details.
 
 ## User Identities
 
