@@ -73,7 +73,7 @@ Require it with an explicit version constraint allowing its desired stability.
     php spark shield:setup
     ```
 
-2. Configure `app/Config/Email.php` to allow Shield to send emails with the [Email Class](https://codeigniter.com/user_guide/libraries/email.html).
+2. Configure **app/Config/Email.php** to allow Shield to send emails with the [Email Class](https://codeigniter.com/user_guide/libraries/email.html).
 
     ```php
     <?php
@@ -134,7 +134,7 @@ your project.
 
     This requires that all of your controllers extend the `BaseController`, but that's a good practice anyway.
 
-3. **Routes Setup** The default auth routes can be setup with a single call in `app/Config/Routes.php`:
+3. **Routes Setup** The default auth routes can be setup with a single call in **app/Config/Routes.php**:
 
     ```php
     service('auth')->routes($routes);
@@ -159,7 +159,7 @@ your project.
 
     1. Use InnoDB, not MyISAM.
 
-6. Configure `app/Config/Email.php` to allow Shield to send emails.
+6. Configure **app/Config/Email.php** to allow Shield to send emails.
 
     ```php
     <?php
@@ -213,7 +213,7 @@ These can be used in any of the [normal filter config settings](https://codeigni
 
 ### Protect All Pages
 
-If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/panel` and ...), you need to add the following code in the `app/Config/Filters.php` file.
+If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/panel` and ...), you need to add the following code in the **app/Config/Filters.php** file.
 
 ```php
 public $globals = [
@@ -241,7 +241,7 @@ public $filters = [
 ];
 ```
 
-> **Note** If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the `App/Config/Filter.php` file.
+> **Note** If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the **app/Config/Filter.php** file.
 
 For example, if you configured your routes like so:
 
