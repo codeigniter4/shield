@@ -340,7 +340,7 @@ class UserIdentityModel extends Model
     {
         $this->where(['type' => Session::ID_TYPE_EMAIL_PASSWORD, 'force_reset' => false]);
         $this->whereIn('user_id', $userIds);
-        $this->set('force_reset', true);
+        $this->set('force_reset', 1);
 
         return $this->update();
     }
@@ -361,10 +361,10 @@ class UserIdentityModel extends Model
         $whereFilter = [
             'user_id !='  => user_id(),
             'type'        => Session::ID_TYPE_EMAIL_PASSWORD,
-            'force_reset' => false,
+            'force_reset' => 0,
         ];
         $this->where($whereFilter);
-        $this->set('force_reset', true);
+        $this->set('force_reset', 1);
 
         return $this->update();
     }
