@@ -2,38 +2,45 @@
 
 Learning any new authentication system can be difficult, especially as they get more flexible and sophisticated. This guide is intended to provide short examples for common actions you'll take when working with Shield. It is not intended to be the exhaustive documentation for each section. That's better handled through the area-specific doc files.
 
-NOTE: The examples assume that you have run the setup script and that you have copies of the `Auth` and `AuthGroups` config files in your application's `app/Config` folder.
+> **Note** The examples assume that you have run the setup script and that you have copies of the `Auth` and `AuthGroups` config files in your application's **app/Config** folder.
 
 - [Quick Start Guide](#quick-start-guide)
   - [Authentication Flow](#authentication-flow)
-    - [Customize register redirect](#customize-register-redirect)
-    - [Customize login redirect](#customize-login-redirect)
-    - [Customize logout redirect](#customize-logout-redirect)
-    - [Customize Remember-me functionality](#customize-remember-me-functionality)
-    - [Change Access Token Lifetime](#change-access-token-lifetime)
-    - [Enable Account Activation via Email](#enable-account-activation-via-email)
-    - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
+    - [Configure Config\\Auth](#configure-configauth)
+      - [Configure Redirect URLs](#configure-redirect-urls)
+      - [Configure Remember-me Functionality](#configure-remember-me-functionality)
+      - [Change Access Token Lifetime](#change-access-token-lifetime)
+      - [Enable Account Activation via Email](#enable-account-activation-via-email)
+      - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
     - [Responding to Magic Link Logins](#responding-to-magic-link-logins)
       - [Session Notification](#session-notification)
       - [Event](#event)
   - [Authorization Flow](#authorization-flow)
-    - [Change Available Groups](#change-available-groups)
-    - [Set the Default Group](#set-the-default-group)
-    - [Change Available Permissions](#change-available-permissions)
-    - [Assign Permissions to a Group](#assign-permissions-to-a-group)
-    - [Assign Permissions to a User](#assign-permissions-to-a-user)
+    - [Configure Config\\AuthGroups](#configure-configauthgroups)
+      - [Change Available Groups](#change-available-groups)
+      - [Set the Default Group](#set-the-default-group)
+      - [Change Available Permissions](#change-available-permissions)
+      - [Assign Permissions to a Group](#assign-permissions-to-a-group)
+      - [Assign Permissions to a User](#assign-permissions-to-a-user)
   - [Check If a User Has Permission](#check-if-a-user-has-permission)
-    - [Adding A Group To A User](#adding-a-group-to-a-user)
-    - [Removing A Group From A User](#removing-a-group-from-a-user)
-    - [Checking If User Belongs To A Group](#checking-if-user-belongs-to-a-group)
+    - [Adding a Group To a User](#adding-a-group-to-a-user)
+    - [Removing a Group From a User](#removing-a-group-from-a-user)
+    - [Checking If User Belongs To a Group](#checking-if-user-belongs-to-a-group)
   - [Managing Users](#managing-users)
     - [Creating Users](#creating-users)
     - [Deleting Users](#deleting-users)
-    - [Editing A User](#editing-a-user)
+    - [Editing a User](#editing-a-user)
 
 ## Authentication Flow
 
-If you need everyone to redirect to a single URL after login/logout/register actions, you can modify the `Config\Auth::redirects` array to specify the url to redirect to.
+### Configure Config\Auth
+
+#### Configure Redirect URLs
+
+If you need everyone to redirect to a single URL after login/logout/register actions, you can modify the `Config\Auth::$redirects` array in **app/Config/Auth.php**`** to specify the url to redirect to.
+
+By default, a successful login or register attempt will all redirect to `/`, while a logout action
+will redirect to a [named route](https://codeigniter.com/user_guide/incoming/routing.html#using-named-routes "See routing docs") `login` or a *URI path* `/login`. You can change the default URLs used within the **`**app/Config/Auth.php** config file:
 
 ```php
 public array $redirects = [
@@ -43,50 +50,9 @@ public array $redirects = [
 ];
 ```
 
-NOTE: This redirect happens after the specified action is complete. In the case of register or login, it might not happen immediately. For example, if you have any Auth Actions specified, they will be redirected when those actions are completed successfully. If no Auth Actions are specified, they will be redirected immediately after registration or login.
+> **Note** This redirect happens after the specified action is complete. In the case of register or login, it might not happen immediately. For example, if you have any Auth Actions specified, they will be redirected when those actions are completed successfully. If no Auth Actions are specified, they will be redirected immediately after registration or login.
 
-### Customize register redirect
-
-You can customize where a user is redirected to after registration in the `registerRedirect` method of the `Auth` config file.
-
-```php
-public function registerRedirect(): string
-{
-    $url = setting('Auth.redirects')['register'];
-
-    return $this->getUrl($url);
-}
-```
-
-### Customize login redirect
-
-You can further customize where a user is redirected to on login with the `loginRedirect` method of the `Auth` config file. This is handy if you want to redirect based on user group or other criteria.
-
-```php
-public function loginRedirect(): string
-{
-    $url = auth()->user()->inGroup('admin')
-        ? '/admin'
-        : setting('Auth.redirects')['login'];
-
-    return $this->getUrl($url);
-}
-```
-
-### Customize logout redirect
-
-The logout redirect can also be overridden by the `logoutRedirect` method of the `Auth` config file. This will not be used as often as login and register, but you might find the need. For example, if you programatically logged a user out you might want to take them to a page that specifies why they were logged out. Otherwise, you might take them to the home page or even the login page.
-
-```php
-public function logoutRedirect(): string
-{
-    $url = setting('Auth.redirects')['logout'];
-
-    return $this->getUrl($url);
-}
-```
-
-### Customize Remember-me functionality
+#### Configure Remember-me Functionality
 
 Remember-me functionality is enabled by default for the `Session` handler. While this is handled in a secure manner, some sites may want it disabled. You might also want to change how long it remembers a user and doesn't require additional login.
 
@@ -99,7 +65,7 @@ public array $sessionConfig = [
 ];
 ```
 
-### Change Access Token Lifetime
+#### Change Access Token Lifetime
 
 By default, Access Tokens can be used for 1 year since the last use. This can be easily modified in the `Auth` config file.
 
@@ -107,9 +73,9 @@ By default, Access Tokens can be used for 1 year since the last use. This can be
 public int $unusedTokenLifetime = YEAR;
 ```
 
-### Enable Account Activation via Email
+#### Enable Account Activation via Email
 
-> **Note** You need to configure `app/Config/Email.php` to allow Shield to send emails. See [Installation](install.md#initial-setup).
+> **Note** You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](install.md#initial-setup).
 
 By default, once a user registers they have an active account that can be used. You can enable Shield's built-in, email-based activation flow within the `Auth` config file.
 
@@ -120,9 +86,9 @@ public array $actions = [
 ];
 ```
 
-### Enable Two-Factor Authentication
+#### Enable Two-Factor Authentication
 
-> **Note** You need to configure `app/Config/Email.php` to allow Shield to send emails. See [Installation](install.md#initial-setup).
+> **Note** You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](install.md#initial-setup).
 
 Turned off by default, Shield's Email-based 2FA can be enabled by specifying the class to use in the `Auth` config file.
 
@@ -135,7 +101,7 @@ public array $actions = [
 
 ### Responding to Magic Link Logins
 
-> **Note** You need to configure `app/Config/Email.php` to allow Shield to send emails. See [Installation](install.md#initial-setup).
+> **Note** You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](install.md#initial-setup).
 
 Magic Link logins allow a user that has forgotten their password to have an email sent with a unique, one-time login link. Once they've logged in you can decide how to respond. In some cases, you might want to redirect them to a special page where they must choose a new password. In other cases, you might simply want to display a one-time message prompting them to go to their account page and choose a new password.
 
@@ -168,9 +134,11 @@ Events::on('magicLogin', static function () {
 
 ## Authorization Flow
 
-### Change Available Groups
+### Configure Config\AuthGroups
 
-The available groups are defined in the `AuthGroups` config file, under the `$groups` property. Add new entries to the array, or remove existing ones to make them available throughout your application.
+#### Change Available Groups
+
+The available groups are defined in the **app/Config/AuthGroups.php** config file, under the `$groups` property. Add new entries to the array, or remove existing ones to make them available throughout your application.
 
 ```php
 public array $groups = [
@@ -182,11 +150,11 @@ public array $groups = [
 ];
 ```
 
-### Set the Default Group
+#### Set the Default Group
 
 When a user registers on your site, they are assigned the group specified at `Config\AuthGroups::$defaultGroup`. Change this to one of the keys in the `$groups` array to update this.
 
-### Change Available Permissions
+#### Change Available Permissions
 
 The permissions on the site are stored in the `AuthGroups` config file also. Each one is defined by a string that represents a context and a permission, joined with a decimal point.
 
@@ -202,7 +170,7 @@ public array $permissions = [
 ];
 ```
 
-### Assign Permissions to a Group
+#### Assign Permissions to a Group
 
 Each group can have its own specific set of permissions. These are defined in `Config\AuthGroups::$matrix`. You can specify each permission by it's full name, or using the context and an asterisk (*) to specify all permissions within that context.
 
@@ -217,7 +185,7 @@ public array $matrix = [
 ];
 ```
 
-### Assign Permissions to a User
+#### Assign Permissions to a User
 
 Permissions can also be assigned directly to a user, regardless of what groups they belong to. This is done programatically on the `User` Entity.
 
@@ -245,11 +213,11 @@ if (! auth()->user()->can('users.create')) {
 }
 ```
 
-Note: The example above can also be done through a [controller filter](https://codeigniter.com/user_guide/incoming/filters.html) if you want to apply it to multiple pages of your site.
+> **Note** The example above can also be done through a [controller filter](https://codeigniter.com/user_guide/incoming/filters.html) if you want to apply it to multiple pages of your site.
 
-### Adding A Group To A User
+### Adding a Group To a User
 
-Groups are assigned to a user via the `addGroup` method. You can pass multiple groups in and they will all be assigned to the user.
+Groups are assigned to a user via the `addGroup()` method. You can pass multiple groups in and they will all be assigned to the user.
 
 ```php
 $user = auth()->user();
@@ -263,18 +231,18 @@ $user = auth()->user();
 $user->syncGroups('admin', 'beta');
 ```
 
-### Removing A Group From A User
+### Removing a Group From a User
 
-Groups are removed from a user via the `removeGroup` method. Multiple groups may be removed at once by passing all of their names into the method.
+Groups are removed from a user via the `removeGroup()` method. Multiple groups may be removed at once by passing all of their names into the method.
 
 ```php
 $user = auth()->user();
 $user->removeGroup('admin', 'beta');
 ```
 
-### Checking If User Belongs To A Group
+### Checking If User Belongs To a Group
 
-You can check if a user belongs to a group with the `inGroup` method.
+You can check if a user belongs to a group with the `inGroup()` method.
 
 ```php
 $user = auth()->user();
@@ -327,9 +295,9 @@ $users = model('UserModel');
 $users->delete($user->id, true);
 ```
 
-NOTE: The User rows use [soft deletes](https://codeigniter.com/user_guide/models/model.html#usesoftdeletes) so they are not actually deleted from the database unless the second parameter is `true`, like above.
+> **Note** The User rows use [soft deletes](https://codeigniter.com/user_guide/models/model.html#usesoftdeletes) so they are not actually deleted from the database unless the second parameter is `true`, like above.
 
-### Editing A User
+### Editing a User
 
 The `UserModel::save()`, `update()` and `insert()` methods have been modified to ensure that an email or password previously set on the `User` entity will be automatically updated in the correct `UserIdentity` record.
 
