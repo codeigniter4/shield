@@ -2,7 +2,7 @@
 
 Learning any new authentication system can be difficult, especially as they get more flexible and sophisticated. This guide is intended to provide short examples for common actions you'll take when working with Shield. It is not intended to be the exhaustive documentation for each section. That's better handled through the area-specific doc files.
 
-> **Note** The examples assume that you have run the setup script and that you have copies of the `Auth` and `AuthGroups` config files in your application's `app/Config` folder.
+> **Note** The examples assume that you have run the setup script and that you have copies of the `Auth` and `AuthGroups` config files in your application's **app/Config** folder.
 
 - [Quick Start Guide](#quick-start-guide)
   - [Authentication Flow](#authentication-flow)
@@ -37,10 +37,10 @@ Learning any new authentication system can be difficult, especially as they get 
 
 #### Configure Redirect URLs
 
-If you need everyone to redirect to a single URL after login/logout/register actions, you can modify the `Config\Auth::$redirects` array in `app/Config/Auth.php` to specify the url to redirect to.
+If you need everyone to redirect to a single URL after login/logout/register actions, you can modify the `Config\Auth::$redirects` array in **app/Config/Auth.php**`** to specify the url to redirect to.
 
 By default, a successful login or register attempt will all redirect to `/`, while a logout action
-will redirect to a [named route](https://codeigniter.com/user_guide/incoming/routing.html#using-named-routes "See routing docs") `login` or a *URI path* `/login`. You can change the default URLs used within the `app/Config/Auth.php` config file:
+will redirect to a [named route](https://codeigniter.com/user_guide/incoming/routing.html#using-named-routes "See routing docs") `login` or a *URI path* `/login`. You can change the default URLs used within the **`**app/Config/Auth.php** config file:
 
 ```php
 public array $redirects = [
@@ -75,7 +75,7 @@ public int $unusedTokenLifetime = YEAR;
 
 #### Enable Account Activation via Email
 
-> **Note** You need to configure `app/Config/Email.php` to allow Shield to send emails. See [Installation](install.md#initial-setup).
+> **Note** You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](install.md#initial-setup).
 
 By default, once a user registers they have an active account that can be used. You can enable Shield's built-in, email-based activation flow within the `Auth` config file.
 
@@ -88,7 +88,7 @@ public array $actions = [
 
 #### Enable Two-Factor Authentication
 
-> **Note** You need to configure `app/Config/Email.php` to allow Shield to send emails. See [Installation](install.md#initial-setup).
+> **Note** You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](install.md#initial-setup).
 
 Turned off by default, Shield's Email-based 2FA can be enabled by specifying the class to use in the `Auth` config file.
 
@@ -101,7 +101,7 @@ public array $actions = [
 
 ### Responding to Magic Link Logins
 
-> **Note** You need to configure `app/Config/Email.php` to allow Shield to send emails. See [Installation](install.md#initial-setup).
+> **Note** You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](install.md#initial-setup).
 
 Magic Link logins allow a user that has forgotten their password to have an email sent with a unique, one-time login link. Once they've logged in you can decide how to respond. In some cases, you might want to redirect them to a special page where they must choose a new password. In other cases, you might simply want to display a one-time message prompting them to go to their account page and choose a new password.
 
@@ -138,7 +138,7 @@ Events::on('magicLogin', static function () {
 
 #### Change Available Groups
 
-The available groups are defined in the `app/Config/AuthGroups.php` config file, under the `$groups` property. Add new entries to the array, or remove existing ones to make them available throughout your application.
+The available groups are defined in the **app/Config/AuthGroups.php** config file, under the `$groups` property. Add new entries to the array, or remove existing ones to make them available throughout your application.
 
 ```php
 public array $groups = [
