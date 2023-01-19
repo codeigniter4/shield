@@ -53,25 +53,15 @@ Require it with an explicit version constraint allowing its desired stability.
    composer require codeigniter4/shield:dev-develop
    ```
 
-<<<<<<< HEAD
     The above specifies `develop` branch.
     See <https://getcomposer.org/doc/articles/versions.md#branches>
-=======
-   The above specifies `develop` branch.
-   See https://getcomposer.org/doc/articles/versions.md#branches
->>>>>>> b73ce5a (updated docs:install.md, added force password reset explanation)
 
    ```console
    composer require codeigniter4/shield:^1.0.0-beta
    ```
 
-<<<<<<< HEAD
     The above specifies `v1.0.0-beta` or later and before `v2.0.0`.
     See <https://getcomposer.org/doc/articles/versions.md#caret-version-range->
-=======
-   The above specifies `v1.0.0-beta` or later and before `v2.0.0`.
-   See https://getcomposer.org/doc/articles/versions.md#caret-version-range-
->>>>>>> b73ce5a (updated docs:install.md, added force password reset explanation)
 
 ## Initial Setup
 
@@ -79,18 +69,11 @@ Require it with an explicit version constraint allowing its desired stability.
 
 1. Run the following command. This command handles steps 1-5 of *Manual Setup* and runs the migrations.
 
-<<<<<<< HEAD
     ```console
     php spark shield:setup
     ```
 
 2. Configure **app/Config/Email.php** to allow Shield to send emails with the [Email Class](https://codeigniter.com/user_guide/libraries/email.html).
-=======
-   ```console
-   php spark shield:setup
-   ```
-2. Configure `app/Config/Email.php` to allow Shield to send emails with the [Email Class](https://codeigniter.com/user_guide/libraries/email.html).
->>>>>>> b73ce5a (updated docs:install.md, added force password reset explanation)
 
    ```php
    <?php
@@ -131,16 +114,7 @@ your project.
    // ...
    use CodeIgniter\Shield\Config\Auth as ShieldAuth;
 
-<<<<<<< HEAD
 2. **Helper Setup** The `setting` helper needs to be included in almost every page. The simplest way to do this is to add it to the `BaseController::initController()` method:
-=======
-   class Auth extends ShieldAuth
-   {
-       // ...
-   }
-   ```
-2. **Helper Setup** The `setting` helper needs to be included in almost every page. The simplest way to do this is to add it to the `BaseController::initController` method:
->>>>>>> b73ce5a (updated docs:install.md, added force password reset explanation)
 
    ```php
    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
@@ -152,7 +126,6 @@ your project.
    }
    ```
 
-<<<<<<< HEAD
 3. **Routes Setup** The default auth routes can be setup with a single call in **app/Config/Routes.php**:
 
     ```php
@@ -161,15 +134,6 @@ your project.
 
 4. **Security Setup** Set `Config\Security::$csrfProtection` to `'session'` (or set `security.csrfProtection = session` in your **.env** file) for security reasons, if you use Session Authenticator.
 
-=======
-   This requires that all of your controllers extend the `BaseController`, but that's a good practice anyway.
-3. **Routes Setup** The default auth routes can be setup with a single call in `app/Config/Routes.php`:
-
-   ```php
-   service('auth')->routes($routes);
-   ```
-4. **Security Setup** Set `Config\Security::$csrfProtection` to `'session'` (or set `security.csrfProtection = session` in your `.env` file) for security reasons, if you use Session Authenticator.
->>>>>>> b73ce5a (updated docs:install.md, added force password reset explanation)
 5. **Migration** Run the migrations.
 
    ```console
@@ -180,23 +144,15 @@ your project.
 
    When you run `spark migrate --all`, if you get `Class "SQLite3" not found` error:
 
-<<<<<<< HEAD
     1. Remove sample migration files in **tests/_support/Database/Migrations/**
     2. Or install `sqlite3` php extension
-=======
->>>>>>> b73ce5a (updated docs:install.md, added force password reset explanation)
 
    1. Remove sample migration files in `tests/_support/Database/Migrations/`
    2. Or install `sqlite3` php extension
 
    If you get `Specified key was too long` error:
 
-<<<<<<< HEAD
 6. Configure **app/Config/Email.php** to allow Shield to send emails.
-=======
-   1. Use InnoDB, not MyISAM.
-6. Configure `app/Config/Email.php` to allow Shield to send emails.
->>>>>>> b73ce5a (updated docs:install.md, added force password reset explanation)
 
    ```php
    <?php
@@ -281,9 +237,6 @@ public $filters = [
 ];
 ```
 
-<<<<<<< HEAD
-> **Note** If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the **app/Config/Filter.php** file.
-=======
 ### Forcing Password Reset
 
 If your application requires the force password reset functionality, ensure that you exclude the auth pages and the actual password reset page from the `before` global. This will ensure that your users do not run into a *too many redirects* error.
@@ -300,8 +253,7 @@ public $globals = [
 
 In the example above, we assume that the page  you have created for users to change their password is *"change-password"*.
 
-> **Note** If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the `App/Config/Filter.php` file.
->>>>>>> b73ce5a (updated docs:install.md, added force password reset explanation)
+> **Note** If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the **App/Config/Filter.php** file.
 
 For example, if you configured your routes like so:
 
@@ -321,9 +273,5 @@ public $globals = [
     ]
 ]
 ```
-<<<<<<< HEAD
-The same should apply for the Rate Limiting.
-=======
 
 The same should apply for the Rate Limiting and Forcing Password Reset.
->>>>>>> b73ce5a (updated docs:install.md, added force password reset explanation)
