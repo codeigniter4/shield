@@ -12,7 +12,7 @@
     - [Protect All Pages](#protect-all-pages)
     - [Rate Limiting](#rate-limiting)
 
-These instructions assume that you have already [installed the CodeIgniter 4 app starter](https://codeigniter.com/user_guide/installation/installing_composer.html) as the basis for your new project, set up your `.env` file, and created a database that you can access via the Spark CLI script.
+These instructions assume that you have already [installed the CodeIgniter 4 app starter](https://codeigniter.com/user_guide/installation/installing_composer.html) as the basis for your new project, set up your **.env** file, and created a database that you can access via the Spark CLI script.
 
 ## Requirements
 
@@ -54,14 +54,14 @@ Require it with an explicit version constraint allowing its desired stability.
     ```
 
     The above specifies `develop` branch.
-    See https://getcomposer.org/doc/articles/versions.md#branches
+    See <https://getcomposer.org/doc/articles/versions.md#branches>
 
     ```console
     composer require codeigniter4/shield:^1.0.0-beta
     ```
 
     The above specifies `v1.0.0-beta` or later and before `v2.0.0`.
-    See https://getcomposer.org/doc/articles/versions.md#caret-version-range-
+    See <https://getcomposer.org/doc/articles/versions.md#caret-version-range->
 
 ## Initial Setup
 
@@ -73,7 +73,7 @@ Require it with an explicit version constraint allowing its desired stability.
     php spark shield:setup
     ```
 
-2. Configure `app/Config/Email.php` to allow Shield to send emails with the [Email Class](https://codeigniter.com/user_guide/libraries/email.html).
+2. Configure **app/Config/Email.php** to allow Shield to send emails with the [Email Class](https://codeigniter.com/user_guide/libraries/email.html).
 
     ```php
     <?php
@@ -103,7 +103,7 @@ Require it with an explicit version constraint allowing its desired stability.
 There are a few setup items to do before you can start using Shield in
 your project.
 
-1. Copy the `Auth.php` and  `AuthGroups.php` from `vendor/codeigniter4/shield/src/Config/` into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all of the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
+1. Copy the **Auth.php** and  **AuthGroups.php** from **vendor/codeigniter4/shield/src/Config/** into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all of the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
 
     ```php
     // new file - app/Config/Auth.php
@@ -120,7 +120,7 @@ your project.
     }
     ```
 
-2. **Helper Setup** The `setting` helper needs to be included in almost every page. The simplest way to do this is to add it to the `BaseController::initController` method:
+2. **Helper Setup** The `setting` helper needs to be included in almost every page. The simplest way to do this is to add it to the `BaseController::initController()` method:
 
     ```php
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
@@ -134,13 +134,13 @@ your project.
 
     This requires that all of your controllers extend the `BaseController`, but that's a good practice anyway.
 
-3. **Routes Setup** The default auth routes can be setup with a single call in `app/Config/Routes.php`:
+3. **Routes Setup** The default auth routes can be setup with a single call in **app/Config/Routes.php**:
 
     ```php
     service('auth')->routes($routes);
     ```
 
-4. **Security Setup** Set `Config\Security::$csrfProtection` to `'session'` (or set `security.csrfProtection = session` in your `.env` file) for security reasons, if you use Session Authenticator.
+4. **Security Setup** Set `Config\Security::$csrfProtection` to `'session'` (or set `security.csrfProtection = session` in your **.env** file) for security reasons, if you use Session Authenticator.
 
 5. **Migration** Run the migrations.
 
@@ -152,14 +152,14 @@ your project.
 
     When you run `spark migrate --all`, if you get `Class "SQLite3" not found` error:
 
-    1. Remove sample migration files in `tests/_support/Database/Migrations/`
+    1. Remove sample migration files in **tests/_support/Database/Migrations/**
     2. Or install `sqlite3` php extension
 
     If you get `Specified key was too long` error:
 
     1. Use InnoDB, not MyISAM.
 
-6. Configure `app/Config/Email.php` to allow Shield to send emails.
+6. Configure **app/Config/Email.php** to allow Shield to send emails.
 
     ```php
     <?php
@@ -207,13 +207,13 @@ auth-rates | Provides a good basis for rate limiting of auth-related routes.
 group | Checks if the user is in one of the groups passed in.
 permission | Checks if the user has the passed permissions.
 
-These can be used in any of the [normal filter config settings](https://codeigniter.com/user_guide/incoming/filters.html?highlight=filter#globals), or [within the routes file](https://codeigniter.com/user_guide/incoming/routing.html?highlight=routs#applying-filters).
+These can be used in any of the [normal filter config settings](https://codeigniter.com/user_guide/incoming/filters.html#globals), or [within the routes file](https://codeigniter.com/user_guide/incoming/routing.html#applying-filters).
 
-> **Note** These filters are already loaded for you by the registrar class located at `src/Config/Registrar.php`.
+> **Note** These filters are already loaded for you by the registrar class located at **src/Config/Registrar.php**.
 
 ### Protect All Pages
 
-If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/panel` and ...), you need to add the following code in the `app/Config/Filters.php` file.
+If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/panel` and ...), you need to add the following code in the **app/Config/Filters.php** file.
 
 ```php
 public $globals = [
@@ -241,7 +241,7 @@ public $filters = [
 ];
 ```
 
-> **Note** If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the `App/Config/Filter.php` file.
+> **Note** If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the **app/Config/Filter.php** file.
 
 For example, if you configured your routes like so:
 

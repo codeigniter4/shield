@@ -50,7 +50,7 @@ group elsewhere, like checking if `$user->inGroup('superadmin')`. By default, th
 ### Default User Group
 
 When a user is first registered on the site, they are assigned to a default user group. This group is defined in
-`app/config/AuthGroups::defaultGroup`, and must match the name of one of the defined groups.
+`Config\AuthGroups::$defaultGroup`, and must match the name of one of the defined groups.
 
 ```php
 public $defaultGroup = 'users';
@@ -132,7 +132,7 @@ if (! $user->hasPermission('users.create')) {
 
 #### Authorizing via Filters
 
-You can restrict access to multiple routes through a [Controller Filter](https://codeigniter.com/user_guide/incoming/filters.html). One is provided for both restricting via groups the user belongs to, as well as which permission they need. The filters are automatically registered with the system under the `group` and `permission` aliases, respectively. You can define the protections within `app/Config/Filters.php`:
+You can restrict access to multiple routes through a [Controller Filter](https://codeigniter.com/user_guide/incoming/filters.html). One is provided for both restricting via groups the user belongs to, as well as which permission they need. The filters are automatically registered with the system under the `group` and `permission` aliases, respectively. You can define the protections within **app/Config/Filters.php**:
 
 ```php
 public $filters = [

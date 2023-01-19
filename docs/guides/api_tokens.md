@@ -2,7 +2,7 @@
 
 Access Tokens can be used to authenticate users for your own site, or when allowing third-party developers to access your API. When making requests using access tokens, the token should be included in the `Authorization` header as a `Bearer` token.
 
-> **Note**  By default, `$authenticatorHeader['tokens']` is set to `Authorization`. You can change this value by setting the `$authenticatorHeader['tokens']` value in the `Auth.php` config file.
+> **Note**  By default, `$authenticatorHeader['tokens']` is set to `Authorization`. You can change this value by setting the `$authenticatorHeader['tokens']` value in the **app/Config/Auth.php** config file.
 
 Tokens are issued with the `generateAccessToken()` method on the user. This returns a `CodeIgniter\Shield\Entities\AccessToken` instance. Tokens are hashed using a SHA-256 algorithm before being saved to the database. The access token returned when you generate it will include a `raw_token` field that contains the plain-text, un-hashed, token. You should display this to your user at once so they have a chance to copy it somewhere safe, as this is the only time this will be available. After this request, there is no way to get the raw token.
 
@@ -57,7 +57,7 @@ $user->revokeAllAccessTokens();
 
 The first way to specify which routes are protected is to use the `tokens` controller filter.
 
-For example, to ensure it protects all routes under the `/api` route group, you would use the `$filters` setting on `app/Config/Filters.php`.
+For example, to ensure it protects all routes under the `/api` route group, you would use the `$filters` setting on **app/Config/Filters.php**.
 
 ```php
 public $filters = [

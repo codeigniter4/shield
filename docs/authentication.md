@@ -65,7 +65,7 @@ user_id();
 
 > **Note**
 > The `auth_helper` is autoloaded by Composer. If you want to *override* the functions,
-> you need to define them in `app/Common.php`.
+> you need to define them in **app/Common.php**.
 
 ## Authenticator Responses
 
