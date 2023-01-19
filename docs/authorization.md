@@ -130,6 +130,7 @@ if (! $user->hasPermission('users.create')) {
 ```
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 #### Authorizing via Filters
 
@@ -143,6 +144,8 @@ public $filters = [
 ```
 
 >>>>>>> 39f1a58 (docs: make file paths bold)
+=======
+>>>>>>> 9981e4e (docs: remove unsupported code sample)
 #### Authorizing via Routes
 
 You can restrict access to a route or route group through a
