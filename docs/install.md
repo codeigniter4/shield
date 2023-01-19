@@ -120,7 +120,7 @@ your project.
     }
     ```
 
-2. **Helper Setup** The `setting` helper needs to be included in almost every page. The simplest way to do this is to add it to the `BaseController::initController` method:
+2. **Helper Setup** The `setting` helper needs to be included in almost every page. The simplest way to do this is to add it to the `BaseController::initController()` method:
 
     ```php
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
