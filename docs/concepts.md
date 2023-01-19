@@ -13,6 +13,7 @@ This document covers some of the base concepts used throughout the library.
 
 Shield is designed so that the initial setup of your application can all happen in code with nothing required to be
 saved in the database. This means you do not have to create large seeder files that need to run within each environment.
+
 Instead, it can be placed under version control, though the Settings library allows those settings to be easily stored
 in the database if you create an interface for the user to update those settings.
 
