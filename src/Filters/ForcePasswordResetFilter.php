@@ -42,10 +42,8 @@ class ForcePasswordResetFilter implements FilterInterface
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
-        if ($authenticator->loggedIn()) {
-            if (auth()->user()->requiresPasswordReset()) {
-                return redirect()->to(config('Auth')->forcePasswordResetRedirect());
-            }
+        if ($authenticator->loggedIn() && auth()->user()->requiresPasswordReset()) {
+            return redirect()->to(config('Auth')->forcePasswordResetRedirect());
         }
     }
 
