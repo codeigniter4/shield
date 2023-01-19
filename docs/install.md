@@ -54,14 +54,14 @@ Require it with an explicit version constraint allowing its desired stability.
     ```
 
     The above specifies `develop` branch.
-    See https://getcomposer.org/doc/articles/versions.md#branches
+    See <https://getcomposer.org/doc/articles/versions.md#branches>
 
     ```console
     composer require codeigniter4/shield:^1.0.0-beta
     ```
 
     The above specifies `v1.0.0-beta` or later and before `v2.0.0`.
-    See https://getcomposer.org/doc/articles/versions.md#caret-version-range-
+    See <https://getcomposer.org/doc/articles/versions.md#caret-version-range->
 
 ## Initial Setup
 
