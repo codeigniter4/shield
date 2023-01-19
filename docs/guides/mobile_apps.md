@@ -1,6 +1,6 @@
 # Mobile Authentication with Access Tokens
 
-Access Tokens can be used to authenticate mobile applications that are consuming your API. This is similar to how you would work with [third-party users](api_tokens.md) of your API, but with small differences in how you would issue the tokens.
+Access Tokens can be used to authenticate mobile applications that are consuming your API. This is similar to how you would work with [third-party users](./api_tokens.md) of your API, but with small differences in how you would issue the tokens.
 
 ## Issuing the Tokens
 
