@@ -37,7 +37,7 @@ trait Resettable
 
         // Set force_reset to true
         $identity_model = model(UserIdentityModel::class);
-        $identity_model->set('force_reset', true);
+        $identity_model->set('force_reset', 1);
         $identity_model->where(['user_id' => $this->id, 'type' => Session::ID_TYPE_EMAIL_PASSWORD]);
 
         return $identity_model->update();
@@ -55,7 +55,7 @@ trait Resettable
 
         // Set force_reset to false
         $identity_model = model(UserIdentityModel::class);
-        $identity_model->set('force_reset', false);
+        $identity_model->set('force_reset', 0);
         $identity_model->where(['user_id' => $this->id, 'type' => Session::ID_TYPE_EMAIL_PASSWORD]);
 
         return $identity_model->update();
