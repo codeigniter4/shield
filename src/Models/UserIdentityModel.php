@@ -338,7 +338,7 @@ class UserIdentityModel extends Model
      */
     public function forceMultiplePasswordReset(array $userIds)
     {
-        $this->where(['type' => Session::ID_TYPE_EMAIL_PASSWORD, 'force_reset' => false]);
+        $this->where(['type' => Session::ID_TYPE_EMAIL_PASSWORD, 'force_reset' => 0]);
         $this->whereIn('user_id', $userIds);
         $this->set('force_reset', 1);
 

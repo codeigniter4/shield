@@ -54,7 +54,7 @@ final class ForcePasswordResetTest extends TestCase
          * @phpstan-var UserIdentityModel
          */
         $identity = model(UserIdentityModel::class);
-        $identity->set('force_reset', true);
+        $identity->set('force_reset', 1);
         $identity->where('user_id', $user->id);
         $identity->update();
 
