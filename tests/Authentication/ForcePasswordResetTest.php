@@ -24,7 +24,7 @@ final class ForcePasswordResetTest extends TestCase
 
     protected $refresh = true;
     protected $namespace;
-    protected $routeFilter = 'force-reset';
+    private string $routeFilter = 'force-reset';
 
     protected function setUp(): void
     {
