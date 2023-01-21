@@ -43,22 +43,23 @@ Require it with an explicit version constraint allowing its desired stability.
 
 1. Run the following commands to change your [minimum-stability](https://getcomposer.org/doc/articles/versions.md#minimum-stability) in your project `composer.json`:
 
-   ```console
-   composer config minimum-stability dev
-   composer config prefer-stable true
-   ```
+    ```console
+    composer config minimum-stability dev
+    composer config prefer-stable true
+    ```
+
 2. Or specify an explicit version:
 
-   ```console
-   composer require codeigniter4/shield:dev-develop
-   ```
+    ```console
+    composer require codeigniter4/shield:dev-develop
+    ```
 
     The above specifies `develop` branch.
     See <https://getcomposer.org/doc/articles/versions.md#branches>
 
-   ```console
-   composer require codeigniter4/shield:^1.0.0-beta
-   ```
+    ```console
+    composer require codeigniter4/shield:^1.0.0-beta
+    ```
 
     The above specifies `v1.0.0-beta` or later and before `v2.0.0`.
     See <https://getcomposer.org/doc/articles/versions.md#caret-version-range->
@@ -75,28 +76,28 @@ Require it with an explicit version constraint allowing its desired stability.
 
 2. Configure **app/Config/Email.php** to allow Shield to send emails with the [Email Class](https://codeigniter.com/user_guide/libraries/email.html).
 
-   ```php
-   <?php
+    ```php
+    <?php
 
-   namespace Config;
+    namespace Config;
 
-   use CodeIgniter\Config\BaseConfig;
+    use CodeIgniter\Config\BaseConfig;
 
-   class Email extends BaseConfig
-   {
-       /**
-        * @var string
-        */
-       public $fromEmail = 'your_mail@example.com';
+    class Email extends BaseConfig
+    {
+        /**
+         * @var string
+         */
+        public $fromEmail = 'your_mail@example.com';
 
-       /**
-        * @var string
-        */
-       public $fromName = 'your name';
+        /**
+         * @var string
+         */
+        public $fromName = 'your name';
 
-       // ...
-   }
-   ```
+        // ...
+    }
+    ```
 
 ### Manual Setup
 
@@ -105,26 +106,34 @@ your project.
 
 1. Copy the **Auth.php** and  **AuthGroups.php** from **vendor/codeigniter4/shield/src/Config/** into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all of the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
 
-   ```php
-   // new file - app/Config/Auth.php
-   <?php
+    ```php
+    // new file - app/Config/Auth.php
+    <?php
 
-   namespace Config;
+    namespace Config;
 
-   // ...
-   use CodeIgniter\Shield\Config\Auth as ShieldAuth;
+    // ...
+    use CodeIgniter\Shield\Config\Auth as ShieldAuth;
+
+    class Auth extends ShieldAuth
+    {
+        // ...
+    }
+    ```
 
 2. **Helper Setup** The `setting` helper needs to be included in almost every page. The simplest way to do this is to add it to the `BaseController::initController()` method:
 
-   ```php
-   public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
-   {
-       $this->helpers = array_merge($this->helpers, ['setting']);
+    ```php
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    {
+        $this->helpers = array_merge($this->helpers, ['setting']);
 
-       // Do Not Edit This Line
-       parent::initController($request, $response, $logger);
-   }
-   ```
+        // Do Not Edit This Line
+        parent::initController($request, $response, $logger);
+    }
+    ```
+
+    This requires that all of your controllers extend the `BaseController`, but that's a good practice anyway.
 
 3. **Routes Setup** The default auth routes can be setup with a single call in **app/Config/Routes.php**:
 
@@ -136,50 +145,48 @@ your project.
 
 5. **Migration** Run the migrations.
 
-   ```console
-   php spark migrate --all
-   ```
+    ```console
+    php spark migrate --all
+    ```
 
-   #### Note: migration error
+    #### Note: migration error
 
-   When you run `spark migrate --all`, if you get `Class "SQLite3" not found` error:
+    When you run `spark migrate --all`, if you get `Class "SQLite3" not found` error:
 
     1. Remove sample migration files in **tests/_support/Database/Migrations/**
     2. Or install `sqlite3` php extension
 
-   1. Remove sample migration files in `tests/_support/Database/Migrations/`
-   2. Or install `sqlite3` php extension
+    If you get `Specified key was too long` error:
 
-   If you get `Specified key was too long` error:
+    1. Use InnoDB, not MyISAM.
 
 6. Configure **app/Config/Email.php** to allow Shield to send emails.
 
-   ```php
-   <?php
+    ```php
+    <?php
 
-   namespace Config;
+    namespace Config;
 
-   use CodeIgniter\Config\BaseConfig;
+    use CodeIgniter\Config\BaseConfig;
 
-   class Email extends BaseConfig
-   {
-       /**
-        * @var string
-        */
-       public $fromEmail = 'your_mail@example.com';
+    class Email extends BaseConfig
+    {
+        /**
+         * @var string
+         */
+        public $fromEmail = 'your_mail@example.com';
 
-       /**
-        * @var string
-        */
-       public $fromName = 'your name';
+        /**
+         * @var string
+         */
+        public $fromName = 'your name';
 
-       // ...
-   }
-   ```
+        // ...
+    }
+    ```
 
 ## Controller Filters
-
-The [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can use to pr	otect your routes the shield provides are:
+The [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can use to protect your routes the shield provides are:
 
 ```php
 public $aliases = [
@@ -194,14 +201,14 @@ public $aliases = [
 ];
 ```
 
-| Filters            | Description                                                                                                                                                                                                                              |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| session and tokens | The `Session` and `AccessTokens` authenticators, respectively.                                                                                                                                                                       |
-| chained            | The filter will check both authenticators in sequence to see if the user is logged in through either of authenticators, allowing a single API endpoint to work for both an SPA using session auth, and a mobile app using access tokens. |
-| auth-rates         | Provides a good basis for rate limiting of auth-related routes.                                                                                                                                                                          |
-| group              | Checks if the user is in one of the groups passed in.                                                                                                                                                                                    |
-| permission         | Checks if the user has the passed permissions.                                                                                                                                                                                           |
-| force-reset        | Checks if the user should reset their password.                                                                                                                                                                                          |
+Filters | Description
+--- | ---
+session and tokens | The `Session` and `AccessTokens` authenticators, respectively.
+chained | The filter will check both authenticators in sequence to see if the user is logged in through either of authenticators, allowing a single API endpoint to work for both an SPA using session auth, and a mobile app using access tokens.
+auth-rates | Provides a good basis for rate limiting of auth-related routes.
+group | Checks if the user is in one of the groups passed in.
+permission | Checks if the user has the passed permissions.
+force-reset | Checks if the user requires a password reset.
 
 These can be used in any of the [normal filter config settings](https://codeigniter.com/user_guide/incoming/filters.html#globals), or [within the routes file](https://codeigniter.com/user_guide/incoming/routing.html#applying-filters).
 
@@ -239,7 +246,7 @@ public $filters = [
 
 ### Forcing Password Reset
 
-If your application requires the force password reset functionality, ensure that you exclude the auth pages and the actual password reset page from the `before` global. This will ensure that your users do not run into a *too many redirects* error.
+If your application requires a force password reset functionality, ensure that you exclude the auth pages and the actual password reset page from the `before` global. This will ensure that your users do not run into a *too many redirects* error. See:
 
 ```php
 public $globals = [
@@ -250,10 +257,9 @@ public $globals = [
     ]
 ];
 ```
+In the example above, it is assumed that the page you have created for users to change their password after successful login is **change-password**.
 
-In the example above, we assume that the page  you have created for users to change their password is *"change-password"*.
-
-> **Note** If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the **App/Config/Filter.php** file.
+> **Note** If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the **app/Config/Filter.php** file.
 
 For example, if you configured your routes like so:
 
@@ -262,7 +268,6 @@ $routes->group('accounts', static function($routes) {
     service('auth')->routes($routes);
 });
 ```
-
 Then the global `before` filter for `session` should look like so:
 
 ```php
@@ -273,5 +278,4 @@ public $globals = [
     ]
 ]
 ```
-
 The same should apply for the Rate Limiting and Forcing Password Reset.
