@@ -115,7 +115,7 @@ final class ForcePasswordResetTest extends TestCase
          * @phpstan-var Fabricator
          */
         $fabricator = new Fabricator(UserIdentityModel::class);
-        $fabricator->create(100);
+        $fabricator->create(50);
 
         /**
          * @phpstan-var UserIdentityModel
