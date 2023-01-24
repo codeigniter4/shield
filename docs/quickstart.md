@@ -30,6 +30,12 @@ Learning any new authentication system can be difficult, especially as they get 
     - [Creating Users](#creating-users)
     - [Deleting Users](#deleting-users)
     - [Editing a User](#editing-a-user)
+  - [Forcing Password Reset](#forcing-password-reset)
+    - [requiresPasswordReset()](#requirespasswordreset)
+    - [forcePaswordReset()](#forcepasswordreset)
+    - [undoForcePasswordReset()](#undoforcepasswordreset)
+    - [forceMultiplePasswordReset()](#forcemultiplepasswordreset)
+    - [forceGlobalPasswordReset()](#forceglobalpasswordreset)
 
 ## Authentication Flow
 
@@ -311,4 +317,62 @@ $user->fill([
     'password' => 'secret123'
 ]);
 $users->save($user);
+```
+
+## Forcing Password Reset
+
+Shield provides a way to enforce password resets throughout your application. The `Resettable` trait on the `User` entity provides the following utility methods to do so.
+
+#### requiresPasswordReset()
+
+Allows you to check if a user requires password reset. Returns boolean `true`/`false`.
+
+```php
+if ($user->requiresPasswordReset()) {
+    //...
+}
+```
+
+#### forcePasswordReset()
+
+Allows you to force password reset on a user. Returns boolean `true`/`false`.
+
+```php
+$user->forcePasswordReset();
+```
+
+#### undoForcePasswordReset()
+
+Allows you to undo or remove the force password reset flag on a user. Returns boolean `true`/`false`.
+
+```php
+$user->undoForcePasswordReset();
+```
+
+There are times when you might want to force password reset on multiple users or for all users in your application, maybe due to security breach. The `UserIdentityModel` provides methods to do this easily.
+
+#### forceMultiplePasswordReset()
+
+This allows you to force password reset for multiple users. Accepts an array of user IDs.
+
+```php
+use CodeIgniter\Shield\Models\UserIdentityModel;
+...
+...
+...
+$identities = new UserIdentityModel();
+$identities->forceMultiplePasswordReset([1,2,3,4]);
+```
+
+#### forceGlobalPasswordReset()
+
+This allows you to force password reset all the users in your application.
+
+```php
+use CodeIgniter\Shield\Models\UserIdentityModel;
+...
+...
+...
+$identities = new UserIdentityModel();
+$identities->forceGlobalPasswordReset();
 ```

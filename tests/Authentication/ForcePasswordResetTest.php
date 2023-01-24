@@ -124,6 +124,6 @@ final class ForcePasswordResetTest extends TestCase
 
         $response = $identities->forceGlobalPasswordReset();
         $this->assertTrue($response);
-        $this->assertFalse($user->requiresPasswordReset());
+        $this->assertTrue($user->requiresPasswordReset());
     }
 }

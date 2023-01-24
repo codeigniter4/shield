@@ -350,16 +350,11 @@ class UserIdentityModel extends Model
      * This is useful for enforcing a password reset
      * for ALL users incase of a security breach.
      *
-     * The logged in user's ID is ommitted as it is
-     * assummed that this is the admin (or superadmin)
-     * account.
-     *
      * @return mixed
      */
     public function forceGlobalPasswordReset()
     {
         $whereFilter = [
-            'user_id !='  => user_id(),
             'type'        => Session::ID_TYPE_EMAIL_PASSWORD,
             'force_reset' => 0,
         ];
