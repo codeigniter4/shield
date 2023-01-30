@@ -87,7 +87,7 @@ return [
     'emailActivateMailBody' => '以下のコードを使用してアカウントを有効化し、サイトの利用を開始してください。', // 'Please use the code below to activate your account and start using the site.',
     'invalidActivateToken'  => 'コードが間違っています。', // 'The code was incorrect.',
     'needActivate'          => 'メールアドレスに送信されたコードを確認し、登録を完了する必要があります。', // 'You must complete your registration by confirming the code sent to your email address.',
-    'activationBlocked'     => '(to be translated) You must activate your account before logging in.',
+    'activationBlocked'     => 'ログインする前にアカウントを有効化する必要があります。',
 
     // Groups
     'unknownGroup' => '{0} は有効なグループではありません。', // '{0} is not a valid group.',
