@@ -24,7 +24,7 @@ final class TokenFilterTest extends AbstractFilterTest
     {
         $result = $this->call('get', 'protected-route');
 
-        $result->assertStatus(403);
+        $result->assertStatus(401);
 
         $result = $this->get('open-route');
         $result->assertStatus(200);
@@ -84,7 +84,7 @@ final class TokenFilterTest extends AbstractFilterTest
         $result = $this->withHeaders(['Authorization' => 'Bearer ' . $token2->raw_token])
             ->get('protected-user-route');
 
-        $result->assertStatus(403);
+        $result->assertStatus(401);
     }
 
     public function testBlocksInactiveUsers(): void
