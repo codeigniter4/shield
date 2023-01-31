@@ -18,14 +18,9 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 class ForcePasswordResetFilter implements FilterInterface
 {
     /**
-     * Do whatever processing this filter needs to do.
-     * By default it should not return anything during
-     * normal execution. However, when an abnormal state
-     * is found, it should return an instance of
-     * CodeIgniter\HTTP\Response. If it does, script
-     * execution will end and that Response will be
-     * sent back to the client, allowing for error pages,
-     * redirects, etc.
+     * Checks if a logged in user should reset their
+     * password, and then redirect to the appropriate
+     * page.
      *
      * @param array|null $arguments
      *
@@ -42,7 +37,7 @@ class ForcePasswordResetFilter implements FilterInterface
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
-        if ($authenticator->loggedIn() && auth()->user()->requiresPasswordReset()) {
+        if ($authenticator->loggedIn() && $authenticator->getUser()->requiresPasswordReset()) {
             return redirect()->to(config('Auth')->forcePasswordResetRedirect());
         }
     }

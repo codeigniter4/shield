@@ -28,36 +28,38 @@ trait Resettable
     /**
      * Force password reset
      */
-    public function forcePasswordReset(): bool
+    public function forcePasswordReset(): void
     {
         // Do nothing if user already requires reset
         if ($this->requiresPasswordReset()) {
-            return true;
+            return;
         }
 
         // Set force_reset to true
         $identity_model = model(UserIdentityModel::class);
         $identity_model->set('force_reset', 1);
         $identity_model->where(['user_id' => $this->id, 'type' => Session::ID_TYPE_EMAIL_PASSWORD]);
+        $result = $identity_model->update();
 
-        return $identity_model->update();
+        return $this->checkQueryReturn($result);
     }
 
     /**
      * Undo Force password reset
      */
-    public function undoForcePasswordReset(): bool
+    public function undoForcePasswordReset(): void
     {
         // If user doesn't require password reset, do nothing
         if ($this->requiresPasswordReset() === false) {
-            return true;
+            return;
         }
 
         // Set force_reset to false
         $identity_model = model(UserIdentityModel::class);
         $identity_model->set('force_reset', 0);
         $identity_model->where(['user_id' => $this->id, 'type' => Session::ID_TYPE_EMAIL_PASSWORD]);
+        $return = $identity_model->update();
 
-        return $identity_model->update();
+        return $this->checkQueryReturn($return);
     }
 }

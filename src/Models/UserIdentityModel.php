@@ -333,26 +333,23 @@ class UserIdentityModel extends Model
      * Force password reset for multiple users.
      *
      * @param int[]|string[] $userIds
-     *
-     * @return mixed
      */
-    public function forceMultiplePasswordReset(array $userIds)
+    public function forceMultiplePasswordReset(array $userIds): void
     {
         $this->where(['type' => Session::ID_TYPE_EMAIL_PASSWORD, 'force_reset' => 0]);
         $this->whereIn('user_id', $userIds);
         $this->set('force_reset', 1);
+        $return = $this->update();
 
-        return $this->update();
+        return $this->checkQueryReturn($return);
     }
 
     /**
      * Force global password reset.
      * This is useful for enforcing a password reset
      * for ALL users incase of a security breach.
-     *
-     * @return mixed
      */
-    public function forceGlobalPasswordReset()
+    public function forceGlobalPasswordReset(): void
     {
         $whereFilter = [
             'type'        => Session::ID_TYPE_EMAIL_PASSWORD,
@@ -360,8 +357,9 @@ class UserIdentityModel extends Model
         ];
         $this->where($whereFilter);
         $this->set('force_reset', 1);
+        $return = $this->update();
 
-        return $this->update();
+        return $this->checkQueryReturn($return);
     }
 
     public function fake(Generator &$faker): UserIdentity
