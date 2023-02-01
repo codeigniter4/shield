@@ -26,7 +26,7 @@ if ($user->requiresPasswordReset()) {
 
 ### Force Password Reset On a User
 
-To force password reset on a user, you can do so using the `forcePasswordReset()` method on the `User` entity. Returns boolean `true`/`false`.
+To force password reset on a user, you can do so using the `forcePasswordReset()` method on the `User` entity.
 
 ```php
 $user->forcePasswordReset();
@@ -34,7 +34,7 @@ $user->forcePasswordReset();
 
 ### Remove Force Password Reset Flag On a User
 
-Undoing or removing the force password reset flag on a user can be done using the `undoForcePasswordReset()` method on the `User` entity. Returns boolean `true`/`false`.
+Undoing or removing the force password reset flag on a user can be done using the `undoForcePasswordReset()` method on the `User` entity.
 
 ```php
 $user->undoForcePasswordReset();
