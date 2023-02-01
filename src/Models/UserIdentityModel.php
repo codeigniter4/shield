@@ -341,7 +341,7 @@ class UserIdentityModel extends Model
         $this->set('force_reset', 1);
         $return = $this->update();
 
-        return $this->checkQueryReturn($return);
+        $this->checkQueryReturn($return);
     }
 
     /**
@@ -359,7 +359,7 @@ class UserIdentityModel extends Model
         $this->set('force_reset', 1);
         $return = $this->update();
 
-        return $this->checkQueryReturn($return);
+        $this->checkQueryReturn($return);
     }
 
     public function fake(Generator &$faker): UserIdentity

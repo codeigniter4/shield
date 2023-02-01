@@ -93,7 +93,6 @@ final class UserIdentityModelTest extends TestCase
             $userIds[] = $row->user_id;
         }
 
-        $response = $identities->forceMultiplePasswordReset($userIds);
-        $this->assertTrue($response);
+        $this->assertNotFalse($identities->forceMultiplePasswordReset($userIds));
     }
 }
