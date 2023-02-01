@@ -121,8 +121,8 @@ final class ForcePasswordResetTest extends TestCase
          * @phpstan-var UserIdentityModel
          */
         $identities = model(UserIdentityModel::class);
+        $identities->forceGlobalPasswordReset();
 
-        $this->assertNotFalse($identities->forceGlobalPasswordReset());
         $this->assertTrue($user->requiresPasswordReset());
     }
 }

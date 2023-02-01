@@ -93,6 +93,16 @@ final class UserIdentityModelTest extends TestCase
             $userIds[] = $row->user_id;
         }
 
-        $this->assertNotFalse($identities->forceMultiplePasswordReset($userIds));
+        $identities->forceMultiplePasswordReset($userIds);
+
+        /**
+         * @phpstan-var UserModel
+         */
+        $users      = model(UserModel::class);
+        $first_user = $users->findById($userIds[0]);
+        $last_user  = $users->findById($userIds[9]);
+
+        $this->assertTrue($first_user->requiresPasswordReset());
+        $this->assertTrue($last_user->requiresPasswordReset());
     }
 }
