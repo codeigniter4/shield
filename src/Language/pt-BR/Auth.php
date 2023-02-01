@@ -41,13 +41,13 @@ return [
     'needAccount'        => 'Precisa de uma conta?',
     'rememberMe'         => 'Lembrar de mim?',
     'forgotPassword'     => 'Esqueceu sua senha?',
-    'useMagicLink' => 'Use um Link de Login',
-    'magicLinkSubject' => 'Seu Link de Login',
+    'useMagicLink'       => 'Use um Link de Login',
+    'magicLinkSubject'   => 'Seu Link de Login',
     'magicTokenNotFound' => 'Não foi possível verificar o link.',
-    'magicLinkExpired' => 'Desculpe, o link expirou.',
-    'checkYourEmail' => 'Verifique seu e-mail!',
-    'magicLinkDetails' => 'Acabamos de enviar um e-mail com um link de Login. Ele é válido apenas por {0} minutos.',
-    'successLogout' => 'Você saiu com sucesso.',
+    'magicLinkExpired'   => 'Desculpe, o link expirou.',
+    'checkYourEmail'     => 'Verifique seu e-mail!',
+    'magicLinkDetails'   => 'Acabamos de enviar um e-mail com um link de Login. Ele é válido apenas por {0} minutos.',
+    'successLogout'      => 'Você saiu com sucesso.',
 
     // Senhas
     'errorPasswordLength'       => 'As senhas devem ter pelo menos {0, number} caracteres.',
@@ -70,31 +70,31 @@ return [
     'emailIpAddress' => 'Endereço IP:',
 
     'emailDevice' => 'Dispositivo:',
-    'emailDate' => 'Data:',
+    'emailDate'   => 'Data:',
 
     // 2FA
-    'email2FATitle' => 'Autenticação de dois fatores',
+    'email2FATitle'       => 'Autenticação de dois fatores',
     'confirmEmailAddress' => 'Confirme seu endereço de e-mail.',
-    'emailEnterCode' => 'Confirme seu email',
-    'emailConfirmCode' => 'Insira o código de 6 dígitos que acabamos de enviar para seu endereço de e-mail.',
-    'email2FASubject' => 'Seu código de autenticação',
-    'email2FAMailBody' => 'Seu código de autenticação é:',
-    'invalid2FAToken' => 'O código estava incorreto.',
-    'need2FA' => 'Você deve concluir uma verificação de dois fatores.',
-    'needVerification' => 'Verifique seu e-mail para concluir a ativação da conta.',
+    'emailEnterCode'      => 'Confirme seu email',
+    'emailConfirmCode'    => 'Insira o código de 6 dígitos que acabamos de enviar para seu endereço de e-mail.',
+    'email2FASubject'     => 'Seu código de autenticação',
+    'email2FAMailBody'    => 'Seu código de autenticação é:',
+    'invalid2FAToken'     => 'O código estava incorreto.',
+    'need2FA'             => 'Você deve concluir uma verificação de dois fatores.',
+    'needVerification'    => 'Verifique seu e-mail para concluir a ativação da conta.',
 
     // Ativar
-    'emailActivateTitle' => 'Ativação de email',
-    'emailActivateBody' => 'Acabamos de enviar um email para você com um código para confirmar seu endereço de e-mail. Copie esse código e cole abaixo.',
-    'emailActivateSubject' => 'Seu código de ativação',
+    'emailActivateTitle'    => 'Ativação de email',
+    'emailActivateBody'     => 'Acabamos de enviar um email para você com um código para confirmar seu endereço de e-mail. Copie esse código e cole abaixo.',
+    'emailActivateSubject'  => 'Seu código de ativação',
     'emailActivateMailBody' => 'Use o código abaixo para ativar sua conta e começar a usar o site.',
-    'invalidActivateToken' => 'O código estava incorreto.',
-    'needActivate' => 'Você deve concluir seu registro confirmando o código enviado para seu endereço de e-mail.',
+    'invalidActivateToken'  => 'O código estava incorreto.',
+    'needActivate'          => 'Você deve concluir seu registro confirmando o código enviado para seu endereço de e-mail.',
 
     // Grupos
     'unknownGroup' => '{0} não é um grupo válido.',
     'missingTitle' => 'Os grupos devem ter um título.',
 
     // Permissões
-    'unknownPermission' => '{0} não é uma permissão válida.'
+    'unknownPermission' => '{0} não é uma permissão válida.',
 ];
