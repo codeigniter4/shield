@@ -17,7 +17,7 @@ return [
     'oldToken'              => 'O token de acesso expirou.',
     'noUserEntity'          => 'A entidade de usuário deve ser fornecida para validação de senha.',
     'invalidEmail'          => 'Não foi possível verificar se o endereço de email corresponde ao e-mail registrado.',
-    'unableSendEmailToUser' => 'Desculpe, houve um problema ao enviar o email. Não pudemos enviar um email para "{0}".',
+    'unableSendEmailToUser' => 'Desculpe, houve um problema ao enviar o email. Não pudemos enviar um email para '{0}'.',
     'throttled'             => 'Muitas solicitações feitas a partir deste endereço IP. Você pode tentar novamente em {0} segundos.',
     'notEnoughPrivilege'    => 'Você não tem a permissão necessária para realizar a operação desejada.',
 
@@ -69,32 +69,32 @@ return [
     'emailInfo'      => 'Algumas informações sobre a pessoa:',
     'emailIpAddress' => 'Endereço IP:',
 
-    "emailDevice" => "Dispositivo:",
-    "emailDate" => "Data:",
+    'emailDevice' => 'Dispositivo:',
+    'emailDate' => 'Data:',
 
     // 2FA
-    "email2FATitle" => "Autenticação de dois fatores",
-    "confirmEmailAddress" => "Confirme seu endereço de e-mail.",
-    "emailEnterCode" => "Confirme seu email",
-    "emailConfirmCode" => "Insira o código de 6 dígitos que acabamos de enviar para seu endereço de e-mail.",
-    "email2FASubject" => "Seu código de autenticação",
-    "email2FAMailBody" => "Seu código de autenticação é:",
-    "invalid2FAToken" => "O código estava incorreto.",
-    "need2FA" => "Você deve concluir uma verificação de dois fatores.",
-    "needVerification" => "Verifique seu e-mail para concluir a ativação da conta.",
+    'email2FATitle' => 'Autenticação de dois fatores',
+    'confirmEmailAddress' => 'Confirme seu endereço de e-mail.',
+    'emailEnterCode' => 'Confirme seu email',
+    'emailConfirmCode' => 'Insira o código de 6 dígitos que acabamos de enviar para seu endereço de e-mail.',
+    'email2FASubject' => 'Seu código de autenticação',
+    'email2FAMailBody' => 'Seu código de autenticação é:',
+    'invalid2FAToken' => 'O código estava incorreto.',
+    'need2FA' => 'Você deve concluir uma verificação de dois fatores.',
+    'needVerification' => 'Verifique seu e-mail para concluir a ativação da conta.',
 
     // Ativar
-    "emailActivateTitle" => "Ativação de email",
-    "emailActivateBody" => "Acabamos de enviar um email para você com um código para confirmar seu endereço de e-mail. Copie esse código e cole abaixo.",
-    "emailActivateSubject" => "Seu código de ativação",
-    "emailActivateMailBody" => "Use o código abaixo para ativar sua conta e começar a usar o site.",
-    "invalidActivateToken" => "O código estava incorreto.",
-    "needActivate" => "Você deve concluir seu registro confirmando o código enviado para seu endereço de e-mail.",
+    'emailActivateTitle' => 'Ativação de email',
+    'emailActivateBody' => 'Acabamos de enviar um email para você com um código para confirmar seu endereço de e-mail. Copie esse código e cole abaixo.',
+    'emailActivateSubject' => 'Seu código de ativação',
+    'emailActivateMailBody' => 'Use o código abaixo para ativar sua conta e começar a usar o site.',
+    'invalidActivateToken' => 'O código estava incorreto.',
+    'needActivate' => 'Você deve concluir seu registro confirmando o código enviado para seu endereço de e-mail.',
 
     // Grupos
-    "unknownGroup" => "{0} não é um grupo válido.",
-    "missingTitle" => "Os grupos devem ter um título.",
+    'unknownGroup' => '{0} não é um grupo válido.',
+    'missingTitle' => 'Os grupos devem ter um título.',
 
     // Permissões
-    "unknownPermission" => "{0} não é uma permissão válida."
+    'unknownPermission' => '{0} não é uma permissão válida.'
 ];
