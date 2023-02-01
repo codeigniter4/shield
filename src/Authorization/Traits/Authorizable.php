@@ -289,6 +289,30 @@ trait Authorizable
     }
 
     /**
+     * Bans the user from logging in.
+     */
+    public function ban(?string $reason = null): self
+    {
+        $this->banned      = '1';
+        $this->ban_message = $reason;
+        $this->modifyBanStatus();
+
+        return $this;
+    }
+
+    /**
+     * Unban a user to permit logging in.
+     */
+    public function unBan(): self
+    {
+        $this->banned      = '0';
+        $this->ban_message = null;
+        $this->modifyBanStatus();
+
+        return $this;
+    }
+
+    /**
      * Used internally to populate the User groups
      * so we hit the database as little as possible.
      */
@@ -395,5 +419,14 @@ trait Authorizable
         return function_exists('setting')
             ? array_keys(setting('AuthGroups.permissions'))
             : array_keys(config('AuthGroups')->permissions);
+    }
+
+    /**
+     * modifies the banned status of the user
+     */
+    private function modifyBanStatus(): void
+    {
+        $model = auth()->getProvider();
+        $model->save($this);
     }
 }
