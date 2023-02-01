@@ -92,8 +92,8 @@ return [
     "needActivate" => "Você deve concluir seu registro confirmando o código enviado para seu endereço de e-mail.",
 
     // Grupos
-    "unknownGroup" => "{0} não é um grupo válido.",
-    "missingTitle" => "Os grupos devem ter um título.",
+    "unknownGroup"      => "{0} não é um grupo válido.",
+    "missingTitle"      => "Os grupos devem ter um título.",
 
     // Permissões
     "unknownPermission" => "{0} não é uma permissão válida."
