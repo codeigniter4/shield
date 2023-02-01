@@ -19,6 +19,8 @@ class UserModel extends Model implements UserProvider
     protected $useSoftDeletes = true;
     protected $allowedFields  = [
         'username',
+        'banned',
+        'ban_message',
         'status',
         'status_message',
         'active',
