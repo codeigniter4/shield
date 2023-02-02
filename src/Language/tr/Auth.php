@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\tr;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} geçerli bir kimlik doğrulayıcı değil.',

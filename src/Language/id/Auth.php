@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\id;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} bukan otentikator yang sah.',

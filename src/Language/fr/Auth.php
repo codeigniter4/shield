@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\fr;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} n\'est pas un authentificateur valide.',
