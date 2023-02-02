@@ -44,15 +44,11 @@ final class ForcePasswordResetTest extends TestCase
 
     public function testUserRequiresPasswordReset(): void
     {
-        /**
-         * @phpstan-var User
-         */
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
 
-        /**
-         * @phpstan-var UserIdentityModel
-         */
+        /** @var UserIdentityModel $identity */
         $identity = model(UserIdentityModel::class);
         $identity->set('force_reset', 1);
         $identity->where('user_id', $user->id);
@@ -63,9 +59,7 @@ final class ForcePasswordResetTest extends TestCase
 
     public function testForcePasswordResetOnUser(): void
     {
-        /**
-         * @phpstan-var User
-         */
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $user->forcePasswordReset();
@@ -75,9 +69,7 @@ final class ForcePasswordResetTest extends TestCase
 
     public function testUndoForcePasswordResetOnUser(): void
     {
-        /**
-         * @phpstan-var User
-         */
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $user->forcePasswordReset();
@@ -88,9 +80,7 @@ final class ForcePasswordResetTest extends TestCase
 
     public function testRequiresPasswordResetRedirect(): void
     {
-        /**
-         * @phpstan-var User
-         */
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $user->forcePasswordReset();
@@ -104,22 +94,16 @@ final class ForcePasswordResetTest extends TestCase
 
     public function testForceGlobalPasswordReset(): void
     {
-        /**
-         * @phpstan-var User
-         */
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $this->actingAs($user);
 
-        /**
-         * @phpstan-var Fabricator
-         */
+        /** @var Fabricator $fabricator */
         $fabricator = new Fabricator(UserIdentityModel::class);
         $fabricator->create(50);
 
-        /**
-         * @phpstan-var UserIdentityModel
-         */
+        /** @var UserIdentityModel $identities */
         $identities = model(UserIdentityModel::class);
         $identities->forceGlobalPasswordReset();
 

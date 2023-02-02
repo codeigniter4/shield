@@ -76,15 +76,11 @@ final class UserIdentityModelTest extends TestCase
 
     public function testForceMultiplePasswordReset(): void
     {
-        /**
-         * @phpstan-var Fabricator
-         */
+        /** @var Fabricator $fabricator */
         $fabricator = new Fabricator(UserIdentityModel::class);
         $fabricator->create(10);
 
-        /**
-         * @phpstan-var UserIdentityModel
-         */
+        /** @var UserIdentityModel $identities */
         $identities = model(UserIdentityModel::class);
         $result     = $identities->select('user_id')->findAll();
         $userIds    = [];
@@ -95,9 +91,7 @@ final class UserIdentityModelTest extends TestCase
 
         $identities->forceMultiplePasswordReset($userIds);
 
-        /**
-         * @phpstan-var UserModel
-         */
+        /** @var UserModel $users */
         $users      = model(UserModel::class);
         $first_user = $users->findById($userIds[0]);
         $last_user  = $users->findById($userIds[9]);

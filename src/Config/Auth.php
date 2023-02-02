@@ -383,7 +383,7 @@ class Auth extends BaseConfig
      * Returns the URL the user should be redirected to
      * if force_reset identity is set to true.
      */
-    public function forcePasswordResetRedirect()
+    public function forcePasswordResetRedirect(): string
     {
         $url = setting('Auth.redirects')['force_reset'];
 
