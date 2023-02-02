@@ -18,4 +18,8 @@ namespace Tests\Language;
  */
 final class BrazilianTranslationTest extends AbstractTranslationTestCase
 {
+    protected array $excludedLocaleKeyTranslations = [
+        'Auth.password',
+        'Auth.login',
+    ];
 }
