@@ -97,6 +97,7 @@ return static function (RectorConfig $rectorConfig): void {
         // Ignore files that should not be namespaced to their folder
         NormalizeNamespaceByPSR4ComposerAutoloadRector::class => [
             __DIR__ . '/src/Helpers',
+            __DIR__ . '/src/Language',
             __DIR__ . '/tests/_support',
         ],
 
