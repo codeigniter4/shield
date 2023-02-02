@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
 return [
-    // Exceções
+    // Exceptions
     'unknownAuthenticator'  => '{0} não é um autenticador válido.',
     'unknownUserProvider'   => 'Não foi possível determinar o provedor de usuário a ser usado.',
     'invalidUser'           => 'Não foi possível localizar o usuário especificado.',
@@ -16,7 +15,7 @@ return [
     'oldToken'              => 'O token de acesso expirou.',
     'noUserEntity'          => 'A entidade de usuário deve ser fornecida para validação de senha.',
     'invalidEmail'          => 'Não foi possível verificar se o endereço de email corresponde ao e-mail registrado.',
-    'unableSendEmailToUser' => 'Desculpe, houve um problema ao enviar o email. Não pudemos enviar um email para "{0}".',
+    'unableSendEmailToUser' => 'Desculpe, houve um problema ao enviar o email. Não pudemos enviar um email para {0}.',
     'throttled'             => 'Muitas solicitações feitas a partir deste endereço IP. Você pode tentar novamente em {0} segundos.',
     'notEnoughPrivilege'    => 'Você não tem a permissão necessária para realizar a operação desejada.',
 
