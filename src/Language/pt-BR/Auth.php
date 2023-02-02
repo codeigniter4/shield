@@ -66,9 +66,8 @@ return [
     // E-mails Globais
     'emailInfo'      => 'Algumas informações sobre a pessoa:',
     'emailIpAddress' => 'Endereço IP:',
-
-    'emailDevice' => 'Dispositivo:',
-    'emailDate'   => 'Data:',
+    'emailDevice'    => 'Dispositivo:',
+    'emailDate'      => 'Data:',
 
     // 2FA
     'email2FATitle'       => 'Autenticação de dois fatores',
