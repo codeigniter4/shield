@@ -91,6 +91,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // Ignore files that should not be namespaced
         NormalizeNamespaceByPSR4ComposerAutoloadRector::class => [
             __DIR__ . '/src/Helpers',
+            __DIR__ . '/src/Language',
             __DIR__ . '/tests/_support',
         ],
 
