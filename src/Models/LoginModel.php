@@ -105,9 +105,9 @@ class LoginModel extends Model
     public function fake(Generator &$faker): Login
     {
         return new Login([
-            'ip_address' => $faker->ipv4,
+            'ip_address' => $faker->ipv4(),
             'id_type'    => Session::ID_TYPE_EMAIL_PASSWORD,
-            'identifier' => $faker->email,
+            'identifier' => $faker->email(),
             'user_id'    => null,
             'date'       => Time::parse('-1 day')->format('Y-m-d H:i:s'),
             'success'    => true,
