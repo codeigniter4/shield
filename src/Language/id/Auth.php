@@ -90,7 +90,7 @@ return [
 
     // Groups
     'unknownGroup' => '{0} bukan grup yang sah.',
-    'missingTitle' => 'Grup diharuskan mempunyai judul.',
+    'missingTitle' => 'Grup-grup diharuskan mempunyai judul.',
 
     // Permissions
     'unknownPermission' => '{0} bukan izin yang sah.',
