@@ -13,6 +13,7 @@ use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\LogicException;
+use CodeIgniter\Shield\Exceptions\ValidationException;
 use Faker\Generator;
 
 class UserIdentityModel extends Model
@@ -360,6 +361,26 @@ class UserIdentityModel extends Model
         $return = $this->update();
 
         $this->checkQueryReturn($return);
+    }
+
+    /**
+     * Override the Model's `update()` method.
+     * Throws an Exception when it fails.
+     *
+     * @param array|int|string|null $id
+     * @param array|object|null     $data
+     *
+     * @return true if the update is successful
+     *
+     * @throws ValidationException
+     */
+    public function update($id = null, $data = null): bool
+    {
+        $result = parent::update($id, $data);
+
+        $this->checkQueryReturn($result);
+
+        return true;
     }
 
     public function fake(Generator &$faker): UserIdentity
