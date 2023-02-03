@@ -151,7 +151,7 @@ class UserModel extends Model
     public function fake(Generator &$faker): User
     {
         return new User([
-            'username' => $faker->userName,
+            'username' => $faker->unique()->userName,
             'active'   => true,
         ]);
     }

@@ -11,6 +11,7 @@
   - [Controller Filters](#controller-filters)
     - [Protect All Pages](#protect-all-pages)
     - [Rate Limiting](#rate-limiting)
+    - [Forcing Password Reset](#forcing-password-reset)
 
 These instructions assume that you have already [installed the CodeIgniter 4 app starter](https://codeigniter.com/user_guide/installation/installing_composer.html) as the basis for your new project, set up your **.env** file, and created a database that you can access via the Spark CLI script.
 
@@ -196,6 +197,7 @@ public $aliases = [
     'auth-rates' => \CodeIgniter\Shield\Filters\AuthRates::class,
     'group'      => \CodeIgniter\Shield\Filters\GroupFilter::class,
     'permission' => \CodeIgniter\Shield\Filters\PermissionFilter::class,
+    'force-reset' => \CodeIgniter\Shield\Filters\ForcePasswordResetFilter::class,
 ];
 ```
 
@@ -206,6 +208,7 @@ chained | The filter will check both authenticators in sequence to see if the us
 auth-rates | Provides a good basis for rate limiting of auth-related routes.
 group | Checks if the user is in one of the groups passed in.
 permission | Checks if the user has the passed permissions.
+force-reset | Checks if the user requires a password reset.
 
 These can be used in any of the [normal filter config settings](https://codeigniter.com/user_guide/incoming/filters.html#globals), or [within the routes file](https://codeigniter.com/user_guide/incoming/routing.html#applying-filters).
 
@@ -241,6 +244,21 @@ public $filters = [
 ];
 ```
 
+### Forcing Password Reset
+
+If your application requires a force password reset functionality, ensure that you exclude the auth pages and the actual password reset page from the `before` global. This will ensure that your users do not run into a *too many redirects* error. See:
+
+```php
+public $globals = [
+    'before' => [
+        //...
+        //...
+        'force-reset' => ['except' => ['login*', 'register', 'auth*', 'change-password']]
+    ]
+];
+```
+In the example above, it is assumed that the page you have created for users to change their password after successful login is **change-password**.
+
 > **Note** If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the **app/Config/Filter.php** file.
 
 For example, if you configured your routes like so:
@@ -260,4 +278,4 @@ public $globals = [
     ]
 ]
 ```
-The same should apply for the Rate Limiting.
+The same should apply for the Rate Limiting and Forcing Password Reset.

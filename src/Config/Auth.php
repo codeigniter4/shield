@@ -52,9 +52,10 @@ class Auth extends BaseConfig
      * to apply any logic you may need.
      */
     public array $redirects = [
-        'register' => '/',
-        'login'    => '/',
-        'logout'   => 'login',
+        'register'    => '/',
+        'login'       => '/',
+        'logout'      => 'login',
+        'force_reset' => '/',
     ];
 
     /**
@@ -374,6 +375,17 @@ class Auth extends BaseConfig
     public function registerRedirect(): string
     {
         $url = setting('Auth.redirects')['register'];
+
+        return $this->getUrl($url);
+    }
+
+    /**
+     * Returns the URL the user should be redirected to
+     * if force_reset identity is set to true.
+     */
+    public function forcePasswordResetRedirect(): string
+    {
+        $url = setting('Auth.redirects')['force_reset'];
 
         return $this->getUrl($url);
     }

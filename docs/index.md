@@ -6,6 +6,7 @@
 * [Authentication](authentication.md)
 * [Authorization](authorization.md)
 * [Auth Actions](auth_actions.md)
+* [Forcing Password Reset](forcing_password_reset.md)
 * [Events](events.md)
 * [Testing](testing.md)
 * [Customization](customization.md)
