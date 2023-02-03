@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\ja;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} は有効なオーセンティケーターではありません。', // '{0} is not a valid authenticator.',

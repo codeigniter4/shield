@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\es;
-
 return [
     // Excepciones
     'unknownAuthenticator'  => '{0} no es un handler válido.',

@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\sk;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} nie je platný autentifikátor.',
