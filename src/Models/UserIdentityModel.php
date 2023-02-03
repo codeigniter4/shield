@@ -368,7 +368,7 @@ class UserIdentityModel extends Model
             'user_id'      => fake(UserModel::class)->id,
             'type'         => Session::ID_TYPE_EMAIL_PASSWORD,
             'name'         => null,
-            'secret'       => $faker->email(),
+            'secret'       => $faker->unique()->email(),
             'secret2'      => password_hash('secret', PASSWORD_DEFAULT),
             'expires'      => null,
             'extra'        => null,
