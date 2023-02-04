@@ -9,7 +9,6 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Test\AuthenticationTesting;
 use CodeIgniter\Test\DatabaseTestTrait;
-use CodeIgniter\Test\Fabricator;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
 use Tests\Support\TestCase;
@@ -94,19 +93,22 @@ final class ForcePasswordResetTest extends TestCase
 
     public function testForceGlobalPasswordReset(): void
     {
-        /** @var User $user */
-        $user = fake(UserModel::class);
-        $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
-        $this->actingAs($user);
+        for ($i = 0; $i < 3; $i++) {
+            /** @var User $user */
+            $user = fake(UserModel::class);
+            $user->createEmailIdentity([
+                'email' => 'foo' . $i . '@example.com', 'password' => $i . 'secret123',
+            ]);
 
-        /** @var Fabricator $fabricator */
-        $fabricator = new Fabricator(UserIdentityModel::class);
-        $fabricator->create(50);
+            $users[$i] = $user;
+        }
 
         /** @var UserIdentityModel $identities */
         $identities = model(UserIdentityModel::class);
         $identities->forceGlobalPasswordReset();
 
-        $this->assertTrue($user->requiresPasswordReset());
+        for ($i = 0; $i < 3; $i++) {
+            $this->assertTrue($users[$i]->requiresPasswordReset());
+        }
     }
 }
