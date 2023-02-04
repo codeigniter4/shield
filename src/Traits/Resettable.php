@@ -35,11 +35,7 @@ trait Resettable
             return;
         }
 
-        // Set force_reset to true
-        $identityModel = model(UserIdentityModel::class);
-        $identityModel->set('force_reset', 1);
-        $identityModel->where(['user_id' => $this->id, 'type' => Session::ID_TYPE_EMAIL_PASSWORD]);
-        $identityModel->update();
+        $this->setForceReset(true);
     }
 
     /**
@@ -52,9 +48,18 @@ trait Resettable
             return;
         }
 
-        // Set force_reset to false
+        $this->setForceReset(false);
+    }
+
+    /**
+     * Set force_reset
+     */
+    private function setForceReset(bool $value): void
+    {
+        $value = (int) $value;
+
         $identityModel = model(UserIdentityModel::class);
-        $identityModel->set('force_reset', 0);
+        $identityModel->set('force_reset', $value);
         $identityModel->where(['user_id' => $this->id, 'type' => Session::ID_TYPE_EMAIL_PASSWORD]);
         $identityModel->update();
     }
