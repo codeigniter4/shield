@@ -19,8 +19,8 @@ trait Resettable
      */
     public function requiresPasswordReset(): bool
     {
-        $identity_model = model(UserIdentityModel::class);
-        $identity       = $identity_model->getIdentityByType($this, Session::ID_TYPE_EMAIL_PASSWORD);
+        $identityModel = model(UserIdentityModel::class);
+        $identity      = $identityModel->getIdentityByType($this, Session::ID_TYPE_EMAIL_PASSWORD);
 
         return $identity->force_reset;
     }
@@ -35,11 +35,7 @@ trait Resettable
             return;
         }
 
-        // Set force_reset to true
-        $identity_model = model(UserIdentityModel::class);
-        $identity_model->set('force_reset', 1);
-        $identity_model->where(['user_id' => $this->id, 'type' => Session::ID_TYPE_EMAIL_PASSWORD]);
-        $identity_model->update();
+        $this->setForceReset(true);
     }
 
     /**
@@ -52,10 +48,19 @@ trait Resettable
             return;
         }
 
-        // Set force_reset to false
-        $identity_model = model(UserIdentityModel::class);
-        $identity_model->set('force_reset', 0);
-        $identity_model->where(['user_id' => $this->id, 'type' => Session::ID_TYPE_EMAIL_PASSWORD]);
-        $identity_model->update();
+        $this->setForceReset(false);
+    }
+
+    /**
+     * Set force_reset
+     */
+    private function setForceReset(bool $value): void
+    {
+        $value = (int) $value;
+
+        $identityModel = model(UserIdentityModel::class);
+        $identityModel->set('force_reset', $value);
+        $identityModel->where(['user_id' => $this->id, 'type' => Session::ID_TYPE_EMAIL_PASSWORD]);
+        $identityModel->update();
     }
 }
