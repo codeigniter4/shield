@@ -67,10 +67,7 @@ class Email2FA implements ActionInterface
             return redirect()->route('auth-action-show')->with('error', lang('Auth.invalidEmail'));
         }
 
-        /** @var UserIdentityModel $identityModel */
-        $identityModel = model(UserIdentityModel::class);
-
-        $identity = $identityModel->getIdentityByType($user, $this->type);
+        $identity = $this->getIdentity($user);
 
         if (empty($identity)) {
             return redirect()->route('auth-action-show')->with('error', lang('Auth.need2FA'));
