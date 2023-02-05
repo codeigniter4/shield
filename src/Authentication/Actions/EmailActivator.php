@@ -111,7 +111,7 @@ class EmailActivator implements ActionInterface
         $user = $authenticator->getUser();
 
         // Set the user active now
-        $authenticator->activateUser($user);
+        $user->activate();
 
         // Success!
         return redirect()->to(config('Auth')->registerRedirect())

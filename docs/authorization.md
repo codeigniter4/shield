@@ -20,6 +20,10 @@
       - [removeGroup()](#removegroup)
       - [syncGroups()](#syncgroups)
       - [getGroups()](#getgroups)
+  - [User Activation](#user-activation)
+    - [Checking Activation Status](#checking-activation-status)
+  - [Activating a User](#activating-a-user)
+  - [Deactivating a User](#deactivating-a-user)
 
 Authorization happens once a user has been identified through authentication. It is the process of
 determining what actions a user is allowed to do within your site.
@@ -232,4 +236,44 @@ Returns all groups this user is a part of.
 
 ```php
 $user->getGroups();
+```
+
+## User Activation
+
+All users have an `active` flag. This is only used when the [`EmailActivation` action](./auth_actions.md), or a custom action used to activate a user, is enabled.
+
+### Checking Activation Status
+
+You can determine if a user has been activated with the `isActivated()` method.
+
+```php
+if ($user->isActivated()) {
+    //
+}
+```
+
+> **Note** If no activator is specified in the `Auth` config file, `actions['register']` property, then this will always return `true`.
+
+You can check if a user has not been activated yet via the `isNotActivated()` method.
+
+```php
+if ($user->isNotActivated()) {
+    //
+}
+```
+
+## Activating a User
+
+Users are automatically activated withih the `EmailActivator` action. They can be manually activated via the `activate()` method on the User entity.
+
+```php
+$user->activate();
+```
+
+## Deactivating a User
+
+Users can be manually deactivated via the `deactivate()` method on the User entity.
+
+```php
+$user->deactivate();
 ```

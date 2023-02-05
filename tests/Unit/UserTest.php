@@ -7,6 +7,7 @@ namespace Tests\Unit;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\Login;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
@@ -255,5 +256,91 @@ final class UserTest extends TestCase
 
         $identity = $this->user->getEmailIdentity();
         $this->assertSame('foo@example.com', $identity->secret);
+    }
+
+    public function testActivate(): void
+    {
+        $this->user->active = false;
+        model(UserModel::class)->save($this->user);
+
+        $this->seeInDatabase('users', [
+            'id'     => $this->user->id,
+            'active' => 0,
+        ]);
+
+        $this->user->activate();
+
+        // Refresh user
+        $this->user = model(UserModel::class)->find($this->user->id);
+
+        $this->assertTrue($this->user->active);
+        $this->seeInDatabase('users', [
+            'id'     => $this->user->id,
+            'active' => 1,
+        ]);
+    }
+
+    public function testDeactivate(): void
+    {
+        $this->user->active = true;
+        model(UserModel::class)->save($this->user);
+
+        $this->seeInDatabase('users', [
+            'id'     => $this->user->id,
+            'active' => 1,
+        ]);
+
+        $this->user->deactivate();
+
+        // Refresh user
+        $this->user = model(UserModel::class)->find($this->user->id);
+
+        $this->assertFalse($this->user->active);
+        $this->seeInDatabase('users', [
+            'id'     => $this->user->id,
+            'active' => 0,
+        ]);
+    }
+
+    public function testIsActivatedSuccessWhenNotRequired(): void
+    {
+        $this->user->active = false;
+        model(UserModel::class)->save($this->user);
+
+        setting('Auth.actions', ['register' => null]);
+
+        $this->assertTrue($this->user->isActivated());
+    }
+
+    public function testIsActivatedWhenRequired(): void
+    {
+        setting('Auth.actions', ['register' => '\CodeIgniter\Shield\Authentication\Actions\EmailActivator']);
+        $user = $this->user;
+
+        $user->deactivate();
+        /** @var User $user */
+        $user = model(UserModel::class)->find($user->id);
+
+        $this->assertFalse($user->isActivated());
+
+        $user->activate();
+        /** @var User $user */
+        $user = model(UserModel::class)->find($user->id);
+
+        $this->assertTrue($user->isActivated());
+    }
+
+    public function testIsNotActivated(): void
+    {
+        setting('Auth.actions', ['register' => '\CodeIgniter\Shield\Authentication\Actions\EmailActivator']);
+        $user = $this->user;
+
+        $user->active = false;
+        model(UserModel::class)->save($user);
+
+        /** @var User $user */
+        $user = model(UserModel::class)->find($user->id);
+
+        $this->assertFalse($user->isActivated());
     }
 }
