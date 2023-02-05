@@ -22,8 +22,8 @@
     - [getGroups()](#getgroups)
   - [User Activation](#user-activation)
     - [Checking Activation Status](#checking-activation-status)
-  - [Activating a User](#activating-a-user)
-  - [Deactivating a User](#deactivating-a-user)
+    - [Activating a User](#activating-a-user)
+    - [Deactivating a User](#deactivating-a-user)
 
 Authorization happens once a user has been identified through authentication. It is the process of
 determining what actions a user is allowed to do within your site.
@@ -262,17 +262,17 @@ if ($user->isNotActivated()) {
 }
 ```
 
-## Activating a User
+### Activating a User
 
-Users are automatically activated within the `EmailActivator` action. They can be manually activated via the `activate()` method on the User entity.
+Users are automatically activated within the `EmailActivator` action. They can be manually activated via the `activate()` method on the `User` entity.
 
 ```php
 $user->activate();
 ```
 
-## Deactivating a User
+### Deactivating a User
 
-Users can be manually deactivated via the `deactivate()` method on the User entity.
+Users can be manually deactivated via the `deactivate()` method on the `User` entity.
 
 ```php
 $user->deactivate();
