@@ -27,21 +27,21 @@ trait Activatable
     /**
      * Activates the user.
      */
-    public function activate(): bool
+    public function activate(): void
     {
-        $model = auth()->getProvider();
+        $users = auth()->getProvider();
 
-        return $model->update($this->id, ['active' => 1]);
+        $users->update($this->id, ['active' => 1]);
     }
 
     /**
      * Deactivates the user.
      */
-    public function deactivate(): bool
+    public function deactivate(): void
     {
-        $model = auth()->getProvider();
+        $users = auth()->getProvider();
 
-        return $model->update($this->id, ['active' => 0]);
+        $users->update($this->id, ['active' => 0]);
     }
 
     /**
