@@ -15,7 +15,7 @@ class LoginModel extends Model
 {
     use CheckQueryReturnTrait;
 
-    protected $table          = 'auth_logins';
+    protected $table          = SHIELD_TABLES['auth_logins'];
     protected $primaryKey     = 'id';
     protected $returnType     = Login::class;
     protected $useSoftDeletes = false;

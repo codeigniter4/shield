@@ -317,7 +317,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame(lang('Auth.badAttempt'), $result->reason());
 
         // A login attempt should have always been recorded
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_logins'], [
             'identifier' => 'johnsmith@example.com',
             'success'    => 0,
         ]);
@@ -347,7 +347,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
         // A login attempt should have been recorded
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_logins'], [
             'identifier' => $this->user->email,
             'success'    => 1,
         ]);
@@ -397,7 +397,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
         // A login attempt should have been recorded
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_logins'], [
             'identifier' => 'foo@example.COM',
             'success'    => 1,
         ]);
@@ -435,7 +435,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($user->id, $_SESSION['user']['id']);
 
         // A login attempt should have been recorded
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_logins'], [
             'identifier' => 'fooROG',
             'success'    => 1,
         ]);
