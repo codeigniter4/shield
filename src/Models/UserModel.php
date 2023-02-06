@@ -194,9 +194,9 @@ class UserModel extends Model
                 sprintf('%1$s.*, %2$s.secret as email, %2$s.secret2 as password_hash', SHIELD_TABLES['users'], SHIELD_TABLES['auth_identities'])
             )
                 ->join(SHIELD_TABLES['auth_identities'], sprintf('%1$s.user_id = %2$s.id', SHIELD_TABLES['auth_identities'], SHIELD_TABLES['users']))
-                ->where(SHIELD_TABLES['auth_identities'].'.type', Session::ID_TYPE_EMAIL_PASSWORD)
+                ->where(SHIELD_TABLES['auth_identities'] . '.type', Session::ID_TYPE_EMAIL_PASSWORD)
                 ->where(
-                    'LOWER(' . $this->db->protectIdentifiers(SHIELD_TABLES['auth_identities'].'.secret') . ')',
+                    'LOWER(' . $this->db->protectIdentifiers(SHIELD_TABLES['auth_identities'] . '.secret') . ')',
                     strtolower($email)
                 )
                 ->asArray()
