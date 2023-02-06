@@ -148,7 +148,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->dontSeeInDatabase('auth_remember_tokens', [
+        $this->dontSeeInDatabase(SHIELD_TABLES['auth_remember_tokens'], [
             'user_id' => $this->user->id,
         ]);
     }
@@ -161,7 +161,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->seeInDatabase('auth_remember_tokens', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_remember_tokens'], [
             'user_id' => $this->user->id,
         ]);
 
@@ -175,12 +175,12 @@ final class SessionAuthenticatorTest extends TestCase
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
         $this->auth->remember()->login($this->user);
 
-        $this->seeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->seeInDatabase(SHIELD_TABLES['auth_remember_tokens'], ['user_id' => $this->user->id]);
 
         $this->auth->logout();
 
         $this->assertArrayNotHasKey('user', $_SESSION);
-        $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->dontSeeInDatabase(SHIELD_TABLES['auth_remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testLogoutOnlyLogoutCalled(): void
@@ -208,7 +208,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->dontSeeInDatabase(SHIELD_TABLES['auth_remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testLoginByIdRemember(): void
@@ -219,7 +219,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->seeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->seeInDatabase(SHIELD_TABLES['auth_remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testForgetCurrentUser(): void
@@ -228,22 +228,22 @@ final class SessionAuthenticatorTest extends TestCase
         $this->auth->remember()->loginById($this->user->id);
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->seeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->seeInDatabase(SHIELD_TABLES['auth_remember_tokens'], ['user_id' => $this->user->id]);
 
         $this->auth->forget();
 
-        $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->dontSeeInDatabase(SHIELD_TABLES['auth_remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testForgetAnotherUser(): void
     {
         fake(RememberModel::class, ['user_id' => $this->user->id]);
 
-        $this->seeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->seeInDatabase(SHIELD_TABLES['auth_remember_tokens'], ['user_id' => $this->user->id]);
 
         $this->auth->forget($this->user);
 
-        $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->dontSeeInDatabase(SHIELD_TABLES['auth_remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testCheckNoPassword(): void
