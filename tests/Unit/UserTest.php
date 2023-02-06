@@ -263,7 +263,7 @@ final class UserTest extends TestCase
         $this->user->active = false;
         model(UserModel::class)->save($this->user);
 
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase(SHIELD_TABLES['users'], [
             'id'     => $this->user->id,
             'active' => 0,
         ]);
@@ -274,7 +274,7 @@ final class UserTest extends TestCase
         $this->user = model(UserModel::class)->find($this->user->id);
 
         $this->assertTrue($this->user->active);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase(SHIELD_TABLES['users'], [
             'id'     => $this->user->id,
             'active' => 1,
         ]);
@@ -285,7 +285,7 @@ final class UserTest extends TestCase
         $this->user->active = true;
         model(UserModel::class)->save($this->user);
 
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase(SHIELD_TABLES['users'], [
             'id'     => $this->user->id,
             'active' => 1,
         ]);
@@ -296,7 +296,7 @@ final class UserTest extends TestCase
         $this->user = model(UserModel::class)->find($this->user->id);
 
         $this->assertFalse($this->user->active);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase(SHIELD_TABLES['users'], [
             'id'     => $this->user->id,
             'active' => 0,
         ]);

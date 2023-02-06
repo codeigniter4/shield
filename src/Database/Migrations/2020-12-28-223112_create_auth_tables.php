@@ -24,7 +24,7 @@ class CreateAuthTables extends Migration
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('username');
-        $this->forge->createTable('users');
+        $this->forge->createTable(SHIELD_TABLES['users']);
 
         /*
          * Auth Identities Table
@@ -47,7 +47,7 @@ class CreateAuthTables extends Migration
         $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey(['type', 'secret']);
         $this->forge->addKey('user_id');
-        $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
+        $this->forge->addForeignKey('user_id', SHIELD_TABLES['users'], 'id', '', 'CASCADE');
         $this->forge->createTable('auth_identities');
 
         /**
@@ -106,7 +106,7 @@ class CreateAuthTables extends Migration
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('selector');
-        $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
+        $this->forge->addForeignKey('user_id', SHIELD_TABLES['users'], 'id', '', 'CASCADE');
         $this->forge->createTable('auth_remember_tokens');
 
         // Groups Users Table
@@ -117,7 +117,7 @@ class CreateAuthTables extends Migration
             'created_at' => ['type' => 'datetime', 'null' => false],
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
+        $this->forge->addForeignKey('user_id', SHIELD_TABLES['users'], 'id', '', 'CASCADE');
         $this->forge->createTable('auth_groups_users');
 
         // Users Permissions Table
@@ -128,7 +128,7 @@ class CreateAuthTables extends Migration
             'created_at' => ['type' => 'datetime', 'null' => false],
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
+        $this->forge->addForeignKey('user_id', SHIELD_TABLES['users'], 'id', '', 'CASCADE');
         $this->forge->createTable('auth_permissions_users');
     }
 
@@ -144,7 +144,7 @@ class CreateAuthTables extends Migration
         $this->forge->dropTable('auth_identities', true);
         $this->forge->dropTable('auth_groups_users', true);
         $this->forge->dropTable('auth_permissions_users', true);
-        $this->forge->dropTable('users', true);
+        $this->forge->dropTable(SHIELD_TABLES['users'], true);
 
         $this->db->enableForeignKeyChecks();
     }

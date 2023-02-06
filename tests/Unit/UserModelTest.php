@@ -39,7 +39,7 @@ final class UserModelTest extends TestCase
             'user_id' => $user->id,
             'secret'  => 'foo@bar.com',
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase(SHIELD_TABLES['users'], [
             'id'     => $user->id,
             'active' => 0,
         ]);
@@ -74,7 +74,7 @@ final class UserModelTest extends TestCase
             'user_id' => $user->id,
             'secret'  => 'foo@bar.com',
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase(SHIELD_TABLES['users'], [
             'id'     => $user->id,
             'active' => 0,
         ]);
@@ -120,7 +120,7 @@ final class UserModelTest extends TestCase
             'user_id' => $id,
             'secret'  => 'foo@bar.com',
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase(SHIELD_TABLES['users'], [
             'id'     => $id,
             'active' => 0,
         ]);
@@ -155,7 +155,7 @@ final class UserModelTest extends TestCase
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase(SHIELD_TABLES['users'], [
             'id'     => $user->id,
             'active' => 1,
         ]);
@@ -179,7 +179,7 @@ final class UserModelTest extends TestCase
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase(SHIELD_TABLES['users'], [
             'id'     => $user->id,
             'active' => 1,
         ]);
@@ -215,7 +215,7 @@ final class UserModelTest extends TestCase
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase(SHIELD_TABLES['users'], [
             'id'     => $user->id,
             'active' => 1,
         ]);

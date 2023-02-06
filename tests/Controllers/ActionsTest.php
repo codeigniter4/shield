@@ -268,7 +268,7 @@ final class ActionsTest extends TestCase
         $result->assertSessionMissing('auth_action');
 
         // User should have been set as active
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase(SHIELD_TABLES['users'], [
             'id'     => $this->user->id,
             'active' => 1,
         ]);

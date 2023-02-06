@@ -153,7 +153,7 @@ class RegisterController extends BaseController
     {
         $registrationUsernameRules = array_merge(
             config('AuthSession')->usernameValidationRules,
-            ['is_unique[users.username]']
+            [sprintf('is_unique[%s.username]', SHIELD_TABLES['users'])]
         );
         $registrationEmailRules = array_merge(
             config('AuthSession')->emailValidationRules,
