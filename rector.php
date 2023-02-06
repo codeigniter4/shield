@@ -93,6 +93,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/src/Helpers',
             __DIR__ . '/src/Language',
             __DIR__ . '/tests/_support',
+            __DIR__ . '/src/Config/Constants.php',
         ],
 
         // May load view files directly when detecting classes
