@@ -15,7 +15,7 @@ class RememberModel extends Model
 {
     use CheckQueryReturnTrait;
 
-    protected $table          = 'auth_remember_tokens';
+    protected $table          = SHIELD_TABLES['auth_remember_tokens'];
     protected $primaryKey     = 'id';
     protected $returnType     = 'object';
     protected $useSoftDeletes = false;
