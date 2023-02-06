@@ -69,7 +69,7 @@ class CreateAuthTables extends Migration
         $this->forge->addKey(['id_type', 'identifier']);
         $this->forge->addKey('user_id');
         // NOTE: Do NOT delete the user_id or identifier when the user is deleted for security audits
-        $this->forge->createTable('auth_logins');
+        $this->forge->createTable(SHIELD_TABLES['auth_logins']);
 
         /*
          * Auth Token Login Attempts Table
@@ -138,7 +138,7 @@ class CreateAuthTables extends Migration
     {
         $this->db->disableForeignKeyChecks();
 
-        $this->forge->dropTable('auth_logins', true);
+        $this->forge->dropTable(SHIELD_TABLES['auth_logins'], true);
         $this->forge->dropTable('auth_token_logins', true);
         $this->forge->dropTable('auth_remember_tokens', true);
         $this->forge->dropTable(SHIELD_TABLES['auth_identities'], true);

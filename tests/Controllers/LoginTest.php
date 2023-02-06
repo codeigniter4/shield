@@ -53,7 +53,7 @@ final class LoginTest extends TestCase
         $this->assertSame(site_url('/login'), $result->getRedirectUrl());
 
         // Login should have been recorded successfully
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_logins'], [
             'identifier' => 'fooled@example.com',
             'user_id'    => null,
             'success'    => 0,
@@ -87,7 +87,7 @@ final class LoginTest extends TestCase
         $this->assertSame(site_url(), $result->getRedirectUrl());
 
         // Login should have been recorded successfully
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_logins'], [
             'identifier' => 'foo@example.com',
             'user_id'    => $this->user->id,
             'success'    => 1,
@@ -159,7 +159,7 @@ final class LoginTest extends TestCase
         $this->assertSame(site_url(), $result->getRedirectUrl());
 
         // Login should have been recorded successfully
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_logins'], [
             'identifier' => $this->user->username,
             'user_id'    => $this->user->id,
             'success'    => 1,
