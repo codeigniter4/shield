@@ -21,7 +21,7 @@ class UserModel extends Model
 {
     use CheckQueryReturnTrait;
 
-    protected $table          = 'users';
+    protected $table          = SHIELD_TABLES['users'];
     protected $primaryKey     = 'id';
     protected $returnType     = User::class;
     protected $useSoftDeletes = true;
@@ -184,16 +184,16 @@ class UserModel extends Model
         // any of the credentials used should be case-insensitive
         foreach ($credentials as $key => $value) {
             $this->where(
-                'LOWER(' . $this->db->protectIdentifiers("users.{$key}") . ')',
+                'LOWER(' . $this->db->protectIdentifiers(SHIELD_TABLES['users'] . ".{$key}") . ')',
                 strtolower($value)
             );
         }
 
         if ($email !== null) {
             $data = $this->select(
-                'users.*, auth_identities.secret as email, auth_identities.secret2 as password_hash'
+                sprintf('%1$s.*, auth_identities.secret as email, auth_identities.secret2 as password_hash', SHIELD_TABLES['users'])
             )
-                ->join('auth_identities', 'auth_identities.user_id = users.id')
+                ->join('auth_identities', 'auth_identities.user_id = %1$s.id', SHIELD_TABLES['users'])
                 ->where('auth_identities.type', Session::ID_TYPE_EMAIL_PASSWORD)
                 ->where(
                     'LOWER(' . $this->db->protectIdentifiers('auth_identities.secret') . ')',

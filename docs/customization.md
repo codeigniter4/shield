@@ -149,7 +149,7 @@ Shield has the following rules for registration:
 [
     'username' => [
         'label' =>  'Auth.username',
-        'rules' => 'required|max_length[30]|min_length[3]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|is_unique[users.username]',
+        'rules' => 'required|max_length[30]|min_length[3]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|is_unique[' . SHIELD_TABLES['users'] . '.username]',
     ],
     'email' => [
         'label' =>  'Auth.email',
@@ -175,7 +175,7 @@ If you need a different set of rules for registration, you can specify them in y
     public $registration = [
         'username' => [
             'label' =>  'Auth.username',
-            'rules' => 'required|max_length[30]|min_length[3]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|is_unique[users.username]',
+            'rules' => 'required|max_length[30]|min_length[3]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|is_unique[' . SHIELD_TABLES['users'] . '.username]',
         ],
         'email' => [
             'label' =>  'Auth.email',
