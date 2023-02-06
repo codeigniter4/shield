@@ -191,12 +191,12 @@ class UserModel extends Model
 
         if ($email !== null) {
             $data = $this->select(
-                sprintf('%1$s.*, auth_identities.secret as email, auth_identities.secret2 as password_hash', SHIELD_TABLES['users'])
+                sprintf('%1$s.*, %2$s.secret as email, %2$s.secret2 as password_hash', SHIELD_TABLES['users'], SHIELD_TABLES['auth_identities'])
             )
-                ->join('auth_identities', 'auth_identities.user_id = %1$s.id', SHIELD_TABLES['users'])
-                ->where('auth_identities.type', Session::ID_TYPE_EMAIL_PASSWORD)
+                ->join(SHIELD_TABLES['auth_identities'], sprintf('%1$s.user_id = %2$s.id', SHIELD_TABLES['auth_identities'], SHIELD_TABLES['users']))
+                ->where(SHIELD_TABLES['auth_identities'].'.type', Session::ID_TYPE_EMAIL_PASSWORD)
                 ->where(
-                    'LOWER(' . $this->db->protectIdentifiers('auth_identities.secret') . ')',
+                    'LOWER(' . $this->db->protectIdentifiers(SHIELD_TABLES['auth_identities'].'.secret') . ')',
                     strtolower($email)
                 )
                 ->asArray()

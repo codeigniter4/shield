@@ -184,7 +184,7 @@ final class UserTest extends TestCase
 
         $user = $users->find($this->user->id);
 
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_identities'], [
             'user_id' => $user->id,
             'secret'  => 'foo@bar.com',
         ]);
@@ -225,7 +225,7 @@ final class UserTest extends TestCase
 
         $user = $users->find($this->user->id);
 
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_identities'], [
             'user_id' => $user->id,
             'secret'  => 'foo@bar.com',
             'secret2' => $hash,

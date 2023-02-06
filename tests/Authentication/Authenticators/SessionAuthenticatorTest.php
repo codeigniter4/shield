@@ -46,7 +46,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->events = new MockEvents();
         Services::injectMock('events', $this->events);
 
-        $this->db->table('auth_identities')->truncate();
+        $this->db->table(SHIELD_TABLES['auth_identities'])->truncate();
     }
 
     public function testLoggedInFalse(): void

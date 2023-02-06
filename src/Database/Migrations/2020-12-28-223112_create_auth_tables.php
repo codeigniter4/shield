@@ -48,7 +48,7 @@ class CreateAuthTables extends Migration
         $this->forge->addUniqueKey(['type', 'secret']);
         $this->forge->addKey('user_id');
         $this->forge->addForeignKey('user_id', SHIELD_TABLES['users'], 'id', '', 'CASCADE');
-        $this->forge->createTable('auth_identities');
+        $this->forge->createTable(SHIELD_TABLES['auth_identities']);
 
         /**
          * Auth Login Attempts Table
@@ -141,7 +141,7 @@ class CreateAuthTables extends Migration
         $this->forge->dropTable('auth_logins', true);
         $this->forge->dropTable('auth_token_logins', true);
         $this->forge->dropTable('auth_remember_tokens', true);
-        $this->forge->dropTable('auth_identities', true);
+        $this->forge->dropTable(SHIELD_TABLES['auth_identities'], true);
         $this->forge->dropTable('auth_groups_users', true);
         $this->forge->dropTable('auth_permissions_users', true);
         $this->forge->dropTable(SHIELD_TABLES['users'], true);

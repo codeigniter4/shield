@@ -35,7 +35,7 @@ final class UserModelTest extends TestCase
         $users->save($user);
 
         $user = $users->findByCredentials(['email' => 'foo@bar.com']);
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_identities'], [
             'user_id' => $user->id,
             'secret'  => 'foo@bar.com',
         ]);
@@ -70,7 +70,7 @@ final class UserModelTest extends TestCase
         $users->insert($user);
 
         $user = $users->findByCredentials(['email' => 'foo@bar.com']);
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_identities'], [
             'user_id' => $user->id,
             'secret'  => 'foo@bar.com',
         ]);
@@ -116,7 +116,7 @@ final class UserModelTest extends TestCase
 
         $id = $users->insert($userArray);
 
-        $this->dontSeeInDatabase('auth_identities', [
+        $this->dontSeeInDatabase(SHIELD_TABLES['auth_identities'], [
             'user_id' => $id,
             'secret'  => 'foo@bar.com',
         ]);
@@ -151,7 +151,7 @@ final class UserModelTest extends TestCase
 
         $users->save($user);
 
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
@@ -175,7 +175,7 @@ final class UserModelTest extends TestCase
 
         $users->update($user->id, $user);
 
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
@@ -211,7 +211,7 @@ final class UserModelTest extends TestCase
 
         $users->update($user->id, $userArray);
 
-        $this->dontSeeInDatabase('auth_identities', [
+        $this->dontSeeInDatabase(SHIELD_TABLES['auth_identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
@@ -233,7 +233,7 @@ final class UserModelTest extends TestCase
 
         $users->save($user);
 
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
@@ -251,7 +251,7 @@ final class UserModelTest extends TestCase
 
         $users->update(null, $user);
 
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase(SHIELD_TABLES['auth_identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);

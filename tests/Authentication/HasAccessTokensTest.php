@@ -22,7 +22,7 @@ final class HasAccessTokensTest extends DatabaseTestCase
         parent::setUp();
 
         $this->user = fake(UserModel::class);
-        $this->db->table('auth_identities')->truncate();
+        $this->db->table(SHIELD_TABLES['auth_identities'])->truncate();
     }
 
     public function testGenerateToken(): void
