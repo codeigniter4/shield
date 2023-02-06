@@ -7,6 +7,8 @@ use Sparks\Shield\Filters\ChainAuth;
 use Sparks\Shield\Filters\SessionAuth;
 use Sparks\Shield\Filters\TokenAuth;
 
+include_once __DIR__ . '/Constants.php';
+
 class Registrar
 {
     /**
