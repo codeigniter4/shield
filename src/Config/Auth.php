@@ -58,13 +58,13 @@ class Auth extends BaseConfig
      * @var array<string, string>
      */
     public array $tables = [
-        'users'                  => 'users',
-        'auth_identities'        => 'auth_identities',
-        'auth_logins'            => 'auth_logins',
-        'auth_token_logins'      => 'auth_token_logins',
-        'auth_remember_tokens'   => 'auth_remember_tokens',
-        'auth_groups_users'      => 'auth_groups_users',
-        'auth_permissions_users' => 'auth_permissions_users',
+        'users'             => 'users',
+        'identities'        => 'auth_identities',
+        'logins'            => 'auth_logins',
+        'token_logins'      => 'auth_token_logins',
+        'remember_tokens'   => 'auth_remember_tokens',
+        'groups_users'      => 'auth_groups_users',
+        'permissions_users' => 'auth_permissions_users',
     ];
 
     /**
