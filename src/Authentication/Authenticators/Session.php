@@ -264,13 +264,28 @@ class Session implements AuthenticatorInterface
         string $userAgent,
         $userId = null
     ): void {
-        $idType = (! isset($credentials['email']) && isset($credentials['username']))
-            ? self::ID_TYPE_USERNAME
-            : self::ID_TYPE_EMAIL_PASSWORD;
+        // Determine the type of ID we're using.
+        // Standard fields would be email, username,
+        // but any column within config('Auth')->validFields can be used.
+        $field = array_intersect(config('Auth')->validFields ?? [], array_keys($credentials));
+
+        if (count($field) !== 1) {
+            throw new InvalidArgumentException('Invalid credentials passed to recordLoginAttempt.');
+        }
+
+        $field = array_pop($field);
+
+        if (! in_array($field, ['email', 'username'], true)) {
+            $idType = $field;
+        } else {
+            $idType = (! isset($credentials['email']) && isset($credentials['username']))
+                ? self::ID_TYPE_USERNAME
+                : self::ID_TYPE_EMAIL_PASSWORD;
+        }
 
         $this->loginModel->recordLoginAttempt(
             $idType,
-            $credentials['email'] ?? $credentials['username'],
+            $credentials[$field],
             $success,
             $ipAddress,
             $userAgent,

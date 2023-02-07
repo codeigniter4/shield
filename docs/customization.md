@@ -1,17 +1,18 @@
 # Customizing Shield
 
-- [Customizing Shield](#customizing-shield)
-  - [Route Configuration](#route-configuration)
-  - [Custom Redirect URLs](#custom-redirect-urls)
-    - [Customize Login Redirect](#customize-login-redirect)
-    - [Customize Register Redirect](#customize-register-redirect)
-    - [Customize Logout Redirect](#customize-logout-redirect)
-  - [Extending the Controllers](#extending-the-controllers)
-  - [Integrating Custom View Libraries](#integrating-custom-view-libraries)
-  - [Custom Validation Rules](#custom-validation-rules)
-    - [Registration](#registration)
-    - [Login](#login)
-  - [Custom User Provider](#custom-user-provider)
+-   [Customizing Shield](#customizing-shield)
+    -   [Route Configuration](#route-configuration)
+    -   [Custom Redirect URLs](#custom-redirect-urls)
+        -   [Customize Login Redirect](#customize-login-redirect)
+        -   [Customize Register Redirect](#customize-register-redirect)
+        -   [Customize Logout Redirect](#customize-logout-redirect)
+    -   [Extending the Controllers](#extending-the-controllers)
+    -   [Integrating Custom View Libraries](#integrating-custom-view-libraries)
+    -   [Custom Validation Rules](#custom-validation-rules)
+        -   [Registration](#registration)
+        -   [Login](#login)
+    -   [Custom User Provider](#custom-user-provider)
+    -   [Custom Login Identifier](#custom-login-identifier)
 
 ## Route Configuration
 
@@ -94,11 +95,11 @@ public function logoutRedirect(): string
 Shield has the following controllers that can be extended to handle
 various parts of the authentication process:
 
-- **ActionController** handles the after-login and after-registration actions, like Two Factor Authentication and Email Verification.
-- **LoginController** handles the login process.
-- **RegisterController** handles the registration process. Overriding this class allows you to customize the User Provider, the User Entity, and the validation rules.
-- **MagicLinkController** handles the "lost password" process that allows a user to login with a link sent to their email. This allows you to
-  override the message that is displayed to a user to describe what is happening, if you'd like to provide more information than simply swapping out the view used.
+-   **ActionController** handles the after-login and after-registration actions, like Two Factor Authentication and Email Verification.
+-   **LoginController** handles the login process.
+-   **RegisterController** handles the registration process. Overriding this class allows you to customize the User Provider, the User Entity, and the validation rules.
+-   **MagicLinkController** handles the "lost password" process that allows a user to login with a link sent to their email. This allows you to
+    override the message that is displayed to a user to describe what is happening, if you'd like to provide more information than simply swapping out the view used.
 
 It is not recommended to copy the entire controller into **app/Controllers** and change its namespace. Instead, you should create a new controller that extends
 the existing controller and then only override the methods needed. This allows the other methods to stay up to date with any security
@@ -235,4 +236,37 @@ After creating the class, set the `$userProvider` property in **app/Config/Auth.
 
 ```php
 public string $userProvider = \App\Models\UserModel::class;
+```
+
+## Custom Login Identifier
+
+If your application has a need to use something other than `email` or `username`, you may specify any valid column within the `users` table that you may have added. This allows you to easily use phone numbers, employee or school IDs, etc as the user identifier. You must implement the following steps to set this up:
+
+This only works with the Session authenticator.
+
+1. Create a [migration](http://codeigniter.com/user_guide/dbmgmt/migration.html) that adds a new column to the `users` table.
+2. Edit `app/Config/Auth.php` so that the new column you just created is within the `$validFields` array.
+
+```php
+public array $validFields = [
+    'employee_id'
+];
+```
+
+If you have multiple login forms on your site that use different credentials, you must have all of the valid identifying fields in the array.
+
+```php
+public array $validFields = [
+    'email',
+    'employee_id'
+];
+```
+
+3. Edit the login form to change the name of the default `email` input to the new field name.
+
+```php
+<!-- Email -->
+<div class="mb-2">
+    <input type="text" class="form-control" name="employee_id" autocomplete="new-employee-id" placeholder="12345" value="<?= old('employee_id') ?>" required />
+</div>
 ```
