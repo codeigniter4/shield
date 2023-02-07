@@ -155,7 +155,7 @@ final class ActionsTest extends TestCase
         $this->assertSame(site_url(), $result->getRedirectUrl());
 
         // Identity should have been removed
-        $this->dontSeeInDatabase(SHIELD_TABLES['auth_identities'], [
+        $this->dontSeeInDatabase(SHIELD_TABLES['identities'], [
             'user_id' => $this->user->id,
             'type'    => Session::ID_TYPE_EMAIL_2FA,
         ]);
@@ -174,7 +174,7 @@ final class ActionsTest extends TestCase
 
         $result->assertOK();
 
-        $this->seeInDatabase(SHIELD_TABLES['auth_identities'], [
+        $this->seeInDatabase(SHIELD_TABLES['identities'], [
             'user_id' => $this->user->id,
             'type'    => Session::ID_TYPE_EMAIL_2FA,
             'name'    => 'login',
@@ -259,7 +259,7 @@ final class ActionsTest extends TestCase
         $this->assertSame(site_url(), $result->getRedirectUrl());
 
         // Identity should have been removed
-        $this->dontSeeInDatabase(SHIELD_TABLES['auth_identities'], [
+        $this->dontSeeInDatabase(SHIELD_TABLES['identities'], [
             'user_id' => $this->user->id,
             'type'    => Session::ID_TYPE_EMAIL_2FA,
         ]);

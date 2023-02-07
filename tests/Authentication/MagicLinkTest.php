@@ -81,7 +81,7 @@ final class MagicLinkTest extends TestCase
         $result->assertOK();
         $result->assertSee(lang('Auth.checkYourEmail'));
 
-        $this->seeInDatabase(SHIELD_TABLES['auth_identities'], [
+        $this->seeInDatabase(SHIELD_TABLES['identities'], [
             'user_id' => $user->id,
             'type'    => Session::ID_TYPE_MAGIC_LINK,
         ]);

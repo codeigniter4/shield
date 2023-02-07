@@ -11,7 +11,7 @@ class GroupModel extends Model
 {
     use CheckQueryReturnTrait;
 
-    protected $table          = SHIELD_TABLES['auth_groups_users'];
+    protected $table          = SHIELD_TABLES['groups_users'];
     protected $primaryKey     = 'id';
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;

@@ -20,7 +20,7 @@ class UserIdentityModel extends Model
 {
     use CheckQueryReturnTrait;
 
-    protected $table          = SHIELD_TABLES['auth_identities'];
+    protected $table          = SHIELD_TABLES['identities'];
     protected $primaryKey     = 'id';
     protected $returnType     = UserIdentity::class;
     protected $useSoftDeletes = false;
