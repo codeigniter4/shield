@@ -68,7 +68,7 @@ final class RegisterTest extends DatabaseTestCase
         /** @var User $user */
         $user = model(UserModel::class)->where('username', 'JohnDoe')->first();
 
-        $this->seeInDatabase(SHIELD_TABLES['auth_identities'], [
+        $this->seeInDatabase(SHIELD_TABLES['identities'], [
             'user_id' => $user->id,
             'type'    => Session::ID_TYPE_EMAIL_PASSWORD,
             'secret'  => 'john.doe@example.com',

@@ -29,8 +29,8 @@ final class AuthorizableTest extends TestCase
         parent::setUp();
 
         // Refresh should take care of this....
-        db_connect()->table(SHIELD_TABLES['auth_groups_users'])->truncate();
-        db_connect()->table(SHIELD_TABLES['auth_permissions_users'])->truncate();
+        db_connect()->table(SHIELD_TABLES['groups_users'])->truncate();
+        db_connect()->table(SHIELD_TABLES['permissions_users'])->truncate();
     }
 
     public function testAddGroupWithNoExistingGroups(): void
@@ -39,11 +39,11 @@ final class AuthorizableTest extends TestCase
         // Make sure it doesn't record duplicates
         $this->user->addGroup('admin', 'beta');
 
-        $this->seeInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id' => $this->user->id,
             'group'   => 'admin',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id' => $this->user->id,
             'group'   => 'beta',
         ]);
@@ -55,12 +55,12 @@ final class AuthorizableTest extends TestCase
 
     public function testAddGroupWithExistingGroups(): void
     {
-        $this->hasInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->hasInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id'    => $this->user->id,
             'group'      => 'admin',
             'created_at' => Time::now()->toDateTimeString(),
         ]);
-        $this->hasInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->hasInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id'    => $this->user->id,
             'group'      => 'superadmin',
             'created_at' => Time::now()->toDateTimeString(),
@@ -70,15 +70,15 @@ final class AuthorizableTest extends TestCase
         // Make sure it doesn't record duplicates
         $this->user->addGroup('admin', 'beta');
 
-        $this->seeInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id' => $this->user->id,
             'group'   => 'admin',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id' => $this->user->id,
             'group'   => 'superadmin',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id' => $this->user->id,
             'group'   => 'beta',
         ]);
@@ -102,14 +102,14 @@ final class AuthorizableTest extends TestCase
 
     public function testRemoveGroupExistingGroup(): void
     {
-        $this->hasInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->hasInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id'    => $this->user->id,
             'group'      => 'admin',
             'created_at' => Time::now()->toDateTimeString(),
         ]);
 
         $otherUser = fake(UserModel::class);
-        $this->hasInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->hasInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id'    => $otherUser->id,
             'group'      => 'admin',
             'created_at' => Time::now()->toDateTimeString(),
@@ -117,13 +117,13 @@ final class AuthorizableTest extends TestCase
 
         $this->user->removeGroup('admin');
         $this->assertEmpty($this->user->getGroups());
-        $this->dontSeeInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->dontSeeInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id' => $this->user->id,
             'group'   => 'admin',
         ]);
 
         // Make sure we didn't delete the group from anyone else
-        $this->seeInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id' => $otherUser->id,
             'group'   => 'admin',
         ]);
@@ -131,12 +131,12 @@ final class AuthorizableTest extends TestCase
 
     public function testSyncGroups(): void
     {
-        $this->hasInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->hasInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id'    => $this->user->id,
             'group'      => 'admin',
             'created_at' => Time::now()->toDateTimeString(),
         ]);
-        $this->hasInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->hasInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id'    => $this->user->id,
             'group'      => 'superadmin',
             'created_at' => Time::now()->toDateTimeString(),
@@ -144,11 +144,11 @@ final class AuthorizableTest extends TestCase
 
         $this->user->syncGroups('admin', 'beta');
         $this->assertSame(['admin', 'beta'], $this->user->getGroups());
-        $this->seeInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id' => $this->user->id,
             'group'   => 'admin',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id' => $this->user->id,
             'group'   => 'beta',
         ]);
@@ -160,11 +160,11 @@ final class AuthorizableTest extends TestCase
         // Make sure it doesn't record duplicates
         $this->user->addPermission('admin.access', 'beta.access');
 
-        $this->seeInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'admin.access',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'beta.access',
         ]);
@@ -176,12 +176,12 @@ final class AuthorizableTest extends TestCase
 
     public function testAddPermissionWithExistingPermissions(): void
     {
-        $this->hasInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->hasInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'admin.access',
             'created_at' => Time::now()->toDateTimeString(),
         ]);
-        $this->hasInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->hasInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'users.manage',
             'created_at' => Time::now()->toDateTimeString(),
@@ -191,15 +191,15 @@ final class AuthorizableTest extends TestCase
         // Make sure it doesn't record duplicates
         $this->user->addPermission('admin.access', 'beta.access');
 
-        $this->seeInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'admin.access',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'users.manage',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'beta.access',
         ]);
@@ -223,14 +223,14 @@ final class AuthorizableTest extends TestCase
 
     public function testRemovePermissionExistingPermissions(): void
     {
-        $this->hasInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->hasInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'admin.access',
             'created_at' => Time::now()->toDateTimeString(),
         ]);
 
         $otherUser = fake(UserModel::class);
-        $this->hasInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->hasInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $otherUser->id,
             'permission' => 'admin.access',
             'created_at' => Time::now()->toDateTimeString(),
@@ -238,13 +238,13 @@ final class AuthorizableTest extends TestCase
 
         $this->user->removePermission('admin.access');
         $this->assertEmpty($this->user->getPermissions());
-        $this->dontSeeInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->dontSeeInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'admin.access',
         ]);
 
         // Make sure it didn't delete the other user's permission
-        $this->seeInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $otherUser->id,
             'permission' => 'admin.access',
         ]);
@@ -252,12 +252,12 @@ final class AuthorizableTest extends TestCase
 
     public function testSyncPermissions(): void
     {
-        $this->hasInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->hasInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'admin.access',
             'created_at' => Time::now()->toDateTimeString(),
         ]);
-        $this->hasInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->hasInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'superadmin.access',
             'created_at' => Time::now()->toDateTimeString(),
@@ -265,11 +265,11 @@ final class AuthorizableTest extends TestCase
 
         $this->user->syncPermissions('admin.access', 'beta.access');
         $this->assertSame(['admin.access', 'beta.access'], $this->user->getPermissions());
-        $this->seeInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'admin.access',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['auth_permissions_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'beta.access',
         ]);
@@ -319,7 +319,7 @@ final class AuthorizableTest extends TestCase
 
         $this->user->addGroup('admin');
 
-        $this->seeInDatabase(SHIELD_TABLES['auth_groups_users'], [
+        $this->seeInDatabase(SHIELD_TABLES['groups_users'], [
             'user_id'    => $this->user->id,
             'group'      => 'admin',
             'created_at' => '2017-03-10 00:00:00',

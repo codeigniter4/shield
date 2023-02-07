@@ -10,7 +10,7 @@ use Faker\Generator;
 
 class TokenLoginModel extends LoginModel
 {
-    protected $table = SHIELD_TABLES['auth_token_logins'];
+    protected $table = SHIELD_TABLES['token_logins'];
 
     /**
      * Generate a fake login for testing

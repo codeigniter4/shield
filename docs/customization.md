@@ -154,7 +154,7 @@ Shield has the following rules for registration:
     ],
     'email' => [
         'label' =>  'Auth.email',
-        'rules' => 'required|max_length[254]|valid_email|is_unique[' . SHIELD_TABLES['auth_identities'] . '.secret]',
+        'rules' => 'required|max_length[254]|valid_email|is_unique[' . SHIELD_TABLES['identities'] . '.secret]',
     ],
     'password' => [
         'label' =>  'Auth.password',
@@ -180,7 +180,7 @@ If you need a different set of rules for registration, you can specify them in y
         ],
         'email' => [
             'label' =>  'Auth.email',
-            'rules' => 'required|max_length[254]|valid_email|is_unique[' . SHIELD_TABLES['auth_identities'] . '.secret]',
+            'rules' => 'required|max_length[254]|valid_email|is_unique[' . SHIELD_TABLES['identities'] . '.secret]',
         ],
         'password' => [
             'label' =>  'Auth.password',

@@ -143,7 +143,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $user  = fake(UserModel::class);
         $token = $user->generateAccessToken('foo');
 
-        $this->seeInDatabase(SHIELD_TABLES['auth_identities'], [
+        $this->seeInDatabase(SHIELD_TABLES['identities'], [
             'user_id'      => $user->id,
             'type'         => 'access_token',
             'last_used_at' => null,
@@ -201,7 +201,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $this->assertSame($token->token, $foundUser->currentAccessToken()->token);
 
         // A login attempt should have been recorded
-        $this->seeInDatabase(SHIELD_TABLES['auth_token_logins'], [
+        $this->seeInDatabase(SHIELD_TABLES['token_logins'], [
             'id_type'    => AccessTokens::ID_TYPE_ACCESS_TOKEN,
             'identifier' => $token->raw_token,
             'success'    => 1,

@@ -157,7 +157,7 @@ class RegisterController extends BaseController
         );
         $registrationEmailRules = array_merge(
             config('AuthSession')->emailValidationRules,
-            [sprintf('is_unique[%s.secret]', SHIELD_TABLES['auth_identities'])]
+            [sprintf('is_unique[%s.secret]', SHIELD_TABLES['identities'])]
         );
 
         return setting('Validation.registration') ?? [

@@ -11,7 +11,7 @@ class PermissionModel extends Model
 {
     use CheckQueryReturnTrait;
 
-    protected $table          = SHIELD_TABLES['auth_permissions_users'];
+    protected $table          = SHIELD_TABLES['permissions_users'];
     protected $primaryKey     = 'id';
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;
