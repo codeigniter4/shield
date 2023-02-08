@@ -247,26 +247,28 @@ This only works with the Session authenticator.
 1. Create a [migration](http://codeigniter.com/user_guide/dbmgmt/migration.html) that adds a new column to the `users` table.
 2. Edit `app/Config/Auth.php` so that the new column you just created is within the `$validFields` array.
 
-```php
-public array $validFields = [
-    'employee_id'
-];
-```
+    ```php
+    public array $validFields = [
+        'employee_id'
+    ];
+    ```
 
-If you have multiple login forms on your site that use different credentials, you must have all of the valid identifying fields in the array.
+    If you have multiple login forms on your site that use different credentials, you must have all of the valid identifying fields in the array.
 
-```php
-public array $validFields = [
-    'email',
-    'employee_id'
-];
-```
+    ```php
+    public array $validFields = [
+        'email',
+        'employee_id'
+    ];
+    ```
+    > **Warning**
+    > It is very important for security that if you add a new column for identifier you must write a new **Validation Rules** and then set it using the [custom-validation-rules](https://github.com/codeigniter4/shield/blob/develop/docs/customization.md#custom-validation-rules) description.
 
 3. Edit the login form to change the name of the default `email` input to the new field name.
 
-```php
-<!-- Email -->
-<div class="mb-2">
-    <input type="text" class="form-control" name="employee_id" autocomplete="new-employee-id" placeholder="12345" value="<?= old('employee_id') ?>" required />
-</div>
-```
+    ```php
+    <!-- Email -->
+    <div class="mb-2">
+        <input type="text" class="form-control" name="employee_id" autocomplete="new-employee-id" placeholder="12345" value="<?= old('employee_id') ?>" required />
+    </div>
+    ```
