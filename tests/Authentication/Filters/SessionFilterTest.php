@@ -11,7 +11,7 @@ use CodeIgniter\Test\DatabaseTestTrait;
 /**
  * @internal
  */
-final class SessionFilterTest extends AbstractFilterTest
+final class SessionFilterTest extends AbstractFilterTestCase
 {
     use DatabaseTestTrait;
 

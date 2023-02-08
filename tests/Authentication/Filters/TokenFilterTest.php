@@ -13,7 +13,7 @@ use CodeIgniter\Test\DatabaseTestTrait;
 /**
  * @internal
  */
-final class TokenFilterTest extends AbstractFilterTest
+final class TokenFilterTest extends AbstractFilterTestCase
 {
     use DatabaseTestTrait;
 

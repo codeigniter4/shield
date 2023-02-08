@@ -12,7 +12,7 @@ use Tests\Support\FakeUser;
 /**
  * @internal
  */
-final class ChainFilterTest extends AbstractFilterTest
+final class ChainFilterTest extends AbstractFilterTestCase
 {
     use DatabaseTestTrait;
     use FakeUser;
