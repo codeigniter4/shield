@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-/**
- * Constants Name of Shield Tables
- */
-define('SHIELD_TABLES', config('Auth')->tables);
+use CodeIgniter\Shield\Config\Auth as ShieldAuth;
+
+define('SHIELD_TABLES', (new ShieldAuth())->tables);
