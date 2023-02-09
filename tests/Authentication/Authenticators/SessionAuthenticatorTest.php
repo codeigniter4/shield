@@ -451,7 +451,7 @@ final class SessionAuthenticatorTest extends TestCase
     {
         // We don't need email, but do need a password set....
         $this->user->createEmailIdentity([
-            'email'    => '',
+            'email'    => $this->db->getPlatform() === 'OCI8' ? ' ' : '',
             'password' => 'secret123',
         ]);
 
