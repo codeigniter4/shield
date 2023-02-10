@@ -6,6 +6,7 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use DateTime;
 use Faker\Generator;
@@ -15,7 +16,6 @@ class RememberModel extends Model
 {
     use CheckQueryReturnTrait;
 
-    protected $table          = SHIELD_TABLES['remember_tokens'];
     protected $primaryKey     = 'id';
     protected $returnType     = 'object';
     protected $useSoftDeletes = false;
@@ -26,6 +26,14 @@ class RememberModel extends Model
         'expires',
     ];
     protected $useTimestamps = true;
+
+    protected function initialize(): void
+    {
+        /** @var Auth $authConfig */
+        $authConfig = config('Auth');
+
+        $this->table = $authConfig->tables['remember_tokens'];
+    }
 
     public function fake(Generator &$faker): stdClass
     {

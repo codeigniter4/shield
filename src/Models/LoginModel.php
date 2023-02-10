@@ -7,6 +7,7 @@ namespace CodeIgniter\Shield\Models;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User;
 use Faker\Generator;
@@ -15,7 +16,6 @@ class LoginModel extends Model
 {
     use CheckQueryReturnTrait;
 
-    protected $table          = SHIELD_TABLES['logins'];
     protected $primaryKey     = 'id';
     protected $returnType     = Login::class;
     protected $useSoftDeletes = false;
@@ -39,6 +39,14 @@ class LoginModel extends Model
     ];
     protected $validationMessages = [];
     protected $skipValidation     = false;
+
+    protected function initialize(): void
+    {
+        /** @var Auth $authConfig */
+        $authConfig = config('Auth');
+
+        $this->table = $authConfig->tables['logins'];
+    }
 
     /**
      * Records login attempt.

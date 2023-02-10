@@ -9,17 +9,15 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
-use Tests\Support\TestCase;
+use Tests\Support\DatabaseTestCase;
 
 /**
  * @internal
  */
-final class MagicLinkTest extends TestCase
+final class MagicLinkTest extends DatabaseTestCase
 {
-    use DatabaseTestTrait;
     use FeatureTestTrait;
 
     protected $refresh = true;
@@ -81,7 +79,7 @@ final class MagicLinkTest extends TestCase
         $result->assertOK();
         $result->assertSee(lang('Auth.checkYourEmail'));
 
-        $this->seeInDatabase(SHIELD_TABLES['identities'], [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'type'    => Session::ID_TYPE_MAGIC_LINK,
         ]);

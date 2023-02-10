@@ -5,12 +5,19 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\Login;
 use Faker\Generator;
 
 class TokenLoginModel extends LoginModel
 {
-    protected $table = SHIELD_TABLES['token_logins'];
+    protected function initialize(): void
+    {
+        /** @var Auth $authConfig */
+        $authConfig = config('Auth');
+
+        $this->table = $authConfig->tables['token_logins'];
+    }
 
     /**
      * Generate a fake login for testing

@@ -9,6 +9,7 @@ use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
@@ -20,7 +21,6 @@ class UserIdentityModel extends Model
 {
     use CheckQueryReturnTrait;
 
-    protected $table          = SHIELD_TABLES['identities'];
     protected $primaryKey     = 'id';
     protected $returnType     = UserIdentity::class;
     protected $useSoftDeletes = false;
@@ -36,6 +36,14 @@ class UserIdentityModel extends Model
         'last_used_at',
     ];
     protected $useTimestamps = true;
+
+    protected function initialize(): void
+    {
+        /** @var Auth $authConfig */
+        $authConfig = config('Auth');
+
+        $this->table = $authConfig->tables['identities'];
+    }
 
     /**
      * Inserts a record

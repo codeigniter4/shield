@@ -14,18 +14,16 @@ use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\RememberModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
-use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
+use Tests\Support\DatabaseTestCase;
 use Tests\Support\FakeUser;
-use Tests\Support\TestCase;
 
 /**
  * @internal
  */
-final class SessionAuthenticatorTest extends TestCase
+final class SessionAuthenticatorTest extends DatabaseTestCase
 {
-    use DatabaseTestTrait;
     use FakeUser;
 
     private Session $auth;
@@ -47,7 +45,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->events = new MockEvents();
         Services::injectMock('events', $this->events);
 
-        $this->db->table(SHIELD_TABLES['identities'])->truncate();
+        $this->db->table($this->tables['identities'])->truncate();
     }
 
     public function testLoggedInFalse(): void
@@ -148,7 +146,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->dontSeeInDatabase(SHIELD_TABLES['remember_tokens'], [
+        $this->dontSeeInDatabase($this->tables['remember_tokens'], [
             'user_id' => $this->user->id,
         ]);
     }
@@ -161,7 +159,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->seeInDatabase(SHIELD_TABLES['remember_tokens'], [
+        $this->seeInDatabase($this->tables['remember_tokens'], [
             'user_id' => $this->user->id,
         ]);
 
@@ -175,12 +173,12 @@ final class SessionAuthenticatorTest extends TestCase
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
         $this->auth->remember()->login($this->user);
 
-        $this->seeInDatabase(SHIELD_TABLES['remember_tokens'], ['user_id' => $this->user->id]);
+        $this->seeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
 
         $this->auth->logout();
 
         $this->assertArrayNotHasKey('user', $_SESSION);
-        $this->dontSeeInDatabase(SHIELD_TABLES['remember_tokens'], ['user_id' => $this->user->id]);
+        $this->dontSeeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testLogoutOnlyLogoutCalled(): void
@@ -208,7 +206,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->dontSeeInDatabase(SHIELD_TABLES['remember_tokens'], ['user_id' => $this->user->id]);
+        $this->dontSeeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testLoginByIdRemember(): void
@@ -219,7 +217,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->seeInDatabase(SHIELD_TABLES['remember_tokens'], ['user_id' => $this->user->id]);
+        $this->seeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testForgetCurrentUser(): void
@@ -228,22 +226,22 @@ final class SessionAuthenticatorTest extends TestCase
         $this->auth->remember()->loginById($this->user->id);
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->seeInDatabase(SHIELD_TABLES['remember_tokens'], ['user_id' => $this->user->id]);
+        $this->seeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
 
         $this->auth->forget();
 
-        $this->dontSeeInDatabase(SHIELD_TABLES['remember_tokens'], ['user_id' => $this->user->id]);
+        $this->dontSeeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testForgetAnotherUser(): void
     {
         fake(RememberModel::class, ['user_id' => $this->user->id]);
 
-        $this->seeInDatabase(SHIELD_TABLES['remember_tokens'], ['user_id' => $this->user->id]);
+        $this->seeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
 
         $this->auth->forget($this->user);
 
-        $this->dontSeeInDatabase(SHIELD_TABLES['remember_tokens'], ['user_id' => $this->user->id]);
+        $this->dontSeeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testCheckNoPassword(): void
@@ -317,7 +315,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame(lang('Auth.badAttempt'), $result->reason());
 
         // A login attempt should have always been recorded
-        $this->seeInDatabase(SHIELD_TABLES['logins'], [
+        $this->seeInDatabase($this->tables['logins'], [
             'identifier' => 'johnsmith@example.com',
             'success'    => 0,
         ]);
@@ -347,7 +345,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
         // A login attempt should have been recorded
-        $this->seeInDatabase(SHIELD_TABLES['logins'], [
+        $this->seeInDatabase($this->tables['logins'], [
             'identifier' => $this->user->email,
             'success'    => 1,
         ]);
@@ -397,7 +395,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
         // A login attempt should have been recorded
-        $this->seeInDatabase(SHIELD_TABLES['logins'], [
+        $this->seeInDatabase($this->tables['logins'], [
             'identifier' => 'foo@example.COM',
             'success'    => 1,
         ]);
@@ -435,7 +433,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($user->id, $_SESSION['user']['id']);
 
         // A login attempt should have been recorded
-        $this->seeInDatabase(SHIELD_TABLES['logins'], [
+        $this->seeInDatabase($this->tables['logins'], [
             'identifier' => 'fooROG',
             'success'    => 1,
         ]);

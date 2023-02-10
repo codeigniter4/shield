@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 
 class GroupModel extends Model
 {
     use CheckQueryReturnTrait;
 
-    protected $table          = SHIELD_TABLES['groups_users'];
     protected $primaryKey     = 'id';
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;
@@ -24,6 +24,14 @@ class GroupModel extends Model
     protected $validationRules    = [];
     protected $validationMessages = [];
     protected $skipValidation     = false;
+
+    protected function initialize(): void
+    {
+        /** @var Auth $authConfig */
+        $authConfig = config('Auth');
+
+        $this->table = $authConfig->tables['groups_users'];
+    }
 
     public function getForUser(User $user): array
     {

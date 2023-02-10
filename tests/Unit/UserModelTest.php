@@ -8,16 +8,13 @@ use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Test\DatabaseTestTrait;
-use Tests\Support\TestCase;
+use Tests\Support\DatabaseTestCase;
 
 /**
  * @internal
  */
-final class UserModelTest extends TestCase
+final class UserModelTest extends DatabaseTestCase
 {
-    use DatabaseTestTrait;
-
     protected $namespace;
     protected $refresh = true;
 
@@ -35,11 +32,11 @@ final class UserModelTest extends TestCase
         $users->save($user);
 
         $user = $users->findByCredentials(['email' => 'foo@bar.com']);
-        $this->seeInDatabase(SHIELD_TABLES['identities'], [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'foo@bar.com',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['users'], [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $user->id,
             'active' => 0,
         ]);
@@ -70,11 +67,11 @@ final class UserModelTest extends TestCase
         $users->insert($user);
 
         $user = $users->findByCredentials(['email' => 'foo@bar.com']);
-        $this->seeInDatabase(SHIELD_TABLES['identities'], [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'foo@bar.com',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['users'], [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $user->id,
             'active' => 0,
         ]);
@@ -116,11 +113,11 @@ final class UserModelTest extends TestCase
 
         $id = $users->insert($userArray);
 
-        $this->dontSeeInDatabase(SHIELD_TABLES['identities'], [
+        $this->dontSeeInDatabase($this->tables['identities'], [
             'user_id' => $id,
             'secret'  => 'foo@bar.com',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['users'], [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $id,
             'active' => 0,
         ]);
@@ -151,11 +148,11 @@ final class UserModelTest extends TestCase
 
         $users->save($user);
 
-        $this->seeInDatabase(SHIELD_TABLES['identities'], [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['users'], [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $user->id,
             'active' => 1,
         ]);
@@ -175,11 +172,11 @@ final class UserModelTest extends TestCase
 
         $users->update($user->id, $user);
 
-        $this->seeInDatabase(SHIELD_TABLES['identities'], [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['users'], [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $user->id,
             'active' => 1,
         ]);
@@ -211,11 +208,11 @@ final class UserModelTest extends TestCase
 
         $users->update($user->id, $userArray);
 
-        $this->dontSeeInDatabase(SHIELD_TABLES['identities'], [
+        $this->dontSeeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
-        $this->seeInDatabase(SHIELD_TABLES['users'], [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $user->id,
             'active' => 1,
         ]);
@@ -233,7 +230,7 @@ final class UserModelTest extends TestCase
 
         $users->save($user);
 
-        $this->seeInDatabase(SHIELD_TABLES['identities'], [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
@@ -251,7 +248,7 @@ final class UserModelTest extends TestCase
 
         $users->update(null, $user);
 
-        $this->seeInDatabase(SHIELD_TABLES['identities'], [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);

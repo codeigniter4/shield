@@ -12,16 +12,14 @@ use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Test\DatabaseTestTrait;
+use Tests\Support\DatabaseTestCase;
 use Tests\Support\FakeUser;
-use Tests\Support\TestCase;
 
 /**
  * @internal
  */
-final class UserTest extends TestCase
+final class UserTest extends DatabaseTestCase
 {
-    use DatabaseTestTrait;
     use FakeUser;
 
     protected $namespace;
@@ -184,7 +182,7 @@ final class UserTest extends TestCase
 
         $user = $users->find($this->user->id);
 
-        $this->seeInDatabase(SHIELD_TABLES['identities'], [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'foo@bar.com',
         ]);
@@ -225,7 +223,7 @@ final class UserTest extends TestCase
 
         $user = $users->find($this->user->id);
 
-        $this->seeInDatabase(SHIELD_TABLES['identities'], [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'foo@bar.com',
             'secret2' => $hash,
@@ -263,7 +261,7 @@ final class UserTest extends TestCase
         $this->user->active = false;
         model(UserModel::class)->save($this->user);
 
-        $this->seeInDatabase(SHIELD_TABLES['users'], [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $this->user->id,
             'active' => 0,
         ]);
@@ -274,7 +272,7 @@ final class UserTest extends TestCase
         $this->user = model(UserModel::class)->find($this->user->id);
 
         $this->assertTrue($this->user->active);
-        $this->seeInDatabase(SHIELD_TABLES['users'], [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $this->user->id,
             'active' => 1,
         ]);
@@ -285,7 +283,7 @@ final class UserTest extends TestCase
         $this->user->active = true;
         model(UserModel::class)->save($this->user);
 
-        $this->seeInDatabase(SHIELD_TABLES['users'], [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $this->user->id,
             'active' => 1,
         ]);
@@ -296,7 +294,7 @@ final class UserTest extends TestCase
         $this->user = model(UserModel::class)->find($this->user->id);
 
         $this->assertFalse($this->user->active);
-        $this->seeInDatabase(SHIELD_TABLES['users'], [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $this->user->id,
             'active' => 0,
         ]);

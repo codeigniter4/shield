@@ -14,8 +14,6 @@ use CodeIgniter\Shield\Filters\PermissionFilter;
 use CodeIgniter\Shield\Filters\SessionAuth;
 use CodeIgniter\Shield\Filters\TokenAuth;
 
-include_once __DIR__ . '/Constants.php';
-
 class Registrar
 {
     /**
