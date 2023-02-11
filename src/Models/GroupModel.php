@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Models;
 
-use CodeIgniter\Model;
-use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 
-class GroupModel extends Model
+class GroupModel extends BaseModel
 {
     use CheckQueryReturnTrait;
 
@@ -27,10 +25,9 @@ class GroupModel extends Model
 
     protected function initialize(): void
     {
-        /** @var Auth $authConfig */
-        $authConfig = config('Auth');
+        parent::initialize();
 
-        $this->table = $authConfig->tables['groups_users'];
+        $this->table = $this->tables['groups_users'];
     }
 
     public function getForUser(User $user): array

@@ -17,7 +17,7 @@ use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use Faker\Generator;
 
-class UserIdentityModel extends Model
+class UserIdentityModel extends BaseModel
 {
     use CheckQueryReturnTrait;
 
@@ -39,10 +39,9 @@ class UserIdentityModel extends Model
 
     protected function initialize(): void
     {
-        /** @var Auth $authConfig */
-        $authConfig = config('Auth');
+        parent::initialize();
 
-        $this->table = $authConfig->tables['identities'];
+        $this->table = $this->tables['identities'];
     }
 
     /**

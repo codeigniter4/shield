@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Models;
 
-use CodeIgniter\Model;
-use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 
-class PermissionModel extends Model
+class PermissionModel extends BaseModel
 {
     use CheckQueryReturnTrait;
 
@@ -27,10 +25,9 @@ class PermissionModel extends Model
 
     protected function initialize(): void
     {
-        /** @var Auth $authConfig */
-        $authConfig = config('Auth');
+        parent::initialize();
 
-        $this->table = $authConfig->tables['permissions_users'];
+        $this->table = $this->tables['permissions_users'];
     }
 
     public function getForUser(User $user): array
