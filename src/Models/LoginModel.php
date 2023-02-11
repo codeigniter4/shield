@@ -6,15 +6,12 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
-use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User;
 use Faker\Generator;
 
 class LoginModel extends BaseModel
 {
-    use CheckQueryReturnTrait;
-
     protected $primaryKey     = 'id';
     protected $returnType     = Login::class;
     protected $useSoftDeletes = false;

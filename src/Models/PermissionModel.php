@@ -8,8 +8,6 @@ use CodeIgniter\Shield\Entities\User;
 
 class PermissionModel extends BaseModel
 {
-    use CheckQueryReturnTrait;
-
     protected $primaryKey     = 'id';
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;

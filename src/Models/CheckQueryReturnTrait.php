@@ -10,12 +10,12 @@ use ReflectionProperty;
 
 trait CheckQueryReturnTrait
 {
-    private ?bool $currentDBDebug = null;
+    protected ?bool $currentDBDebug = null;
 
     /**
      * @param bool|int|string $return insert() returns insert ID.
      */
-    private function checkQueryReturn($return): void
+    protected function checkQueryReturn($return): void
     {
         $this->restoreDBDebug();
 
@@ -30,7 +30,7 @@ trait CheckQueryReturnTrait
         }
     }
 
-    private function checkValidationError(): void
+    protected function checkValidationError(): void
     {
         $validationErrors = $this->getValidationErrors();
 
@@ -50,14 +50,14 @@ trait CheckQueryReturnTrait
      *
      * @return string[]
      */
-    private function getValidationErrors(): array
+    protected function getValidationErrors(): array
     {
         // @TODO When CI v4.3 is released, you don't need this hack.
         //       See https://github.com/codeigniter4/CodeIgniter4/pull/6384
         return $this->getValidationPropertyErrors();
     }
 
-    private function getValidationPropertyErrors(): array
+    protected function getValidationPropertyErrors(): array
     {
         $refClass    = new ReflectionObject($this->validation);
         $refProperty = $refClass->getProperty('errors');
@@ -66,7 +66,7 @@ trait CheckQueryReturnTrait
         return $refProperty->getValue($this->validation);
     }
 
-    private function disableDBDebug(): void
+    protected function disableDBDebug(): void
     {
         if (! $this->db->DBDebug) {
             // `DBDebug` is false. Do nothing.
@@ -79,7 +79,7 @@ trait CheckQueryReturnTrait
         $propertyDBDebug->setValue($this->db, false);
     }
 
-    private function restoreDBDebug(): void
+    protected function restoreDBDebug(): void
     {
         if ($this->currentDBDebug === null) {
             // `DBDebug` has not been changed. Do nothing.
@@ -92,7 +92,7 @@ trait CheckQueryReturnTrait
         $this->currentDBDebug = null;
     }
 
-    private function getPropertyDBDebug(): ReflectionProperty
+    protected function getPropertyDBDebug(): ReflectionProperty
     {
         $refClass    = new ReflectionObject($this->db);
         $refProperty = $refClass->getProperty('DBDebug');

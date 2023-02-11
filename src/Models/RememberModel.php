@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use DateTime;
 use Faker\Generator;
@@ -13,8 +12,6 @@ use stdClass;
 
 class RememberModel extends BaseModel
 {
-    use CheckQueryReturnTrait;
-
     protected $primaryKey     = 'id';
     protected $returnType     = 'object';
     protected $useSoftDeletes = false;

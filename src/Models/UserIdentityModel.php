@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords;
-use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
@@ -19,8 +17,6 @@ use Faker\Generator;
 
 class UserIdentityModel extends BaseModel
 {
-    use CheckQueryReturnTrait;
-
     protected $primaryKey     = 'id';
     protected $returnType     = UserIdentity::class;
     protected $useSoftDeletes = false;

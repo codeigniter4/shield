@@ -6,7 +6,6 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
@@ -19,8 +18,6 @@ use Faker\Generator;
  */
 class UserModel extends BaseModel
 {
-    use CheckQueryReturnTrait;
-
     protected $primaryKey     = 'id';
     protected $returnType     = User::class;
     protected $useSoftDeletes = true;
