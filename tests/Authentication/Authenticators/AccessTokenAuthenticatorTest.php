@@ -173,7 +173,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $this->assertSame(lang('Auth.badToken'), $result->reason());
 
         // A login attempt should have always been recorded
-        $this->seeInDatabase('auth_token_logins', [
+        $this->seeInDatabase($this->tables['token_logins'], [
             'id_type'    => AccessTokens::ID_TYPE_ACCESS_TOKEN,
             'identifier' => 'abc123',
             'success'    => 0,

@@ -471,7 +471,7 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
 
         $this->assertTrue($result->isOK());
 
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase($this->tables['logins'], [
             'id_type'    => 'status',
             'identifier' => '12345',
             'success'    => 1,
