@@ -1,18 +1,40 @@
 # Customizing Shield
 
--   [Customizing Shield](#customizing-shield)
-    -   [Route Configuration](#route-configuration)
-    -   [Custom Redirect URLs](#custom-redirect-urls)
-        -   [Customize Login Redirect](#customize-login-redirect)
-        -   [Customize Register Redirect](#customize-register-redirect)
-        -   [Customize Logout Redirect](#customize-logout-redirect)
-    -   [Extending the Controllers](#extending-the-controllers)
-    -   [Integrating Custom View Libraries](#integrating-custom-view-libraries)
-    -   [Custom Validation Rules](#custom-validation-rules)
-        -   [Registration](#registration)
-        -   [Login](#login)
-    -   [Custom User Provider](#custom-user-provider)
-    -   [Custom Login Identifier](#custom-login-identifier)
+- [Customizing Shield](#customizing-shield)
+  - [Custom Table Names](#custom-table-names)
+  - [Route Configuration](#route-configuration)
+  - [Custom Redirect URLs](#custom-redirect-urls)
+    - [Customize Login Redirect](#customize-login-redirect)
+    - [Customize Register Redirect](#customize-register-redirect)
+    - [Customize Logout Redirect](#customize-logout-redirect)
+  - [Extending the Controllers](#extending-the-controllers)
+  - [Integrating Custom View Libraries](#integrating-custom-view-libraries)
+  - [Custom Validation Rules](#custom-validation-rules)
+    - [Registration](#registration)
+    - [Login](#login)
+  - [Custom User Provider](#custom-user-provider)
+  - [Custom Login Identifier](#custom-login-identifier)
+
+## Custom Table Names
+
+If you want to change the default table names, you can change the table names
+in **app/Config/Auth.php**.
+
+```php
+public array $tables = [
+    'users'             => 'users',
+    'identities'        => 'auth_identities',
+    'logins'            => 'auth_logins',
+    'token_logins'      => 'auth_token_logins',
+    'remember_tokens'   => 'auth_remember_tokens',
+    'groups_users'      => 'auth_groups_users',
+    'permissions_users' => 'auth_permissions_users',
+];
+```
+
+Set the table names that you want in the array values.
+
+> **Note** You must change the table names before running database migrations.
 
 ## Route Configuration
 
