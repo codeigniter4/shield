@@ -5,17 +5,13 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User;
 use Faker\Generator;
 
-class LoginModel extends Model
+class LoginModel extends BaseModel
 {
-    use CheckQueryReturnTrait;
-
-    protected $table          = 'auth_logins';
     protected $primaryKey     = 'id';
     protected $returnType     = Login::class;
     protected $useSoftDeletes = false;
@@ -39,6 +35,13 @@ class LoginModel extends Model
     ];
     protected $validationMessages = [];
     protected $skipValidation     = false;
+
+    protected function initialize(): void
+    {
+        parent::initialize();
+
+        $this->table = $this->tables['logins'];
+    }
 
     /**
      * Records login attempt.

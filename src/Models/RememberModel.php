@@ -5,17 +5,13 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Model;
 use CodeIgniter\Shield\Entities\User;
 use DateTime;
 use Faker\Generator;
 use stdClass;
 
-class RememberModel extends Model
+class RememberModel extends BaseModel
 {
-    use CheckQueryReturnTrait;
-
-    protected $table          = 'auth_remember_tokens';
     protected $primaryKey     = 'id';
     protected $returnType     = 'object';
     protected $useSoftDeletes = false;
@@ -26,6 +22,13 @@ class RememberModel extends Model
         'expires',
     ];
     protected $useTimestamps = true;
+
+    protected function initialize(): void
+    {
+        parent::initialize();
+
+        $this->table = $this->tables['remember_tokens'];
+    }
 
     public function fake(Generator &$faker): stdClass
     {

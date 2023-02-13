@@ -1,18 +1,40 @@
 # Customizing Shield
 
--   [Customizing Shield](#customizing-shield)
-    -   [Route Configuration](#route-configuration)
-    -   [Custom Redirect URLs](#custom-redirect-urls)
-        -   [Customize Login Redirect](#customize-login-redirect)
-        -   [Customize Register Redirect](#customize-register-redirect)
-        -   [Customize Logout Redirect](#customize-logout-redirect)
-    -   [Extending the Controllers](#extending-the-controllers)
-    -   [Integrating Custom View Libraries](#integrating-custom-view-libraries)
-    -   [Custom Validation Rules](#custom-validation-rules)
-        -   [Registration](#registration)
-        -   [Login](#login)
-    -   [Custom User Provider](#custom-user-provider)
-    -   [Custom Login Identifier](#custom-login-identifier)
+- [Customizing Shield](#customizing-shield)
+  - [Custom Table Names](#custom-table-names)
+  - [Route Configuration](#route-configuration)
+  - [Custom Redirect URLs](#custom-redirect-urls)
+    - [Customize Login Redirect](#customize-login-redirect)
+    - [Customize Register Redirect](#customize-register-redirect)
+    - [Customize Logout Redirect](#customize-logout-redirect)
+  - [Extending the Controllers](#extending-the-controllers)
+  - [Integrating Custom View Libraries](#integrating-custom-view-libraries)
+  - [Custom Validation Rules](#custom-validation-rules)
+    - [Registration](#registration)
+    - [Login](#login)
+  - [Custom User Provider](#custom-user-provider)
+  - [Custom Login Identifier](#custom-login-identifier)
+
+## Custom Table Names
+
+If you want to change the default table names, you can change the table names
+in **app/Config/Auth.php**.
+
+```php
+public array $tables = [
+    'users'             => 'users',
+    'identities'        => 'auth_identities',
+    'logins'            => 'auth_logins',
+    'token_logins'      => 'auth_token_logins',
+    'remember_tokens'   => 'auth_remember_tokens',
+    'groups_users'      => 'auth_groups_users',
+    'permissions_users' => 'auth_permissions_users',
+];
+```
+
+Set the table names that you want in the array values.
+
+> **Note** You must change the table names before running database migrations.
 
 ## Route Configuration
 
@@ -149,23 +171,39 @@ Shield has the following rules for registration:
 ```php
 [
     'username' => [
-        'label' =>  'Auth.username',
-        'rules' => 'required|max_length[30]|min_length[3]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|is_unique[users.username]',
+        'label' => 'Auth.username',
+        'rules' => [
+            'required',
+            'max_length[30]',
+            'min_length[3]',
+            'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+            'is_unique[users.username]',
+        ],
     ],
     'email' => [
-        'label' =>  'Auth.email',
-        'rules' => 'required|max_length[254]|valid_email|is_unique[auth_identities.secret]',
+        'label' => 'Auth.email',
+        'rules' => [
+            'required',
+            'max_length[254]',
+            'valid_email',
+            'is_unique[auth_identities.secret]',
+        ],
     ],
     'password' => [
-        'label' =>  'Auth.password',
+        'label' => 'Auth.password',
         'rules' => 'required|strong_password',
     ],
     'password_confirm' => [
-        'label' =>  'Auth.passwordConfirm',
+        'label' => 'Auth.passwordConfirm',
         'rules' => 'required|matches[password]',
     ],
 ];
 ```
+
+> **Note** If you customize the table names, the table names
+> (`users` and `auth_identities`) in the above rules will be automatically
+> changed. The rules are implemented in
+> `RegisterController::getValidationRules()`.
 
 If you need a different set of rules for registration, you can specify them in your `Validation` configuration (**app/Config/Validation.php**) like:
 
@@ -175,23 +213,37 @@ If you need a different set of rules for registration, you can specify them in y
     //--------------------------------------------------------------------
     public $registration = [
         'username' => [
-            'label' =>  'Auth.username',
-            'rules' => 'required|max_length[30]|min_length[3]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|is_unique[users.username]',
+            'label' => 'Auth.username',
+            'rules' => [
+                'required',
+                'max_length[30]',
+                'min_length[3]',
+                'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+                'is_unique[users.username]',
+            ],
         ],
         'email' => [
-            'label' =>  'Auth.email',
-            'rules' => 'required|max_length[254]|valid_email|is_unique[auth_identities.secret]',
+            'label' => 'Auth.email',
+            'rules' => [
+                'required',
+                'max_length[254]',
+                'valid_email',
+                'is_unique[auth_identities.secret]',
+            ],
         ],
         'password' => [
-            'label' =>  'Auth.password',
+            'label' => 'Auth.password',
             'rules' => 'required|strong_password',
         ],
         'password_confirm' => [
-            'label' =>  'Auth.passwordConfirm',
+            'label' => 'Auth.passwordConfirm',
             'rules' => 'required|matches[password]',
         ],
     ];
 ```
+
+> **Note** If you customize the table names, set the correct table names in the
+> rules.
 
 ### Login
 

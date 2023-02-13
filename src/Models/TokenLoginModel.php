@@ -10,7 +10,12 @@ use Faker\Generator;
 
 class TokenLoginModel extends LoginModel
 {
-    protected $table = 'auth_token_logins';
+    protected function initialize(): void
+    {
+        parent::initialize();
+
+        $this->table = $this->tables['token_logins'];
+    }
 
     /**
      * Generate a fake login for testing

@@ -39,6 +39,36 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Customize Name of Shield Tables
+     * --------------------------------------------------------------------
+     * Only change if you want to rename the default Shield table names
+     *
+     * It may be necessary to change the names of the tables for
+     * security reasons, to prevent the conflict of table names,
+     * the internal policy of the companies or any other reason.
+     *
+     * - users                  Auth Users Table, the users info is stored.
+     * - auth_identities        Auth Identities Table, Used for storage of passwords, access tokens, social login identities, etc.
+     * - auth_logins            Auth Login Attempts, Table records login attempts.
+     * - auth_token_logins      Auth Token Login Attempts Table, Records Bearer Token type login attempts.
+     * - auth_remember_tokens   Auth Remember Tokens (remember-me) Table.
+     * - auth_groups_users      Groups Users Table.
+     * - auth_permissions_users Users Permissions Table.
+     *
+     * @var array<string, string>
+     */
+    public array $tables = [
+        'users'             => 'users',
+        'identities'        => 'auth_identities',
+        'logins'            => 'auth_logins',
+        'token_logins'      => 'auth_token_logins',
+        'remember_tokens'   => 'auth_remember_tokens',
+        'groups_users'      => 'auth_groups_users',
+        'permissions_users' => 'auth_permissions_users',
+    ];
+
+    /**
+     * --------------------------------------------------------------------
      * Redirect URLs
      * --------------------------------------------------------------------
      * The default URL that a user will be redirected to after various auth

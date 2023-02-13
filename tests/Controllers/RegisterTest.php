@@ -60,7 +60,7 @@ final class RegisterTest extends DatabaseTestCase
         $this->assertSame(site_url(), $result->getRedirectUrl());
 
         // User saved to DB
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase($this->tables['users'], [
             'username' => 'JohnDoe',
         ]);
 
@@ -68,7 +68,7 @@ final class RegisterTest extends DatabaseTestCase
         /** @var User $user */
         $user = model(UserModel::class)->where('username', 'JohnDoe')->first();
 
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'type'    => Session::ID_TYPE_EMAIL_PASSWORD,
             'secret'  => 'john.doe@example.com',
@@ -141,7 +141,7 @@ final class RegisterTest extends DatabaseTestCase
         $result->assertRedirectTo('/auth/a/show');
 
         // Should NOT have activated the user
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase($this->tables['users'], [
             'username' => 'foo',
             'active'   => 0,
         ]);

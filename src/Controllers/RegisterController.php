@@ -7,11 +7,15 @@ namespace CodeIgniter\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Traits\Viewable;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class RegisterController
@@ -24,6 +28,27 @@ class RegisterController extends BaseController
     use Viewable;
 
     protected $helpers = ['setting'];
+
+    /**
+     * Auth Table names
+     */
+    private array $tables;
+
+    public function initController(
+        RequestInterface $request,
+        ResponseInterface $response,
+        LoggerInterface $logger
+    ): void {
+        parent::initController(
+            $request,
+            $response,
+            $logger
+        );
+
+        /** @var Auth $authConfig */
+        $authConfig   = config('Auth');
+        $this->tables = $authConfig->tables;
+    }
 
     /**
      * Displays the registration form.
@@ -153,11 +178,11 @@ class RegisterController extends BaseController
     {
         $registrationUsernameRules = array_merge(
             config('AuthSession')->usernameValidationRules,
-            ['is_unique[users.username]']
+            [sprintf('is_unique[%s.username]', $this->tables['users'])]
         );
         $registrationEmailRules = array_merge(
             config('AuthSession')->emailValidationRules,
-            ['is_unique[auth_identities.secret]']
+            [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
         );
 
         return setting('Validation.registration') ?? [

@@ -6,7 +6,6 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
@@ -17,11 +16,8 @@ use Faker\Generator;
 /**
  * @phpstan-consistent-constructor
  */
-class UserModel extends Model
+class UserModel extends BaseModel
 {
-    use CheckQueryReturnTrait;
-
-    protected $table          = 'users';
     protected $primaryKey     = 'id';
     protected $returnType     = User::class;
     protected $useSoftDeletes = true;
@@ -48,6 +44,13 @@ class UserModel extends Model
      * Save the User for afterInsert and afterUpdate
      */
     protected ?User $tempUser = null;
+
+    protected function initialize(): void
+    {
+        parent::initialize();
+
+        $this->table = $this->tables['users'];
+    }
 
     /**
      * Mark the next find* query to include identities
@@ -184,19 +187,19 @@ class UserModel extends Model
         // any of the credentials used should be case-insensitive
         foreach ($credentials as $key => $value) {
             $this->where(
-                'LOWER(' . $this->db->protectIdentifiers("users.{$key}") . ')',
+                'LOWER(' . $this->db->protectIdentifiers($this->table . ".{$key}") . ')',
                 strtolower($value)
             );
         }
 
         if ($email !== null) {
             $data = $this->select(
-                'users.*, auth_identities.secret as email, auth_identities.secret2 as password_hash'
+                sprintf('%1$s.*, %2$s.secret as email, %2$s.secret2 as password_hash', $this->table, $this->tables['identities'])
             )
-                ->join('auth_identities', 'auth_identities.user_id = users.id')
-                ->where('auth_identities.type', Session::ID_TYPE_EMAIL_PASSWORD)
+                ->join($this->tables['identities'], sprintf('%1$s.user_id = %2$s.id', $this->tables['identities'], $this->table))
+                ->where($this->tables['identities'] . '.type', Session::ID_TYPE_EMAIL_PASSWORD)
                 ->where(
-                    'LOWER(' . $this->db->protectIdentifiers('auth_identities.secret') . ')',
+                    'LOWER(' . $this->db->protectIdentifiers($this->tables['identities'] . '.secret') . ')',
                     strtolower($email)
                 )
                 ->asArray()

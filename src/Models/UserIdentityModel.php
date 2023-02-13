@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords;
@@ -16,11 +15,8 @@ use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use Faker\Generator;
 
-class UserIdentityModel extends Model
+class UserIdentityModel extends BaseModel
 {
-    use CheckQueryReturnTrait;
-
-    protected $table          = 'auth_identities';
     protected $primaryKey     = 'id';
     protected $returnType     = UserIdentity::class;
     protected $useSoftDeletes = false;
@@ -36,6 +32,13 @@ class UserIdentityModel extends Model
         'last_used_at',
     ];
     protected $useTimestamps = true;
+
+    protected function initialize(): void
+    {
+        parent::initialize();
+
+        $this->table = $this->tables['identities'];
+    }
 
     /**
      * Inserts a record

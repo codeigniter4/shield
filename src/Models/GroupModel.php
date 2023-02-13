@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Models;
 
-use CodeIgniter\Model;
 use CodeIgniter\Shield\Entities\User;
 
-class GroupModel extends Model
+class GroupModel extends BaseModel
 {
-    use CheckQueryReturnTrait;
-
-    protected $table          = 'auth_groups_users';
     protected $primaryKey     = 'id';
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;
@@ -24,6 +20,13 @@ class GroupModel extends Model
     protected $validationRules    = [];
     protected $validationMessages = [];
     protected $skipValidation     = false;
+
+    protected function initialize(): void
+    {
+        parent::initialize();
+
+        $this->table = $this->tables['groups_users'];
+    }
 
     public function getForUser(User $user): array
     {
