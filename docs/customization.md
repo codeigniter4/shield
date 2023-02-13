@@ -149,23 +149,39 @@ Shield has the following rules for registration:
 ```php
 [
     'username' => [
-        'label' =>  'Auth.username',
-        'rules' => 'required|max_length[30]|min_length[3]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|is_unique[' . SHIELD_TABLES['users'] . '.username]',
+        'label' => 'Auth.username',
+        'rules' => [
+            'required',
+            'max_length[30]',
+            'min_length[3]',
+            'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+            'is_unique[users.username]',
+        ],
     ],
     'email' => [
-        'label' =>  'Auth.email',
-        'rules' => 'required|max_length[254]|valid_email|is_unique[' . SHIELD_TABLES['identities'] . '.secret]',
+        'label' => 'Auth.email',
+        'rules' => [
+            'required',
+            'max_length[254]',
+            'valid_email',
+            'is_unique[auth_identities.secret]',
+        ],
     ],
     'password' => [
-        'label' =>  'Auth.password',
+        'label' => 'Auth.password',
         'rules' => 'required|strong_password',
     ],
     'password_confirm' => [
-        'label' =>  'Auth.passwordConfirm',
+        'label' => 'Auth.passwordConfirm',
         'rules' => 'required|matches[password]',
     ],
 ];
 ```
+
+> **Note** If you customize the table names, the table names
+> (`users` and `auth_identities`) in the above rules will be automatically
+> changed. The rules are implemented in
+> `RegisterController::getValidationRules()`.
 
 If you need a different set of rules for registration, you can specify them in your `Validation` configuration (**app/Config/Validation.php**) like:
 
@@ -175,23 +191,37 @@ If you need a different set of rules for registration, you can specify them in y
     //--------------------------------------------------------------------
     public $registration = [
         'username' => [
-            'label' =>  'Auth.username',
-            'rules' => 'required|max_length[30]|min_length[3]|regex_match[/\A[a-zA-Z0-9\.]+\z/]|is_unique[' . SHIELD_TABLES['users'] . '.username]',
+            'label' => 'Auth.username',
+            'rules' => [
+                'required',
+                'max_length[30]',
+                'min_length[3]',
+                'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+                'is_unique[users.username]',
+            ],
         ],
         'email' => [
-            'label' =>  'Auth.email',
-            'rules' => 'required|max_length[254]|valid_email|is_unique[' . SHIELD_TABLES['identities'] . '.secret]',
+            'label' => 'Auth.email',
+            'rules' => [
+                'required',
+                'max_length[254]',
+                'valid_email',
+                'is_unique[auth_identities.secret]',
+            ],
         ],
         'password' => [
-            'label' =>  'Auth.password',
+            'label' => 'Auth.password',
             'rules' => 'required|strong_password',
         ],
         'password_confirm' => [
-            'label' =>  'Auth.passwordConfirm',
+            'label' => 'Auth.passwordConfirm',
             'rules' => 'required|matches[password]',
         ],
     ];
 ```
+
+> **Note** If you customize the table names, set the correct table names in the
+> rules.
 
 ### Login
 
