@@ -46,6 +46,7 @@ return [
     'checkYourEmail'     => 'Skontrolujte e-mail',
     'magicLinkDetails'   => 'Práve sme vám poslali e-mail s odkazom na prihlásenie. Platí iba {0} minút.',
     'successLogout'      => 'Úspešne ste sa odhlásili.',
+    'returnLink'         => 'Návrat do ➔',
 
     // Passwords
     'errorPasswordLength'       => 'Heslá musia mať aspoň {0, number} znakov.',

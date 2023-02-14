@@ -46,6 +46,7 @@ return [
     'checkYourEmail'     => 'ایمیلتان را بررسی کنید!',
     'magicLinkDetails'   => 'ما فقط یک لینک ورود به ایمیلتان ارسال کردیم. این لینک فقط برای {0} دقیقه معتبر خواهد بود.',
     'successLogout'      => 'با موفقیت خارج شدید.',
+    'returnLink'         => ' ➔',
 
     // Passwords
     'errorPasswordLength'       => 'طول رمز های عبور باید حداقل {0, number} کاراکتر باشد.',

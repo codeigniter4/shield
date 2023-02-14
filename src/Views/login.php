@@ -63,6 +63,8 @@
                         <p class="text-center"><?= lang('Auth.needAccount') ?> <a href="<?= url_to('register') ?>"><?= lang('Auth.register') ?></a></p>
                     <?php endif ?>
 
+                    <p class="text-center"><?= lang('Auth.returnLink') ?> <a href="<?= base_url() ?>"><?= base_url() ?></a></p>
+
                 </form>
             </div>
         </div>

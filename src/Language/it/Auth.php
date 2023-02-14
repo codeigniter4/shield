@@ -46,6 +46,7 @@ return [
     'checkYourEmail'     => 'Controlla la tua email!',
     'magicLinkDetails'   => 'Ti abbiamo appena inviato una mail contenente un Login link. È valido solo per {0} minuti.',
     'successLogout'      => 'Hai effettuato il logout con successo.',
+    'returnLink'         => 'Ritornare a ➔',
 
     // Passwords
     'errorPasswordLength'       => 'Le password devono essere lunghe almeno {0, number} ccaratteri.',

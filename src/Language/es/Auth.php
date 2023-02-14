@@ -46,6 +46,7 @@ return [
     'checkYourEmail'     => 'Comprueba tu email',
     'magicLinkDetails'   => 'Te hemos enviado un email que contiene un enlace para Entrar. Solo es válido durante {0} minutos.',
     'successLogout'      => 'Has salido de forma correcta.',
+    'returnLink'         => 'Volver a ➔',
 
     // Contraseñas
     'errorPasswordLength'       => 'La contraseña debe tener al menos {0, number} caracteres.',
