@@ -12,7 +12,7 @@ class AddBanColumns extends Migration
     {
         // Users Table
         $fields = [
-            'banned'      => ['type' => 'tinyint', 'after' => 'active', 'constraint' => 1, 'null' => 0, 'default' => 0],
+            'banned'      => ['type' => 'tinyint', 'after' => 'active', 'constraint' => 1, 'null' => false, 'default' => 0],
             'ban_message' => ['type' => 'varchar', 'after' => 'banned', 'constraint' => 255, 'null' => true],
         ];
 
