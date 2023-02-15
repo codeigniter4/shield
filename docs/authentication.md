@@ -51,7 +51,7 @@ public $defaultAuthenticator = 'session';
 
 The auth functionality is designed to be used with the `auth_helper` that comes with Shield. This
 helper method provides the `auth()` command which returns a convenient interface to the most frequently
-used functionality within the auth libraries. This must be loaded before it can be used.
+used functionality within the auth libraries.
 
 ```php
 // get the current user
