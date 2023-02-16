@@ -261,7 +261,7 @@ public $globals = [
     'before' => [
         //...
         //...
-        'force-reset' => ['except' => ['login*', 'register', 'auth*', 'change-password']]
+        'force-reset' => ['except' => ['login*', 'register', 'auth/a/*', 'change-password', 'logout']]
     ]
 ];
 ```
