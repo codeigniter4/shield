@@ -41,7 +41,7 @@ class ForcePasswordResetFilter implements FilterInterface
             return redirect()->route('login')->with('error', lang('Auth.notEnoughPrivilege'));
         }
 
-        if ($authenticator->loggedIn() && $authenticator->getUser()->requiresPasswordReset()) {
+        if ($authenticator->getUser()->requiresPasswordReset()) {
             return redirect()->to(config('Auth')->forcePasswordResetRedirect());
         }
     }
