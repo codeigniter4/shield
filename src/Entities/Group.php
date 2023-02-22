@@ -78,7 +78,7 @@ class Group extends Entity
         // Check wildcard match
         $check = substr($permission, 0, strpos($permission, '.')) . '.*';
 
-        return (bool) (! empty($this->permissions) && in_array($check, $this->permissions, true));
+        return ! empty($this->permissions) && in_array($check, $this->permissions, true);
     }
 
     /**
