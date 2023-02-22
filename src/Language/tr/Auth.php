@@ -7,6 +7,8 @@ return [
     'unknownAuthenticator'  => '{0} geçerli bir kimlik doğrulayıcı değil.',
     'unknownUserProvider'   => 'Kullanılacak Kullanıcı Sağlayıcı belirlenemiyor.',
     'invalidUser'           => 'Belirtilen kullanıcı bulunamadı.',
+    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
+    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
     'badAttempt'            => 'Oturumunuz açılamıyor. Lütfen kimlik bilgilerinizi kontrol edin.',
     'noPassword'            => 'Parola olmadan bir kullanıcı doğrulanamaz.',
     'invalidPassword'       => 'Oturumunuz açılamıyor. Lütfen şifrenizi kontrol edin.',

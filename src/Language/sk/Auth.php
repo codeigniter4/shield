@@ -7,6 +7,8 @@ return [
     'unknownAuthenticator'  => '{0} nie je platný autentifikátor.',
     'unknownUserProvider'   => 'Nie je možné určiť poskytovateľa používateľa, ktorý sa má použiť.',
     'invalidUser'           => 'Nie je možné nájsť zadaného používateľa.',
+    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
+    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
     'badAttempt'            => 'Prihlásenie zlyhalo. Skontrolujte svoje prihlasovacie údaje.',
     'noPassword'            => 'Nie je možné overiť používateľa bez hesla.',
     'invalidPassword'       => 'Prihlásenie zlyhalo. Skontrolujte svoje heslo.',

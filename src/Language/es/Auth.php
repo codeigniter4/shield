@@ -7,6 +7,8 @@ return [
     'unknownAuthenticator'  => '{0} no es un handler válido.',
     'unknownUserProvider'   => 'No podemos determinar que Proveedor de Usuarios usar.',
     'invalidUser'           => 'No podemos localizar este usuario.',
+    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
+    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
     'badAttempt'            => 'No puedes entrar. Por favor, comprueba tus creenciales.',
     'noPassword'            => 'No se puede validar un usuario sin una contraseña.',
     'invalidPassword'       => 'No uedes entrar. Por favor, comprueba tu contraseña.',

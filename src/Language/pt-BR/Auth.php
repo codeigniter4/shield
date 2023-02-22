@@ -7,6 +7,8 @@ return [
     'unknownAuthenticator'  => '{0} não é um autenticador válido.',
     'unknownUserProvider'   => 'Não foi possível determinar o provedor de usuário a ser usado.',
     'invalidUser'           => 'Não foi possível localizar o usuário especificado.',
+    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
+    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
     'badAttempt'            => 'Não foi possível fazer login. Por favor, verifique suas credenciais.',
     'noPassword'            => 'Não é possível validar um usuário sem uma senha.',
     'invalidPassword'       => 'Não foi possível fazer login. Por favor, verifique sua senha.',

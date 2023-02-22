@@ -7,6 +7,8 @@ return [
     'unknownAuthenticator'  => '{0} is not a valid authenticator.',
     'unknownUserProvider'   => 'Unable to determine the User Provider to use.',
     'invalidUser'           => 'Unable to locate the specified user.',
+    'bannedUser'            => 'Can not log you in as you are currently banned.',
+    'logOutBannedUser'      => 'You have been logged out because you have been banned.',
     'badAttempt'            => 'Unable to log you in. Please check your credentials.',
     'noPassword'            => 'Cannot validate a user without a password.',
     'invalidPassword'       => 'Unable to log you in. Please check your password.',

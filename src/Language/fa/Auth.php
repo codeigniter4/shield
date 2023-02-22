@@ -7,6 +7,8 @@ return [
     'unknownAuthenticator'  => '{0} احراز هویت معتبری نمی باشد.',
     'unknownUserProvider'   => 'قادر به تعیین ارائه دهنده کاربر برای استفاده نیست.',
     'invalidUser'           => 'قادر به پیداکردن کاربر مشخص شده نیست',
+    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
+    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
     'badAttempt'            => 'امکان ورود به سیستم نیست. لطفا اعتبارنامه خود را بررسی کنید.',
     'noPassword'            => 'تایید کاربر بدون رمز عبور ممکن نیست.',
     'invalidPassword'       => 'ناتوان در ورود به سیستم. لطفا رمز عبور خود را بررسی کنید.',
