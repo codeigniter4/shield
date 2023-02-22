@@ -59,7 +59,6 @@ class User extends Entity
     protected $casts = [
         'id'          => '?integer',
         'active'      => 'int_bool',
-        'banned'      => 'int_bool',
         'permissions' => 'array',
         'groups'      => 'array',
     ];
