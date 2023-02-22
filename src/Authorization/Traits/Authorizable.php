@@ -9,6 +9,7 @@ use CodeIgniter\Shield\Authorization\AuthorizationException;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\GroupModel;
 use CodeIgniter\Shield\Models\PermissionModel;
+use CodeIgniter\Shield\Models\UserModel;
 
 trait Authorizable
 {
