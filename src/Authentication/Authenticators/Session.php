@@ -543,7 +543,7 @@ class Session implements AuthenticatorInterface
      */
     public function isBanned(): bool
     {
-        return (bool)$this->getUser()->banned;
+        return (bool) $this->getUser()->banned;
     }
 
     /**
