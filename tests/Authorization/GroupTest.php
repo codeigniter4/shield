@@ -71,9 +71,11 @@ final class GroupTest extends TestCase
 
     public function testCan(): void
     {
-        $group = $this->groups->info('admin');
+        $group1 = $this->groups->info('superadmin');
+        $group2 = $this->groups->info('admin');
 
-        $this->assertTrue($group->can('users.edit'));
-        $this->assertFalse($group->can('foo.bar'));
+        $this->assertTrue($group1->can('users.*'));
+        $this->assertTrue($group2->can('users.edit'));
+        $this->assertFalse($group2->can('foo.bar'));
     }
 }
