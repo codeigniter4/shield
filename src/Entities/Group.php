@@ -70,7 +70,18 @@ class Group extends Entity
     {
         $this->populatePermissions();
 
-        return in_array(strtolower($permission), $this->permissions, true);
+        // Check exact match
+        if (! empty($this->permissions) && in_array($permission, $this->permissions, true)) {
+            return true;
+        }
+
+        // Check wildcard match
+        $check = substr($permission, 0, strpos($permission, '.')) . '.*';
+        if (! empty($this->permissions) && in_array($check, $this->permissions, true)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
