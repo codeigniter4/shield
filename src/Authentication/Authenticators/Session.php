@@ -157,7 +157,7 @@ class Session implements AuthenticatorInterface
         }
 
         $this->user = $user;
-        
+
         // Update the user's last used date on their password identity.
         $user->touchIdentity($user->getEmailIdentity());
 
