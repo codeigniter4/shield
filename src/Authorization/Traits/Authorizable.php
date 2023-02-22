@@ -294,7 +294,6 @@ trait Authorizable
 
     /**
      * Bans the user from logging in.
-     * 
      */
     public function ban(?string $reason = null): self
     {
@@ -307,14 +306,13 @@ trait Authorizable
 
     /**
      * Unbans the user and allows them to log in.
-     * 
      */
     public function unBan(): self
     {
         $this->banned      = '0';
         $this->ban_message = null;
         $this->modifyBanStatus();
-        
+
         return $this;
     }
 
