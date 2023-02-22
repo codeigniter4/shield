@@ -28,8 +28,8 @@ class AddBanColumns extends Migration
     {
         // Users Table
         $fields = [
-            'banned'      => ['type' => 'tinyint', 'after' => 'active', 'constraint' => 1, 'null' => false, 'default' => 0],
-            'ban_message' => ['type' => 'varchar', 'after' => 'banned', 'constraint' => 255, 'null' => true],
+            'banned'         => ['type' => 'tinyint', 'after' => 'active', 'constraint' => 1, 'null' => false, 'default' => 0],
+            'banned_message' => ['type' => 'varchar', 'after' => 'banned', 'constraint' => 255, 'null' => true],
         ];
 
         $this->forge->addColumn($this->tables['users'], $fields);
@@ -40,6 +40,6 @@ class AddBanColumns extends Migration
     public function down(): void
     {
         $this->forge->dropColumn($this->tables['users'], 'banned');
-        $this->forge->dropColumn($this->tables['users'], 'ban_message');
+        $this->forge->dropColumn($this->tables['users'], 'banned_message');
     }
 }
