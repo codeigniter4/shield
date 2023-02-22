@@ -65,12 +65,12 @@ class AccessTokens implements AuthenticatorInterface
 
         $user = $result->extraInfo();
 
-        if ($user->banned) {
+        if ($user->isBanned()) {
             $this->user = null;
 
             return new Result([
                 'success' => false,
-                'reason'  => $user->ban_message ?? lang('Auth.bannedUser'),
+                'reason'  => $user->getBanMessage() ?? lang('Auth.bannedUser'),
             ]);
         }
 

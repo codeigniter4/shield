@@ -147,12 +147,12 @@ class Session implements AuthenticatorInterface
         /** @var User $user */
         $user = $result->extraInfo();
 
-        if ($user->banned) {
+        if ($user->isBanned()) {
             $this->user = null;
 
             return new Result([
                 'success' => false,
-                'reason'  => $user->ban_message ?? lang('Auth.bannedUser'),
+                'reason'  => $user->getBanMessage() ?? lang('Auth.bannedUser'),
             ]);
         }
 
@@ -534,15 +534,6 @@ class Session implements AuthenticatorInterface
         $this->checkUserState();
 
         return $this->userState === self::STATE_PENDING;
-    }
-
-    /**
-     * Checks if the user is currently banned.
-     * Their account needs to be unbanned.
-     */
-    public function isBanned(): bool
-    {
-        return (bool) $this->getUser()->banned;
     }
 
     /**

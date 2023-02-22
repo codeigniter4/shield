@@ -9,7 +9,6 @@ use CodeIgniter\Shield\Authorization\AuthorizationException;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\GroupModel;
 use CodeIgniter\Shield\Models\PermissionModel;
-use CodeIgniter\Shield\Models\UserModel;
 
 trait Authorizable
 {
@@ -294,30 +293,6 @@ trait Authorizable
     }
 
     /**
-     * Bans the user from logging in.
-     */
-    public function ban(?string $reason = null): self
-    {
-        $this->banned      = '1';
-        $this->ban_message = $reason;
-        $this->modifyBanStatus();
-
-        return $this;
-    }
-
-    /**
-     * Unbans the user and allows them to log in.
-     */
-    public function unBan(): self
-    {
-        $this->banned      = '0';
-        $this->ban_message = null;
-        $this->modifyBanStatus();
-
-        return $this;
-    }
-
-    /**
      * Used internally to populate the User groups
      * so we hit the database as little as possible.
      */
@@ -429,14 +404,5 @@ trait Authorizable
         return function_exists('setting')
             ? array_keys(setting('AuthGroups.permissions'))
             : array_keys(config('AuthGroups')->permissions);
-    }
-
-    /**
-     * modifies the banned status of the user
-     */
-    private function modifyBanStatus(): void
-    {
-        $model = model(UserModel::class);
-        $model->save($this);
     }
 }
