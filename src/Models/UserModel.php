@@ -26,6 +26,8 @@ class UserModel extends BaseModel
         'status',
         'status_message',
         'active',
+        'banned',
+        'ban_message',
         'last_active',
         'deleted_at',
     ];
