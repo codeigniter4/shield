@@ -53,10 +53,11 @@ class SessionAuth implements FilterInterface
             $user = $authenticator->getUser();
 
             if ($user->isBanned()) {
+                $error = $user->getBanMessage() ?? lang('Auth.logOutBannedUser');
                 $authenticator->logout();
 
                 return redirect()->to(config('Auth')->logoutRedirect())
-                    ->with('error', lang('Auth.logOutBannedUser'));
+                    ->with('error', $error);
             }
 
             if ($user !== null && ! $user->isActivated()) {
