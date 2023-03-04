@@ -58,7 +58,7 @@ Installation is done through Composer.
 composer require codeigniter4/shield
 ```
 
-See the [docs](docs/index.md) for more specific instructions on installation and usage recommendations.
+See the <a href="https://codeigniter4.github.io/shield/" target="_blank">docs</a> for more specific instructions on installation and usage recommendations.
 
 ## Contributing
 
