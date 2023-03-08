@@ -63,7 +63,7 @@ class SessionAuth implements FilterInterface
             if ($user !== null && ! $user->isActivated()) {
                 $authenticator->logout();
 
-                return redirect()->to(config('Auth')->logoutRedirect())
+                return redirect()->route('login')
                     ->with('error', lang('Auth.activationBlocked'));
             }
 
