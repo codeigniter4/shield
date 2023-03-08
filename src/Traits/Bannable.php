@@ -11,7 +11,7 @@ trait Bannable
      */
     public function isBanned(): bool
     {
-        return (bool) $this->banned;
+        return (bool) ($this->status && $this->status === 'banned');
     }
 
     /**
@@ -21,8 +21,8 @@ trait Bannable
      */
     public function ban(?string $message = null): self
     {
-        $this->banned         = '1';
-        $this->banned_message = $message;
+        $this->status         = 'banned';
+        $this->status_message = $message;
 
         $users = auth()->getProvider();
 
@@ -38,7 +38,7 @@ trait Bannable
      */
     public function unBan(): self
     {
-        $this->banned         = '0';
+        $this->banned         = null;
         $this->banned_message = null;
 
         $users = auth()->getProvider();
@@ -53,6 +53,6 @@ trait Bannable
      */
     public function getBanMessage(): ?string
     {
-        return $this->banned_message;
+        return $this->status_message;
     }
 }
