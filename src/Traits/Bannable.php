@@ -38,8 +38,8 @@ trait Bannable
      */
     public function unBan(): self
     {
-        $this->banned         = null;
-        $this->banned_message = null;
+        $this->status         = null;
+        $this->status_message = null;
 
         $users = auth()->getProvider();
 

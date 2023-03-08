@@ -59,7 +59,7 @@ $user->ban('Your reason for banning the user here');
 
   
 
-Unbanning a user can be done using the `unBan()` method on the `User` entity. This method will also reset the `banned_message` property. 
+Unbanning a user can be done using the `unBan()` method on the `User` entity. This method will also reset the `status_message` property. 
 
   
 
