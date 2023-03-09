@@ -346,4 +346,13 @@ final class AuthorizableTest extends DatabaseTestCase
 
         $this->assertFalse($this->user->isBanned());
     }
+
+    public function testGetBanMessage(): void
+    {
+        $this->assertNull($this->user->getBanMessage());
+
+        $this->user->ban('You are banned');
+
+        $this->assertSame('You are banned', $this->user->getBanMessage());
+    }
 }
