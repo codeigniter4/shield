@@ -36,7 +36,7 @@ Unbanning a user can be done using the `unBan()` method on the `User` entity. Th
 $user->unBan();
 ```
 
-###  Getting the Reason for Ban
+### Getting the Reason for Ban
 
 The reason for the ban can be obtained user the `getBanMessage()` method on the `User` entity.
 
