@@ -17,7 +17,7 @@ if ($user->isBanned()) {
 }
 ```  
 
-###  Banning a User
+### Banning a User
 
 To ban a user from the application, the `ban(?string $message = null)` method can be called on the `User` entity. The method takes an optional string as a parameter. The string acts as the reason for the ban.
 
