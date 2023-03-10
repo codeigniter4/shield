@@ -7,7 +7,7 @@ Shield provides a way to ban users from your application. This is useful if you 
 - [Unbanning a User](#unbanning-a-user)
 - [Getting the Reason for Ban ](#getting-the-reason-for-ban)
 
-###  Check if a User is Banned  
+### Check if a User is Banned  
 
 You can check if a user is banned using `isBanned()` method on the `User` entity. The method returns a boolean `true`/`false`. 
 
