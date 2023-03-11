@@ -10,6 +10,7 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\ValidationException;
@@ -195,8 +196,11 @@ class RegisterController extends BaseController
                 'rules' => $registrationEmailRules,
             ],
             'password' => [
-                'label' => 'Auth.password',
-                'rules' => 'required|strong_password',
+                'label'  => 'Auth.password',
+                'rules'  => 'required|' . Passwords::getMaxLenghtRule() . '|strong_password',
+                'errors' => [
+                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
+                ],
             ],
             'password_confirm' => [
                 'label' => 'Auth.passwordConfirm',

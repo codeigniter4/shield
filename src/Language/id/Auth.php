@@ -61,6 +61,7 @@ return [
     'errorPasswordPwned'        => 'Kata sandi {0} telah bocor karena pelanggaran data dan telah dilihat {1, number} kali dalam {2} sandi yang disusupi.',
     'suggestPasswordPwned'      => '{0} tidak boleh digunakan sebagai kata sandi. Jika Anda menggunakannya di mana saja, segera ubah.',
     'errorPasswordEmpty'        => 'Kata sandi wajib diisi.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Kata sandi berhasil diubah',
     'userDoesNotExist'          => 'Kata sandi tidak diubah. User tidak ditemukan',
     'resetTokenExpired'         => 'Maaf, token setel ulang Anda sudah habis waktu.',

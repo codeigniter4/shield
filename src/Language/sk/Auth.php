@@ -61,6 +61,7 @@ return [
     'errorPasswordPwned'        => 'Heslo {0} bolo odhalené z dôvodu porušenia ochrany údajov a bolo videné {1, number}-krát z {2} prelomených hesiel.',
     'suggestPasswordPwned'      => '{0} by sa nikdy nemalo používať ako heslo. Ak ho niekde používate, okamžite ho zmeňte.',
     'errorPasswordEmpty'        => 'Vyžaduje sa heslo.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Heslo bolo úspešne zmenené',
     'userDoesNotExist'          => 'Heslo nebolo zmenené. Používateľ neexistuje',
     'resetTokenExpired'         => 'Prepáčte. Platnosť vášho resetovacieho tokenu vypršala.',

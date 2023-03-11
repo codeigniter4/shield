@@ -61,6 +61,7 @@ return [
     'errorPasswordPwned'        => 'The password {0} has been exposed due to a data breach and has been seen {1, number} times in {2} of compromised passwords.',
     'suggestPasswordPwned'      => '{0} should never be used as a password. If you are using it anywhere change it immediately.',
     'errorPasswordEmpty'        => 'A Password is required.',
+    'errorPasswordTooLongBytes' => 'Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Password changed successfully',
     'userDoesNotExist'          => 'Password was not changed. User does not exist',
     'resetTokenExpired'         => 'Sorry. Your reset token has expired.',

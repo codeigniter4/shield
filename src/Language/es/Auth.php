@@ -61,6 +61,7 @@ return [
     'errorPasswordPwned'        => 'La contraseña {0} ha quedado expuesta debido a una violación de datos y se ha visto comprometida {1, número} veces en {2} contraseñas.',
     'suggestPasswordPwned'      => '{0} no se debe usar nunca como contraseña. Si la estás usando en algún sitio, cámbiala inmediatamente.',
     'errorPasswordEmpty'        => 'Se necesita una contraseña.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Contraseña modificada correctamente',
     'userDoesNotExist'          => 'No se ha cambiado la contraseña. No existe el usuario',
     'resetTokenExpired'         => 'Lo sentimos. Tu token de reseteo ha caducado.',

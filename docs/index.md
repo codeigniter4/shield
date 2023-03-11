@@ -14,3 +14,4 @@
 ## Guides
 * [Protecting an API with Access Tokens](guides/api_tokens.md)
 * [Mobile Authentication with Access Tokens](guides/mobile_apps.md)
+* [How to Strengthen the Password](guides/strengthen_password.md)

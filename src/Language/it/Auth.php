@@ -61,6 +61,7 @@ return [
     'errorPasswordPwned'        => 'La password {0} è stata esposta ad un furto di dati ed è stata vista {1, number} volte in {2} di password compromesse.',
     'suggestPasswordPwned'      => '{0} non dovrebbe mai essere usata come password. Se la stai utilizzando da qualche parte, cambiala immediatamente.',
     'errorPasswordEmpty'        => 'Una password è richiesta.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'La password è stata cambiata con successo',
     'userDoesNotExist'          => 'La password non è stata cambiata. L\'utente non esiste',
     'resetTokenExpired'         => 'Spiacente. Il tuo reset token è scaduto.',

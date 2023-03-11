@@ -61,6 +61,7 @@ return [
     'errorPasswordPwned'        => '{0} şifresi, bir veri ihlali nedeniyle açığa çıktı ve güvenliği ihlal edilmiş şifrelerin {2} tanesinde {1, sayı} kez görüldü.',
     'suggestPasswordPwned'      => '{0} asla şifre olarak kullanılmamalıdır. Herhangi bir yerde kullanıyorsanız hemen değiştirin.',
     'errorPasswordEmpty'        => 'Şifre gerekli.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Şifre başarıyla değiştirildi.',
     'userDoesNotExist'          => 'Şifre değiştirilmedi. Kullanıcı yok.',
     'resetTokenExpired'         => 'Üzgünüz. Sıfırlama anahtarınızın süresi doldu.',

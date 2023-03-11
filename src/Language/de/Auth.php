@@ -61,6 +61,7 @@ return [
     'errorPasswordPwned'        => 'Das Passwort {0} wurde aufgrund einer Datenschutzverletzung aufgedeckt und wurde {1, number} Mal in {2} kompromittierten Passwörtern gesehen.',
     'suggestPasswordPwned'      => '{0} sollte niemals als Passwort verwendet werden. Wenn Sie es irgendwo verwenden, ändern Sie es sofort.',
     'errorPasswordEmpty'        => 'Ein Passwort ist erforderlich.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Passwort erfolgreich geändert',
     'userDoesNotExist'          => 'Passwort wurde nicht geändert. Der Benutzer existiert nicht',
     'resetTokenExpired'         => 'Tut mir leid. Ihr Reset-Token ist abgelaufen.',

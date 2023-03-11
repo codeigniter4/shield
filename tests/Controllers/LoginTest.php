@@ -8,6 +8,7 @@ use CodeIgniter\CodeIgniter;
 use CodeIgniter\Config\Factories;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\Email2FA;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
 use Config\Validation;
@@ -59,6 +60,52 @@ final class LoginTest extends DatabaseTestCase
 
         $this->assertNotEmpty(session('error'));
         $this->assertSame(lang('Auth.badAttempt'), session('error'));
+    }
+
+    public function testLoginTooLongPasswordDefault(): void
+    {
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $result = $this->post('/login', [
+            'email'    => 'fooled@example.com',
+            'password' => str_repeat('a', 73),
+        ]);
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionHas(
+            'errors',
+            ['password' => 'Password cannot exceed 72 bytes in length.']
+        );
+    }
+
+    public function testLoginTooLongPasswordArgon2id(): void
+    {
+        /** @var Auth $config */
+        $config                = config('Auth');
+        $config->hashAlgorithm = PASSWORD_ARGON2ID;
+
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $result = $this->post('/login', [
+            'email'    => 'fooled@example.com',
+            'password' => str_repeat('a', 256),
+        ]);
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionHas(
+            'errors',
+            ['password' => 'The Password field cannot exceed 255 characters in length.']
+        );
     }
 
     public function testLoginActionEmailSuccess(): void

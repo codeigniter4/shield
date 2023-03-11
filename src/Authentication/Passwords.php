@@ -31,26 +31,42 @@ class Passwords
      */
     public function hash(string $password)
     {
-        if ((defined('PASSWORD_ARGON2I') && $this->config->hashAlgorithm === PASSWORD_ARGON2I)
+        return password_hash($password, $this->config->hashAlgorithm, $this->getHashOptions());
+    }
+
+    private function getHashOptions(): array
+    {
+        if (
+            (defined('PASSWORD_ARGON2I') && $this->config->hashAlgorithm === PASSWORD_ARGON2I)
             || (defined('PASSWORD_ARGON2ID') && $this->config->hashAlgorithm === PASSWORD_ARGON2ID)
         ) {
-            $hashOptions = [
+            return [
                 'memory_cost' => $this->config->hashMemoryCost,
                 'time_cost'   => $this->config->hashTimeCost,
                 'threads'     => $this->config->hashThreads,
             ];
-        } else {
-            $hashOptions = [
-                'cost' => $this->config->hashCost,
-            ];
         }
 
+        return [
+            'cost' => $this->config->hashCost,
+        ];
+    }
+
+    /**
+     * Hash a password.
+     *
+     * @return false|string|null
+     *
+     * @deprecated This is only for backward compatibility.
+     */
+    public function hashDanger(string $password)
+    {
         return password_hash(
             base64_encode(
                 hash('sha384', $password, true)
             ),
             $this->config->hashAlgorithm,
-            $hashOptions
+            $this->getHashOptions()
         );
     }
 
@@ -62,6 +78,19 @@ class Passwords
      */
     public function verify(string $password, string $hash): bool
     {
+        return password_verify($password, $hash);
+    }
+
+    /**
+     * Verifies a password against a previously hashed password.
+     *
+     * @param string $password The password we're checking
+     * @param string $hash     The previously hashed password
+     *
+     * @deprecated This is only for backward compatibility.
+     */
+    public function verifyDanger(string $password, string $hash): bool
+    {
         return password_verify(base64_encode(
             hash('sha384', $password, true)
         ), $hash);
@@ -72,7 +101,7 @@ class Passwords
      */
     public function needsRehash(string $hashedPassword): bool
     {
-        return password_needs_rehash($hashedPassword, $this->config->hashAlgorithm);
+        return password_needs_rehash($hashedPassword, $this->config->hashAlgorithm, $this->getHashOptions());
     }
 
     /**
@@ -109,5 +138,17 @@ class Passwords
         return new Result([
             'success' => true,
         ]);
+    }
+
+    /**
+     * Returns the validation rule for max length.
+     */
+    public static function getMaxLenghtRule(): string
+    {
+        if (config('Auth')->hashAlgorithm === PASSWORD_BCRYPT) {
+            return 'max_byte[72]';
+        }
+
+        return 'max_length[255]';
     }
 }

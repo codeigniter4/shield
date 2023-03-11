@@ -61,6 +61,7 @@ return [
     'errorPasswordPwned'        => 'A senha {0} foi exposta devido a uma violação de dados e foi vista {1, number} vezes em {2} de senhas comprometidas.',
     'suggestPasswordPwned'      => '{0} nunca deve ser usado como uma senha. Se você estiver usando em algum lugar, altere imediatamente.',
     'errorPasswordEmpty'        => 'É necessária uma senha.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Senha alterada com sucesso',
     'userDoesNotExist'          => 'Senha não foi alterada. Usuário não existe',
     'resetTokenExpired'         => 'Desculpe. Seu token de redefinição expirou.',

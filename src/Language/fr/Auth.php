@@ -61,6 +61,7 @@ return [
     'errorPasswordPwned'        => 'Le mot de passe {0} a été exposé à la suite d\'une violation de données et a été vu {1, number} fois dans {2} des mots de passe compromis.',
     'suggestPasswordPwned'      => '{0} ne devrait jamais être utilisé comme mot de passe. Si vous l\'utilisez quelque part, changez-le immédiatement.',
     'errorPasswordEmpty'        => 'Un mot de passe est obligatoire.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Mot de passe modifié avec succès',
     'userDoesNotExist'          => 'Le mot de passe n\'a pas été modifié. L\'utilisateur n\'existe pas',
     'resetTokenExpired'         => 'Désolé. Votre jeton de réinitialisation a expiré.',

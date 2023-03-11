@@ -7,6 +7,7 @@ namespace CodeIgniter\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Traits\Viewable;
 
 class LoginController extends BaseController
@@ -90,8 +91,11 @@ class LoginController extends BaseController
                 'rules' => config('AuthSession')->emailValidationRules,
             ],
             'password' => [
-                'label' => 'Auth.password',
-                'rules' => 'required',
+                'label'  => 'Auth.password',
+                'rules'  => 'required|' . Passwords::getMaxLenghtRule(),
+                'errors' => [
+                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
+                ],
             ],
         ];
     }
