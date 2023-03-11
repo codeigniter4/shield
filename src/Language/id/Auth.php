@@ -7,6 +7,8 @@ return [
     'unknownAuthenticator'  => '{0} bukan otentikator yang sah.',
     'unknownUserProvider'   => 'Tidak dapat menentukan Penyedia Pengguna yang akan digunakan.',
     'invalidUser'           => 'Tidak dapat menemukan pengguna yang spesifik.',
+    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
+    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
     'badAttempt'            => 'Anda tidak dapat masuk. Harap periksa kredensial Anda.',
     'noPassword'            => 'Tidak dapat memvalidasi pengguna tanpa kata sandi.',
     'invalidPassword'       => 'Anda tidak dapat masuk. Harap periksa kata sandi Anda.',

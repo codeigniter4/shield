@@ -7,6 +7,8 @@ return [
     'unknownAuthenticator'  => '{0} は有効なオーセンティケーターではありません。', // '{0} is not a valid authenticator.',
     'unknownUserProvider'   => '使用するユーザープロバイダーを決定できません。', // 'Unable to determine the User Provider to use.',
     'invalidUser'           => '指定されたユーザーを見つけることができません。', // 'Unable to locate the specified user.',
+    'bannedUser'            => '現在あなたはアクセスが禁止されているため、ログインできません。',
+    'logOutBannedUser'      => 'アクセスが禁止されたため、ログアウトされました。',
     'badAttempt'            => 'ログインできません。認証情報を確認してください。', // 'Unable to log you in. Please check your credentials.',
     'noPassword'            => 'パスワードのないユーザーは認証できません。', // 'Cannot validate a user without a password.',
     'invalidPassword'       => 'ログインできません。パスワードを確認してください。', // 'Unable to log you in. Please check your password.',

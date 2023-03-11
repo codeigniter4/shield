@@ -147,6 +147,15 @@ class Session implements AuthenticatorInterface
         /** @var User $user */
         $user = $result->extraInfo();
 
+        if ($user->isBanned()) {
+            $this->user = null;
+
+            return new Result([
+                'success' => false,
+                'reason'  => $user->getBanMessage() ?? lang('Auth.bannedUser'),
+            ]);
+        }
+
         $this->user = $user;
 
         // Update the user's last used date on their password identity.

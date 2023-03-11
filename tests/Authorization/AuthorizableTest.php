@@ -326,4 +326,33 @@ final class AuthorizableTest extends DatabaseTestCase
         Locale::setDefault($currentLocale);
         Time::setTestNow();
     }
+
+    public function testBanningUser(): void
+    {
+        $this->assertFalse($this->user->isBanned());
+
+        $this->user->ban();
+
+        $this->assertTrue($this->user->isBanned());
+    }
+
+    public function testUnbanningUser(): void
+    {
+        $this->user->ban();
+
+        $this->assertTrue($this->user->isBanned());
+
+        $this->user->unBan();
+
+        $this->assertFalse($this->user->isBanned());
+    }
+
+    public function testGetBanMessage(): void
+    {
+        $this->assertNull($this->user->getBanMessage());
+
+        $this->user->ban('You are banned');
+
+        $this->assertSame('You are banned', $this->user->getBanMessage());
+    }
 }

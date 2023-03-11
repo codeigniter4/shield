@@ -12,6 +12,7 @@ use CodeIgniter\Shield\Authorization\Traits\Authorizable;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Traits\Activatable;
+use CodeIgniter\Shield\Traits\Bannable;
 use CodeIgniter\Shield\Traits\Resettable;
 
 /**
@@ -29,6 +30,7 @@ class User extends Entity
     use HasAccessTokens;
     use Resettable;
     use Activatable;
+    use Bannable;
 
     /**
      * @var UserIdentity[]|null

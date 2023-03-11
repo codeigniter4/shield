@@ -29,6 +29,11 @@ class AuthenticationException extends RuntimeException
         return new self(lang('Auth.invalidUser'));
     }
 
+    public static function forBannedUser(): self
+    {
+        return new self(lang('Auth.invalidUser'));
+    }
+
     public static function forNoEntityProvided(): self
     {
         return new self(lang('Auth.noUserEntity'), 500);
