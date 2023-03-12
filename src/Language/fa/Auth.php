@@ -61,7 +61,7 @@ return [
     'errorPasswordPwned'        => 'رمز عبور {0} با توجه به نقض داده ها و دیده شدن {1, number} بارها داخل رمز های عبور {2} به پسورد های ناامن تبدیل شده و در معرض قرار گرفته است.',
     'suggestPasswordPwned'      => '{0} هرگز نباید به عنوان رمز عبور استفاده شود. اگر در هر جایی از آن استفاده می کنید سریعا آن را تغییر دهید.',
     'errorPasswordEmpty'        => 'رمز عبور الزامی است.',
-    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
+    'errorPasswordTooLongBytes' => 'طول رمز عبور نمی تواند از {param} بایت بیشتر باشد.',
     'passwordChangeSuccess'     => 'رمز عبور با موفقیت تغییر کرد',
     'userDoesNotExist'          => 'رمز عبور تغییر نکرد. کاربر وجود ندارد.',
     'resetTokenExpired'         => 'متاسفانه، توکن بازنشانی شما منقضی شده است.',
