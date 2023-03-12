@@ -84,7 +84,7 @@ return [
     'needVerification'    => 'Kontrollera din epost för att slutföra aktiveringen av kontot.',
 
     // Activate
-    'emailActivateTitle'    => 'Email Activation',
+    'emailActivateTitle'    => 'Verifiering av epostadress',
     'emailActivateBody'     => 'Ett meddelande har just skickats för att det skall gå att verifiera din epostadress. Kopiera aktiveringskoden från meddelandet och klistra in den nedan.',
     'emailActivateSubject'  => 'Din aktiveringskod',
     'emailActivateMailBody' => 'Använd koden nedan för att aktivera ditt konto för att kunna använda webplatsen.',
