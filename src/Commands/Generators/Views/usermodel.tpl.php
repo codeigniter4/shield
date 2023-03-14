@@ -10,6 +10,8 @@ class {class} extends ShieldUserModel
 {
     protected function initialize(): void
     {
+        parent::initialize();
+
         $this->allowedFields = [
             ...$this->allowedFields,
 
