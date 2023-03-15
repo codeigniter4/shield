@@ -42,7 +42,7 @@ class Auth extends BaseCollector
      *
      * @var string
      */
-    protected $title = 'Shield';
+    protected $title = 'Auth';
 
     private ShieldAuth $auth;
 
