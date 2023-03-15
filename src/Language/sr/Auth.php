@@ -47,7 +47,7 @@ return [
     'magicLinkExpired'   => 'Žao nam je, link je istekao.',
     'checkYourEmail'     => 'Proverite Vaš email!',
     'magicLinkDetails'   => 'Upravo smo Vam poslali pristupni link. Pristupni link će biti validan još samo {0} minuta.',
-    'successLogout'      => 'You have successfully logged out.',
+    'successLogout'      => 'Uspešno ste se odjavili sa sistema.',
 
     // Passwords
     'errorPasswordLength'       => 'Lozinka mora biti najmanje {0, number} znakova dužine.',
@@ -68,7 +68,7 @@ return [
 
     // Email Globals
     'emailInfo'      => 'Neke informacije o osobi:',
-    'emailIpAddress' => 'IP Address:',
+    'emailIpAddress' => 'IP Adresa:',
     'emailDevice'    => 'Uređaj:',
     'emailDate'      => 'Datum:',
 
