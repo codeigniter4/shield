@@ -7,8 +7,8 @@ return [
     'unknownAuthenticator'  => '{0} não é um autenticador válido.',
     'unknownUserProvider'   => 'Não foi possível determinar o provedor de usuário a ser usado.',
     'invalidUser'           => 'Não foi possível localizar o usuário especificado.',
-    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
-    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
+    'bannedUser'            => 'Não é possível fazer login porque você está banido no momento.',
+    'logOutBannedUser'      => 'Você foi desconectado porque foi banido.',
     'badAttempt'            => 'Não foi possível fazer login. Por favor, verifique suas credenciais.',
     'noPassword'            => 'Não é possível validar um usuário sem uma senha.',
     'invalidPassword'       => 'Não foi possível fazer login. Por favor, verifique sua senha.',
@@ -61,7 +61,7 @@ return [
     'errorPasswordPwned'        => 'A senha {0} foi exposta devido a uma violação de dados e foi vista {1, number} vezes em {2} de senhas comprometidas.',
     'suggestPasswordPwned'      => '{0} nunca deve ser usado como uma senha. Se você estiver usando em algum lugar, altere imediatamente.',
     'errorPasswordEmpty'        => 'É necessária uma senha.',
-    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
+    'errorPasswordTooLongBytes' => 'A senha não pode exceder {param} bytes.',
     'passwordChangeSuccess'     => 'Senha alterada com sucesso',
     'userDoesNotExist'          => 'Senha não foi alterada. Usuário não existe',
     'resetTokenExpired'         => 'Desculpe. Seu token de redefinição expirou.',
@@ -90,7 +90,7 @@ return [
     'emailActivateMailBody' => 'Use o código abaixo para ativar sua conta e começar a usar o site.',
     'invalidActivateToken'  => 'O código estava incorreto.',
     'needActivate'          => 'Você deve concluir seu registro confirmando o código enviado para seu endereço de e-mail.',
-    'activationBlocked'     => '(to be translated) You must activate your account before logging in.',
+    'activationBlocked'     => 'Você deve ativar sua conta antes de fazer o login.',
 
     // Grupos
     'unknownGroup' => '{0} não é um grupo válido.',
