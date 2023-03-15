@@ -7,8 +7,8 @@ return [
     'unknownAuthenticator'  => '{0} n\'est pas un authentificateur valide.',
     'unknownUserProvider'   => 'Impossible de déterminer le User Provider à utiliser.',
     'invalidUser'           => 'Impossible de trouver l\'utilisateur.',
-    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
-    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
+    'bannedUser'            => 'Impossible de vous connecter car vous êtes actuellement banni.',
+    'logOutBannedUser'      => 'Vous avez été déconnecté car vous avez été banni.',
     'badAttempt'            => 'Connexion impossible. Veuillez vérifier les informations saisies.',
     'noPassword'            => 'Impossible de valider un utilisateur sans mot de passe.',
     'invalidPassword'       => 'Connexion impossible. Veuillez vérifier votre mot de passe.',
@@ -61,7 +61,7 @@ return [
     'errorPasswordPwned'        => 'Le mot de passe {0} a été exposé à la suite d\'une violation de données et a été vu {1, number} fois dans {2} des mots de passe compromis.',
     'suggestPasswordPwned'      => '{0} ne devrait jamais être utilisé comme mot de passe. Si vous l\'utilisez quelque part, changez-le immédiatement.',
     'errorPasswordEmpty'        => 'Un mot de passe est obligatoire.',
-    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
+    'errorPasswordTooLongBytes' => 'Le mot de passe ne doit pas dépasser {param} octets de longueur.',
     'passwordChangeSuccess'     => 'Mot de passe modifié avec succès',
     'userDoesNotExist'          => 'Le mot de passe n\'a pas été modifié. L\'utilisateur n\'existe pas',
     'resetTokenExpired'         => 'Désolé. Votre jeton de réinitialisation a expiré.',
@@ -90,7 +90,7 @@ return [
     'emailActivateMailBody' => 'Veuillez utiliser le code suivant pour activer votre compte et commencer à utiliser le site.',
     'invalidActivateToken'  => 'Le code était incorrect.',
     'needActivate'          => 'Complétez votre inscription en confirmant le code envoyé à votre email.',
-    'activationBlocked'     => '(to be translated) You must activate your account before logging in.',
+    'activationBlocked'     => 'Vous devez activer votre compte avant de vous connecter.',
 
     // Groups
     'unknownGroup' => '{0} n\'est pas un groupe valide.',
