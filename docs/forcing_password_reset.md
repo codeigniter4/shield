@@ -6,7 +6,7 @@ Depending on the scope of your application, there may be times when you'll decid
   - [Available Methods](#available-methods)
     - [Check if a User Requires Password Reset](#check-if-a-user-requires-password-reset)
     - [Force Password Reset On a User](#force-password-reset-on-a-user)
-    - [Removing Password Reset Flag On a User](#removing-password-reset-flag-on-a-user)
+    - [Remove Force Password Reset Flag On a User](#remove-force-password-reset-flag-on-a-user)
     - [Force Password Reset On Multiple Users](#force-password-reset-on-multiple-users)
     - [Force Password Reset On All Users](#force-password-reset-on-all-users)
 
@@ -46,9 +46,8 @@ If you see the need to force password reset for more than one user, the `forceMu
 
 ```php
 use CodeIgniter\Shield\Models\UserIdentityModel;
-...
-...
-...
+
+// ...
 $identities = new UserIdentityModel();
 $identities->forceMultiplePasswordReset([1,2,3,4]);
 ```
@@ -59,9 +58,8 @@ If you suspect a security breach or compromise in the passwords of your users, y
 
 ```php
 use CodeIgniter\Shield\Models\UserIdentityModel;
-...
-...
-...
+
+// ...
 $identities = new UserIdentityModel();
 $identities->forceGlobalPasswordReset();
 ```
