@@ -94,10 +94,10 @@ and `$hashThreads`.
 If you use `PASSWORD_ARGON2ID`, you should use PHP's constants:
 
 ```php
-    public int $hashMemoryCost = PASSWORD_ARGON2_DEFAULT_MEMORY_COST;
+public int $hashMemoryCost = PASSWORD_ARGON2_DEFAULT_MEMORY_COST;
 
-    public int $hashTimeCost = PASSWORD_ARGON2_DEFAULT_TIME_COST;
-    public int $hashThreads  = PASSWORD_ARGON2_DEFAULT_THREADS;
+public int $hashTimeCost = PASSWORD_ARGON2_DEFAULT_TIME_COST;
+public int $hashThreads  = PASSWORD_ARGON2_DEFAULT_THREADS;
 ```
 
 ## Maximum Password Length
