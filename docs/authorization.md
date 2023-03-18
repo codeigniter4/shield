@@ -6,19 +6,24 @@
   - [Defining Available Permissions](#defining-available-permissions)
   - [Assigning Permissions to Groups](#assigning-permissions-to-groups)
   - [Authorizing Users](#authorizing-users)
-      - [can()](#can)
-      - [inGroup()](#ingroup)
-      - [hasPermission()](#haspermission)
+    - [can()](#can)
+    - [inGroup()](#ingroup)
+    - [hasPermission()](#haspermission)
+    - [Authorizing via Routes](#authorizing-via-routes)
   - [Managing User Permissions](#managing-user-permissions)
-      - [addPermission()](#addpermission)
-      - [removePermission()](#removepermission)
-      - [syncPermissions()](#syncpermissions)
-      - [getPermissions()](#getpermissions)
+    - [addPermission()](#addpermission)
+    - [removePermission()](#removepermission)
+    - [syncPermissions()](#syncpermissions)
+    - [getPermissions()](#getpermissions)
   - [Managing User Groups](#managing-user-groups)
-      - [addGroup()](#addgroup)
-      - [removeGroup()](#removegroup)
-      - [syncGroups()](#syncgroups)
-      - [getGroups()](#getgroups)
+    - [addGroup()](#addgroup)
+    - [removeGroup()](#removegroup)
+    - [syncGroups()](#syncgroups)
+    - [getGroups()](#getgroups)
+  - [User Activation](#user-activation)
+    - [Checking Activation Status](#checking-activation-status)
+    - [Activating a User](#activating-a-user)
+    - [Deactivating a User](#deactivating-a-user)
 
 Authorization happens once a user has been identified through authentication. It is the process of
 determining what actions a user is allowed to do within your site.
@@ -48,7 +53,7 @@ group elsewhere, like checking if `$user->inGroup('superadmin')`. By default, th
 ### Default User Group
 
 When a user is first registered on the site, they are assigned to a default user group. This group is defined in
-`app/config/AuthGroups::defaultGroup`, and must match the name of one of the defined groups.
+`Config\AuthGroups::$defaultGroup`, and must match the name of one of the defined groups.
 
 ```php
 public $defaultGroup = 'users';
@@ -128,6 +133,34 @@ if (! $user->hasPermission('users.create')) {
 }
 ```
 
+#### Authorizing via Routes
+
+You can restrict access to a route or route group through a
+[Controller Filter](https://codeigniter.com/user_guide/incoming/filters.html).
+
+One is provided for restricting via groups the user belongs to, the other
+is for permission they need. The filters are automatically registered with the
+system under the `group` and `permission` aliases, respectively.
+
+You can set the filters within **app/Config/Routes.php**:
+
+```php
+$routes->group('admin', ['filter' => 'group:admin,superadmin'], static function ($routes) {
+    $routes->group(
+        '',
+        ['filter' => ['group:admin,superadmin', 'permission:users.manage']],
+        static function ($routes) {
+            $routes->resource('users');
+        }
+    );
+});
+```
+
+Note that the options (`filter`) passed to the outer `group()` are not merged with the inner `group()` options.
+
+> **Note** If you set more than one filter to a route, you need to enable
+> [Multiple Filters](https://codeigniter.com/user_guide/incoming/routing.html#multiple-filters).
+
 ## Managing User Permissions
 
 Permissions can be granted on a user level as well as on a group level. Any user-level permissions granted will
@@ -199,8 +232,48 @@ $user->syncGroups('admin', 'beta');
 
 #### getGroups()
 
-Returns all groups this user is a part of. 
+Returns all groups this user is a part of.
 
 ```php
 $user->getGroups();
+```
+
+## User Activation
+
+All users have an `active` flag. This is only used when the [`EmailActivation` action](./auth_actions.md), or a custom action used to activate a user, is enabled.
+
+### Checking Activation Status
+
+You can determine if a user has been activated with the `isActivated()` method.
+
+```php
+if ($user->isActivated()) {
+    //
+}
+```
+
+> **Note** If no activator is specified in the `Auth` config file, `actions['register']` property, then this will always return `true`.
+
+You can check if a user has not been activated yet via the `isNotActivated()` method.
+
+```php
+if ($user->isNotActivated()) {
+    //
+}
+```
+
+### Activating a User
+
+Users are automatically activated within the `EmailActivator` action. They can be manually activated via the `activate()` method on the `User` entity.
+
+```php
+$user->activate();
+```
+
+### Deactivating a User
+
+Users can be manually deactivated via the `deactivate()` method on the `User` entity.
+
+```php
+$user->deactivate();
 ```

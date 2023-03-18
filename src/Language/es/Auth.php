@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\es;
-
 return [
     // Excepciones
     'unknownAuthenticator'  => '{0} no es un handler válido.',
     'unknownUserProvider'   => 'No podemos determinar que Proveedor de Usuarios usar.',
     'invalidUser'           => 'No podemos localizar este usuario.',
+    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
+    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
     'badAttempt'            => 'No puedes entrar. Por favor, comprueba tus creenciales.',
     'noPassword'            => 'No se puede validar un usuario sin una contraseña.',
     'invalidPassword'       => 'No uedes entrar. Por favor, comprueba tu contraseña.',
@@ -18,7 +18,8 @@ return [
     'noUserEntity'          => 'Se debe dar una Entidad de Usuario para validar la contraseña.',
     'invalidEmail'          => 'No podemos verificar que el email coincida con un email registrado.',
     'unableSendEmailToUser' => 'Lo sentimaos, ha habido un problema al enviar el email. No podemos enviar un email a "{0}".',
-    'throttled'             => 'demasiadas peticiones hechas desde esta IP. Puedes intentarlo de nuevo en {0} segundos.',
+    'throttled'             => 'Demasiadas peticiones hechas desde esta IP. Puedes intentarlo de nuevo en {0} segundos.',
+    'notEnoughPrivilege'    => 'No tiene los permisos necesarios para realizar la operación deseada.',
 
     'email'           => 'Dirección Email',
     'username'        => 'Usuario',
@@ -60,9 +61,16 @@ return [
     'errorPasswordPwned'        => 'La contraseña {0} ha quedado expuesta debido a una violación de datos y se ha visto comprometida {1, número} veces en {2} contraseñas.',
     'suggestPasswordPwned'      => '{0} no se debe usar nunca como contraseña. Si la estás usando en algún sitio, cámbiala inmediatamente.',
     'errorPasswordEmpty'        => 'Se necesita una contraseña.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Contraseña modificada correctamente',
     'userDoesNotExist'          => 'No se ha cambiado la contraseña. No existe el usuario',
     'resetTokenExpired'         => 'Lo sentimos. Tu token de reseteo ha caducado.',
+
+    // Email Globals
+    'emailInfo'      => 'Algunos datos sobre la persona:',
+    'emailIpAddress' => 'Dirección IP:',
+    'emailDevice'    => 'Dispositivo:',
+    'emailDate'      => 'Fecha:',
 
     // 2FA
     'email2FATitle'       => 'Authenticación de Doble Factor',
@@ -81,6 +89,8 @@ return [
     'emailActivateSubject'  => 'Tu código de activación',
     'emailActivateMailBody' => 'Por favor, usa el código de abajo para activar tu cuenta y empezar a usar el sitio.',
     'invalidActivateToken'  => 'El código no es correcto.',
+    'needActivate'          => '(To be translated) You must complete your registration by confirming the code sent to your email address.',
+    'activationBlocked'     => '(to be translated) You must activate your account before logging in.',
 
     // Grupos
     'unknownGroup' => '{0} no es un grupo válido.',

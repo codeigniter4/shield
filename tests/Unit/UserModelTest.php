@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Test\DatabaseTestTrait;
-use Tests\Support\TestCase;
+use Tests\Support\DatabaseTestCase;
 
 /**
  * @internal
  */
-final class UserModelTest extends TestCase
+final class UserModelTest extends DatabaseTestCase
 {
-    use DatabaseTestTrait;
-
     protected $namespace;
     protected $refresh = true;
 
@@ -34,14 +32,30 @@ final class UserModelTest extends TestCase
         $users->save($user);
 
         $user = $users->findByCredentials(['email' => 'foo@bar.com']);
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'foo@bar.com',
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $user->id,
             'active' => 0,
         ]);
+    }
+
+    /**
+     * @see https://github.com/codeigniter4/shield/issues/546
+     */
+    public function testFindByCredentialsEmptyEmail(): void
+    {
+        $users = $this->createUserModel();
+        $user  = $this->createNewUser();
+        $users->save($user);
+
+        $user = $users->findByCredentials(['email' => '']);
+        $this->assertNull($user);
+
+        $user = $users->findByCredentials([]);
+        $this->assertNull($user);
     }
 
     public function testInsertUserObject(): void
@@ -53,11 +67,11 @@ final class UserModelTest extends TestCase
         $users->insert($user);
 
         $user = $users->findByCredentials(['email' => 'foo@bar.com']);
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'foo@bar.com',
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $user->id,
             'active' => 0,
         ]);
@@ -99,11 +113,11 @@ final class UserModelTest extends TestCase
 
         $id = $users->insert($userArray);
 
-        $this->dontSeeInDatabase('auth_identities', [
+        $this->dontSeeInDatabase($this->tables['identities'], [
             'user_id' => $id,
             'secret'  => 'foo@bar.com',
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $id,
             'active' => 0,
         ]);
@@ -134,11 +148,11 @@ final class UserModelTest extends TestCase
 
         $users->save($user);
 
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $user->id,
             'active' => 1,
         ]);
@@ -156,13 +170,13 @@ final class UserModelTest extends TestCase
         $user->email    = 'bar@bar.com';
         $user->active   = true;
 
-        $users->update(null, $user);
+        $users->update($user->id, $user);
 
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $user->id,
             'active' => 1,
         ]);
@@ -192,13 +206,13 @@ final class UserModelTest extends TestCase
         // Fix value type
         $userArray['active'] = (int) $userArray['active'];
 
-        $users->update(null, $userArray);
+        $users->update($user->id, $userArray);
 
-        $this->dontSeeInDatabase('auth_identities', [
+        $this->dontSeeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $user->id,
             'active' => 1,
         ]);
@@ -216,7 +230,7 @@ final class UserModelTest extends TestCase
 
         $users->save($user);
 
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
@@ -234,9 +248,23 @@ final class UserModelTest extends TestCase
 
         $users->update(null, $user);
 
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'secret'  => 'bar@bar.com',
         ]);
+    }
+
+    /**
+     * @see https://github.com/codeigniter4/shield/issues/471
+     */
+    public function testSaveArrayNoDataToUpdate(): void
+    {
+        $this->expectException(DataException::class);
+        $this->expectExceptionMessage('There is no data to update.');
+
+        $users = $this->createUserModel();
+        $user  = fake(UserModel::class);
+
+        $users->save(['id' => $user->id]);
     }
 }

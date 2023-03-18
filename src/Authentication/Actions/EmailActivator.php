@@ -8,15 +8,19 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\Response;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Traits\Viewable;
 
 class EmailActivator implements ActionInterface
 {
+    use Viewable;
+
     private string $type = Session::ID_TYPE_EMAIL_ACTIVATE;
 
     /**
@@ -43,11 +47,18 @@ class EmailActivator implements ActionInterface
 
         $code = $this->createIdentity($user);
 
+        /** @var IncomingRequest $request */
+        $request = service('request');
+
+        $ipAddress = $request->getIPAddress();
+        $userAgent = (string) $request->getUserAgent();
+        $date      = Time::now()->toDateTimeString();
+
         // Send the email
         $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
         $email->setTo($userEmail);
         $email->setSubject(lang('Auth.emailActivateSubject'));
-        $email->setMessage(view(setting('Auth.views')['action_email_activate_email'], ['code' => $code]));
+        $email->setMessage($this->view(setting('Auth.views')['action_email_activate_email'], ['code' => $code, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date]));
 
         if ($email->send(false) === false) {
             throw new RuntimeException('Cannot send email for user: ' . $user->email . "\n" . $email->printDebugger(['headers']));
@@ -57,7 +68,7 @@ class EmailActivator implements ActionInterface
         $email->clear();
 
         // Display the info page
-        return view(setting('Auth.views')['action_email_activate_show'], ['user' => $user]);
+        return $this->view(setting('Auth.views')['action_email_activate_show'], ['user' => $user]);
     }
 
     /**
@@ -94,13 +105,13 @@ class EmailActivator implements ActionInterface
         if (! $authenticator->checkAction($identity, $postedToken)) {
             session()->setFlashdata('error', lang('Auth.invalidActivateToken'));
 
-            return view(setting('Auth.views')['action_email_activate_show']);
+            return $this->view(setting('Auth.views')['action_email_activate_show']);
         }
 
         $user = $authenticator->getUser();
 
         // Set the user active now
-        $authenticator->activateUser($user);
+        $user->activate();
 
         // Success!
         return redirect()->to(config('Auth')->registerRedirect())

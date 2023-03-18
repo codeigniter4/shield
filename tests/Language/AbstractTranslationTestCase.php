@@ -56,8 +56,8 @@ abstract class AbstractTranslationTestCase extends TestCase
         FrenchTranslationTest::class  => 'fr',
         //        HungarianTranslationTest::class          => 'hu',
         IndonesianTranslationTest::class => 'id',
-        //        ItalianTranslationTest::class            => 'it',
-        JapaneseTranslationTest::class => 'ja',
+        ItalianTranslationTest::class    => 'it',
+        JapaneseTranslationTest::class   => 'ja',
         //        KoreanTranslationTest::class             => 'ko',
         //        LithuanianTranslationTest::class         => 'lt',
         //        LatvianTranslationTest::class            => 'lv',
@@ -66,13 +66,13 @@ abstract class AbstractTranslationTestCase extends TestCase
         //        NorwegianTranslationTest::class          => 'no',
         //        PolishTranslationTest::class             => 'pl',
         //        PortugueseTranslationTest::class         => 'pt',
-        //        BrazilianTranslationTest::class          => 'pt-BR',
+        BrazilianTranslationTest::class => 'pt-BR',
         //        RussianTranslationTest::class            => 'ru',
         //        SinhalaTranslationTest::class            => 'si',
         SlovakTranslationTest::class => 'sk',
         //        SwedishTranslationTest::class            => 'sv-SE',
         //        ThaiTranslationTest::class               => 'th',
-        //        TurkishTranslationTest::class            => 'tr',
+        TurkishTranslationTest::class => 'tr',
         //        UkrainianTranslationTest::class          => 'uk',
         //        VietnameseTranslationTest::class         => 'vi',
         //        SimplifiedChineseTranslationTest::class  => 'zh-CN',
@@ -87,7 +87,8 @@ abstract class AbstractTranslationTestCase extends TestCase
      * class and the contained values will be skipped in
      * testAllIncludedLanguageKeysAreTranslated.
      *
-     * @var array<string, string>
+     * @var string[]
+     * @phpstan-var list<string>
      */
     protected array $excludedLocaleKeyTranslations = [];
 
@@ -304,12 +305,12 @@ abstract class AbstractTranslationTestCase extends TestCase
     /**
      * @return string[][]
      */
-    final public function localesProvider(): iterable
+    final public static function localesProvider(): iterable
     {
         $locale = self::$locales[static::class] ?? null;
 
         if (null === $locale) {
-            $this->fail('The locale code should be defined in the $locales property.');
+            static::fail('The locale code should be defined in the $locales property.');
         }
 
         return [$locale => [$locale]];

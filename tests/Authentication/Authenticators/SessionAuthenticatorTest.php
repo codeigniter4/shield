@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Authentication\Authenticators;
 
+use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
@@ -11,25 +12,24 @@ use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\RememberModel;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
-use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
+use Tests\Support\DatabaseTestCase;
 use Tests\Support\FakeUser;
-use Tests\Support\TestCase;
 
 /**
  * @internal
  */
-final class SessionAuthenticatorTest extends TestCase
+final class SessionAuthenticatorTest extends DatabaseTestCase
 {
-    use DatabaseTestTrait;
     use FakeUser;
 
-    protected Session $auth;
+    private Session $auth;
     protected $namespace;
-    protected $events;
+    private MockEvents $events;
 
     protected function setUp(): void
     {
@@ -46,7 +46,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->events = new MockEvents();
         Services::injectMock('events', $this->events);
 
-        $this->db->table('auth_identities')->truncate();
+        $this->db->table($this->tables['identities'])->truncate();
     }
 
     public function testLoggedInFalse(): void
@@ -147,7 +147,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->dontSeeInDatabase('auth_remember_tokens', [
+        $this->dontSeeInDatabase($this->tables['remember_tokens'], [
             'user_id' => $this->user->id,
         ]);
     }
@@ -160,7 +160,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->seeInDatabase('auth_remember_tokens', [
+        $this->seeInDatabase($this->tables['remember_tokens'], [
             'user_id' => $this->user->id,
         ]);
 
@@ -174,12 +174,12 @@ final class SessionAuthenticatorTest extends TestCase
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
         $this->auth->remember()->login($this->user);
 
-        $this->seeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->seeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
 
         $this->auth->logout();
 
         $this->assertArrayNotHasKey('user', $_SESSION);
-        $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->dontSeeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testLogoutOnlyLogoutCalled(): void
@@ -207,7 +207,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->dontSeeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testLoginByIdRemember(): void
@@ -218,7 +218,7 @@ final class SessionAuthenticatorTest extends TestCase
 
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->seeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->seeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testForgetCurrentUser(): void
@@ -227,22 +227,22 @@ final class SessionAuthenticatorTest extends TestCase
         $this->auth->remember()->loginById($this->user->id);
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
-        $this->seeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->seeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
 
         $this->auth->forget();
 
-        $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->dontSeeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testForgetAnotherUser(): void
     {
         fake(RememberModel::class, ['user_id' => $this->user->id]);
 
-        $this->seeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->seeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
 
         $this->auth->forget($this->user);
 
-        $this->dontSeeInDatabase('auth_remember_tokens', ['user_id' => $this->user->id]);
+        $this->dontSeeInDatabase($this->tables['remember_tokens'], ['user_id' => $this->user->id]);
     }
 
     public function testCheckNoPassword(): void
@@ -304,6 +304,34 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($this->user->id, $foundUser->id);
     }
 
+    public function testCheckSuccessOldDangerousPassword(): void
+    {
+        /** @var Auth $config */
+        $config                              = config('Auth');
+        $config->supportOldDangerousPassword = true; // @phpstan-ignore-line
+
+        fake(
+            UserIdentityModel::class,
+            [
+                'user_id' => $this->user->id,
+                'type'    => Session::ID_TYPE_EMAIL_PASSWORD,
+                'secret'  => 'foo@example.com',
+                'secret2' => '$2y$10$WswjNNcR24cJvsXvBc5TveVVVQ9/EYC0eq.Ad9e/2cVnmeSEYBOEm',
+            ]
+        );
+
+        $result = $this->auth->check([
+            'email'    => 'foo@example.com',
+            'password' => 'passw0rd!',
+        ]);
+
+        $this->assertInstanceOf(Result::class, $result);
+        $this->assertTrue($result->isOK());
+
+        $foundUser = $result->extraInfo();
+        $this->assertSame($this->user->id, $foundUser->id);
+    }
+
     public function testAttemptCannotFindUser(): void
     {
         $result = $this->auth->attempt([
@@ -316,7 +344,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame(lang('Auth.badAttempt'), $result->reason());
 
         // A login attempt should have always been recorded
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase($this->tables['logins'], [
             'identifier' => 'johnsmith@example.com',
             'success'    => 0,
         ]);
@@ -346,7 +374,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
         // A login attempt should have been recorded
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase($this->tables['logins'], [
             'identifier' => $this->user->email,
             'success'    => 1,
         ]);
@@ -396,7 +424,7 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($this->user->id, $_SESSION['user']['id']);
 
         // A login attempt should have been recorded
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase($this->tables['logins'], [
             'identifier' => 'foo@example.COM',
             'success'    => 1,
         ]);
@@ -404,6 +432,12 @@ final class SessionAuthenticatorTest extends TestCase
 
     public function testAttemptUsernameOnly(): void
     {
+        // Update our auth config to use the username as a valid field for login.
+        // It is commented out by default.
+        $config              = config('Auth');
+        $config->validFields = ['email', 'username'];
+        Factories::injectMock('config', 'Auth', $config);
+
         /** @var User $user */
         $user = fake(UserModel::class, ['username' => 'foorog']);
         $user->createEmailIdentity([
@@ -428,8 +462,47 @@ final class SessionAuthenticatorTest extends TestCase
         $this->assertSame($user->id, $_SESSION['user']['id']);
 
         // A login attempt should have been recorded
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase($this->tables['logins'], [
             'identifier' => 'fooROG',
+            'success'    => 1,
+        ]);
+    }
+
+    /**
+     * Test that any field within the user table can be used as the
+     * login identifier.
+     *
+     * @see https://github.com/codeigniter4/shield/issues/334
+     */
+    public function testAttemptCustomField(): void
+    {
+        // We don't need email, but do need a password set....
+        $this->user->createEmailIdentity([
+            'email'    => $this->db->getPlatform() === 'OCI8' ? ' ' : '',
+            'password' => 'secret123',
+        ]);
+
+        // We don't have any custom fields in the User model, so we'll
+        // just use the status field to represent an employoee ID
+        model(UserModel::class)->set('status', '12345')->update($this->user->id);
+
+        // Update our auth config to use the status field as a valid field for login
+        $config              = config('Auth');
+        $config->validFields = ['email', 'status'];
+        Factories::injectMock('config', 'Auth', $config);
+
+        // Should block it
+        $result = $this->auth->attempt(['status' => 'abcde', 'password' => 'secret123']);
+
+        $this->assertFalse($result->isOK());
+
+        $result = $this->auth->attempt(['status' => '12345', 'password' => 'secret123']);
+
+        $this->assertTrue($result->isOK());
+
+        $this->seeInDatabase($this->tables['logins'], [
+            'id_type'    => 'status',
+            'identifier' => '12345',
             'success'    => 1,
         ]);
     }

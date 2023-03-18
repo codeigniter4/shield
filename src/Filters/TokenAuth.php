@@ -49,11 +49,23 @@ class TokenAuth implements FilterInterface
         ]);
 
         if (! $result->isOK() || (! empty($arguments) && $result->extraInfo()->tokenCant($arguments[0]))) {
-            return redirect()->to('/login');
+            return service('response')
+                ->setStatusCode(Response::HTTP_UNAUTHORIZED)
+                ->setJson(['message' => lang('Auth.badToken')]);
         }
 
         if (setting('Auth.recordActiveDate')) {
             $authenticator->recordActiveDate();
+        }
+
+        // Block inactive users when Email Activation is enabled
+        $user = $authenticator->getUser();
+        if ($user !== null && ! $user->isActivated()) {
+            $authenticator->logout();
+
+            return service('response')
+                ->setStatusCode(Response::HTTP_FORBIDDEN)
+                ->setJson(['message' => lang('Auth.activationBlocked')]);
         }
     }
 

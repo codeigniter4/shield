@@ -56,6 +56,14 @@ class ValidationRules
     }
 
     /**
+     * Returns true if $str is $val or fewer bytes in length.
+     */
+    public function max_byte(?string $str, string $val): bool
+    {
+        return is_numeric($val) && $val >= strlen($str ?? '');
+    }
+
+    /**
      * Builds a new user instance from the global request.
      */
     protected function buildUserFromRequest(): User

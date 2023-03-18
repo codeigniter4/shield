@@ -6,10 +6,12 @@
 * [Authentication](authentication.md)
 * [Authorization](authorization.md)
 * [Auth Actions](auth_actions.md)
+* [Forcing Password Reset](forcing_password_reset.md)
 * [Events](events.md)
 * [Testing](testing.md)
 * [Customization](customization.md)
 
-Guides:
+## Guides
 * [Protecting an API with Access Tokens](guides/api_tokens.md)
 * [Mobile Authentication with Access Tokens](guides/mobile_apps.md)
+* [How to Strengthen the Password](guides/strengthen_password.md)

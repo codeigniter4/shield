@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\ja;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} は有効なオーセンティケーターではありません。', // '{0} is not a valid authenticator.',
     'unknownUserProvider'   => '使用するユーザープロバイダーを決定できません。', // 'Unable to determine the User Provider to use.',
     'invalidUser'           => '指定されたユーザーを見つけることができません。', // 'Unable to locate the specified user.',
+    'bannedUser'            => '現在あなたはアクセスが禁止されているため、ログインできません。',
+    'logOutBannedUser'      => 'アクセスが禁止されたため、ログアウトされました。',
     'badAttempt'            => 'ログインできません。認証情報を確認してください。', // 'Unable to log you in. Please check your credentials.',
     'noPassword'            => 'パスワードのないユーザーは認証できません。', // 'Cannot validate a user without a password.',
     'invalidPassword'       => 'ログインできません。パスワードを確認してください。', // 'Unable to log you in. Please check your password.',
@@ -19,6 +19,7 @@ return [
     'invalidEmail'          => 'メールアドレスが一致しません。', // 'Unable to verify the email address matches the email on record.',
     'unableSendEmailToUser' => '申し訳ありませんが、メールの送信に問題がありました。 "{0}"にメールを送信できませんでした。', // 'Sorry, there was a problem sending the email. We could not send an email to "{0}".',
     'throttled'             => 'このIPアドレスからのリクエストが多すぎます。 {0}秒後に再試行できます。', // Too many requests made from this IP address. You may try again in {0} seconds.
+    'notEnoughPrivilege'    => '目的の操作を実行するために必要な権限がありません。', // You do not have the necessary permission to perform the desired operation.
 
     'email'           => 'メールアドレス', // 'Email Address',
     'username'        => 'ユーザー名', // 'Username',
@@ -60,9 +61,16 @@ return [
     'errorPasswordPwned'        => 'パスワード {0} はデータ漏洩により公開されており、{2} の漏洩したパスワード中で {1, number} 回見られます。', // 'The password {0} has been exposed due to a data breach and has been seen {1, number} times in {2} of compromised passwords.',
     'suggestPasswordPwned'      => '{0} は絶対にパスワードとして使ってはいけません。もしどこかで使っていたら、すぐに変更してください。', // '{0} should never be used as a password. If you are using it anywhere change it immediately.',
     'errorPasswordEmpty'        => 'パスワードが必要です。', // 'A Password is required.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'パスワードの変更に成功しました', // 'Password changed successfully',
     'userDoesNotExist'          => 'パスワードは変更されていません。ユーザーは存在しません', // 'Password was not changed. User does not exist',
     'resetTokenExpired'         => '申し訳ありません。リセットトークンの有効期限が切れました。', // 'Sorry. Your reset token has expired.',
+
+    // Email Globals
+    'emailInfo'      => '本人に関する情報:',
+    'emailIpAddress' => 'IPアドレス:',
+    'emailDevice'    => 'デバイス:',
+    'emailDate'      => '日時:',
 
     // 2FA
     'email2FATitle'       => '二要素認証', // 'Two Factor Authentication',
@@ -81,6 +89,8 @@ return [
     'emailActivateSubject'  => 'アクティベーションコード', // 'Your activation code',
     'emailActivateMailBody' => '以下のコードを使用してアカウントを有効化し、サイトの利用を開始してください。', // 'Please use the code below to activate your account and start using the site.',
     'invalidActivateToken'  => 'コードが間違っています。', // 'The code was incorrect.',
+    'needActivate'          => 'メールアドレスに送信されたコードを確認し、登録を完了する必要があります。', // 'You must complete your registration by confirming the code sent to your email address.',
+    'activationBlocked'     => 'ログインする前にアカウントを有効化する必要があります。',
 
     // Groups
     'unknownGroup' => '{0} は有効なグループではありません。', // '{0} is not a valid group.',

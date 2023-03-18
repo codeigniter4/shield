@@ -147,6 +147,15 @@ class Session implements AuthenticatorInterface
         /** @var User $user */
         $user = $result->extraInfo();
 
+        if ($user->isBanned()) {
+            $this->user = null;
+
+            return new Result([
+                'success' => false,
+                'reason'  => $user->getBanMessage() ?? lang('Auth.bannedUser'),
+            ]);
+        }
+
         $this->user = $user;
 
         // Update the user's last used date on their password identity.
@@ -255,14 +264,6 @@ class Session implements AuthenticatorInterface
     }
 
     /**
-     * Activate a User
-     */
-    public function activateUser(User $user): void
-    {
-        $this->provider->activate($user);
-    }
-
-    /**
      * @param int|string|null $userId
      */
     private function recordLoginAttempt(
@@ -272,13 +273,28 @@ class Session implements AuthenticatorInterface
         string $userAgent,
         $userId = null
     ): void {
-        $idType = (! isset($credentials['email']) && isset($credentials['username']))
-            ? self::ID_TYPE_USERNAME
-            : self::ID_TYPE_EMAIL_PASSWORD;
+        // Determine the type of ID we're using.
+        // Standard fields would be email, username,
+        // but any column within config('Auth')->validFields can be used.
+        $field = array_intersect(config('Auth')->validFields ?? [], array_keys($credentials));
+
+        if (count($field) !== 1) {
+            throw new InvalidArgumentException('Invalid credentials passed to recordLoginAttempt.');
+        }
+
+        $field = array_pop($field);
+
+        if (! in_array($field, ['email', 'username'], true)) {
+            $idType = $field;
+        } else {
+            $idType = (! isset($credentials['email']) && isset($credentials['username']))
+                ? self::ID_TYPE_USERNAME
+                : self::ID_TYPE_EMAIL_PASSWORD;
+        }
 
         $this->loginModel->recordLoginAttempt(
             $idType,
-            $credentials['email'] ?? $credentials['username'],
+            $credentials[$field],
             $success,
             $ipAddress,
             $userAgent,
@@ -320,19 +336,30 @@ class Session implements AuthenticatorInterface
         /** @var Passwords $passwords */
         $passwords = service('passwords');
 
+        // This is only for supportOldDangerousPassword.
+        $needsRehash = false;
+
         // Now, try matching the passwords.
         if (! $passwords->verify($givenPassword, $user->password_hash)) {
-            return new Result([
-                'success' => false,
-                'reason'  => lang('Auth.invalidPassword'),
-            ]);
+            if (
+                ! setting('Auth.supportOldDangerousPassword')
+                || ! $passwords->verifyDanger($givenPassword, $user->password_hash) // @phpstan-ignore-line
+            ) {
+                return new Result([
+                    'success' => false,
+                    'reason'  => lang('Auth.invalidPassword'),
+                ]);
+            }
+
+            // Passed with old dangerous password.
+            $needsRehash = true;
         }
 
         // Check to see if the password needs to be rehashed.
         // This would be due to the hash algorithm or hash
         // cost changing since the last time that a user
         // logged in.
-        if ($passwords->needsRehash($user->password_hash)) {
+        if ($passwords->needsRehash($user->password_hash) || $needsRehash) {
             $user->password_hash = $passwords->hash($givenPassword);
             $this->provider->save($user);
         }
@@ -407,9 +434,28 @@ class Session implements AuthenticatorInterface
 
     /**
      * Has Auth Action?
+     *
+     * @param int|string|null $userId Provide user id only when checking a
+     *                                not-logged-in user
+     *                                (e.g. user who tries magic-link login)
      */
-    public function hasAction(): bool
+    public function hasAction($userId = null): bool
     {
+        // Check not-logged-in user
+        if ($userId !== null) {
+            $user = $this->provider->findById($userId);
+
+            // Check identities for actions
+            if ($this->getIdentitiesForAction($user) !== []) {
+                // Make pending login state
+                $this->user = $user;
+                $this->setSessionKey('id', $user->id);
+                $this->setAuthAction();
+
+                return true;
+            }
+        }
+
         // Check the Session
         if ($this->getSessionKey('auth_action')) {
             return true;
@@ -461,10 +507,10 @@ class Session implements AuthenticatorInterface
      *
      * @return UserIdentity[]
      */
-    private function getIdentitiesForAction(): array
+    private function getIdentitiesForAction(User $user): array
     {
         return $this->userIdentityModel->getIdentitiesByTypes(
-            $this->user,
+            $user,
             $this->getActionTypes()
         );
     }
@@ -693,7 +739,7 @@ class Session implements AuthenticatorInterface
         $this->user = $user;
 
         // Check identities for actions
-        if ($this->getIdentitiesForAction() !== []) {
+        if ($this->getIdentitiesForAction($user) !== []) {
             throw new LogicException(
                 'The user has identities for action, so cannot complete login.'
                 . ' If you want to start to login with auth action, use startLogin() instead.'

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\id;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} bukan otentikator yang sah.',
     'unknownUserProvider'   => 'Tidak dapat menentukan Penyedia Pengguna yang akan digunakan.',
     'invalidUser'           => 'Tidak dapat menemukan pengguna yang spesifik.',
+    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
+    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
     'badAttempt'            => 'Anda tidak dapat masuk. Harap periksa kredensial Anda.',
     'noPassword'            => 'Tidak dapat memvalidasi pengguna tanpa kata sandi.',
     'invalidPassword'       => 'Anda tidak dapat masuk. Harap periksa kata sandi Anda.',
@@ -19,6 +19,7 @@ return [
     'invalidEmail'          => 'Tidak dapat memverifikasi alamat email yang cocok dengan email yang tercatat.',
     'unableSendEmailToUser' => 'Maaf, ada masalah saat mengirim email. Kami tidak dapat mengirim email ke "{0}".',
     'throttled'             => 'Terlalu banyak permintaan yang dibuat dari alamat IP ini. Anda dapat mencoba lagi dalam {0} detik.',
+    'notEnoughPrivilege'    => 'Anda tidak memiliki izin yang diperlukan untuk melakukan operasi yang diinginkan.',
 
     'email'           => 'Alamat Email',
     'username'        => 'Nama Pengguna',
@@ -60,9 +61,16 @@ return [
     'errorPasswordPwned'        => 'Kata sandi {0} telah bocor karena pelanggaran data dan telah dilihat {1, number} kali dalam {2} sandi yang disusupi.',
     'suggestPasswordPwned'      => '{0} tidak boleh digunakan sebagai kata sandi. Jika Anda menggunakannya di mana saja, segera ubah.',
     'errorPasswordEmpty'        => 'Kata sandi wajib diisi.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Kata sandi berhasil diubah',
     'userDoesNotExist'          => 'Kata sandi tidak diubah. User tidak ditemukan',
     'resetTokenExpired'         => 'Maaf, token setel ulang Anda sudah habis waktu.',
+
+    // Email Globals
+    'emailInfo'      => 'Beberapa informasi tentang seseorang:',
+    'emailIpAddress' => 'Alamat IP:',
+    'emailDevice'    => 'Perangkat:',
+    'emailDate'      => 'Tanggal:',
 
     // 2FA
     'email2FATitle'       => 'Otentikasi Dua Faktor',
@@ -73,7 +81,7 @@ return [
     'email2FAMailBody'    => 'Kode otentikasi Anda adalah:',
     'invalid2FAToken'     => 'Kode tidak sesuai.',
     'need2FA'             => 'Anda harus menyelesaikan verifikasi otentikasi dua faktor.',
-    'needVerification'    => 'Check email Anda untuk menyelesaikan verifikasi akun.',
+    'needVerification'    => 'Periksa email Anda untuk menyelesaikan verifikasi akun.',
 
     // Activate
     'emailActivateTitle'    => 'Aktivasi Email',
@@ -81,10 +89,12 @@ return [
     'emailActivateSubject'  => 'Kode aktivasi Anda',
     'emailActivateMailBody' => 'Silahkan gunakan kode dibawah ini untuk mengaktivasi akun Anda.',
     'invalidActivateToken'  => 'Kode tidak sesuai.',
+    'needActivate'          => 'Anda harus menyelesaikan registrasi Anda dengan mengonfirmasi kode yang dikirim ke alamat email Anda.',
+    'activationBlocked'     => '(to be translated) You must activate your account before logging in.',
 
     // Groups
     'unknownGroup' => '{0} bukan grup yang sah.',
-    'missingTitle' => 'Groups diharuskan mempunyai judul.',
+    'missingTitle' => 'Grup-grup diharuskan mempunyai judul.',
 
     // Permissions
     'unknownPermission' => '{0} bukan izin yang sah.',

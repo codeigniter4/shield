@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\fr;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} n\'est pas un authentificateur valide.',
     'unknownUserProvider'   => 'Impossible de déterminer le User Provider à utiliser.',
     'invalidUser'           => 'Impossible de trouver l\'utilisateur.',
+    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
+    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
     'badAttempt'            => 'Connexion impossible. Veuillez vérifier les informations saisies.',
     'noPassword'            => 'Impossible de valider un utilisateur sans mot de passe.',
     'invalidPassword'       => 'Connexion impossible. Veuillez vérifier votre mot de passe.',
@@ -19,6 +19,7 @@ return [
     'invalidEmail'          => 'Impossible de vérifier que l\'adresse email existe.',
     'unableSendEmailToUser' => 'Désolé, il y a eu un problème lors de l\'envoi de l\'email. Nous ne pouvons pas envoyer un email à "{0}".',
     'throttled'             => 'Trop de requêtes faites depuis cette adresse IP. Vous pouvez réessayer dans {0} secondes.',
+    'notEnoughPrivilege'    => 'Vous n\'avez pas l\'autorisation nécessaire pour effectuer l\'opération souhaitée.',
 
     'email'           => 'Adresse email',
     'username'        => 'Identifiant',
@@ -60,9 +61,16 @@ return [
     'errorPasswordPwned'        => 'Le mot de passe {0} a été exposé à la suite d\'une violation de données et a été vu {1, number} fois dans {2} des mots de passe compromis.',
     'suggestPasswordPwned'      => '{0} ne devrait jamais être utilisé comme mot de passe. Si vous l\'utilisez quelque part, changez-le immédiatement.',
     'errorPasswordEmpty'        => 'Un mot de passe est obligatoire.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Mot de passe modifié avec succès',
     'userDoesNotExist'          => 'Le mot de passe n\'a pas été modifié. L\'utilisateur n\'existe pas',
     'resetTokenExpired'         => 'Désolé. Votre jeton de réinitialisation a expiré.',
+
+    // Email Globals
+    'emailInfo'      => 'Quelques informations sur la personne:',
+    'emailIpAddress' => 'Adresse IP:',
+    'emailDevice'    => 'Dispositif:',
+    'emailDate'      => 'Jour:',
 
     // 2FA
     'email2FATitle'       => 'Authentification à deux facteurs',
@@ -81,6 +89,8 @@ return [
     'emailActivateSubject'  => 'Votre code d\'activation',
     'emailActivateMailBody' => 'Veuillez utiliser le code suivant pour activer votre compte et commencer à utiliser le site.',
     'invalidActivateToken'  => 'Le code était incorrect.',
+    'needActivate'          => 'Complétez votre inscription en confirmant le code envoyé à votre email.',
+    'activationBlocked'     => '(to be translated) You must activate your account before logging in.',
 
     // Groups
     'unknownGroup' => '{0} n\'est pas un groupe valide.',

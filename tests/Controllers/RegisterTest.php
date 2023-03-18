@@ -8,6 +8,7 @@ use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords\ValidationRules;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\FeatureTestTrait;
@@ -60,7 +61,7 @@ final class RegisterTest extends DatabaseTestCase
         $this->assertSame(site_url(), $result->getRedirectUrl());
 
         // User saved to DB
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase($this->tables['users'], [
             'username' => 'JohnDoe',
         ]);
 
@@ -68,7 +69,7 @@ final class RegisterTest extends DatabaseTestCase
         /** @var User $user */
         $user = model(UserModel::class)->where('username', 'JohnDoe')->first();
 
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $user->id,
             'type'    => Session::ID_TYPE_EMAIL_PASSWORD,
             'secret'  => 'john.doe@example.com',
@@ -79,6 +80,46 @@ final class RegisterTest extends DatabaseTestCase
         $this->assertFalse($user->inGroup('admin'));
 
         $this->assertTrue($user->active);
+    }
+
+    public function testRegisterTooLongPasswordDefault(): void
+    {
+        $result = $this->withSession()->post('/register', [
+            'username'         => 'JohnDoe',
+            'email'            => 'john.doe@example.com',
+            'password'         => str_repeat('a', 73),
+            'password_confirm' => str_repeat('a', 73),
+        ]);
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionHas(
+            'errors',
+            ['password' => 'Password cannot exceed 72 bytes in length.']
+        );
+    }
+
+    public function testRegisterTooLongPasswordArgon2id(): void
+    {
+        /** @var Auth $config */
+        $config                = config('Auth');
+        $config->hashAlgorithm = PASSWORD_ARGON2ID;
+
+        $result = $this->withSession()->post('/register', [
+            'username'         => 'JohnDoe',
+            'email'            => 'john.doe@example.com',
+            'password'         => str_repeat('a', 256),
+            'password_confirm' => str_repeat('a', 256),
+        ]);
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionHas(
+            'errors',
+            ['password' => 'The Password field cannot exceed 255 characters in length.']
+        );
     }
 
     public function testRegisterDisplaysForm(): void
@@ -141,7 +182,7 @@ final class RegisterTest extends DatabaseTestCase
         $result->assertRedirectTo('/auth/a/show');
 
         // Should NOT have activated the user
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase($this->tables['users'], [
             'username' => 'foo',
             'active'   => 0,
         ]);

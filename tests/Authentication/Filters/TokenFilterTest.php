@@ -13,7 +13,7 @@ use CodeIgniter\Test\DatabaseTestTrait;
 /**
  * @internal
  */
-final class TokenFilterTest extends AbstractFilterTest
+final class TokenFilterTest extends AbstractFilterTestCase
 {
     use DatabaseTestTrait;
 
@@ -24,7 +24,7 @@ final class TokenFilterTest extends AbstractFilterTest
     {
         $result = $this->call('get', 'protected-route');
 
-        $result->assertRedirectTo('/login');
+        $result->assertStatus(401);
 
         $result = $this->get('open-route');
         $result->assertStatus(200);
@@ -84,6 +84,32 @@ final class TokenFilterTest extends AbstractFilterTest
         $result = $this->withHeaders(['Authorization' => 'Bearer ' . $token2->raw_token])
             ->get('protected-user-route');
 
-        $result->assertRedirectTo('/login');
+        $result->assertStatus(401);
+    }
+
+    public function testBlocksInactiveUsers(): void
+    {
+        /** @var User $user */
+        $user  = fake(UserModel::class, ['active' => false]);
+        $token = $user->generateAccessToken('foo');
+
+        // Activation only required with email activation
+        setting('Auth.actions', ['register' => null]);
+
+        $result = $this->withHeaders(['Authorization' => 'Bearer ' . $token->raw_token])
+            ->get('protected-route');
+
+        $result->assertStatus(200);
+        $result->assertSee('Protected');
+
+        // Now require user activation and try again
+        setting('Auth.actions', ['register' => '\CodeIgniter\Shield\Authentication\Actions\EmailActivator']);
+
+        $result = $this->withHeaders(['Authorization' => 'Bearer ' . $token->raw_token])
+            ->get('protected-route');
+
+        $result->assertStatus(403);
+
+        setting('Auth.actions', ['register' => null]);
     }
 }

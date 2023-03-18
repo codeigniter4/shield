@@ -15,14 +15,14 @@ use Tests\Support\DatabaseTestCase;
  */
 final class HasAccessTokensTest extends DatabaseTestCase
 {
-    protected User $user;
+    private User $user;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->user = fake(UserModel::class);
-        $this->db->table('auth_identities')->truncate();
+        $this->db->table($this->tables['identities'])->truncate();
     }
 
     public function testGenerateToken(): void

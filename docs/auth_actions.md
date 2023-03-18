@@ -17,7 +17,7 @@ Shield ships with two actions you can use, and makes it simple for you to define
 Actions are setup in the `Auth` config file, with the `$actions` variable.
 
 ```php
-public $actions = [
+public array $actions = [
     'register' => null,
     'login'    => null,
 ];
@@ -26,9 +26,9 @@ public $actions = [
 To define an action to happen you will specify the class name as the value for the appropriate task:
 
 ```php
-public $actions = [
-    'register' => 'CodeIgniter\Shield\Authentication\Actions\EmailActivator',
-    'login'    => 'CodeIgniter\Shield\Authentication\Actions\Email2FA',
+public array $actions = [
+    'register' => \CodeIgniter\Shield\Authentication\Actions\EmailActivator::class,
+    'login'    => \CodeIgniter\Shield\Authentication\Actions\Email2FA::class,
 ];
 ```
 

@@ -267,7 +267,7 @@ class Setup extends BaseCommand
     {
         $file     = 'Config/Security.php';
         $replaces = [
-            'public $csrfProtection = \'cookie\';' => 'public $csrfProtection = \'session\';',
+            '$csrfProtection = \'cookie\';' => '$csrfProtection = \'session\';',
         ];
 
         $path      = $this->distPath . $file;

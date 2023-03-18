@@ -24,6 +24,8 @@ class Registrar
      * DB config array for testing purposes.
      *
      * @var array
+     *
+     * @psalm-suppress RedundantCondition
      */
     protected static $dbConfig = [
         'MySQLi' => [

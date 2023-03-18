@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\sk;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} nie je platný autentifikátor.',
     'unknownUserProvider'   => 'Nie je možné určiť poskytovateľa používateľa, ktorý sa má použiť.',
     'invalidUser'           => 'Nie je možné nájsť zadaného používateľa.',
+    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
+    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
     'badAttempt'            => 'Prihlásenie zlyhalo. Skontrolujte svoje prihlasovacie údaje.',
     'noPassword'            => 'Nie je možné overiť používateľa bez hesla.',
     'invalidPassword'       => 'Prihlásenie zlyhalo. Skontrolujte svoje heslo.',
@@ -19,6 +19,7 @@ return [
     'invalidEmail'          => 'Nie je možné overiť, či sa e-mailová adresa zhoduje so zaznamenaným e-mailom.',
     'unableSendEmailToUser' => 'Ľutujeme, pri odosielaní e-mailu sa vyskytol problém. Nepodarilo sa nám odoslať e-mail na adresu „{0}".',
     'throttled'             => 'Z tejto adresy IP bolo odoslaných príliš veľa žiadostí. Môžete to skúsiť znova o {0} sekúnd.',
+    'notEnoughPrivilege'    => 'Nemáte potrebné povolenie na vykonanie požadovanej operácie.',
 
     'email'           => 'Emailová adresa',
     'username'        => 'Používateľské meno',
@@ -60,9 +61,16 @@ return [
     'errorPasswordPwned'        => 'Heslo {0} bolo odhalené z dôvodu porušenia ochrany údajov a bolo videné {1, number}-krát z {2} prelomených hesiel.',
     'suggestPasswordPwned'      => '{0} by sa nikdy nemalo používať ako heslo. Ak ho niekde používate, okamžite ho zmeňte.',
     'errorPasswordEmpty'        => 'Vyžaduje sa heslo.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Heslo bolo úspešne zmenené',
     'userDoesNotExist'          => 'Heslo nebolo zmenené. Používateľ neexistuje',
     'resetTokenExpired'         => 'Prepáčte. Platnosť vášho resetovacieho tokenu vypršala.',
+
+    // Email Globals
+    'emailInfo'      => 'Niektoré informácie o osobe:',
+    'emailIpAddress' => 'IP Adresa:',
+    'emailDevice'    => 'Zariadenie:',
+    'emailDate'      => 'Dátum:',
 
     // 2FA
     'email2FATitle'       => 'Dvojfaktorová autentifikácia',
@@ -81,6 +89,8 @@ return [
     'emailActivateSubject'  => 'Váš aktivačný kód',
     'emailActivateMailBody' => 'Pomocou nižšie uvedeného kódu aktivujte svoj účet a môžete začať používať stránku.',
     'invalidActivateToken'  => 'Kód bol nesprávny',
+    'needActivate'          => 'Registráciu musíte dokončiť potvrdením kódu zaslaného na vašu e-mailovú adresu.',
+    'activationBlocked'     => '(to be translated) You must activate your account before logging in.',
 
     // Groups
     'unknownGroup' => '{0} nie je platná skupina.',

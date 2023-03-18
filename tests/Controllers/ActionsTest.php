@@ -14,13 +14,13 @@ use CodeIgniter\Shield\Test\AuthenticationTesting;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
+use Tests\Support\DatabaseTestCase;
 use Tests\Support\FakeUser;
-use Tests\Support\TestCase;
 
 /**
  * @internal
  */
-final class ActionsTest extends TestCase
+final class ActionsTest extends DatabaseTestCase
 {
     use DatabaseTestTrait;
     use FeatureTestTrait;
@@ -155,7 +155,7 @@ final class ActionsTest extends TestCase
         $this->assertSame(site_url(), $result->getRedirectUrl());
 
         // Identity should have been removed
-        $this->dontSeeInDatabase('auth_identities', [
+        $this->dontSeeInDatabase($this->tables['identities'], [
             'user_id' => $this->user->id,
             'type'    => Session::ID_TYPE_EMAIL_2FA,
         ]);
@@ -174,7 +174,7 @@ final class ActionsTest extends TestCase
 
         $result->assertOK();
 
-        $this->seeInDatabase('auth_identities', [
+        $this->seeInDatabase($this->tables['identities'], [
             'user_id' => $this->user->id,
             'type'    => Session::ID_TYPE_EMAIL_2FA,
             'name'    => 'login',
@@ -236,7 +236,7 @@ final class ActionsTest extends TestCase
             service('email')->archive['body']
         );
         $this->assertMatchesRegularExpression(
-            '!<p>[0-9]{6}</p>!',
+            '!<h1>[0-9]{6}</h1>!',
             service('email')->archive['body']
         );
     }
@@ -259,7 +259,7 @@ final class ActionsTest extends TestCase
         $this->assertSame(site_url(), $result->getRedirectUrl());
 
         // Identity should have been removed
-        $this->dontSeeInDatabase('auth_identities', [
+        $this->dontSeeInDatabase($this->tables['identities'], [
             'user_id' => $this->user->id,
             'type'    => Session::ID_TYPE_EMAIL_2FA,
         ]);
@@ -268,7 +268,7 @@ final class ActionsTest extends TestCase
         $result->assertSessionMissing('auth_action');
 
         // User should have been set as active
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase($this->tables['users'], [
             'id'     => $this->user->id,
             'active' => 1,
         ]);

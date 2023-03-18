@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\de;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} ist kein gültiger Authentifikator.',
     'unknownUserProvider'   => 'Der zu verwendende User Provider konnte nicht ermittelt werden.',
     'invalidUser'           => 'Der angegebene Benutzer kann nicht gefunden werden.',
+    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
+    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
     'badAttempt'            => 'Sie konnten nicht angemeldet werden. Bitte überprüfen Sie Ihre Anmeldedaten.',
     'noPassword'            => 'Kann einen Benutzer ohne Passwort nicht validieren.',
     'invalidPassword'       => 'Sie können nicht angemeldet werden. Bitte überprüfen Sie Ihr Passwort.',
@@ -19,6 +19,7 @@ return [
     'invalidEmail'          => 'Es konnte nicht überprüft werden, ob die E-Mail-Adresse mit der gespeicherten übereinstimmt.',
     'unableSendEmailToUser' => 'Leider gab es ein Problem beim Senden der E-Mail. Wir konnten keine E-Mail an "{0}" senden.',
     'throttled'             => 'Es wurden zu viele Anfragen von dieser IP-Adresse gestellt. Sie können es in {0} Sekunden erneut versuchen.',
+    'notEnoughPrivilege'    => 'Sie haben nicht die erforderliche Berechtigung, um den gewünschten Vorgang auszuführen.',
 
     'email'           => 'E-Mail-Adresse',
     'username'        => 'Benutzername',
@@ -60,9 +61,16 @@ return [
     'errorPasswordPwned'        => 'Das Passwort {0} wurde aufgrund einer Datenschutzverletzung aufgedeckt und wurde {1, number} Mal in {2} kompromittierten Passwörtern gesehen.',
     'suggestPasswordPwned'      => '{0} sollte niemals als Passwort verwendet werden. Wenn Sie es irgendwo verwenden, ändern Sie es sofort.',
     'errorPasswordEmpty'        => 'Ein Passwort ist erforderlich.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Passwort erfolgreich geändert',
     'userDoesNotExist'          => 'Passwort wurde nicht geändert. Der Benutzer existiert nicht',
     'resetTokenExpired'         => 'Tut mir leid. Ihr Reset-Token ist abgelaufen.',
+
+    // Email Globals
+    'emailInfo'      => 'Einige Informationen über die Person:',
+    'emailIpAddress' => 'IP Adresse:',
+    'emailDevice'    => 'Gerät:',
+    'emailDate'      => 'Datum:',
 
     // 2FA
     'email2FATitle'       => 'Zwei-Faktor-Authentifizierung',
@@ -81,6 +89,8 @@ return [
     'emailActivateSubject'  => 'Ihr Aktivierungscode',
     'emailActivateMailBody' => 'Bitte verwenden Sie den unten stehenden Code, um Ihr Konto zu aktivieren und die Website zu nutzen.',
     'invalidActivateToken'  => 'Der Code war falsch.',
+    'needActivate'          => 'Sie müssen Ihre Anmeldung abschließen, indem Sie den an Ihre E-Mail-Adresse gesendeten Code bestätigen.',
+    'activationBlocked'     => 'Bevor Sie sich anmelden können muss das Konto aktiviert werden.',
 
     // Groups
     'unknownGroup' => '{0} ist eine ungültige Gruppe.',

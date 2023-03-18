@@ -49,6 +49,24 @@ class SessionAuth implements FilterInterface
                 $authenticator->recordActiveDate();
             }
 
+            // Block inactive users when Email Activation is enabled
+            $user = $authenticator->getUser();
+
+            if ($user->isBanned()) {
+                $error = $user->getBanMessage() ?? lang('Auth.logOutBannedUser');
+                $authenticator->logout();
+
+                return redirect()->to(config('Auth')->logoutRedirect())
+                    ->with('error', $error);
+            }
+
+            if ($user !== null && ! $user->isActivated()) {
+                $authenticator->logout();
+
+                return redirect()->route('login')
+                    ->with('error', lang('Auth.activationBlocked'));
+            }
+
             return;
         }
 

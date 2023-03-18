@@ -6,12 +6,14 @@ namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
+use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Traits\Viewable;
 
 /**
  * Handles "Magic Link" logins - an email-based
@@ -23,6 +25,8 @@ use CodeIgniter\Shield\Models\UserModel;
  */
 class MagicLinkController extends BaseController
 {
+    use Viewable;
+
     /**
      * @var UserModel
      */
@@ -47,7 +51,7 @@ class MagicLinkController extends BaseController
             return redirect()->to(config('Auth')->loginRedirect());
         }
 
-        return view(setting('Auth.views')['magic-link-login']);
+        return $this->view(setting('Auth.views')['magic-link-login']);
     }
 
     /**
@@ -90,11 +94,18 @@ class MagicLinkController extends BaseController
             'expires' => Time::now()->addSeconds(setting('Auth.magicLinkLifetime'))->format('Y-m-d H:i:s'),
         ]);
 
+        /** @var IncomingRequest $request */
+        $request = service('request');
+
+        $ipAddress = $request->getIPAddress();
+        $userAgent = (string) $request->getUserAgent();
+        $date      = Time::now()->toDateTimeString();
+
         // Send the user an email with the code
         $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
         $email->setTo($user->email);
         $email->setSubject(lang('Auth.magicLinkSubject'));
-        $email->setMessage(view(setting('Auth.views')['magic-link-email'], ['token' => $token]));
+        $email->setMessage($this->view(setting('Auth.views')['magic-link-email'], ['token' => $token, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date]));
 
         if ($email->send(false) === false) {
             log_message('error', $email->printDebugger(['headers']));
@@ -113,7 +124,7 @@ class MagicLinkController extends BaseController
      */
     protected function displayMessage(): string
     {
-        return view(setting('Auth.views')['magic-link-message']);
+        return $this->view(setting('Auth.views')['magic-link-message']);
     }
 
     /**
@@ -156,6 +167,11 @@ class MagicLinkController extends BaseController
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
+        // If an action has been defined
+        if ($authenticator->hasAction($identity->user_id)) {
+            return redirect()->route('auth-action-show')->with('error', lang('Auth.needActivate'));
+        }
+
         // Log the user in
         $authenticator->loginById($identity->user_id);
 
@@ -197,7 +213,8 @@ class MagicLinkController extends BaseController
     /**
      * Returns the rules that should be used for validation.
      *
-     * @return array<string, array<string, string>>
+     * @return array<string, array<string, array<string>|string>>
+     * @phpstan-return array<string, array<string, string|list<string>>>
      */
     protected function getValidationRules(): array
     {

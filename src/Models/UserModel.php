@@ -6,7 +6,6 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Model;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
@@ -14,11 +13,11 @@ use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use Faker\Generator;
 
-class UserModel extends Model
+/**
+ * @phpstan-consistent-constructor
+ */
+class UserModel extends BaseModel
 {
-    use CheckQueryReturnTrait;
-
-    protected $table          = 'users';
     protected $primaryKey     = 'id';
     protected $returnType     = User::class;
     protected $useSoftDeletes = true;
@@ -45,6 +44,13 @@ class UserModel extends Model
      * Save the User for afterInsert and afterUpdate
      */
     protected ?User $tempUser = null;
+
+    protected function initialize(): void
+    {
+        parent::initialize();
+
+        $this->table = $this->tables['users'];
+    }
 
     /**
      * Mark the next find* query to include identities
@@ -74,6 +80,10 @@ class UserModel extends Model
         $userIds = $data['singleton']
             ? array_column($data, 'id')
             : array_column($data['data'], 'id');
+
+        if ($userIds === []) {
+            return $data;
+        }
 
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
@@ -144,7 +154,7 @@ class UserModel extends Model
     public function fake(Generator &$faker): User
     {
         return new User([
-            'username' => $faker->userName,
+            'username' => $faker->unique()->userName(),
             'active'   => true,
         ]);
     }
@@ -170,16 +180,28 @@ class UserModel extends Model
         $email = $credentials['email'] ?? null;
         unset($credentials['email']);
 
-        // any of the credentials used should be case-insensitive
-        foreach ($credentials as $key => $value) {
-            $this->where('LOWER(' . $this->db->protectIdentifiers("users.{$key}") . ')', strtolower($value));
+        if ($email === null && $credentials === []) {
+            return null;
         }
 
-        if (! empty($email)) {
-            $data = $this->select('users.*, auth_identities.secret as email, auth_identities.secret2 as password_hash')
-                ->join('auth_identities', 'auth_identities.user_id = users.id')
-                ->where('auth_identities.type', Session::ID_TYPE_EMAIL_PASSWORD)
-                ->where('LOWER(' . $this->db->protectIdentifiers('auth_identities.secret') . ')', strtolower($email))
+        // any of the credentials used should be case-insensitive
+        foreach ($credentials as $key => $value) {
+            $this->where(
+                'LOWER(' . $this->db->protectIdentifiers($this->table . ".{$key}") . ')',
+                strtolower($value)
+            );
+        }
+
+        if ($email !== null) {
+            $data = $this->select(
+                sprintf('%1$s.*, %2$s.secret as email, %2$s.secret2 as password_hash', $this->table, $this->tables['identities'])
+            )
+                ->join($this->tables['identities'], sprintf('%1$s.user_id = %2$s.id', $this->tables['identities'], $this->table))
+                ->where($this->tables['identities'] . '.type', Session::ID_TYPE_EMAIL_PASSWORD)
+                ->where(
+                    'LOWER(' . $this->db->protectIdentifiers($this->tables['identities'] . '.secret') . ')',
+                    strtolower($email)
+                )
                 ->asArray()
                 ->first();
 
@@ -242,6 +264,8 @@ class UserModel extends Model
      * @param array|int|string|null $id
      * @param array|User            $data
      *
+     * @return true if the update is successful
+     *
      * @throws ValidationException
      */
     public function update($id = null, $data = null): bool
@@ -253,6 +277,11 @@ class UserModel extends Model
             /** @throws DataException */
             $result = parent::update($id, $data);
         } catch (DataException $e) {
+            // When $data is an array.
+            if ($this->tempUser === null) {
+                throw $e;
+            }
+
             $messages = [
                 lang('Database.emptyDataset', ['update']),
             ];
@@ -276,6 +305,8 @@ class UserModel extends Model
      * If you pass User object, also updates Email Identity.
      *
      * @param array|User $data
+     *
+     * @return true if the save is successful
      *
      * @throws ValidationException
      */
@@ -335,7 +366,8 @@ class UserModel extends Model
         // Safe date string for database
         $last_active = $user->last_active->format('Y-m-d H:i:s');
 
-        $this->builder->set('last_active', $last_active)
+        $this->builder()
+            ->set('last_active', $last_active)
             ->where('id', $user->id)
             ->update();
     }

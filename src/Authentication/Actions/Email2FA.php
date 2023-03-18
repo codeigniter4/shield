@@ -6,11 +6,13 @@ namespace CodeIgniter\Shield\Authentication\Actions;
 
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Traits\Viewable;
 
 /**
  * Class Email2FA
@@ -19,6 +21,8 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
  */
 class Email2FA implements ActionInterface
 {
+    use Viewable;
+
     private string $type = Session::ID_TYPE_EMAIL_2FA;
 
     /**
@@ -37,7 +41,7 @@ class Email2FA implements ActionInterface
 
         $this->createIdentity($user);
 
-        return view(setting('Auth.views')['action_email_2fa'], ['user' => $user]);
+        return $this->view(setting('Auth.views')['action_email_2fa'], ['user' => $user]);
     }
 
     /**
@@ -63,20 +67,21 @@ class Email2FA implements ActionInterface
             return redirect()->route('auth-action-show')->with('error', lang('Auth.invalidEmail'));
         }
 
-        /** @var UserIdentityModel $identityModel */
-        $identityModel = model(UserIdentityModel::class);
-
-        $identity = $identityModel->getIdentityByType($user, $this->type);
+        $identity = $this->getIdentity($user);
 
         if (empty($identity)) {
             return redirect()->route('auth-action-show')->with('error', lang('Auth.need2FA'));
         }
 
+        $ipAddress = $request->getIPAddress();
+        $userAgent = (string) $request->getUserAgent();
+        $date      = Time::now()->toDateTimeString();
+
         // Send the user an email with the code
         $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
         $email->setTo($user->email);
         $email->setSubject(lang('Auth.email2FASubject'));
-        $email->setMessage(view(setting('Auth.views')['action_email_2fa_email'], ['code' => $identity->secret]));
+        $email->setMessage($this->view(setting('Auth.views')['action_email_2fa_email'], ['code' => $identity->secret, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date]));
 
         if ($email->send(false) === false) {
             throw new RuntimeException('Cannot send email for user: ' . $user->email . "\n" . $email->printDebugger(['headers']));
@@ -85,7 +90,7 @@ class Email2FA implements ActionInterface
         // Clear the email
         $email->clear();
 
-        return view(setting('Auth.views')['action_email_2fa_verify']);
+        return $this->view(setting('Auth.views')['action_email_2fa_verify']);
     }
 
     /**
@@ -111,7 +116,7 @@ class Email2FA implements ActionInterface
         if (! $authenticator->checkAction($identity, $postedToken)) {
             session()->setFlashdata('error', lang('Auth.invalid2FAToken'));
 
-            return view(setting('Auth.views')['action_email_2fa_verify']);
+            return $this->view(setting('Auth.views')['action_email_2fa_verify']);
         }
 
         // Get our login redirect url

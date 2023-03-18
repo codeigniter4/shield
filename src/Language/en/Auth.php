@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\en;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} is not a valid authenticator.',
     'unknownUserProvider'   => 'Unable to determine the User Provider to use.',
     'invalidUser'           => 'Unable to locate the specified user.',
+    'bannedUser'            => 'Can not log you in as you are currently banned.',
+    'logOutBannedUser'      => 'You have been logged out because you have been banned.',
     'badAttempt'            => 'Unable to log you in. Please check your credentials.',
     'noPassword'            => 'Cannot validate a user without a password.',
     'invalidPassword'       => 'Unable to log you in. Please check your password.',
@@ -19,6 +19,7 @@ return [
     'invalidEmail'          => 'Unable to verify the email address matches the email on record.',
     'unableSendEmailToUser' => 'Sorry, there was a problem sending the email. We could not send an email to "{0}".',
     'throttled'             => 'Too many requests made from this IP address. You may try again in {0} seconds.',
+    'notEnoughPrivilege'    => 'You do not have the necessary permission to perform the desired operation.',
 
     'email'           => 'Email Address',
     'username'        => 'Username',
@@ -60,9 +61,16 @@ return [
     'errorPasswordPwned'        => 'The password {0} has been exposed due to a data breach and has been seen {1, number} times in {2} of compromised passwords.',
     'suggestPasswordPwned'      => '{0} should never be used as a password. If you are using it anywhere change it immediately.',
     'errorPasswordEmpty'        => 'A Password is required.',
+    'errorPasswordTooLongBytes' => 'Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Password changed successfully',
     'userDoesNotExist'          => 'Password was not changed. User does not exist',
     'resetTokenExpired'         => 'Sorry. Your reset token has expired.',
+
+    // Email Globals
+    'emailInfo'      => 'Some information about the person:',
+    'emailIpAddress' => 'IP Address:',
+    'emailDevice'    => 'Device:',
+    'emailDate'      => 'Date:',
 
     // 2FA
     'email2FATitle'       => 'Two Factor Authentication',
@@ -81,6 +89,8 @@ return [
     'emailActivateSubject'  => 'Your activation code',
     'emailActivateMailBody' => 'Please use the code below to activate your account and start using the site.',
     'invalidActivateToken'  => 'The code was incorrect.',
+    'needActivate'          => 'You must complete your registration by confirming the code sent to your email address.',
+    'activationBlocked'     => 'You must activate your account before logging in.',
 
     // Groups
     'unknownGroup' => '{0} is not a valid group.',

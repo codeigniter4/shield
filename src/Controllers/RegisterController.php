@@ -7,10 +7,16 @@ namespace CodeIgniter\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Authentication\Passwords;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Traits\Viewable;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class RegisterController
@@ -20,7 +26,30 @@ use CodeIgniter\Shield\Models\UserModel;
  */
 class RegisterController extends BaseController
 {
+    use Viewable;
+
     protected $helpers = ['setting'];
+
+    /**
+     * Auth Table names
+     */
+    private array $tables;
+
+    public function initController(
+        RequestInterface $request,
+        ResponseInterface $response,
+        LoggerInterface $logger
+    ): void {
+        parent::initController(
+            $request,
+            $response,
+            $logger
+        );
+
+        /** @var Auth $authConfig */
+        $authConfig   = config('Auth');
+        $this->tables = $authConfig->tables;
+    }
 
     /**
      * Displays the registration form.
@@ -47,7 +76,7 @@ class RegisterController extends BaseController
             return redirect()->route('auth-action-show');
         }
 
-        return view(setting('Auth.views')['register']);
+        return $this->view(setting('Auth.views')['register']);
     }
 
     /**
@@ -76,12 +105,8 @@ class RegisterController extends BaseController
         }
 
         // Save the user
-        $allowedPostFields = array_merge(
-            setting('Auth.validFields'),
-            setting('Auth.personalFields'),
-            ['password']
-        );
-        $user = $this->getUserEntity();
+        $allowedPostFields = array_keys($rules);
+        $user              = $this->getUserEntity();
         $user->fill($this->request->getPost($allowedPostFields));
 
         // Workaround for email only registration/login
@@ -115,7 +140,7 @@ class RegisterController extends BaseController
         }
 
         // Set the user active
-        $authenticator->activateUser($user);
+        $user->activate();
 
         $authenticator->completeLogin($user);
 
@@ -147,17 +172,18 @@ class RegisterController extends BaseController
     /**
      * Returns the rules that should be used for validation.
      *
-     * @return string[]
+     * @return array<string, array<string, array<string>|string>>
+     * @phpstan-return array<string, array<string, string|list<string>>>
      */
     protected function getValidationRules(): array
     {
         $registrationUsernameRules = array_merge(
             config('AuthSession')->usernameValidationRules,
-            ['is_unique[users.username]']
+            [sprintf('is_unique[%s.username]', $this->tables['users'])]
         );
         $registrationEmailRules = array_merge(
             config('AuthSession')->emailValidationRules,
-            ['is_unique[auth_identities.secret]']
+            [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
         );
 
         return setting('Validation.registration') ?? [
@@ -170,8 +196,11 @@ class RegisterController extends BaseController
                 'rules' => $registrationEmailRules,
             ],
             'password' => [
-                'label' => 'Auth.password',
-                'rules' => 'required|strong_password',
+                'label'  => 'Auth.password',
+                'rules'  => 'required|' . Passwords::getMaxLenghtRule() . '|strong_password',
+                'errors' => [
+                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
+                ],
             ],
             'password_confirm' => [
                 'label' => 'Auth.passwordConfirm',

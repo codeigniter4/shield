@@ -14,8 +14,8 @@ use Tests\Support\TestCase;
  */
 final class CompositionValidatorTest extends TestCase
 {
-    protected CompositionValidator $validator;
-    protected Auth $config;
+    private CompositionValidator $validator;
+    private Auth $config;
 
     protected function setUp(): void
     {
@@ -45,7 +45,23 @@ final class CompositionValidatorTest extends TestCase
         $result = $this->validator->check($password);
 
         $this->assertFalse($result->isOK());
-        $this->assertSame(lang('Auth.errorPasswordLength', [$this->config->minimumPasswordLength]), $result->reason());
+        $this->assertSame(
+            lang('Auth.errorPasswordLength', [$this->config->minimumPasswordLength]),
+            $result->reason()
+        );
+    }
+
+    public function testCheckFalseMultibyte(): void
+    {
+        $password = '🍣😀';
+
+        $result = $this->validator->check($password);
+
+        $this->assertFalse($result->isOK());
+        $this->assertSame(
+            lang('Auth.errorPasswordLength', [$this->config->minimumPasswordLength]),
+            $result->reason()
+        );
     }
 
     public function testCheckTrue(): void

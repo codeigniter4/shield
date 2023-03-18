@@ -11,18 +11,26 @@ use CodeIgniter\Shield\Authentication\Traits\HasAccessTokens;
 use CodeIgniter\Shield\Authorization\Traits\Authorizable;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Traits\Activatable;
+use CodeIgniter\Shield\Traits\Bannable;
+use CodeIgniter\Shield\Traits\Resettable;
 
 /**
  * @property string|null         $email
+ * @property int|string|null     $id
  * @property UserIdentity[]|null $identities
  * @property Time|null           $last_active
  * @property string|null         $password
  * @property string|null         $password_hash
+ * @property string|null         $username
  */
 class User extends Entity
 {
     use Authorizable;
     use HasAccessTokens;
+    use Resettable;
+    use Activatable;
+    use Bannable;
 
     /**
      * @var UserIdentity[]|null

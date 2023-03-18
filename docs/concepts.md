@@ -13,6 +13,7 @@ This document covers some of the base concepts used throughout the library.
 
 Shield is designed so that the initial setup of your application can all happen in code with nothing required to be
 saved in the database. This means you do not have to create large seeder files that need to run within each environment.
+
 Instead, it can be placed under version control, though the Settings library allows those settings to be easily stored
 in the database if you create an interface for the user to update those settings.
 
@@ -24,15 +25,10 @@ on the standard Config class if nothing is found in the database.
 
 ## User Providers
 
-You can use your own models to handle user persistence. Shield calls this the "User Provider" class. A default model
-is provided for you at `CodeIgniter\Shield\Models\UserModel`. You can change this in the `Config\Auth->userProvider` setting.
-The only requirement is that your new class MUST extend the provided `UserModel`.
+Shield has a model to handle user persistence. Shield calls this the "User Provider" class.
+A default model is provided for you by the `CodeIgniter\Shield\Models\UserModel` class.
 
-```php
-public $userProvider = 'CodeIgniter\Shield\Models\UserModel';
-```
-
-<a name="identities" />
+You can use your own model to customize user attributes. See [Customizing Shield](./customization.md#custom-user-provider) for details.
 
 ## User Identities
 
@@ -59,13 +55,13 @@ systems that are appropriate for your application. The following Validators are 
     like ensuring it contained a symbol, a number, etc. According to the current
     [NIST recommendations](https://pages.nist.gov/800-63-3/sp800-63b.html) this only enforces a
     minimum length on the password. You can define the minimum length in
-    `Config\Auth->public $minimumPasswordLength;` This is enabled by default. The default minimum
+    `Config\Auth::$minimumPasswordLength` This is enabled by default. The default minimum
     value is `8`.
 - **NothingPersonalValidator** will compare the password against any fields that have been specified
-    in `Config\Auth->personalFields`, like first or last names, etc. Additionally, it compares it
+    in `Config\Auth::$personalFields`, like first or last names, etc. Additionally, it compares it
     against a few simple variations of the username. If the given password too closely matches
     any of the personal information, it will be rejected. The similarity value is defined in
-     `Config\Auth->maxSimilarity`. The default value is 50, but see the docblock in the config
+     `Config\Auth::$maxSimilarity`. The default value is 50, but see the docblock in the config
      file for more details. This is enabled by default.
 - **DictionaryValidator** will compare the password against a provided file with about 600,000
     frequently used passwords that have been seen in various data dumps over the years. If the
@@ -78,14 +74,14 @@ systems that are appropriate for your application. The following Validators are 
     find acceptable. You should use either this validator or the `DictionaryValidator`, not both.
     This is disabled by default.
 
-You can choose which validators are used in `Config\Auth->passwordValidators`:
+You can choose which validators are used in `Config\Auth::$passwordValidators`:
 
 ```php
 public $passwordValidators = [
-    'CodeIgniter\Shield\Authentication\Passwords\CompositionValidator',
-    'CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator',
-    'CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator',
-    //'CodeIgniter\Shield\Authentication\Passwords\PwnedValidator',
+    CompositionValidator::class,
+    NothingPersonalValidator::class,
+    DictionaryValidator::class,
+    // PwnedValidator::class,
 ];
 ```
 

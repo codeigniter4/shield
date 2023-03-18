@@ -47,17 +47,18 @@ See the [An Official Auth Library](https://codeigniter.com/news/shield) for more
 
 Usage of Shield requires the following:
 
-- A [CodeIgniter 4.2.3+](https://github.com/codeigniter4/CodeIgniter4/) based project
+- A [CodeIgniter 4.2.7+](https://github.com/codeigniter4/CodeIgniter4/) based project
 - [Composer](https://getcomposer.org/) for package management
 - PHP 7.4.3+
 
 ### Installation
 
 Installation is done through Composer.
+```console
+composer require codeigniter4/shield
+```
 
-    > composer require codeigniter4/shield
-
-See the [docs](docs/index.md) for more specific instructions on installation and usage recommendations.
+See the <a href="https://codeigniter4.github.io/shield/" target="_blank">docs</a> for more specific instructions on installation and usage recommendations.
 
 ## Contributing
 
@@ -85,3 +86,4 @@ within this library, in no particular order:
 - [Google Cloud: 13 best practices for user account, authentication, and password management, 2021 edition](https://cloud.google.com/blog/products/identity-security/account-authentication-and-password-management-best-practices)
 - [NIST Digital Identity Guidelines](https://pages.nist.gov/800-63-3/sp800-63b.html)
 - [Implementing Secure User Authentication in PHP Applications with Long-Term Persistence (Login with "Remember Me" Cookies) ](https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence)
+- [Password Storage - OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)

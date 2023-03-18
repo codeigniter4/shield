@@ -9,6 +9,10 @@ use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Authentication\Passwords\CompositionValidator;
+use CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator;
+use CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator;
+use CodeIgniter\Shield\Authentication\Passwords\PwnedValidator;
 use CodeIgniter\Shield\Authentication\Passwords\ValidatorInterface;
 use CodeIgniter\Shield\Models\UserModel;
 
@@ -35,16 +39,53 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
-     * Redirect urLs
+     * Customize Name of Shield Tables
      * --------------------------------------------------------------------
-     * The default URL that a user will be redirected to after
-     * various auth actions. If you need more flexibility you can
-     * override the `getUrl()` method to apply any logic you may need.
+     * Only change if you want to rename the default Shield table names
+     *
+     * It may be necessary to change the names of the tables for
+     * security reasons, to prevent the conflict of table names,
+     * the internal policy of the companies or any other reason.
+     *
+     * - users                  Auth Users Table, the users info is stored.
+     * - auth_identities        Auth Identities Table, Used for storage of passwords, access tokens, social login identities, etc.
+     * - auth_logins            Auth Login Attempts, Table records login attempts.
+     * - auth_token_logins      Auth Token Login Attempts Table, Records Bearer Token type login attempts.
+     * - auth_remember_tokens   Auth Remember Tokens (remember-me) Table.
+     * - auth_groups_users      Groups Users Table.
+     * - auth_permissions_users Users Permissions Table.
+     *
+     * @var array<string, string>
+     */
+    public array $tables = [
+        'users'             => 'users',
+        'identities'        => 'auth_identities',
+        'logins'            => 'auth_logins',
+        'token_logins'      => 'auth_token_logins',
+        'remember_tokens'   => 'auth_remember_tokens',
+        'groups_users'      => 'auth_groups_users',
+        'permissions_users' => 'auth_permissions_users',
+    ];
+
+    /**
+     * --------------------------------------------------------------------
+     * Redirect URLs
+     * --------------------------------------------------------------------
+     * The default URL that a user will be redirected to after various auth
+     * auth actions. This can be either of the following:
+     *
+     * 1. An absolute URL. E.g. http://example.com OR https://example.com
+     * 2. A named route that can be accessed using `route_to()` or `url_to()`
+     * 3. A URI path within the application. e.g 'admin', 'login', 'expath'
+     *
+     * If you need more flexibility you can override the `getUrl()` method
+     * to apply any logic you may need.
      */
     public array $redirects = [
-        'register' => '/',
-        'login'    => '/',
-        'logout'   => 'login',
+        'register'    => '/',
+        'login'       => '/',
+        'logout'      => 'login',
+        'force_reset' => '/',
     ];
 
     /**
@@ -57,8 +98,8 @@ class Auth extends BaseConfig
      * You must register actions in the order of the actions to be performed.
      *
      * Available actions with Shield:
-     * - register: 'CodeIgniter\Shield\Authentication\Actions\EmailActivator'
-     * - login:    'CodeIgniter\Shield\Authentication\Actions\Email2FA'
+     * - register: \CodeIgniter\Shield\Authentication\Actions\EmailActivator::class
+     * - login:    \CodeIgniter\Shield\Authentication\Actions\Email2FA::class
      *
      * @var array<string, class-string<ActionInterface>|null>
      */
@@ -143,6 +184,9 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * If true, will always update the `last_active` datetime for the
      * logged in user on every page request.
+     * This feature only works when session/tokens filter is active.
+     *
+     * @see https://codeigniter4.github.io/shield/install/#protect-all-pages for set filters.
      */
     public bool $recordActiveDate = true;
 
@@ -209,10 +253,10 @@ class Auth extends BaseConfig
      * @var class-string<ValidatorInterface>[]
      */
     public array $passwordValidators = [
-        'CodeIgniter\Shield\Authentication\Passwords\CompositionValidator',
-        'CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator',
-        'CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator',
-        // 'CodeIgniter\Shield\Authentication\Passwords\PwnedValidator',
+        CompositionValidator::class,
+        NothingPersonalValidator::class,
+        DictionaryValidator::class,
+        // PwnedValidator::class,
     ];
 
     /**
@@ -223,7 +267,7 @@ class Auth extends BaseConfig
      */
     public array $validFields = [
         'email',
-        'username',
+        // 'username',
     ];
 
     /**
@@ -278,41 +322,34 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
-     * Encryption Algorithm to use
+     * Hashing Algorithm to use
      * --------------------------------------------------------------------
      * Valid values are
      * - PASSWORD_DEFAULT (default)
      * - PASSWORD_BCRYPT
      * - PASSWORD_ARGON2I  - As of PHP 7.2 only if compiled with support for it
      * - PASSWORD_ARGON2ID - As of PHP 7.3 only if compiled with support for it
-     *
-     * If you choose to use any ARGON algorithm, then you might want to
-     * uncomment the "ARGON2i/D Algorithm" options to suit your needs
      */
     public string $hashAlgorithm = PASSWORD_DEFAULT;
 
     /**
      * --------------------------------------------------------------------
-     * ARGON2i/D Algorithm options
+     * ARGON2I/ARGON2ID Algorithm options
      * --------------------------------------------------------------------
-     * The ARGON2I method of encryption allows you to define the "memory_cost",
+     * The ARGON2I method of hashing allows you to define the "memory_cost",
      * the "time_cost" and the number of "threads", whenever a password hash is
      * created.
-     * This defaults to a value of 10 which is an acceptable number.
-     * However, depending on the security needs of your application
-     * and the power of your hardware, you might want to increase the
-     * cost. This makes the hashing process takes longer.
      */
-    public int $hashMemoryCost = 2048;  // PASSWORD_ARGON2_DEFAULT_MEMORY_COST;
+    public int $hashMemoryCost = 65536; // PASSWORD_ARGON2_DEFAULT_MEMORY_COST;
 
-    public int $hashTimeCost = 4;       // PASSWORD_ARGON2_DEFAULT_TIME_COST;
-    public int $hashThreads  = 4;        // PASSWORD_ARGON2_DEFAULT_THREADS;
+    public int $hashTimeCost = 4;   // PASSWORD_ARGON2_DEFAULT_TIME_COST;
+    public int $hashThreads  = 1;   // PASSWORD_ARGON2_DEFAULT_THREADS;
 
     /**
      * --------------------------------------------------------------------
-     * Password Hashing Cost
+     * BCRYPT Algorithm options
      * --------------------------------------------------------------------
-     * The BCRYPT method of encryption allows you to define the "cost"
+     * The BCRYPT method of hashing allows you to define the "cost"
      * or number of iterations made, whenever a password hash is created.
      * This defaults to a value of 10 which is an acceptable number.
      * However, depending on the security needs of your application
@@ -322,6 +359,16 @@ class Auth extends BaseConfig
      * Valid range is between 4 - 31.
      */
     public int $hashCost = 10;
+
+    /**
+     * If you need to support passwords saved in versions prior to Shield v1.0.0-beta.4.
+     * set this to true.
+     *
+     * See https://github.com/codeigniter4/shield/security/advisories/GHSA-c5vj-f36q-p9vg
+     *
+     * @deprecated This is only for backward compatibility.
+     */
+    public bool $supportOldDangerousPassword = false;
 
     /**
      * ////////////////////////////////////////////////////////////////////
@@ -340,7 +387,7 @@ class Auth extends BaseConfig
      *
      * @var class-string<UserModel>
      */
-    public string $userProvider = 'CodeIgniter\Shield\Models\UserModel';
+    public string $userProvider = UserModel::class;
 
     /**
      * Returns the URL that a user should be redirected
@@ -375,10 +422,43 @@ class Auth extends BaseConfig
         return $this->getUrl($url);
     }
 
+    /**
+     * Returns the URL the user should be redirected to
+     * if force_reset identity is set to true.
+     */
+    public function forcePasswordResetRedirect(): string
+    {
+        $url = setting('Auth.redirects')['force_reset'];
+
+        return $this->getUrl($url);
+    }
+
+    /**
+     * Accepts a string which can be an absolute URL or
+     * a named route or just a URI path, and returns the
+     * full path.
+     *
+     * @param string $url an absolute URL or a named route or just URI path
+     */
     protected function getUrl(string $url): string
     {
-        return strpos($url, 'http') === 0
-            ? $url
-            : rtrim(site_url($url), '/ ');
+        // To accommodate all url patterns
+        $final_url = '';
+
+        switch (true) {
+            case strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0: // URL begins with 'http' or 'https'. E.g. http://example.com
+                $final_url = $url;
+                break;
+
+            case route_to($url) !== false: // URL is a named-route
+                $final_url = rtrim(url_to($url), '/ ');
+                break;
+
+            default: // URL is a route (URI path)
+                $final_url = rtrim(site_url($url), '/ ');
+                break;
+        }
+
+        return $final_url;
     }
 }

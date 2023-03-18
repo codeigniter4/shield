@@ -11,7 +11,7 @@ use CodeIgniter\Test\DatabaseTestTrait;
 /**
  * @internal
  */
-final class SessionFilterTest extends AbstractFilterTest
+final class SessionFilterTest extends AbstractFilterTestCase
 {
     use DatabaseTestTrait;
 
@@ -56,5 +56,31 @@ final class SessionFilterTest extends AbstractFilterTest
 
         // Last Active should be greater than 'updated_at' column
         $this->assertGreaterThan(auth('session')->user()->updated_at, auth('session')->user()->last_active);
+    }
+
+    public function testBlocksInactiveUsers(): void
+    {
+        $user = fake(UserModel::class, ['active' => false]);
+
+        // Activation only required with email activation
+        setting('Auth.actions', ['register' => null]);
+
+        $result = $this->actingAs($user)
+            ->get('protected-route');
+
+        $result->assertStatus(200);
+        $result->assertSee('Protected');
+
+        // Now require user activation and try again
+        setting('Auth.actions', ['register' => '\CodeIgniter\Shield\Authentication\Actions\EmailActivator']);
+
+        $result = $this->actingAs($user)
+            ->get('protected-route');
+
+        $result->assertRedirectTo('/login');
+        // User should be logged out
+        $this->assertNull(auth('session')->id());
+
+        setting('Auth.actions', ['register' => null]);
     }
 }

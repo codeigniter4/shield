@@ -7,9 +7,13 @@ namespace CodeIgniter\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Authentication\Passwords;
+use CodeIgniter\Shield\Traits\Viewable;
 
 class LoginController extends BaseController
 {
+    use Viewable;
+
     protected $helpers = ['setting'];
 
     /**
@@ -31,7 +35,7 @@ class LoginController extends BaseController
             return redirect()->route('auth-action-show');
         }
 
-        return view(setting('Auth.views')['login']);
+        return $this->view(setting('Auth.views')['login']);
     }
 
     /**
@@ -72,7 +76,8 @@ class LoginController extends BaseController
     /**
      * Returns the rules that should be used for validation.
      *
-     * @return string[]
+     * @return array<string, array<string, array<string>|string>>
+     * @phpstan-return array<string, array<string, string|list<string>>>
      */
     protected function getValidationRules(): array
     {
@@ -86,8 +91,11 @@ class LoginController extends BaseController
                 'rules' => config('AuthSession')->emailValidationRules,
             ],
             'password' => [
-                'label' => 'Auth.password',
-                'rules' => 'required',
+                'label'  => 'Auth.password',
+                'rules'  => 'required|' . Passwords::getMaxLenghtRule(),
+                'errors' => [
+                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
+                ],
             ],
         ];
     }
@@ -97,8 +105,12 @@ class LoginController extends BaseController
      */
     public function logoutAction(): RedirectResponse
     {
+        // Capture logout redirect URL before auth logout,
+        // otherwise you cannot check the user in `logoutRedirect()`.
+        $url = config('Auth')->logoutRedirect();
+
         auth()->logout();
 
-        return redirect()->to(config('Auth')->logoutRedirect())->with('message', lang('Auth.successLogout'));
+        return redirect()->to($url)->with('message', lang('Auth.successLogout'));
     }
 }
