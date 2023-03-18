@@ -194,6 +194,9 @@ class RegisterController extends BaseController
             'email' => [
                 'label' => 'Auth.email',
                 'rules' => $registrationEmailRules,
+                'errors' => [
+                    'is_unique' => 'Auth.emailNotActive',
+                ],
             ],
             'password' => [
                 'label'  => 'Auth.password',
