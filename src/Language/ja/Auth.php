@@ -61,7 +61,7 @@ return [
     'errorPasswordPwned'        => 'パスワード {0} はデータ漏洩により公開されており、{2} の漏洩したパスワード中で {1, number} 回見られます。', // 'The password {0} has been exposed due to a data breach and has been seen {1, number} times in {2} of compromised passwords.',
     'suggestPasswordPwned'      => '{0} は絶対にパスワードとして使ってはいけません。もしどこかで使っていたら、すぐに変更してください。', // '{0} should never be used as a password. If you are using it anywhere change it immediately.',
     'errorPasswordEmpty'        => 'パスワードが必要です。', // 'A Password is required.',
-    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
+    'errorPasswordTooLongBytes' => '{param} バイトを超えるパスワードは設定できません。', // 'Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'パスワードの変更に成功しました', // 'Password changed successfully',
     'userDoesNotExist'          => 'パスワードは変更されていません。ユーザーは存在しません', // 'Password was not changed. User does not exist',
     'resetTokenExpired'         => '申し訳ありません。リセットトークンの有効期限が切れました。', // 'Sorry. Your reset token has expired.',

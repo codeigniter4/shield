@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Collectors;
 
+use CodeIgniter\Shield\Auth as ShieldAuth;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Collectors\Auth;
 use CodeIgniter\Shield\Entities\User;
@@ -71,6 +72,7 @@ final class AuthTest extends TestCase
     {
         $output = $this->collector->getTitleDetails();
 
+        $this->assertStringContainsString(ShieldAuth::SHIELD_VERSION, $output);
         $this->assertStringContainsString(Session::class, $output);
     }
 

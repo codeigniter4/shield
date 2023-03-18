@@ -126,9 +126,11 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         /** @var User $user */
         $user = fake(UserModel::class);
         /** @var UserIdentityModel $identities */
-        $identities          = model(UserIdentityModel::class);
-        $token               = $user->generateAccessToken('foo');
-        $token->last_used_at = Time::now()->subYears(1)->subMinutes(1);
+        $identities = model(UserIdentityModel::class);
+        $token      = $user->generateAccessToken('foo');
+        // CI 4.2 uses the Chicago timezone that has Daylight Saving Time,
+        // so subtracts 1 hour to make sure this test passes.
+        $token->last_used_at = Time::now()->subYears(1)->subHours(1)->subMinutes(1);
         $identities->save($token);
 
         $result = $this->auth->check(['token' => $token->raw_token]);
