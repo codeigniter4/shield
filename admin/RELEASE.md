@@ -66,6 +66,7 @@ git clone git@github.com:codeigniter4/shield.git
     * Title: "v1.x.x"
     * Click the "Generate release notes" button
     * Remove "### Others (Only for checking. Remove this category)" section
+    * Check "Create a discussion for this release"
     * Click the "Publish release" button
 * Watch for the "docs" action and verify that the user guide updated:
     * [docs](https://github.com/codeigniter4/shield/actions/workflows/docs.yml)
