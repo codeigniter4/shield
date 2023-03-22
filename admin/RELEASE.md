@@ -37,9 +37,9 @@ the changelog.
 ## Preparation
 
 * Clone **codeigniter4/shield** and resolve any necessary PRs
-```console
-git clone git@github.com:codeigniter4/shield.git
-```
+    ```console
+    git clone git@github.com:codeigniter4/shield.git
+    ```
 * Merge any Security Advisory PRs in private forks
 
 ## Process
@@ -71,13 +71,13 @@ git clone git@github.com:codeigniter4/shield.git
 * Watch for the "docs" action and verify that the user guide updated:
     * [docs](https://github.com/codeigniter4/shield/actions/workflows/docs.yml)
 * Fast-forward `develop` branch to catch the merge commit from `master`
-```console
-git fetch origin
-git checkout develop
-git merge origin/develop
-git merge origin/master
-git push origin HEAD # @TODO can't push to protected branch.
-```
+    ```console
+    git fetch origin
+    git checkout develop
+    git merge origin/develop
+    git merge origin/master
+    git push origin HEAD # @TODO can't push to protected branch.
+    ```
 * Publish any Security Advisories that were resolved from private forks
 * Announce the release on the forums and Slack channel
   (note: this forum is restricted to administrators):
