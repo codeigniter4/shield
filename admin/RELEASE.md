@@ -12,6 +12,7 @@ the following [labels](https://github.com/codeigniter4/shield/labels):
 - **enhancement** ... PRs to improve existing functionalities
 - **new feature** ... PRs for new features
 - **refactor** ... PRs to refactor
+- **lang** ... PRs for new/update language
 
 PRs with breaking changes must have the following additional label:
 - **breaking change** ... PRs that may break existing functionalities
