@@ -61,7 +61,7 @@ return [
     'errorPasswordPwned'        => 'Het wachtwoord {0} is openbaar gemaakt vanwege een datalek en is {1, aantal} keer gezien in {2} gecompromitteerde wachtwoorden.rds.',
     'suggestPasswordPwned'      => '{0} mag nooit als wachtwoord worden gebruikt. Als u het ergens gebruikt, verander het dan onmiddellijk.',
     'errorPasswordEmpty'        => 'Een wachtwoord is vereist.',
-    'errorPasswordTooLongBytes' => 'Password cannot exceed {param} bytes in length.',
+    'errorPasswordTooLongBytes' => 'Wachtwoord mag niet langer zijn dan {param} characters.',
     'passwordChangeSuccess'     => 'Uw wachtwoord succesvol veranderd',
     'userDoesNotExist'          => 'Wachtwoord is niet gewijzigd. Gebruiker bestaat niet',
     'resetTokenExpired'         => 'Sorry. Uw resettoken is verlopen.',
