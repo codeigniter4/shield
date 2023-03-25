@@ -271,7 +271,9 @@ By default, the only values stored in the users table is the username. The first
 ```php
 use CodeIgniter\Shield\Entities\User;
 
+// Get the User Provider (UserModel by default)
 $users = auth()->getProvider();
+
 $user = new User([
     'username' => 'foo-bar',
     'email'    => 'foo.bar@example.com',
@@ -291,7 +293,9 @@ $users->addToDefaultGroup($user);
 A user's data can be spread over a few different tables so you might be concerned about how to delete all of the user's data from the system. This is handled automatically at the database level for all information that Shield knows about, through the `onCascade` settings of the table's foreign keys. You can delete a user like any other entity.
 
 ```php
+// Get the User Provider (UserModel by default)
 $users = auth()->getProvider();
+
 $users->delete($user->id, true);
 ```
 
@@ -302,9 +306,10 @@ $users->delete($user->id, true);
 The `UserModel::save()`, `update()` and `insert()` methods have been modified to ensure that an email or password previously set on the `User` entity will be automatically updated in the correct `UserIdentity` record.
 
 ```php
+// Get the User Provider (UserModel by default)
 $users = auth()->getProvider();
-$user  = $users->findById(123);
 
+$user = $users->findById(123);
 $user->fill([
     'username' => 'JoeSmith111',
     'email' => 'joe.smith@example.com',
