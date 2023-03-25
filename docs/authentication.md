@@ -61,6 +61,9 @@ auth()->user();
 auth()->id();
 // or
 user_id();
+
+// get the User Provider (UserModel by default)
+auth()->getProvider();
 ```
 
 > **Note**
