@@ -50,7 +50,7 @@ public $defaultAuthenticator = 'session';
 ## Auth Helper
 
 The auth functionality is designed to be used with the `auth_helper` that comes with Shield. This
-helper method provides the `auth()` command which returns a convenient interface to the most frequently
+helper method provides the `auth()` function which returns a convenient interface to the most frequently
 used functionality within the auth libraries.
 
 ```php
@@ -61,6 +61,9 @@ auth()->user();
 auth()->id();
 // or
 user_id();
+
+// get the User Provider (UserModel by default)
+auth()->getProvider();
 ```
 
 > **Note**
