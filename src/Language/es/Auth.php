@@ -97,5 +97,5 @@ return [
     'missingTitle' => 'Los grupos deben tener un título.',
 
     // Permisos
-    'unknownPermission' => '{0} no es un permiso válido.',    
+    'unknownPermission' => '{0} no es un permiso válido.'
 ];
