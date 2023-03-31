@@ -175,9 +175,9 @@ class User extends BaseCommand
             exit;
         }
 
-        $users = model('CodeIgniter\Shield\Models\UserModel');
+        $userModel = model('CodeIgniter\Shield\Models\UserModel');
         $user  = new \CodeIgniter\Shield\Entities\User($data);
-        $users->save($user);
+        $userModel->save($user);
         CLI::write('User ' . $username . ' created', 'green');
     }
 
@@ -306,8 +306,9 @@ class User extends BaseCommand
      */
     private function delete(int $userid = 0, ?string $username = null, ?string $email = null): void
     {
+        $userModel = model('CodeIgniter\Shield\Models\UserModel');
         if ($userid) {
-            $user = model('CodeIgniter\Shield\Models\UserModel')->findById($userid);
+            $user = $userModel->findById($userid);
             if (! $user) {
                 CLI::write("User doesn't exist", 'red');
 
@@ -319,7 +320,6 @@ class User extends BaseCommand
 
         $confirm = CLI::prompt('Delete the user ' . $user->username . ' (' . $user->email . ') ?', ['y', 'n']);
         if ($confirm === 'y') {
-            $userModel = model('CodeIgniter\Shield\Models\UserModel');
             $userModel->delete($user->id, true);
             CLI::write('User ' . $user->username . ' deleted', 'green');
         } else {
@@ -366,8 +366,8 @@ class User extends BaseCommand
      */
     private function list(?string $username = null, ?string $email = null): void
     {
-        $users = model('CodeIgniter\Shield\Models\UserModel');
-        $users = $users->join('auth_identities', 'auth_identities.user_id = users.id');
+        $userModel = model('CodeIgniter\Shield\Models\UserModel');
+        $users = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
         if ($username) {
             $users = $users->like('username', $username);
         }
@@ -449,8 +449,8 @@ class User extends BaseCommand
         }
 
         $user  = new \CodeIgniter\Shield\Entities\User();
-        $users = model('CodeIgniter\Shield\Models\UserModel');
-        $users = $users->join('auth_identities', 'auth_identities.user_id = users.id');
+        $userModel = model('CodeIgniter\Shield\Models\UserModel');
+        $users = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
 
         if ($username) {
             $user = $users->where('username', $username)->first();
