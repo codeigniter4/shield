@@ -176,7 +176,7 @@ class User extends BaseCommand
         }
 
         $userModel = model('CodeIgniter\Shield\Models\UserModel');
-        $user  = new \CodeIgniter\Shield\Entities\User($data);
+        $user      = new \CodeIgniter\Shield\Entities\User($data);
         $userModel->save($user);
         CLI::write('User ' . $username . ' created', 'green');
     }
@@ -367,7 +367,7 @@ class User extends BaseCommand
     private function list(?string $username = null, ?string $email = null): void
     {
         $userModel = model('CodeIgniter\Shield\Models\UserModel');
-        $users = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
+        $users     = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
         if ($username) {
             $users = $users->like('username', $username);
         }
@@ -448,9 +448,9 @@ class User extends BaseCommand
             }
         }
 
-        $user  = new \CodeIgniter\Shield\Entities\User();
+        $user      = new \CodeIgniter\Shield\Entities\User();
         $userModel = model('CodeIgniter\Shield\Models\UserModel');
-        $users = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
+        $users     = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
 
         if ($username) {
             $user = $users->where('username', $username)->first();
