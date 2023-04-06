@@ -82,7 +82,7 @@ return [
     'invalid2FAToken'     => 'El código era incorrecto.',
     'need2FA'             => 'Debes completar la verificación de dos factores.',
     'needVerification'    => 'Verifica tu correo electrónico para completar la activación de la cuenta.',
-    
+
     // Activar
     'emailActivateTitle'    => 'Activación de correo electrónico',
     'emailActivateBody'     => 'Acabamos de enviarte un correo electrónico con un código para confirmar tu dirección de correo electrónico. Copia ese código y pégalo a continuación.',
