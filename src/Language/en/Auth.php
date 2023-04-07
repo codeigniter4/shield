@@ -35,6 +35,7 @@ return [
     'register'         => 'Register',
     'registerDisabled' => 'Registration is not currently allowed.',
     'registerSuccess'  => 'Welcome aboard!',
+    'emailNotActive'   => 'Email is already registered. Try logging in.',
 
     // Login
     'login'              => 'Login',
