@@ -34,7 +34,7 @@ class LoginController extends BaseController
             ],
         ];
 
-        if (! $this->validate($rules)) {
+        if (! $this->validateData($this->request->getPost(), $rules)) {
             return $this->response
                 ->setJSON(['errors' => $this->validator->getErrors()])
                 ->setStatusCode(422);
