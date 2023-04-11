@@ -40,8 +40,13 @@ class LoginController extends BaseController
                 ->setStatusCode(422);
         }
 
+        // Get the credentials for login
+        $credentials             = $this->request->getPost(setting('Auth.validFields'));
+        $credentials             = array_filter($credentials);
+        $credentials['password'] = $this->request->getPost('password');
+        
         // Attempt to login
-        $result = auth()->attempt($this->request->getPost(setting('Auth.validFields')));
+        $result = auth()->attempt($credentials);
         if (! $result->isOK()) {
             return $this->response
                 ->setJSON(['error' => $result->reason()])
