@@ -32,6 +32,10 @@ class LoginController extends BaseController
                 'label' => 'Auth.password',
                 'rules' => 'required',
             ],
+            'device_name' => [
+                'label' => 'Device Name',
+                'rules' => 'required|string',
+            ],
         ];
 
         if (! $this->validateData($this->request->getPost(), $rules)) {
