@@ -32,7 +32,7 @@ class JWTAuth implements FilterInterface
      *
      * @param array|null $arguments
      *
-     * @return Response|void
+     * @return ResponseInterface|void
      */
     public function before(RequestInterface $request, $arguments = null)
     {
