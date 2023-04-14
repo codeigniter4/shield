@@ -37,14 +37,14 @@ final class FirebaseAdapaterTest extends TestCase
     }
 
     /**
-     * @param Time|null $currentTime The current time
+     * @param Time|null $clock The Time object
      */
-    public static function generateJWT(?Time $currentTime = null): string
+    public static function generateJWT(?Time $clock = null): string
     {
         /** @var User $user */
         $user = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
 
-        $generator = new JWTGenerator($currentTime);
+        $generator = new JWTGenerator($clock);
 
         return $generator->generateAccessToken($user);
     }
@@ -72,8 +72,9 @@ final class FirebaseAdapaterTest extends TestCase
 
         $jwtDecoder = new FirebaseAdapter();
 
-        $currentTime = new Time('-1 hour');
-        $token       = $this->generateJWT($currentTime);
+        Time::setTestNow('-1 hour');
+        $token = $this->generateJWT();
+        Time::setTestNow();
 
         /** @var AuthJWT $config */
         $config    = config('AuthJWT');

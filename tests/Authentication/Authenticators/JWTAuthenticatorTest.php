@@ -130,8 +130,9 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
 
     public function testCheckOldToken(): void
     {
-        $currentTime = new Time('-1 hour');
-        $token       = $this->generateJWT($currentTime);
+        Time::setTestNow('-1 hour');
+        $token = $this->generateJWT();
+        Time::setTestNow();
 
         $result = $this->auth->check(['token' => $token]);
 
@@ -234,13 +235,13 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
     }
 
     /**
-     * @param Time|null $currentTime The current time
+     * @param Time|null $clock The Time object
      */
-    private function generateJWT(?Time $currentTime = null): string
+    private function generateJWT(?Time $clock = null): string
     {
         $this->user = \fake(UserModel::class, ['id' => 1, 'username' => 'John Smith']);
 
-        $generator = new JWTGenerator($currentTime);
+        $generator = new JWTGenerator($clock);
 
         return $generator->generateAccessToken($this->user);
     }

@@ -12,13 +12,13 @@ use CodeIgniter\Shield\Entities\User;
 
 class JWTGenerator
 {
-    private Time $currentTime;
+    private Time $clock;
     private JWTAdapterInterface $jwtAdapter;
 
-    public function __construct(?Time $currentTime = null, ?JWTAdapterInterface $jwtAdapter = null)
+    public function __construct(?Time $clock = null, ?JWTAdapterInterface $jwtAdapter = null)
     {
-        $this->currentTime = $currentTime ?? new Time();
-        $this->jwtAdapter  = $jwtAdapter ?? new FirebaseAdapter();
+        $this->clock      = $clock ?? new Time();
+        $this->jwtAdapter = $jwtAdapter ?? new FirebaseAdapter();
     }
 
     /**
@@ -29,7 +29,7 @@ class JWTGenerator
         /** @var AuthJWT $config */
         $config = config('AuthJWT');
 
-        $iat = $this->currentTime->getTimestamp();
+        $iat = $this->clock->now()->getTimestamp();
         $exp = $iat + $config->timeToLive;
 
         $payload = array_merge(
@@ -70,7 +70,7 @@ class JWTGenerator
         $payload = $claims;
 
         if (! array_key_exists('iat', $claims)) {
-            $payload['iat'] = $this->currentTime->getTimestamp();
+            $payload['iat'] = $this->clock->now()->getTimestamp();
         }
 
         if (! array_key_exists('exp', $claims)) {

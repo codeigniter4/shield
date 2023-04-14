@@ -44,8 +44,16 @@ final class JWTGeneratorTest extends TestCase
 
     public function testGenerate()
     {
-        $currentTime = new Time();
-        $generator   = new JWTGenerator($currentTime);
+        // Fix the current time for testing.
+        Time::setTestNow('now');
+
+        $clock     = new Time();
+        $generator = new JWTGenerator($clock);
+
+        $currentTime = $clock->now();
+
+        // Reset the current time.
+        Time::setTestNow();
 
         $payload = [
             'user_id' => '1',
