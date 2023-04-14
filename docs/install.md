@@ -108,7 +108,7 @@ Require it with an explicit version constraint allowing its desired stability.
 There are a few setup items to do before you can start using Shield in
 your project.
 
-1. Copy the **Auth.php** and  **AuthGroups.php** from **vendor/codeigniter4/shield/src/Config/** into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all of the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
+1. Copy the **Auth.php** and  **AuthGroups.php** from **vendor/codeigniter4/shield/src/Config/** into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
 
     ```php
     // new file - app/Config/Auth.php
