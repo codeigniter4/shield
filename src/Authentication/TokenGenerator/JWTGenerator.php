@@ -51,9 +51,9 @@ class JWTGenerator
     /**
      * Issues JWT
      *
-     * @param array    $claims The payload items.
-     * @param int|null $ttl    Time to live in seconds.
-     * @param string   $key    The secret key.
+     * @param array       $claims The payload items.
+     * @param int|null    $ttl    Time to live in seconds.
+     * @param string|null $key    The secret key.
      */
     public function generate(array $claims, ?int $ttl = null, $key = null, ?string $algorithm = null): string
     {
