@@ -119,7 +119,6 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $config  = config('AuthJWT');
         $payload = [
             'iss' => $config->claims['iss'], // issuer
-            'aud' => $config->claims['aud'], // audience
         ];
         $token = FirebaseJWT::encode($payload, $config->secretKey, $config->algorithm);
 

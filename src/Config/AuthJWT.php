@@ -29,7 +29,6 @@ class AuthJWT extends BaseConfig
      */
     public array $claims = [
         'iss' => '<Issuer of the JWT>',
-        'aud' => '<Audience of the JWT>',
     ];
 
     /**

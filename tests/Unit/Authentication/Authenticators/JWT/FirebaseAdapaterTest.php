@@ -33,7 +33,6 @@ final class FirebaseAdapaterTest extends TestCase
         $payload = $jwtDecoder->decode($token, $key, $algorithm);
 
         $this->assertSame($config->claims['iss'], $payload->iss);
-        $this->assertSame($config->claims['aud'], $payload->aud);
         $this->assertSame('1', $payload->sub);
     }
 
