@@ -114,6 +114,8 @@ your project.
     // new file - app/Config/Auth.php
     <?php
 
+    declare(strict_types=1);
+
     namespace Config;
 
     // ...
