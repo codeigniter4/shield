@@ -37,6 +37,11 @@ class AuthJWT extends BaseConfig
 
     /**
      * The Keys
+     *
+     * The key of the array is the key group name.
+     *
+     * @var array<string, array<int, array<string, string>>>
+     * @phpstan-var array<string, list<array<string, string>>>
      */
     public array $keys = [
         'default' => [
