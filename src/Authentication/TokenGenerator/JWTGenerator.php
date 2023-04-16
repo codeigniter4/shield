@@ -23,27 +23,28 @@ class JWTGenerator
 
     /**
      * Issues JWT (JWS) for a User
+     *
+     * @param array                      $claims  The payload items.
+     * @param int|null                   $ttl     Time to live in seconds.
+     * @param string                     $key     The key group.
+     *                                            The array key of Config\AuthJWT::$keys.
+     * @param array<string, string>|null $headers An array with header elements to attach.
      */
-    public function generateAccessToken(User $user): string
-    {
-        $config = config(AuthJWT::class);
-
-        $iat = $this->clock->now()->getTimestamp();
-        $exp = $iat + $config->timeToLive;
-
+    public function generateAccessToken(
+        User $user,
+        array $claims = [],
+        ?int $ttl = null,
+        $key = 'default',
+        ?array $headers = null
+    ): string {
         $payload = array_merge(
-            $config->defaultClaims,
+            $claims,
             [
-                'sub' => (string) $user->id,    // subject
-                'iat' => $iat,                  // issued at
-                'exp' => $exp,                  // expiration time
-            ]
+                'sub' => (string) $user->id, // subject
+            ],
         );
 
-        return $this->jwtAdapter->encode(
-            $payload,
-            'default'
-        );
+        return $this->generate($payload, $ttl, $key, $headers);
     }
 
     /**

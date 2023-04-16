@@ -70,6 +70,21 @@ php -r 'echo base64_encode(random_bytes(32));'
 
 JWTs are created through the `JWTGenerator::generateAccessToken()` method.
 This takes a User object to give to the token as the first argument.
+It can also take optional additional claims array, time to live in seconds,
+a key group (an array key) in the `Config\AuthJWT::$keys`, and additional header
+array:
+
+```php
+public function generateAccessToken(
+    User $user,
+    array $claims = [],
+    ?int $ttl = null,
+    $key = 'default',
+    ?array $headers = null
+): string
+```
+
+The following code generates a JWT to the user.
 
 ```php
 use CodeIgniter\Shield\Authentication\TokenGenerator\JWTGenerator;
@@ -77,14 +92,16 @@ use CodeIgniter\Shield\Authentication\TokenGenerator\JWTGenerator;
 $generator = new JWTGenerator();
 
 $user  = auth()->user();
-$token = $generator->generateAccessToken($user);
+$claim = [
+    'email' => $user->email,
+];
+$token = $generator->generateAccessToken($user, $claim);
 ```
 
-This creates the JWT to the user.
-
-It sets the `Config\AuthJWT::$claim` values to the token, and adds the user ID
-in the `"sub"` (subject) claim. It also sets `"iat"` (Issued At) and `"exp"`
-(Expiration Time) claims automatically.
+It sets the `Config\AuthJWT::$defaultClaim` values to the token, and adds
+the `'email'` claim and the user ID in the `"sub"` (subject) claim.
+It also sets `"iat"` (Issued At) and `"exp"` (Expiration Time) claims automatically
+if you don't specify.
 
 ### Arbitrary JWT
 
@@ -116,7 +133,7 @@ $payload = [
 $token = $generator->generate($payload, DAY);
 ```
 
-It uses the `secret` and `alg` in the `Config\AuthJWT::$keys['default]`.
+It uses the `secret` and `alg` in the `Config\AuthJWT::$keys['default']`.
 
 It sets `"iat"` (Issued At) and `"exp"` (Expiration Time) claims automatically
 even if you don't pass them.

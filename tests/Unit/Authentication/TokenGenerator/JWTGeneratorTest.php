@@ -62,6 +62,26 @@ final class JWTGeneratorTest extends TestCase
         $this->assertSame($expected, (array) $payload);
     }
 
+    public function testGenerateAccessTokenAddClaims(): void
+    {
+        /** @var User $user */
+        $user = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
+
+        $generator = new JWTGenerator();
+
+        $claims = [
+            'email' => 'admin@example.jp',
+        ];
+        $token = $generator->generateAccessToken($user, $claims);
+
+        $this->assertIsString($token);
+
+        $payload = $this->decodeJWT($token, 'payload');
+
+        $this->assertStringStartsWith('1', $payload['sub']);
+        $this->assertStringStartsWith('admin@example.jp', $payload['email']);
+    }
+
     public function testGenerate()
     {
         // Fix the current time for testing.
@@ -125,7 +145,7 @@ final class JWTGeneratorTest extends TestCase
 
         $this->assertIsString($token);
 
-        $headers = $this->decodeJWTHeader($token);
+        $headers = $this->decodeJWT($token, 'header');
         $this->assertSame([
             'typ' => 'JWT',
             'alg' => 'HS256',
@@ -147,7 +167,7 @@ final class JWTGeneratorTest extends TestCase
 
         $this->assertIsString($token);
 
-        $headers = $this->decodeJWTHeader($token);
+        $headers = $this->decodeJWT($token, 'header');
         $this->assertSame([
             'extra_key' => 'extra_value',
             'typ'       => 'JWT',
@@ -155,8 +175,14 @@ final class JWTGeneratorTest extends TestCase
         ], $headers);
     }
 
-    private function decodeJWTHeader(string $token): array
+    private function decodeJWT(string $token, $part): array
     {
+        $map = [
+            'header'  => 0,
+            'payload' => 1,
+        ];
+        $index = $map[$part];
+
         return json_decode(
             base64_decode(
                 str_replace(
@@ -165,7 +191,7 @@ final class JWTGeneratorTest extends TestCase
                     str_replace(
                         '-',
                         '+',
-                        explode('.', $token)[0]
+                        explode('.', $token)[$index]
                     )
                 ),
                 true
