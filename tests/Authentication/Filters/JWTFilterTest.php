@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Authentication\Filters;
 
 use CodeIgniter\Config\Factories;
-use CodeIgniter\Shield\Authentication\TokenGenerator\JWTGenerator;
+use CodeIgniter\Shield\Authentication\JWT\JWTGenerator;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Filters\JWTAuth;
 use CodeIgniter\Shield\Models\UserModel;

@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Authentication\TokenGenerator;
+namespace CodeIgniter\Shield\Authentication\JWT;
 
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Shield\Authentication\Authenticators\JWT\FirebaseAdapter;
-use CodeIgniter\Shield\Authentication\Authenticators\JWT\JWTAdapterInterface;
+use CodeIgniter\Shield\Authentication\JWT\Adapters\FirebaseAdapter;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 

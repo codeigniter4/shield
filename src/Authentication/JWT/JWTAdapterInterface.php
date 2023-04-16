@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Authentication\Authenticators\JWT;
+namespace CodeIgniter\Shield\Authentication\JWT;
 
 use stdClass;
 

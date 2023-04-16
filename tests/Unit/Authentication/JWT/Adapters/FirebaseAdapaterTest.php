@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Authentication\Authenticators\JWT;
+namespace Tests\Unit\Authentication\JWT\Adapters;
 
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Shield\Authentication\Authenticators\JWT\FirebaseAdapter;
-use CodeIgniter\Shield\Authentication\TokenGenerator\JWTGenerator;
+use CodeIgniter\Shield\Authentication\JWT\Adapters\FirebaseAdapter;
+use CodeIgniter\Shield\Authentication\JWT\JWTGenerator;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;

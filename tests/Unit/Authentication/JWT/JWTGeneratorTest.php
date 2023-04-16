@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Authentication\TokenGenerator;
+namespace Tests\Unit\Authentication\JWT;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT;
-use CodeIgniter\Shield\Authentication\TokenGenerator\JWTGenerator;
+use CodeIgniter\Shield\Authentication\JWT\JWTGenerator;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Authentication\Authenticators\JWT;
+namespace CodeIgniter\Shield\Authentication\JWT\Adapters;
 
+use CodeIgniter\Shield\Authentication\JWT\JWTAdapterInterface;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use DomainException;

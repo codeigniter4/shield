@@ -87,7 +87,7 @@ public function generateAccessToken(
 The following code generates a JWT to the user.
 
 ```php
-use CodeIgniter\Shield\Authentication\TokenGenerator\JWTGenerator;
+use CodeIgniter\Shield\Authentication\JWT\JWTGenerator;
 
 $generator = new JWTGenerator();
 
@@ -122,7 +122,7 @@ public function generate(
 The following code generates a JWT.
 
 ```php
-use CodeIgniter\Shield\Authentication\TokenGenerator\JWTGenerator;
+use CodeIgniter\Shield\Authentication\JWT\JWTGenerator;
 
 $generator   = new JWTGenerator();
 
