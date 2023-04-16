@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Authentication\Authenticators\JWT;
 
-use Firebase\JWT\JWT;
 use stdClass;
 
 interface JWTAdapterInterface
