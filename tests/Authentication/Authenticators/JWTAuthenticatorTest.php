@@ -245,4 +245,41 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
 
         return $generator->generateAccessToken($this->user);
     }
+
+    public function testDecodeJWTCanDecodeTokenSignedByOldKey(): void
+    {
+        $config                  = config(AuthJWT::class);
+        $config->keys['default'] = [
+            [
+                'kid'    => 'Key01',
+                'alg'    => 'HS256', // algorithm.
+                'secret' => 'Key01_Secret',
+            ],
+        ];
+
+        // Generate token with Key01.
+        $generator = new JWTGenerator();
+        $payload   = [
+            'user_id' => '1',
+        ];
+        $token = $generator->generate($payload, DAY, 'default');
+
+        // Add new Key02.
+        $config->keys['default'] = [
+            [
+                'kid'    => 'Key02',
+                'alg'    => 'HS256', // algorithm.
+                'secret' => 'Key02_Secret',
+            ],
+            [
+                'kid'    => 'Key01',
+                'alg'    => 'HS256', // algorithm.
+                'secret' => 'Key01_Secret',
+            ],
+        ];
+
+        $payload = $this->auth->decodeJWT($token);
+
+        $this->assertSame('1', $payload->user_id);
+    }
 }

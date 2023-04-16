@@ -25,12 +25,27 @@ class FirebaseAdapter implements JWTAdapterInterface
     {
         $keyGroup = $key;
 
-        $config    = config(AuthJWT::class);
-        $key       = $config->keys[$keyGroup][0]['secret'];
-        $algorithm = $config->keys[$keyGroup][0]['alg'];
+        $config = config(AuthJWT::class);
+
+        $configKeys = $config->keys[$keyGroup];
+        if (count($configKeys) === 1) {
+            $key       = $configKeys[0]['secret'];
+            $algorithm = $configKeys[0]['alg'];
+
+            $keys = new Key($key, $algorithm);
+        } else {
+            $keys = [];
+
+            foreach ($config->keys[$keyGroup] as $item) {
+                $key       = $item['secret'];
+                $algorithm = $item['alg'];
+
+                $keys[$item['kid']] = new Key($key, $algorithm);
+            }
+        }
 
         try {
-            return JWT::decode($encodedToken, new Key($key, $algorithm));
+            return JWT::decode($encodedToken, $keys);
         } catch (BeforeValidException|ExpiredException $e) {
             throw new RuntimeException('Expired JWT: ' . $e->getMessage(), 0, $e);
         } catch (

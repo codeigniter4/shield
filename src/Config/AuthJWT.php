@@ -39,6 +39,7 @@ class AuthJWT extends BaseConfig
      * The Keys
      *
      * The key of the array is the key group name.
+     * The first key of the group is used for signing.
      *
      * @var array<string, array<int, array<string, string>>>
      * @phpstan-var array<string, list<array<string, string>>>
@@ -47,7 +48,7 @@ class AuthJWT extends BaseConfig
         'default' => [
             // Symmetric Key
             [
-                'kid' => '',      // (Optional) Key ID.
+                'kid' => '',      // Key ID. Optional if you have only one key.
                 'alg' => 'HS256', // algorithm.
                 // Set secret random string. Needs more than 256 bits.
                 // E.g., $ php -r 'echo base64_encode(random_bytes(32));'
@@ -55,7 +56,7 @@ class AuthJWT extends BaseConfig
             ],
             // (Not implemented) Asymmetric Key
             // [
-            //     'kid'     => '',      // (Optional) Key ID.
+            //     'kid'     => '',      // Key ID. Optional if you have only one key.
             //     'alg'     => 'RS256', // algorithm.
             //     'public'  => '',      // Public Key
             //     'private' => '',      // Private Key
