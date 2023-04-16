@@ -27,10 +27,9 @@ final class FirebaseAdapaterTest extends TestCase
         /** @var AuthJWT $config */
         $config = config('AuthJWT');
 
-        $key       = $config->keys['default'][0]['secret'];
-        $algorithm = $config->keys['default'][0]['alg'];
+        $key = 'default';
 
-        $payload = $jwtDecoder->decode($token, $key, $algorithm);
+        $payload = $jwtDecoder->decode($token, $key);
 
         $this->assertSame($config->defaultClaims['iss'], $payload->iss);
         $this->assertSame('1', $payload->sub);
@@ -56,13 +55,9 @@ final class FirebaseAdapaterTest extends TestCase
 
         $jwtDecoder = new FirebaseAdapter();
 
-        /** @var AuthJWT $config */
-        $config    = config('AuthJWT');
-        $key       = $config->keys['default'][0]['secret'];
-        $algorithm = $config->keys['default'][0]['alg'];
-
+        $key   = 'default';
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJJc3N1ZXIgb2YgdGhlIEpXVCIsImF1ZCI6IkF1ZGllbmNlIG9mIHRoZSBKV1QiLCJzdWIiOiIxIiwiaWF0IjoxNjUzOTkxOTg5LCJleHAiOjE2NTM5OTU1ODl9.hgOYHEcT6RGHb3po1lspTcmjrylY1Cy1IvYmHOyx0CY';
-        $jwtDecoder->decode($token, $key, $algorithm);
+        $jwtDecoder->decode($token, $key);
     }
 
     public function testDecodeExpiredException(): void
@@ -76,11 +71,7 @@ final class FirebaseAdapaterTest extends TestCase
         $token = $this->generateJWT();
         Time::setTestNow();
 
-        /** @var AuthJWT $config */
-        $config    = config('AuthJWT');
-        $key       = $config->keys['default'][0]['secret'];
-        $algorithm = $config->keys['default'][0]['alg'];
-
-        $jwtDecoder->decode($token, $key, $algorithm);
+        $key = 'default';
+        $jwtDecoder->decode($token, $key);
     }
 }

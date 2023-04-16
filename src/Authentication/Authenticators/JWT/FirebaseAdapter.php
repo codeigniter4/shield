@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Authentication\Authenticators\JWT;
 
+use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use DomainException;
 use Firebase\JWT\BeforeValidException;
@@ -20,8 +21,14 @@ class FirebaseAdapter implements JWTAdapterInterface
     /**
      * {@inheritDoc}
      */
-    public static function decode(string $encodedToken, $key, string $algorithm): stdClass
+    public static function decode(string $encodedToken, $key): stdClass
     {
+        $keyGroup = $key;
+
+        $config    = config(AuthJWT::class);
+        $key       = $config->keys[$keyGroup][0]['secret'];
+        $algorithm = $config->keys[$keyGroup][0]['alg'];
+
         try {
             return JWT::decode($encodedToken, new Key($key, $algorithm));
         } catch (BeforeValidException|ExpiredException $e) {
@@ -37,13 +44,19 @@ class FirebaseAdapter implements JWTAdapterInterface
     /**
      * {@inheritDoc}
      */
-    public static function generate(
-        array $payload,
-        $key,
-        string $algorithm,
-        ?string $keyId = null,
-        ?array $headers = null
-    ): string {
+    public static function generate(array $payload, $key, ?array $headers = null): string
+    {
+        $keyGroup = $key;
+
+        $config    = config(AuthJWT::class);
+        $key       = $config->keys[$keyGroup][0]['secret'];
+        $algorithm = $config->keys[$keyGroup][0]['alg'];
+
+        $keyId = $config->keys[$keyGroup][0]['kid'] ?? null;
+        if ($keyId === '') {
+            $keyId = null;
+        }
+
         return JWT::encode($payload, $key, $algorithm, $keyId, $headers);
     }
 }

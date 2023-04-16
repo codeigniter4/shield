@@ -42,8 +42,7 @@ class JWTGenerator
 
         return $this->jwtAdapter->generate(
             $payload,
-            $config->keys['default'][0]['secret'],
-            $config->keys['default'][0]['alg']
+            'default'
         );
     }
 
@@ -67,16 +66,7 @@ class JWTGenerator
             'Cannot pass $claims[\'exp\'] and $ttl at the same time.'
         );
 
-        $keyGroup = $key;
-
-        $config    = config(AuthJWT::class);
-        $key       = $config->keys[$keyGroup][0]['secret'];
-        $algorithm = $config->keys[$keyGroup][0]['alg'];
-
-        $keyId = $config->keys[$keyGroup][0]['kid'] ?? null;
-        if ($keyId === '') {
-            $keyId = null;
-        }
+        $config = config(AuthJWT::class);
 
         $payload = array_merge(
             $config->defaultClaims,
@@ -98,8 +88,6 @@ class JWTGenerator
         return $this->jwtAdapter->generate(
             $payload,
             $key,
-            $algorithm,
-            $keyId,
             $headers
         );
     }
