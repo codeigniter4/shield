@@ -59,7 +59,7 @@ class FirebaseAdapter implements JWTAdapterInterface
     /**
      * {@inheritDoc}
      */
-    public static function generate(array $payload, $key, ?array $headers = null): string
+    public static function encode(array $payload, $key, ?array $headers = null): string
     {
         $keyGroup = $key;
 

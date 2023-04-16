@@ -16,7 +16,7 @@ interface JWTAdapterInterface
      *                                            The array key of Config\AuthJWT::$keys.
      * @param array<string, string>|null $headers An array with header elements to attach.
      */
-    public static function generate(
+    public static function encode(
         array $payload,
         $key,
         ?array $headers = null

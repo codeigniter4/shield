@@ -40,7 +40,7 @@ class JWTGenerator
             ]
         );
 
-        return $this->jwtAdapter->generate(
+        return $this->jwtAdapter->encode(
             $payload,
             'default'
         );
@@ -85,7 +85,7 @@ class JWTGenerator
             $payload['exp'] = $payload['iat'] + $ttl;
         }
 
-        return $this->jwtAdapter->generate(
+        return $this->jwtAdapter->encode(
             $payload,
             $key,
             $headers
