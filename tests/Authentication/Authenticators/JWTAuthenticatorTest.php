@@ -282,4 +282,28 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
 
         $this->assertSame('1', $payload->user_id);
     }
+
+    public function testDecodeJWTCanSpecifyKey(): void
+    {
+        $config                 = config(AuthJWT::class);
+        $config->keys['mobile'] = [
+            [
+                'kid'    => 'Key01',
+                'alg'    => 'HS256', // algorithm.
+                'secret' => 'Key01_Secret',
+            ],
+        ];
+
+        // Generate token with the mobile key.
+        $generator = new JWTGenerator();
+        $payload   = [
+            'user_id' => '1',
+        ];
+        $token = $generator->generate($payload, DAY, 'mobile');
+
+        $this->auth->setKey('mobile');
+        $payload = $this->auth->decodeJWT($token);
+
+        $this->assertSame('1', $payload->user_id);
+    }
 }
