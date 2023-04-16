@@ -90,11 +90,16 @@ in the `"sub"` (subject) claim. It also sets `"iat"` (Issued At) and `"exp"`
 
 You can generate arbitrary JWT with the ``JWTGenerator::generate()`` method.
 
-It takes a JWT claims array, and can take time to live in seconds, a secret key,
-and algorithm to use:
+It takes a JWT claims array, and can take time to live in seconds, a key group
+(an array key) in the `Config\AuthJWT::$keys`, and additional header array:
 
 ```php
-generate(array $claims, ?int $ttl = null, $key = null, ?string $algorithm = null): string
+public function generate(
+    array $claims,
+    ?int $ttl = null,
+    $key = 'default',
+    ?array $headers = null
+): string
 ```
 
 The following code generates a JWT.
@@ -111,8 +116,7 @@ $payload = [
 $token = $generator->generate($payload, DAY);
 ```
 
-It uses the `$secretKey` and `$algorithm` in the `Config\AuthJWT` if you don't
-pass them.
+It uses the `secret` and `alg` in the `Config\AuthJWT::$keys['default]`.
 
 It sets `"iat"` (Issued At) and `"exp"` (Expiration Time) claims automatically
 even if you don't pass them.

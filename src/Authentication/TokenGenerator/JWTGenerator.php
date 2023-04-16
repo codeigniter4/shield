@@ -22,7 +22,7 @@ class JWTGenerator
     }
 
     /**
-     * Issues JWT Access Token
+     * Issues JWT (JWS) for a User
      */
     public function generateAccessToken(User $user): string
     {
@@ -48,22 +48,35 @@ class JWTGenerator
     }
 
     /**
-     * Issues JWT
+     * Issues JWT (JWS)
      *
-     * @param array       $claims The payload items.
-     * @param int|null    $ttl    Time to live in seconds.
-     * @param string|null $key    The secret key.
+     * @param array                      $claims  The payload items.
+     * @param int|null                   $ttl     Time to live in seconds.
+     * @param string                     $key     The key group.
+     *                                            The array key of Config\AuthJWT::$keys.
+     * @param array<string, string>|null $headers An array with header elements to attach.
      */
-    public function generate(array $claims, ?int $ttl = null, $key = null, ?string $algorithm = null): string
-    {
+    public function generate(
+        array $claims,
+        ?int $ttl = null,
+        $key = 'default',
+        ?array $headers = null
+    ): string {
         assert(
             (array_key_exists('exp', $claims) && ($ttl !== null)) === false,
             'Cannot pass $claims[\'exp\'] and $ttl at the same time.'
         );
 
-        $config = config(AuthJWT::class);
-        $algorithm ??= $config->keys['default'][0]['alg'];
-        $key ??= $config->keys['default'][0]['secret'];
+        $keyGroup = $key;
+
+        $config    = config(AuthJWT::class);
+        $key       = $config->keys[$keyGroup][0]['secret'];
+        $algorithm = $config->keys[$keyGroup][0]['alg'];
+
+        $keyId = $config->keys[$keyGroup][0]['kid'] ?? null;
+        if ($keyId === '') {
+            $keyId = null;
+        }
 
         $payload = array_merge(
             $config->defaultClaims,
@@ -85,7 +98,9 @@ class JWTGenerator
         return $this->jwtAdapter->generate(
             $payload,
             $key,
-            $algorithm
+            $algorithm,
+            $keyId,
+            $headers
         );
     }
 }

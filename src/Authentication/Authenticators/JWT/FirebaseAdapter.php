@@ -18,11 +18,7 @@ use UnexpectedValueException;
 class FirebaseAdapter implements JWTAdapterInterface
 {
     /**
-     * Decode JWT
-     *
-     * @param string $key
-     *
-     * @return stdClass Payload
+     * {@inheritDoc}
      */
     public static function decode(string $encodedToken, $key, string $algorithm): stdClass
     {
@@ -39,12 +35,15 @@ class FirebaseAdapter implements JWTAdapterInterface
     }
 
     /**
-     * Issues JWT
-     *
-     * @param string $key
+     * {@inheritDoc}
      */
-    public static function generate(array $payload, $key, string $algorithm): string
-    {
-        return JWT::encode($payload, $key, $algorithm);
+    public static function generate(
+        array $payload,
+        $key,
+        string $algorithm,
+        ?string $keyId = null,
+        ?array $headers = null
+    ): string {
+        return JWT::encode($payload, $key, $algorithm, $keyId, $headers);
     }
 }

@@ -109,4 +109,68 @@ final class JWTGeneratorTest extends TestCase
         ];
         $this->assertSame($expected, (array) $payload);
     }
+
+    public function testGenerateSetKid(): void
+    {
+        $generator = new JWTGenerator();
+
+        // Set kid
+        $config                            = config(AuthJWT::class);
+        $config->keys['default'][0]['kid'] = 'Key01';
+
+        $payload = [
+            'user_id' => '1',
+        ];
+        $token = $generator->generate($payload, DAY);
+
+        $this->assertIsString($token);
+
+        $headers = $this->decodeJWTHeader($token);
+        $this->assertSame([
+            'typ' => 'JWT',
+            'alg' => 'HS256',
+            'kid' => 'Key01',
+        ], $headers);
+    }
+
+    public function testGenerateAddHeader(): void
+    {
+        $generator = new JWTGenerator();
+
+        $payload = [
+            'user_id' => '1',
+        ];
+        $headers = [
+            'extra_key' => 'extra_value',
+        ];
+        $token = $generator->generate($payload, DAY, 'default', $headers);
+
+        $this->assertIsString($token);
+
+        $headers = $this->decodeJWTHeader($token);
+        $this->assertSame([
+            'extra_key' => 'extra_value',
+            'typ'       => 'JWT',
+            'alg'       => 'HS256',
+        ], $headers);
+    }
+
+    private function decodeJWTHeader(string $token): array
+    {
+        return json_decode(
+            base64_decode(
+                str_replace(
+                    '_',
+                    '/',
+                    str_replace(
+                        '-',
+                        '+',
+                        explode('.', $token)[0]
+                    )
+                ),
+                true
+            ),
+            true
+        );
+    }
 }
