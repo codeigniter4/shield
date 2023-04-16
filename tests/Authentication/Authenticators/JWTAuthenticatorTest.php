@@ -118,7 +118,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         /** @var AuthJWT $config */
         $config  = config('AuthJWT');
         $payload = [
-            'iss' => $config->claims['iss'], // issuer
+            'iss' => $config->defaultClaims['iss'], // issuer
         ];
         $token = FirebaseJWT::encode($payload, $config->secretKey, $config->algorithm);
 
@@ -174,7 +174,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $this->assertSame((string) $this->user->id, $payload->sub);
         /** @var AuthJWT $config */
         $config = config('AuthJWT');
-        $this->assertSame($config->claims['iss'], $payload->iss);
+        $this->assertSame($config->defaultClaims['iss'], $payload->iss);
     }
 
     public function testAttemptBadSignatureToken(): void

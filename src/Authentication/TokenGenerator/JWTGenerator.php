@@ -33,7 +33,7 @@ class JWTGenerator
         $exp = $iat + $config->timeToLive;
 
         $payload = array_merge(
-            $config->claims,
+            $config->defaultClaims,
             [
                 'sub' => (string) $user->id,    // subject
                 'iat' => $iat,                  // issued at
@@ -67,7 +67,10 @@ class JWTGenerator
         $algorithm ??= $config->algorithm;
         $key ??= $config->secretKey;
 
-        $payload = $claims;
+        $payload = array_merge(
+            $config->defaultClaims,
+            $claims
+        );
 
         if (! array_key_exists('iat', $claims)) {
             $payload['iat'] = $this->clock->now()->getTimestamp();

@@ -22,12 +22,11 @@ class AuthJWT extends BaseConfig
     public string $authenticatorHeader = 'Authorization';
 
     /**
-     * The payload items that all JWT have.
+     * The default payload items.
      *
-     * @var string[]
-     * @phpstan-var array<string, string>
+     * @var array<string, string>
      */
-    public array $claims = [
+    public array $defaultClaims = [
         'iss' => '<Issuer of the JWT>',
     ];
 

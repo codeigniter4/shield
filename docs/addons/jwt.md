@@ -37,18 +37,16 @@ To use JWT Authentication, you need additional setup and configuration.
 
 Configure **app/Config/AuthJWT.php** for your needs.
 
-### Set Common Payload
+### Set the Default Claims
 
-Set the payload items that all JWTs have to the property `$claims`.
+Set the payload items by default to the property `$defaultClaims`.
 
 E.g.:
 ```php
-    public array $claims = [
+    public array $defaultClaims = [
         'iss' => 'https://codeigniter.com/',
     ];
 ```
-
-This value is used by the `JWTGenerator::generateAccessToken()` method.
 
 ### Set Secret Key
 
@@ -115,9 +113,6 @@ $token = $generator->generate($payload, DAY);
 
 It uses the `$secretKey` and `$algorithm` in the `Config\AuthJWT` if you don't
 pass them.
-
-> **Note**
-> ``JWTGenerator::generate()`` does not use `Config\AuthJWT::$claim`at all.
 
 It sets `"iat"` (Issued At) and `"exp"` (Expiration Time) claims automatically
 even if you don't pass them.
