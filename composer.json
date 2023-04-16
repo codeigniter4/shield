@@ -32,7 +32,8 @@
         "codeigniter4/authentication-implementation": "1.0"
     },
     "suggest": {
-        "ext-curl": "Required to use the password validation rule via PwnedValidator class."
+        "ext-curl": "Required to use the password validation rule via PwnedValidator class.",
+        "ext-openssl": "Required to use the JWT Authenticator."
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
