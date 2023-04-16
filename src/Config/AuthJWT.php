@@ -31,11 +31,6 @@ class AuthJWT extends BaseConfig
     ];
 
     /**
-     * The secret key. Needs more than 256 bits random string.
-     * E.g., $ php -r 'echo base64_encode(random_bytes(32));'
-     */
-
-    /**
      * The Keys
      *
      * The key of the array is the key group name.
