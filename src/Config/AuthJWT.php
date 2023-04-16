@@ -34,12 +34,29 @@ class AuthJWT extends BaseConfig
      * The secret key. Needs more than 256 bits random string.
      * E.g., $ php -r 'echo base64_encode(random_bytes(32));'
      */
-    public string $secretKey = '<Set secret random string like MQ4GfWut1OYZxPY9fXAIq2YP6KzTSKOGNS7dJNcRrR8=>';
 
     /**
-     * JWT Signing Algorithms.
+     * The Keys
      */
-    public string $algorithm = 'HS256';
+    public array $keys = [
+        'default' => [
+            // Symmetric Key
+            [
+                'kid' => '',      // (Optional) Key ID.
+                'alg' => 'HS256', // algorithm.
+                // Set secret random string. Needs more than 256 bits.
+                // E.g., $ php -r 'echo base64_encode(random_bytes(32));'
+                'secret' => '<Set secret random string>',
+            ],
+            // (Not implemented) Asymmetric Key
+            // [
+            //     'kid'     => '',      // (Optional) Key ID.
+            //     'alg'     => 'RS256', // algorithm.
+            //     'public'  => '',      // Public Key
+            //     'private' => '',      // Private Key
+            // ],
+        ],
+    ];
 
     /**
      * Specifies the amount of time, in seconds, that a token is valid.

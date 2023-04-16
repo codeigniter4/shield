@@ -243,8 +243,8 @@ class JWT implements AuthenticatorInterface
         /** @var AuthJWT $config */
         $config = config('AuthJWT');
 
-        $key       = $config->secretKey;
-        $algorithm = $config->algorithm;
+        $key       = $config->keys['default'][0]['secret'];
+        $algorithm = $config->keys['default'][0]['alg'];
 
         return $this->jwtAdapter->decode($encodedToken, $key, $algorithm);
     }

@@ -50,11 +50,11 @@ E.g.:
 
 ### Set Secret Key
 
-Set yout secret key to the `$secretKey` property, or set it in your `.env` file.
+Set your secret key in the `$keys` property, or set it in your `.env` file.
 
 E.g.:
 ```dotenv
-authjwt.secretKey = 8XBFsF6HThIa7OV/bSynahEch+WbKrGcuiJVYPiwqPE=
+authjwt.keys.default.0.secret = 8XBFsF6HThIa7OV/bSynahEch+WbKrGcuiJVYPiwqPE=
 ```
 
 It needs more than 256 bits random string. You can get a secure random string

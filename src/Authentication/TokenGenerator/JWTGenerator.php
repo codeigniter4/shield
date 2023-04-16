@@ -43,8 +43,8 @@ class JWTGenerator
 
         return $this->jwtAdapter->generate(
             $payload,
-            $config->secretKey,
-            $config->algorithm
+            $config->keys['default'][0]['secret'],
+            $config->keys['default'][0]['alg']
         );
     }
 
@@ -64,8 +64,8 @@ class JWTGenerator
 
         /** @var AuthJWT $config */
         $config = config('AuthJWT');
-        $algorithm ??= $config->algorithm;
-        $key ??= $config->secretKey;
+        $algorithm ??= $config->keys['default'][0]['alg'];
+        $key ??= $config->keys['default'][0]['secret'];
 
         $payload = array_merge(
             $config->defaultClaims,

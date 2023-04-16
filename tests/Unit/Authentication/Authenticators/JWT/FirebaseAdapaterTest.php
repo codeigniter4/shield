@@ -27,8 +27,8 @@ final class FirebaseAdapaterTest extends TestCase
         /** @var AuthJWT $config */
         $config = config('AuthJWT');
 
-        $key       = $config->secretKey;
-        $algorithm = $config->algorithm;
+        $key       = $config->keys['default'][0]['secret'];
+        $algorithm = $config->keys['default'][0]['alg'];
 
         $payload = $jwtDecoder->decode($token, $key, $algorithm);
 
@@ -58,8 +58,8 @@ final class FirebaseAdapaterTest extends TestCase
 
         /** @var AuthJWT $config */
         $config    = config('AuthJWT');
-        $key       = $config->secretKey;
-        $algorithm = $config->algorithm;
+        $key       = $config->keys['default'][0]['secret'];
+        $algorithm = $config->keys['default'][0]['alg'];
 
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJJc3N1ZXIgb2YgdGhlIEpXVCIsImF1ZCI6IkF1ZGllbmNlIG9mIHRoZSBKV1QiLCJzdWIiOiIxIiwiaWF0IjoxNjUzOTkxOTg5LCJleHAiOjE2NTM5OTU1ODl9.hgOYHEcT6RGHb3po1lspTcmjrylY1Cy1IvYmHOyx0CY';
         $jwtDecoder->decode($token, $key, $algorithm);
@@ -78,8 +78,8 @@ final class FirebaseAdapaterTest extends TestCase
 
         /** @var AuthJWT $config */
         $config    = config('AuthJWT');
-        $key       = $config->secretKey;
-        $algorithm = $config->algorithm;
+        $key       = $config->keys['default'][0]['secret'];
+        $algorithm = $config->keys['default'][0]['alg'];
 
         $jwtDecoder->decode($token, $key, $algorithm);
     }

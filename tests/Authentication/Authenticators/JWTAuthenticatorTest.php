@@ -120,7 +120,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $payload = [
             'iss' => $config->defaultClaims['iss'], // issuer
         ];
-        $token = FirebaseJWT::encode($payload, $config->secretKey, $config->algorithm);
+        $token = FirebaseJWT::encode($payload, $config->keys['default'][0]['secret'], $config->keys['default'][0]['alg']);
 
         $result = $this->auth->check(['token' => $token]);
 
