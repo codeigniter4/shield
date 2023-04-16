@@ -28,8 +28,9 @@ class FirebaseAdapter implements JWTAdapterInterface
         $config = config(AuthJWT::class);
 
         $configKeys = $config->keys[$keyGroup];
+
         if (count($configKeys) === 1) {
-            $key       = $configKeys[0]['secret'];
+            $key       = $configKeys[0]['secret'] ?? $configKeys[0]['public'];
             $algorithm = $configKeys[0]['alg'];
 
             $keys = new Key($key, $algorithm);
@@ -37,7 +38,7 @@ class FirebaseAdapter implements JWTAdapterInterface
             $keys = [];
 
             foreach ($config->keys[$keyGroup] as $item) {
-                $key       = $item['secret'];
+                $key       = $item['secret'] ?? $item['public'];
                 $algorithm = $item['alg'];
 
                 $keys[$item['kid']] = new Key($key, $algorithm);
@@ -63,8 +64,23 @@ class FirebaseAdapter implements JWTAdapterInterface
     {
         $keyGroup = $key;
 
-        $config    = config(AuthJWT::class);
-        $key       = $config->keys[$keyGroup][0]['secret'];
+        $config = config(AuthJWT::class);
+
+        if (isset($config->keys[$keyGroup][0]['secret'])) {
+            $key = $config->keys[$keyGroup][0]['secret'];
+        } else {
+            $passphrase = $config->keys[$keyGroup][0]['passphrase'] ?? '';
+
+            if ($passphrase !== '') {
+                $key = openssl_pkey_get_private(
+                    $config->keys[$keyGroup][0]['private'],
+                    $passphrase
+                );
+            } else {
+                $key = $config->keys[$keyGroup][0]['private'];
+            }
+        }
+
         $algorithm = $config->keys[$keyGroup][0]['alg'];
 
         $keyId = $config->keys[$keyGroup][0]['kid'] ?? null;

@@ -49,12 +49,13 @@ class AuthJWT extends BaseConfig
                 // E.g., $ php -r 'echo base64_encode(random_bytes(32));'
                 'secret' => '<Set secret random string>',
             ],
-            // (Not implemented) Asymmetric Key
+            // Asymmetric Key
             // [
-            //     'kid'     => '',      // Key ID. Optional if you have only one key.
-            //     'alg'     => 'RS256', // algorithm.
-            //     'public'  => '',      // Public Key
-            //     'private' => '',      // Private Key
+            //     'kid'        => '',      // Key ID. Optional if you have only one key.
+            //     'alg'        => 'RS256', // algorithm.
+            //     'public'     => '',      // Public Key
+            //     'private'    => '',      // Private Key
+            //     'passphrase' => ''       // Passphrase
             // ],
         ],
     ];
