@@ -30,10 +30,10 @@ final class JWTGeneratorTest extends TestCase
 
         $currentTime = $clock->now();
 
+        $token = $generator->generateAccessToken($user);
+
         // Reset the current time.
         Time::setTestNow();
-
-        $token = $generator->generateAccessToken($user);
 
         $this->assertIsString($token);
         $this->assertStringStartsWith('eyJ', $token);
@@ -72,15 +72,15 @@ final class JWTGeneratorTest extends TestCase
 
         $currentTime = $clock->now();
 
-        // Reset the current time.
-        Time::setTestNow();
-
         $payload = [
             'user_id' => '1',
             'email'   => 'admin@example.jp',
         ];
 
         $token = $generator->generate($payload, DAY);
+
+        // Reset the current time.
+        Time::setTestNow();
 
         $this->assertIsString($token);
         $this->assertStringStartsWith('eyJ', $token);
