@@ -26,8 +26,7 @@ class JWTGenerator
      */
     public function generateAccessToken(User $user): string
     {
-        /** @var AuthJWT $config */
-        $config = config('AuthJWT');
+        $config = config(AuthJWT::class);
 
         $iat = $this->clock->now()->getTimestamp();
         $exp = $iat + $config->timeToLive;
@@ -62,8 +61,7 @@ class JWTGenerator
             'Cannot pass $claims[\'exp\'] and $ttl at the same time.'
         );
 
-        /** @var AuthJWT $config */
-        $config = config('AuthJWT');
+        $config = config(AuthJWT::class);
         $algorithm ??= $config->keys['default'][0]['alg'];
         $key ??= $config->keys['default'][0]['secret'];
 
