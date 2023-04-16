@@ -92,13 +92,13 @@ use CodeIgniter\Shield\Authentication\TokenGenerator\JWTGenerator;
 $generator = new JWTGenerator();
 
 $user  = auth()->user();
-$claim = [
+$claims = [
     'email' => $user->email,
 ];
-$token = $generator->generateAccessToken($user, $claim);
+$token = $generator->generateAccessToken($user, $claims);
 ```
 
-It sets the `Config\AuthJWT::$defaultClaim` values to the token, and adds
+It sets the `Config\AuthJWT::$defaultClaims` to the token, and adds
 the `'email'` claim and the user ID in the `"sub"` (subject) claim.
 It also sets `"iat"` (Issued At) and `"exp"` (Expiration Time) claims automatically
 if you don't specify.
@@ -135,5 +135,6 @@ $token = $generator->generate($payload, DAY);
 
 It uses the `secret` and `alg` in the `Config\AuthJWT::$keys['default']`.
 
-It sets `"iat"` (Issued At) and `"exp"` (Expiration Time) claims automatically
-even if you don't pass them.
+It sets the `Config\AuthJWT::$defaultClaims` to the token, and sets
+`"iat"` (Issued At) and `"exp"` (Expiration Time) claims automatically even if
+you don't pass them.
