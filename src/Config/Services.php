@@ -6,6 +6,7 @@ namespace CodeIgniter\Shield\Config;
 
 use CodeIgniter\Shield\Auth;
 use CodeIgniter\Shield\Authentication\Authentication;
+use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Authentication\Passwords;
 use Config\Services as BaseService;
 
@@ -35,5 +36,17 @@ class Services extends BaseService
         }
 
         return new Passwords(config('Auth'));
+    }
+
+    /**
+     * JWT Manager.
+     */
+    public static function jwtmanager(bool $getShared = true): JWTManager
+    {
+        if ($getShared) {
+            return self::getSharedInstance('jwtmanager');
+        }
+
+        return new JWTManager();
     }
 }

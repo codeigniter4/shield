@@ -45,11 +45,11 @@ class JWT implements AuthenticatorInterface
      */
     protected $keyset = 'default';
 
-    public function __construct(UserModel $provider, ?JWTManager $jwtManager = null)
+    public function __construct(UserModel $provider)
     {
-        $this->provider   = $provider;
-        $this->jwtManager = $jwtManager ?? new JWTManager();
+        $this->provider = $provider;
 
+        $this->jwtManager      = service('jwtmanager');
         $this->tokenLoginModel = model(TokenLoginModel::class);
     }
 
