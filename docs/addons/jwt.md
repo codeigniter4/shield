@@ -91,7 +91,8 @@ The following code generates a JWT to the user.
 ```php
 use CodeIgniter\Shield\Authentication\JWTManager;
 
-$jwt = new JWTManager();
+/** @var JWTManager $jwt */
+$jwt = service('jwtmanager');
 
 $user  = auth()->user();
 $claims = [
@@ -126,7 +127,8 @@ The following code generates a JWT.
 ```php
 use CodeIgniter\Shield\Authentication\JWTManager;
 
-$jwt = new JWTManager();
+/** @var JWTManager $jwt */
+$jwt = service('jwtmanager');
 
 $payload = [
     'user_id' => '1',
