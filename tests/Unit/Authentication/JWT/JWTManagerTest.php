@@ -16,6 +16,11 @@ use Tests\Support\TestCase;
  */
 final class JWTManagerTest extends TestCase
 {
+    private function createJWTManager(?Time $clock = null): JWTManager
+    {
+        return new JWTManager($clock);
+    }
+
     public function testGenerateAccessToken()
     {
         /** @var User $user */
@@ -25,7 +30,7 @@ final class JWTManagerTest extends TestCase
         Time::setTestNow('now');
 
         $clock   = new Time();
-        $manager = new JWTManager($clock);
+        $manager = $this->createJWTManager($clock);
 
         $currentTime = $clock->now();
 
@@ -47,7 +52,7 @@ final class JWTManagerTest extends TestCase
     {
         [$token, $currentTime] = $data;
 
-        $manager = new JWTManager();
+        $manager = $this->createJWTManager();
         $payload = $manager->decode($token);
 
         $config   = config(AuthJWT::class);
@@ -65,7 +70,7 @@ final class JWTManagerTest extends TestCase
         /** @var User $user */
         $user = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
 
-        $manager = new JWTManager();
+        $manager = $this->createJWTManager();
 
         $claims = [
             'email' => 'admin@example.jp',
@@ -86,7 +91,7 @@ final class JWTManagerTest extends TestCase
         Time::setTestNow('now');
 
         $clock   = new Time();
-        $manager = new JWTManager($clock);
+        $manager = $this->createJWTManager($clock);
 
         $currentTime = $clock->now();
 
@@ -113,7 +118,7 @@ final class JWTManagerTest extends TestCase
     {
         [$token, $currentTime] = $data;
 
-        $manager = new JWTManager();
+        $manager = $this->createJWTManager();
         $payload = $manager->decode($token);
 
         $config   = config(AuthJWT::class);
@@ -129,7 +134,7 @@ final class JWTManagerTest extends TestCase
 
     public function testGenerateSetKid(): void
     {
-        $manager = new JWTManager();
+        $manager = $this->createJWTManager();
 
         // Set kid
         $config                            = config(AuthJWT::class);
@@ -152,7 +157,7 @@ final class JWTManagerTest extends TestCase
 
     public function testGenerateAddHeader(): void
     {
-        $manager = new JWTManager();
+        $manager = $this->createJWTManager();
 
         $payload = [
             'user_id' => '1',
@@ -174,7 +179,7 @@ final class JWTManagerTest extends TestCase
 
     public function testGenerateWithAsymmetricKey(): void
     {
-        $manager = new JWTManager();
+        $manager = $this->createJWTManager();
 
         $config                     = config(AuthJWT::class);
         $config->keys['default'][0] = [
@@ -262,7 +267,7 @@ final class JWTManagerTest extends TestCase
         ];
 
         // Generate token with Key01.
-        $manager = new JWTManager();
+        $manager = $this->createJWTManager();
         $payload = [
             'user_id' => '1',
         ];
@@ -299,7 +304,7 @@ final class JWTManagerTest extends TestCase
         ];
 
         // Generate token with the mobile key.
-        $manager = new JWTManager();
+        $manager = $this->createJWTManager();
         $payload = [
             'user_id' => '1',
         ];
@@ -314,7 +319,7 @@ final class JWTManagerTest extends TestCase
     {
         $token = $this->generateJWTWithAsymmetricKey();
 
-        $manager = new JWTManager();
+        $manager = $this->createJWTManager();
         $payload = $manager->decode($token);
 
         $this->assertSame('1', $payload->user_id);
@@ -322,7 +327,7 @@ final class JWTManagerTest extends TestCase
 
     private function generateJWTWithAsymmetricKey(): string
     {
-        $manager = new JWTManager();
+        $manager = $this->createJWTManager();
 
         $config                     = config(AuthJWT::class);
         $config->keys['default'][0] = [
