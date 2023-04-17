@@ -22,7 +22,10 @@ class AuthJWT extends BaseConfig
     public string $authenticatorHeader = 'Authorization';
 
     /**
-     * The default payload items.
+     * --------------------------------------------------------------------
+     * The Default Payload Items
+     * --------------------------------------------------------------------
+     * All JWTs will have these claims in the payload.
      *
      * @var array<string, string>
      */
@@ -31,8 +34,9 @@ class AuthJWT extends BaseConfig
     ];
 
     /**
+     * --------------------------------------------------------------------
      * The Keys
-     *
+     * --------------------------------------------------------------------
      * The key of the array is the key group name.
      * The first key of the group is used for signing.
      *
@@ -61,11 +65,17 @@ class AuthJWT extends BaseConfig
     ];
 
     /**
+     * --------------------------------------------------------------------
+     * Time To Live (in seconds)
+     * --------------------------------------------------------------------
      * Specifies the amount of time, in seconds, that a token is valid.
      */
     public int $timeToLive = HOUR;
 
     /**
+     * --------------------------------------------------------------------
+     * Record Login Attempts
+     * --------------------------------------------------------------------
      * Whether login attempts are recorded in the database.
      *
      * Valid values are:
