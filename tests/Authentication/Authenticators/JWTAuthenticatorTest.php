@@ -8,7 +8,7 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT;
-use CodeIgniter\Shield\Authentication\JWT\JWSGenerator;
+use CodeIgniter\Shield\Authentication\JWSGenerator;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;

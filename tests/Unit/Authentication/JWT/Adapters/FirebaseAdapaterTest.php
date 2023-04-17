@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Authentication\JWT\Adapters;
 
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\JWSGenerator;
 use CodeIgniter\Shield\Authentication\JWT\Adapters\FirebaseAdapter;
-use CodeIgniter\Shield\Authentication\JWT\JWSGenerator;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;

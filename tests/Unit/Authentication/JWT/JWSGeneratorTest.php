@@ -6,7 +6,7 @@ namespace Tests\Unit\Authentication\JWT;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT;
-use CodeIgniter\Shield\Authentication\JWT\JWSGenerator;
+use CodeIgniter\Shield\Authentication\JWSGenerator;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;

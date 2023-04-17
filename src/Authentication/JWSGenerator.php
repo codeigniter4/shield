@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Authentication\JWT;
+namespace CodeIgniter\Shield\Authentication;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\JWT\Adapters\FirebaseAdapter;
+use CodeIgniter\Shield\Authentication\JWT\JWSAdapterInterface;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 
