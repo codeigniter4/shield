@@ -22,13 +22,11 @@ class FirebaseAdapter implements JWTAdapterInterface
     /**
      * {@inheritDoc}
      */
-    public static function decode(string $encodedToken, $key): stdClass
+    public static function decode(string $encodedToken, $keyset): stdClass
     {
-        $keyGroup = $key;
-
         $config = config(AuthJWT::class);
 
-        $configKeys = $config->keys[$keyGroup];
+        $configKeys = $config->keys[$keyset];
 
         if (count($configKeys) === 1) {
             $key       = $configKeys[0]['secret'] ?? $configKeys[0]['public'];
@@ -38,7 +36,7 @@ class FirebaseAdapter implements JWTAdapterInterface
         } else {
             $keys = [];
 
-            foreach ($config->keys[$keyGroup] as $item) {
+            foreach ($config->keys[$keyset] as $item) {
                 $key       = $item['secret'] ?? $item['public'];
                 $algorithm = $item['alg'];
 
@@ -61,30 +59,28 @@ class FirebaseAdapter implements JWTAdapterInterface
     /**
      * {@inheritDoc}
      */
-    public static function encode(array $payload, $key, ?array $headers = null): string
+    public static function encode(array $payload, $keyset, ?array $headers = null): string
     {
-        $keyGroup = $key;
-
         $config = config(AuthJWT::class);
 
-        if (isset($config->keys[$keyGroup][0]['secret'])) {
-            $key = $config->keys[$keyGroup][0]['secret'];
+        if (isset($config->keys[$keyset][0]['secret'])) {
+            $key = $config->keys[$keyset][0]['secret'];
         } else {
-            $passphrase = $config->keys[$keyGroup][0]['passphrase'] ?? '';
+            $passphrase = $config->keys[$keyset][0]['passphrase'] ?? '';
 
             if ($passphrase !== '') {
                 $key = openssl_pkey_get_private(
-                    $config->keys[$keyGroup][0]['private'],
+                    $config->keys[$keyset][0]['private'],
                     $passphrase
                 );
             } else {
-                $key = $config->keys[$keyGroup][0]['private'];
+                $key = $config->keys[$keyset][0]['private'];
             }
         }
 
-        $algorithm = $config->keys[$keyGroup][0]['alg'];
+        $algorithm = $config->keys[$keyset][0]['alg'];
 
-        $keyId = $config->keys[$keyGroup][0]['kid'] ?? null;
+        $keyId = $config->keys[$keyset][0]['kid'] ?? null;
         if ($keyId === '') {
             $keyId = null;
         }

@@ -44,7 +44,7 @@ class JWT implements AuthenticatorInterface
     /**
      * @var string The key group. The array key of Config\AuthJWT::$keys.
      */
-    protected $key = 'default';
+    protected $keyset = 'default';
 
     public function __construct(UserModel $provider, ?JWTAdapterInterface $jwtAdapter = null)
     {
@@ -239,11 +239,11 @@ class JWT implements AuthenticatorInterface
     }
 
     /**
-     * @param string $key The key group. The array key of Config\AuthJWT::$keys.
+     * @param string $keyset The key group. The array key of Config\AuthJWT::$keys.
      */
-    public function setKey($key): void
+    public function setKeyset($keyset): void
     {
-        $this->key = $key;
+        $this->keyset = $keyset;
     }
 
     /**
@@ -251,7 +251,7 @@ class JWT implements AuthenticatorInterface
      */
     public function decodeJWT(string $encodedToken): stdClass
     {
-        return $this->jwtAdapter->decode($encodedToken, $this->key);
+        return $this->jwtAdapter->decode($encodedToken, $this->keyset);
     }
 
     /**

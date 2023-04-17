@@ -79,7 +79,7 @@ public function generateAccessToken(
     User $user,
     array $claims = [],
     ?int $ttl = null,
-    $key = 'default',
+    $keyset = 'default',
     ?array $headers = null
 ): string
 ```
@@ -114,7 +114,7 @@ It takes a JWT claims array, and can take time to live in seconds, a key group
 public function generate(
     array $claims,
     ?int $ttl = null,
-    $key = 'default',
+    $keyset = 'default',
     ?array $headers = null
 ): string
 ```

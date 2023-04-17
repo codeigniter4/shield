@@ -25,7 +25,7 @@ class JWTGenerator
      *
      * @param array                      $claims  The payload items.
      * @param int|null                   $ttl     Time to live in seconds.
-     * @param string                     $key     The key group.
+     * @param string                     $keyset  The key group.
      *                                            The array key of Config\AuthJWT::$keys.
      * @param array<string, string>|null $headers An array with header elements to attach.
      */
@@ -33,7 +33,7 @@ class JWTGenerator
         User $user,
         array $claims = [],
         ?int $ttl = null,
-        $key = 'default',
+        $keyset = 'default',
         ?array $headers = null
     ): string {
         $payload = array_merge(
@@ -43,7 +43,7 @@ class JWTGenerator
             ],
         );
 
-        return $this->generate($payload, $ttl, $key, $headers);
+        return $this->generate($payload, $ttl, $keyset, $headers);
     }
 
     /**
@@ -51,14 +51,14 @@ class JWTGenerator
      *
      * @param array                      $claims  The payload items.
      * @param int|null                   $ttl     Time to live in seconds.
-     * @param string                     $key     The key group.
+     * @param string                     $keyset  The key group.
      *                                            The array key of Config\AuthJWT::$keys.
      * @param array<string, string>|null $headers An array with header elements to attach.
      */
     public function generate(
         array $claims,
         ?int $ttl = null,
-        $key = 'default',
+        $keyset = 'default',
         ?array $headers = null
     ): string {
         assert(
@@ -87,7 +87,7 @@ class JWTGenerator
 
         return $this->jwtAdapter->encode(
             $payload,
-            $key,
+            $keyset,
             $headers
         );
     }

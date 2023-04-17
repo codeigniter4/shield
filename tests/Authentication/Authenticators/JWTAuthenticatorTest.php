@@ -301,7 +301,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         ];
         $token = $generator->generate($payload, DAY, 'mobile');
 
-        $this->auth->setKey('mobile');
+        $this->auth->setKeyset('mobile');
         $payload = $this->auth->decodeJWT($token);
 
         $this->assertSame('1', $payload->user_id);
