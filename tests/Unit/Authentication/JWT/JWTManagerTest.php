@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\Authentication\JWT;
 
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Shield\Authentication\Authenticators\JWT;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
@@ -25,12 +24,12 @@ final class JWTManagerTest extends TestCase
         // Fix the current time for testing.
         Time::setTestNow('now');
 
-        $clock     = new Time();
-        $generator = new JWTManager($clock);
+        $clock   = new Time();
+        $manager = new JWTManager($clock);
 
         $currentTime = $clock->now();
 
-        $token = $generator->generateAccessToken($user);
+        $token = $manager->generateAccessToken($user);
 
         // Reset the current time.
         Time::setTestNow();
@@ -48,9 +47,8 @@ final class JWTManagerTest extends TestCase
     {
         [$token, $currentTime] = $data;
 
-        $auth = new JWT(new UserModel());
-
-        $payload = $auth->decodeJWT($token);
+        $manager = new JWTManager();
+        $payload = $manager->decode($token);
 
         $config   = config(AuthJWT::class);
         $expected = [
@@ -67,12 +65,12 @@ final class JWTManagerTest extends TestCase
         /** @var User $user */
         $user = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
 
-        $generator = new JWTManager();
+        $manager = new JWTManager();
 
         $claims = [
             'email' => 'admin@example.jp',
         ];
-        $token = $generator->generateAccessToken($user, $claims);
+        $token = $manager->generateAccessToken($user, $claims);
 
         $this->assertIsString($token);
 
@@ -87,8 +85,8 @@ final class JWTManagerTest extends TestCase
         // Fix the current time for testing.
         Time::setTestNow('now');
 
-        $clock     = new Time();
-        $generator = new JWTManager($clock);
+        $clock   = new Time();
+        $manager = new JWTManager($clock);
 
         $currentTime = $clock->now();
 
@@ -97,7 +95,7 @@ final class JWTManagerTest extends TestCase
             'email'   => 'admin@example.jp',
         ];
 
-        $token = $generator->generate($payload, DAY);
+        $token = $manager->generate($payload, DAY);
 
         // Reset the current time.
         Time::setTestNow();
@@ -115,9 +113,8 @@ final class JWTManagerTest extends TestCase
     {
         [$token, $currentTime] = $data;
 
-        $auth = new JWT(new UserModel());
-
-        $payload = $auth->decodeJWT($token);
+        $manager = new JWTManager();
+        $payload = $manager->decode($token);
 
         $config   = config(AuthJWT::class);
         $expected = [
@@ -132,7 +129,7 @@ final class JWTManagerTest extends TestCase
 
     public function testGenerateSetKid(): void
     {
-        $generator = new JWTManager();
+        $manager = new JWTManager();
 
         // Set kid
         $config                            = config(AuthJWT::class);
@@ -141,7 +138,7 @@ final class JWTManagerTest extends TestCase
         $payload = [
             'user_id' => '1',
         ];
-        $token = $generator->generate($payload, DAY);
+        $token = $manager->generate($payload, DAY);
 
         $this->assertIsString($token);
 
@@ -155,7 +152,7 @@ final class JWTManagerTest extends TestCase
 
     public function testGenerateAddHeader(): void
     {
-        $generator = new JWTManager();
+        $manager = new JWTManager();
 
         $payload = [
             'user_id' => '1',
@@ -163,7 +160,7 @@ final class JWTManagerTest extends TestCase
         $headers = [
             'extra_key' => 'extra_value',
         ];
-        $token = $generator->generate($payload, DAY, 'default', $headers);
+        $token = $manager->generate($payload, DAY, 'default', $headers);
 
         $this->assertIsString($token);
 
@@ -177,7 +174,7 @@ final class JWTManagerTest extends TestCase
 
     public function testGenerateWithAsymmetricKey(): void
     {
-        $generator = new JWTManager();
+        $manager = new JWTManager();
 
         $config                     = config(AuthJWT::class);
         $config->keys['default'][0] = [
@@ -217,7 +214,7 @@ final class JWTManagerTest extends TestCase
         $payload = [
             'user_id' => '1',
         ];
-        $token = $generator->generate($payload, DAY);
+        $token = $manager->generate($payload, DAY);
 
         $this->assertIsString($token);
 

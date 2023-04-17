@@ -8,8 +8,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
-use CodeIgniter\Shield\Authentication\JWT\Adapters\FirebaseAdapter;
-use CodeIgniter\Shield\Authentication\JWT\JWSAdapterInterface;
+use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
@@ -37,7 +36,7 @@ class JWT implements AuthenticatorInterface
     protected UserModel $provider;
 
     protected ?User $user = null;
-    protected JWSAdapterInterface $jwtAdapter;
+    protected JWTManager $jwtManager;
     protected TokenLoginModel $tokenLoginModel;
     protected ?stdClass $payload = null;
 
@@ -46,10 +45,10 @@ class JWT implements AuthenticatorInterface
      */
     protected $keyset = 'default';
 
-    public function __construct(UserModel $provider, ?JWSAdapterInterface $jwtAdapter = null)
+    public function __construct(UserModel $provider, ?JWTManager $jwtManager = null)
     {
         $this->provider   = $provider;
-        $this->jwtAdapter = $jwtAdapter ?? new FirebaseAdapter();
+        $this->jwtManager = $jwtManager ?? new JWTManager();
 
         $this->tokenLoginModel = model(TokenLoginModel::class);
     }
@@ -126,7 +125,7 @@ class JWT implements AuthenticatorInterface
 
         // Check JWT
         try {
-            $this->payload = $this->decodeJWT($credentials['token']);
+            $this->payload = $this->jwtManager->decode($credentials['token']);
         } catch (RuntimeException $e) {
             return new Result([
                 'success' => false,
@@ -244,14 +243,6 @@ class JWT implements AuthenticatorInterface
     public function setKeyset($keyset): void
     {
         $this->keyset = $keyset;
-    }
-
-    /**
-     * Returns payload of the JWT
-     */
-    public function decodeJWT(string $encodedToken): stdClass
-    {
-        return $this->jwtAdapter->decode($encodedToken, $this->keyset);
     }
 
     /**
