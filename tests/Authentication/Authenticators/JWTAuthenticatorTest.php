@@ -102,7 +102,10 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $result = $this->auth->check([]);
 
         $this->assertFalse($result->isOK());
-        $this->assertSame(\lang('Auth.noToken'), $result->reason());
+        $this->assertSame(
+            \lang('Auth.noToken', [config(AuthJWT::class)->authenticatorHeader]),
+            $result->reason()
+        );
     }
 
     public function testCheckBadSignatureToken(): void
