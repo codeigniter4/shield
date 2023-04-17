@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Authentication;
 
 use CodeIgniter\I18n\Time;
-use CodeIgniter\Shield\Authentication\JWT\Adapters\FirebaseAdapter;
-use CodeIgniter\Shield\Authentication\JWT\JWSAdapterInterface;
-use CodeIgniter\Shield\Config\AuthJWT;
+use CodeIgniter\Shield\Authentication\JWT\JWSEncoder;
 use CodeIgniter\Shield\Entities\User;
 
 /**
@@ -16,12 +14,14 @@ use CodeIgniter\Shield\Entities\User;
 class JWTManager
 {
     private Time $clock;
-    private JWSAdapterInterface $jwsAdapter;
+    private JWSEncoder $jwsEncoder;
 
-    public function __construct(?Time $clock = null, ?JWSAdapterInterface $jwsAdapter = null)
-    {
+    public function __construct(
+        ?Time $clock = null,
+        ?JWSEncoder $jwsEncoder = null
+    ) {
         $this->clock      = $clock ?? new Time();
-        $this->jwsAdapter = $jwsAdapter ?? new FirebaseAdapter();
+        $this->jwsEncoder = $jwsEncoder ?? new JWSEncoder($this->clock);
     }
 
     /**
@@ -65,34 +65,6 @@ class JWTManager
         $keyset = 'default',
         ?array $headers = null
     ): string {
-        assert(
-            (array_key_exists('exp', $claims) && ($ttl !== null)) === false,
-            'Cannot pass $claims[\'exp\'] and $ttl at the same time.'
-        );
-
-        $config = config(AuthJWT::class);
-
-        $payload = array_merge(
-            $config->defaultClaims,
-            $claims
-        );
-
-        if (! array_key_exists('iat', $claims)) {
-            $payload['iat'] = $this->clock->now()->getTimestamp();
-        }
-
-        if (! array_key_exists('exp', $claims)) {
-            $payload['exp'] = $payload['iat'] + $config->timeToLive;
-        }
-
-        if ($ttl !== null) {
-            $payload['exp'] = $payload['iat'] + $ttl;
-        }
-
-        return $this->jwsAdapter->encode(
-            $payload,
-            $keyset,
-            $headers
-        );
+        return $this->jwsEncoder->encode($claims, $ttl, $keyset, $headers);
     }
 }
