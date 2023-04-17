@@ -64,7 +64,7 @@ with the following command:
 php -r 'echo base64_encode(random_bytes(32));'
 ```
 
-## Generating JWTs
+## Generating Signed JWTs
 
 ### JWT to a Specific User
 
