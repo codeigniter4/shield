@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Authentication;
 
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\JWT\JWSDecoder;
 use CodeIgniter\Shield\Authentication\JWT\JWSEncoder;
 use CodeIgniter\Shield\Entities\User;
+use stdClass;
 
 /**
  * JWT Manager
@@ -15,13 +17,16 @@ class JWTManager
 {
     private Time $clock;
     private JWSEncoder $jwsEncoder;
+    private JWSDecoder $jwsDecoder;
 
     public function __construct(
         ?Time $clock = null,
-        ?JWSEncoder $jwsEncoder = null
+        ?JWSEncoder $jwsEncoder = null,
+        ?JWSDecoder $jwsDecoder = null
     ) {
         $this->clock      = $clock ?? new Time();
         $this->jwsEncoder = $jwsEncoder ?? new JWSEncoder($this->clock);
+        $this->jwsDecoder = $jwsDecoder ?? new JWSDecoder();
     }
 
     /**
@@ -66,5 +71,15 @@ class JWTManager
         ?array $headers = null
     ): string {
         return $this->jwsEncoder->encode($claims, $ttl, $keyset, $headers);
+    }
+
+    /**
+     * Returns payload of the JWT
+     *
+     * @param string $keyset The key group. The array key of Config\AuthJWT::$keys.
+     */
+    public function decode(string $encodedToken, $keyset = 'default'): stdClass
+    {
+        return $this->jwsDecoder->decode($encodedToken, $keyset);
     }
 }
