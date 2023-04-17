@@ -52,7 +52,7 @@ class JWTManager
             ],
         );
 
-        return $this->generate($payload, $ttl, $keyset, $headers);
+        return $this->issue($payload, $ttl, $keyset, $headers);
     }
 
     /**
@@ -64,7 +64,7 @@ class JWTManager
      *                                            The array key of Config\AuthJWT::$keys.
      * @param array<string, string>|null $headers An array with header elements to attach.
      */
-    public function generate(
+    public function issue(
         array $claims,
         ?int $ttl = null,
         $keyset = 'default',
@@ -78,7 +78,7 @@ class JWTManager
      *
      * @param string $keyset The key group. The array key of Config\AuthJWT::$keys.
      */
-    public function decode(string $encodedToken, $keyset = 'default'): stdClass
+    public function parse(string $encodedToken, $keyset = 'default'): stdClass
     {
         return $this->jwsDecoder->decode($encodedToken, $keyset);
     }

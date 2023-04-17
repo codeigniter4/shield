@@ -125,7 +125,7 @@ class JWT implements AuthenticatorInterface
 
         // Check JWT
         try {
-            $this->payload = $this->jwtManager->decode($credentials['token'], $this->keyset);
+            $this->payload = $this->jwtManager->parse($credentials['token'], $this->keyset);
         } catch (RuntimeException $e) {
             return new Result([
                 'success' => false,

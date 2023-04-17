@@ -105,13 +105,13 @@ if you don't specify.
 
 ### Arbitrary JWT
 
-You can generate arbitrary JWT with the ``JWTManager::generate()`` method.
+You can generate arbitrary JWT with the ``JWTManager::issue()`` method.
 
 It takes a JWT claims array, and can take time to live in seconds, a key group
 (an array key) in the `Config\AuthJWT::$keys`, and additional header array:
 
 ```php
-public function generate(
+public function issue(
     array $claims,
     ?int $ttl = null,
     $keyset = 'default',
@@ -130,7 +130,7 @@ $payload = [
     'user_id' => '1',
     'email'   => 'admin@example.jp',
 ];
-$token = $jwt->generate($payload, DAY);
+$token = $jwt->issue($payload, DAY);
 ```
 
 It uses the `secret` and `alg` in the `Config\AuthJWT::$keys['default']`.
