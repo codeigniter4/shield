@@ -16,12 +16,12 @@ use CodeIgniter\Shield\Entities\User;
 class JWSGenerator
 {
     private Time $clock;
-    private JWSAdapterInterface $jwtAdapter;
+    private JWSAdapterInterface $jwsAdapter;
 
-    public function __construct(?Time $clock = null, ?JWSAdapterInterface $jwtAdapter = null)
+    public function __construct(?Time $clock = null, ?JWSAdapterInterface $jwsAdapter = null)
     {
         $this->clock      = $clock ?? new Time();
-        $this->jwtAdapter = $jwtAdapter ?? new FirebaseAdapter();
+        $this->jwsAdapter = $jwsAdapter ?? new FirebaseAdapter();
     }
 
     /**
@@ -89,7 +89,7 @@ class JWSGenerator
             $payload['exp'] = $payload['iat'] + $ttl;
         }
 
-        return $this->jwtAdapter->encode(
+        return $this->jwsAdapter->encode(
             $payload,
             $keyset,
             $headers
