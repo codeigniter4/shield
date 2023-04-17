@@ -9,19 +9,22 @@ use CodeIgniter\Shield\Authentication\JWT\Adapters\FirebaseAdapter;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 
-class JWTGenerator
+/**
+ * Issues Signed JWT
+ */
+class JWSGenerator
 {
     private Time $clock;
-    private JWTAdapterInterface $jwtAdapter;
+    private JWSAdapterInterface $jwtAdapter;
 
-    public function __construct(?Time $clock = null, ?JWTAdapterInterface $jwtAdapter = null)
+    public function __construct(?Time $clock = null, ?JWSAdapterInterface $jwtAdapter = null)
     {
         $this->clock      = $clock ?? new Time();
         $this->jwtAdapter = $jwtAdapter ?? new FirebaseAdapter();
     }
 
     /**
-     * Issues JWT (JWS) for a User
+     * Issues Signed JWT (JWS) for a User
      *
      * @param array                      $claims  The payload items.
      * @param int|null                   $ttl     Time to live in seconds.
@@ -47,7 +50,7 @@ class JWTGenerator
     }
 
     /**
-     * Issues JWT (JWS)
+     * Issues Signed JWT (JWS)
      *
      * @param array                      $claims  The payload items.
      * @param int|null                   $ttl     Time to live in seconds.

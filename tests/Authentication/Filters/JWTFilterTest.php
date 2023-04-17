@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Authentication\Filters;
 
 use CodeIgniter\Config\Factories;
-use CodeIgniter\Shield\Authentication\JWT\JWTGenerator;
+use CodeIgniter\Shield\Authentication\JWT\JWSGenerator;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Filters\JWTAuth;
 use CodeIgniter\Shield\Models\UserModel;
@@ -66,7 +66,7 @@ final class JWTFilterTest extends DatabaseTestCase
         /** @var User $user */
         $user = \fake(UserModel::class);
 
-        $generator = new JWTGenerator();
+        $generator = new JWSGenerator();
         $token     = $generator->generateAccessToken($user);
 
         $result = $this->withHeaders(['Authorization' => 'Bearer ' . $token])

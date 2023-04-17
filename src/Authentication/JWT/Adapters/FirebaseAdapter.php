@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Authentication\JWT\Adapters;
 
-use CodeIgniter\Shield\Authentication\JWT\JWTAdapterInterface;
+use CodeIgniter\Shield\Authentication\JWT\JWSAdapterInterface;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use DomainException;
@@ -17,7 +17,7 @@ use InvalidArgumentException;
 use stdClass;
 use UnexpectedValueException;
 
-class FirebaseAdapter implements JWTAdapterInterface
+class FirebaseAdapter implements JWSAdapterInterface
 {
     /**
      * {@inheritDoc}

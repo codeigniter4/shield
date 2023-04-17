@@ -6,10 +6,10 @@ namespace CodeIgniter\Shield\Authentication\JWT;
 
 use stdClass;
 
-interface JWTAdapterInterface
+interface JWSAdapterInterface
 {
     /**
-     * Issues JWT (JWS)
+     * Issues Signed JWT (JWS)
      *
      * @param array<mixed>               $payload The payload.
      * @param string                     $keyset  The key group.
@@ -25,7 +25,7 @@ interface JWTAdapterInterface
     ): string;
 
     /**
-     * Decode JWT (JWS)
+     * Decode Signed JWT (JWS)
      *
      * @param string $keyset The key group. The array key of Config\AuthJWT::$keys.
      *

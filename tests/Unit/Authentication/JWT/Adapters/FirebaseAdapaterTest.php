@@ -6,7 +6,7 @@ namespace Tests\Unit\Authentication\JWT\Adapters;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\JWT\Adapters\FirebaseAdapter;
-use CodeIgniter\Shield\Authentication\JWT\JWTGenerator;
+use CodeIgniter\Shield\Authentication\JWT\JWSGenerator;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
@@ -43,7 +43,7 @@ final class FirebaseAdapaterTest extends TestCase
         /** @var User $user */
         $user = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
 
-        $generator = new JWTGenerator($clock);
+        $generator = new JWSGenerator($clock);
 
         return $generator->generateAccessToken($user);
     }
