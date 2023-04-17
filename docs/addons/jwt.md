@@ -68,7 +68,7 @@ php -r 'echo base64_encode(random_bytes(32));'
 
 ### JWT to a Specific User
 
-JWTs are created through the `JWTGenerator::generateAccessToken()` method.
+JWTs are created through the `JWTManager::generateAccessToken()` method.
 This takes a User object to give to the token as the first argument.
 It can also take optional additional claims array, time to live in seconds,
 a key group (an array key) in the `Config\AuthJWT::$keys`, and additional header
@@ -87,15 +87,15 @@ public function generateAccessToken(
 The following code generates a JWT to the user.
 
 ```php
-use CodeIgniter\Shield\Authentication\JWSGenerator;
+use CodeIgniter\Shield\Authentication\JWTManager;
 
-$generator = new JWSGenerator();
+$jwt = new JWTManager();
 
 $user  = auth()->user();
 $claims = [
     'email' => $user->email,
 ];
-$token = $generator->generateAccessToken($user, $claims);
+$token = $jwt->generateAccessToken($user, $claims);
 ```
 
 It sets the `Config\AuthJWT::$defaultClaims` to the token, and adds
@@ -105,7 +105,7 @@ if you don't specify.
 
 ### Arbitrary JWT
 
-You can generate arbitrary JWT with the ``JWTGenerator::generate()`` method.
+You can generate arbitrary JWT with the ``JWTManager::generate()`` method.
 
 It takes a JWT claims array, and can take time to live in seconds, a key group
 (an array key) in the `Config\AuthJWT::$keys`, and additional header array:
@@ -122,15 +122,15 @@ public function generate(
 The following code generates a JWT.
 
 ```php
-use CodeIgniter\Shield\Authentication\JWSGenerator;
+use CodeIgniter\Shield\Authentication\JWTManager;
 
-$generator   = new JWSGenerator();
+$jwt = new JWTManager();
 
 $payload = [
     'user_id' => '1',
     'email'   => 'admin@example.jp',
 ];
-$token = $generator->generate($payload, DAY);
+$token = $jwt->generate($payload, DAY);
 ```
 
 It uses the `secret` and `alg` in the `Config\AuthJWT::$keys['default']`.

@@ -8,7 +8,7 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT;
-use CodeIgniter\Shield\Authentication\JWSGenerator;
+use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
@@ -241,7 +241,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
     {
         $this->user = \fake(UserModel::class, ['id' => 1, 'username' => 'John Smith']);
 
-        $generator = new JWSGenerator($clock);
+        $generator = new JWTManager($clock);
 
         return $generator->generateAccessToken($this->user);
     }
@@ -258,7 +258,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         ];
 
         // Generate token with Key01.
-        $generator = new JWSGenerator();
+        $generator = new JWTManager();
         $payload   = [
             'user_id' => '1',
         ];
@@ -295,7 +295,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         ];
 
         // Generate token with the mobile key.
-        $generator = new JWSGenerator();
+        $generator = new JWTManager();
         $payload   = [
             'user_id' => '1',
         ];
@@ -318,7 +318,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
 
     private function generateJWTWithAsymmetricKey(): string
     {
-        $generator = new JWSGenerator();
+        $generator = new JWTManager();
 
         $config                     = config(AuthJWT::class);
         $config->keys['default'][0] = [

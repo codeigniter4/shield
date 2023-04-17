@@ -11,9 +11,9 @@ use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 
 /**
- * Issues Signed JWT
+ * JWT Manager
  */
-class JWSGenerator
+class JWTManager
 {
     private Time $clock;
     private JWSAdapterInterface $jwsAdapter;

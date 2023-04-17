@@ -6,7 +6,7 @@ namespace Tests\Unit\Authentication\JWT;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT;
-use CodeIgniter\Shield\Authentication\JWSGenerator;
+use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
@@ -15,7 +15,7 @@ use Tests\Support\TestCase;
 /**
  * @internal
  */
-final class JWSGeneratorTest extends TestCase
+final class JWTManagerTest extends TestCase
 {
     public function testGenerateAccessToken()
     {
@@ -26,7 +26,7 @@ final class JWSGeneratorTest extends TestCase
         Time::setTestNow('now');
 
         $clock     = new Time();
-        $generator = new JWSGenerator($clock);
+        $generator = new JWTManager($clock);
 
         $currentTime = $clock->now();
 
@@ -67,7 +67,7 @@ final class JWSGeneratorTest extends TestCase
         /** @var User $user */
         $user = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
 
-        $generator = new JWSGenerator();
+        $generator = new JWTManager();
 
         $claims = [
             'email' => 'admin@example.jp',
@@ -88,7 +88,7 @@ final class JWSGeneratorTest extends TestCase
         Time::setTestNow('now');
 
         $clock     = new Time();
-        $generator = new JWSGenerator($clock);
+        $generator = new JWTManager($clock);
 
         $currentTime = $clock->now();
 
@@ -132,7 +132,7 @@ final class JWSGeneratorTest extends TestCase
 
     public function testGenerateSetKid(): void
     {
-        $generator = new JWSGenerator();
+        $generator = new JWTManager();
 
         // Set kid
         $config                            = config(AuthJWT::class);
@@ -155,7 +155,7 @@ final class JWSGeneratorTest extends TestCase
 
     public function testGenerateAddHeader(): void
     {
-        $generator = new JWSGenerator();
+        $generator = new JWTManager();
 
         $payload = [
             'user_id' => '1',
@@ -177,7 +177,7 @@ final class JWSGeneratorTest extends TestCase
 
     public function testGenerateWithAsymmetricKey(): void
     {
-        $generator = new JWSGenerator();
+        $generator = new JWTManager();
 
         $config                     = config(AuthJWT::class);
         $config->keys['default'][0] = [
