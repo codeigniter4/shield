@@ -91,14 +91,14 @@ The following code generates a JWT to the user.
 ```php
 use CodeIgniter\Shield\Authentication\JWTManager;
 
-/** @var JWTManager $jwt */
-$jwt = service('jwtmanager');
+/** @var JWTManager $manager */
+$manager = service('jwtmanager');
 
 $user  = auth()->user();
 $claims = [
     'email' => $user->email,
 ];
-$token = $jwt->generateAccessToken($user, $claims);
+$jwt = $manager->generateAccessToken($user, $claims);
 ```
 
 It sets the `Config\AuthJWT::$defaultClaims` to the token, and adds
@@ -127,14 +127,14 @@ The following code generates a JWT.
 ```php
 use CodeIgniter\Shield\Authentication\JWTManager;
 
-/** @var JWTManager $jwt */
-$jwt = service('jwtmanager');
+/** @var JWTManager $manager */
+$manager = service('jwtmanager');
 
 $payload = [
     'user_id' => '1',
     'email'   => 'admin@example.jp',
 ];
-$token = $jwt->issue($payload, DAY);
+$jwt = $manager->issue($payload, DAY);
 ```
 
 It uses the `secret` and `alg` in the `Config\AuthJWT::$keys['default']`.
