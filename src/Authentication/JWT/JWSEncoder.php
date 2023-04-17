@@ -10,8 +10,8 @@ use CodeIgniter\Shield\Config\AuthJWT;
 
 class JWSEncoder
 {
-    private Time $clock;
-    private JWSAdapterInterface $jwsAdapter;
+    protected Time $clock;
+    protected JWSAdapterInterface $jwsAdapter;
 
     public function __construct(?Time $clock = null, ?JWSAdapterInterface $jwsAdapter = null)
     {

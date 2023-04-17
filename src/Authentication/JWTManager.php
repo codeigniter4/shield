@@ -15,9 +15,9 @@ use stdClass;
  */
 class JWTManager
 {
-    private Time $clock;
-    private JWSEncoder $jwsEncoder;
-    private JWSDecoder $jwsDecoder;
+    protected Time $clock;
+    protected JWSEncoder $jwsEncoder;
+    protected JWSDecoder $jwsDecoder;
 
     public function __construct(
         ?Time $clock = null,
