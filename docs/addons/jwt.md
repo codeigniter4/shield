@@ -33,6 +33,8 @@ To use JWT Authentication, you need additional setup and configuration.
     }
     ```
 
+3. If your **app/Config/Auth.php** is not up-to-date, you also need to update it. Check **vendor/codeigniter4/shield/src/Config/Auth.php** and apply the differences.
+
 ## Configuration
 
 Configure **app/Config/AuthJWT.php** for your needs.
