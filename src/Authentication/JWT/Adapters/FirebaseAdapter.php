@@ -26,9 +26,9 @@ class FirebaseAdapter implements JWSAdapterInterface
      */
     public static function decode(string $encodedToken, $keyset): stdClass
     {
-        $keys = self::createKeys($keyset);
-
         try {
+            $keys = self::createKeysForDecode($keyset);
+
             return JWT::decode($encodedToken, $keys);
         } catch (InvalidArgumentException $e) {
             // provided key/key-array is empty or malformed.
@@ -70,13 +70,13 @@ class FirebaseAdapter implements JWSAdapterInterface
     }
 
     /**
-     * Creates keys for Firebase php-jwt
+     * Creates keys for Decode
      *
      * @param string $keyset
      *
      * @return array|Key key or key array
      */
-    private static function createKeys($keyset)
+    private static function createKeysForDecode($keyset)
     {
         $config = config(AuthJWT::class);
 

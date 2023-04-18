@@ -10,8 +10,10 @@ use CodeIgniter\Shield\Authentication\JWT\Exceptions\InvalidTokenException;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Exceptions\InvalidArgumentException as ShieldInvalidArgumentException;
 use CodeIgniter\Shield\Models\UserModel;
 use Tests\Support\TestCase;
+use UnexpectedValueException;
 
 /**
  * @internal
@@ -60,7 +62,7 @@ final class FirebaseAdapaterTest extends TestCase
         $jwtDecoder->decode($token, $key);
     }
 
-    public function testDecodeExpiredException(): void
+    public function testDecodeExpiredToken(): void
     {
         $this->expectException(InvalidTokenException::class);
         $this->expectExceptionMessage(lang('Auth.expiredJWT'));
@@ -70,6 +72,51 @@ final class FirebaseAdapaterTest extends TestCase
         Time::setTestNow('-1 hour');
         $token = $this->generateJWT();
         Time::setTestNow();
+
+        $key = 'default';
+        $jwtDecoder->decode($token, $key);
+    }
+
+    public function testDecodeInvalidTokenExceptionUnexpectedValueException(): void
+    {
+        $token = $this->generateJWT();
+
+        // Change algorithm and it makes the key invalid.
+        $config                            = config(AuthJWT::class);
+        $config->keys['default'][0]['alg'] = 'ES256';
+
+        $jwtDecoder = new FirebaseAdapter();
+
+        try {
+            $key = 'default';
+            $jwtDecoder->decode($token, $key);
+        } catch (InvalidTokenException $e) {
+            $prevException = $e->getPrevious();
+
+            $this->assertInstanceOf(UnexpectedValueException::class, $prevException);
+            $this->assertSame('Incorrect key for this algorithm', $prevException->getMessage());
+
+            return;
+        }
+
+        $this->fail('InvalidTokenException is not thrown.');
+    }
+
+    public function testDecodeInvalidArgumentException(): void
+    {
+        $this->expectException(ShieldInvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid Keyset: "default". Key material must not be empty');
+
+        $token = $this->generateJWT();
+
+        // Set invalid key.
+        $config                     = config(AuthJWT::class);
+        $config->keys['default'][0] = [
+            'alg'    => '',
+            'secret' => '',
+        ];
+
+        $jwtDecoder = new FirebaseAdapter();
 
         $key = 'default';
         $jwtDecoder->decode($token, $key);
