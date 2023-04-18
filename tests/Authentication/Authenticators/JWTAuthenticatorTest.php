@@ -113,7 +113,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $result = $this->auth->check(['token' => self::BAD_JWT]);
 
         $this->assertFalse($result->isOK());
-        $this->assertSame('Invalid JWT: Signature verification failed', $result->reason());
+        $this->assertSame(lang('Auth.invalidJWT'), $result->reason());
     }
 
     public function testCheckNoSubToken(): void
@@ -140,7 +140,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         $result = $this->auth->check(['token' => $token]);
 
         $this->assertFalse($result->isOK());
-        $this->assertSame('Expired JWT: Expired token', $result->reason());
+        $this->assertSame(lang('Auth.expiredJWT'), $result->reason());
     }
 
     public function testCheckNoUserInDatabase(): void
@@ -188,7 +188,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
 
         $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
-        $this->assertSame('Invalid JWT: Signature verification failed', $result->reason());
+        $this->assertSame(lang('Auth.invalidJWT'), $result->reason());
 
         // A login attempt should have always been recorded
         $this->seeInDatabase('auth_token_logins', [

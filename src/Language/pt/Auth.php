@@ -20,6 +20,10 @@ return [
     'unableSendEmailToUser' => 'Desculpe, houve um problema ao enviar o email. Não pudemos enviar um email para {0}.',
     'throttled'             => 'Muitas solicitações feitas a partir deste endereço IP. Pode tentar novamente em {0} segundos.',
     'notEnoughPrivilege'    => 'Não tem a permissão necessária para realizar a operação desejada.',
+    // JWT Exceptions
+    'invalidJWT'     => '(To be translated) The token is invalid.',
+    'expiredJWT'     => '(To be translated) The token has expired.',
+    'beforeValidJWT' => '(To be translated) The token is not yet available.',
 
     'email'           => 'Endereço de Email',
     'username'        => 'Nome de utilizador',

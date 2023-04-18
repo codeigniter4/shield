@@ -6,10 +6,10 @@ namespace Tests\Unit\Authentication\JWT\Adapters;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\JWT\Adapters\FirebaseAdapter;
+use CodeIgniter\Shield\Authentication\JWT\Exceptions\InvalidTokenException;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserModel;
 use Tests\Support\TestCase;
 
@@ -50,8 +50,8 @@ final class FirebaseAdapaterTest extends TestCase
 
     public function testDecodeSignatureInvalidException(): void
     {
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Invalid JWT: Signature verification failed');
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage(lang('Auth.invalidJWT'));
 
         $jwtDecoder = new FirebaseAdapter();
 
@@ -62,8 +62,8 @@ final class FirebaseAdapaterTest extends TestCase
 
     public function testDecodeExpiredException(): void
     {
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Expired JWT: Expired token');
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage(lang('Auth.expiredJWT'));
 
         $jwtDecoder = new FirebaseAdapter();
 

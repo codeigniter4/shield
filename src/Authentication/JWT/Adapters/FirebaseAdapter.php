@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Authentication\JWT\Adapters;
 
+use CodeIgniter\Shield\Authentication\JWT\Exceptions\InvalidTokenException;
 use CodeIgniter\Shield\Authentication\JWT\JWSAdapterInterface;
 use CodeIgniter\Shield\Config\AuthJWT;
-use CodeIgniter\Shield\Exceptions\RuntimeException;
+use CodeIgniter\Shield\Exceptions\InvalidArgumentException as ShieldInvalidArgumentException;
+use CodeIgniter\Shield\Exceptions\LogicException;
 use DomainException;
 use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\ExpiredException;
@@ -48,29 +50,40 @@ class FirebaseAdapter implements JWSAdapterInterface
             return JWT::decode($encodedToken, $keys);
         } catch (InvalidArgumentException $e) {
             // provided key/key-array is empty or malformed.
-            throw new RuntimeException('Invalid JWT: ' . $e->getMessage(), 0, $e);
+            throw new ShieldInvalidArgumentException(
+                'Invalid Keyset: "' . $keyset . '". ' . $e->getMessage(),
+                0,
+                $e
+            );
         } catch (DomainException $e) {
             // provided algorithm is unsupported OR
             // provided key is invalid OR
             // unknown error thrown in openSSL or libsodium OR
             // libsodium is required but not available.
-            throw new RuntimeException('Invalid JWT: ' . $e->getMessage(), 0, $e);
+            throw new LogicException('Cannot decode JWT: ' . $e->getMessage(), 0, $e);
         } catch (SignatureInvalidException $e) {
             // provided JWT signature verification failed.
-            throw new RuntimeException('Invalid JWT: ' . $e->getMessage(), 0, $e);
+            throw InvalidTokenException::forInvalidToken($e);
         } catch (BeforeValidException $e) {
             // provided JWT is trying to be used before "nbf" claim OR
             // provided JWT is trying to be used before "iat" claim.
-            throw new RuntimeException('Expired JWT: ' . $e->getMessage(), 0, $e);
+            throw InvalidTokenException::forBeforeValidToken($e);
         } catch (ExpiredException $e) {
             // provided JWT is trying to be used after "exp" claim.
-            throw new RuntimeException('Expired JWT: ' . $e->getMessage(), 0, $e);
+            throw InvalidTokenException::forExpiredToken($e);
         } catch (UnexpectedValueException $e) {
             // provided JWT is malformed OR
             // provided JWT is missing an algorithm / using an unsupported algorithm OR
             // provided JWT algorithm does not match provided key OR
             // provided key ID in key/key-array is empty or invalid.
-            throw new RuntimeException('Invalid JWT: ' . $e->getMessage(), 0, $e);
+            log_message(
+                'error',
+                '[Shield] ' . class_basename(self::class) . '::' . __FUNCTION__
+                . '(' . __LINE__ . ') '
+                . get_class($e) . ': ' . $e->getMessage()
+            );
+
+            throw InvalidTokenException::forInvalidToken($e);
         }
     }
 
