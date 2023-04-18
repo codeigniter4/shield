@@ -8,7 +8,7 @@ use CodeIgniter\Shield\Authentication\JWT\Exceptions\InvalidTokenException;
 use CodeIgniter\Shield\Authentication\JWT\JWSAdapterInterface;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException as ShieldInvalidArgumentException;
-use CodeIgniter\Shield\Exceptions\LogicException;
+use CodeIgniter\Shield\Exceptions\LogicException as ShieldLogicException;
 use DomainException;
 use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\ExpiredException;
@@ -16,6 +16,7 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Firebase\JWT\SignatureInvalidException;
 use InvalidArgumentException;
+use LogicException;
 use stdClass;
 use UnexpectedValueException;
 
@@ -42,7 +43,7 @@ class FirebaseAdapter implements JWSAdapterInterface
             // provided key is invalid OR
             // unknown error thrown in openSSL or libsodium OR
             // libsodium is required but not available.
-            throw new LogicException('Cannot decode JWT: ' . $e->getMessage(), 0, $e);
+            throw new ShieldLogicException('Cannot decode JWT: ' . $e->getMessage(), 0, $e);
         } catch (SignatureInvalidException $e) {
             // provided JWT signature verification failed.
             throw InvalidTokenException::forInvalidToken($e);
@@ -106,30 +107,38 @@ class FirebaseAdapter implements JWSAdapterInterface
      */
     public static function encode(array $payload, $keyset, ?array $headers = null): string
     {
-        $config = config(AuthJWT::class);
+        try {
+            $config = config(AuthJWT::class);
 
-        if (isset($config->keys[$keyset][0]['secret'])) {
-            $key = $config->keys[$keyset][0]['secret'];
-        } else {
-            $passphrase = $config->keys[$keyset][0]['passphrase'] ?? '';
-
-            if ($passphrase !== '') {
-                $key = openssl_pkey_get_private(
-                    $config->keys[$keyset][0]['private'],
-                    $passphrase
-                );
+            if (isset($config->keys[$keyset][0]['secret'])) {
+                $key = $config->keys[$keyset][0]['secret'];
             } else {
-                $key = $config->keys[$keyset][0]['private'];
+                $passphrase = $config->keys[$keyset][0]['passphrase'] ?? '';
+
+                if ($passphrase !== '') {
+                    $key = openssl_pkey_get_private(
+                        $config->keys[$keyset][0]['private'],
+                        $passphrase
+                    );
+                } else {
+                    $key = $config->keys[$keyset][0]['private'];
+                }
             }
+
+            $algorithm = $config->keys[$keyset][0]['alg'];
+
+            $keyId = $config->keys[$keyset][0]['kid'] ?? null;
+            if ($keyId === '') {
+                $keyId = null;
+            }
+
+            return JWT::encode($payload, $key, $algorithm, $keyId, $headers);
+        } catch (LogicException $e) {
+            // errors having to do with environmental setup or malformed JWT Keys
+            throw new ShieldLogicException('Cannot encode JWT: ' . $e->getMessage(), 0, $e);
+        } catch (UnexpectedValueException $e) {
+            // errors having to do with JWT signature and claims
+            throw new ShieldLogicException('Cannot encode JWT: ' . $e->getMessage(), 0, $e);
         }
-
-        $algorithm = $config->keys[$keyset][0]['alg'];
-
-        $keyId = $config->keys[$keyset][0]['kid'] ?? null;
-        if ($keyId === '') {
-            $keyId = null;
-        }
-
-        return JWT::encode($payload, $key, $algorithm, $keyId, $headers);
     }
 }
