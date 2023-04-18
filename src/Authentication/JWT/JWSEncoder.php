@@ -13,10 +13,10 @@ class JWSEncoder
     protected Time $clock;
     protected JWSAdapterInterface $jwsAdapter;
 
-    public function __construct(?Time $clock = null, ?JWSAdapterInterface $jwsAdapter = null)
+    public function __construct(?JWSAdapterInterface $jwsAdapter = null, ?Time $clock = null)
     {
-        $this->clock      = $clock ?? new Time();
         $this->jwsAdapter = $jwsAdapter ?? new FirebaseAdapter();
+        $this->clock      = $clock ?? new Time();
     }
 
     /**

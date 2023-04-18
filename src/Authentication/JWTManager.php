@@ -25,7 +25,7 @@ class JWTManager
         ?JWSDecoder $jwsDecoder = null
     ) {
         $this->clock      = $clock ?? new Time();
-        $this->jwsEncoder = $jwsEncoder ?? new JWSEncoder($this->clock);
+        $this->jwsEncoder = $jwsEncoder ?? new JWSEncoder(null, $this->clock);
         $this->jwsDecoder = $jwsDecoder ?? new JWSDecoder();
     }
 
