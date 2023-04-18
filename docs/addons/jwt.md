@@ -120,7 +120,7 @@ use CodeIgniter\Shield\Authentication\JWTManager;
 /** @var JWTManager $manager */
 $manager = service('jwtmanager');
 
-$user  = auth()->user();
+$user   = auth()->user();
 $claims = [
     'email' => $user->email,
 ];
