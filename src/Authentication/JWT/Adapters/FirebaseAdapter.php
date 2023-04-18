@@ -108,29 +108,7 @@ class FirebaseAdapter implements JWSAdapterInterface
     public static function encode(array $payload, $keyset, ?array $headers = null): string
     {
         try {
-            $config = config(AuthJWT::class);
-
-            if (isset($config->keys[$keyset][0]['secret'])) {
-                $key = $config->keys[$keyset][0]['secret'];
-            } else {
-                $passphrase = $config->keys[$keyset][0]['passphrase'] ?? '';
-
-                if ($passphrase !== '') {
-                    $key = openssl_pkey_get_private(
-                        $config->keys[$keyset][0]['private'],
-                        $passphrase
-                    );
-                } else {
-                    $key = $config->keys[$keyset][0]['private'];
-                }
-            }
-
-            $algorithm = $config->keys[$keyset][0]['alg'];
-
-            $keyId = $config->keys[$keyset][0]['kid'] ?? null;
-            if ($keyId === '') {
-                $keyId = null;
-            }
+            [$key, $keyId, $algorithm] = self::createKeysForEncode($keyset);
 
             return JWT::encode($payload, $key, $algorithm, $keyId, $headers);
         } catch (LogicException $e) {
@@ -140,5 +118,39 @@ class FirebaseAdapter implements JWSAdapterInterface
             // errors having to do with JWT signature and claims
             throw new ShieldLogicException('Cannot encode JWT: ' . $e->getMessage(), 0, $e);
         }
+    }
+
+    /**
+     * Creates keys for Encode
+     *
+     * @param string $keyset
+     */
+    private static function createKeysForEncode($keyset): array
+    {
+        $config = config(AuthJWT::class);
+
+        if (isset($config->keys[$keyset][0]['secret'])) {
+            $key = $config->keys[$keyset][0]['secret'];
+        } else {
+            $passphrase = $config->keys[$keyset][0]['passphrase'] ?? '';
+
+            if ($passphrase !== '') {
+                $key = openssl_pkey_get_private(
+                    $config->keys[$keyset][0]['private'],
+                    $passphrase
+                );
+            } else {
+                $key = $config->keys[$keyset][0]['private'];
+            }
+        }
+
+        $algorithm = $config->keys[$keyset][0]['alg'];
+
+        $keyId = $config->keys[$keyset][0]['kid'] ?? null;
+        if ($keyId === '') {
+            $keyId = null;
+        }
+
+        return [$key, $keyId, $algorithm];
     }
 }
