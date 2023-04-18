@@ -18,11 +18,7 @@ interface JWSAdapterInterface
      *
      * @return string JWT (JWS)
      */
-    public static function encode(
-        array $payload,
-        $keyset,
-        ?array $headers = null
-    ): string;
+    public function encode(array $payload, $keyset, ?array $headers = null): string;
 
     /**
      * Decode Signed JWT (JWS)
@@ -31,5 +27,5 @@ interface JWSAdapterInterface
      *
      * @return stdClass Payload
      */
-    public static function decode(string $encodedToken, $keyset): stdClass;
+    public function decode(string $encodedToken, $keyset): stdClass;
 }

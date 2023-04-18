@@ -25,10 +25,10 @@ class FirebaseAdapter implements JWSAdapterInterface
     /**
      * {@inheritDoc}
      */
-    public static function decode(string $encodedToken, $keyset): stdClass
+    public function decode(string $encodedToken, $keyset): stdClass
     {
         try {
-            $keys = self::createKeysForDecode($keyset);
+            $keys = $this->createKeysForDecode($keyset);
 
             return JWT::decode($encodedToken, $keys);
         } catch (InvalidArgumentException $e) {
@@ -61,7 +61,7 @@ class FirebaseAdapter implements JWSAdapterInterface
             // provided key ID in key/key-array is empty or invalid.
             log_message(
                 'error',
-                '[Shield] ' . class_basename(self::class) . '::' . __FUNCTION__
+                '[Shield] ' . class_basename($this) . '::' . __FUNCTION__
                 . '(' . __LINE__ . ') '
                 . get_class($e) . ': ' . $e->getMessage()
             );
@@ -77,7 +77,7 @@ class FirebaseAdapter implements JWSAdapterInterface
      *
      * @return array|Key key or key array
      */
-    private static function createKeysForDecode($keyset)
+    private function createKeysForDecode($keyset)
     {
         $config = config(AuthJWT::class);
 
@@ -105,10 +105,10 @@ class FirebaseAdapter implements JWSAdapterInterface
     /**
      * {@inheritDoc}
      */
-    public static function encode(array $payload, $keyset, ?array $headers = null): string
+    public function encode(array $payload, $keyset, ?array $headers = null): string
     {
         try {
-            [$key, $keyId, $algorithm] = self::createKeysForEncode($keyset);
+            [$key, $keyId, $algorithm] = $this->createKeysForEncode($keyset);
 
             return JWT::encode($payload, $key, $algorithm, $keyId, $headers);
         } catch (LogicException $e) {
@@ -125,7 +125,7 @@ class FirebaseAdapter implements JWSAdapterInterface
      *
      * @param string $keyset
      */
-    private static function createKeysForEncode($keyset): array
+    private function createKeysForEncode($keyset): array
     {
         $config = config(AuthJWT::class);
 
