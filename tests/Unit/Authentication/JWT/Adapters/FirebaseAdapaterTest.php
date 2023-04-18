@@ -137,8 +137,8 @@ final class FirebaseAdapaterTest extends TestCase
         $payload = [
             'iss' => 'http://example.org',
             'aud' => 'http://example.com',
-            'iat' => 1356999524,
-            'nbf' => 1357000000,
+            'iat' => 1_356_999_524,
+            'nbf' => 1_357_000_000,
         ];
         $adapter->encode($payload, $key);
     }
