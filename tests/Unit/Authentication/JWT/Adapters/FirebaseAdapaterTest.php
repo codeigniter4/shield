@@ -25,14 +25,13 @@ final class FirebaseAdapaterTest extends TestCase
     {
         $token = $this->generateJWT();
 
-        $jwtDecoder = new FirebaseAdapter();
+        $adapter = new FirebaseAdapter();
 
         /** @var AuthJWT $config */
         $config = config('AuthJWT');
 
-        $key = 'default';
-
-        $payload = $jwtDecoder->decode($token, $key);
+        $key     = 'default';
+        $payload = $adapter->decode($token, $key);
 
         $this->assertSame($config->defaultClaims['iss'], $payload->iss);
         $this->assertSame('1', $payload->sub);
@@ -56,11 +55,11 @@ final class FirebaseAdapaterTest extends TestCase
         $this->expectException(InvalidTokenException::class);
         $this->expectExceptionMessage(lang('Auth.invalidJWT'));
 
-        $jwtDecoder = new FirebaseAdapter();
+        $adapter = new FirebaseAdapter();
 
         $key   = 'default';
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJJc3N1ZXIgb2YgdGhlIEpXVCIsImF1ZCI6IkF1ZGllbmNlIG9mIHRoZSBKV1QiLCJzdWIiOiIxIiwiaWF0IjoxNjUzOTkxOTg5LCJleHAiOjE2NTM5OTU1ODl9.hgOYHEcT6RGHb3po1lspTcmjrylY1Cy1IvYmHOyx0CY';
-        $jwtDecoder->decode($token, $key);
+        $adapter->decode($token, $key);
     }
 
     public function testDecodeExpiredToken(): void
@@ -68,14 +67,14 @@ final class FirebaseAdapaterTest extends TestCase
         $this->expectException(InvalidTokenException::class);
         $this->expectExceptionMessage(lang('Auth.expiredJWT'));
 
-        $jwtDecoder = new FirebaseAdapter();
+        $adapter = new FirebaseAdapter();
 
         Time::setTestNow('-1 hour');
         $token = $this->generateJWT();
         Time::setTestNow();
 
         $key = 'default';
-        $jwtDecoder->decode($token, $key);
+        $adapter->decode($token, $key);
     }
 
     public function testDecodeInvalidTokenExceptionUnexpectedValueException(): void
@@ -86,11 +85,11 @@ final class FirebaseAdapaterTest extends TestCase
         $config                            = config(AuthJWT::class);
         $config->keys['default'][0]['alg'] = 'ES256';
 
-        $jwtDecoder = new FirebaseAdapter();
+        $adapter = new FirebaseAdapter();
 
         try {
             $key = 'default';
-            $jwtDecoder->decode($token, $key);
+            $adapter->decode($token, $key);
         } catch (InvalidTokenException $e) {
             $prevException = $e->getPrevious();
 
@@ -117,10 +116,11 @@ final class FirebaseAdapaterTest extends TestCase
             'secret' => '',
         ];
 
-        $jwtDecoder = new FirebaseAdapter();
+        $adapter = new FirebaseAdapter();
 
         $key = 'default';
-        $jwtDecoder->decode($token, $key);
+        $adapter->decode($token, $key);
+    }
 
     public function testEncodeLogicExceptionLogicException(): void
     {
