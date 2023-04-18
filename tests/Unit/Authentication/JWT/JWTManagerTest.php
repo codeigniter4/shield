@@ -34,7 +34,7 @@ final class JWTManagerTest extends TestCase
 
         $currentTime = $clock->now();
 
-        $token = $manager->generateAccessToken($user);
+        $token = $manager->generateToken($user);
 
         // Reset the current time.
         Time::setTestNow();
@@ -75,7 +75,7 @@ final class JWTManagerTest extends TestCase
         $claims = [
             'email' => 'admin@example.jp',
         ];
-        $token = $manager->generateAccessToken($user, $claims);
+        $token = $manager->generateToken($user, $claims);
 
         $this->assertIsString($token);
 

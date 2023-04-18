@@ -70,14 +70,14 @@ php -r 'echo base64_encode(random_bytes(32));'
 
 ### JWT to a Specific User
 
-JWTs are created through the `JWTManager::generateAccessToken()` method.
+JWTs are created through the `JWTManager::generateToken()` method.
 This takes a User object to give to the token as the first argument.
 It can also take optional additional claims array, time to live in seconds,
 a key group (an array key) in the `Config\AuthJWT::$keys`, and additional header
 array:
 
 ```php
-public function generateAccessToken(
+public function generateToken(
     User $user,
     array $claims = [],
     ?int $ttl = null,
@@ -98,7 +98,7 @@ $user  = auth()->user();
 $claims = [
     'email' => $user->email,
 ];
-$jwt = $manager->generateAccessToken($user, $claims);
+$jwt = $manager->generateToken($user, $claims);
 ```
 
 It sets the `Config\AuthJWT::$defaultClaims` to the token, and adds

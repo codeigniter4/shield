@@ -67,7 +67,7 @@ final class JWTFilterTest extends DatabaseTestCase
         $user = \fake(UserModel::class);
 
         $generator = new JWTManager();
-        $token     = $generator->generateAccessToken($user);
+        $token     = $generator->generateToken($user);
 
         $result = $this->withHeaders(['Authorization' => 'Bearer ' . $token])
             ->get('protected-route');

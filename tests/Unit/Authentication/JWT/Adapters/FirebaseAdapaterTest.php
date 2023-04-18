@@ -45,7 +45,7 @@ final class FirebaseAdapaterTest extends TestCase
 
         $generator = new JWTManager($clock);
 
-        return $generator->generateAccessToken($user);
+        return $generator->generateToken($user);
     }
 
     public function testDecodeSignatureInvalidException(): void

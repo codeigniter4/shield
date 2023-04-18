@@ -38,7 +38,7 @@ class JWTManager
      *                                            The array key of Config\AuthJWT::$keys.
      * @param array<string, string>|null $headers An array with header elements to attach.
      */
-    public function generateAccessToken(
+    public function generateToken(
         User $user,
         array $claims = [],
         ?int $ttl = null,

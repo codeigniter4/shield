@@ -246,6 +246,6 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
 
         $generator = new JWTManager($clock);
 
-        return $generator->generateAccessToken($this->user);
+        return $generator->generateToken($this->user);
     }
 }
