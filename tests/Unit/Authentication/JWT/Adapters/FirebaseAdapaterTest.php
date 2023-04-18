@@ -11,6 +11,7 @@ use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException as ShieldInvalidArgumentException;
+use CodeIgniter\Shield\Exceptions\LogicException as ShieldLogicException;
 use CodeIgniter\Shield\Models\UserModel;
 use Tests\Support\TestCase;
 use UnexpectedValueException;
@@ -120,5 +121,25 @@ final class FirebaseAdapaterTest extends TestCase
 
         $key = 'default';
         $jwtDecoder->decode($token, $key);
+
+    public function testEncodeLogicExceptionLogicException(): void
+    {
+        $this->expectException(ShieldLogicException::class);
+        $this->expectExceptionMessage('Cannot encode JWT: Algorithm not supported');
+
+        // Set unsupported algorithm.
+        $config                            = config(AuthJWT::class);
+        $config->keys['default'][0]['alg'] = 'PS256';
+
+        $adapter = new FirebaseAdapter();
+
+        $key     = 'default';
+        $payload = [
+            'iss' => 'http://example.org',
+            'aud' => 'http://example.com',
+            'iat' => 1356999524,
+            'nbf' => 1357000000,
+        ];
+        $adapter->encode($payload, $key);
     }
 }
