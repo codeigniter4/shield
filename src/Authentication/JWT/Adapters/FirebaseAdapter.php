@@ -86,16 +86,16 @@ class FirebaseAdapter implements JWSAdapterInterface
             $key       = $configKeys[0]['secret'] ?? $configKeys[0]['public'];
             $algorithm = $configKeys[0]['alg'];
 
-            $keys = new Key($key, $algorithm);
-        } else {
-            $keys = [];
+            return new Key($key, $algorithm);
+        }
 
-            foreach ($config->keys[$keyset] as $item) {
-                $key       = $item['secret'] ?? $item['public'];
-                $algorithm = $item['alg'];
+        $keys = [];
 
-                $keys[$item['kid']] = new Key($key, $algorithm);
-            }
+        foreach ($config->keys[$keyset] as $item) {
+            $key       = $item['secret'] ?? $item['public'];
+            $algorithm = $item['alg'];
+
+            $keys[$item['kid']] = new Key($key, $algorithm);
         }
 
         return $keys;
