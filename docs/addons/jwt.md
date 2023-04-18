@@ -184,8 +184,24 @@ class LoginController extends BaseController
 }
 ```
 
+You could send a request with the existing user's credentials by curl like this:
+
+```console
+curl --location 'http://localhost:8080/auth/jwt' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'email=user1@example.jp' \
+--data-urlencode 'password=passw0rd!'
+```
+
 When making all future requests to the API, the client should send the JWT in
 the `Authorization` header as a `Bearer` token.
+
+You could send a request with the `Authorization` header by curl like this:
+
+```console
+curl --location --request GET 'http://localhost:8080/api/users' \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTaGllbGQgVGVzdCBBcHAiLCJzdWIiOiIxIiwiaWF0IjoxNjgxODA1OTMwLCJleHAiOjE2ODE4MDk1MzB9.DGpOmRPOBe45whVtEOSt53qJTw_CpH0V8oMoI_gm2XI'
+```
 
 ## Protecting Routes
 
