@@ -26,25 +26,7 @@ class FirebaseAdapter implements JWSAdapterInterface
      */
     public static function decode(string $encodedToken, $keyset): stdClass
     {
-        $config = config(AuthJWT::class);
-
-        $configKeys = $config->keys[$keyset];
-
-        if (count($configKeys) === 1) {
-            $key       = $configKeys[0]['secret'] ?? $configKeys[0]['public'];
-            $algorithm = $configKeys[0]['alg'];
-
-            $keys = new Key($key, $algorithm);
-        } else {
-            $keys = [];
-
-            foreach ($config->keys[$keyset] as $item) {
-                $key       = $item['secret'] ?? $item['public'];
-                $algorithm = $item['alg'];
-
-                $keys[$item['kid']] = new Key($key, $algorithm);
-            }
-        }
+        $keys = self::createKeys($keyset);
 
         try {
             return JWT::decode($encodedToken, $keys);
@@ -85,6 +67,38 @@ class FirebaseAdapter implements JWSAdapterInterface
 
             throw InvalidTokenException::forInvalidToken($e);
         }
+    }
+
+    /**
+     * Creates keys for Firebase php-jwt
+     *
+     * @param string $keyset
+     *
+     * @return array|Key key or key array
+     */
+    private static function createKeys($keyset)
+    {
+        $config = config(AuthJWT::class);
+
+        $configKeys = $config->keys[$keyset];
+
+        if (count($configKeys) === 1) {
+            $key       = $configKeys[0]['secret'] ?? $configKeys[0]['public'];
+            $algorithm = $configKeys[0]['alg'];
+
+            $keys = new Key($key, $algorithm);
+        } else {
+            $keys = [];
+
+            foreach ($config->keys[$keyset] as $item) {
+                $key       = $item['secret'] ?? $item['public'];
+                $algorithm = $item['alg'];
+
+                $keys[$item['kid']] = new Key($key, $algorithm);
+            }
+        }
+
+        return $keys;
     }
 
     /**
