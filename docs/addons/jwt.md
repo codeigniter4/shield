@@ -1,8 +1,25 @@
 # JWT Authentication
 
-To use JWT Authentication, you need additional setup and configuration.
+> **Note**
+> Shield now supports only JWS (Singed JWT). JWE (Encrypted JWT) is not supported.
+
+## What is JWT?
+
+JWT or JSON Web Token is a compact and self-contained way of securely transmitting
+information between parties as a JSON object. It is commonly used for authentication
+and authorization purposes in web applications.
+
+For example, when a user logs in to a web application, the server generates a JWT
+token and sends it to the client. The client then includes this token in the header
+of subsequent requests to the server. The server verifies the authenticity of the
+token and grants access to protected resources accordingly.
+
+If you are not familiar with JWT, we recommend that you check out
+[Introduction to JSON Web Tokens](https://jwt.io/introduction) before continuing.
 
 ## Setup
+
+To use JWT Authentication, you need additional setup and configuration.
 
 ### Manual Setup
 
@@ -41,7 +58,11 @@ Configure **app/Config/AuthJWT.php** for your needs.
 
 ### Set the Default Claims
 
-Set the payload items by default to the property `$defaultClaims`.
+> **Note**
+> A payload contains the actual data being transmitted, such as user ID, role,
+> or expiration time. Items in a payload is called *claims*.
+
+Set the default payload items to the property `$defaultClaims`.
 
 E.g.:
 ```php
@@ -49,6 +70,8 @@ E.g.:
         'iss' => 'https://codeigniter.com/',
     ];
 ```
+
+The default claims will be included in all tokens issued by Shield.
 
 ### Set Secret Key
 
@@ -65,6 +88,9 @@ with the following command:
 ```console
 php -r 'echo base64_encode(random_bytes(32));'
 ```
+
+> **Note**
+> The secret key is used for signing and validating tokens.
 
 ## Generating Signed JWTs
 
