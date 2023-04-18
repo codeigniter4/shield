@@ -92,9 +92,135 @@ php -r 'echo base64_encode(random_bytes(32));'
 > **Note**
 > The secret key is used for signing and validating tokens.
 
-## Generating Signed JWTs
+## Issuing JWTs
 
-### JWT to a Specific User
+To use JWT Authentication, you need a controller that issues JWTs.
+
+Here is a sample controller. When a client posts valid credentials (email/password),
+it returns a new JWT.
+
+```php
+// Routes.php
+$routes->post('auth/jwt', '\App\Controllers\Auth\LoginController::jwtLogin');
+
+// LoginController.php
+namespace App\Controllers\Auth;
+
+use App\Controllers\BaseController;
+use CodeIgniter\API\ResponseTrait;
+use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Authentication\JWTManager;
+use CodeIgniter\Shield\Authentication\Passwords;
+use CodeIgniter\Shield\Config\AuthSession;
+
+class LoginController extends BaseController
+{
+    use ResponseTrait;
+
+    /**
+     * Authenticate Existing User and Issue JWT.
+     */
+    public function jwtLogin(): ResponseInterface
+    {
+        // Get the validation rules
+        $rules = $this->getValidationRules();
+
+        // Validate credentials
+        if (! $this->validateData($this->request->getPost(), $rules)) {
+            return $this->failValidationErrors($this->validator->getErrors(), 422);
+        }
+
+        // Get the credentials for login
+        $credentials             = $this->request->getPost(setting('Auth.validFields'));
+        $credentials             = array_filter($credentials);
+        $credentials['password'] = $this->request->getPost('password');
+
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        // Check the credentials
+        $result = $authenticator->check($credentials);
+        if (! $result->isOK()) {
+            return $this->failUnauthorized($result->reason());
+        }
+
+        // Login is successful.
+        $user = $result->extraInfo();
+
+        /** @var JWTManager $manager */
+        $manager = service('jwtmanager');
+
+        // Generate JWT and return to client
+        $jwt = $manager->generateToken($user);
+
+        return $this->respond([
+            'access_token' => $jwt,
+        ]);
+    }
+
+    /**
+     * Returns the rules that should be used for validation.
+     *
+     * @return array<string, array<string, array<string>|string>>
+     * @phpstan-return array<string, array<string, string|list<string>>>
+     */
+    protected function getValidationRules(): array
+    {
+        return setting('Validation.login') ?? [
+            'email' => [
+                'label' => 'Auth.email',
+                'rules' => config(AuthSession::class)->emailValidationRules,
+            ],
+            'password' => [
+                'label'  => 'Auth.password',
+                'rules'  => 'required|' . Passwords::getMaxLenghtRule(),
+                'errors' => [
+                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
+                ],
+            ],
+        ];
+    }
+}
+```
+
+When making all future requests to the API, the client should send the JWT in
+the `Authorization` header as a `Bearer` token.
+
+## Protecting Routes
+
+The first way to specify which routes are protected is to use the `jwt` controller
+filter.
+
+For example, to ensure it protects all routes under the `/api` route group, you
+would use the `$filters` setting on **app/Config/Filters.php**.
+
+```php
+public $filters = [
+    'jwt' => ['before' => ['api/*']],
+];
+```
+
+You can also specify the filter should run on one or more routes within the routes
+file itself:
+
+```php
+$routes->group('api', ['filter' => 'jwt'], static function ($routes) {
+    // ...
+});
+$routes->get('users', 'UserController::list', ['filter' => 'jwt']);
+```
+
+When the filter runs, it checks the `Authorization` header for a `Bearer` value
+that has the JWT. It then validates the token. If the token is valid, it can
+determine the correct user, which will then be available through an `auth()->user()`
+call.
+
+## Method References
+
+### Generating Signed JWTs
+
+#### JWT to a Specific User
 
 JWTs are created through the `JWTManager::generateToken()` method.
 This takes a User object to give to the token as the first argument.
@@ -132,7 +258,7 @@ the `'email'` claim and the user ID in the `"sub"` (subject) claim.
 It also sets `"iat"` (Issued At) and `"exp"` (Expiration Time) claims automatically
 if you don't specify.
 
-### Arbitrary JWT
+#### Arbitrary JWT
 
 You can generate arbitrary JWT with the ``JWTManager::issue()`` method.
 
