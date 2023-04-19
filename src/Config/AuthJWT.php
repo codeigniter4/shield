@@ -49,7 +49,7 @@ class AuthJWT extends BaseConfig
             [
                 'kid' => '',      // Key ID. Optional if you have only one key.
                 'alg' => 'HS256', // algorithm.
-                // Set secret random string. Needs more than 256 bits.
+                // Set secret random string. Needs at least 256 bits for HS256 algorithm.
                 // E.g., $ php -r 'echo base64_encode(random_bytes(32));'
                 'secret' => '<Set secret random string>',
             ],
