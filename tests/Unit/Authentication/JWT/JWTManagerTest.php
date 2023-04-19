@@ -21,7 +21,7 @@ final class JWTManagerTest extends TestCase
         return new JWTManager($clock);
     }
 
-    public function testGenerateAccessToken()
+    public function testGenerateToken()
     {
         /** @var User $user */
         $user = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
@@ -46,9 +46,9 @@ final class JWTManagerTest extends TestCase
     }
 
     /**
-     * @depends testGenerateAccessToken
+     * @depends testGenerateToken
      */
-    public function testGenerateAccessTokenPayload(array $data): void
+    public function testGenerateTokenPayload(array $data): void
     {
         [$token, $currentTime] = $data;
 
@@ -65,7 +65,7 @@ final class JWTManagerTest extends TestCase
         $this->assertSame($expected, (array) $payload);
     }
 
-    public function testGenerateAccessTokenAddClaims(): void
+    public function testGenerateTokenAddClaims(): void
     {
         /** @var User $user */
         $user = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
