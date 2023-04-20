@@ -109,6 +109,8 @@ $routes->post('auth/jwt', '\App\Controllers\Auth\LoginController::jwtLogin');
 
 ```php
 // app/Controllers/Auth/LoginController.php
+declare(strict_types=1);
+
 namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
