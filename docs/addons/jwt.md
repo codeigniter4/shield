@@ -103,10 +103,12 @@ Here is a sample controller. When a client posts valid credentials (email/passwo
 it returns a new JWT.
 
 ```php
-// Routes.php
+// app/Config/Routes.php
 $routes->post('auth/jwt', '\App\Controllers\Auth\LoginController::jwtLogin');
+```
 
-// LoginController.php
+```php
+// app/Controllers/Auth/LoginController.php
 namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
