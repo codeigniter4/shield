@@ -82,10 +82,10 @@ E.g.:
 authjwt.keys.default.0.secret = 8XBFsF6HThIa7OV/bSynahEch+WbKrGcuiJVYPiwqPE=
 ```
 
-It needs at least 256 bits random string. The length of the secret depends on the 
-algorithm we use. The default one is `HS256`, so to ensure that the hash value is 
-secure and not easily guessable, the secret key should be at least as long as the 
-hash function's output - 256 bits (32 bytes). You can get a secure random string 
+It needs at least 256 bits random string. The length of the secret depends on the
+algorithm we use. The default one is `HS256`, so to ensure that the hash value is
+secure and not easily guessable, the secret key should be at least as long as the
+hash function's output - 256 bits (32 bytes). You can get a secure random string
 with the following command:
 
 ```console
