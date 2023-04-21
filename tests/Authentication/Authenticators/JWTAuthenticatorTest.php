@@ -198,6 +198,29 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         ]);
     }
 
+    public function testAttemptBannedUser(): void
+    {
+        $token = $this->generateJWT();
+
+        $this->user->ban();
+
+        $result = $this->auth->attempt([
+            'token' => $token,
+        ]);
+
+        $this->assertInstanceOf(Result::class, $result);
+        $this->assertFalse($result->isOK());
+        $this->assertSame(lang('Auth.bannedUser'), $result->reason());
+
+        // The login attempt should have been recorded
+        $this->seeInDatabase('auth_token_logins', [
+            'id_type'    => JWT::ID_TYPE_JWT,
+            'identifier' => $token,
+            'success'    => 0,
+            'user_id'    => $this->user->id,
+        ]);
+    }
+
     public function testAttemptSuccess(): void
     {
         // Change $recordLoginAttempt in Config.

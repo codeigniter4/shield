@@ -88,6 +88,27 @@ class JWT implements AuthenticatorInterface
 
         $user = $result->extraInfo();
 
+        if ($user->isBanned()) {
+            if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
+                // Record a banned login attempt.
+                $this->tokenLoginModel->recordLoginAttempt(
+                    self::ID_TYPE_JWT,
+                    $credentials['token'] ?? '',
+                    false,
+                    $ipAddress,
+                    $userAgent,
+                    $user->id
+                );
+            }
+
+            $this->user = null;
+
+            return new Result([
+                'success' => false,
+                'reason'  => $user->getBanMessage() ?? lang('Auth.bannedUser'),
+            ]);
+        }
+
         $this->login($user);
 
         if ($config->recordLoginAttempt === Auth::RECORD_LOGIN_ATTEMPT_ALL) {
