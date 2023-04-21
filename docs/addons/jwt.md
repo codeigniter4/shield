@@ -134,7 +134,7 @@ class LoginController extends BaseController
         $rules = $this->getValidationRules();
 
         // Validate credentials
-        if (! $this->validateData($this->request->getPost(), $rules)) {
+        if (! $this->validateData($this->request->getJSON(true), $rules)) {
             return $this->fail(
                 ['errors' => $this->validator->getErrors()],
                 $this->codes['unauthorized']
@@ -142,9 +142,9 @@ class LoginController extends BaseController
         }
 
         // Get the credentials for login
-        $credentials             = $this->request->getPost(setting('Auth.validFields'));
+        $credentials             = $this->request->getJsonVar(setting('Auth.validFields'));
         $credentials             = array_filter($credentials);
-        $credentials['password'] = $this->request->getPost('password');
+        $credentials['password'] = $this->request->getJsonVar('password');
 
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
@@ -203,10 +203,9 @@ class LoginController extends BaseController
 You could send a request with the existing user's credentials by curl like this:
 
 ```console
-curl --location 'http://localhost:8080/auth/jwt' \
---header 'Content-Type: application/x-www-form-urlencoded' \
---data-urlencode 'email=user1@example.jp' \
---data-urlencode 'password=passw0rd!'
+$ curl --location 'http://localhost:8080/auth/jwt' \
+--header 'Content-Type: application/json' \
+--data-raw '{"email" : "admin@example.jp" , "password" : "passw0rd!"}'
 ```
 
 When making all future requests to the API, the client should send the JWT in
