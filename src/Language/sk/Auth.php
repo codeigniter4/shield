@@ -20,6 +20,10 @@ return [
     'unableSendEmailToUser' => 'Ľutujeme, pri odosielaní e-mailu sa vyskytol problém. Nepodarilo sa nám odoslať e-mail na adresu „{0}".',
     'throttled'             => 'Z tejto adresy IP bolo odoslaných príliš veľa žiadostí. Môžete to skúsiť znova o {0} sekúnd.',
     'notEnoughPrivilege'    => 'Nemáte potrebné povolenie na vykonanie požadovanej operácie.',
+    // JWT Exceptions
+    'invalidJWT'     => '(To be translated) The token is invalid.',
+    'expiredJWT'     => '(To be translated) The token has expired.',
+    'beforeValidJWT' => '(To be translated) The token is not yet available.',
 
     'email'           => 'Emailová adresa',
     'username'        => 'Používateľské meno',

@@ -20,6 +20,10 @@ return [
     'unableSendEmailToUser' => 'Üzgünüz, e-posta gönderilirken bir sorun oluştu. "{0}" adresine e-posta gönderemedik.',
     'throttled'             => 'Bu IP adresinden çok fazla istek yapıldı. {0} saniye sonra tekrar deneyebilirsiniz.',
     'notEnoughPrivilege'    => 'İstediğiniz işlemi gerçekleştirmek için gerekli izne sahip değilsiniz.',
+    // JWT Exceptions
+    'invalidJWT'     => '(To be translated) The token is invalid.',
+    'expiredJWT'     => '(To be translated) The token has expired.',
+    'beforeValidJWT' => '(To be translated) The token is not yet available.',
 
     'email'           => 'E-posta Adresi',
     'username'        => 'Kullanıcı Adı',

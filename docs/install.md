@@ -196,18 +196,20 @@ your project.
     ```
 
 ## Controller Filters
+
 The [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can use to protect your routes the shield provides are:
 
 ```php
 public $aliases = [
     // ...
-    'session'    => \CodeIgniter\Shield\Filters\SessionAuth::class,
-    'tokens'     => \CodeIgniter\Shield\Filters\TokenAuth::class,
-    'chain'      => \CodeIgniter\Shield\Filters\ChainAuth::class,
-    'auth-rates' => \CodeIgniter\Shield\Filters\AuthRates::class,
-    'group'      => \CodeIgniter\Shield\Filters\GroupFilter::class,
-    'permission' => \CodeIgniter\Shield\Filters\PermissionFilter::class,
+    'session'     => \CodeIgniter\Shield\Filters\SessionAuth::class,
+    'tokens'      => \CodeIgniter\Shield\Filters\TokenAuth::class,
+    'chain'       => \CodeIgniter\Shield\Filters\ChainAuth::class,
+    'auth-rates'  => \CodeIgniter\Shield\Filters\AuthRates::class,
+    'group'       => \CodeIgniter\Shield\Filters\GroupFilter::class,
+    'permission'  => \CodeIgniter\Shield\Filters\PermissionFilter::class,
     'force-reset' => \CodeIgniter\Shield\Filters\ForcePasswordResetFilter::class,
+    'jwt'         => \CodeIgniter\Shield\Filters\JWTAuth::class,
 ];
 ```
 
@@ -215,6 +217,7 @@ Filters | Description
 --- | ---
 session and tokens | The `Session` and `AccessTokens` authenticators, respectively.
 chained | The filter will check both authenticators in sequence to see if the user is logged in through either of authenticators, allowing a single API endpoint to work for both an SPA using session auth, and a mobile app using access tokens.
+jwt | The `JWT` authenticator. See [JWT Authentication](./addons/jwt.md).
 auth-rates | Provides a good basis for rate limiting of auth-related routes.
 group | Checks if the user is in one of the groups passed in.
 permission | Checks if the user has the passed permissions.

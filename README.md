@@ -15,19 +15,28 @@ The primary goals for Shield are:
 
 ## Authentication Methods
 
-Shield provides two primary methods of authentication out of the box:
+Shield provides two primary methods **Session-based** and **Personal Access Codes**
+of authentication out of the box.
 
-**Session-based**
+It also provides **JSON Web Tokens** authentication.
+
+### Session-based
 
 This is your typical email/username/password system you see everywhere. It includes a secure "remember me" functionality.
 This can be used for standard web applications, as well as for single page applications. Includes full controllers and
 basic views for all standard functionality, like registration, login, forgot password, etc.
 
-**Personal Access Codes**
+### Personal Access Codes
 
 These are much like the access codes that GitHub uses, where they are unique to a single user, and a single user
 can have more than one. This can be used for API authentication of third-party users, and even for allowing
 access for a mobile application that you build.
+
+### JSON Web Tokens
+
+JWT or JSON Web Token is a compact and self-contained way of securely transmitting
+information between parties as a JSON object. It is commonly used for authentication
+and authorization purposes in web applications.
 
 ## Some Important Features
 
