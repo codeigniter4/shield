@@ -151,11 +151,17 @@ class LoginController extends BaseController
 
         // Check the credentials
         $result = $authenticator->check($credentials);
+
+        // Credentials mismatch.
         if (! $result->isOK()) {
+            // @TODO Record a failed login attempt
+
             return $this->failUnauthorized($result->reason());
         }
 
-        // Login is successful.
+        // Credentials match.
+        // @TODO Record a successful login attempt
+
         $user = $result->extraInfo();
 
         /** @var JWTManager $manager */
