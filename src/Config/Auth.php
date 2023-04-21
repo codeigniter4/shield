@@ -127,7 +127,7 @@ class Auth extends BaseConfig
     public array $authenticators = [
         'tokens'  => AccessTokens::class,
         'session' => Session::class,
-        'jwt'     => JWT::class,
+        // 'jwt'     => JWT::class,
     ];
 
     /**
@@ -174,6 +174,7 @@ class Auth extends BaseConfig
     public array $authenticationChain = [
         'session',
         'tokens',
+        // 'jwt',
     ];
 
     /**

@@ -34,8 +34,10 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
     {
         parent::setUp();
 
-        $config = new Auth();
-        $auth   = new Authentication($config);
+        $config                        = new Auth();
+        $config->authenticators['jwt'] = JWT::class;
+
+        $auth = new Authentication($config);
         $auth->setProvider(\model(UserModel::class));
 
         /** @var JWT $authenticator */

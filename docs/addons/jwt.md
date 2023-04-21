@@ -52,6 +52,35 @@ To use JWT Authentication, you need additional setup and configuration.
 
 3. If your **app/Config/Auth.php** is not up-to-date, you also need to update it. Check **vendor/codeigniter4/shield/src/Config/Auth.php** and apply the differences.
 
+    You need to add the following constants:
+    ```php
+        public const RECORD_LOGIN_ATTEMPT_NONE    = 0; // Do not record at all
+        public const RECORD_LOGIN_ATTEMPT_FAILURE = 1; // Record only failures
+        public const RECORD_LOGIN_ATTEMPT_ALL     = 2; // Record all login attempts
+    ```
+
+    You need to add JWT Authenticator:
+    ```php
+    use CodeIgniter\Shield\Authentication\Authenticators\JWT;
+
+    // ...
+
+        public array $authenticators = [
+            'tokens'  => AccessTokens::class,
+            'session' => Session::class,
+            'jwt'     => JWT::class,
+        ];
+    ```
+
+    If you want to use JWT Authenticator in Authentication Chain, add `jwt`:
+    ```php
+        public array $authenticationChain = [
+            'session',
+            'tokens',
+            'jwt'
+        ];
+    ```
+
 ## Configuration
 
 Configure **app/Config/AuthJWT.php** for your needs.
