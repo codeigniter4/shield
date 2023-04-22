@@ -21,9 +21,9 @@ return [
     'throttled'             => 'このIPアドレスからのリクエストが多すぎます。 {0}秒後に再試行できます。', // 'Too many requests made from this IP address. You may try again in {0} seconds.'
     'notEnoughPrivilege'    => '目的の操作を実行するために必要な権限がありません。', // 'You do not have the necessary permission to perform the desired operation.'
     // JWT Exceptions
-    'invalidJWT'     => '(To be translated) The token is invalid.', // 'The token is invalid.'
-    'expiredJWT'     => '(To be translated) The token has expired.', // 'The token has expired.'
-    'beforeValidJWT' => '(To be translated) The token is not yet available.', // 'The token is not yet available.'
+    'invalidJWT'     => 'トークンが無効です。', // 'The token is invalid.'
+    'expiredJWT'     => 'トークンの有効期限が切れています。', // 'The token has expired.'
+    'beforeValidJWT' => 'このトークンはまだ使えません。', // 'The token is not yet available.'
 
     'email'           => 'メールアドレス', // 'Email Address'
     'username'        => 'ユーザー名', // 'Username'
