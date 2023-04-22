@@ -257,7 +257,7 @@ would use the `$filters` setting on **app/Config/Filters.php**.
 
 ```php
 public $filters = [
-    'jwt' => ['before' => ['api/*']],
+    'jwt' => ['before' => ['api', 'api/*']],
 ];
 ```
 
