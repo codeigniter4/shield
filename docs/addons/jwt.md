@@ -232,7 +232,7 @@ class LoginController extends BaseController
 You could send a request with the existing user's credentials by curl like this:
 
 ```console
-$ curl --location 'http://localhost:8080/auth/jwt' \
+curl --location 'http://localhost:8080/auth/jwt' \
 --header 'Content-Type: application/json' \
 --data-raw '{"email" : "admin@example.jp" , "password" : "passw0rd!"}'
 ```
