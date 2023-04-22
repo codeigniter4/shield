@@ -21,9 +21,9 @@ return [
     'throttled'             => 'Muitas solicitações feitas a partir deste endereço IP. Você pode tentar novamente em {0} segundos.',
     'notEnoughPrivilege'    => 'Você não tem a permissão necessária para realizar a operação desejada.',
     // JWT Exceptions
-    'invalidJWT'     => '(To be translated) The token is invalid.',
-    'expiredJWT'     => '(To be translated) The token has expired.',
-    'beforeValidJWT' => '(To be translated) The token is not yet available.',
+    'invalidJWT'     => 'O token é inválido.',
+    'expiredJWT'     => 'O token expirou.',
+    'beforeValidJWT' => 'O token ainda não está disponível.',
 
     'email'           => 'Endereço de Email',
     'username'        => 'Nome de usuário',
