@@ -72,10 +72,16 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
             $needles = $this->strip_explode($userName);
 
             // extract local-part and domain parts from email as separate needles
-            [
-                $localPart,
-                $domain,
-            ] = explode('@', $email);
+            if (str_contains($email, '@')) {
+                [
+                    $localPart,
+                    $domain,
+                ] = explode('@', $email);
+            } else {
+                $localPart = $email;
+                $domain = null;
+            }
+
             // might be john.doe@example.com and we want all the needles we can get
             $emailParts = $this->strip_explode($localPart);
             if (! empty($domain)) {
