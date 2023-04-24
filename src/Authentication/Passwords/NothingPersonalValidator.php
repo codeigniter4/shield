@@ -79,7 +79,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
                 ] = explode('@', $email);
             } else {
                 $localPart = $email;
-                $domain = null;
+                $domain    = null;
             }
 
             // might be john.doe@example.com and we want all the needles we can get
