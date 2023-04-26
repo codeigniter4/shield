@@ -20,6 +20,10 @@ return [
     'unableSendEmailToUser' => 'Det var inte möjligt att skicka epost. Det gick inte att skicka till "{0}".',
     'throttled'             => 'För många anrop från denna IP-adress. Du kan försöka igen om {0} sekunder.',
     'notEnoughPrivilege'    => 'Du har inte nödvändiga rättigheter för detta kommando.',
+    // JWT Exceptions
+    'invalidJWT'     => '(To be translated) The token is invalid.',
+    'expiredJWT'     => '(To be translated) The token has expired.',
+    'beforeValidJWT' => '(To be translated) The token is not yet available.',
 
     'email'           => 'Epostadress',
     'username'        => 'Användarnamn',

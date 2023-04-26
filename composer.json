@@ -25,13 +25,15 @@
         "codeigniter4/devkit": "^1.0",
         "codeigniter4/framework": "^4.2.7",
         "mikey179/vfsstream": "^1.6.7",
-        "mockery/mockery": "^1.0"
+        "mockery/mockery": "^1.0",
+        "firebase/php-jwt": "^6.4"
     },
     "provide": {
         "codeigniter4/authentication-implementation": "1.0"
     },
     "suggest": {
-        "ext-curl": "Required to use the password validation rule via PwnedValidator class."
+        "ext-curl": "Required to use the password validation rule via PwnedValidator class.",
+        "ext-openssl": "Required to use the JWT Authenticator."
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

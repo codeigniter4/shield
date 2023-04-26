@@ -54,3 +54,5 @@ nav:
     - guides/api_tokens.md
     - guides/mobile_apps.md
     - guides/strengthen_password.md
+  - Addons:
+    - JWT Authentication: addons/jwt.md

@@ -108,11 +108,13 @@ Require it with an explicit version constraint allowing its desired stability.
 There are a few setup items to do before you can start using Shield in
 your project.
 
-1. Copy the **Auth.php** and  **AuthGroups.php** from **vendor/codeigniter4/shield/src/Config/** into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all of the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
+1. Copy the **Auth.php** and  **AuthGroups.php** from **vendor/codeigniter4/shield/src/Config/** into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
 
     ```php
     // new file - app/Config/Auth.php
     <?php
+
+    declare(strict_types=1);
 
     namespace Config;
 
@@ -194,18 +196,20 @@ your project.
     ```
 
 ## Controller Filters
+
 The [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can use to protect your routes the shield provides are:
 
 ```php
 public $aliases = [
     // ...
-    'session'    => \CodeIgniter\Shield\Filters\SessionAuth::class,
-    'tokens'     => \CodeIgniter\Shield\Filters\TokenAuth::class,
-    'chain'      => \CodeIgniter\Shield\Filters\ChainAuth::class,
-    'auth-rates' => \CodeIgniter\Shield\Filters\AuthRates::class,
-    'group'      => \CodeIgniter\Shield\Filters\GroupFilter::class,
-    'permission' => \CodeIgniter\Shield\Filters\PermissionFilter::class,
+    'session'     => \CodeIgniter\Shield\Filters\SessionAuth::class,
+    'tokens'      => \CodeIgniter\Shield\Filters\TokenAuth::class,
+    'chain'       => \CodeIgniter\Shield\Filters\ChainAuth::class,
+    'auth-rates'  => \CodeIgniter\Shield\Filters\AuthRates::class,
+    'group'       => \CodeIgniter\Shield\Filters\GroupFilter::class,
+    'permission'  => \CodeIgniter\Shield\Filters\PermissionFilter::class,
     'force-reset' => \CodeIgniter\Shield\Filters\ForcePasswordResetFilter::class,
+    'jwt'         => \CodeIgniter\Shield\Filters\JWTAuth::class,
 ];
 ```
 
@@ -213,6 +217,7 @@ Filters | Description
 --- | ---
 session and tokens | The `Session` and `AccessTokens` authenticators, respectively.
 chained | The filter will check both authenticators in sequence to see if the user is logged in through either of authenticators, allowing a single API endpoint to work for both an SPA using session auth, and a mobile app using access tokens.
+jwt | The `JWT` authenticator. See [JWT Authentication](./addons/jwt.md).
 auth-rates | Provides a good basis for rate limiting of auth-related routes.
 group | Checks if the user is in one of the groups passed in.
 permission | Checks if the user has the passed permissions.
