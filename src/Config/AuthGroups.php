@@ -58,8 +58,7 @@ class AuthGroups extends BaseConfig
      * --------------------------------------------------------------------
      * Permissions
      * --------------------------------------------------------------------
-     * The available permissions in the system. Each system is defined
-     * where the key is the
+     * The available permissions in the system.
      *
      * If a permission is not listed here it cannot be used.
      */
