@@ -65,6 +65,7 @@ return [
     'errorPasswordPwned'        => 'Пароль {0} було розкрито внаслідок витоку даних і було виявлено {1} разів у {2} зламаних паролів.',
     'suggestPasswordPwned'      => '{0} ніколи не слід використовувати як пароль. Якщо ви використовуєте його десь, негайно змініть його.',
     'errorPasswordEmpty'        => 'Необхідно ввести пароль.',
+    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
     'passwordChangeSuccess'     => 'Пароль успішно змінено',
     'userDoesNotExist'          => 'Пароль не змінено. Користувач не існує',
     'resetTokenExpired'         => 'Вибачте. Термін дії вашого токена скидання минув.',
