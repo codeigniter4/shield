@@ -38,7 +38,7 @@ return [
     // Registration
     'register'         => 'Kayıt Ol',
     'registerDisabled' => 'Kayıt işlemine şu anda izin verilmiyor.',
-    'registerSuccess'  => 'Gemiye Hoşgeldiniz!',
+    'registerSuccess'  => 'Aramıza Hoşgeldiniz!',
 
     // Login
     'login'              => 'Giriş',
