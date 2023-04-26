@@ -20,10 +20,11 @@ class AuthGroups extends BaseConfig
      * --------------------------------------------------------------------
      * Groups
      * --------------------------------------------------------------------
-     * An associative array of the available groups in the system, where the keys are
-     * the group names and the values are arrays of the group info.
+     * An associative array of the available groups in the system, where the keys
+     * are the group names and the values are arrays of the group info.
      *
-     * Whatever value you assign as the key will be used to refer to the group when using functions such as:
+     * Whatever value you assign as the key will be used to refer to the group
+     * when using functions such as:
      *      $user->addGroup('superadmin');
      *
      * @var array<string, array<string, string>>
