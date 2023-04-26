@@ -77,6 +77,8 @@ class AuthGroups extends BaseConfig
      * Permissions Matrix
      * --------------------------------------------------------------------
      * Maps permissions to groups.
+     *
+     * This defines group-level permissions.
      */
     public array $matrix = [
         'superadmin' => [
