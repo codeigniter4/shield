@@ -21,9 +21,9 @@ return [
     'throttled'             => 'Забагато запитів зроблено з цієї IP-адреси. Ви можете спробувати ще раз через {0} секунд.',
     'notEnoughPrivilege'    => 'У вас немає необхідного дозволу для виконання потрібної операції.',
     // JWT Exceptions
-    'invalidJWT'     => '(To be translated) The token is invalid.',
-    'expiredJWT'     => '(To be translated) The token has expired.',
-    'beforeValidJWT' => '(To be translated) The token is not yet available.',
+    'invalidJWT'     => 'Маркер недійсний.',
+    'expiredJWT'     => 'Термін дії маркера минув.',
+    'beforeValidJWT' => 'Маркер ще не доступний.',
 
     'email'           => 'Адреса електронної пошти',
     'username'        => 'Ім’я користувача',
@@ -65,7 +65,7 @@ return [
     'errorPasswordPwned'        => 'Пароль {0} було розкрито внаслідок витоку даних і було виявлено {1} разів у {2} зламаних паролів.',
     'suggestPasswordPwned'      => '{0} ніколи не слід використовувати як пароль. Якщо ви використовуєте його десь, негайно змініть його.',
     'errorPasswordEmpty'        => 'Необхідно ввести пароль.',
-    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
+    'errorPasswordTooLongBytes' => 'Довжина пароля не може перевищувати {param} байт.',
     'passwordChangeSuccess'     => 'Пароль успішно змінено',
     'userDoesNotExist'          => 'Пароль не змінено. Користувач не існує',
     'resetTokenExpired'         => 'Вибачте. Термін дії вашого токена скидання минув.',
