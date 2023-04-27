@@ -80,12 +80,20 @@ public $permissions = [
 ## Assigning Permissions to Groups
 
 In order to grant any permissions to a group, they must have the permission assigned to the group, within the `AuthGroups`
-config file, under the `$matrix` property. The matrix is an associative array with the group name as the key,
+config file, under the `$matrix` property.
+
+> **Note** This defines **group-level permissons**.
+
+The matrix is an associative array with the group name as the key,
 and an array of permissions that should be applied to that group.
 
 ```php
 public $matrix = [
-    'admin' => ['admin.access', 'users.create', 'users.edit', 'users.delete', 'beta.access'],
+    'admin' => [
+        'admin.access',
+        'users.create', 'users.edit', 'users.delete',
+        'beta.access'
+    ],
 ];
 ```
 
@@ -104,8 +112,8 @@ The `Authorizable` trait on the `User` entity provides the following methods to 
 #### can()
 
 Allows you to check if a user is permitted to do a specific action. The only argument is the permission string. Returns
-boolean `true`/`false`. Will check the user's direct permissions first, and then check against all of the user's groups
-permissions to determine if they are allowed.
+boolean `true`/`false`. Will check the user's direct permissions (**user-level permissions**) first, and then check against all of the user's groups
+permissions (**group-level permissions**) to determine if they are allowed.
 
 ```php
 if ($user->can('users.create')) {
@@ -132,6 +140,10 @@ if (! $user->hasPermission('users.create')) {
     //
 }
 ```
+
+> **Note** This method checks only **user-level permissions**, and does not check
+> group-level permissions. If you want to check if the user can do something,
+> use the `$user->can()` method instead.
 
 #### Authorizing via Routes
 
@@ -168,7 +180,7 @@ override the group, so it's possible that a user can perform an action that thei
 
 #### addPermission()
 
-Adds one or more permissions to the user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
+Adds one or more **user-level** permissions to the user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
 is thrown.
 
 ```php
@@ -177,7 +189,7 @@ $user->addPermission('users.create', 'users.edit');
 
 #### removePermission()
 
-Removes one or more permissions from a user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
+Removes one or more **user-level** permissions from a user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
 is thrown.
 
 ```php
@@ -186,7 +198,7 @@ $user->removePermission('users.delete');
 
 #### syncPermissions()
 
-Updates the user's permissions to only include the permissions in the given list. Any existing permissions on that user
+Updates the user's **user-level** permissions to only include the permissions in the given list. Any existing permissions on that user
 not in this list will be removed.
 
 ```php
@@ -195,11 +207,13 @@ $user->syncPermissions('admin.access', 'beta.access');
 
 #### getPermissions()
 
-Returns all permissions this user has assigned directly to them.
+Returns all **user-level** permissions this user has assigned directly to them.
 
 ```php
 $user->getPermissions();
 ```
+
+> **Note** This method does not return **group-level permissions**.
 
 ## Managing User Groups
 
