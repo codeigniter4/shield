@@ -51,7 +51,8 @@ class LoginController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $credentials             = $this->request->getPost(setting('Auth.validFields'));
+        /** @var array $credentials */
+        $credentials             = $this->request->getPost(setting('Auth.validFields')) ?? [];
         $credentials             = array_filter($credentials);
         $credentials['password'] = $this->request->getPost('password');
         $remember                = (bool) $this->request->getPost('remember');
