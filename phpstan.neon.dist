@@ -14,8 +14,12 @@ parameters:
 		- '#Cannot access property [\$a-z_]+ on (array|object)#'
 		- 
 			message: '#Call to deprecated function random_string\(\):#'
-			count: 5
-			path: *
+			paths:
+				- src/Authentication/Actions/Email2FA.php
+				- src/Authentication/Actions/EmailActivator.php
+				- src/Controllers/MagicLinkController.php
+				- src/Models/TokenLoginModel.php
+				- src/Models/UserIdentityModel.php
 	universalObjectCratesClasses:
 		- CodeIgniter\Entity
 		- CodeIgniter\Entity\Entity
