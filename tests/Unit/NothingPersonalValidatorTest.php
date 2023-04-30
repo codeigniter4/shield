@@ -287,4 +287,44 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider badEmailsProvider
+     *
+     * @param string $email
+     * @param bool $expected
+     */
+    public function testCheckPasswordWithBadEmail(string $email, bool $expected): void
+    {
+        $config                = new Auth();
+        $this->validator       = new NothingPersonalValidator($config);
+
+        $user = new User([
+            'username' => 'CaptainJoe',
+            'email'    => $email,
+        ]);
+
+        $password = '123456789a';
+
+        $result = $this->validator->check($password, $user);
+
+        $this->assertSame($expected, $result->isOK());
+    }
+
+    public static function badEmailsProvider()
+    {
+        return [
+            [
+                'test',
+                true,
+            ], [
+                'test@example',
+                true,
+            ],
+            [
+                'test@example.com',
+                true,
+            ],
+        ];
+    }
 }

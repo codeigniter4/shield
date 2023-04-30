@@ -294,6 +294,24 @@ final class RegisterTest extends DatabaseTestCase
         $result->assertRedirectTo(config('Auth')->registerRedirect());
     }
 
+    public function testRegisterActionWithBadEmailValue(): void
+    {
+        $result = $this->withSession()->post('/register', [
+            'username'         => 'JohnDoe',
+            'email'            => 'john.doe',
+            'password'         => '123456789aa',
+            'password_confirm' => '123456789aa',
+        ]);
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionHas(
+            'errors',
+            ['email' => 'The Email Address field must contain a valid email address.']
+        );
+    }
+
     protected function setupConfig(): void
     {
         $config             = config('Validation');
