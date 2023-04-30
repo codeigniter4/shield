@@ -290,14 +290,11 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
 
     /**
      * @dataProvider badEmailsProvider
-     *
-     * @param string $email
-     * @param bool $expected
      */
     public function testCheckPasswordWithBadEmail(string $email, bool $expected): void
     {
-        $config                = new Auth();
-        $this->validator       = new NothingPersonalValidator($config);
+        $config          = new Auth();
+        $this->validator = new NothingPersonalValidator($config);
 
         $user = new User([
             'username' => 'CaptainJoe',
