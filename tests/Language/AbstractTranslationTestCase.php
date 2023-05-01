@@ -60,7 +60,7 @@ abstract class AbstractTranslationTestCase extends TestCase
         ItalianTranslationTest::class    => 'it',
         JapaneseTranslationTest::class   => 'ja',
         //        KoreanTranslationTest::class             => 'ko',
-        //        LithuanianTranslationTest::class         => 'lt',
+        LithuanianTranslationTest::class => 'lt',
         //        LatvianTranslationTest::class            => 'lv',
         //        MalayalamTranslationTest::class          => 'ml',
         //        DutchTranslationTest::class              => 'nl',
