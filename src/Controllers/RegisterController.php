@@ -197,7 +197,7 @@ class RegisterController extends BaseController
             ],
             'password' => [
                 'label'  => 'Auth.password',
-                'rules'  => 'required|' . Passwords::getMaxLenghtRule() . '|strong_password',
+                'rules'  => 'required|' . Passwords::getMaxLengthRule() . '|strong_password',
                 'errors' => [
                     'max_byte' => 'Auth.errorPasswordTooLongBytes',
                 ],
