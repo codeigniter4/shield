@@ -68,6 +68,22 @@ class Setup extends BaseCommand
     private ContentReplacer $replacer;
 
     /**
+     * Returns the pattern for replacement in routes
+     */
+    final public static function getRoutesPattern(): string
+    {
+        return '/(.*)(\r?\n' . preg_quote('$routes->', '/') . '[^\r\n]+?;\r?\n)/su';
+    }
+
+    /**
+     * Returns the pattern for replacement in BaseController
+     */
+    final public static function getHelperPattern(): string
+    {
+        return '/(' . preg_quote('// Do Not Edit This Line', '/') . ')/u';
+    }
+
+    /**
      * Displays the help for the spark cli script itself.
      */
     public function run(array $params): void
@@ -243,7 +259,7 @@ class Setup extends BaseCommand
         }
 
         // Add helper setup
-        $pattern = '/(' . preg_quote('// Do Not Edit This Line', '/') . ')/u';
+        $pattern = self::getHelperPattern();
         $replace = $check . "\n\n        " . '$1';
 
         $this->add($file, $check, $pattern, $replace);
@@ -254,7 +270,7 @@ class Setup extends BaseCommand
         $file = 'Config/Routes.php';
 
         $check   = 'service(\'auth\')->routes($routes);';
-        $pattern = '/(.*)(\n' . preg_quote('$routes->', '/') . '[^\n]+?;\n)/su';
+        $pattern = self::getRoutesPattern();
         $replace = '$1$2' . "\n" . $check . "\n";
 
         $this->add($file, $check, $pattern, $replace);

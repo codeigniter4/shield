@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Commands\Setup;
 
+use CodeIgniter\Shield\Commands\Setup;
 use CodeIgniter\Shield\Commands\Setup\ContentReplacer;
 use Tests\Support\TestCase;
 
@@ -76,7 +77,7 @@ final class ContentReplacerTest extends TestCase
             FILE;
 
         $text    = 'service(\'auth\')->routes($routes);';
-        $pattern = '/(.*)(\n' . preg_quote('$routes->', '/') . '[^\n]+?;\n)/su';
+        $pattern = Setup::getRoutesPattern();
         $replace = '$1$2' . "\n" . $text . "\n";
         $output  = $replacer->add($content, $text, $pattern, $replace);
 
@@ -128,7 +129,7 @@ final class ContentReplacerTest extends TestCase
             FILE;
 
         $text    = '$this->helpers = array_merge($this->helpers, [\'auth\', \'setting\']);';
-        $pattern = '/(' . preg_quote('// Do Not Edit This Line', '/') . ')/u';
+        $pattern = Setup::getHelperPattern();
         $replace = $text . "\n\n        " . '$1';
         $output  = $replacer->add($content, $text, $pattern, $replace);
 
