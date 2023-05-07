@@ -46,6 +46,7 @@ return [
     'rememberMe'         => 'Ingat saya?',
     'forgotPassword'     => 'Lupa kata sandi?',
     'useMagicLink'       => 'Gunakan tautan masuk',
+    'usePassword'        => 'Gunakan kata sandi',
     'magicLinkSubject'   => 'Tautan masuk Anda',
     'magicTokenNotFound' => 'Tidak dapat memverifikasi tautan.',
     'magicLinkExpired'   => 'Maaf, tautan sudah tidak berlaku.',

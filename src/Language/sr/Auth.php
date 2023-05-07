@@ -46,6 +46,7 @@ return [
     'rememberMe'         => 'Zapmti me?',
     'forgotPassword'     => 'Zaboravljena lozinka?',
     'useMagicLink'       => 'Koristi pristupni link',
+    'usePassword'        => 'Koristi lozinku',
     'magicLinkSubject'   => 'Vaš pristupni link',
     'magicTokenNotFound' => 'Nije moguća verifikacija linka.',
     'magicLinkExpired'   => 'Žao nam je, link je istekao.',

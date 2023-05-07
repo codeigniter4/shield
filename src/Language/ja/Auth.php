@@ -46,6 +46,7 @@ return [
     'rememberMe'         => 'ログイン状態を保持する', // 'Remember me?'
     'forgotPassword'     => 'パスワードをお忘れの方', // 'Forgot your password?'
     'useMagicLink'       => 'ログインリンクを使用する', // 'Use a Login Link'
+    'usePassword'        => 'パスワードを使用する', // 'Use a Password'
     'magicLinkSubject'   => 'あなたのログインリンク', // 'Your Login Link'
     'magicTokenNotFound' => 'リンクを確認できません。', // 'Unable to verify the link.'
     'magicLinkExpired'   => '申し訳ございません、リンクは切れています。', // 'Sorry, link has expired.'

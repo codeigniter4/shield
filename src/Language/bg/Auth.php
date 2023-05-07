@@ -46,6 +46,7 @@ return [
     'rememberMe'         => 'Запомни ме?',
     'forgotPassword'     => 'Забравена парола?',
     'useMagicLink'       => 'Използвайте линк за вход',
+    'usePassword'        => 'Използвайте парола',
     'magicLinkSubject'   => 'Вашият линк за вход',
     'magicTokenNotFound' => 'Не може да се потвърди линка.',
     'magicLinkExpired'   => 'Съжаляваме, линкът е изтекъл.',

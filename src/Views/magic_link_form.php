@@ -38,6 +38,8 @@
                 </div>
 
             </form>
+
+            <p class="text-center"><a href="<?= url_to('login') ?>"><?= lang('Auth.usePassword') ?></a></p>
         </div>
     </div>
 </div>

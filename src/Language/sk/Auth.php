@@ -46,6 +46,7 @@ return [
     'rememberMe'         => 'Zapamätať si ma?',
     'forgotPassword'     => 'Zabudli ste heslo?',
     'useMagicLink'       => 'Použiť odkaz na prihlásenie',
+    'usePassword'        => 'Použiť heslo',
     'magicLinkSubject'   => 'Váš odkaz na prihlásenie',
     'magicTokenNotFound' => 'Odkaz sa nepodarilo overiť.',
     'magicLinkExpired'   => 'Ľutujeme, platnosť odkazu vypršala.',

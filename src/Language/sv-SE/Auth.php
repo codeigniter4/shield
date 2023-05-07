@@ -46,6 +46,7 @@ return [
     'rememberMe'         => 'Kom ihåg mig?',
     'forgotPassword'     => 'Glömt ditt lösenord?',
     'useMagicLink'       => 'Använd en login-länk',
+    'usePassword'        => 'Använd ett lösenord',
     'magicLinkSubject'   => 'Din login-länk',
     'magicTokenNotFound' => 'Kan inte verifiera länken.',
     'magicLinkExpired'   => 'Tyvärr, länken har gått ut.',

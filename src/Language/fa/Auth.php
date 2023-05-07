@@ -46,6 +46,7 @@ return [
     'rememberMe'         => 'مرا به خاطر بسپار؟',
     'forgotPassword'     => 'رمز عبور را فراموش کرده اید؟',
     'useMagicLink'       => 'از لینک ورود استفاده کنید',
+    'usePassword'        => 'استفاده از رمز عبور',
     'magicLinkSubject'   => 'لینک ورود شما',
     'magicTokenNotFound' => 'تایید لینک ممکن نیست.',
     'magicLinkExpired'   => 'متاسفانه, لینک منقضی شده است.',

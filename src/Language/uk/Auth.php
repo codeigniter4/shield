@@ -46,6 +46,7 @@ return [
     'rememberMe'         => 'Пам’ятай мене?',
     'forgotPassword'     => 'Забули пароль?',
     'useMagicLink'       => 'Використовуйте посилання для входу',
+    'usePassword'        => 'Використовуйте пароль',
     'magicLinkSubject'   => 'Ваше посилання для входу',
     'magicTokenNotFound' => 'Неможливо перевірити посилання.',
     'magicLinkExpired'   => 'Вибачте, термін дії посилання закінчився.',

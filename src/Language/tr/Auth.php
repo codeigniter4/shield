@@ -46,6 +46,7 @@ return [
     'rememberMe'         => 'Beni hatırla?',
     'forgotPassword'     => 'Şifrenizi mı unuttunuz?',
     'useMagicLink'       => 'Giriş Bağlantısı Kullanın',
+    'usePassword'        => 'Parola Kullanın',
     'magicLinkSubject'   => 'Giriş Bağlantınız',
     'magicTokenNotFound' => 'Bağlantı doğrulanamıyor.',
     'magicLinkExpired'   => 'Üzgünüm, bağlantının süresi doldu.',

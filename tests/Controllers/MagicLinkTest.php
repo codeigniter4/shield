@@ -114,4 +114,10 @@ final class MagicLinkTest extends TestCase
         );
         $this->assertFalse(auth()->loggedIn());
     }
+
+    public function testUsePassword()
+    {
+        $result = $this->get('/login/magic-link');
+        $this->assertStringContainsString(lang('Auth.usePassword'), $result->getBody());
+    }
 }

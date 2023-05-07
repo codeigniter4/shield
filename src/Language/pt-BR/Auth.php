@@ -46,6 +46,7 @@ return [
     'rememberMe'         => 'Lembrar de mim?',
     'forgotPassword'     => 'Esqueceu sua senha?',
     'useMagicLink'       => 'Use um Link de Login',
+    'usePassword'        => 'Use uma senha',
     'magicLinkSubject'   => 'Seu Link de Login',
     'magicTokenNotFound' => 'Não foi possível verificar o link.',
     'magicLinkExpired'   => 'Desculpe, o link expirou.',

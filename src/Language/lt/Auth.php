@@ -46,6 +46,7 @@ return [
     'rememberMe'         => 'Atsiminti mane?',
     'forgotPassword'     => 'Pamiršote slaptažodį?',
     'useMagicLink'       => 'Naudoti prisijungimo nuorodą',
+    'usePassword'        => 'Naudoti slaptažodį',
     'magicLinkSubject'   => 'Jūsų prisijungimo nuoroda',
     'magicTokenNotFound' => 'Nepavyksta patvirtinti nuorodos.',
     'magicLinkExpired'   => 'Deja, nuorodos galiojimas baigėsi.',

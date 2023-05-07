@@ -46,6 +46,7 @@ return [
     'rememberMe'         => 'Recordarme',
     'forgotPassword'     => '¿Olvidaste tu contraseña',
     'useMagicLink'       => 'Usar un enlace de inicio de sesión',
+    'usePassword'        => 'Usar una contraseña',
     'magicLinkSubject'   => 'Tu enlace de inicio de sesión',
     'magicTokenNotFound' => 'No se puede verificar el enlace.',
     'magicLinkExpired'   => 'Lo siento, el enlace ha caducado.',
