@@ -39,7 +39,7 @@
 
             </form>
 
-            <p class="text-center"><a href="<?= url_to('login') ?>"><?= lang('Auth.usePassword') ?></a></p>
+            <p class="text-center"><a href="<?= url_to('login') ?>"><?= lang('Auth.backToLogin') ?></a></p>
         </div>
     </div>
 </div>

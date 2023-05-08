@@ -46,13 +46,13 @@ return [
     'rememberMe'         => 'Ingat saya?',
     'forgotPassword'     => 'Lupa kata sandi?',
     'useMagicLink'       => 'Gunakan tautan masuk',
-    'usePassword'        => 'Gunakan kata sandi',
     'magicLinkSubject'   => 'Tautan masuk Anda',
     'magicTokenNotFound' => 'Tidak dapat memverifikasi tautan.',
     'magicLinkExpired'   => 'Maaf, tautan sudah tidak berlaku.',
     'checkYourEmail'     => 'Periksa email Anda!',
     'magicLinkDetails'   => 'Kami baru saja mengirimi Anda email dengan tautan Masuk di dalamnya. Ini hanya berlaku selama {0} menit.',
     'successLogout'      => 'Anda telah berhasil keluar.',
+    'backToLogin'        => 'Kembali ke masuk',
 
     // Passwords
     'errorPasswordLength'       => 'Kata sandi harus setidaknya terdiri dari {0, number} karakter.',

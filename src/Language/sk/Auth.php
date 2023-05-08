@@ -46,13 +46,13 @@ return [
     'rememberMe'         => 'Zapamätať si ma?',
     'forgotPassword'     => 'Zabudli ste heslo?',
     'useMagicLink'       => 'Použiť odkaz na prihlásenie',
-    'usePassword'        => 'Použiť heslo',
     'magicLinkSubject'   => 'Váš odkaz na prihlásenie',
     'magicTokenNotFound' => 'Odkaz sa nepodarilo overiť.',
     'magicLinkExpired'   => 'Ľutujeme, platnosť odkazu vypršala.',
     'checkYourEmail'     => 'Skontrolujte e-mail',
     'magicLinkDetails'   => 'Práve sme vám poslali e-mail s odkazom na prihlásenie. Platí iba {0} minút.',
     'successLogout'      => 'Úspešne ste sa odhlásili.',
+    'backToLogin'        => 'Späť na prihlásenie',
 
     // Passwords
     'errorPasswordLength'       => 'Heslá musia mať aspoň {0, number} znakov.',

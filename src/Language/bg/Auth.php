@@ -46,13 +46,13 @@ return [
     'rememberMe'         => 'Запомни ме?',
     'forgotPassword'     => 'Забравена парола?',
     'useMagicLink'       => 'Използвайте линк за вход',
-    'usePassword'        => 'Използвайте парола',
     'magicLinkSubject'   => 'Вашият линк за вход',
     'magicTokenNotFound' => 'Не може да се потвърди линка.',
     'magicLinkExpired'   => 'Съжаляваме, линкът е изтекъл.',
     'checkYourEmail'     => 'Проверете вашия имейл!',
     'magicLinkDetails'   => 'Току що ви изпратихме имейл с линк за вход. Линкът ще бъде валиден само {0} минути.',
     'successLogout'      => 'Успешно излязохте от системата.',
+    'backToLogin'        => 'Обратно към входа',
 
     // Пароли
     'errorPasswordLength'       => 'Паролите трябва да са поне {0, number} символа дълги.',

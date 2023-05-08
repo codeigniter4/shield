@@ -46,13 +46,13 @@ return [
     'rememberMe'         => 'Kom ihåg mig?',
     'forgotPassword'     => 'Glömt ditt lösenord?',
     'useMagicLink'       => 'Använd en login-länk',
-    'usePassword'        => 'Använd ett lösenord',
     'magicLinkSubject'   => 'Din login-länk',
     'magicTokenNotFound' => 'Kan inte verifiera länken.',
     'magicLinkExpired'   => 'Tyvärr, länken har gått ut.',
     'checkYourEmail'     => 'Kontrollera din epost!',
     'magicLinkDetails'   => 'En login-länk har skickats med epost. Den gäller bara i {0} minuter.',
     'successLogout'      => 'Du har loggats ut.',
+    'backToLogin'        => 'Tillbaka till inloggning',
 
     // Passwords
     'errorPasswordLength'       => 'Lösenordet måste vara minst {0, number} tecken långt.',

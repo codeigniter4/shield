@@ -46,13 +46,13 @@ return [
     'rememberMe'         => 'Remember me?',
     'forgotPassword'     => 'Forgot your password?',
     'useMagicLink'       => 'Use a Login Link',
-    'usePassword'        => 'Use a Password',
     'magicLinkSubject'   => 'Your Login Link',
     'magicTokenNotFound' => 'Unable to verify the link.',
     'magicLinkExpired'   => 'Sorry, link has expired.',
     'checkYourEmail'     => 'Check your email!',
     'magicLinkDetails'   => 'We just sent you an email with a Login link inside. It is only valid for {0} minutes.',
     'successLogout'      => 'You have successfully logged out.',
+    'backToLogin'        => 'Back to Login',
 
     // Passwords
     'errorPasswordLength'       => 'Passwords must be at least {0, number} characters long.',

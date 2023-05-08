@@ -46,13 +46,13 @@ return [
     'rememberMe'         => 'مرا به خاطر بسپار؟',
     'forgotPassword'     => 'رمز عبور را فراموش کرده اید؟',
     'useMagicLink'       => 'از لینک ورود استفاده کنید',
-    'usePassword'        => 'استفاده از رمز عبور',
     'magicLinkSubject'   => 'لینک ورود شما',
     'magicTokenNotFound' => 'تایید لینک ممکن نیست.',
     'magicLinkExpired'   => 'متاسفانه, لینک منقضی شده است.',
     'checkYourEmail'     => 'ایمیلتان را بررسی کنید!',
     'magicLinkDetails'   => 'ما فقط یک لینک ورود به ایمیلتان ارسال کردیم. این لینک فقط برای {0} دقیقه معتبر خواهد بود.',
     'successLogout'      => 'با موفقیت خارج شدید.',
+    'backToLogin'        => 'بازگشت به ورود به سیستم',
 
     // Passwords
     'errorPasswordLength'       => 'طول رمز های عبور باید حداقل {0, number} کاراکتر باشد.',

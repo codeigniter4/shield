@@ -46,13 +46,13 @@ return [
     'rememberMe'         => 'Zapmti me?',
     'forgotPassword'     => 'Zaboravljena lozinka?',
     'useMagicLink'       => 'Koristi pristupni link',
-    'usePassword'        => 'Koristi lozinku',
     'magicLinkSubject'   => 'Vaš pristupni link',
     'magicTokenNotFound' => 'Nije moguća verifikacija linka.',
     'magicLinkExpired'   => 'Žao nam je, link je istekao.',
     'checkYourEmail'     => 'Proverite Vaš email!',
     'magicLinkDetails'   => 'Upravo smo Vam poslali pristupni link. Pristupni link će biti validan još samo {0} minuta.',
     'successLogout'      => 'Uspešno ste se odjavili sa sistema.',
+    'backToLogin'        => 'Nazad na prijavljivanje',
 
     // Passwords
     'errorPasswordLength'       => 'Lozinka mora biti najmanje {0, number} znakova dužine.',

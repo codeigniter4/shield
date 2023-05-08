@@ -46,13 +46,13 @@ return [
     'rememberMe'         => 'Angemeldet bleiben',
     'forgotPassword'     => 'Passwort vergessen?',
     'useMagicLink'       => 'Einen Login-Link verwenden',
-    'usePassword'        => 'Ein Passwort verwenden',
     'magicLinkSubject'   => 'Ihr Login-Link',
     'magicTokenNotFound' => 'Der Link konnte nicht verifiziert werden.',
     'magicLinkExpired'   => 'Sorry, der Link ist abgelaufen.',
     'checkYourEmail'     => 'Prüfen Sie Ihre E-Mail!',
     'magicLinkDetails'   => 'Wir haben Ihnen gerade eine E-Mail mit einem Login-Link geschickt. Er ist nur für {0} Minuten gültig.',
     'successLogout'      => 'Sie haben sich erfolgreich abgemeldet.',
+    'backToLogin'        => 'Zurück zur Anmeldung',
 
     // Passwords
     'errorPasswordLength'       => 'Passwörter müssen mindestens {0, number} Zeichen lang sein.',

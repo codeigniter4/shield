@@ -46,13 +46,13 @@ return [
     'rememberMe'         => 'Atsiminti mane?',
     'forgotPassword'     => 'Pamiršote slaptažodį?',
     'useMagicLink'       => 'Naudoti prisijungimo nuorodą',
-    'usePassword'        => 'Naudoti slaptažodį',
     'magicLinkSubject'   => 'Jūsų prisijungimo nuoroda',
     'magicTokenNotFound' => 'Nepavyksta patvirtinti nuorodos.',
     'magicLinkExpired'   => 'Deja, nuorodos galiojimas baigėsi.',
     'checkYourEmail'     => 'Patikrinkite savo el. paštą!',
     'magicLinkDetails'   => 'Mes ką tik išsiuntėme Jums el. laišką su prisijungimo nuoroda. Ji galios tiki {0} minučių(-es).',
     'successLogout'      => 'Jūs sėkmingai atsijungėte.',
+    'backToLogin'        => 'Grįžti į prisijungimą',
 
     // Passwords
     'errorPasswordLength'       => 'Slaptažodis turi būti bent {0, number} ženklų ilgio.',

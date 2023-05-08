@@ -46,13 +46,13 @@ return [
     'rememberMe'         => 'Beni hatırla?',
     'forgotPassword'     => 'Şifrenizi mı unuttunuz?',
     'useMagicLink'       => 'Giriş Bağlantısı Kullanın',
-    'usePassword'        => 'Parola Kullanın',
     'magicLinkSubject'   => 'Giriş Bağlantınız',
     'magicTokenNotFound' => 'Bağlantı doğrulanamıyor.',
     'magicLinkExpired'   => 'Üzgünüm, bağlantının süresi doldu.',
     'checkYourEmail'     => 'E-postanı kontrol et!',
     'magicLinkDetails'   => 'Az önce size içinde bir Giriş bağlantısı olan bir e-posta gönderdik. Bağlantı {0} dakika için geçerlidir.',
     'successLogout'      => 'Başarıyla çıkış yaptınız.',
+    'backToLogin'        => 'Girişe Geri Dön',
 
     // Passwords
     'errorPasswordLength'       => 'Şifre en az {0, number} karakter uzunluğunda olmalıdır.',
