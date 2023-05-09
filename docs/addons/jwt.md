@@ -219,7 +219,7 @@ class LoginController extends BaseController
             ],
             'password' => [
                 'label'  => 'Auth.password',
-                'rules'  => 'required|' . Passwords::getMaxLenghtRule(),
+                'rules'  => 'required|' . Passwords::getMaxLengthRule(),
                 'errors' => [
                     'max_byte' => 'Auth.errorPasswordTooLongBytes',
                 ],
