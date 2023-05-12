@@ -35,7 +35,10 @@ class MagicLinkController extends BaseController
     public function __construct()
     {
         helper('setting');
-        $providerClass  = setting('Auth.userProvider');
+
+        /** @var class-string<UserModel> $providerClass */
+        $providerClass = setting('Auth.userProvider');
+
         $this->provider = new $providerClass();
     }
 
