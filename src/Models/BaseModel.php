@@ -20,7 +20,7 @@ abstract class BaseModel extends Model
     {
         $authConfig = config('Auth');
 
-        if (!empty($authConfig->DBGroup)) {
+        if (! empty($authConfig->DBGroup)) {
             $this->DBGroup = $authConfig->DBGroup;
         }
 
