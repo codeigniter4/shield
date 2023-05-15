@@ -38,7 +38,7 @@ Groups are defined within the `Shield\Config\AuthGroups` config class.
 
 ```php
 
-public $groups = [
+public array $groups = [
     'superadmin' => [
         'title'       => 'Super Admin',
         'description' => 'Optional description of the group.',
@@ -66,7 +66,7 @@ a scope and action, like `users.create`. The scope would be `users` and the acti
 can have a description for display within UIs if needed.
 
 ```php
-public $permissions = [
+public array $permissions = [
     'admin.access'        => 'Can access the sites admin area',
     'admin.settings'      => 'Can access the main site settings',
     'users.manage-admins' => 'Can manage other admins',
@@ -88,7 +88,7 @@ The matrix is an associative array with the group name as the key,
 and an array of permissions that should be applied to that group.
 
 ```php
-public $matrix = [
+public array $matrix = [
     'admin' => [
         'admin.access',
         'users.create', 'users.edit', 'users.delete',
@@ -100,7 +100,7 @@ public $matrix = [
 You can use a wildcard within a scope to allow all actions within that scope, by using a `*` in place of the action.
 
 ```php
-public $matrix = [
+public array $matrix = [
     'superadmin' => ['admin.*', 'users.*', 'beta.*'],
 ];
 ```
