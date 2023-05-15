@@ -56,7 +56,7 @@ When a user is first registered on the site, they are assigned to a default user
 `Config\AuthGroups::$defaultGroup`, and must match the name of one of the defined groups.
 
 ```php
-public $defaultGroup = 'users';
+public string $defaultGroup = 'user';
 ```
 
 ## Defining Available Permissions
