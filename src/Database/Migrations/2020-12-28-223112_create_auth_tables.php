@@ -26,7 +26,7 @@ class CreateAuthTables extends Migration
         $authConfig        = config('Auth');
         $this->tables      = $authConfig->tables;
         $this->ifNotExists = false;
-        $this->attributes  = ['ENGINE' => 'InnoDB'];
+        $this->attributes  = ($this->db->getPlatform() === 'MySQLi') ? ['ENGINE' => 'InnoDB'] : [];
     }
 
     public function up(): void
