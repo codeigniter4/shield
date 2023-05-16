@@ -16,6 +16,17 @@ abstract class BaseModel extends Model
      */
     protected array $tables;
 
+    public function __construct()
+    {
+        $authConfig = config('Auth');
+
+        if (! empty($authConfig->DBGroup)) {
+            $this->DBGroup = $authConfig->DBGroup;
+        }
+
+        parent::__construct();
+    }
+
     protected function initialize(): void
     {
         /** @var Auth $authConfig */
