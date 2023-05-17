@@ -19,12 +19,13 @@ class CreateAuthTables extends Migration
 
     public function __construct(?Forge $forge = null)
     {
-        parent::__construct($forge);
-
         /** @var Auth $authConfig */
         $authConfig       = config('Auth');
         $this->tables     = $authConfig->tables;
         $this->attributes = ($this->db->getPlatform() === 'MySQLi') ? ['ENGINE' => 'InnoDB'] : [];
+
+        $this->DBGroup = $authConfig->DBGroup;
+        parent::__construct($forge);
     }
 
     public function up(): void
