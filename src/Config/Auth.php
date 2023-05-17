@@ -50,7 +50,7 @@ class Auth extends BaseConfig
      * it will automatically connect to the default database group,
      * as set in the configuration
      */
-    public string $DBGroup = '';
+    public ?string $DBGroup = null;
 
     /**
      * --------------------------------------------------------------------

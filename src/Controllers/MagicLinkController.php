@@ -68,7 +68,7 @@ class MagicLinkController extends BaseController
     {
         // Validate email format
         $rules = $this->getValidationRules();
-        if (! $this->validateData($this->request->getPost(), $rules)) {
+        if (! $this->validateData($this->request->getPost(), $rules, config('Auth')->DBGroup)) {
             return redirect()->route('magic-link')->with('errors', $this->validator->getErrors());
         }
 
