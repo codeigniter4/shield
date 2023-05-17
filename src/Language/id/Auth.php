@@ -52,6 +52,7 @@ return [
     'checkYourEmail'     => 'Periksa email Anda!',
     'magicLinkDetails'   => 'Kami baru saja mengirimi Anda email dengan tautan Masuk di dalamnya. Ini hanya berlaku selama {0} menit.',
     'successLogout'      => 'Anda telah berhasil keluar.',
+    'backToLogin'        => 'Kembali ke masuk',
 
     // Passwords
     'errorPasswordLength'       => 'Kata sandi harus setidaknya terdiri dari {0, number} karakter.',

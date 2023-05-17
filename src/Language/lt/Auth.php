@@ -52,6 +52,7 @@ return [
     'checkYourEmail'     => 'Patikrinkite savo el. paštą!',
     'magicLinkDetails'   => 'Mes ką tik išsiuntėme Jums el. laišką su prisijungimo nuoroda. Ji galios tiki {0} minučių(-es).',
     'successLogout'      => 'Jūs sėkmingai atsijungėte.',
+    'backToLogin'        => 'Grįžti į prisijungimą',
 
     // Passwords
     'errorPasswordLength'       => 'Slaptažodis turi būti bent {0, number} ženklų ilgio.',

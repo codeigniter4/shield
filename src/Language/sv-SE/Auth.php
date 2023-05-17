@@ -52,6 +52,7 @@ return [
     'checkYourEmail'     => 'Kontrollera din epost!',
     'magicLinkDetails'   => 'En login-länk har skickats med epost. Den gäller bara i {0} minuter.',
     'successLogout'      => 'Du har loggats ut.',
+    'backToLogin'        => 'Tillbaka till inloggning',
 
     // Passwords
     'errorPasswordLength'       => 'Lösenordet måste vara minst {0, number} tecken långt.',

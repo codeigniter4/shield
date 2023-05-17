@@ -45,13 +45,14 @@ return [
     'needAccount'        => 'Hai bisogno di un account?',
     'rememberMe'         => 'Ricordami?',
     'forgotPassword'     => 'Password dimenticata?',
-    'useMagicLink'       => 'Usa un  Login Link',
+    'useMagicLink'       => 'Usa un Login Link',
     'magicLinkSubject'   => 'Il tuo Login Link',
     'magicTokenNotFound' => 'Impossibile verificare il link.',
     'magicLinkExpired'   => 'Spiacente, il link è scaduto.',
     'checkYourEmail'     => 'Controlla la tua email!',
     'magicLinkDetails'   => 'Ti abbiamo appena inviato una mail contenente un Login link. È valido solo per {0} minuti.',
     'successLogout'      => 'Hai effettuato il logout con successo.',
+    'backToLogin'        => 'Torna al login',
 
     // Passwords
     'errorPasswordLength'       => 'Le password devono essere lunghe almeno {0, number} ccaratteri.',
