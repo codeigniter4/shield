@@ -52,6 +52,7 @@ return [
     'checkYourEmail'     => 'Proverite Vaš email!',
     'magicLinkDetails'   => 'Upravo smo Vam poslali pristupni link. Pristupni link će biti validan još samo {0} minuta.',
     'successLogout'      => 'Uspešno ste se odjavili sa sistema.',
+    'backToLogin'        => 'Nazad na prijavljivanje',
 
     // Passwords
     'errorPasswordLength'       => 'Lozinka mora biti najmanje {0, number} znakova dužine.',

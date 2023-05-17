@@ -52,6 +52,7 @@ return [
     'checkYourEmail'     => 'Vérifier votre email !',
     'magicLinkDetails'   => 'Nous venons de vous envoyer un email contenant un lien de connexion. Il n\'est valable que {0} minutes.',
     'successLogout'      => 'Vous avez été déconnecté avec succès.',
+    'backToLogin'        => 'Retour à la connexion',
 
     // Passwords
     'errorPasswordLength'       => 'Le mot de passe doit contenir au moins {0, number} caractères.',

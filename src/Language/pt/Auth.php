@@ -52,6 +52,7 @@ return [
     'checkYourEmail'     => 'Verifique o seu e-mail!',
     'magicLinkDetails'   => 'Acabamos de enviar um e-mail com um link de Login. Ele é válido apenas por {0} minutos.',
     'successLogout'      => 'Saiu com sucesso.',
+    'backToLogin'        => 'Voltar ao login',
 
     // Senhas
     'errorPasswordLength'       => 'As passwords devem ter pelo menos {0, number} caracteres.',

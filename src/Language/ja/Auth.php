@@ -52,6 +52,7 @@ return [
     'checkYourEmail'     => 'メールをチェックしてください！', // 'Check your email!'
     'magicLinkDetails'   => 'ログインリンクが含まれたメールを送信しました。これは {0} 分間だけ有効です。', // 'We just sent you an email with a Login link inside. It is only valid for {0} minutes.'
     'successLogout'      => '正常にログアウトしました。', // 'You have successfully logged out.'
+    'backToLogin'        => 'ログインに戻る', // 'Back to Login'
 
     // Passwords
     'errorPasswordLength'       => 'パスワードは最低でも {0, number} 文字でなければなりません。', // 'Passwords must be at least {0, number} characters long.'

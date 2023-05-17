@@ -52,6 +52,7 @@ return [
     'checkYourEmail'     => '¡Revisa tu correo electrónico!',
     'magicLinkDetails'   => 'Acabamos de enviarte un correo electrónico con un enlace de inicio de sesión. Solo es válido durante {0} minutos.',
     'successLogout'      => 'Has cerrado sesión correctamente.',
+    'backToLogin'        => 'Volver al inicio de sesión',
 
     // Contraseñas
     'errorPasswordLength'       => 'Las contraseñas deben tener al menos {0, number} caracteres.',
