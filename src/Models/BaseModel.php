@@ -21,7 +21,7 @@ abstract class BaseModel extends Model
     {
         $this->authConfig = config(Auth::class);
 
-        if ($authConfig->DBGroup !== null)) {
+        if ($this->authConfig->DBGroup !== null) {
             $this->DBGroup = $this->authConfig->DBGroup;
         }
 
@@ -30,9 +30,6 @@ abstract class BaseModel extends Model
 
     protected function initialize(): void
     {
-        /** @var Auth $authConfig */
-        $authConfig = config('Auth');
-
-        $this->tables = $authConfig->tables;
+        $this->tables = $this->authConfig->tables;
     }
 }
