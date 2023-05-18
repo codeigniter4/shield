@@ -15,6 +15,7 @@ abstract class BaseModel extends Model
      * Auth Table names
      */
     protected array $tables;
+
     protected Auth $authConfig;
 
     public function __construct()
