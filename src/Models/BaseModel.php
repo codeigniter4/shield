@@ -18,10 +18,10 @@ abstract class BaseModel extends Model
 
     public function __construct()
     {
-        $authConfig = config('Auth');
+        $this->authConfig = config(Auth::class);
 
-        if (! empty($authConfig->DBGroup)) {
-            $this->DBGroup = $authConfig->DBGroup;
+        if ($authConfig->DBGroup !== null)) {
+            $this->DBGroup = $this->authConfig->DBGroup;
         }
 
         parent::__construct();
