@@ -73,7 +73,7 @@ class ValidationRules
         /** @var IncomingRequest $request */
         $request = service('request');
 
-        $data = $request->getPost($fields);
+        $data = $request->getVar($fields);
 
         return new User($data);
     }
