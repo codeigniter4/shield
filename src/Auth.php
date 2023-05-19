@@ -8,6 +8,8 @@ use CodeIgniter\Router\RouteCollection;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
+use CodeIgniter\Shield\Config\Auth as AuthConfig;
+use CodeIgniter\Shield\Config\AuthRoutes;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
 
@@ -106,7 +108,7 @@ class Auth
      */
     public function routes(RouteCollection &$routes, array $config = []): void
     {
-        $authRoutes = config('AuthRoutes')->routes;
+        $authRoutes = config(AuthRoutes::class)->routes;
 
         $routes->group('/', ['namespace' => 'CodeIgniter\Shield\Controllers'], static function (RouteCollection $routes) use ($authRoutes, $config): void {
             foreach ($authRoutes as $name => $row) {
@@ -133,8 +135,7 @@ class Auth
             return $this->userProvider;
         }
 
-        /** @var \CodeIgniter\Shield\Config\Auth $config */
-        $config = config('Auth');
+        $config = config(AuthConfig::class);
 
         if (! property_exists($config, 'userProvider')) {
             throw AuthenticationException::forUnknownUserProvider();
