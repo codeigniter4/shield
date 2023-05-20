@@ -65,6 +65,8 @@ class ValidationRules
 
     /**
      * Builds a new user instance from the global request.
+     * 
+     * @deprecated This will be removed soon.
      */
     protected function buildUserFromRequest(): User
     {
