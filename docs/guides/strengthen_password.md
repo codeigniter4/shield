@@ -17,7 +17,7 @@ The longer the password, the stronger it is. Consider increasing the value.
 
 > **Note**
 >
-> This checking works when you validate passwords with the `strong_password`
+> This checking works when you validate passwords with the `strong_password[]`
 > validation rule.
 >
 > If you disable `CompositionValidator` (enabled by default) in `$passwordValidators`,
