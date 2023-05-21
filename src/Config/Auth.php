@@ -46,9 +46,6 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * Customize the DB group used for each model
      * --------------------------------------------------------------------
-     * if no database connection instance is passed to the constructor,
-     * it will automatically connect to the default database group,
-     * as set in the configuration
      */
     public ?string $DBGroup = null;
 
