@@ -44,6 +44,13 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Customize the DB group used for each model
+     * --------------------------------------------------------------------
+     */
+    public ?string $DBGroup = null;
+
+    /**
+     * --------------------------------------------------------------------
      * Customize Name of Shield Tables
      * --------------------------------------------------------------------
      * Only change if you want to rename the default Shield table names
