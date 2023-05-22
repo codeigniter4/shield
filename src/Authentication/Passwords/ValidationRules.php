@@ -6,6 +6,7 @@ namespace CodeIgniter\Shield\Authentication\Passwords;
 
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\Shield\Authentication\Passwords;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 
 /**
@@ -97,7 +98,7 @@ class ValidationRules
      */
     protected function prepareValidFields(): array
     {
-        $config   = config('Auth');
+        $config   = config(Auth::class);
         $fields   = array_merge($config->validFields, $config->personalFields);
         $fields[] = 'password';
 

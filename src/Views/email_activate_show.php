@@ -1,4 +1,9 @@
-<?= $this->extend(config('Auth')->views['layout']) ?>
+<?php declare(strict_types=1);
+
+use CodeIgniter\Shield\Config\Auth;
+
+?>
+<?= $this->extend(config(Auth::class)->views['layout']) ?>
 
 <?= $this->section('title') ?><?= lang('Auth.emailActivateTitle') ?> <?= $this->endSection() ?>
 

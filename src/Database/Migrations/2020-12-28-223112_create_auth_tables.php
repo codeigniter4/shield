@@ -19,8 +19,7 @@ class CreateAuthTables extends Migration
 
     public function __construct(?Forge $forge = null)
     {
-        /** @var Auth $authConfig */
-        $authConfig = config('Auth');
+        $authConfig = config(Auth::class);
 
         if ($authConfig->DBGroup !== null) {
             $this->DBGroup = $authConfig->DBGroup;
