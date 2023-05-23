@@ -67,6 +67,8 @@ class ValidationRules
     /**
      * Builds a new user instance from the global request.
      *
+     * @phpstan-ignore-next-line
+     *
      * @deprecated This will be removed soon.
      *
      * @see https://github.com/codeigniter4/shield/pull/747#discussion_r1198778666
