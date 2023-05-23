@@ -40,6 +40,7 @@ class ValidationRules
         if (function_exists('auth') && auth()->user()) {
             $user = auth()->user();
         } else {
+            /** @phpstan-ignore-next-line */
             $user = empty($data) ? $this->buildUserFromRequest() : $this->buildUserFromData($data);
         }
 
@@ -66,8 +67,6 @@ class ValidationRules
 
     /**
      * Builds a new user instance from the global request.
-     *
-     * @phpstan-ignore-next-line
      *
      * @deprecated This will be removed soon.
      *
