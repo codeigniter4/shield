@@ -12,6 +12,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Config\AuthSession;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Models\UserModel;
@@ -46,8 +47,7 @@ class RegisterController extends BaseController
             $logger
         );
 
-        /** @var Auth $authConfig */
-        $authConfig   = config('Auth');
+        $authConfig   = config(Auth::class);
         $this->tables = $authConfig->tables;
     }
 
@@ -59,7 +59,7 @@ class RegisterController extends BaseController
     public function registerView()
     {
         if (auth()->loggedIn()) {
-            return redirect()->to(config('Auth')->registerRedirect());
+            return redirect()->to(config(Auth::class)->registerRedirect());
         }
 
         // Check if registration is allowed
@@ -85,7 +85,7 @@ class RegisterController extends BaseController
     public function registerAction(): RedirectResponse
     {
         if (auth()->loggedIn()) {
-            return redirect()->to(config('Auth')->registerRedirect());
+            return redirect()->to(config(Auth::class)->registerRedirect());
         }
 
         // Check if registration is allowed
@@ -100,7 +100,7 @@ class RegisterController extends BaseController
         // like the password, can only be validated properly here.
         $rules = $this->getValidationRules();
 
-        if (! $this->validateData($this->request->getPost(), $rules)) {
+        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
@@ -145,7 +145,7 @@ class RegisterController extends BaseController
         $authenticator->completeLogin($user);
 
         // Success!
-        return redirect()->to(config('Auth')->registerRedirect())
+        return redirect()->to(config(Auth::class)->registerRedirect())
             ->with('message', lang('Auth.registerSuccess'));
     }
 
@@ -178,11 +178,11 @@ class RegisterController extends BaseController
     protected function getValidationRules(): array
     {
         $registrationUsernameRules = array_merge(
-            config('AuthSession')->usernameValidationRules,
+            config(AuthSession::class)->usernameValidationRules,
             [sprintf('is_unique[%s.username]', $this->tables['users'])]
         );
         $registrationEmailRules = array_merge(
-            config('AuthSession')->emailValidationRules,
+            config(AuthSession::class)->emailValidationRules,
             [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
         );
 

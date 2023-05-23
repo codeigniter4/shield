@@ -10,6 +10,8 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Config\AuthSession;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
@@ -51,7 +53,7 @@ class MagicLinkController extends BaseController
     public function loginView()
     {
         if (auth()->loggedIn()) {
-            return redirect()->to(config('Auth')->loginRedirect());
+            return redirect()->to(config(Auth::class)->loginRedirect());
         }
 
         return $this->view(setting('Auth.views')['magic-link-login']);
@@ -68,7 +70,7 @@ class MagicLinkController extends BaseController
     {
         // Validate email format
         $rules = $this->getValidationRules();
-        if (! $this->validateData($this->request->getPost(), $rules)) {
+        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->route('magic-link')->with('errors', $this->validator->getErrors());
         }
 
@@ -189,7 +191,7 @@ class MagicLinkController extends BaseController
         Events::trigger('magicLogin');
 
         // Get our login redirect url
-        return redirect()->to(config('Auth')->loginRedirect());
+        return redirect()->to(config(Auth::class)->loginRedirect());
     }
 
     /**
@@ -224,7 +226,7 @@ class MagicLinkController extends BaseController
         return [
             'email' => [
                 'label' => 'Auth.email',
-                'rules' => config('AuthSession')->emailValidationRules,
+                'rules' => config(AuthSession::class)->emailValidationRules,
             ],
         ];
     }

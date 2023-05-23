@@ -163,7 +163,7 @@ class LoginController extends BaseController
         $rules = $this->getValidationRules();
 
         // Validate credentials
-        if (! $this->validateData($this->request->getJSON(true), $rules)) {
+        if (! $this->validateData($this->request->getJSON(true), $rules, [], config('Auth')->DBGroup)) {
             return $this->fail(
                 ['errors' => $this->validator->getErrors()],
                 $this->codes['unauthorized']
