@@ -23,7 +23,7 @@ for more information.
 
 #### register
 
-Triggered when a new user has registered in the system. It's only argument is the `User` entity itself.
+Triggered when a new user has registered in the system. The only argument is the `User` entity itself.
 
 ```php
 Events::trigger('register', $user);
