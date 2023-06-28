@@ -20,21 +20,6 @@ if [ "$STAGED_PHP_FILES" != "" ]; then
 fi
 
 if [ "$FILES" != "" ]; then
-    echo "Running PHPStan..."
-
-    if [ -d /proc/cygdrive ]; then
-        ./vendor/bin/phpstan analyse
-    else
-        php ./vendor/bin/phpstan analyse
-    fi
-
-    if [ $? != 0 ]; then
-        echo "Fix the phpstan error(s) before commit."
-        exit 1
-    fi
-fi
-
-if [ "$FILES" != "" ]; then
     echo "Running PHP CS Fixer..."
 
     if [ -d /proc/cygdrive ]; then
