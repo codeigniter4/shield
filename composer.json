@@ -91,6 +91,6 @@
         "slack": "https://codeigniterchat.slack.com",
         "source": "https://github.com/codeigniter4/shield",
         "issues": "https://github.com/codeigniter4/shield/issues",
-        "docs": "https://github.com/codeigniter4/shield/blob/develop/docs/index.md"
+        "docs": "https://codeigniter4.github.io/shield/"
     }
 }
