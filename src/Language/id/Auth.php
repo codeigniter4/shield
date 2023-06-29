@@ -7,8 +7,8 @@ return [
     'unknownAuthenticator'  => '{0} bukan otentikator yang sah.',
     'unknownUserProvider'   => 'Tidak dapat menentukan Penyedia Pengguna yang akan digunakan.',
     'invalidUser'           => 'Tidak dapat menemukan pengguna yang spesifik.',
-    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
-    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
+    'bannedUser'            => 'Anda tidak dapat masuk karena saat ini Anda diblokir.',
+    'logOutBannedUser'      => 'Anda telah keluar karena Anda telah diblokir.',
     'badAttempt'            => 'Anda tidak dapat masuk. Harap periksa kredensial Anda.',
     'noPassword'            => 'Tidak dapat memvalidasi pengguna tanpa kata sandi.',
     'invalidPassword'       => 'Anda tidak dapat masuk. Harap periksa kata sandi Anda.',
@@ -21,9 +21,9 @@ return [
     'throttled'             => 'Terlalu banyak permintaan yang dibuat dari alamat IP ini. Anda dapat mencoba lagi dalam {0} detik.',
     'notEnoughPrivilege'    => 'Anda tidak memiliki izin yang diperlukan untuk melakukan operasi yang diinginkan.',
     // JWT Exceptions
-    'invalidJWT'     => '(To be translated) The token is invalid.',
-    'expiredJWT'     => '(To be translated) The token has expired.',
-    'beforeValidJWT' => '(To be translated) The token is not yet available.',
+    'invalidJWT'     => 'Token tidak valid.',
+    'expiredJWT'     => 'Token telah kedaluwarsa.',
+    'beforeValidJWT' => 'Token belum tersedia.',
 
     'email'           => 'Alamat Email',
     'username'        => 'Nama Pengguna',
@@ -66,7 +66,7 @@ return [
     'errorPasswordPwned'        => 'Kata sandi {0} telah bocor karena pelanggaran data dan telah dilihat {1, number} kali dalam {2} sandi yang disusupi.',
     'suggestPasswordPwned'      => '{0} tidak boleh digunakan sebagai kata sandi. Jika Anda menggunakannya di mana saja, segera ubah.',
     'errorPasswordEmpty'        => 'Kata sandi wajib diisi.',
-    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
+    'errorPasswordTooLongBytes' => 'Panjang kata sandi tidak boleh lebih dari {param} byte.',
     'passwordChangeSuccess'     => 'Kata sandi berhasil diubah',
     'userDoesNotExist'          => 'Kata sandi tidak diubah. User tidak ditemukan',
     'resetTokenExpired'         => 'Maaf, token setel ulang Anda sudah habis waktu.',
@@ -95,7 +95,7 @@ return [
     'emailActivateMailBody' => 'Silahkan gunakan kode dibawah ini untuk mengaktivasi akun Anda.',
     'invalidActivateToken'  => 'Kode tidak sesuai.',
     'needActivate'          => 'Anda harus menyelesaikan registrasi Anda dengan mengonfirmasi kode yang dikirim ke alamat email Anda.',
-    'activationBlocked'     => '(to be translated) You must activate your account before logging in.',
+    'activationBlocked'     => 'Anda harus mengaktifkan akun Anda sebelum masuk.',
 
     // Groups
     'unknownGroup' => '{0} bukan grup yang sah.',
