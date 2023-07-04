@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\fr;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} n\'est pas un authentificateur valide.',
     'unknownUserProvider'   => 'Impossible de déterminer le User Provider à utiliser.',
     'invalidUser'           => 'Impossible de trouver l\'utilisateur.',
+    'bannedUser'            => 'Impossible de vous connecter car vous êtes actuellement banni.',
+    'logOutBannedUser'      => 'Vous avez été déconnecté car vous avez été banni.',
     'badAttempt'            => 'Connexion impossible. Veuillez vérifier les informations saisies.',
     'noPassword'            => 'Impossible de valider un utilisateur sans mot de passe.',
     'invalidPassword'       => 'Connexion impossible. Veuillez vérifier votre mot de passe.',
@@ -20,6 +20,10 @@ return [
     'unableSendEmailToUser' => 'Désolé, il y a eu un problème lors de l\'envoi de l\'email. Nous ne pouvons pas envoyer un email à "{0}".',
     'throttled'             => 'Trop de requêtes faites depuis cette adresse IP. Vous pouvez réessayer dans {0} secondes.',
     'notEnoughPrivilege'    => 'Vous n\'avez pas l\'autorisation nécessaire pour effectuer l\'opération souhaitée.',
+    // JWT Exceptions
+    'invalidJWT'     => '(To be translated) The token is invalid.',
+    'expiredJWT'     => '(To be translated) The token has expired.',
+    'beforeValidJWT' => '(To be translated) The token is not yet available.',
 
     'email'           => 'Adresse email',
     'username'        => 'Identifiant',
@@ -48,6 +52,7 @@ return [
     'checkYourEmail'     => 'Vérifier votre email !',
     'magicLinkDetails'   => 'Nous venons de vous envoyer un email contenant un lien de connexion. Il n\'est valable que {0} minutes.',
     'successLogout'      => 'Vous avez été déconnecté avec succès.',
+    'backToLogin'        => 'Retour à la connexion',
 
     // Passwords
     'errorPasswordLength'       => 'Le mot de passe doit contenir au moins {0, number} caractères.',
@@ -61,6 +66,7 @@ return [
     'errorPasswordPwned'        => 'Le mot de passe {0} a été exposé à la suite d\'une violation de données et a été vu {1, number} fois dans {2} des mots de passe compromis.',
     'suggestPasswordPwned'      => '{0} ne devrait jamais être utilisé comme mot de passe. Si vous l\'utilisez quelque part, changez-le immédiatement.',
     'errorPasswordEmpty'        => 'Un mot de passe est obligatoire.',
+    'errorPasswordTooLongBytes' => 'Le mot de passe ne doit pas dépasser {param} octets de longueur.',
     'passwordChangeSuccess'     => 'Mot de passe modifié avec succès',
     'userDoesNotExist'          => 'Le mot de passe n\'a pas été modifié. L\'utilisateur n\'existe pas',
     'resetTokenExpired'         => 'Désolé. Votre jeton de réinitialisation a expiré.',
@@ -89,6 +95,7 @@ return [
     'emailActivateMailBody' => 'Veuillez utiliser le code suivant pour activer votre compte et commencer à utiliser le site.',
     'invalidActivateToken'  => 'Le code était incorrect.',
     'needActivate'          => 'Complétez votre inscription en confirmant le code envoyé à votre email.',
+    'activationBlocked'     => 'Vous devez activer votre compte avant de vous connecter.',
 
     // Groups
     'unknownGroup' => '{0} n\'est pas un groupe valide.',

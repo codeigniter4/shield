@@ -15,19 +15,28 @@ The primary goals for Shield are:
 
 ## Authentication Methods
 
-Shield provides two primary methods of authentication out of the box:
+Shield provides two primary methods **Session-based** and **Personal Access Codes**
+of authentication out of the box.
 
-**Session-based**
+It also provides **JSON Web Tokens** authentication.
+
+### Session-based
 
 This is your typical email/username/password system you see everywhere. It includes a secure "remember me" functionality.
 This can be used for standard web applications, as well as for single page applications. Includes full controllers and
 basic views for all standard functionality, like registration, login, forgot password, etc.
 
-**Personal Access Codes**
+### Personal Access Codes
 
 These are much like the access codes that GitHub uses, where they are unique to a single user, and a single user
 can have more than one. This can be used for API authentication of third-party users, and even for allowing
 access for a mobile application that you build.
+
+### JSON Web Tokens
+
+JWT or JSON Web Token is a compact and self-contained way of securely transmitting
+information between parties as a JSON object. It is commonly used for authentication
+and authorization purposes in web applications.
 
 ## Some Important Features
 
@@ -58,7 +67,7 @@ Installation is done through Composer.
 composer require codeigniter4/shield
 ```
 
-See the [docs](docs/index.md) for more specific instructions on installation and usage recommendations.
+See the <a href="https://codeigniter4.github.io/shield/" target="_blank">docs</a> for more specific instructions on installation and usage recommendations.
 
 ## Contributing
 
@@ -86,3 +95,4 @@ within this library, in no particular order:
 - [Google Cloud: 13 best practices for user account, authentication, and password management, 2021 edition](https://cloud.google.com/blog/products/identity-security/account-authentication-and-password-management-best-practices)
 - [NIST Digital Identity Guidelines](https://pages.nist.gov/800-63-3/sp800-63b.html)
 - [Implementing Secure User Authentication in PHP Applications with Long-Term Persistence (Login with "Remember Me" Cookies) ](https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence)
+- [Password Storage - OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)

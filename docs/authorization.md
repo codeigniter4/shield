@@ -6,21 +6,24 @@
   - [Defining Available Permissions](#defining-available-permissions)
   - [Assigning Permissions to Groups](#assigning-permissions-to-groups)
   - [Authorizing Users](#authorizing-users)
-      - [can()](#can)
-      - [inGroup()](#ingroup)
-      - [hasPermission()](#haspermission)
-      - [Authorizing via Filters](#authorizing-via-filters)
-      - [Authorizing via Routes](#authorizing-via-routes)
+    - [can()](#can)
+    - [inGroup()](#ingroup)
+    - [hasPermission()](#haspermission)
+    - [Authorizing via Routes](#authorizing-via-routes)
   - [Managing User Permissions](#managing-user-permissions)
-      - [addPermission()](#addpermission)
-      - [removePermission()](#removepermission)
-      - [syncPermissions()](#syncpermissions)
-      - [getPermissions()](#getpermissions)
+    - [addPermission()](#addpermission)
+    - [removePermission()](#removepermission)
+    - [syncPermissions()](#syncpermissions)
+    - [getPermissions()](#getpermissions)
   - [Managing User Groups](#managing-user-groups)
-      - [addGroup()](#addgroup)
-      - [removeGroup()](#removegroup)
-      - [syncGroups()](#syncgroups)
-      - [getGroups()](#getgroups)
+    - [addGroup()](#addgroup)
+    - [removeGroup()](#removegroup)
+    - [syncGroups()](#syncgroups)
+    - [getGroups()](#getgroups)
+  - [User Activation](#user-activation)
+    - [Checking Activation Status](#checking-activation-status)
+    - [Activating a User](#activating-a-user)
+    - [Deactivating a User](#deactivating-a-user)
 
 Authorization happens once a user has been identified through authentication. It is the process of
 determining what actions a user is allowed to do within your site.
@@ -35,7 +38,7 @@ Groups are defined within the `Shield\Config\AuthGroups` config class.
 
 ```php
 
-public $groups = [
+public array $groups = [
     'superadmin' => [
         'title'       => 'Super Admin',
         'description' => 'Optional description of the group.',
@@ -50,10 +53,10 @@ group elsewhere, like checking if `$user->inGroup('superadmin')`. By default, th
 ### Default User Group
 
 When a user is first registered on the site, they are assigned to a default user group. This group is defined in
-`app/config/AuthGroups::defaultGroup`, and must match the name of one of the defined groups.
+`Config\AuthGroups::$defaultGroup`, and must match the name of one of the defined groups.
 
 ```php
-public $defaultGroup = 'users';
+public string $defaultGroup = 'user';
 ```
 
 ## Defining Available Permissions
@@ -63,7 +66,7 @@ a scope and action, like `users.create`. The scope would be `users` and the acti
 can have a description for display within UIs if needed.
 
 ```php
-public $permissions = [
+public array $permissions = [
     'admin.access'        => 'Can access the sites admin area',
     'admin.settings'      => 'Can access the main site settings',
     'users.manage-admins' => 'Can manage other admins',
@@ -77,19 +80,27 @@ public $permissions = [
 ## Assigning Permissions to Groups
 
 In order to grant any permissions to a group, they must have the permission assigned to the group, within the `AuthGroups`
-config file, under the `$matrix` property. The matrix is an associative array with the group name as the key,
+config file, under the `$matrix` property.
+
+> **Note** This defines **group-level permissons**.
+
+The matrix is an associative array with the group name as the key,
 and an array of permissions that should be applied to that group.
 
 ```php
-public $matrix = [
-    'admin' => ['admin.access', 'users.create', 'users.edit', 'users.delete', 'beta.access'],
+public array $matrix = [
+    'admin' => [
+        'admin.access',
+        'users.create', 'users.edit', 'users.delete',
+        'beta.access'
+    ],
 ];
 ```
 
 You can use a wildcard within a scope to allow all actions within that scope, by using a `*` in place of the action.
 
 ```php
-public $matrix = [
+public array $matrix = [
     'superadmin' => ['admin.*', 'users.*', 'beta.*'],
 ];
 ```
@@ -101,8 +112,8 @@ The `Authorizable` trait on the `User` entity provides the following methods to 
 #### can()
 
 Allows you to check if a user is permitted to do a specific action. The only argument is the permission string. Returns
-boolean `true`/`false`. Will check the user's direct permissions first, and then check against all of the user's groups
-permissions to determine if they are allowed.
+boolean `true`/`false`. Will check the user's direct permissions (**user-level permissions**) first, and then check against all of the user's groups
+permissions (**group-level permissions**) to determine if they are allowed.
 
 ```php
 if ($user->can('users.create')) {
@@ -130,27 +141,37 @@ if (! $user->hasPermission('users.create')) {
 }
 ```
 
-#### Authorizing via Filters
-
-You can restrict access to multiple routes through a [Controller Filter](https://codeigniter.com/user_guide/incoming/filters.html). One is provided for both restricting via groups the user belongs to, as well as which permission they need. The filters are automatically registered with the system under the `group` and `permission` aliases, respectively. You can define the protections within `app/Config/Filters.php`:
-
-```php
-public $filters = [
-    'group:admin,superadmin' => ['before' => ['admin/*']],
-    'permission:users.manage' => ['before' => ['admin/users/*']],
-];
-```
+> **Note** This method checks only **user-level permissions**, and does not check
+> group-level permissions. If you want to check if the user can do something,
+> use the `$user->can()` method instead.
 
 #### Authorizing via Routes
 
-The filters can also be used on a route or route group level:
+You can restrict access to a route or route group through a
+[Controller Filter](https://codeigniter.com/user_guide/incoming/filters.html).
+
+One is provided for restricting via groups the user belongs to, the other
+is for permission they need. The filters are automatically registered with the
+system under the `group` and `permission` aliases, respectively.
+
+You can set the filters within **app/Config/Routes.php**:
 
 ```php
 $routes->group('admin', ['filter' => 'group:admin,superadmin'], static function ($routes) {
-    $routes->resource('users');
+    $routes->group(
+        '',
+        ['filter' => ['group:admin,superadmin', 'permission:users.manage']],
+        static function ($routes) {
+            $routes->resource('users');
+        }
+    );
 });
-
 ```
+
+Note that the options (`filter`) passed to the outer `group()` are not merged with the inner `group()` options.
+
+> **Note** If you set more than one filter to a route, you need to enable
+> [Multiple Filters](https://codeigniter.com/user_guide/incoming/routing.html#multiple-filters).
 
 ## Managing User Permissions
 
@@ -159,7 +180,7 @@ override the group, so it's possible that a user can perform an action that thei
 
 #### addPermission()
 
-Adds one or more permissions to the user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
+Adds one or more **user-level** permissions to the user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
 is thrown.
 
 ```php
@@ -168,7 +189,7 @@ $user->addPermission('users.create', 'users.edit');
 
 #### removePermission()
 
-Removes one or more permissions from a user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
+Removes one or more **user-level** permissions from a user. If a permission doesn't exist, a `CodeIgniter\Shield\Authorization\AuthorizationException`
 is thrown.
 
 ```php
@@ -177,7 +198,7 @@ $user->removePermission('users.delete');
 
 #### syncPermissions()
 
-Updates the user's permissions to only include the permissions in the given list. Any existing permissions on that user
+Updates the user's **user-level** permissions to only include the permissions in the given list. Any existing permissions on that user
 not in this list will be removed.
 
 ```php
@@ -186,11 +207,13 @@ $user->syncPermissions('admin.access', 'beta.access');
 
 #### getPermissions()
 
-Returns all permissions this user has assigned directly to them.
+Returns all **user-level** permissions this user has assigned directly to them.
 
 ```php
 $user->getPermissions();
 ```
+
+> **Note** This method does not return **group-level permissions**.
 
 ## Managing User Groups
 
@@ -227,4 +250,44 @@ Returns all groups this user is a part of.
 
 ```php
 $user->getGroups();
+```
+
+## User Activation
+
+All users have an `active` flag. This is only used when the [`EmailActivation` action](./auth_actions.md), or a custom action used to activate a user, is enabled.
+
+### Checking Activation Status
+
+You can determine if a user has been activated with the `isActivated()` method.
+
+```php
+if ($user->isActivated()) {
+    //
+}
+```
+
+> **Note** If no activator is specified in the `Auth` config file, `actions['register']` property, then this will always return `true`.
+
+You can check if a user has not been activated yet via the `isNotActivated()` method.
+
+```php
+if ($user->isNotActivated()) {
+    //
+}
+```
+
+### Activating a User
+
+Users are automatically activated within the `EmailActivator` action. They can be manually activated via the `activate()` method on the `User` entity.
+
+```php
+$user->activate();
+```
+
+### Deactivating a User
+
+Users can be manually deactivated via the `deactivate()` method on the `User` entity.
+
+```php
+$user->deactivate();
 ```

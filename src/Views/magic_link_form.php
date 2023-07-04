@@ -1,4 +1,9 @@
-<?= $this->extend(config('Auth')->views['layout']) ?>
+<?php declare(strict_types=1);
+
+use CodeIgniter\Shield\Config\Auth;
+
+?>
+<?= $this->extend(config(Auth::class)->views['layout']) ?>
 
 <?= $this->section('title') ?><?= lang('Auth.useMagicLink') ?> <?= $this->endSection() ?>
 
@@ -38,6 +43,8 @@
                 </div>
 
             </form>
+
+            <p class="text-center"><a href="<?= url_to('login') ?>"><?= lang('Auth.backToLogin') ?></a></p>
         </div>
     </div>
 </div>

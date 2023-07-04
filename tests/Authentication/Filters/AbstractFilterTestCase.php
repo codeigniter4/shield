@@ -13,7 +13,7 @@ use Tests\Support\TestCase;
 /**
  * @internal
  */
-abstract class AbstractFilterTest extends TestCase
+abstract class AbstractFilterTestCase extends TestCase
 {
     use FeatureTestTrait;
     use AuthenticationTesting;

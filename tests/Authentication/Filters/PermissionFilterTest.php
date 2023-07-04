@@ -12,7 +12,7 @@ use CodeIgniter\Test\DatabaseTestTrait;
 /**
  * @internal
  */
-final class PermissionFilterTest extends AbstractFilterTest
+final class PermissionFilterTest extends AbstractFilterTestCase
 {
     use DatabaseTestTrait;
 

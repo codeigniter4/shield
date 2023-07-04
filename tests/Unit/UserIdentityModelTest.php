@@ -10,6 +10,7 @@ use CodeIgniter\Shield\Models\DatabaseException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
+use CodeIgniter\Test\Fabricator;
 use Tests\Support\TestCase;
 
 /**
@@ -71,5 +72,31 @@ final class UserIdentityModelTest extends TestCase
             ],
             $generator
         );
+    }
+
+    public function testForceMultiplePasswordReset(): void
+    {
+        /** @var Fabricator $fabricator */
+        $fabricator = new Fabricator(UserIdentityModel::class);
+        $fabricator->create(10);
+
+        /** @var UserIdentityModel $identities */
+        $identities = model(UserIdentityModel::class);
+        $result     = $identities->select('user_id')->findAll();
+        $userIds    = [];
+
+        foreach ($result as $row) {
+            $userIds[] = $row->user_id;
+        }
+
+        $identities->forceMultiplePasswordReset($userIds);
+
+        /** @var UserModel $users */
+        $users      = model(UserModel::class);
+        $first_user = $users->findById($userIds[0]);
+        $last_user  = $users->findById($userIds[9]);
+
+        $this->assertTrue($first_user->requiresPasswordReset());
+        $this->assertTrue($last_user->requiresPasswordReset());
     }
 }

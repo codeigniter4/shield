@@ -90,6 +90,7 @@ final class UserModelGeneratorTest extends CIUnitTestCase
         $this->assertStringContainsString('class UserModel extends ShieldUserModel', $contents);
         $this->assertStringContainsString('use CodeIgniter\Shield\Models\UserModel as ShieldUserModel;', $contents);
         $this->assertStringContainsString('protected function initialize(): void', $contents);
+        $this->assertStringContainsString('parent::initialize();', $contents);
     }
 
     public function testGenerateUserModelCustomNamespace(): void

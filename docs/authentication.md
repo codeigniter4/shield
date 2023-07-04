@@ -50,8 +50,8 @@ public $defaultAuthenticator = 'session';
 ## Auth Helper
 
 The auth functionality is designed to be used with the `auth_helper` that comes with Shield. This
-helper method provides the `auth()` command which returns a convenient interface to the most frequently
-used functionality within the auth libraries. This must be loaded before it can be used.
+helper method provides the `auth()` function which returns a convenient interface to the most frequently
+used functionality within the auth libraries.
 
 ```php
 // get the current user
@@ -61,16 +61,19 @@ auth()->user();
 auth()->id();
 // or
 user_id();
+
+// get the User Provider (UserModel by default)
+auth()->getProvider();
 ```
 
 > **Note**
 > The `auth_helper` is autoloaded by Composer. If you want to *override* the functions,
-> you need to define them in `app/Common.php`.
+> you need to define them in **app/Common.php**.
 
 ## Authenticator Responses
 
 Many of the authenticator methods will return a `CodeIgniter\Shield\Result` class. This provides a consistent
-way of checking the results and can have additional information return along with it. The class
+way of checking the results and can have additional information returned along with it. The class
 has the following methods:
 
 ### isOK()

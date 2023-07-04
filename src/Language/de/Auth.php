@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeIgniter\Shield\Language\de;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} ist kein gültiger Authentifikator.',
     'unknownUserProvider'   => 'Der zu verwendende User Provider konnte nicht ermittelt werden.',
     'invalidUser'           => 'Der angegebene Benutzer kann nicht gefunden werden.',
+    'bannedUser'            => 'Anmelden nicht möglich da Ihr Benutzer derzeit gesperrt ist.',
+    'logOutBannedUser'      => 'Ihr Benutzer wurde abgemeldet und gesperrt.',
     'badAttempt'            => 'Sie konnten nicht angemeldet werden. Bitte überprüfen Sie Ihre Anmeldedaten.',
     'noPassword'            => 'Kann einen Benutzer ohne Passwort nicht validieren.',
     'invalidPassword'       => 'Sie können nicht angemeldet werden. Bitte überprüfen Sie Ihr Passwort.',
@@ -20,6 +20,10 @@ return [
     'unableSendEmailToUser' => 'Leider gab es ein Problem beim Senden der E-Mail. Wir konnten keine E-Mail an "{0}" senden.',
     'throttled'             => 'Es wurden zu viele Anfragen von dieser IP-Adresse gestellt. Sie können es in {0} Sekunden erneut versuchen.',
     'notEnoughPrivilege'    => 'Sie haben nicht die erforderliche Berechtigung, um den gewünschten Vorgang auszuführen.',
+    // JWT Exceptions
+    'invalidJWT'     => '(To be translated) The token is invalid.',
+    'expiredJWT'     => '(To be translated) The token has expired.',
+    'beforeValidJWT' => '(To be translated) The token is not yet available.',
 
     'email'           => 'E-Mail-Adresse',
     'username'        => 'Benutzername',
@@ -48,6 +52,7 @@ return [
     'checkYourEmail'     => 'Prüfen Sie Ihre E-Mail!',
     'magicLinkDetails'   => 'Wir haben Ihnen gerade eine E-Mail mit einem Login-Link geschickt. Er ist nur für {0} Minuten gültig.',
     'successLogout'      => 'Sie haben sich erfolgreich abgemeldet.',
+    'backToLogin'        => 'Zurück zur Anmeldung',
 
     // Passwords
     'errorPasswordLength'       => 'Passwörter müssen mindestens {0, number} Zeichen lang sein.',
@@ -61,6 +66,7 @@ return [
     'errorPasswordPwned'        => 'Das Passwort {0} wurde aufgrund einer Datenschutzverletzung aufgedeckt und wurde {1, number} Mal in {2} kompromittierten Passwörtern gesehen.',
     'suggestPasswordPwned'      => '{0} sollte niemals als Passwort verwendet werden. Wenn Sie es irgendwo verwenden, ändern Sie es sofort.',
     'errorPasswordEmpty'        => 'Ein Passwort ist erforderlich.',
+    'errorPasswordTooLongBytes' => 'Das Passwort darf die Länge von {param} Bytes nicht überschreiten.',
     'passwordChangeSuccess'     => 'Passwort erfolgreich geändert',
     'userDoesNotExist'          => 'Passwort wurde nicht geändert. Der Benutzer existiert nicht',
     'resetTokenExpired'         => 'Tut mir leid. Ihr Reset-Token ist abgelaufen.',
@@ -88,7 +94,8 @@ return [
     'emailActivateSubject'  => 'Ihr Aktivierungscode',
     'emailActivateMailBody' => 'Bitte verwenden Sie den unten stehenden Code, um Ihr Konto zu aktivieren und die Website zu nutzen.',
     'invalidActivateToken'  => 'Der Code war falsch.',
-    'needActivate'          => '(To be translated) You must complete your registration by confirming the code sent to your email address.',
+    'needActivate'          => 'Sie müssen Ihre Anmeldung abschließen, indem Sie den an Ihre E-Mail-Adresse gesendeten Code bestätigen.',
+    'activationBlocked'     => 'Bevor Sie sich anmelden können muss das Konto aktiviert werden.',
 
     // Groups
     'unknownGroup' => '{0} ist eine ungültige Gruppe.',

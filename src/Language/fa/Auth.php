@@ -2,22 +2,13 @@
 
 declare(strict_types=1);
 
-/**
- * This file is part of CodeIgniter 4 framework.
- *
- * (c) CodeIgniter Foundation <admin@codeigniter.com>
- *
- * For the full copyright and license information, please view
- * the LICENSE file that was distributed with this source code.
- */
-
-namespace CodeIgniter\Shield\Language\fa;
-
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} احراز هویت معتبری نمی باشد.',
     'unknownUserProvider'   => 'قادر به تعیین ارائه دهنده کاربر برای استفاده نیست.',
     'invalidUser'           => 'قادر به پیداکردن کاربر مشخص شده نیست',
+    'bannedUser'            => 'در حال حاضر نمی توانید وارد شوید، چون مسدود شده اید.',
+    'logOutBannedUser'      => 'شما به دلیل مسدود شدن، از سیستم خارج شده اید.',
     'badAttempt'            => 'امکان ورود به سیستم نیست. لطفا اعتبارنامه خود را بررسی کنید.',
     'noPassword'            => 'تایید کاربر بدون رمز عبور ممکن نیست.',
     'invalidPassword'       => 'ناتوان در ورود به سیستم. لطفا رمز عبور خود را بررسی کنید.',
@@ -29,6 +20,10 @@ return [
     'unableSendEmailToUser' => 'متاسفانه, در ارسال ایمیل مشکلی پیش آمد. ما نتوانستیم ایمیلی را به "{0}" ارسال کنیم.',
     'throttled'             => 'درخواست های بسیار زیادی از این آدرس IP انجام شده است. می توانید بعد از {0} ثانیه دوباره امتحان کنید.',
     'notEnoughPrivilege'    => 'شما مجوز لازم برای انجام عملیات مورد نظر را ندارید.',
+    // JWT Exceptions
+    'invalidJWT'     => 'توکن معتبر نمی باشد.',
+    'expiredJWT'     => 'توکن منقضی شده است.',
+    'beforeValidJWT' => 'در حال حاضر امکان استفاده از توکن وجود ندارد.',
 
     'email'           => 'آدرس ایمیل',
     'username'        => 'نام کاربری',
@@ -57,6 +52,7 @@ return [
     'checkYourEmail'     => 'ایمیلتان را بررسی کنید!',
     'magicLinkDetails'   => 'ما فقط یک لینک ورود به ایمیلتان ارسال کردیم. این لینک فقط برای {0} دقیقه معتبر خواهد بود.',
     'successLogout'      => 'با موفقیت خارج شدید.',
+    'backToLogin'        => 'بازگشت به ورود به سیستم',
 
     // Passwords
     'errorPasswordLength'       => 'طول رمز های عبور باید حداقل {0, number} کاراکتر باشد.',
@@ -70,6 +66,7 @@ return [
     'errorPasswordPwned'        => 'رمز عبور {0} با توجه به نقض داده ها و دیده شدن {1, number} بارها داخل رمز های عبور {2} به پسورد های ناامن تبدیل شده و در معرض قرار گرفته است.',
     'suggestPasswordPwned'      => '{0} هرگز نباید به عنوان رمز عبور استفاده شود. اگر در هر جایی از آن استفاده می کنید سریعا آن را تغییر دهید.',
     'errorPasswordEmpty'        => 'رمز عبور الزامی است.',
+    'errorPasswordTooLongBytes' => 'طول رمز عبور نمی تواند از {param} بایت بیشتر باشد.',
     'passwordChangeSuccess'     => 'رمز عبور با موفقیت تغییر کرد',
     'userDoesNotExist'          => 'رمز عبور تغییر نکرد. کاربر وجود ندارد.',
     'resetTokenExpired'         => 'متاسفانه، توکن بازنشانی شما منقضی شده است.',
@@ -98,6 +95,7 @@ return [
     'emailActivateMailBody' => 'لطفا برای فعالسازی حساب کاربری و استفاده از سایت از کد زیر استفاده کنید.',
     'invalidActivateToken'  => 'کد صحیح نمی باشد.',
     'needActivate'          => 'شما باید با ارائه کد ارسال شده به ایمیلتان، ثبت نام را تکمیل کنید.',
+    'activationBlocked'     => 'قبل از تلاش برای ورود، باید اکانت خود را فعال کنید.',
 
     // Groups
     'unknownGroup' => '{0} گروهی معتبر نیست.',

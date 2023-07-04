@@ -13,6 +13,7 @@ use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
@@ -89,8 +90,7 @@ class Session implements AuthenticatorInterface
      */
     private function checkSecurityConfig(): void
     {
-        /** @var Security $securityConfig */
-        $securityConfig = config('Security');
+        $securityConfig = config(Security::class);
 
         if ($securityConfig->csrfProtection === 'cookie') {
             throw new SecurityException(
@@ -146,6 +146,15 @@ class Session implements AuthenticatorInterface
 
         /** @var User $user */
         $user = $result->extraInfo();
+
+        if ($user->isBanned()) {
+            $this->user = null;
+
+            return new Result([
+                'success' => false,
+                'reason'  => $user->getBanMessage() ?? lang('Auth.bannedUser'),
+            ]);
+        }
 
         $this->user = $user;
 
@@ -255,14 +264,6 @@ class Session implements AuthenticatorInterface
     }
 
     /**
-     * Activate a User
-     */
-    public function activateUser(User $user): void
-    {
-        $this->provider->activate($user);
-    }
-
-    /**
      * @param int|string|null $userId
      */
     private function recordLoginAttempt(
@@ -272,13 +273,28 @@ class Session implements AuthenticatorInterface
         string $userAgent,
         $userId = null
     ): void {
-        $idType = (! isset($credentials['email']) && isset($credentials['username']))
-            ? self::ID_TYPE_USERNAME
-            : self::ID_TYPE_EMAIL_PASSWORD;
+        // Determine the type of ID we're using.
+        // Standard fields would be email, username,
+        // but any column within config(Auth::class)->validFields can be used.
+        $field = array_intersect(config(Auth::class)->validFields ?? [], array_keys($credentials));
+
+        if (count($field) !== 1) {
+            throw new InvalidArgumentException('Invalid credentials passed to recordLoginAttempt.');
+        }
+
+        $field = array_pop($field);
+
+        if (! in_array($field, ['email', 'username'], true)) {
+            $idType = $field;
+        } else {
+            $idType = (! isset($credentials['email']) && isset($credentials['username']))
+                ? self::ID_TYPE_USERNAME
+                : self::ID_TYPE_EMAIL_PASSWORD;
+        }
 
         $this->loginModel->recordLoginAttempt(
             $idType,
-            $credentials['email'] ?? $credentials['username'],
+            $credentials[$field],
             $success,
             $ipAddress,
             $userAgent,
@@ -320,19 +336,30 @@ class Session implements AuthenticatorInterface
         /** @var Passwords $passwords */
         $passwords = service('passwords');
 
+        // This is only for supportOldDangerousPassword.
+        $needsRehash = false;
+
         // Now, try matching the passwords.
         if (! $passwords->verify($givenPassword, $user->password_hash)) {
-            return new Result([
-                'success' => false,
-                'reason'  => lang('Auth.invalidPassword'),
-            ]);
+            if (
+                ! setting('Auth.supportOldDangerousPassword')
+                || ! $passwords->verifyDanger($givenPassword, $user->password_hash) // @phpstan-ignore-line
+            ) {
+                return new Result([
+                    'success' => false,
+                    'reason'  => lang('Auth.invalidPassword'),
+                ]);
+            }
+
+            // Passed with old dangerous password.
+            $needsRehash = true;
         }
 
         // Check to see if the password needs to be rehashed.
         // This would be due to the hash algorithm or hash
         // cost changing since the last time that a user
         // logged in.
-        if ($passwords->needsRehash($user->password_hash)) {
+        if ($passwords->needsRehash($user->password_hash) || $needsRehash) {
             $user->password_hash = $passwords->hash($givenPassword);
             $this->provider->save($user);
         }

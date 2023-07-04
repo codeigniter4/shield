@@ -47,7 +47,12 @@ nav:
   - Events: events.md
   - Testing: testing.md
   - Customization: customization.md
+  - Forcing Password Reset: forcing_password_reset.md
+  - Banning Users: banning_users.md
   - session_auth_event_and_logging.md
   - Guides:
     - guides/api_tokens.md
     - guides/mobile_apps.md
+    - guides/strengthen_password.md
+  - Addons:
+    - JWT Authentication: addons/jwt.md

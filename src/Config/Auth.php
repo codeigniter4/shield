@@ -8,6 +8,7 @@ use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
+use CodeIgniter\Shield\Authentication\Authenticators\JWT;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords\CompositionValidator;
 use CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator;
@@ -18,6 +19,10 @@ use CodeIgniter\Shield\Models\UserModel;
 
 class Auth extends BaseConfig
 {
+    public const RECORD_LOGIN_ATTEMPT_NONE    = 0; // Do not record at all
+    public const RECORD_LOGIN_ATTEMPT_FAILURE = 1; // Record only failures
+    public const RECORD_LOGIN_ATTEMPT_ALL     = 2; // Record all login attempts
+
     /**
      * ////////////////////////////////////////////////////////////////////
      * AUTHENTICATION
@@ -39,6 +44,43 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Customize the DB group used for each model
+     * --------------------------------------------------------------------
+     */
+    public ?string $DBGroup = null;
+
+    /**
+     * --------------------------------------------------------------------
+     * Customize Name of Shield Tables
+     * --------------------------------------------------------------------
+     * Only change if you want to rename the default Shield table names
+     *
+     * It may be necessary to change the names of the tables for
+     * security reasons, to prevent the conflict of table names,
+     * the internal policy of the companies or any other reason.
+     *
+     * - users                  Auth Users Table, the users info is stored.
+     * - auth_identities        Auth Identities Table, Used for storage of passwords, access tokens, social login identities, etc.
+     * - auth_logins            Auth Login Attempts, Table records login attempts.
+     * - auth_token_logins      Auth Token Login Attempts Table, Records Bearer Token type login attempts.
+     * - auth_remember_tokens   Auth Remember Tokens (remember-me) Table.
+     * - auth_groups_users      Groups Users Table.
+     * - auth_permissions_users Users Permissions Table.
+     *
+     * @var array<string, string>
+     */
+    public array $tables = [
+        'users'             => 'users',
+        'identities'        => 'auth_identities',
+        'logins'            => 'auth_logins',
+        'token_logins'      => 'auth_token_logins',
+        'remember_tokens'   => 'auth_remember_tokens',
+        'groups_users'      => 'auth_groups_users',
+        'permissions_users' => 'auth_permissions_users',
+    ];
+
+    /**
+     * --------------------------------------------------------------------
      * Redirect URLs
      * --------------------------------------------------------------------
      * The default URL that a user will be redirected to after various auth
@@ -52,9 +94,10 @@ class Auth extends BaseConfig
      * to apply any logic you may need.
      */
     public array $redirects = [
-        'register' => '/',
-        'login'    => '/',
-        'logout'   => 'login',
+        'register'    => '/',
+        'login'       => '/',
+        'logout'      => 'login',
+        'force_reset' => '/',
     ];
 
     /**
@@ -91,6 +134,7 @@ class Auth extends BaseConfig
     public array $authenticators = [
         'tokens'  => AccessTokens::class,
         'session' => Session::class,
+        // 'jwt'     => JWT::class,
     ];
 
     /**
@@ -137,6 +181,7 @@ class Auth extends BaseConfig
     public array $authenticationChain = [
         'session',
         'tokens',
+        // 'jwt',
     ];
 
     /**
@@ -153,6 +198,9 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * If true, will always update the `last_active` datetime for the
      * logged in user on every page request.
+     * This feature only works when session/tokens filter is active.
+     *
+     * @see https://codeigniter4.github.io/shield/install/#protect-all-pages for set filters.
      */
     public bool $recordActiveDate = true;
 
@@ -327,6 +375,16 @@ class Auth extends BaseConfig
     public int $hashCost = 10;
 
     /**
+     * If you need to support passwords saved in versions prior to Shield v1.0.0-beta.4.
+     * set this to true.
+     *
+     * See https://github.com/codeigniter4/shield/security/advisories/GHSA-c5vj-f36q-p9vg
+     *
+     * @deprecated This is only for backward compatibility.
+     */
+    public bool $supportOldDangerousPassword = false;
+
+    /**
      * ////////////////////////////////////////////////////////////////////
      * OTHER SETTINGS
      * ////////////////////////////////////////////////////////////////////
@@ -374,6 +432,17 @@ class Auth extends BaseConfig
     public function registerRedirect(): string
     {
         $url = setting('Auth.redirects')['register'];
+
+        return $this->getUrl($url);
+    }
+
+    /**
+     * Returns the URL the user should be redirected to
+     * if force_reset identity is set to true.
+     */
+    public function forcePasswordResetRedirect(): string
+    {
+        $url = setting('Auth.redirects')['force_reset'];
 
         return $this->getUrl($url);
     }

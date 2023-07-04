@@ -56,7 +56,7 @@ class Auth extends BaseCollector
      */
     public function getTitleDetails(): string
     {
-        return get_class($this->auth->getAuthenticator());
+        return ShieldAuth::SHIELD_VERSION . ' | ' . get_class($this->auth->getAuthenticator());
     }
 
     /**

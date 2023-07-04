@@ -6,6 +6,7 @@ namespace CodeIgniter\Shield\Authentication\Passwords;
 
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\Shield\Authentication\Passwords;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 
 /**
@@ -39,6 +40,7 @@ class ValidationRules
         if (function_exists('auth') && auth()->user()) {
             $user = auth()->user();
         } else {
+            /** @phpstan-ignore-next-line */
             $user = empty($data) ? $this->buildUserFromRequest() : $this->buildUserFromData($data);
         }
 
@@ -56,7 +58,19 @@ class ValidationRules
     }
 
     /**
+     * Returns true if $str is $val or fewer bytes in length.
+     */
+    public function max_byte(?string $str, string $val): bool
+    {
+        return is_numeric($val) && $val >= strlen($str ?? '');
+    }
+
+    /**
      * Builds a new user instance from the global request.
+     *
+     * @deprecated This will be removed soon.
+     *
+     * @see https://github.com/codeigniter4/shield/pull/747#discussion_r1198778666
      */
     protected function buildUserFromRequest(): User
     {
@@ -89,7 +103,7 @@ class ValidationRules
      */
     protected function prepareValidFields(): array
     {
-        $config   = config('Auth');
+        $config   = config(Auth::class);
         $fields   = array_merge($config->validFields, $config->personalFields);
         $fields[] = 'password';
 

@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
@@ -67,10 +68,7 @@ class Email2FA implements ActionInterface
             return redirect()->route('auth-action-show')->with('error', lang('Auth.invalidEmail'));
         }
 
-        /** @var UserIdentityModel $identityModel */
-        $identityModel = model(UserIdentityModel::class);
-
-        $identity = $identityModel->getIdentityByType($user, $this->type);
+        $identity = $this->getIdentity($user);
 
         if (empty($identity)) {
             return redirect()->route('auth-action-show')->with('error', lang('Auth.need2FA'));
@@ -123,7 +121,7 @@ class Email2FA implements ActionInterface
         }
 
         // Get our login redirect url
-        return redirect()->to(config('Auth')->loginRedirect());
+        return redirect()->to(config(Auth::class)->loginRedirect());
     }
 
     /**

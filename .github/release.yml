@@ -15,6 +15,9 @@ changelog:
     - title: Enhancements
       labels:
         - enhancement
+    - title: Translations
+      labels:
+        - lang
     - title: Refactoring
       labels:
         - refactor

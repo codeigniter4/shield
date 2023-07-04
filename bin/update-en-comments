@@ -1,0 +1,107 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of CodeIgniter 4 framework.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+require __DIR__ . '/../vendor/codeigniter4/framework/system/Test/bootstrap.php';
+
+use CodeIgniter\CLI\CLI;
+
+helper('filesystem');
+
+if ($argc !== 2) {
+    CLI::error('Please specify a locale.');
+
+    exit(1);
+}
+
+$locale = $argv[1];
+
+$langDir = realpath(__DIR__ . '/../src/Language/' . $locale);
+
+if (! is_dir($langDir)) {
+    CLI::error('No such directory: "' . $langDir . '"');
+
+    exit(1);
+}
+
+$enDir = realpath(__DIR__ . '/../src/Language/en');
+
+if (! is_dir($enDir)) {
+    CLI::error('No "Language/en" directory. Please run "composer update".');
+
+    exit(1);
+}
+
+$files = get_filenames(
+    $langDir,
+    true,
+    false,
+    false
+);
+
+$enFiles = get_filenames(
+    $enDir,
+    true,
+    false,
+    false
+);
+
+foreach ($enFiles as $enFile) {
+    $temp     = $langDir . '/' . substr($enFile, strlen($enDir) + 1);
+    $langFile = realpath($temp) ?: $temp;
+
+    if (! is_file($langFile)) {
+        CLI::error('No such file: "' . $langFile . '"');
+
+        continue;
+    }
+
+    $enFileLines = file($enFile);
+
+    $items = [];
+
+    $pattern = '/(.*)\'([a-zA-Z0-9_]+?)\'(\s*=>\s*)([\'"].+[\'"]),/u';
+
+    foreach ($enFileLines as $line) {
+        if (preg_match($pattern, $line, $matches)) {
+            $items[] = [$matches[2] => $matches[4]];
+        }
+    }
+
+    $langFileLines = file($langFile);
+
+    $newLangFile = '';
+
+    $itemNo = 0;
+
+    foreach ($langFileLines as $line) {
+        // Remove en value comment.
+        if (preg_match('!(.*,)(\s*//.*)$!u', $line, $matches)) {
+            $line = $matches[1] . "\n";
+        }
+
+        if (preg_match($pattern, $line, $matches) === 0) {
+            $newLangFile .= $line;
+        } else {
+            $indent = $matches[1];
+            $key    = $matches[2];
+            $arrow  = $matches[3];
+            $value  = $matches[4];
+
+            $newLangFile .= $indent . "'" . $key . "'" . $arrow . $value
+                . ', // ' . $items[$itemNo][array_key_first($items[$itemNo])] . "\n";
+            $itemNo++;
+        }
+    }
+
+    file_put_contents($langFile, $newLangFile);
+    CLI::write('Updated: ' . $langFile);
+}

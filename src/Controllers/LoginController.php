@@ -7,6 +7,9 @@ namespace CodeIgniter\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Authentication\Passwords;
+use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Config\AuthSession;
 use CodeIgniter\Shield\Traits\Viewable;
 
 class LoginController extends BaseController
@@ -23,7 +26,7 @@ class LoginController extends BaseController
     public function loginView()
     {
         if (auth()->loggedIn()) {
-            return redirect()->to(config('Auth')->loginRedirect());
+            return redirect()->to(config(Auth::class)->loginRedirect());
         }
 
         /** @var Session $authenticator */
@@ -46,11 +49,12 @@ class LoginController extends BaseController
         // like the password, can only be validated properly here.
         $rules = $this->getValidationRules();
 
-        if (! $this->validate($rules)) {
+        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $credentials             = $this->request->getPost(setting('Auth.validFields'));
+        /** @var array $credentials */
+        $credentials             = $this->request->getPost(setting('Auth.validFields')) ?? [];
         $credentials             = array_filter($credentials);
         $credentials['password'] = $this->request->getPost('password');
         $remember                = (bool) $this->request->getPost('remember');
@@ -69,7 +73,7 @@ class LoginController extends BaseController
             return redirect()->route('auth-action-show')->withCookies();
         }
 
-        return redirect()->to(config('Auth')->loginRedirect())->withCookies();
+        return redirect()->to(config(Auth::class)->loginRedirect())->withCookies();
     }
 
     /**
@@ -83,15 +87,18 @@ class LoginController extends BaseController
         return setting('Validation.login') ?? [
             // 'username' => [
             //     'label' => 'Auth.username',
-            //     'rules' => config('AuthSession')->usernameValidationRules,
+            //     'rules' => config(AuthSession::class)->usernameValidationRules,
             // ],
             'email' => [
                 'label' => 'Auth.email',
-                'rules' => config('AuthSession')->emailValidationRules,
+                'rules' => config(AuthSession::class)->emailValidationRules,
             ],
             'password' => [
-                'label' => 'Auth.password',
-                'rules' => 'required',
+                'label'  => 'Auth.password',
+                'rules'  => 'required|' . Passwords::getMaxLengthRule(),
+                'errors' => [
+                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
+                ],
             ],
         ];
     }
@@ -103,7 +110,7 @@ class LoginController extends BaseController
     {
         // Capture logout redirect URL before auth logout,
         // otherwise you cannot check the user in `logoutRedirect()`.
-        $url = config('Auth')->logoutRedirect();
+        $url = config(Auth::class)->logoutRedirect();
 
         auth()->logout();
 

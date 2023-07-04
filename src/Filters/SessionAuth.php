@@ -11,6 +11,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Config\Auth;
 
 /**
  * Session Authentication Filter.
@@ -47,6 +48,24 @@ class SessionAuth implements FilterInterface
         if ($authenticator->loggedIn()) {
             if (setting('Auth.recordActiveDate')) {
                 $authenticator->recordActiveDate();
+            }
+
+            // Block inactive users when Email Activation is enabled
+            $user = $authenticator->getUser();
+
+            if ($user->isBanned()) {
+                $error = $user->getBanMessage() ?? lang('Auth.logOutBannedUser');
+                $authenticator->logout();
+
+                return redirect()->to(config(Auth::class)->logoutRedirect())
+                    ->with('error', $error);
+            }
+
+            if ($user !== null && ! $user->isActivated()) {
+                $authenticator->logout();
+
+                return redirect()->route('login')
+                    ->with('error', lang('Auth.activationBlocked'));
             }
 
             return;

@@ -10,6 +10,7 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\LogicException;
@@ -111,10 +112,10 @@ class EmailActivator implements ActionInterface
         $user = $authenticator->getUser();
 
         // Set the user active now
-        $authenticator->activateUser($user);
+        $user->activate();
 
         // Success!
-        return redirect()->to(config('Auth')->registerRedirect())
+        return redirect()->to(config(Auth::class)->registerRedirect())
             ->with('message', lang('Auth.registerSuccess'));
     }
 

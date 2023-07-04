@@ -7,11 +7,17 @@ namespace CodeIgniter\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Authentication\Passwords;
+use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Config\AuthSession;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Traits\Viewable;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class RegisterController
@@ -26,6 +32,26 @@ class RegisterController extends BaseController
     protected $helpers = ['setting'];
 
     /**
+     * Auth Table names
+     */
+    private array $tables;
+
+    public function initController(
+        RequestInterface $request,
+        ResponseInterface $response,
+        LoggerInterface $logger
+    ): void {
+        parent::initController(
+            $request,
+            $response,
+            $logger
+        );
+
+        $authConfig   = config(Auth::class);
+        $this->tables = $authConfig->tables;
+    }
+
+    /**
      * Displays the registration form.
      *
      * @return RedirectResponse|string
@@ -33,7 +59,7 @@ class RegisterController extends BaseController
     public function registerView()
     {
         if (auth()->loggedIn()) {
-            return redirect()->to(config('Auth')->registerRedirect());
+            return redirect()->to(config(Auth::class)->registerRedirect());
         }
 
         // Check if registration is allowed
@@ -59,7 +85,7 @@ class RegisterController extends BaseController
     public function registerAction(): RedirectResponse
     {
         if (auth()->loggedIn()) {
-            return redirect()->to(config('Auth')->registerRedirect());
+            return redirect()->to(config(Auth::class)->registerRedirect());
         }
 
         // Check if registration is allowed
@@ -74,7 +100,7 @@ class RegisterController extends BaseController
         // like the password, can only be validated properly here.
         $rules = $this->getValidationRules();
 
-        if (! $this->validate($rules)) {
+        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
@@ -114,12 +140,12 @@ class RegisterController extends BaseController
         }
 
         // Set the user active
-        $authenticator->activateUser($user);
+        $user->activate();
 
         $authenticator->completeLogin($user);
 
         // Success!
-        return redirect()->to(config('Auth')->registerRedirect())
+        return redirect()->to(config(Auth::class)->registerRedirect())
             ->with('message', lang('Auth.registerSuccess'));
     }
 
@@ -152,12 +178,12 @@ class RegisterController extends BaseController
     protected function getValidationRules(): array
     {
         $registrationUsernameRules = array_merge(
-            config('AuthSession')->usernameValidationRules,
-            ['is_unique[users.username]']
+            config(AuthSession::class)->usernameValidationRules,
+            [sprintf('is_unique[%s.username]', $this->tables['users'])]
         );
         $registrationEmailRules = array_merge(
-            config('AuthSession')->emailValidationRules,
-            ['is_unique[auth_identities.secret]']
+            config(AuthSession::class)->emailValidationRules,
+            [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
         );
 
         return setting('Validation.registration') ?? [
@@ -170,8 +196,11 @@ class RegisterController extends BaseController
                 'rules' => $registrationEmailRules,
             ],
             'password' => [
-                'label' => 'Auth.password',
-                'rules' => 'required|strong_password',
+                'label'  => 'Auth.password',
+                'rules'  => 'required|' . Passwords::getMaxLengthRule() . '|strong_password[]',
+                'errors' => [
+                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
+                ],
             ],
             'password_confirm' => [
                 'label' => 'Auth.passwordConfirm',

@@ -1,6 +1,6 @@
 # Mobile Authentication with Access Tokens
 
-Access Tokens can be used to authenticate mobile applications that are consuming your API. This is similar to how you would work with [third-party users](api_tokens.md) of your API, but with small differences in how you would issue the tokens.
+Access Tokens can be used to authenticate mobile applications that are consuming your API. This is similar to how you would work with [third-party users](./api_tokens.md) of your API, but with small differences in how you would issue the tokens.
 
 ## Issuing the Tokens
 
@@ -32,16 +32,25 @@ class LoginController extends BaseController
                 'label' => 'Auth.password',
                 'rules' => 'required',
             ],
+            'device_name' => [
+                'label' => 'Device Name',
+                'rules' => 'required|string',
+            ],
         ];
 
-        if (! $this->validate($rules)) {
+        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return $this->response
                 ->setJSON(['errors' => $this->validator->getErrors()])
-                ->setStatusCode(422);
+                ->setStatusCode(401);
         }
 
+        // Get the credentials for login
+        $credentials             = $this->request->getPost(setting('Auth.validFields'));
+        $credentials             = array_filter($credentials);
+        $credentials['password'] = $this->request->getPost('password');
+
         // Attempt to login
-        $result = auth()->attempt($this->request->getPost(setting('Auth.validFields')));
+        $result = auth()->attempt($credentials);
         if (! $result->isOK()) {
             return $this->response
                 ->setJSON(['error' => $result->reason()])
@@ -61,6 +70,6 @@ When making all future requests to the API, the mobile client should return the 
 
 > **Note**
 >
-> By default, `$authenticatorHeader['tokens']` is set to `Authorization`. You can change the header name by setting the `$authenticatorHeader['tokens']` value in the `Auth.php` config file.
+> By default, `$authenticatorHeader['tokens']` is set to `Authorization`. You can change the header name by setting the `$authenticatorHeader['tokens']` value in the **app/Config/Auth.php** config file.
 >
 > e.g. if `$authenticatorHeader['tokens']` is set to `PersonalAccessCodes` then the mobile client should return the raw token in the `PersonalAccessCodes` header as a `Bearer` token.

@@ -8,19 +8,18 @@ use CodeIgniter\CodeIgniter;
 use CodeIgniter\Config\Factories;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\Email2FA;
-use CodeIgniter\Test\DatabaseTestTrait;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
 use Config\Validation;
+use Tests\Support\DatabaseTestCase;
 use Tests\Support\FakeUser;
-use Tests\Support\TestCase;
 
 /**
  * @internal
  */
-final class LoginTest extends TestCase
+final class LoginTest extends DatabaseTestCase
 {
-    use DatabaseTestTrait;
     use FeatureTestTrait;
     use FakeUser;
 
@@ -53,7 +52,7 @@ final class LoginTest extends TestCase
         $this->assertSame(site_url('/login'), $result->getRedirectUrl());
 
         // Login should have been recorded successfully
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase($this->tables['logins'], [
             'identifier' => 'fooled@example.com',
             'user_id'    => null,
             'success'    => 0,
@@ -61,6 +60,52 @@ final class LoginTest extends TestCase
 
         $this->assertNotEmpty(session('error'));
         $this->assertSame(lang('Auth.badAttempt'), session('error'));
+    }
+
+    public function testLoginTooLongPasswordDefault(): void
+    {
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $result = $this->post('/login', [
+            'email'    => 'fooled@example.com',
+            'password' => str_repeat('a', 73),
+        ]);
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionHas(
+            'errors',
+            ['password' => 'Password cannot exceed 72 bytes in length.']
+        );
+    }
+
+    public function testLoginTooLongPasswordArgon2id(): void
+    {
+        /** @var Auth $config */
+        $config                = config('Auth');
+        $config->hashAlgorithm = PASSWORD_ARGON2ID;
+
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $result = $this->post('/login', [
+            'email'    => 'fooled@example.com',
+            'password' => str_repeat('a', 256),
+        ]);
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionHas(
+            'errors',
+            ['password' => 'The Password field cannot exceed 255 characters in length.']
+        );
     }
 
     public function testLoginActionEmailSuccess(): void
@@ -87,7 +132,7 @@ final class LoginTest extends TestCase
         $this->assertSame(site_url(), $result->getRedirectUrl());
 
         // Login should have been recorded successfully
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase($this->tables['logins'], [
             'identifier' => 'foo@example.com',
             'user_id'    => $this->user->id,
             'success'    => 1,
@@ -159,7 +204,7 @@ final class LoginTest extends TestCase
         $this->assertSame(site_url(), $result->getRedirectUrl());
 
         // Login should have been recorded successfully
-        $this->seeInDatabase('auth_logins', [
+        $this->seeInDatabase($this->tables['logins'], [
             'identifier' => $this->user->username,
             'user_id'    => $this->user->id,
             'success'    => 1,
