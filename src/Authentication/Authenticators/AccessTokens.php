@@ -8,7 +8,6 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
-use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Models\TokenLoginModel;
@@ -105,7 +104,7 @@ class AccessTokens implements AuthenticatorInterface
         if (! array_key_exists('token', $credentials) || empty($credentials['token'])) {
             return new Result([
                 'success' => false,
-                'reason'  => lang('Auth.noToken', [config(Auth::class)->authenticatorHeader['tokens']]),
+                'reason'  => lang('Auth.noToken', [config('Auth')->authenticatorHeader['tokens']]),
             ]);
         }
 
@@ -130,7 +129,7 @@ class AccessTokens implements AuthenticatorInterface
         // Hasn't been used in a long time
         if (
             $token->last_used_at
-            && $token->last_used_at->isBefore(Time::now()->subSeconds(config(Auth::class)->unusedTokenLifetime))
+            && $token->last_used_at->isBefore(Time::now()->subSeconds(config('Auth')->unusedTokenLifetime))
         ) {
             return new Result([
                 'success' => false,
@@ -169,7 +168,7 @@ class AccessTokens implements AuthenticatorInterface
         $request = service('request');
 
         return $this->attempt([
-            'token' => $request->getHeaderLine(config(Auth::class)->authenticatorHeader['tokens']),
+            'token' => $request->getHeaderLine(config('Auth')->authenticatorHeader['tokens']),
         ])->isOK();
     }
 
@@ -227,7 +226,7 @@ class AccessTokens implements AuthenticatorInterface
         /** @var IncomingRequest $request */
         $request = service('request');
 
-        $header = $request->getHeaderLine(config(Auth::class)->authenticatorHeader['tokens']);
+        $header = $request->getHeaderLine(config('Auth')->authenticatorHeader['tokens']);
 
         if (empty($header)) {
             return null;

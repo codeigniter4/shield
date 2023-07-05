@@ -145,7 +145,7 @@ class Passwords
      */
     public static function getMaxLengthRule(): string
     {
-        if (config(Auth::class)->hashAlgorithm === PASSWORD_BCRYPT) {
+        if (config('Auth')->hashAlgorithm === PASSWORD_BCRYPT) {
             return 'max_byte[72]';
         }
 

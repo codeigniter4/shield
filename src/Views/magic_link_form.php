@@ -1,9 +1,4 @@
-<?php declare(strict_types=1);
-
-use CodeIgniter\Shield\Config\Auth;
-
-?>
-<?= $this->extend(config(Auth::class)->views['layout']) ?>
+<?= $this->extend(config('Auth')->views['layout']) ?>
 
 <?= $this->section('title') ?><?= lang('Auth.useMagicLink') ?> <?= $this->endSection() ?>
 

@@ -10,7 +10,6 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
-use CodeIgniter\Shield\Config\Auth;
 
 /**
  * Chain Authentication Filter.
@@ -42,7 +41,7 @@ class ChainAuth implements FilterInterface
 
         helper('settings');
 
-        $chain = config(Auth::class)->authenticationChain;
+        $chain = config('Auth')->authenticationChain;
 
         foreach ($chain as $alias) {
             if (auth($alias)->loggedIn()) {

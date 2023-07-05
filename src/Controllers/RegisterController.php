@@ -12,7 +12,6 @@ use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Config\Auth;
-use CodeIgniter\Shield\Config\AuthSession;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Models\UserModel;
@@ -47,7 +46,8 @@ class RegisterController extends BaseController
             $logger
         );
 
-        $authConfig   = config(Auth::class);
+        /** @var Auth $authConfig */
+        $authConfig   = config('Auth');
         $this->tables = $authConfig->tables;
     }
 
@@ -59,7 +59,7 @@ class RegisterController extends BaseController
     public function registerView()
     {
         if (auth()->loggedIn()) {
-            return redirect()->to(config(Auth::class)->registerRedirect());
+            return redirect()->to(config('Auth')->registerRedirect());
         }
 
         // Check if registration is allowed
@@ -85,7 +85,7 @@ class RegisterController extends BaseController
     public function registerAction(): RedirectResponse
     {
         if (auth()->loggedIn()) {
-            return redirect()->to(config(Auth::class)->registerRedirect());
+            return redirect()->to(config('Auth')->registerRedirect());
         }
 
         // Check if registration is allowed
@@ -145,7 +145,7 @@ class RegisterController extends BaseController
         $authenticator->completeLogin($user);
 
         // Success!
-        return redirect()->to(config(Auth::class)->registerRedirect())
+        return redirect()->to(config('Auth')->registerRedirect())
             ->with('message', lang('Auth.registerSuccess'));
     }
 
@@ -178,11 +178,11 @@ class RegisterController extends BaseController
     protected function getValidationRules(): array
     {
         $registrationUsernameRules = array_merge(
-            config(AuthSession::class)->usernameValidationRules,
+            config('AuthSession')->usernameValidationRules,
             [sprintf('is_unique[%s.username]', $this->tables['users'])]
         );
         $registrationEmailRules = array_merge(
-            config(AuthSession::class)->emailValidationRules,
+            config('AuthSession')->emailValidationRules,
             [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
         );
 

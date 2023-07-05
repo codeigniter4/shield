@@ -6,7 +6,6 @@ namespace CodeIgniter\Shield\Authorization\Traits;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authorization\AuthorizationException;
-use CodeIgniter\Shield\Config\AuthGroups;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\GroupModel;
 use CodeIgniter\Shield\Models\PermissionModel;
@@ -258,7 +257,7 @@ trait Authorizable
 
         $matrix = function_exists('setting')
             ? setting('AuthGroups.matrix')
-            : config(AuthGroups::class)->matrix;
+            : config('AuthGroups')->matrix;
 
         foreach ($this->groupCache as $group) {
             // Check exact match
@@ -394,7 +393,7 @@ trait Authorizable
     {
         return function_exists('setting')
             ? array_keys(setting('AuthGroups.groups'))
-            : array_keys(config(AuthGroups::class)->groups);
+            : array_keys(config('AuthGroups')->groups);
     }
 
     /**
@@ -404,6 +403,6 @@ trait Authorizable
     {
         return function_exists('setting')
             ? array_keys(setting('AuthGroups.permissions'))
-            : array_keys(config(AuthGroups::class)->permissions);
+            : array_keys(config('AuthGroups')->permissions);
     }
 }

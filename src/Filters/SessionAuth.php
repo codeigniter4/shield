@@ -11,7 +11,6 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
-use CodeIgniter\Shield\Config\Auth;
 
 /**
  * Session Authentication Filter.
@@ -57,7 +56,7 @@ class SessionAuth implements FilterInterface
                 $error = $user->getBanMessage() ?? lang('Auth.logOutBannedUser');
                 $authenticator->logout();
 
-                return redirect()->to(config(Auth::class)->logoutRedirect())
+                return redirect()->to(config('Auth')->logoutRedirect())
                     ->with('error', $error);
             }
 
