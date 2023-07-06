@@ -8,7 +8,6 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
-use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
@@ -121,7 +120,7 @@ class Email2FA implements ActionInterface
         }
 
         // Get our login redirect url
-        return redirect()->to(config(Auth::class)->loginRedirect());
+        return redirect()->to(config('Auth')->loginRedirect());
     }
 
     /**

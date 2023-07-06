@@ -8,7 +8,6 @@ use CodeIgniter\Shield\Auth;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Authentication\Passwords;
-use CodeIgniter\Shield\Config\Auth as AuthConfig;
 use Config\Services as BaseService;
 
 class Services extends BaseService
@@ -22,7 +21,7 @@ class Services extends BaseService
             return self::getSharedInstance('auth');
         }
 
-        $config = config(AuthConfig::class);
+        $config = config('Auth');
 
         return new Auth(new Authentication($config));
     }
@@ -36,7 +35,7 @@ class Services extends BaseService
             return self::getSharedInstance('passwords');
         }
 
-        return new Passwords(config(AuthConfig::class));
+        return new Passwords(config('Auth'));
     }
 
     /**

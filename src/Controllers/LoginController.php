@@ -8,8 +8,6 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords;
-use CodeIgniter\Shield\Config\Auth;
-use CodeIgniter\Shield\Config\AuthSession;
 use CodeIgniter\Shield\Traits\Viewable;
 
 class LoginController extends BaseController
@@ -26,7 +24,7 @@ class LoginController extends BaseController
     public function loginView()
     {
         if (auth()->loggedIn()) {
-            return redirect()->to(config(Auth::class)->loginRedirect());
+            return redirect()->to(config('Auth')->loginRedirect());
         }
 
         /** @var Session $authenticator */
@@ -73,7 +71,7 @@ class LoginController extends BaseController
             return redirect()->route('auth-action-show')->withCookies();
         }
 
-        return redirect()->to(config(Auth::class)->loginRedirect())->withCookies();
+        return redirect()->to(config('Auth')->loginRedirect())->withCookies();
     }
 
     /**
@@ -87,11 +85,11 @@ class LoginController extends BaseController
         return setting('Validation.login') ?? [
             // 'username' => [
             //     'label' => 'Auth.username',
-            //     'rules' => config(AuthSession::class)->usernameValidationRules,
+            //     'rules' => config('AuthSession')->usernameValidationRules,
             // ],
             'email' => [
                 'label' => 'Auth.email',
-                'rules' => config(AuthSession::class)->emailValidationRules,
+                'rules' => config('AuthSession')->emailValidationRules,
             ],
             'password' => [
                 'label'  => 'Auth.password',
@@ -110,7 +108,7 @@ class LoginController extends BaseController
     {
         // Capture logout redirect URL before auth logout,
         // otherwise you cannot check the user in `logoutRedirect()`.
-        $url = config(Auth::class)->logoutRedirect();
+        $url = config('Auth')->logoutRedirect();
 
         auth()->logout();
 
