@@ -175,6 +175,6 @@ class CreateAuthTables extends Migration
 
     private function createTable(string $tableName): void
     {
-        $this->forge->createTable($tableName, false, $this->attributes);
+        $this->forge->createTable($tableName, true, $this->attributes);
     }
 }
