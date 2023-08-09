@@ -51,6 +51,7 @@ return [
     'magicLinkExpired'   => 'Lo siento, el enlace ha caducado.',
     'checkYourEmail'     => '¡Revisa tu correo electrónico!',
     'magicLinkDetails'   => 'Acabamos de enviarte un correo electrónico con un enlace de inicio de sesión. Solo es válido durante {0} minutos.',
+    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
     'successLogout'      => 'Has cerrado sesión correctamente.',
     'backToLogin'        => 'Volver al inicio de sesión',
 

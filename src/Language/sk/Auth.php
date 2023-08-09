@@ -51,6 +51,7 @@ return [
     'magicLinkExpired'   => 'Ľutujeme, platnosť odkazu vypršala.',
     'checkYourEmail'     => 'Skontrolujte e-mail',
     'magicLinkDetails'   => 'Práve sme vám poslali e-mail s odkazom na prihlásenie. Platí iba {0} minút.',
+    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
     'successLogout'      => 'Úspešne ste sa odhlásili.',
     'backToLogin'        => 'Späť na prihlásenie',
 
