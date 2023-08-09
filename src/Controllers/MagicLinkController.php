@@ -50,6 +50,11 @@ class MagicLinkController extends BaseController
      */
     public function loginView()
     {
+        // Check if magic-link is not allowed
+        if (! setting('Auth.allowMagicLinkLogins')) {
+            return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
+        }
+
         if (auth()->loggedIn()) {
             return redirect()->to(config('Auth')->loginRedirect());
         }
@@ -66,6 +71,11 @@ class MagicLinkController extends BaseController
      */
     public function loginAction()
     {
+        // Check if magic-link is not allowed
+        if (! setting('Auth.allowMagicLinkLogins')) {
+            return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
+        }
+
         // Validate email format
         $rules = $this->getValidationRules();
         if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
