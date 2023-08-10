@@ -152,4 +152,20 @@ final class MagicLinkTest extends TestCase
             lang('Auth.magicLinkDisabled'),
         );
     }
+
+    public function testMagicLinkVerifyRedirectsIfNotAllowed(): void
+    {
+        $config                       = config('Auth');
+        $config->allowMagicLinkLogins = false;
+        Factories::injectMock('config', 'Auth', $config);
+
+        $result = $this->withSession()->get('/login/verify-magic-link');
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertSessionHas(
+            'error',
+            lang('Auth.magicLinkDisabled'),
+        );
+    }
 }
