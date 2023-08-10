@@ -145,6 +145,11 @@ class MagicLinkController extends BaseController
      */
     public function verify(): RedirectResponse
     {
+        // Check if magic-link is not allowed
+        if (! setting('Auth.allowMagicLinkLogins')) {
+            return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
+        }
+
         $token = $this->request->getGet('token');
 
         /** @var UserIdentityModel $identityModel */
