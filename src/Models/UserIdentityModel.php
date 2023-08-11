@@ -6,6 +6,7 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
+use CodeIgniter\Shield\Authentication\Authenticators\HMAC_SHA256;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\AccessToken;
@@ -13,7 +14,9 @@ use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\ValidationException;
+use Exception;
 use Faker\Generator;
+use ReflectionException;
 
 class UserIdentityModel extends BaseModel
 {
@@ -211,6 +214,143 @@ class UserIdentityModel extends BaseModel
             ->findAll();
     }
 
+    // HMAC
+    /**
+     * Find and Retrieve the HMAC AccessToken based on Token alone
+     *
+     * @return ?AccessToken
+     */
+    public function getHMACTokenByKey(string $key): ?AccessToken
+    {
+        return $this
+            ->where('type', HMAC_SHA256::ID_TYPE_HMAC_TOKEN)
+            ->where('secret', $key)
+            ->asObject(AccessToken::class)
+            ->first();
+    }
+
+    /**
+     * Generates a new personal access token for the user.
+     *
+     * @param string   $name   Token name
+     * @param string[] $scopes Permissions the token grants
+     *
+     * @throws Exception
+     * @throws ReflectionException
+     */
+    public function generateHMACToken(User $user, string $name, array $scopes = ['*']): AccessToken
+    {
+        $this->checkUserId($user);
+
+        //        helper('text');
+
+        $return = $this->insert([
+            'type'    => HMAC_SHA256::ID_TYPE_HMAC_TOKEN,
+            'user_id' => $user->id,
+            'name'    => $name,
+            'secret'  => bin2hex(random_bytes(16)), // Key
+            'secret2' => bin2hex(random_bytes(16)), // Secret Key
+            'extra'   => serialize($scopes),
+        ]);
+
+        $this->checkQueryReturn($return);
+
+        /** @var AccessToken $token */
+        return $this
+            ->asObject(AccessToken::class)
+            ->find($this->getInsertID());
+    }
+
+    /**
+     * Retrieve Token object for selected HMAC Token.
+     * Note: These tokens are not hashed as they are considered shared secrets.
+     *
+     * @param User   $user User Object
+     * @param string $key  HMAC Key String
+     *
+     * @return ?AccessToken
+     */
+    public function getHMACToken(User $user, string $key): ?AccessToken
+    {
+        $this->checkUserId($user);
+
+        return $this->where('user_id', $user->id)
+            ->where('type', HMAC_SHA256::ID_TYPE_HMAC_TOKEN)
+            ->where('secret', $key)
+            ->asObject(AccessToken::class)
+            ->first();
+    }
+
+    /**
+     * Given the ID, returns the given access token.
+     *
+     * @param int|string $id
+     * @param User       $user User Object
+     *
+     * @return ?AccessToken
+     */
+    public function getHMACTokenById($id, User $user): ?AccessToken
+    {
+        $this->checkUserId($user);
+
+        return $this->where('user_id', $user->id)
+            ->where('type', HMAC_SHA256::ID_TYPE_HMAC_TOKEN)
+            ->where('id', $id)
+            ->asObject(AccessToken::class)
+            ->first();
+    }
+
+    /**
+     * Retrieve all HMAC tokes for users
+     *
+     * @param User $user User object
+     *
+     * @return AccessToken[]
+     */
+    public function getAllHMACTokens(User $user): array
+    {
+        $this->checkUserId($user);
+
+        return $this
+            ->where('user_id', $user->id)
+            ->where('type', HMAC_SHA256::ID_TYPE_HMAC_TOKEN)
+            ->orderBy($this->primaryKey)
+            ->asObject(AccessToken::class)
+            ->findAll();
+    }
+
+    /**
+     * Delete any HMAC tokens for the given key.
+     *
+     * @param User   $user User object
+     * @param string $key  HMAC Key
+     */
+    public function revokeHMACToken(User $user, string $key): void
+    {
+        $this->checkUserId($user);
+
+        $return = $this->where('user_id', $user->id)
+            ->where('type', HMAC_SHA256::ID_TYPE_HMAC_TOKEN)
+            ->where('secret', $key)
+            ->delete();
+
+        $this->checkQueryReturn($return);
+    }
+
+    /**
+     * Revokes all access tokens for this user.
+     */
+    public function revokeAllHMACTokens(User $user): void
+    {
+        $this->checkUserId($user);
+
+        $return = $this->where('user_id', $user->id)
+            ->where('type', HMAC_SHA256::ID_TYPE_HMAC_TOKEN)
+            ->delete();
+
+        $this->checkQueryReturn($return);
+    }
+
     /**
      * Used by 'magic-link'.
      */
@@ -351,7 +491,7 @@ class UserIdentityModel extends BaseModel
     /**
      * Force global password reset.
      * This is useful for enforcing a password reset
-     * for ALL users incase of a security breach.
+     * for ALL users in case of a security breach.
      */
     public function forceGlobalPasswordReset(): void
     {
