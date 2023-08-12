@@ -51,6 +51,7 @@ return [
     'magicLinkExpired'   => 'Вибачте, термін дії посилання закінчився.',
     'checkYourEmail'     => 'Перевірте свою електронну пошту!',
     'magicLinkDetails'   => 'Ми щойно надіслали вам електронний лист із посиланням для входу. Він дійсний лише протягом {0} хвилин.',
+    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
     'successLogout'      => 'Ви успішно вийшли.',
     'backToLogin'        => 'Повернутися до входу',
 

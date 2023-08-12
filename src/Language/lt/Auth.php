@@ -51,6 +51,7 @@ return [
     'magicLinkExpired'   => 'Deja, nuorodos galiojimas baigėsi.',
     'checkYourEmail'     => 'Patikrinkite savo el. paštą!',
     'magicLinkDetails'   => 'Mes ką tik išsiuntėme Jums el. laišką su prisijungimo nuoroda. Ji galios tiki {0} minučių(-es).',
+    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
     'successLogout'      => 'Jūs sėkmingai atsijungėte.',
     'backToLogin'        => 'Grįžti į prisijungimą',
 

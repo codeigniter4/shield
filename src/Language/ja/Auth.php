@@ -51,6 +51,7 @@ return [
     'magicLinkExpired'   => '申し訳ございません、リンクは切れています。', // 'Sorry, link has expired.'
     'checkYourEmail'     => 'メールをチェックしてください！', // 'Check your email!'
     'magicLinkDetails'   => 'ログインリンクが含まれたメールを送信しました。これは {0} 分間だけ有効です。', // 'We just sent you an email with a Login link inside. It is only valid for {0} minutes.'
+    'magicLinkDisabled'  => 'マジックリンクは使えません。', // 'Use of MagicLink is currently not allowed.'
     'successLogout'      => '正常にログアウトしました。', // 'You have successfully logged out.'
     'backToLogin'        => 'ログインに戻る', // 'Back to Login'
 

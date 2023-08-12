@@ -51,6 +51,7 @@ return [
     'magicLinkExpired'   => 'Maaf, tautan sudah tidak berlaku.',
     'checkYourEmail'     => 'Periksa email Anda!',
     'magicLinkDetails'   => 'Kami baru saja mengirimi Anda email dengan tautan Masuk di dalamnya. Ini hanya berlaku selama {0} menit.',
+    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
     'successLogout'      => 'Anda telah berhasil keluar.',
     'backToLogin'        => 'Kembali ke masuk',
 

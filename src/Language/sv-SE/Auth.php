@@ -51,6 +51,7 @@ return [
     'magicLinkExpired'   => 'Tyvärr, länken har gått ut.',
     'checkYourEmail'     => 'Kontrollera din epost!',
     'magicLinkDetails'   => 'En login-länk har skickats med epost. Den gäller bara i {0} minuter.',
+    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
     'successLogout'      => 'Du har loggats ut.',
     'backToLogin'        => 'Tillbaka till inloggning',
 

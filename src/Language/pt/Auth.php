@@ -51,6 +51,7 @@ return [
     'magicLinkExpired'   => 'Desculpe, o link expirou.',
     'checkYourEmail'     => 'Verifique o seu e-mail!',
     'magicLinkDetails'   => 'Acabamos de enviar um e-mail com um link de Login. Ele é válido apenas por {0} minutos.',
+    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
     'successLogout'      => 'Saiu com sucesso.',
     'backToLogin'        => 'Voltar ao login',
 
