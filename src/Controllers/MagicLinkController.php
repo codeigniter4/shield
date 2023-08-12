@@ -50,7 +50,9 @@ class MagicLinkController extends BaseController
      */
     public function loginView()
     {
-        $this->displayErrorMagicLinkDisabled();
+        if (! setting('Auth.allowMagicLinkLogins')) {
+            return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
+        }
 
         if (auth()->loggedIn()) {
             return redirect()->to(config('Auth')->loginRedirect());
@@ -68,7 +70,9 @@ class MagicLinkController extends BaseController
      */
     public function loginAction()
     {
-        $this->displayErrorMagicLinkDisabled();
+        if (! setting('Auth.allowMagicLinkLogins')) {
+            return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
+        }
 
         // Validate email format
         $rules = $this->getValidationRules();
@@ -139,7 +143,9 @@ class MagicLinkController extends BaseController
      */
     public function verify(): RedirectResponse
     {
-        $this->displayErrorMagicLinkDisabled();
+        if (! setting('Auth.allowMagicLinkLogins')) {
+            return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
+        }
 
         $token = $this->request->getGet('token');
 
@@ -217,18 +223,6 @@ class MagicLinkController extends BaseController
             (string) $this->request->getUserAgent(),
             $userId
         );
-    }
-
-    /**
-     * Display error to the user if magic-link is not allowed.
-     *
-     * @return RedirectResponse|void
-     */
-    private function displayErrorMagicLinkDisabled()
-    {
-        if (! setting('Auth.allowMagicLinkLogins')) {
-            return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
-        }
     }
 
     /**
