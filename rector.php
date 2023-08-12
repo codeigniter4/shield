@@ -32,7 +32,6 @@ use Rector\EarlyReturn\Rector\If_\ChangeIfElseValueAssignToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\If_\RemoveAlwaysElseRector;
 use Rector\EarlyReturn\Rector\Return_\PreparedValueToEarlyReturnRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
-use Rector\Php56\Rector\FunctionLike\AddDefaultValueForUndefinedVariableRector;
 use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\Php73\Rector\FuncCall\StringifyStrNeedlesRector;
 use Rector\PHPUnit\Rector\Class_\AnnotationWithValueToAttributeRector;
@@ -103,9 +102,6 @@ return static function (RectorConfig $rectorConfig): void {
 
         // May load view files directly when detecting classes
         StringClassNameToClassConstantRector::class,
-
-        // May be uninitialized on purpose
-        AddDefaultValueForUndefinedVariableRector::class,
 
         // See https://github.com/codeigniter4/shield/issues/228
         RemoveJustPropertyFetchForAssignRector::class => [
