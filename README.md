@@ -2,6 +2,9 @@
 
 [![Unit Tests](https://github.com/codeigniter4/shield/workflows/PHPUnit/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/phpunit.yml)
 [![Static Analysis](https://github.com/codeigniter4/shield/workflows/PHPStan/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/phpstan.yml)
+[![PHPCSFixer](https://github.com/codeigniter4/shield/actions/workflows/phpcsfixer.yml/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/phpcsfixer.yml)
+[![Rector](https://github.com/codeigniter4/shield/actions/workflows/rector.yml/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/rector.yml)
+[![Psalm](https://github.com/codeigniter4/shield/actions/workflows/psalm.yml/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/psalm.yml)
 [![Architecture](https://github.com/codeigniter4/shield/workflows/Deptrac/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/deptrac.yml)
 [![Coverage Status](https://coveralls.io/repos/github/codeigniter4/shield/badge.svg?branch=develop)](https://coveralls.io/github/codeigniter4/shield?branch=develop)
 
