@@ -10,7 +10,6 @@ use CodeIgniter\Shield\Filters\AuthRates;
 use CodeIgniter\Shield\Filters\ChainAuth;
 use CodeIgniter\Shield\Filters\SessionAuth;
 use CodeIgniter\Shield\Filters\TokenAuth;
-use Generator;
 use Tests\Support\TestCase;
 
 /**
@@ -19,7 +18,7 @@ use Tests\Support\TestCase;
 final class FilterInCliTest extends TestCase
 {
     /**
-     * @dataProvider filterProvider
+     * @dataProvider provideWhenInCliDoNothing
      */
     public function testWhenInCliDoNothing(FilterInterface $filter): void
     {
@@ -31,7 +30,7 @@ final class FilterInCliTest extends TestCase
         $filter->before($clirequest);
     }
 
-    public static function filterProvider(): Generator
+    public static function provideWhenInCliDoNothing(): iterable
     {
         yield from [
             [new AuthRates()],
