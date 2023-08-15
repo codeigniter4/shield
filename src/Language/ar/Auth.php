@@ -51,7 +51,7 @@ return [
     'magicLinkExpired'   => 'عذرا ، لقد انتهت صلاحية الرابط.',
     'checkYourEmail'     => 'تحقق من بريدك الالكتروني!',
     'magicLinkDetails'   => 'لقد أرسلنا لك بريدًا إلكترونيًا يحتوي على رابط تسجيل الدخول بالداخل. الرابط صالح فقط لمدة {0} دقيقة.',
-    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
+    'magicLinkDisabled'  => 'استخدام الرابط للدخول MagicLink غير مسموح به حاليًا.',
     'successLogout'      => 'لقد قمت بتسجيل الخروج بنجاح.',
     'backToLogin'        => 'العودة إلى نموذج تسجيل الدخول',
 
