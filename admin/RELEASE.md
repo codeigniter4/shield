@@ -71,7 +71,7 @@ the changelog.
 * Watch for the "docs" action and verify that the user guide updated:
     * [docs](https://github.com/codeigniter4/shield/actions/workflows/docs.yml)
 * Fast-forward `develop` branch to catch the merge commit from `master`
-  (note: pushing to develop is restricted to administrators):
+  (note: pushing to `develop` is restricted to administrators):
     ```console
     git fetch origin
     git checkout develop
@@ -79,6 +79,9 @@ the changelog.
     git merge origin/master
     git push origin HEAD # Only administrators can push to the protected branch.
     ```
+  **At this point, `master` must be merged into `develop`.** Otherwise, the
+  GitHub-generated release note from `develop` for the next release will not be
+  generated correctly.
 * Publish any Security Advisories that were resolved from private forks
   (note: publishing is restricted to administrators)
 * Announce the release on the forums and Slack channel
