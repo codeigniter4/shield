@@ -104,12 +104,12 @@ class HMAC_SHA256 implements AuthenticatorInterface
         if (! array_key_exists('token', $credentials) || empty($credentials['token'])) {
             return new Result([
                 'success' => false,
-                'reason'  => lang('Auth.noToken', [config('Auth')->authenticatorHeader['tokens']]),
+                'reason'  => lang('Auth.noToken', [config('Auth')->authenticatorHeader['hmac']]),
             ]);
         }
 
-        if (strpos($credentials['token'], 'Bearer') === 0) {
-            $credentials['token'] = trim(substr($credentials['token'], 6));
+        if (strpos($credentials['token'], 'HMAC-SHA256') === 0) {
+            $credentials['token'] = trim(substr($credentials['token'], 11)); // HMAC-SHA256
         }
 
         // Extract UserToken and HMACSHA256 Signature from Authorization token

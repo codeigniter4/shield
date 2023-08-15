@@ -111,10 +111,10 @@ final class HMACAuthenticatorTest extends DatabaseTestCase
         $result = $this->auth->check([]);
 
         $this->assertFalse($result->isOK());
-        $this->assertSame(lang('Auth.noToken', [config('Auth')->authenticatorHeader['tokens']]), $result->reason());
+        $this->assertSame(lang('Auth.noToken', [config('Auth')->authenticatorHeader['hmac']]), $result->reason());
     }
 
-    public function testCheckBadToken(): void
+    public function testCheckBadSignature(): void
     {
         $result = $this->auth->check([
             'token' => 'abc123:lasdkjflksjdflksjdf',
@@ -174,6 +174,29 @@ final class HMACAuthenticatorTest extends DatabaseTestCase
 
         // Checking token in the same second does not throw "DataException : There is no data to update."
         $this->auth->check(['token' => $rawToken, 'body' => 'bar']);
+    }
+
+    public function testCheckBadToken(): void
+    {
+        /** @var User $user */
+        $user  = fake(UserModel::class);
+        $token = $user->generateHMACToken('foo');
+
+        $this->seeInDatabase($this->tables['identities'], [
+            'user_id'      => $user->id,
+            'type'         => 'hmac_sha256',
+            'last_used_at' => null,
+        ]);
+
+        $rawToken = $this->generateRawHeaderToken($token->secret, $token->secret2, 'foobar');
+
+        $result = $this->auth->check([
+            'token' => $rawToken,
+            'body'  => 'bar',
+        ]);
+
+        $this->assertfalse($result->isOK());
+        $this->assertSame(lang('Auth.badToken'), $result->reason());
     }
 
     public function testAttemptCannotFindUser(): void

@@ -22,14 +22,16 @@ class HmacAuth implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
 
-        $authenticator = auth('HMAC-SHA256')->getAuthenticator();
+        $authenticator = auth('hmac')->getAuthenticator();
 
-        $result = $authenticator->attempt([
-            'token' => $request->getHeaderLine(setting('Auth.authenticatorHeader')['tokens'] ?? 'Authorization'),
+        $requestParams = [
+            'token' => $request->getHeaderLine(setting('Auth.authenticatorHeader')['hmac'] ?? 'Authorization'),
             'body'  => file_get_contents('php://input'),
-        ]);
+        ];
 
-        if (! $result->isOK() || (! empty($arguments) && $result->extraInfo()->tokenCant($arguments[0]))) {
+        $result = $authenticator->attempt($requestParams);
+
+        if (! $result->isOK() || (! empty($arguments) && $result->extraInfo()->hmacTokenCant($arguments[0]))) {
             return service('response')
                 ->setStatusCode(Response::HTTP_UNAUTHORIZED)
                 ->setJson(['message' => lang('Auth.badToken')]);

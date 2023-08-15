@@ -100,35 +100,33 @@ trait HasHMACTokens
         return $identityModel->getHMACTokenById($id, $this);
     }
 
-    // Commented out as it collides with methods from CodeIgniter\Shield\Authentication\Traits\HasHMACTokens
+    /**
+     * Determines whether the user's token grants permissions to $scope.
+     * First checks against $this->activeToken, which is set during
+     * authentication. If it hasn't been set, returns false.
+     */
+    public function hmacTokenCan(string $scope): bool
+    {
+        if (! $this->currentHMACToken() instanceof AccessToken) {
+            return false;
+        }
 
-    //        /**
-    //         * Determines whether the user's token grants permissions to $scope.
-    //         * First checks against $this->activeToken, which is set during
-    //         * authentication. If it hasn't been set, returns false.
-    //         */
-    //        public function tokenCan(string $scope): bool
-    //        {
-    //            if (! $this->currentAccessToken() instanceof AccessToken) {
-    //                return false;
-    //            }
-    //
-    //            return $this->currentAccessToken()->can($scope);
-    //        }
-    //
-    //        /**
-    //         * Determines whether the user's token does NOT grant permissions to $scope.
-    //         * First checks against $this->activeToken, which is set during
-    //         * authentication. If it hasn't been set, returns true.
-    //         */
-    //        public function tokenCant(string $scope): bool
-    //        {
-    //            if (! $this->currentAccessToken() instanceof AccessToken) {
-    //                return true;
-    //            }
-    //
-    //            return $this->currentAccessToken()->cant($scope);
-    //        }
+        return $this->currentHMACToken()->can($scope);
+    }
+
+    /**
+     * Determines whether the user's token does NOT grant permissions to $scope.
+     * First checks against $this->activeToken, which is set during
+     * authentication. If it hasn't been set, returns true.
+     */
+    public function hmacTokenCant(string $scope): bool
+    {
+        if (! $this->currentHMACToken() instanceof AccessToken) {
+            return true;
+        }
+
+        return $this->currentHMACToken()->cant($scope);
+    }
 
     /**
      * Returns the current HMAC token for the user.

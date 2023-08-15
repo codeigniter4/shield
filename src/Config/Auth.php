@@ -149,6 +149,7 @@ class Auth extends BaseConfig
      */
     public array $authenticatorHeader = [
         'tokens' => 'Authorization',
+        'hmac'   => 'Authorization',
     ];
 
     /**
@@ -183,6 +184,7 @@ class Auth extends BaseConfig
     public array $authenticationChain = [
         'session',
         'tokens',
+        'hmac',
         // 'jwt',
     ];
 
