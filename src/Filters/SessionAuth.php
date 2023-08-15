@@ -75,6 +75,11 @@ class SessionAuth implements FilterInterface
                 ->with('error', $authenticator->getPendingMessage());
         }
 
+        if (! url_is('login')) {
+            $session = session();
+            $session->setTempdata('beforeLogginUrl', current_url(), 300);
+        }
+
         return redirect()->route('login');
     }
 
