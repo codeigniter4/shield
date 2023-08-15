@@ -21,7 +21,7 @@ trait HasHMACTokens
     /**
      * The current access token for the user.
      */
-    private ?AccessToken $currentAccessToken = null;
+    private ?AccessToken $currentHMACToken = null;
 
     /**
      * Generates a new personal HMAC token for this user.
@@ -75,18 +75,18 @@ trait HasHMACTokens
     }
 
     /**
-     * Given a raw token, it will locate it within the system.
+     * Given a secret Key, it will locate it within the system.
      */
-    public function getHmacToken(?string $rawToken): ?AccessToken
+    public function getHmacToken(?string $secretKey): ?AccessToken
     {
-        if (empty($rawToken)) {
+        if (empty($secretKey)) {
             return null;
         }
 
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->getHMACToken($this, $rawToken);
+        return $identityModel->getHMACToken($this, $secretKey);
     }
 
     /**
@@ -100,40 +100,42 @@ trait HasHMACTokens
         return $identityModel->getHMACTokenById($id, $this);
     }
 
-    //    /**
-    //     * Determines whether the user's token grants permissions to $scope.
-    //     * First checks against $this->activeToken, which is set during
-    //     * authentication. If it hasn't been set, returns false.
-    //     */
-    //    public function tokenCan(string $scope): bool
-    //    {
-    //        if (! $this->currentAccessToken() instanceof AccessToken) {
-    //            return false;
+    // Commented out as it collides with methods from CodeIgniter\Shield\Authentication\Traits\HasHMACTokens
+
+    //        /**
+    //         * Determines whether the user's token grants permissions to $scope.
+    //         * First checks against $this->activeToken, which is set during
+    //         * authentication. If it hasn't been set, returns false.
+    //         */
+    //        public function tokenCan(string $scope): bool
+    //        {
+    //            if (! $this->currentAccessToken() instanceof AccessToken) {
+    //                return false;
+    //            }
+    //
+    //            return $this->currentAccessToken()->can($scope);
     //        }
     //
-    //        return $this->currentAccessToken()->can($scope);
-    //    }
+    //        /**
+    //         * Determines whether the user's token does NOT grant permissions to $scope.
+    //         * First checks against $this->activeToken, which is set during
+    //         * authentication. If it hasn't been set, returns true.
+    //         */
+    //        public function tokenCant(string $scope): bool
+    //        {
+    //            if (! $this->currentAccessToken() instanceof AccessToken) {
+    //                return true;
+    //            }
     //
-    //    /**
-    //     * Determines whether the user's token does NOT grant permissions to $scope.
-    //     * First checks against $this->activeToken, which is set during
-    //     * authentication. If it hasn't been set, returns true.
-    //     */
-    //    public function tokenCant(string $scope): bool
-    //    {
-    //        if (! $this->currentAccessToken() instanceof AccessToken) {
-    //            return true;
+    //            return $this->currentAccessToken()->cant($scope);
     //        }
-    //
-    //        return $this->currentAccessToken()->cant($scope);
-    //    }
 
     /**
      * Returns the current HMAC token for the user.
      */
     public function currentHMACToken(): ?AccessToken
     {
-        return $this->currentAccessToken;
+        return $this->currentHMACToken;
     }
 
     /**
@@ -143,7 +145,7 @@ trait HasHMACTokens
      */
     public function setHMACToken(?AccessToken $accessToken): self
     {
-        $this->currentAccessToken = $accessToken;
+        $this->currentHMACToken = $accessToken;
 
         return $this;
     }

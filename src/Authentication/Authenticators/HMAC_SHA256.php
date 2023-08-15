@@ -74,8 +74,8 @@ class HMAC_SHA256 implements AuthenticatorInterface
             ]);
         }
 
-        $user = $user->setAccessToken(
-            $user->getAccessToken($this->getBearerToken())
+        $user = $user->setHMACToken(
+            $user->getHMACToken($this->getAuthKeyFromToken())
         );
 
         $this->login($user);
@@ -108,12 +108,12 @@ class HMAC_SHA256 implements AuthenticatorInterface
             ]);
         }
 
-        if (strpos($credentials['token'], 'HMAC-SHA256') === 0) {
-            $credentials['token'] = trim(substr($credentials['token'], 11));
+        if (strpos($credentials['token'], 'Bearer') === 0) {
+            $credentials['token'] = trim(substr($credentials['token'], 6));
         }
 
         // Extract UserToken and HMACSHA256 Signature from Authorization token
-        [$userToken, $signature] = preg_split('/:/', $credentials['token'], -1, PREG_SPLIT_NO_EMPTY);
+        [$userToken, $signature] = $this->getHMACAuthTokens($credentials['token']);
 
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
@@ -157,7 +157,7 @@ class HMAC_SHA256 implements AuthenticatorInterface
 
         // Ensure the token is set as the current token
         $user = $token->user();
-        $user->setAccessToken($token);
+        $user->setHMACToken($token);
 
         return new Result([
             'success'   => true,
@@ -207,8 +207,8 @@ class HMAC_SHA256 implements AuthenticatorInterface
             throw AuthenticationException::forInvalidUser();
         }
 
-        $user->setAccessToken(
-            $user->getAccessToken($this->getBearerToken())
+        $user->setHMACToken(
+            $user->getHMACToken($this->getAuthKeyFromToken())
         );
 
         $this->login($user);
@@ -223,7 +223,7 @@ class HMAC_SHA256 implements AuthenticatorInterface
     }
 
     /**
-     * Returns the currently logged in user.
+     * Returns the currently logged-in user.
      */
     public function getUser(): ?User
     {
@@ -231,9 +231,11 @@ class HMAC_SHA256 implements AuthenticatorInterface
     }
 
     /**
-     * Returns the Bearer token from the Authorization header
+     * Returns the Full Authorization token from the Authorization header
+     *
+     * @return ?string
      */
-    public function getBearerToken(): ?string
+    public function getFullAuthToken(): ?string
     {
         /** @var IncomingRequest $request */
         $request = service('request');
@@ -244,7 +246,52 @@ class HMAC_SHA256 implements AuthenticatorInterface
             return null;
         }
 
-        return trim(substr($header, 6));   // 'Bearer'
+        return trim(substr($header, 11));   // 'HMAC-SHA256'
+    }
+
+    /**
+     * Get Key and HMAC hash from Auth token
+     *
+     * @param ?string $fullToken Full Token
+     *
+     * @return ?array [key, hmacHash]
+     */
+    public function getHMACAuthTokens(?string $fullToken = null): ?array
+    {
+        if (! isset($fullToken)) {
+            $fullToken = $this->getFullAuthToken();
+        }
+
+        if (isset($fullToken)) {
+            return preg_split('/:/', $fullToken, -1, PREG_SPLIT_NO_EMPTY);
+        }
+
+        return null;
+
+    }
+
+    /**
+     * Retrieve the key from the Auth token
+     *
+     * @return ?string
+     */
+    public function getAuthKeyFromToken(): ?string
+    {
+        [$key, $hmacHash] = $this->getHMACAuthTokens();
+
+        return $key;
+    }
+
+    /**
+     * Retrieve the HMAC Hash from the Auth token
+     *
+     * @return ?string
+     */
+    public function getHMACHashFromToken(): ?string
+    {
+        [$key, $hmacHash] = $this->getHMACAuthTokens();
+
+        return $hmacHash;
     }
 
     /**

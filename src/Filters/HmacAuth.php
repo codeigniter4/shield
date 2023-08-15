@@ -22,11 +22,6 @@ class HmacAuth implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
 
-        $sessionConfig = new \Config\Session();
-
-        $sessionCooky = $request->getCookie($sessionConfig->cookieName);
-        log_message('debug', 'Session Cooky: ' . print_r($sessionCooky, true));
-
         $authenticator = auth('HMAC-SHA256')->getAuthenticator();
 
         $result = $authenticator->attempt([
