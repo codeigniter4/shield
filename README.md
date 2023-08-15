@@ -35,6 +35,11 @@ These are much like the access codes that GitHub uses, where they are unique to 
 can have more than one. This can be used for API authentication of third-party users, and even for allowing
 access for a mobile application that you build.
 
+### HMAC - SHA256
+
+This is a slightly more complicated improvement on Access Codes/Tokens.  The main advantage with HMAC is the shared Secret Key
+is not passed in the request, but is instead used to create a hash signature of the request body.
+
 ### JSON Web Tokens
 
 JWT or JSON Web Token is a compact and self-contained way of securely transmitting
@@ -46,7 +51,7 @@ and authorization purposes in web applications.
 * Session-based authentication (traditional email/password with remember me)
 * Stateless authentication using Personal Access Tokens
 * Optional Email verification on account registration
-* Optional Email-based Two Factor Authentication after login
+* Optional Email-based Two-Factor Authentication after login
 * Magic Login Links when a user forgets their password
 * Flexible groups-based access control (think roles, but more flexible)
 * Users can be granted additional permissions
