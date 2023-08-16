@@ -226,9 +226,10 @@ trait Authorizable
 
     /**
      * Checks user permissions and their group permissions
-     * to see if the user has a specific permission.
+     * to see if the user has a specific permission or group
+     * of permissions.
      *
-     * @param string $permission string(s) consisting of a scope and action, like `users.create`
+     * @param string $permissions string(s) consisting of a scope and action, like `users.create`
      */
     public function can(string ...$permissions): bool
     {
