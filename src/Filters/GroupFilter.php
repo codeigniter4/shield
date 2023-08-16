@@ -9,6 +9,8 @@ namespace CodeIgniter\Shield\Filters;
  */
 class GroupFilter extends AbstractAuthFilter
 {
+    protected string $filterName = 'group';
+
     /**
      * Ensures the user is logged in and a member of one or
      * more groups as specified in the filter.

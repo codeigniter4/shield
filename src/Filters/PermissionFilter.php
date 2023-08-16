@@ -9,6 +9,8 @@ namespace CodeIgniter\Shield\Filters;
  */
 class PermissionFilter extends AbstractAuthFilter
 {
+    protected string $filterName = 'permission';
+
     /**
      * Ensures the user is logged in and has one or more
      * of the permissions as specified in the filter.
