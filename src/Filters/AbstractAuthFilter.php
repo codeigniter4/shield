@@ -7,7 +7,6 @@ namespace CodeIgniter\Shield\Filters;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
-use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Config\Auth;
 
@@ -16,6 +15,8 @@ use CodeIgniter\Shield\Config\Auth;
  */
 abstract class AbstractAuthFilter implements FilterInterface
 {
+    protected string $filterName;
+
     /**
      * Ensures the user is logged in and a member of one or
      * more groups as specified in the filter.
@@ -58,8 +59,7 @@ abstract class AbstractAuthFilter implements FilterInterface
     /**
      * We don't have anything to do here.
      *
-     * @param Response|ResponseInterface $response
-     * @param array|null                 $arguments
+     * @param array|null $arguments
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null): void
     {
