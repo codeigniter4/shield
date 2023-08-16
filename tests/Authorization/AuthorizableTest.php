@@ -288,6 +288,13 @@ final class AuthorizableTest extends DatabaseTestCase
         $this->assertTrue($this->user->can('admin.access'));
     }
 
+    public function testCanCascadesToGroupsMultiple(): void
+    {
+        $this->user->addGroup('superadmin');
+
+        $this->assertTrue($this->user->can('admin.access', 'users.*'));
+    }
+
     public function testCanCascadesToGroupsWithWildcards(): void
     {
         $this->user->addGroup('superadmin');
