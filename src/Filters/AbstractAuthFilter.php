@@ -9,6 +9,7 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Shield\Config\Auth;
 
 /**
  * Group Authorization Filter.
@@ -43,8 +44,15 @@ abstract class AbstractAuthFilter implements FilterInterface
             return;
         }
 
-        // Otherwise, we'll just send them to the home page.
-        return redirect()->to('/')->with('error', lang('Auth.notEnoughPrivilege'));
+        switch ($this->filterName) {
+            case 'group':
+                return redirect()->to(config(Auth::class)->afterGroupDeniedRedirect())
+                    ->with('error', lang('Auth.notEnoughPrivilege'));
+
+            case 'permission':
+                return redirect()->to(config(Auth::class)->afterPermissionDeniedRedirect())
+                    ->with('error', lang('Auth.notEnoughPrivilege'));
+        }
     }
 
     /**
