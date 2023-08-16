@@ -65,10 +65,12 @@ class Auth extends BaseConfig
      * to apply any logic you may need.
      */
     public array $redirects = [
-        'register'    => '/',
-        'login'       => '/',
-        'logout'      => 'login',
-        'force_reset' => '/',
+        'register'                => '/',
+        'login'                   => '/',
+        'logout'                  => 'login',
+        'force_reset'             => '/',
+        'after_permission_denied' => '/',
+        'after_group_denied'      => '/',
     ];
 
     /**
@@ -471,6 +473,28 @@ class Auth extends BaseConfig
     public function forcePasswordResetRedirect(): string
     {
         $url = setting('Auth.redirects')['force_reset'];
+
+        return $this->getUrl($url);
+    }
+
+    /**
+     * Returns the URL the user should be redirected to
+     * if permission denied.
+     */
+    public function afterPermissionDeniedRedirect(): string
+    {
+        $url = setting('Auth.redirects')['after_permission_denied'];
+
+        return $this->getUrl($url);
+    }
+
+    /**
+     * Returns the URL the user should be redirected to
+     * if group denied.
+     */
+    public function afterGroupDeniedRedirect(): string
+    {
+        $url = setting('Auth.redirects')['after_group_denied'];
 
         return $this->getUrl($url);
     }
