@@ -119,7 +119,7 @@ permissions (**group-level permissions**) to determine if they are allowed.
 if ($user->can('users.create')) {
     //
 }
-OR
+// Or
 if ($user->can('users.create', 'users.edit')) {
     //
 }
