@@ -288,13 +288,6 @@ final class AuthorizableTest extends DatabaseTestCase
         $this->assertTrue($this->user->can('admin.access'));
     }
 
-    public function testCanCascadesToGroupsMultiple(): void
-    {
-        $this->user->addGroup('superadmin');
-
-        $this->assertTrue($this->user->can('admin.access', 'users.*'));
-    }
-
     public function testCanCascadesToGroupsWithWildcards(): void
     {
         $this->user->addGroup('superadmin');
@@ -310,6 +303,27 @@ final class AuthorizableTest extends DatabaseTestCase
         $this->user->addGroup('superadmin');
 
         $this->assertTrue($this->user->can('developer'));
+    }
+
+    /**
+     * @see https://github.com/codeigniter4/shield/pull/791#discussion_r1297712860
+     */
+    public function testCanWorksWithMultiplePermissions(): void
+    {
+        // Check for user's direct permissions (user-level permissions)
+        $this->user->addPermission('users.create', 'users.edit');
+
+        $this->assertTrue($this->user->can('users.create', 'users.edit'));
+        $this->assertFalse($this->user->can('beta.access', 'admin.access'));
+
+        $this->user->removePermission('users.create', 'users.edit');
+
+        $this->assertFalse($this->user->can('users.edit', 'users.create'));
+
+        // Check for user's group permissions (group-level permissions)
+        $this->user->addGroup('superadmin');
+
+        $this->assertTrue($this->user->can('admin.access', 'beta.access'));
     }
 
     /**
