@@ -8,15 +8,12 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
-use CodeIgniter\Shield\Config\Auth;
 
 /**
  * Group Authorization Filter.
  */
 abstract class AbstractAuthFilter implements FilterInterface
 {
-    protected string $filterName;
-
     /**
      * Ensures the user is logged in and a member of one or
      * more groups as specified in the filter.
@@ -45,15 +42,7 @@ abstract class AbstractAuthFilter implements FilterInterface
             return;
         }
 
-        switch ($this->filterName) {
-            case 'group':
-                return redirect()->to(config(Auth::class)->afterGroupDeniedRedirect())
-                    ->with('error', lang('Auth.notEnoughPrivilege'));
-
-            case 'permission':
-                return redirect()->to(config(Auth::class)->afterPermissionDeniedRedirect())
-                    ->with('error', lang('Auth.notEnoughPrivilege'));
-        }
+        return $this->redirectToDeniedUrl();
     }
 
     /**
@@ -67,4 +56,6 @@ abstract class AbstractAuthFilter implements FilterInterface
     }
 
     abstract protected function isAuthorized(array $arguments): bool;
+
+    abstract protected function redirectToDeniedUrl(): RedirectResponse;
 }

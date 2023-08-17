@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Filters;
 
+use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Shield\Config\Auth;
+
 /**
  * Permission Authorization Filter.
  */
 class PermissionFilter extends AbstractAuthFilter
 {
-    protected string $filterName = 'permission';
-
     /**
      * Ensures the user is logged in and has one or more
      * of the permissions as specified in the filter.
@@ -24,5 +25,15 @@ class PermissionFilter extends AbstractAuthFilter
         }
 
         return false;
+    }
+
+    /**
+     * If there is no necessary access to the permission,
+     * it will redirect the user to the set URL with an error message.
+     */
+    protected function redirectToDeniedUrl(): RedirectResponse
+    {
+        return redirect()->to(config(Auth::class)->permissionDeniedRedirect())
+            ->with('error', lang('Auth.notEnoughPrivilege'));
     }
 }
