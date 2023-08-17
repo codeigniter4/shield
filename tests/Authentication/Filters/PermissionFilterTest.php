@@ -70,7 +70,7 @@ final class PermissionFilterTest extends AbstractFilterTestCase
             ->get('protected-route');
 
         // Should redirect to home page since previous_url is not set
-        $result->assertRedirectTo(config(Auth::class)->afterPermissionDeniedRedirect());
+        $result->assertRedirectTo(config(Auth::class)->permissionDeniedRedirect());
         // Should have error message
         $result->assertSessionHas('error', lang('Auth.notEnoughPrivilege'));
     }

@@ -70,7 +70,7 @@ final class GroupFilterTest extends AbstractFilterTestCase
             ->get('protected-route');
 
         // Should redirect to home page since previous_url is not set
-        $result->assertRedirectTo(config(Auth::class)->afterGroupDeniedRedirect());
+        $result->assertRedirectTo(config(Auth::class)->groupDeniedRedirect());
         // Should have error message
         $result->assertSessionHas('error', lang('Auth.notEnoughPrivilege'));
     }

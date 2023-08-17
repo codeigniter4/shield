@@ -65,12 +65,12 @@ class Auth extends BaseConfig
      * to apply any logic you may need.
      */
     public array $redirects = [
-        'register'                => '/',
-        'login'                   => '/',
-        'logout'                  => 'login',
-        'force_reset'             => '/',
-        'after_permission_denied' => '/',
-        'after_group_denied'      => '/',
+        'register'          => '/',
+        'login'             => '/',
+        'logout'            => 'login',
+        'force_reset'       => '/',
+        'permission_denied' => '/',
+        'group_denied'      => '/',
     ];
 
     /**
@@ -481,9 +481,9 @@ class Auth extends BaseConfig
      * Returns the URL the user should be redirected to
      * if permission denied.
      */
-    public function afterPermissionDeniedRedirect(): string
+    public function permissionDeniedRedirect(): string
     {
-        $url = setting('Auth.redirects')['after_permission_denied'];
+        $url = setting('Auth.redirects')['permission_denied'];
 
         return $this->getUrl($url);
     }
@@ -492,9 +492,9 @@ class Auth extends BaseConfig
      * Returns the URL the user should be redirected to
      * if group denied.
      */
-    public function afterGroupDeniedRedirect(): string
+    public function groupDeniedRedirect(): string
     {
-        $url = setting('Auth.redirects')['after_group_denied'];
+        $url = setting('Auth.redirects')['group_denied'];
 
         return $this->getUrl($url);
     }
