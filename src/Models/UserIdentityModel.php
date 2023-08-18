@@ -220,7 +220,7 @@ class UserIdentityModel extends BaseModel
      *
      * @return ?AccessToken
      */
-    public function getHMACTokenByKey(string $key): ?AccessToken
+    public function getHmacTokenByKey(string $key): ?AccessToken
     {
         return $this
             ->where('type', HMAC_SHA256::ID_TYPE_HMAC_TOKEN)
@@ -238,7 +238,7 @@ class UserIdentityModel extends BaseModel
      * @throws Exception
      * @throws ReflectionException
      */
-    public function generateHMACToken(User $user, string $name, array $scopes = ['*']): AccessToken
+    public function generateHmacToken(User $user, string $name, array $scopes = ['*']): AccessToken
     {
         $this->checkUserId($user);
 
@@ -270,7 +270,7 @@ class UserIdentityModel extends BaseModel
      *
      * @return ?AccessToken
      */
-    public function getHMACToken(User $user, string $key): ?AccessToken
+    public function getHmacToken(User $user, string $key): ?AccessToken
     {
         $this->checkUserId($user);
 
@@ -289,7 +289,7 @@ class UserIdentityModel extends BaseModel
      *
      * @return ?AccessToken
      */
-    public function getHMACTokenById($id, User $user): ?AccessToken
+    public function getHmacTokenById($id, User $user): ?AccessToken
     {
         $this->checkUserId($user);
 
@@ -307,7 +307,7 @@ class UserIdentityModel extends BaseModel
      *
      * @return AccessToken[]
      */
-    public function getAllHMACTokens(User $user): array
+    public function getAllHmacTokens(User $user): array
     {
         $this->checkUserId($user);
 
@@ -325,7 +325,7 @@ class UserIdentityModel extends BaseModel
      * @param User   $user User object
      * @param string $key  HMAC Key
      */
-    public function revokeHMACToken(User $user, string $key): void
+    public function revokeHmacToken(User $user, string $key): void
     {
         $this->checkUserId($user);
 
@@ -340,7 +340,7 @@ class UserIdentityModel extends BaseModel
     /**
      * Revokes all access tokens for this user.
      */
-    public function revokeAllHMACTokens(User $user): void
+    public function revokeAllHmacTokens(User $user): void
     {
         $this->checkUserId($user);
 

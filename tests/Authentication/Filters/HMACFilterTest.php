@@ -36,7 +36,7 @@ final class HMACFilterTest extends AbstractFilterTestCase
     {
         /** @var User $user */
         $user  = fake(UserModel::class);
-        $token = $user->generateHMACToken('foo');
+        $token = $user->generateHmacToken('foo');
 
         $rawToken = $this->generateRawHeaderToken($token->secret, $token->secret2, '');
         $result   = $this->withHeaders(['Authorization' => 'HMAC-SHA256  ' . $rawToken])
@@ -49,15 +49,15 @@ final class HMACFilterTest extends AbstractFilterTestCase
         $this->assertSame($user->id, auth('hmac')->user()->id);
 
         // User should have the current token set.
-        $this->assertInstanceOf(AccessToken::class, auth('hmac')->user()->currentHMACToken());
-        $this->assertSame($token->id, auth('hmac')->user()->currentHMACToken()->id);
+        $this->assertInstanceOf(AccessToken::class, auth('hmac')->user()->currentHmacToken());
+        $this->assertSame($token->id, auth('hmac')->user()->currentHmacToken()->id);
     }
 
     public function testFilterInvalidSignature(): void
     {
         /** @var User $user */
         $user  = fake(UserModel::class);
-        $token = $user->generateHMACToken('foo');
+        $token = $user->generateHmacToken('foo');
 
         $result = $this->withHeaders(['Authorization' => 'HMAC-SHA256  ' . $this->generateRawHeaderToken($token->secret, $token->secret2, 'bar')])
             ->get('protected-route');
@@ -69,7 +69,7 @@ final class HMACFilterTest extends AbstractFilterTestCase
     {
         /** @var User $user */
         $user  = fake(UserModel::class);
-        $token = $user->generateHMACToken('foo');
+        $token = $user->generateHmacToken('foo');
 
         $this->withHeaders(['Authorization' => 'HMAC-SHA256 ' . $this->generateRawHeaderToken($token->secret, $token->secret2, '')])
             ->get('protected-route');
@@ -82,10 +82,10 @@ final class HMACFilterTest extends AbstractFilterTestCase
     {
         /** @var User $user1 */
         $user1  = fake(UserModel::class);
-        $token1 = $user1->generateHMACToken('foo', ['users-read']);
+        $token1 = $user1->generateHmacToken('foo', ['users-read']);
         /** @var User $user2 */
         $user2  = fake(UserModel::class);
-        $token2 = $user2->generateHMACToken('foo', ['users-write']);
+        $token2 = $user2->generateHmacToken('foo', ['users-write']);
 
         // User 1 should be able to access the route
         $result1 = $this->withHeaders(['Authorization' => 'HMAC-SHA256 ' . $this->generateRawHeaderToken($token1->secret, $token1->secret2, '')])
@@ -106,7 +106,7 @@ final class HMACFilterTest extends AbstractFilterTestCase
     {
         /** @var User $user */
         $user  = fake(UserModel::class, ['active' => false]);
-        $token = $user->generateHMACToken('foo');
+        $token = $user->generateHmacToken('foo');
 
         // Activation only required with email activation
         setting('Auth.actions', ['register' => null]);

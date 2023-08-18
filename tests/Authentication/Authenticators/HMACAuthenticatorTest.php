@@ -71,14 +71,14 @@ final class HMACAuthenticatorTest extends DatabaseTestCase
         $this->auth->loginById($user->id);
 
         $this->assertTrue($this->auth->loggedIn());
-        $this->assertNull($this->auth->getUser()->currentHMACToken());
+        $this->assertNull($this->auth->getUser()->currentHmacToken());
     }
 
     public function testLoginByIdWithToken(): void
     {
         /** @var User $user */
         $user  = fake(UserModel::class);
-        $token = $user->generateHMACToken('foo');
+        $token = $user->generateHmacToken('foo');
 
         $rawToken = $this->generateRawHeaderToken($token->secret, $token->secret2, 'bar');
         $this->setRequestHeader($rawToken);
@@ -86,24 +86,24 @@ final class HMACAuthenticatorTest extends DatabaseTestCase
         $this->auth->loginById($user->id);
 
         $this->assertTrue($this->auth->loggedIn());
-        $this->assertInstanceOf(AccessToken::class, $this->auth->getUser()->currentHMACToken());
-        $this->assertSame($token->id, $this->auth->getUser()->currentHMACToken()->id);
+        $this->assertInstanceOf(AccessToken::class, $this->auth->getUser()->currentHmacToken());
+        $this->assertSame($token->id, $this->auth->getUser()->currentHmacToken()->id);
     }
 
     public function testLoginByIdWithMultipleTokens(): void
     {
         /** @var User $user */
         $user   = fake(UserModel::class);
-        $token1 = $user->generateHMACToken('foo');
-        $user->generateHMACToken('bar');
+        $token1 = $user->generateHmacToken('foo');
+        $user->generateHmacToken('bar');
 
         $this->setRequestHeader($this->generateRawHeaderToken($token1->secret, $token1->secret2, 'bar'));
 
         $this->auth->loginById($user->id);
 
         $this->assertTrue($this->auth->loggedIn());
-        $this->assertInstanceOf(AccessToken::class, $this->auth->getUser()->currentHMACToken());
-        $this->assertSame($token1->id, $this->auth->getUser()->currentHMACToken()->id);
+        $this->assertInstanceOf(AccessToken::class, $this->auth->getUser()->currentHmacToken());
+        $this->assertSame($token1->id, $this->auth->getUser()->currentHmacToken()->id);
     }
 
     public function testCheckNoToken(): void
@@ -131,7 +131,7 @@ final class HMACAuthenticatorTest extends DatabaseTestCase
         $user = fake(UserModel::class);
         /** @var UserIdentityModel $identities */
         $identities = model(UserIdentityModel::class);
-        $token      = $user->generateHMACToken('foo');
+        $token      = $user->generateHmacToken('foo');
         // CI 4.2 uses the Chicago timezone that has Daylight Saving Time,
         // so subtracts 1 hour to make sure this test passes.
         $token->last_used_at = Time::now()->subYears(1)->subHours(1)->subMinutes(1);
@@ -150,7 +150,7 @@ final class HMACAuthenticatorTest extends DatabaseTestCase
     {
         /** @var User $user */
         $user  = fake(UserModel::class);
-        $token = $user->generateHMACToken('foo');
+        $token = $user->generateHmacToken('foo');
 
         $this->seeInDatabase($this->tables['identities'], [
             'user_id'      => $user->id,
@@ -169,7 +169,7 @@ final class HMACAuthenticatorTest extends DatabaseTestCase
         $this->assertInstanceOf(User::class, $result->extraInfo());
         $this->assertSame($user->id, $result->extraInfo()->id);
 
-        $updatedToken = $result->extraInfo()->currentHMACToken();
+        $updatedToken = $result->extraInfo()->currentHmacToken();
         $this->assertNotEmpty($updatedToken->last_used_at);
 
         // Checking token in the same second does not throw "DataException : There is no data to update."
@@ -180,7 +180,7 @@ final class HMACAuthenticatorTest extends DatabaseTestCase
     {
         /** @var User $user */
         $user  = fake(UserModel::class);
-        $token = $user->generateHMACToken('foo');
+        $token = $user->generateHmacToken('foo');
 
         $this->seeInDatabase($this->tables['identities'], [
             'user_id'      => $user->id,
@@ -222,7 +222,7 @@ final class HMACAuthenticatorTest extends DatabaseTestCase
     {
         /** @var User $user */
         $user     = fake(UserModel::class);
-        $token    = $user->generateHMACToken('foo');
+        $token    = $user->generateHmacToken('foo');
         $rawToken = $this->generateRawHeaderToken($token->secret, $token->secret2, 'bar');
         $this->setRequestHeader($rawToken);
 
@@ -237,8 +237,8 @@ final class HMACAuthenticatorTest extends DatabaseTestCase
         $foundUser = $result->extraInfo();
         $this->assertInstanceOf(User::class, $foundUser);
         $this->assertSame($user->id, $foundUser->id);
-        $this->assertInstanceOf(AccessToken::class, $foundUser->currentHMACToken());
-        $this->assertSame($token->token, $foundUser->currentHMACToken()->token);
+        $this->assertInstanceOf(AccessToken::class, $foundUser->currentHmacToken());
+        $this->assertSame($token->token, $foundUser->currentHmacToken()->token);
 
         // A login attempt should have been recorded
         $this->seeInDatabase($this->tables['token_logins'], [

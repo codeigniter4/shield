@@ -74,8 +74,8 @@ class HMAC_SHA256 implements AuthenticatorInterface
             ]);
         }
 
-        $user = $user->setHMACToken(
-            $user->getHMACToken($this->getAuthKeyFromToken())
+        $user = $user->setHmacToken(
+            $user->getHmacToken($this->getAuthKeyFromToken())
         );
 
         $this->login($user);
@@ -157,7 +157,7 @@ class HMAC_SHA256 implements AuthenticatorInterface
 
         // Ensure the token is set as the current token
         $user = $token->user();
-        $user->setHMACToken($token);
+        $user->setHmacToken($token);
 
         return new Result([
             'success'   => true,
@@ -207,7 +207,7 @@ class HMAC_SHA256 implements AuthenticatorInterface
             throw AuthenticationException::forInvalidUser();
         }
 
-        $user->setHMACToken(
+        $user->setHmacToken(
             $user->getHMACToken($this->getAuthKeyFromToken())
         );
 

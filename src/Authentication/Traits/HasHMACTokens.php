@@ -21,7 +21,7 @@ trait HasHMACTokens
     /**
      * The current access token for the user.
      */
-    private ?AccessToken $currentHMACToken = null;
+    private ?AccessToken $currentHmacToken = null;
 
     /**
      * Generates a new personal HMAC token for this user.
@@ -31,34 +31,34 @@ trait HasHMACTokens
      *
      * @throws ReflectionException
      */
-    public function generateHMACToken(string $name, array $scopes = ['*']): AccessToken
+    public function generateHmacToken(string $name, array $scopes = ['*']): AccessToken
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->generateHMACToken($this, $name, $scopes);
+        return $identityModel->generateHmacToken($this, $name, $scopes);
     }
 
     /**
-     * Delete any HMAC tokens for the given raw token.
+     * Delete any HMAC tokens for the given key.
      */
-    public function revokeHMACToken(string $rawToken): void
+    public function revokeHmacToken(string $key): void
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        $identityModel->revokeHMACToken($this, $rawToken);
+        $identityModel->revokeHmacToken($this, $key);
     }
 
     /**
      * Revokes all HMAC tokens for this user.
      */
-    public function revokeAllHMACTokens(): void
+    public function revokeAllHmacTokens(): void
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        $identityModel->revokeAllHMACTokens($this);
+        $identityModel->revokeAllHmacTokens($this);
     }
 
     /**
@@ -71,7 +71,7 @@ trait HasHMACTokens
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->getAllHMACTokens($this);
+        return $identityModel->getAllHmacTokens($this);
     }
 
     /**
@@ -86,18 +86,18 @@ trait HasHMACTokens
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->getHMACToken($this, $secretKey);
+        return $identityModel->getHmacToken($this, $secretKey);
     }
 
     /**
      * Given the ID, returns the given access token.
      */
-    public function getHMACTokenById(int $id): ?AccessToken
+    public function getHmacTokenById(int $id): ?AccessToken
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->getHMACTokenById($id, $this);
+        return $identityModel->getHmacTokenById($id, $this);
     }
 
     /**
@@ -107,11 +107,11 @@ trait HasHMACTokens
      */
     public function hmacTokenCan(string $scope): bool
     {
-        if (! $this->currentHMACToken() instanceof AccessToken) {
+        if (! $this->currentHmacToken() instanceof AccessToken) {
             return false;
         }
 
-        return $this->currentHMACToken()->can($scope);
+        return $this->currentHmacToken()->can($scope);
     }
 
     /**
@@ -121,19 +121,19 @@ trait HasHMACTokens
      */
     public function hmacTokenCant(string $scope): bool
     {
-        if (! $this->currentHMACToken() instanceof AccessToken) {
+        if (! $this->currentHmacToken() instanceof AccessToken) {
             return true;
         }
 
-        return $this->currentHMACToken()->cant($scope);
+        return $this->currentHmacToken()->cant($scope);
     }
 
     /**
      * Returns the current HMAC token for the user.
      */
-    public function currentHMACToken(): ?AccessToken
+    public function currentHmacToken(): ?AccessToken
     {
-        return $this->currentHMACToken;
+        return $this->currentHmacToken;
     }
 
     /**
@@ -141,9 +141,9 @@ trait HasHMACTokens
      *
      * @return $this
      */
-    public function setHMACToken(?AccessToken $accessToken): self
+    public function setHmacToken(?AccessToken $accessToken): self
     {
-        $this->currentHMACToken = $accessToken;
+        $this->currentHmacToken = $accessToken;
 
         return $this;
     }
