@@ -233,6 +233,12 @@ trait Authorizable
      */
     public function can(string ...$permissions): bool
     {
+        // Get user's permissions and store in cache
+        $this->populatePermissions();
+
+        // Check the groups the user belongs to
+        $this->populateGroups();
+
         foreach ($permissions as $permission) {
             // Permission must contain a scope and action
             if (strpos($permission, '.') === false) {
@@ -242,17 +248,12 @@ trait Authorizable
                 );
             }
 
-            $this->populatePermissions();
-
             $permission = strtolower($permission);
 
             // Check user's permissions
             if (in_array($permission, $this->permissionsCache, true)) {
                 return true;
             }
-
-            // Check the groups the user belongs to
-            $this->populateGroups();
 
             if (! count($this->groupCache)) {
                 return false;
