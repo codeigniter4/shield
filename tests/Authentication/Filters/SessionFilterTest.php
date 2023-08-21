@@ -91,7 +91,7 @@ final class SessionFilterTest extends AbstractFilterTestCase
         $result->assertRedirectTo('/login');
 
         $session = session();
-        $this->assertNotEmpty($session->get('beforeLogginUrl'));
-        $this->assertSame(site_url('protected-route'), $session->get('beforeLogginUrl'));
+        $this->assertNotEmpty($session->get('beforeLoginUrl'));
+        $this->assertSame(site_url('protected-route'), $session->get('beforeLoginUrl'));
     }
 }
