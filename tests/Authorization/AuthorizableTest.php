@@ -324,6 +324,7 @@ final class AuthorizableTest extends DatabaseTestCase
         $this->user->addGroup('superadmin');
 
         $this->assertTrue($this->user->can('admin.access', 'beta.access'));
+        $this->assertTrue($this->user->can('admin.*', 'users.*'));
     }
 
     /**
