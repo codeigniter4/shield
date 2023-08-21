@@ -119,7 +119,8 @@ permissions (**group-level permissions**) to determine if they are allowed.
 if ($user->can('users.create')) {
     //
 }
-// Or
+
+// If multiple permissions are specified, true is returned if the user has any of them.
 if ($user->can('users.create', 'users.edit')) {
     //
 }
