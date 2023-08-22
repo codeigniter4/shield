@@ -83,4 +83,15 @@ final class SessionFilterTest extends AbstractFilterTestCase
 
         setting('Auth.actions', ['register' => null]);
     }
+
+    public function testStoreRedirectsToEntraceUrlIntoSession(): void
+    {
+        $result = $this->call('get', 'protected-route');
+
+        $result->assertRedirectTo('/login');
+
+        $session = session();
+        $this->assertNotEmpty($session->get('beforeLoginUrl'));
+        $this->assertSame(site_url('protected-route'), $session->get('beforeLoginUrl'));
+    }
 }
