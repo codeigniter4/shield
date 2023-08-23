@@ -267,7 +267,6 @@ class HMAC_SHA256 implements AuthenticatorInterface
         }
 
         return null;
-
     }
 
     /**

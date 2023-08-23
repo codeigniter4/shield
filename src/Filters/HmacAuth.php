@@ -21,7 +21,6 @@ class HmacAuth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-
         $authenticator = auth('hmac')->getAuthenticator();
 
         helper('setting');
@@ -54,7 +53,6 @@ class HmacAuth implements FilterInterface
         }
 
         return $request;
-
     }
 
     /**
@@ -62,6 +60,5 @@ class HmacAuth implements FilterInterface
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null): void
     {
-
     }
 }

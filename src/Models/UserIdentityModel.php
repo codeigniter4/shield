@@ -255,7 +255,6 @@ class UserIdentityModel extends BaseModel
 
         $this->checkQueryReturn($return);
 
-        /** @var AccessToken $token */
         return $this
             ->asObject(AccessToken::class)
             ->find($this->getInsertID());
