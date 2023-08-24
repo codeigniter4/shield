@@ -61,7 +61,8 @@ class JWT implements AuthenticatorInterface
      */
     public function attempt(array $credentials): Result
     {
-        $config = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
 
         /** @var IncomingRequest $request */
         $request = service('request');
@@ -142,7 +143,7 @@ class JWT implements AuthenticatorInterface
                 'success' => false,
                 'reason'  => lang(
                     'Auth.noToken',
-                    [config(AuthJWT::class)->authenticatorHeader]
+                    [config('AuthJWT')->authenticatorHeader]
                 ),
             ]);
         }
@@ -196,7 +197,8 @@ class JWT implements AuthenticatorInterface
         /** @var IncomingRequest $request */
         $request = service('request');
 
-        $config = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
 
         return $this->attempt([
             'token' => $request->getHeaderLine($config->authenticatorHeader),

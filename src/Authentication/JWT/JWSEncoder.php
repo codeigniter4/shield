@@ -39,7 +39,8 @@ class JWSEncoder
             'Cannot pass $claims[\'exp\'] and $ttl at the same time.'
         );
 
-        $config = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
 
         $payload = array_merge(
             $config->defaultClaims,

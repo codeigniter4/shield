@@ -59,7 +59,8 @@ class JWTAuth implements FilterInterface
     {
         assert($request instanceof IncomingRequest);
 
-        $config = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
 
         $tokenHeader = $request->getHeaderLine(
             $config->authenticatorHeader ?? 'Authorization'

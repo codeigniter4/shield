@@ -79,7 +79,8 @@ class FirebaseAdapter implements JWSAdapterInterface
      */
     private function createKeysForDecode($keyset)
     {
-        $config = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
 
         $configKeys = $config->keys[$keyset];
 
@@ -127,7 +128,8 @@ class FirebaseAdapter implements JWSAdapterInterface
      */
     private function createKeysForEncode($keyset): array
     {
-        $config = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config = config('AuthJWT');
 
         if (isset($config->keys[$keyset][0]['secret'])) {
             $key = $config->keys[$keyset][0]['secret'];
