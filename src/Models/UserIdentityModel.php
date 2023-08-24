@@ -218,7 +218,7 @@ class UserIdentityModel extends BaseModel
     /**
      * Find and Retrieve the HMAC AccessToken based on Token alone
      *
-     * @return ?AccessToken
+     * @return ?AccessToken Full HMAC Access Token object
      */
     public function getHmacTokenByKey(string $key): ?AccessToken
     {
@@ -267,7 +267,7 @@ class UserIdentityModel extends BaseModel
      * @param User   $user User Object
      * @param string $key  HMAC Key String
      *
-     * @return ?AccessToken
+     * @return ?AccessToken Full HMAC Access Token
      */
     public function getHmacToken(User $user, string $key): ?AccessToken
     {
@@ -286,7 +286,7 @@ class UserIdentityModel extends BaseModel
      * @param int|string $id
      * @param User       $user User Object
      *
-     * @return ?AccessToken
+     * @return ?AccessToken Full HMAC Access Token
      */
     public function getHmacTokenById($id, User $user): ?AccessToken
     {

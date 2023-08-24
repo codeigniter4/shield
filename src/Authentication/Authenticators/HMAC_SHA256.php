@@ -195,7 +195,7 @@ class HMAC_SHA256 implements AuthenticatorInterface
     /**
      * Logs a user in based on their ID.
      *
-     * @param int|string $userId
+     * @param int|string $userId User ID
      *
      * @throws AuthenticationException
      */
@@ -233,7 +233,7 @@ class HMAC_SHA256 implements AuthenticatorInterface
     /**
      * Returns the Full Authorization token from the Authorization header
      *
-     * @return ?string
+     * @return ?string Trimmed Authorization Token from Header
      */
     public function getFullAuthToken(): ?string
     {
@@ -272,7 +272,7 @@ class HMAC_SHA256 implements AuthenticatorInterface
     /**
      * Retrieve the key from the Auth token
      *
-     * @return ?string
+     * @return ?string HMAC token key
      */
     public function getAuthKeyFromToken(): ?string
     {
@@ -284,7 +284,7 @@ class HMAC_SHA256 implements AuthenticatorInterface
     /**
      * Retrieve the HMAC Hash from the Auth token
      *
-     * @return ?string
+     * @return ?string HMAC signature
      */
     public function getHMACHashFromToken(): ?string
     {
