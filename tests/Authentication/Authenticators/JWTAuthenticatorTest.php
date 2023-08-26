@@ -105,7 +105,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
 
         $this->assertFalse($result->isOK());
         $this->assertSame(
-            \lang('Auth.noToken', [config(AuthJWT::class)->authenticatorHeader]),
+            \lang('Auth.noToken', [config('AuthJWT')->authenticatorHeader]),
             $result->reason()
         );
     }
