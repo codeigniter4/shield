@@ -30,6 +30,7 @@ return [
     'password'        => 'Парола',
     'passwordConfirm' => 'Парола (отново)',
     'haveAccount'     => 'Вече имате акаунт?',
+    'token'           => '(To be translated) Token',
 
     // Бутони
     'confirm' => 'Потвърди',

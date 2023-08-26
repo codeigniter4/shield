@@ -30,6 +30,7 @@ return [
     'password'        => 'Lösenord',
     'passwordConfirm' => 'Lösenord (igen)',
     'haveAccount'     => 'Har du redan ett konto?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Bekräfta',

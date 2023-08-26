@@ -30,6 +30,7 @@ return [
     'password'        => 'Пароль',
     'passwordConfirm' => 'Пароль (ще раз)',
     'haveAccount'     => 'Вже є обліковий запис?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Підтвердити',

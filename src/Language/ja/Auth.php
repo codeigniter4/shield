@@ -30,6 +30,7 @@ return [
     'password'        => 'パスワード', // 'Password'
     'passwordConfirm' => 'パスワード（再）', // 'Password (again)'
     'haveAccount'     => 'すでにアカウントをお持ちの方', // 'Already have an account?'
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => '確認する', // 'Confirm'

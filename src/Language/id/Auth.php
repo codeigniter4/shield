@@ -30,6 +30,7 @@ return [
     'password'        => 'Kata Sandi',
     'passwordConfirm' => 'Kata Sandi (lagi)',
     'haveAccount'     => 'Sudah punya akun?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Konfirmasi',

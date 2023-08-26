@@ -30,6 +30,7 @@ return [
     'password'        => 'Slaptažodis',
     'passwordConfirm' => 'Slaptažodis (pakartoti)',
     'haveAccount'     => 'Jau turite paskyrą?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Patvirtinti',
