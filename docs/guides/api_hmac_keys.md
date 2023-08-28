@@ -98,7 +98,7 @@ public $filters = [
 You can also specify the filter should run on one or more routes within the routes file itself:
 
 ```php
-$routes->group('api', ['filter' => 'tokens'], function($routes) {
+$routes->group('api', ['filter' => 'hmac'], function($routes) {
     //
 });
 $routes->get('users', 'UserController::list', ['filter' => 'hmac:users-read']);
