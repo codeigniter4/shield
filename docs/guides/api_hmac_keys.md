@@ -91,7 +91,7 @@ on **app/Config/Filters.php**.
 
 ```php
 public $filters = [
-    'tokens' => ['before' => ['api/*']],
+    'hmac' => ['before' => ['api/*']],
 ];
 ```
 
