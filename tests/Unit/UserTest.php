@@ -106,7 +106,11 @@ final class UserTest extends DatabaseTestCase
 
             // Check the last query and see if a proper type of query was used
             $query = (string) model(UserModel::class)->getLastQuery();
-            $this->assertMatchesRegularExpression('/WHERE\s+.*\s+IN\s+\([^)]+\)/i', $query, 'Identities were not obtained with the single query (missing "WHERE ... IN" condition)');
+            $this->assertMatchesRegularExpression(
+                '/WHERE\s+.*\s+IN\s+\([^)]+\)/i',
+                $query,
+                'Identities were not obtained with the single query (missing "WHERE ... IN" condition)'
+            );
         }
 
         $this->assertCount(2, $identities);

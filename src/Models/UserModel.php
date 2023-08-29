@@ -113,7 +113,7 @@ class UserModel extends BaseModel
      */
     private function assignIdentities(array $data, array $identities): array
     {
-        $mappedUsers = [];
+        $mappedUsers    = [];
         $userIdentities = [];
 
         $users = $data['singleton'] ? [$data['data']] : $data['data'];
