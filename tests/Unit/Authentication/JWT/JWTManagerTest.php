@@ -55,7 +55,8 @@ final class JWTManagerTest extends TestCase
         $manager = $this->createJWTManager();
         $payload = $manager->parse($token);
 
-        $config   = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config   = config('AuthJWT');
         $expected = [
             'iss' => $config->defaultClaims['iss'],
             'sub' => '1',
@@ -121,7 +122,8 @@ final class JWTManagerTest extends TestCase
         $manager = $this->createJWTManager();
         $payload = $manager->parse($token);
 
-        $config   = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config   = config('AuthJWT');
         $expected = [
             'iss'     => $config->defaultClaims['iss'],
             'user_id' => '1',
@@ -137,7 +139,8 @@ final class JWTManagerTest extends TestCase
         $manager = $this->createJWTManager();
 
         // Set kid
-        $config                            = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config                            = config('AuthJWT');
         $config->keys['default'][0]['kid'] = 'Key01';
 
         $payload = [
@@ -181,7 +184,8 @@ final class JWTManagerTest extends TestCase
     {
         $manager = $this->createJWTManager();
 
-        $config                     = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config                     = config('AuthJWT');
         $config->keys['default'][0] = [
             'alg'     => 'RS256', // algorithm.
             'public'  => '',      // Public Key
@@ -257,7 +261,8 @@ final class JWTManagerTest extends TestCase
 
     public function testParseCanDecodeTokenSignedByOldKey(): void
     {
-        $config                  = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config                  = config('AuthJWT');
         $config->keys['default'] = [
             [
                 'kid'    => 'Key01',
@@ -294,7 +299,8 @@ final class JWTManagerTest extends TestCase
 
     public function testParseCanSpecifyKey(): void
     {
-        $config                 = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config                 = config('AuthJWT');
         $config->keys['mobile'] = [
             [
                 'kid'    => 'Key01',
@@ -329,7 +335,8 @@ final class JWTManagerTest extends TestCase
     {
         $manager = $this->createJWTManager();
 
-        $config                     = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config                     = config('AuthJWT');
         $config->keys['default'][0] = [
             'alg'    => 'RS256', // algorithm.
             'public' => <<<'EOD'
