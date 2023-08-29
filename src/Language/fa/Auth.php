@@ -30,6 +30,7 @@ return [
     'password'        => 'رمز عبور',
     'passwordConfirm' => 'رمز عبور (تکرار)',
     'haveAccount'     => 'از قبل حساب کاربری دارید؟',
+    'token'           => 'توکن',
 
     // Buttons
     'confirm' => 'تایید',

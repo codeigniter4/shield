@@ -30,6 +30,7 @@ return [
     'password'        => 'Password',
     'passwordConfirm' => 'Password (again)',
     'haveAccount'     => 'Already have an account?',
+    'token'           => 'Token',
 
     // Buttons
     'confirm' => 'Confirm',

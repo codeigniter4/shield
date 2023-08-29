@@ -30,6 +30,7 @@ return [
     'password'        => 'Mot de passe',
     'passwordConfirm' => 'Mot de passe (répéter)',
     'haveAccount'     => 'Vous avez déjà un compte ?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Confirmer',

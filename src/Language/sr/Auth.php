@@ -30,6 +30,7 @@ return [
     'password'        => 'Lozinka',
     'passwordConfirm' => 'Lozinka (ponovo)',
     'haveAccount'     => 'Već imate nalog?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Potvrdi',

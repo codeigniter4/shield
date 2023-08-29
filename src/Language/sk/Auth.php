@@ -30,6 +30,7 @@ return [
     'password'        => 'Heslo',
     'passwordConfirm' => 'Heslo (znova)',
     'haveAccount'     => 'Máte už účet?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Potvrdiť',

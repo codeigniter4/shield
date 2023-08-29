@@ -30,6 +30,7 @@ return [
     'password'        => 'Şifre',
     'passwordConfirm' => 'Şifre (tekrar)',
     'haveAccount'     => 'Zaten hesabınız var mı?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Onayla',
