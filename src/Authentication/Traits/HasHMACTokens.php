@@ -75,18 +75,18 @@ trait HasHMACTokens
     }
 
     /**
-     * Given a secret Key, it will locate it within the system.
+     * Given an HMAC Key, it will locate it within the system.
      */
-    public function getHmacToken(?string $secretKey): ?AccessToken
+    public function getHmacToken(?string $key): ?AccessToken
     {
-        if (empty($secretKey)) {
+        if (empty($key)) {
             return null;
         }
 
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        return $identityModel->getHmacToken($this, $secretKey);
+        return $identityModel->getHmacToken($this, $key);
     }
 
     /**
