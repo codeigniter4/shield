@@ -20,6 +20,13 @@
     - [Retrieving Access Tokens](#retrieving-access-tokens)
     - [Access Token Lifetime](#access-token-lifetime)
     - [Access Token Scopes](#access-token-scopes)
+  - [HMAC SHA256 Token Authenticator](#hmac-sha256-token-authenticator)
+    - [HMAC Keys/API Authentication](#hmac-keysapi-authentication)
+    - [Generating HMAC Access Keys](#generating-hmac-access-keys)
+    - [Revoking HMAC Keys](#revoking-hmac-keys)
+    - [Retrieving HMAC Keys](#retrieving-hmac-keys)
+    - [HMAC Keys Lifetime](#hmac-keys-lifetime)
+    - [HMAC Keys Scopes](#hmac-keys-scopes)
 
 Authentication is the process of determining that a visitor actually belongs to your website,
 and identifying them. Shield provides a flexible and secure authentication system for your
@@ -316,8 +323,8 @@ with their email/password. The application would create a new access token for t
 name, like John's iPhone 12, and return it to the mobile application, where it is stored and used
 in all future requests.
 
-> **Note** For the purpose of this documentation and to maintain a level of consistency with the Authorization Tokens,
-the term "Token" will be used to represent a set of API Keys (key and secretKey).
+> **Note** For the purpose of this documentation, and to maintain a level of consistency with the Authorization Tokens,
+> the term "Token" will be used to represent a set of API Keys (key and secretKey).
 
 ### Usage
 In order to use HMAC Keys/Token the `Authorization` header will be set to the following in the request:
@@ -341,7 +348,7 @@ provides all the custom methods needed to implement HMAC keys in your applicatio
 database table, `auth_identities`, is created in Shield's only migration class, which must be run
 before first using any of the features of Shield.
 
-### Generating Access Keys
+### Generating HMAC Access Keys
 
 Access keys/tokens are created through the `generateHmacToken()` method on the user. This takes a name to
 give to the token as the first argument. The name is used to display it to the user, so they can
