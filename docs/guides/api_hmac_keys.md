@@ -31,7 +31,7 @@ You can access all the user's HMAC keys with the `hmacTokens()` method on that u
 
 ```php
 $tokens = $user->hmacTokens();
-foreach($tokens as $token) {
+foreach ($tokens as $token) {
     //
 }
 ```
