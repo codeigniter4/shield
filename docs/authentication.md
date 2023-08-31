@@ -306,7 +306,7 @@ if ($user->tokenCant('forums.manage')) {
 
 ## HMAC SHA256 Token Authenticator
 
-The HMAC-SHA256 authenticator supports the use of revoke-able API keys without using OAuth. This provides
+The HMAC-SHA256 authenticator supports the use of revocable API keys without using OAuth. This provides
 an alternative to a token that is passed in every request and instead uses a shared secret that is used to sign
 the request in a secure manner. Like authorization tokens, these are commonly used to provide third-party developers
 access to your API. These keys typically have a very long expiration time, often years.
