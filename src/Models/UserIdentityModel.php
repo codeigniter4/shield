@@ -6,7 +6,7 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
-use CodeIgniter\Shield\Authentication\Authenticators\HMAC_SHA256;
+use CodeIgniter\Shield\Authentication\Authenticators\HmacSha256;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\AccessToken;
@@ -223,7 +223,7 @@ class UserIdentityModel extends BaseModel
     public function getHmacTokenByKey(string $key): ?AccessToken
     {
         return $this
-            ->where('type', HMAC_SHA256::ID_TYPE_HMAC_TOKEN)
+            ->where('type', HmacSha256::ID_TYPE_HMAC_TOKEN)
             ->where('secret', $key)
             ->asObject(AccessToken::class)
             ->first();
@@ -245,7 +245,7 @@ class UserIdentityModel extends BaseModel
         //        helper('text');
 
         $return = $this->insert([
-            'type'    => HMAC_SHA256::ID_TYPE_HMAC_TOKEN,
+            'type'    => HmacSha256::ID_TYPE_HMAC_TOKEN,
             'user_id' => $user->id,
             'name'    => $name,
             'secret'  => bin2hex(random_bytes(16)), // Key
@@ -274,7 +274,7 @@ class UserIdentityModel extends BaseModel
         $this->checkUserId($user);
 
         return $this->where('user_id', $user->id)
-            ->where('type', HMAC_SHA256::ID_TYPE_HMAC_TOKEN)
+            ->where('type', HmacSha256::ID_TYPE_HMAC_TOKEN)
             ->where('secret', $key)
             ->asObject(AccessToken::class)
             ->first();
@@ -293,7 +293,7 @@ class UserIdentityModel extends BaseModel
         $this->checkUserId($user);
 
         return $this->where('user_id', $user->id)
-            ->where('type', HMAC_SHA256::ID_TYPE_HMAC_TOKEN)
+            ->where('type', HmacSha256::ID_TYPE_HMAC_TOKEN)
             ->where('id', $id)
             ->asObject(AccessToken::class)
             ->first();
@@ -312,7 +312,7 @@ class UserIdentityModel extends BaseModel
 
         return $this
             ->where('user_id', $user->id)
-            ->where('type', HMAC_SHA256::ID_TYPE_HMAC_TOKEN)
+            ->where('type', HmacSha256::ID_TYPE_HMAC_TOKEN)
             ->orderBy($this->primaryKey)
             ->asObject(AccessToken::class)
             ->findAll();
@@ -329,7 +329,7 @@ class UserIdentityModel extends BaseModel
         $this->checkUserId($user);
 
         $return = $this->where('user_id', $user->id)
-            ->where('type', HMAC_SHA256::ID_TYPE_HMAC_TOKEN)
+            ->where('type', HmacSha256::ID_TYPE_HMAC_TOKEN)
             ->where('secret', $key)
             ->delete();
 
@@ -344,7 +344,7 @@ class UserIdentityModel extends BaseModel
         $this->checkUserId($user);
 
         $return = $this->where('user_id', $user->id)
-            ->where('type', HMAC_SHA256::ID_TYPE_HMAC_TOKEN)
+            ->where('type', HmacSha256::ID_TYPE_HMAC_TOKEN)
             ->delete();
 
         $this->checkQueryReturn($return);

@@ -13,7 +13,7 @@ use CodeIgniter\Test\DatabaseTestTrait;
 /**
  * @internal
  */
-final class HMACFilterTest extends AbstractFilterTestCase
+final class HmacFilterTest extends AbstractFilterTestCase
 {
     use DatabaseTestTrait;
 

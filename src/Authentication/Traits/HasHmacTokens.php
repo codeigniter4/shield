@@ -9,14 +9,14 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
 use ReflectionException;
 
 /**
- * Trait HasHMACTokens
+ * Trait HasHmacTokens
  *
  * Provides functionality needed to generate, revoke,
  * and retrieve Personal Access Tokens.
  *
  * Intended to be used with User entities.
  */
-trait HasHMACTokens
+trait HasHmacTokens
 {
     /**
      * The current access token for the user.

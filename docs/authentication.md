@@ -336,7 +336,7 @@ header("Authorization: HMAC-SHA256 {$key}:" . hash_hmac('sha256', $requestBody, 
 ### HMAC Keys/API Authentication
 
 Using HMAC keys requires that you either use/extend `CodeIgniter\Shield\Models\UserModel` or
-use the `CodeIgniter\Shield\Authentication\Traits\HasHMACTokens` on your own user model. This trait
+use the `CodeIgniter\Shield\Authentication\Traits\HasHmacTokens` on your own user model. This trait
 provides all the custom methods needed to implement HMAC keys in your application. The necessary
 database table, `auth_identities`, is created in Shield's only migration class, which must be run
 before first using any of the features of Shield.
@@ -418,14 +418,14 @@ permissions the token grants to the user. Scopes are provided when the token is 
 cannot be modified afterword.
 
 ```php
-$token = $user->gererateHMACToken('Work Laptop', ['posts.manage', 'forums.manage']);
+$token = $user->gererateHmacToken('Work Laptop', ['posts.manage', 'forums.manage']);
 ```
 
 By default, a user is granted a wildcard scope which provides access to all scopes. This is the
 same as:
 
 ```php
-$token = $user->gererateHMACToken('Work Laptop', ['*']);
+$token = $user->gererateHmacToken('Work Laptop', ['*']);
 ```
 
 During authentication, the HMAC Keys the user used is stored on the user. Once authenticated, you

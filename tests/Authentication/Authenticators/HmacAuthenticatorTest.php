@@ -6,7 +6,7 @@ namespace Tests\Authentication\Authenticators;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authentication;
-use CodeIgniter\Shield\Authentication\Authenticators\HMAC_SHA256;
+use CodeIgniter\Shield\Authentication\Authenticators\HmacSha256;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
@@ -20,9 +20,9 @@ use Tests\Support\DatabaseTestCase;
 /**
  * @internal
  */
-final class HMACAuthenticatorTest extends DatabaseTestCase
+final class HmacAuthenticatorTest extends DatabaseTestCase
 {
-    private HMAC_SHA256 $auth;
+    private HmacSha256 $auth;
 
     protected function setUp(): void
     {
@@ -32,7 +32,7 @@ final class HMACAuthenticatorTest extends DatabaseTestCase
         $auth   = new Authentication($config);
         $auth->setProvider(model(UserModel::class));
 
-        /** @var HMAC_SHA256 $authenticator */
+        /** @var HmacSha256 $authenticator */
         $authenticator = $auth->factory('hmac');
         $this->auth    = $authenticator;
 
@@ -212,7 +212,7 @@ final class HMACAuthenticatorTest extends DatabaseTestCase
 
         // A login attempt should have always been recorded
         $this->seeInDatabase($this->tables['token_logins'], [
-            'id_type'    => HMAC_SHA256::ID_TYPE_HMAC_TOKEN,
+            'id_type'    => HmacSha256::ID_TYPE_HMAC_TOKEN,
             'identifier' => 'abc123:lsakdjfljsdflkajsfd',
             'success'    => 0,
         ]);
@@ -242,7 +242,7 @@ final class HMACAuthenticatorTest extends DatabaseTestCase
 
         // A login attempt should have been recorded
         $this->seeInDatabase($this->tables['token_logins'], [
-            'id_type'    => HMAC_SHA256::ID_TYPE_HMAC_TOKEN,
+            'id_type'    => HmacSha256::ID_TYPE_HMAC_TOKEN,
             'identifier' => $rawToken,
             'success'    => 1,
         ]);

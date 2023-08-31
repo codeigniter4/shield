@@ -15,7 +15,7 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
 
-class HMAC_SHA256 implements AuthenticatorInterface
+class HmacSha256 implements AuthenticatorInterface
 {
     public const ID_TYPE_HMAC_TOKEN = 'hmac_sha256';
 
@@ -113,12 +113,12 @@ class HMAC_SHA256 implements AuthenticatorInterface
         }
 
         // Extract UserToken and HMACSHA256 Signature from Authorization token
-        [$userToken, $signature] = $this->getHMACAuthTokens($credentials['token']);
+        [$userToken, $signature] = $this->getHmacAuthTokens($credentials['token']);
 
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        $token = $identityModel->getHMACTokenByKey($userToken);
+        $token = $identityModel->getHmacTokenByKey($userToken);
 
         if ($token === null) {
             return new Result([
@@ -208,7 +208,7 @@ class HMAC_SHA256 implements AuthenticatorInterface
         }
 
         $user->setHmacToken(
-            $user->getHMACToken($this->getAuthKeyFromToken())
+            $user->getHmacToken($this->getAuthKeyFromToken())
         );
 
         $this->login($user);
@@ -256,7 +256,7 @@ class HMAC_SHA256 implements AuthenticatorInterface
      *
      * @return ?array [key, hmacHash]
      */
-    public function getHMACAuthTokens(?string $fullToken = null): ?array
+    public function getHmacAuthTokens(?string $fullToken = null): ?array
     {
         if (! isset($fullToken)) {
             $fullToken = $this->getFullAuthToken();
@@ -276,7 +276,7 @@ class HMAC_SHA256 implements AuthenticatorInterface
      */
     public function getAuthKeyFromToken(): ?string
     {
-        [$key, $hmacHash] = $this->getHMACAuthTokens();
+        [$key, $hmacHash] = $this->getHmacAuthTokens();
 
         return $key;
     }
@@ -286,9 +286,9 @@ class HMAC_SHA256 implements AuthenticatorInterface
      *
      * @return ?string HMAC signature
      */
-    public function getHMACHashFromToken(): ?string
+    public function getHmacHashFromToken(): ?string
     {
-        [$key, $hmacHash] = $this->getHMACAuthTokens();
+        [$key, $hmacHash] = $this->getHmacAuthTokens();
 
         return $hmacHash;
     }
