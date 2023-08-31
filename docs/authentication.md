@@ -323,7 +323,7 @@ the term "Token" will be used to represent a set of API Keys (key and secretKey)
 In order to use HMAC Keys/Token the `Authorization` header will be set to the following in the request:
 
 ```
-Authorization: HMAC-SHA256 <key>:<HMAC HASH of request body>
+Authorization: HMAC-SHA256 <key>:<HMAC-HASH-of-request-body>
 ```
 
 The code to do this will look something like this:
