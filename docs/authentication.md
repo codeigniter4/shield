@@ -316,7 +316,7 @@ with their email/password. The application would create a new access token for t
 name, like John's iPhone 12, and return it to the mobile application, where it is stored and used
 in all future requests.
 
-> **NOTE:** for the purpose of this documentation and to maintain a level of consistency with the Authorization Tokens,
+> **Note** For the purpose of this documentation and to maintain a level of consistency with the Authorization Tokens,
 the term "Token" will be used to represent a set of API Keys (key and secretKey).
 
 ### Usage
