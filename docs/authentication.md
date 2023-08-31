@@ -45,6 +45,7 @@ public $authenticators = [
     // alias  => classname
     'session' => Session::class,
     'tokens'  => AccessTokens::class,
+    'hmac'    => HmacSha256::class,
 ];
 ```
 
@@ -337,7 +338,26 @@ The code to do this will look something like this:
 
 ```php
 <?php
+
 header("Authorization: HMAC-SHA256 {$key}:" . hash_hmac('sha256', $requestBody, $secretKey));
+```
+Using the CodeIgniter CURLRequest class:
+
+```php
+<?php
+
+$client = \Config\Services::curlrequest();
+
+$key = 'a6c460151b4cabbe1c1d73e08915ce8e';
+$secretKey = '56c85232f0e5b55c05015476cd132c8d';
+$requestBody = '{"name":"John";"email":"john@example.com"}';
+
+// $hashValue = b22b0ec11ad61cd4488ab1a09c8a0317e896c22adcc5754ea4cfd0f903a0f8c2
+$hashValue = hash_hmac('sha256', $requestBody, $secretKey);
+
+$response = $client->setHeader('Authorization', "HMAC-SHA256 {$key}:{$hashValue}")
+    ->setBody($requestBody)
+    ->request('POST', 'https://example.com/api');
 ```
 
 ### HMAC Keys/API Authentication
