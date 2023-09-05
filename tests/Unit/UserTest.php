@@ -95,7 +95,7 @@ final class UserTest extends DatabaseTestCase
         // Grab the user again, using the model's identity helper
         $users = model(UserModel::class)->withIdentities()->findAll();
 
-        $identities = 0;
+        $identities = [];
 
         foreach ($users as $user) {
             if ($user->id !== $this->user->id) {
