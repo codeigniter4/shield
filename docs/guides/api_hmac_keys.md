@@ -1,6 +1,7 @@
 # Protecting an API with HMAC Keys
 
-> **Note** for the purpose of this documentation and to maintain a level of consistency with the Authorization Tokens,
+> **Note** 
+> For the purpose of this documentation and to maintain a level of consistency with the Authorization Tokens,
     the term "Token" will be used to represent a set of API Keys (key and secretKey).
 
 HMAC Keys can be used to authenticate users for your own site, or when allowing third-party developers to access your
