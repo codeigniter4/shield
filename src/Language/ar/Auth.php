@@ -30,7 +30,7 @@ return [
     'password'        => 'كلمة المرور',
     'passwordConfirm' => 'كلمة المرور (مرة اخرى)',
     'haveAccount'     => 'هل لديك حساب بالفعل؟',
-    'token'           => 'رمز Token',
+    'token'           => 'رمز',
 
     // Buttons
     'confirm' => 'تاكيد',
