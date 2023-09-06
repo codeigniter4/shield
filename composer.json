@@ -27,7 +27,7 @@
         "mikey179/vfsstream": "^1.6.7",
         "mockery/mockery": "^1.0",
         "firebase/php-jwt": "^6.4",
-        "rector/rector": "0.18.1"
+        "rector/rector": "0.18.2"
     },
     "provide": {
         "codeigniter4/authentication-implementation": "1.0"
