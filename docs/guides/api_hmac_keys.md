@@ -8,8 +8,9 @@ HMAC Keys can be used to authenticate users for your own site, or when allowing 
 API. When making requests using HMAC keys, the token should be included in the `Authorization` header as an
 `HMAC-SHA256` token.
 
-> **Note**  By default, `$authenticatorHeader['hmac']` is set to `Authorization`. You can change this value by
-    setting the `$authenticatorHeader['hmac']` value in the **app/Config/Auth.php** config file.
+> **Note**  
+> By default, `$authenticatorHeader['hmac']` is set to `Authorization`. You can change this value by
+> setting the `$authenticatorHeader['hmac']` value in the **app/Config/Auth.php** config file.
 
 Tokens are issued with the `generateHmacToken()` method on the user. This returns a
 `CodeIgniter\Shield\Entities\AccessToken` instance. These shared keys are saved to the database in plain text. The
