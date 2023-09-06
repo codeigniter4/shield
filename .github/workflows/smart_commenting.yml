@@ -1,0 +1,45 @@
+name: Smart commenting
+on:
+  pull_request:
+    types:
+      - labeled
+jobs:
+
+  add-comment-for-GPG-Signing:
+    if: github.event.label.name == 'GPG-Signing needed'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Add comment for GPG-sign
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            You must GPG-sign your work, certifying that you either wrote the work or otherwise have the right to pass it on to an open-source project. See Developer's Certificate of Origin.
+            See [signing][1].
+
+            **Note that all your commits must be signed.** If you have an unsigned commit, you can sign the previous commits by referring to [gpg-signing-old-commits][2].
+
+            [1]: https://github.com/codeigniter4/CodeIgniter4/blob/develop/contributing/pull_request.md#signing
+            [2]: https://github.com/codeigniter4/CodeIgniter4/blob/develop/contributing/workflow.md#gpg-signing-old-commits
+
+  add-comment-for-tests:
+    if: github.event.label.name == 'tests needed'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Add comment for PHPUnit test
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            **Unit Testing:**
+            Unit testing is expected for all CodeIgniter components. We use PHPUnit, and run unit tests using GitHub Actions for each PR submitted or changed.
+
+            **So please write a unit test or update the existing tests.**
+
+            See  [unit testing][1] for more info.
+
+            [1]: https://github.com/codeigniter4/CodeIgniter4/blob/develop/contributing/pull_request.md#unit-testing
