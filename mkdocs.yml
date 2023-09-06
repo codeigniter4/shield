@@ -51,6 +51,7 @@ nav:
   - Banning Users: banning_users.md
   - session_auth_event_and_logging.md
   - Guides:
+    - guides/api_hmac_keys.md
     - guides/api_tokens.md
     - guides/mobile_apps.md
     - guides/strengthen_password.md

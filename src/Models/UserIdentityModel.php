@@ -242,8 +242,6 @@ class UserIdentityModel extends BaseModel
     {
         $this->checkUserId($user);
 
-        //        helper('text');
-
         $return = $this->insert([
             'type'    => HmacSha256::ID_TYPE_HMAC_TOKEN,
             'user_id' => $user->id,

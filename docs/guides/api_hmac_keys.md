@@ -1,6 +1,6 @@
 # Protecting an API with HMAC Keys
 
-> **Note** 
+> **Note**
 > For the purpose of this documentation and to maintain a level of consistency with the Authorization Tokens,
     the term "Token" will be used to represent a set of API Keys (key and secretKey).
 
@@ -8,7 +8,7 @@ HMAC Keys can be used to authenticate users for your own site, or when allowing 
 API. When making requests using HMAC keys, the token should be included in the `Authorization` header as an
 `HMAC-SHA256` token.
 
-> **Note**  
+> **Note**
 > By default, `$authenticatorHeader['hmac']` is set to `Authorization`. You can change this value by
 > setting the `$authenticatorHeader['hmac']` value in the **app/Config/Auth.php** config file.
 
@@ -39,6 +39,7 @@ foreach ($tokens as $token) {
 ```
 
 ### Usage
+
 In order to use HMAC Keys/Token the `Authorization` header will be set to the following in the request:
 
 ```
@@ -48,7 +49,6 @@ Authorization: HMAC-SHA256 <key>:<HMAC HASH of request body>
 The code to do this will look something like this:
 
 ```php
-<?php
 header("Authorization: HMAC-SHA256 {$key}:" . hash_hmac('sha256', $requestBody, $secretKey));
 ```
 

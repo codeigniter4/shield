@@ -272,7 +272,7 @@ $tokens = $user->accessTokens();
 ### Access Token Lifetime
 
 Tokens will expire after a specified amount of time has passed since they have been used.
-By default, this is set to 1 year. You can change this value by setting the `accessTokenLifetime`
+By default, this is set to 1 year. You can change this value by setting the `$unusedTokenLifetime`
 value in the `Auth` config file. This is in seconds so that you can use the
 [time constants](https://codeigniter.com/user_guide/general/common_functions.html#time-constants)
 that CodeIgniter provides.
@@ -324,10 +324,12 @@ with their email/password. The application would create a new access token for t
 name, like John's iPhone 12, and return it to the mobile application, where it is stored and used
 in all future requests.
 
-> **Note** For the purpose of this documentation, and to maintain a level of consistency with the Authorization Tokens,
+> **Note**
+> For the purpose of this documentation, and to maintain a level of consistency with the Authorization Tokens,
 > the term "Token" will be used to represent a set of API Keys (key and secretKey).
 
 ### Usage
+
 In order to use HMAC Keys/Token the `Authorization` header will be set to the following in the request:
 
 ```
@@ -337,10 +339,9 @@ Authorization: HMAC-SHA256 <key>:<HMAC-HASH-of-request-body>
 The code to do this will look something like this:
 
 ```php
-<?php
-
 header("Authorization: HMAC-SHA256 {$key}:" . hash_hmac('sha256', $requestBody, $secretKey));
 ```
+
 Using the CodeIgniter CURLRequest class:
 
 ```php
@@ -350,7 +351,7 @@ $client = \Config\Services::curlrequest();
 
 $key = 'a6c460151b4cabbe1c1d73e08915ce8e';
 $secretKey = '56c85232f0e5b55c05015476cd132c8d';
-$requestBody = '{"name":"John";"email":"john@example.com"}';
+$requestBody = '{"name":"John","email":"john@example.com"}';
 
 // $hashValue = b22b0ec11ad61cd4488ab1a09c8a0317e896c22adcc5754ea4cfd0f903a0f8c2
 $hashValue = hash_hmac('sha256', $requestBody, $secretKey);
@@ -429,7 +430,7 @@ $tokens = $user->hmacTokens();
 HMAC Keys/Tokens will expire after a specified amount of time has passed since they have been used.
 This uses the same configuration value as AccessTokens.
 
-By default, this is set to 1 year. You can change this value by setting the `accessTokenLifetime`
+By default, this is set to 1 year. You can change this value by setting the `$unusedTokenLifetime`
 value in the `Auth` config file. This is in seconds so that you can use the
 [time constants](https://codeigniter.com/user_guide/general/common_functions.html#time-constants)
 that CodeIgniter provides.
