@@ -31,6 +31,16 @@ final class PermissionFilterTest extends AbstractFilterTestCase
         $result->assertSee('Open');
     }
 
+    public function testFilterNotAuthorizedStoresRedirectToEntranceUrlIntoSession(): void
+    {
+        $result = $this->call('get', 'protected-route');
+
+        $result->assertRedirectTo('/login');
+
+        $this->assertNotEmpty(session()->getTempdata('beforeLoginUrl'));
+        $this->assertSame(site_url('protected-route'), session()->getTempdata('beforeLoginUrl'));
+    }
+
     public function testFilterSuccess(): void
     {
         /** @var User $user */
