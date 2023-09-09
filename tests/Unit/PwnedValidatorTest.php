@@ -122,10 +122,10 @@ final class PwnedValidatorTest extends CIUnitTestCase
             ->getMock();
 
         $curlrequest->method('get')
-            ->will($this->throwException(HTTPException::forCurlError(
+            ->willThrowException(HTTPException::forCurlError(
                 '7',
                 'Failed to connect'
-            )));
+            ));
         Services::injectMock('curlrequest', $curlrequest);
 
         $this->expectException(AuthenticationException::class);
