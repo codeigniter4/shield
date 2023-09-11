@@ -1,4 +1,4 @@
-name: Smart commenting
+name: Smart Commenting
 on:
   pull_request:
     types:
