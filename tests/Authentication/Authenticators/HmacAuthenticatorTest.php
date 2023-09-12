@@ -32,6 +32,8 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
         $auth   = new Authentication($config);
         $auth->setProvider(model(UserModel::class));
 
+        Config('AuthToken')->recordLoginAttempt = Auth::RECORD_LOGIN_ATTEMPT_ALL;
+
         /** @var HmacSha256 $authenticator */
         $authenticator = $auth->factory('hmac');
         $this->auth    = $authenticator;
