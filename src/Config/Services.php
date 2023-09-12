@@ -8,7 +8,7 @@ use CodeIgniter\Shield\Auth;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Authentication\Passwords;
-use Config\Services as BaseService;
+use CodeIgniter\Config\BaseService;
 
 class Services extends BaseService
 {
