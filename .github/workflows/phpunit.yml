@@ -2,7 +2,21 @@ name: PHPUnit
 
 on:
   pull_request:
+    branches:
+      - develop
+    paths:
+      - '**.php'
+      - 'composer.*'
+      - 'phpunit*'
+      - '.github/workflows/phpunit.yml'
   push:
+    branches:
+      - develop
+    paths:
+      - '**.php'
+      - 'composer.*'
+      - 'phpunit*'
+      - '.github/workflows/phpunit.yml'
 
 jobs:
   phpunit:

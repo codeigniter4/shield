@@ -2,7 +2,21 @@ name: Deptrac
 
 on:
   pull_request:
+    branches:
+      - develop
+    paths:
+      - '**.php'
+      - 'composer.*'
+      - 'depfile.yaml'
+      - '.github/workflows/deptrac.yml'
   push:
+    branches:
+      - develop
+    paths:
+      - '**.php'
+      - 'composer.*'
+      - 'depfile.yaml'
+      - '.github/workflows/deptrac.yml'
 
 jobs:
   deptrac:

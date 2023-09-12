@@ -2,7 +2,19 @@ name: Unused
 
 on:
   pull_request:
+    branches:
+      - develop
+    paths:
+      - '**.php'
+      - 'composer.*'
+      - '.github/workflows/unused.yml'
   push:
+    branches:
+      - develop
+    paths:
+      - '**.php'
+      - 'composer.*'
+      - '.github/workflows/unused.yml'
 
 jobs:
   unused:
