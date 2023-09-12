@@ -11,18 +11,6 @@ parameters:
 		- vendor/codeigniter4/framework/system/Test/bootstrap.php
 	excludePaths:
 		- src/Views/*
-	ignoreErrors:
-		- '#Call to an undefined method CodeIgniter\\Database\\ConnectionInterface::[A-Za-z].+\(\)#'
-		- '#Cannot access property [\$a-z_]+ on (array|object)#'
-		- '#Call to an undefined method CodeIgniter\\Shield\\Models\\UserModel::getLastQuery\(\)#'
-		-
-			message: '#Call to deprecated function random_string\(\):#'
-			paths:
-				- src/Authentication/Actions/Email2FA.php
-				- src/Authentication/Actions/EmailActivator.php
-				- src/Controllers/MagicLinkController.php
-				- src/Models/TokenLoginModel.php
-				- src/Models/UserIdentityModel.php
 	universalObjectCratesClasses:
 		- Faker\Generator
 	scanDirectories:
