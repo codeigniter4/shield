@@ -1,3 +1,6 @@
+includes:
+	- phpstan-baseline.php
+
 parameters:
 	tmpDir: build/phpstan
 	level: 5
