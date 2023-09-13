@@ -44,7 +44,7 @@ class HmacSha256 implements AuthenticatorInterface
      */
     public function attempt(array $credentials): Result
     {
-        $config = config(AuthToken::class);
+        $config = config('AuthToken');
 
         /** @var IncomingRequest $request */
         $request = service('request');
