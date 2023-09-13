@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Config;
 
+use CodeIgniter\Config\BaseService;
 use CodeIgniter\Shield\Auth;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Authentication\Passwords;
-use Config\Services as BaseService;
 
 class Services extends BaseService
 {
