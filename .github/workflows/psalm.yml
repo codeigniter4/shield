@@ -2,7 +2,21 @@ name: Psalm
 
 on:
   pull_request:
+    branches:
+      - develop
+    paths:
+      - '**.php'
+      - 'composer.*'
+      - 'psalm*'
+      - '.github/workflows/psalm.yml'
   push:
+    branches:
+      - develop
+    paths:
+      - '**.php'
+      - 'composer.*'
+      - 'psalm*'
+      - '.github/workflows/psalm.yml'
 
 jobs:
   psalm:
