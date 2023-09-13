@@ -33,7 +33,7 @@ class RegisterController extends BaseController
     /**
      * Auth Table names
      */
-    private array $tables;
+    protected array $tables;
 
     public function initController(
         RequestInterface $request,
