@@ -12,7 +12,7 @@ use Config\Services;
 
 class User extends BaseCommand
 {
-    private array $valid_actions = [
+    private array $validActions = [
         'create', 'activate', 'deactivate', 'changename', 'changeemail',
         'delete', 'password', 'list', 'addgroup', 'removegroup',
     ];
@@ -116,7 +116,7 @@ class User extends BaseCommand
     /**
      * Validation rules for user fields
      */
-    private array $validation_rules = [
+    private array $validationRules = [
         'username' => 'required|is_unique[users.username]',
         'email'    => 'required|valid_email|is_unique[auth_identities.secret]',
         'password' => 'required|min_length[10]',
@@ -129,13 +129,13 @@ class User extends BaseCommand
     {
         $action = CLI::getSegment(2);
 
-        if ($action && in_array($action, $this->valid_actions, true)) {
-            $userid       = (int) CLI::getOption('i');
-            $username     = CLI::getOption('n');
-            $email        = CLI::getOption('e');
-            $new_username = CLI::getOption('new-name');
-            $new_email    = CLI::getOption('new-email');
-            $group        = CLI::getOption('g');
+        if ($action && in_array($action, $this->validActions, true)) {
+            $userid      = (int) CLI::getOption('i');
+            $username    = CLI::getOption('n');
+            $email       = CLI::getOption('e');
+            $newUsername = CLI::getOption('new-name');
+            $newEmail    = CLI::getOption('new-email');
+            $group       = CLI::getOption('g');
 
             switch ($action) {
                 case 'create':
@@ -151,11 +151,11 @@ class User extends BaseCommand
                     break;
 
                 case 'changename':
-                    $this->changename($username, $email, $new_username);
+                    $this->changename($username, $email, $newUsername);
                     break;
 
                 case 'changeemail':
-                    $this->changeemail($username, $email, $new_email);
+                    $this->changeemail($username, $email, $newEmail);
                     break;
 
                 case 'delete':
@@ -179,7 +179,7 @@ class User extends BaseCommand
                     break;
             }
         } else {
-            CLI::write('Specify a valid action : ' . implode(',', $this->valid_actions), 'red');
+            CLI::write('Specify a valid action : ' . implode(',', $this->validActions), 'red');
         }
     }
 
@@ -194,19 +194,19 @@ class User extends BaseCommand
         $data = [];
 
         if (! $username) {
-            $username = CLI::prompt('Username', null, $this->validation_rules['username']);
+            $username = CLI::prompt('Username', null, $this->validationRules['username']);
         }
         $data['username'] = $username;
 
         if (! $email) {
-            $email = CLI::prompt('Email', null, $this->validation_rules['email']);
+            $email = CLI::prompt('Email', null, $this->validationRules['email']);
         }
         $data['email'] = $email;
 
-        $password         = CLI::prompt('Password', null, $this->validation_rules['password']);
-        $password_confirm = CLI::prompt('Password confirmation', null, $this->validation_rules['password']);
+        $password        = CLI::prompt('Password', null, $this->validationRules['password']);
+        $passwordConfirm = CLI::prompt('Password confirmation', null, $this->validationRules['password']);
 
-        if ($password !== $password_confirm) {
+        if ($password !== $passwordConfirm) {
             CLI::write("The passwords don't match", 'red');
 
             exit;
@@ -215,7 +215,7 @@ class User extends BaseCommand
 
         // Run validation if the user has passed username and/or email via command line
         $validation = Services::validation();
-        $validation->setRules($this->validation_rules);
+        $validation->setRules($this->validationRules);
         if (! $validation->run($data)) {
             foreach ($validation->getErrors() as $message) {
                 CLI::write($message, 'red');
@@ -280,11 +280,11 @@ class User extends BaseCommand
     /**
      * Change the name of an existing user by username or email
      *
-     * @param string|null $username     User name to search for (optional)
-     * @param string|null $email        User email to search for (optional)
-     * @param string|null $new_username User new name (optional)
+     * @param string|null $username    User name to search for (optional)
+     * @param string|null $email       User email to search for (optional)
+     * @param string|null $newUsername User new name (optional)
      */
-    private function changename(?string $username = null, ?string $email = null, ?string $new_username = null): void
+    private function changename(?string $username = null, ?string $email = null, ?string $newUsername = null): void
     {
         $validation = Services::validation();
         $validation->setRules([
@@ -293,15 +293,15 @@ class User extends BaseCommand
 
         $user = $this->findUser('Change username', $username, $email);
 
-        if (! $new_username) {
-            $new_username = CLI::prompt('New username', null, $this->validation_rules['username']);
+        if (! $newUsername) {
+            $newUsername = CLI::prompt('New username', null, $this->validationRules['username']);
         } else {
             // Run validation if the user has passed username and/or email via command line
             $validation = Services::validation();
             $validation->setRules([
-                'username' => $this->validation_rules['username'],
+                'username' => $this->validationRules['username'],
             ]);
-            if (! $validation->run(['username' => $new_username])) {
+            if (! $validation->run(['username' => $newUsername])) {
                 foreach ($validation->getErrors() as $message) {
                     CLI::write($message, 'red');
                 }
@@ -313,33 +313,33 @@ class User extends BaseCommand
 
         $userModel = model(UserModel::class);
 
-        $old_username   = $user->username;
-        $user->username = $new_username;
+        $oldUsername    = $user->username;
+        $user->username = $newUsername;
         $userModel->save($user);
 
-        CLI::write('Username ' . $old_username . ' changed to ' . $new_username, 'green');
+        CLI::write('Username ' . $oldUsername . ' changed to ' . $newUsername, 'green');
     }
 
     /**
      * Change the email of an existing user by username or email
      *
-     * @param string|null $username  User name to search for (optional)
-     * @param string|null $email     User email to search for (optional)
-     * @param string|null $new_email User new email (optional)
+     * @param string|null $username User name to search for (optional)
+     * @param string|null $email    User email to search for (optional)
+     * @param string|null $newEmail User new email (optional)
      */
-    private function changeemail(?string $username = null, ?string $email = null, ?string $new_email = null): void
+    private function changeemail(?string $username = null, ?string $email = null, ?string $newEmail = null): void
     {
         $user = $this->findUser('Change email', $username, $email);
 
-        if (! $new_email) {
-            $new_email = CLI::prompt('New email', null, $this->validation_rules['email']);
+        if (! $newEmail) {
+            $newEmail = CLI::prompt('New email', null, $this->validationRules['email']);
         } else {
             // Run validation if the user has passed username and/or email via command line
             $validation = Services::validation();
             $validation->setRules([
-                'email' => $this->validation_rules['email'],
+                'email' => $this->validationRules['email'],
             ]);
-            if (! $validation->run(['email' => $new_email])) {
+            if (! $validation->run(['email' => $newEmail])) {
                 foreach ($validation->getErrors() as $message) {
                     CLI::write($message, 'red');
                 }
@@ -351,10 +351,10 @@ class User extends BaseCommand
 
         $userModel = model(UserModel::class);
 
-        $user->email = $new_email;
+        $user->email = $newEmail;
         $userModel->save($user);
 
-        CLI::write('Email for the user : ' . $user->username . ' changed to ' . $new_email, 'green');
+        CLI::write('Email for the user : ' . $user->username . ' changed to ' . $newEmail, 'green');
     }
 
     /**
@@ -400,10 +400,10 @@ class User extends BaseCommand
 
         $confirm = CLI::prompt('Set the password for the user ' . $user->username . ' ?', ['y', 'n']);
         if ($confirm === 'y') {
-            $password         = CLI::prompt('Password', null, 'required');
-            $password_confirm = CLI::prompt('Password confirmation', null, $this->validation_rules['password']);
+            $password        = CLI::prompt('Password', null, 'required');
+            $passwordConfirm = CLI::prompt('Password confirmation', null, $this->validationRules['password']);
 
-            if ($password !== $password_confirm) {
+            if ($password !== $passwordConfirm) {
                 CLI::write("The passwords don't match", 'red');
 
                 exit;
