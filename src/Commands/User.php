@@ -6,6 +6,7 @@ namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Models\UserModel;
 use Config\Services;
 
@@ -429,7 +430,9 @@ class User extends BaseCommand
     {
         $userModel = model(UserModel::class);
 
-        $users = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
+        $users = $userModel
+            ->join('auth_identities', 'auth_identities.user_id = users.id')
+            ->where('auth_identities.type', Session::ID_TYPE_EMAIL_PASSWORD);
 
         if ($username) {
             $users = $users->like('username', $username);
