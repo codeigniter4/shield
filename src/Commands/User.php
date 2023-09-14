@@ -137,7 +137,7 @@ class User extends BaseCommand
      * Create a new user
      *
      * @param $username User name to create (optional)
-     * @param $email User email to create (optional)
+     * @param $email    User email to create (optional)
      */
     private function create(?string $username = null, ?string $email = null): void
     {
@@ -185,7 +185,7 @@ class User extends BaseCommand
      * Activate an existing user by username or email
      *
      * @param $username User name to search for (optional)
-     * @param $email User email to search for (optional)
+     * @param $email    User email to search for (optional)
      */
     private function activate(?string $username = null, ?string $email = null): void
     {
@@ -205,7 +205,7 @@ class User extends BaseCommand
      * Deactivate an existing user by username or email
      *
      * @param $username User name to search for (optional)
-     * @param $email User email to search for (optional)
+     * @param $email    User email to search for (optional)
      */
     private function deactivate(?string $username = null, ?string $email = null): void
     {
@@ -224,8 +224,8 @@ class User extends BaseCommand
     /**
      * Change the name of an existing user by username or email
      *
-     * @param $username User name to search for (optional)
-     * @param $email User email to search for (optional)
+     * @param $username     User name to search for (optional)
+     * @param $email        User email to search for (optional)
      * @param $new_username User new name (optional)
      */
     private function changename(?string $username = null, ?string $email = null, ?string $new_username = null): void
@@ -265,8 +265,8 @@ class User extends BaseCommand
     /**
      * Change the email of an existing user by username or email
      *
-     * @param $username User name to search for (optional)
-     * @param $email User email to search for (optional)
+     * @param $username  User name to search for (optional)
+     * @param $email     User email to search for (optional)
      * @param $new_email User new email (optional)
      */
     private function changeemail(?string $username = null, ?string $email = null, ?string $new_email = null): void
@@ -300,9 +300,9 @@ class User extends BaseCommand
     /**
      * Delete an existing user by username or email
      *
-     * @param $userid User id to delete (optional)
+     * @param $userid   User id to delete (optional)
      * @param $username User name to search for (optional)
-     * @param $email User email to search for (optional)
+     * @param $email    User email to search for (optional)
      */
     private function delete(int $userid = 0, ?string $username = null, ?string $email = null): void
     {
@@ -331,7 +331,7 @@ class User extends BaseCommand
      * Change the password of an existing user by username or email
      *
      * @param $username User name to search for (optional)
-     * @param $email User email to search for (optional)
+     * @param $email    User email to search for (optional)
      */
     private function password($username = null, $email = null): void
     {
@@ -362,7 +362,7 @@ class User extends BaseCommand
      * List users searching by username or email
      *
      * @param $username User name to search for (optional)
-     * @param $email User email to search for (optional)
+     * @param $email    User email to search for (optional)
      */
     private function list(?string $username = null, ?string $email = null): void
     {
@@ -385,9 +385,9 @@ class User extends BaseCommand
     /**
      * Add a user by username or email to a group
      *
-     * @param $group Group to add user to
+     * @param $group    Group to add user to
      * @param $username User name to search for (optional)
-     * @param $email User email to search for (optional)
+     * @param $email    User email to search for (optional)
      */
     private function addgroup($group = null, $username = null, $email = null): void
     {
@@ -409,9 +409,9 @@ class User extends BaseCommand
     /**
      * Remove a user by username or email from a group
      *
-     * @param $group Group to remove user from
+     * @param $group    Group to remove user from
      * @param $username User name to search for (optional)
-     * @param $email User email to search for (optional)
+     * @param $email    User email to search for (optional)
      */
     private function removegroup($group = null, $username = null, $email = null): void
     {
@@ -435,7 +435,7 @@ class User extends BaseCommand
      *
      * @param $question Initial question at user prompt
      * @param $username User name to search for (optional)
-     * @param $email User email to search for (optional)
+     * @param $email    User email to search for (optional)
      */
     private function findUser($question = '', $username = null, $email = null): \CodeIgniter\Shield\Entities\User
     {
