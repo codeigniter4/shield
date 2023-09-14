@@ -62,7 +62,8 @@
     "config": {
         "allow-plugins": {
             "phpstan/extension-installer": true
-        }
+        },
+        "sort-packages": true
     },
     "scripts": {
         "post-update-cmd": [
