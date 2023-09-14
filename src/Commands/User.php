@@ -42,7 +42,39 @@ class User extends BaseCommand
      *
      * @var string
      */
-    protected $usage = 'shield:user <action>';
+    protected $usage = <<<'EOL'
+        shield:user <action> options
+
+            shield:user create -n newusername -e newuser@example.com
+
+            shield:user activate -n username
+            shield:user activate -e user@example.com
+
+            shield:user deactivate -n username
+            shield:user deactivate -e user@example.com
+
+            shield:user changename -n username --new-name newusername
+            shield:user changename -e user@example.com --new-name newusername
+
+            shield:user changeemail -n username --new-email newuseremail@example.com
+            shield:user changeemail -e user@example.com --new-email newuseremail@example.com
+
+            shield:user delete -i 123
+            shield:user delete -n username
+            shield:user delete -e user@example.com
+
+            shield:user password -n username
+            shield:user password -e user@example.com
+
+            shield:user list
+            shield:user list -n username -e user@example.com
+
+            shield:user addgroup -n username -g mygroup
+            shield:user addgroup -e user@example.com -g mygroup
+
+            shield:user removegroup -n username -g mygroup
+            shield:user removegroup -e user@example.com -g mygroup
+        EOL;
 
     /**
      * Command's Arguments
@@ -50,7 +82,19 @@ class User extends BaseCommand
      * @var array
      */
     protected $arguments = [
-        'action' => 'Valid actions: create, activate, deactivate, changename, changeemail, delete, password, list, addgroup, removegroup',
+        'action' => <<<'EOL'
+
+                create:      Create a new user
+                activate:    Activate a user
+                deactivate:  Deactivate a user
+                changename:  Change user name
+                changeemail: Change user email
+                delete:      Delete a user
+                password:    Change a user password
+                list:        List users
+                addgroup:    Add a user to a group
+                removegroup: Remove a user from a group
+            EOL,
     ];
 
     /**
@@ -59,12 +103,12 @@ class User extends BaseCommand
      * @var array
      */
     protected $options = [
-        '-i' => 'User id',
-        '-u' => 'User name',
-        '-e' => 'User email',
-        '-n' => 'New username',
-        '-m' => 'New email',
-        '-g' => 'Group name',
+        '-i'          => 'User id',
+        '-n'          => 'User name',
+        '-e'          => 'User email',
+        '--new-name'  => 'New username',
+        '--new-email' => 'New email',
+        '-g'          => 'Group name',
     ];
 
     /**
@@ -85,10 +129,10 @@ class User extends BaseCommand
 
         if ($action && in_array($action, $this->valid_actions, true)) {
             $userid       = (int) CLI::getOption('i');
-            $username     = CLI::getOption('u');
+            $username     = CLI::getOption('n');
             $email        = CLI::getOption('e');
-            $new_username = CLI::getOption('n');
-            $new_email    = CLI::getOption('m');
+            $new_username = CLI::getOption('new-name');
+            $new_email    = CLI::getOption('new-email');
             $group        = CLI::getOption('g');
 
             switch ($action) {
