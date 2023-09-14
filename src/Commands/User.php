@@ -10,7 +10,10 @@ use Config\Services;
 
 class User extends BaseCommand
 {
-    private array $valid_actions = ['create', 'activate', 'deactivate', 'changename', 'changeemail', 'delete', 'password', 'list', 'addgroup', 'removegroup'];
+    private array $valid_actions = [
+        'create', 'activate', 'deactivate', 'changename', 'changeemail',
+        'delete', 'password', 'list', 'addgroup', 'removegroup',
+    ];
 
     /**
      * The group the command is lumped under
@@ -47,7 +50,7 @@ class User extends BaseCommand
      * @var array
      */
     protected $arguments = [
-        'action' => 'Valid actions : create, activate, deactivate, changename, changeemail, delete, password, list, addgroup, removegroup',
+        'action' => 'Valid actions: create, activate, deactivate, changename, changeemail, delete, password, list, addgroup, removegroup',
     ];
 
     /**
@@ -79,6 +82,7 @@ class User extends BaseCommand
     public function run(array $params): void
     {
         $action = CLI::getSegment(2);
+
         if ($action && in_array($action, $this->valid_actions, true)) {
             $userid       = (int) CLI::getOption('i');
             $username     = CLI::getOption('u');
