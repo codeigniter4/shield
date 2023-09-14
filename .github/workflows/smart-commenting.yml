@@ -57,7 +57,6 @@ jobs:
           body: |
             We detected conflicts in your PR against the base branch :speak_no_evil:
             You may want to sync :arrows_counterclockwise: your branch with upstream!
-            See [resolving a merge conflict on GitHub][1] or [resolving a merge conflict using the Git][2] for more info.
+            See [resolving a merge conflict using the Git][1] for more info.
 
-            [1]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/resolving-a-merge-conflict-on-github
-            [2]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/resolving-a-merge-conflict-using-the-command-line
+            [1]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/resolving-a-merge-conflict-using-the-command-line
