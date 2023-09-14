@@ -179,7 +179,7 @@ class User extends BaseCommand
                     break;
             }
         } else {
-            CLI::write('Specify a valid action : ' . implode(',', $this->validActions), 'red');
+            CLI::write('Specify a valid action: ' . implode(',', $this->validActions), 'red');
         }
     }
 
