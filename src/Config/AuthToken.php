@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Config;
 
+use CodeIgniter\Config\BaseConfig;
+
 /**
  * Authenticator Configuration for Token Auth and HMAC Auth
  */
-class AuthToken
+class AuthToken extends BaseConfig
 {
     /**
      * --------------------------------------------------------------------
@@ -21,4 +23,13 @@ class AuthToken
      * - Auth::RECORD_LOGIN_ATTEMPT_ALL
      */
     public int $recordLoginAttempt = Auth::RECORD_LOGIN_ATTEMPT_FAILURE;
+
+    /**
+     * --------------------------------------------------------------------
+     * HMAC secret key byte size
+     * --------------------------------------------------------------------
+     * Specify in integer the desired byte size of the
+     * HMAC SHA256 byte size
+     */
+    public int $hmacSecretKeyByteSize = 32;
 }

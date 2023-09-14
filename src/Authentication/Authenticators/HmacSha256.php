@@ -9,7 +9,6 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Config\Auth;
-use CodeIgniter\Shield\Config\AuthToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Models\TokenLoginModel;

@@ -247,7 +247,7 @@ class UserIdentityModel extends BaseModel
             'user_id' => $user->id,
             'name'    => $name,
             'secret'  => bin2hex(random_bytes(16)), // Key
-            'secret2' => bin2hex(random_bytes(16)), // Secret Key
+            'secret2' => bin2hex(random_bytes(config('AuthToken')->hmacSecretKeyByteSize)), // Secret Key
             'extra'   => serialize($scopes),
         ]);
 
