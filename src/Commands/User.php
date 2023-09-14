@@ -6,6 +6,7 @@ namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
+use CodeIgniter\Shield\Models\UserModel;
 use Config\Services;
 
 class User extends BaseCommand
@@ -223,9 +224,11 @@ class User extends BaseCommand
             exit;
         }
 
-        $userModel = model('CodeIgniter\Shield\Models\UserModel');
-        $user      = new \CodeIgniter\Shield\Entities\User($data);
+        $userModel = model(UserModel::class);
+
+        $user = new \CodeIgniter\Shield\Entities\User($data);
         $userModel->save($user);
+
         CLI::write('User ' . $username . ' created', 'green');
     }
 
@@ -240,9 +243,11 @@ class User extends BaseCommand
         $user    = $this->findUser('Activate user', $username, $email);
         $confirm = CLI::prompt('Activate the user ' . $user->username . ' ?', ['y', 'n']);
         if ($confirm === 'y') {
-            $userModel    = model('CodeIgniter\Shield\Models\UserModel');
+            $userModel = model(UserModel::class);
+
             $user->active = 1;
             $userModel->save($user);
+
             CLI::write('User ' . $user->username . ' activated', 'green');
         } else {
             CLI::write('User ' . $user->username . ' activation cancelled', 'yellow');
@@ -260,9 +265,11 @@ class User extends BaseCommand
         $user    = $this->findUser('Deactivate user', $username, $email);
         $confirm = CLI::prompt('Deactivate the user ' . $username . ' ?', ['y', 'n']);
         if ($confirm === 'y') {
-            $userModel    = model('CodeIgniter\Shield\Models\UserModel');
+            $userModel = model(UserModel::class);
+
             $user->active = 0;
             $userModel->save($user);
+
             CLI::write('User ' . $user->username . ' deactivated', 'green');
         } else {
             CLI::write('User ' . $user->username . ' deactivation cancelled', 'yellow');
@@ -303,10 +310,12 @@ class User extends BaseCommand
             }
         }
 
-        $userModel      = model('CodeIgniter\Shield\Models\UserModel');
+        $userModel = model(UserModel::class);
+
         $old_username   = $user->username;
         $user->username = $new_username;
         $userModel->save($user);
+
         CLI::write('Username ' . $old_username . ' changed to ' . $new_username, 'green');
     }
 
@@ -339,9 +348,11 @@ class User extends BaseCommand
             }
         }
 
-        $userModel   = model('CodeIgniter\Shield\Models\UserModel');
+        $userModel = model(UserModel::class);
+
         $user->email = $new_email;
         $userModel->save($user);
+
         CLI::write('Email for the user : ' . $user->username . ' changed to ' . $new_email, 'green');
     }
 
@@ -354,7 +365,8 @@ class User extends BaseCommand
      */
     private function delete(int $userid = 0, ?string $username = null, ?string $email = null): void
     {
-        $userModel = model('CodeIgniter\Shield\Models\UserModel');
+        $userModel = model(UserModel::class);
+
         if ($userid) {
             $user = $userModel->findById($userid);
             if (! $user) {
@@ -396,7 +408,8 @@ class User extends BaseCommand
                 exit;
             }
 
-            $userModel      = model('CodeIgniter\Shield\Models\UserModel');
+            $userModel = model(UserModel::class);
+
             $user->password = $password;
             $userModel->save($user);
 
@@ -414,8 +427,10 @@ class User extends BaseCommand
      */
     private function list(?string $username = null, ?string $email = null): void
     {
-        $userModel = model('CodeIgniter\Shield\Models\UserModel');
-        $users     = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
+        $userModel = model(UserModel::class);
+
+        $users = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
+
         if ($username) {
             $users = $users->like('username', $username);
         }
@@ -496,9 +511,11 @@ class User extends BaseCommand
             }
         }
 
-        $user      = new \CodeIgniter\Shield\Entities\User();
-        $userModel = model('CodeIgniter\Shield\Models\UserModel');
-        $users     = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
+        $userModel = model(UserModel::class);
+
+        $user = new \CodeIgniter\Shield\Entities\User();
+
+        $users = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
 
         if ($username) {
             $user = $users->where('username', $username)->first();
