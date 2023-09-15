@@ -24,3 +24,9 @@ parameters:
 			- CodeIgniter\Shield\Config
 		additionalServices:
 			- CodeIgniter\Shield\Config\Services
+	strictRules:
+		allRules: false
+		disallowedLooseComparison: true
+		booleansInConditions: true
+		disallowedConstructs: true
+		matchingInheritedMethodNames: true
