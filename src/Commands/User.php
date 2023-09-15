@@ -215,7 +215,11 @@ class User extends BaseCommand
         $data['email'] = $email;
 
         $password        = CLI::prompt('Password', null, $this->validationRules['password']);
-        $passwordConfirm = CLI::prompt('Password confirmation', null, $this->validationRules['password']);
+        $passwordConfirm = CLI::prompt(
+            'Password confirmation',
+            null,
+            $this->validationRules['password']
+        );
 
         if ($password !== $passwordConfirm) {
             CLI::write("The passwords don't match", 'red');
@@ -301,8 +305,11 @@ class User extends BaseCommand
      * @param string|null $email       User email to search for (optional)
      * @param string|null $newUsername User new name (optional)
      */
-    private function changename(?string $username = null, ?string $email = null, ?string $newUsername = null): void
-    {
+    private function changename(
+        ?string $username = null,
+        ?string $email = null,
+        ?string $newUsername = null
+    ): void {
         $validation = Services::validation();
         $validation->setRules([
             'username' => 'required|is_unique[users.username]',
@@ -346,8 +353,11 @@ class User extends BaseCommand
      * @param string|null $email    User email to search for (optional)
      * @param string|null $newEmail User new email (optional)
      */
-    private function changeemail(?string $username = null, ?string $email = null, ?string $newEmail = null): void
-    {
+    private function changeemail(
+        ?string $username = null,
+        ?string $email = null,
+        ?string $newEmail = null
+    ): void {
         $user = $this->findUser('Change email', $username, $email);
 
         if (! $newEmail) {
@@ -400,7 +410,10 @@ class User extends BaseCommand
             $user = $this->findUser('Delete user', $username, $email);
         }
 
-        $confirm = CLI::prompt('Delete the user ' . $user->username . ' (' . $user->email . ') ?', ['y', 'n']);
+        $confirm = CLI::prompt(
+            'Delete the user ' . $user->username . ' (' . $user->email . ') ?',
+            ['y', 'n']
+        );
 
         if ($confirm === 'y') {
             $userModel->delete($user->id, true);
@@ -483,14 +496,20 @@ class User extends BaseCommand
 
         $user = $this->findUser('Add user to group', $username, $email);
 
-        $confirm = CLI::prompt('Add the user: ' . $user->username . ' to the group: ' . $group . ' ?', ['y', 'n']);
+        $confirm = CLI::prompt(
+            'Add the user: ' . $user->username . ' to the group: ' . $group . ' ?',
+            ['y', 'n']
+        );
 
         if ($confirm === 'y') {
             $user->addGroup($group);
 
             CLI::write('User ' . $user->username . ' added to group ' . $group, 'green');
         } else {
-            CLI::write('Addition of the user: ' . $user->username . ' to the group: ' . $group . ' cancelled', 'yellow');
+            CLI::write(
+                'Addition of the user: ' . $user->username . ' to the group: ' . $group . ' cancelled',
+                'yellow'
+            );
         }
     }
 
@@ -509,7 +528,10 @@ class User extends BaseCommand
 
         $user = $this->findUser('Remove user from group', $username, $email);
 
-        $confirm = CLI::prompt('Remove the user: ' . $user->username . ' fromt the group: ' . $group . ' ?', ['y', 'n']);
+        $confirm = CLI::prompt(
+            'Remove the user: ' . $user->username . ' fromt the group: ' . $group . ' ?',
+            ['y', 'n']
+        );
 
         if ($confirm === 'y') {
             $user->removeGroup($group);
