@@ -67,6 +67,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->phpstanConfigs([
         __DIR__ . '/phpstan.neon.dist',
         __DIR__ . '/vendor/codeigniter/phpstan-codeigniter/extension.neon',
+        __DIR__ . '/vendor/phpstan/phpstan-strict-rules/rules.neon',
     ]);
 
     // Set the target version for refactoring
