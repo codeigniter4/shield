@@ -32,7 +32,7 @@ class HmacAuth implements FilterInterface
 
         $result = $authenticator->attempt($requestParams);
 
-        if (! $result->isOK() || ($arguments !== null && count($arguments) > 0 && $result->extraInfo()->hmacTokenCant($arguments[0]))) {
+        if (! $result->isOK() || ($arguments !== null && $arguments !== [] && $result->extraInfo()->hmacTokenCant($arguments[0]))) {
             return service('response')
                 ->setStatusCode(Response::HTTP_UNAUTHORIZED)
                 ->setJSON(['message' => lang('Auth.badToken')]);
