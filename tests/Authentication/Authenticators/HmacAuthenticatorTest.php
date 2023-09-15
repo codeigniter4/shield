@@ -67,6 +67,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
 
     public function testLoginByIdNoToken(): void
     {
+        /** @var User $user */
         $user = fake(UserModel::class);
 
         $this->assertFalse($this->auth->loggedIn());
