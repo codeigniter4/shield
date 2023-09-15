@@ -6,6 +6,7 @@ namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
+use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserModel;
 use Config\Services;
 
@@ -144,46 +145,50 @@ class User extends BaseCommand
         $newEmail    = $params['new-email'] ?? null;
         $group       = $params['g'] ?? null;
 
-        switch ($action) {
-            case 'create':
-                $this->create($username, $email);
-                break;
+        try {
+            switch ($action) {
+                case 'create':
+                    $this->create($username, $email);
+                    break;
 
-            case 'activate':
-                $this->activate($username, $email);
-                break;
+                case 'activate':
+                    $this->activate($username, $email);
+                    break;
 
-            case 'deactivate':
-                $this->deactivate($username, $email);
-                break;
+                case 'deactivate':
+                    $this->deactivate($username, $email);
+                    break;
 
-            case 'changename':
-                $this->changename($username, $email, $newUsername);
-                break;
+                case 'changename':
+                    $this->changename($username, $email, $newUsername);
+                    break;
 
-            case 'changeemail':
-                $this->changeemail($username, $email, $newEmail);
-                break;
+                case 'changeemail':
+                    $this->changeemail($username, $email, $newEmail);
+                    break;
 
-            case 'delete':
-                $this->delete($userid, $username, $email);
-                break;
+                case 'delete':
+                    $this->delete($userid, $username, $email);
+                    break;
 
-            case 'password':
-                $this->password($username, $email);
-                break;
+                case 'password':
+                    $this->password($username, $email);
+                    break;
 
-            case 'list':
-                $this->list($username, $email);
-                break;
+                case 'list':
+                    $this->list($username, $email);
+                    break;
 
-            case 'addgroup':
-                $this->addgroup($group, $username, $email);
-                break;
+                case 'addgroup':
+                    $this->addgroup($group, $username, $email);
+                    break;
 
-            case 'removegroup':
-                $this->removegroup($group, $username, $email);
-                break;
+                case 'removegroup':
+                    $this->removegroup($group, $username, $email);
+                    break;
+            }
+        } catch (RuntimeException $e) {
+            return EXIT_ERROR;
         }
 
         return EXIT_SUCCESS;
@@ -215,7 +220,7 @@ class User extends BaseCommand
         if ($password !== $passwordConfirm) {
             CLI::write("The passwords don't match", 'red');
 
-            exit;
+            throw new RuntimeException("The passwords don't match");
         }
         $data['password'] = $password;
 
@@ -228,7 +233,7 @@ class User extends BaseCommand
             }
             CLI::write('User creation aborted', 'red');
 
-            exit;
+            throw new RuntimeException('User creation aborted');
         }
 
         $userModel = model(UserModel::class);
@@ -247,8 +252,10 @@ class User extends BaseCommand
      */
     private function activate(?string $username = null, ?string $email = null): void
     {
-        $user    = $this->findUser('Activate user', $username, $email);
+        $user = $this->findUser('Activate user', $username, $email);
+
         $confirm = CLI::prompt('Activate the user ' . $user->username . ' ?', ['y', 'n']);
+
         if ($confirm === 'y') {
             $userModel = model(UserModel::class);
 
@@ -313,7 +320,7 @@ class User extends BaseCommand
                 }
                 CLI::write('User name change aborted', 'red');
 
-                exit;
+                throw new RuntimeException('User name change aborted');
             }
         }
 
@@ -351,7 +358,7 @@ class User extends BaseCommand
                 }
                 CLI::write('User email change aborted', 'red');
 
-                exit;
+                throw new RuntimeException('User email change aborted');
             }
         }
 
@@ -379,7 +386,7 @@ class User extends BaseCommand
             if (! $user) {
                 CLI::write("User doesn't exist", 'red');
 
-                exit;
+                throw new RuntimeException("User doesn't exis");
             }
         } else {
             $user = $this->findUser('Delete user', $username, $email);
@@ -412,7 +419,7 @@ class User extends BaseCommand
             if ($password !== $passwordConfirm) {
                 CLI::write("The passwords don't match", 'red');
 
-                exit;
+                throw new RuntimeException("The passwords don't match");
             }
 
             $userModel = model(UserModel::class);
@@ -499,7 +506,7 @@ class User extends BaseCommand
     }
 
     /**
-     * Find an existing user by username or email. Exit if a user is not found
+     * Find an existing user by username or email.
      *
      * @param string      $question Initial question at user prompt
      * @param string|null $username User name to search for (optional)
@@ -509,6 +516,7 @@ class User extends BaseCommand
     {
         if (! $username && ! $email) {
             $choice = CLI::prompt($question . ' by username or email ?', ['u', 'e']);
+
             if ($choice === 'u') {
                 $username = CLI::prompt('Username', null, 'required');
             } elseif ($choice === 'e') {
@@ -531,7 +539,7 @@ class User extends BaseCommand
         if (! $user) {
             CLI::write("User doesn't exist", 'red');
 
-            exit;
+            throw new RuntimeException("User doesn't exist");
         }
 
         return $user;
