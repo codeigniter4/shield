@@ -126,15 +126,15 @@ class User extends BaseCommand
      */
     public function run(array $params): void
     {
-        $action = CLI::getSegment(2);
+        $action = $params[0] ?? null;
 
         if ($action && in_array($action, $this->validActions, true)) {
-            $userid      = (int) CLI::getOption('i');
-            $username    = CLI::getOption('n');
-            $email       = CLI::getOption('e');
-            $newUsername = CLI::getOption('new-name');
-            $newEmail    = CLI::getOption('new-email');
-            $group       = CLI::getOption('g');
+            $userid      = (int) ($params['i'] ?? 0);
+            $username    = $params['n'] ?? null;
+            $email       = $params['e'] ?? null;
+            $newUsername = $params['new-name'] ?? null;
+            $newEmail    = $params['new-email'] ?? null;
+            $group       = $params['g'] ?? null;
 
             switch ($action) {
                 case 'create':
