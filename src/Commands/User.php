@@ -204,12 +204,12 @@ class User extends BaseCommand
     {
         $data = [];
 
-        if (! $username) {
+        if ($username === null) {
             $username = CLI::prompt('Username', null, $this->validationRules['username']);
         }
         $data['username'] = $username;
 
-        if (! $email) {
+        if ($email === null) {
             $email = CLI::prompt('Email', null, $this->validationRules['email']);
         }
         $data['email'] = $email;
@@ -317,7 +317,7 @@ class User extends BaseCommand
 
         $user = $this->findUser('Change username', $username, $email);
 
-        if (! $newUsername) {
+        if ($newUsername === null) {
             $newUsername = CLI::prompt('New username', null, $this->validationRules['username']);
         } else {
             // Run validation if the user has passed username and/or email via command line
@@ -360,7 +360,7 @@ class User extends BaseCommand
     ): void {
         $user = $this->findUser('Change email', $username, $email);
 
-        if (! $newEmail) {
+        if ($newEmail === null) {
             $newEmail = CLI::prompt('New email', null, $this->validationRules['email']);
         } else {
             // Run validation if the user has passed username and/or email via command line
@@ -398,10 +398,10 @@ class User extends BaseCommand
     {
         $userModel = model(UserModel::class);
 
-        if ($userid) {
+        if ($userid !== 0) {
             $user = $userModel->findById($userid);
 
-            if (! $user) {
+            if ($user === null) {
                 CLI::write("User doesn't exist", 'red');
 
                 throw new RuntimeException("User doesn't exis");
@@ -467,10 +467,10 @@ class User extends BaseCommand
     {
         $userModel = model(UserModel::class);
 
-        if ($username) {
+        if ($username !== null) {
             $userModel->like('username', $username);
         }
-        if ($email) {
+        if ($email !== null) {
             $userModel->like('secret', $email);
         }
 
@@ -490,7 +490,7 @@ class User extends BaseCommand
      */
     private function addgroup($group = null, $username = null, $email = null): void
     {
-        if (! $group) {
+        if ($group === null) {
             $group = CLI::prompt('Group', null, 'required');
         }
 
@@ -522,7 +522,7 @@ class User extends BaseCommand
      */
     private function removegroup($group = null, $username = null, $email = null): void
     {
-        if (! $group) {
+        if ($group === null) {
             $group = CLI::prompt('Group', null, 'required');
         }
 
@@ -551,7 +551,7 @@ class User extends BaseCommand
      */
     private function findUser($question = '', $username = null, $email = null): \CodeIgniter\Shield\Entities\User
     {
-        if (! $username && ! $email) {
+        if ($username === null && $email === null) {
             $choice = CLI::prompt($question . ' by username or email ?', ['u', 'e']);
 
             if ($choice === 'u') {
@@ -567,13 +567,13 @@ class User extends BaseCommand
 
         $users = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
 
-        if ($username) {
+        if ($username !== null) {
             $user = $users->where('username', $username)->first();
-        } elseif ($email) {
+        } elseif ($email !== null) {
             $user = $users->where('secret', $email)->first();
         }
 
-        if (! $user) {
+        if ($user === null) {
             CLI::write("User doesn't exist", 'red');
 
             throw new RuntimeException("User doesn't exist");
