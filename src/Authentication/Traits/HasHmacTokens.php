@@ -79,7 +79,7 @@ trait HasHmacTokens
      */
     public function getHmacToken(?string $key): ?AccessToken
     {
-        if (empty($key)) {
+        if (! isset($key) || $key === '') {
             return null;
         }
 

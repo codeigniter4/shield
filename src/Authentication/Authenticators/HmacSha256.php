@@ -121,7 +121,7 @@ class HmacSha256 implements AuthenticatorInterface
      */
     public function check(array $credentials): Result
     {
-        if (! array_key_exists('token', $credentials) || empty($credentials['token'])) {
+        if (! array_key_exists('token', $credentials) || $credentials['token'] === '') {
             return new Result([
                 'success' => false,
                 'reason'  => lang('Auth.noToken', [config('Auth')->authenticatorHeader['hmac']]),
@@ -160,7 +160,7 @@ class HmacSha256 implements AuthenticatorInterface
 
         // Hasn't been used in a long time
         if (
-            $token->last_used_at
+            isset($token->last_used_at)
             && $token->last_used_at->isBefore(Time::now()->subSeconds(config('Auth')->unusedTokenLifetime))
         ) {
             return new Result([
@@ -192,7 +192,7 @@ class HmacSha256 implements AuthenticatorInterface
      */
     public function loggedIn(): bool
     {
-        if (! empty($this->user)) {
+        if (isset($this->user)) {
             return true;
         }
 
@@ -223,7 +223,7 @@ class HmacSha256 implements AuthenticatorInterface
     {
         $user = $this->provider->findById($userId);
 
-        if (empty($user)) {
+        if ($user === null) {
             throw AuthenticationException::forInvalidUser();
         }
 
@@ -262,7 +262,7 @@ class HmacSha256 implements AuthenticatorInterface
 
         $header = $request->getHeaderLine(config('Auth')->authenticatorHeader['tokens']);
 
-        if (empty($header)) {
+        if ($header === '') {
             return null;
         }
 

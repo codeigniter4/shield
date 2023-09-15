@@ -12,7 +12,6 @@ use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Shield\Result;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
 use Tests\Support\DatabaseTestCase;
@@ -32,7 +31,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
         $auth   = new Authentication($config);
         $auth->setProvider(model(UserModel::class));
 
-        Config('AuthToken')->recordLoginAttempt = Auth::RECORD_LOGIN_ATTEMPT_ALL;
+        config('AuthToken')->recordLoginAttempt = Auth::RECORD_LOGIN_ATTEMPT_ALL;
 
         /** @var HmacSha256 $authenticator */
         $authenticator = $auth->factory('hmac');
@@ -199,7 +198,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
             'body'  => 'bar',
         ]);
 
-        $this->assertfalse($result->isOK());
+        $this->assertFalse($result->isOK());
         $this->assertSame(lang('Auth.badToken'), $result->reason());
     }
 
@@ -210,7 +209,6 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
             'body'  => 'bar',
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
         $this->assertSame(lang('Auth.badToken'), $result->reason());
 
@@ -235,7 +233,6 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
             'body'  => 'bar',
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertTrue($result->isOK());
 
         $foundUser = $result->extraInfo();

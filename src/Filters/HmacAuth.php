@@ -32,10 +32,10 @@ class HmacAuth implements FilterInterface
 
         $result = $authenticator->attempt($requestParams);
 
-        if (! $result->isOK() || (! empty($arguments) && $result->extraInfo()->hmacTokenCant($arguments[0]))) {
+        if (! $result->isOK() || ($arguments !== null && count($arguments) > 0 && $result->extraInfo()->hmacTokenCant($arguments[0]))) {
             return service('response')
                 ->setStatusCode(Response::HTTP_UNAUTHORIZED)
-                ->setJson(['message' => lang('Auth.badToken')]);
+                ->setJSON(['message' => lang('Auth.badToken')]);
         }
 
         if (setting('Auth.recordActiveDate')) {
@@ -49,7 +49,7 @@ class HmacAuth implements FilterInterface
 
             return service('response')
                 ->setStatusCode(Response::HTTP_FORBIDDEN)
-                ->setJson(['message' => lang('Auth.activationBlocked')]);
+                ->setJSON(['message' => lang('Auth.activationBlocked')]);
         }
 
         return $request;
