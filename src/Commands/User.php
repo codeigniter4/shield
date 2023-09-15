@@ -227,10 +227,12 @@ class User extends BaseCommand
         // Run validation if the user has passed username and/or email via command line
         $validation = Services::validation();
         $validation->setRules($this->validationRules);
+
         if (! $validation->run($data)) {
             foreach ($validation->getErrors() as $message) {
                 CLI::write($message, 'red');
             }
+
             CLI::write('User creation aborted', 'red');
 
             throw new RuntimeException('User creation aborted');
@@ -276,8 +278,10 @@ class User extends BaseCommand
      */
     private function deactivate(?string $username = null, ?string $email = null): void
     {
-        $user    = $this->findUser('Deactivate user', $username, $email);
+        $user = $this->findUser('Deactivate user', $username, $email);
+
         $confirm = CLI::prompt('Deactivate the user ' . $username . ' ?', ['y', 'n']);
+
         if ($confirm === 'y') {
             $userModel = model(UserModel::class);
 
@@ -314,10 +318,12 @@ class User extends BaseCommand
             $validation->setRules([
                 'username' => $this->validationRules['username'],
             ]);
+
             if (! $validation->run(['username' => $newUsername])) {
                 foreach ($validation->getErrors() as $message) {
                     CLI::write($message, 'red');
                 }
+
                 CLI::write('User name change aborted', 'red');
 
                 throw new RuntimeException('User name change aborted');
@@ -352,6 +358,7 @@ class User extends BaseCommand
             $validation->setRules([
                 'email' => $this->validationRules['email'],
             ]);
+
             if (! $validation->run(['email' => $newEmail])) {
                 foreach ($validation->getErrors() as $message) {
                     CLI::write($message, 'red');
@@ -383,6 +390,7 @@ class User extends BaseCommand
 
         if ($userid) {
             $user = $userModel->findById($userid);
+
             if (! $user) {
                 CLI::write("User doesn't exist", 'red');
 
@@ -393,8 +401,10 @@ class User extends BaseCommand
         }
 
         $confirm = CLI::prompt('Delete the user ' . $user->username . ' (' . $user->email . ') ?', ['y', 'n']);
+
         if ($confirm === 'y') {
             $userModel->delete($user->id, true);
+
             CLI::write('User ' . $user->username . ' deleted', 'green');
         } else {
             CLI::write('User ' . $user->username . ' deletion cancelled', 'yellow');
@@ -412,6 +422,7 @@ class User extends BaseCommand
         $user = $this->findUser('Change user password', $username, $email);
 
         $confirm = CLI::prompt('Set the password for the user ' . $user->username . ' ?', ['y', 'n']);
+
         if ($confirm === 'y') {
             $password        = CLI::prompt('Password', null, 'required');
             $passwordConfirm = CLI::prompt('Password confirmation', null, $this->validationRules['password']);
@@ -473,8 +484,10 @@ class User extends BaseCommand
         $user = $this->findUser('Add user to group', $username, $email);
 
         $confirm = CLI::prompt('Add the user: ' . $user->username . ' to the group: ' . $group . ' ?', ['y', 'n']);
+
         if ($confirm === 'y') {
             $user->addGroup($group);
+
             CLI::write('User ' . $user->username . ' added to group ' . $group, 'green');
         } else {
             CLI::write('Addition of the user: ' . $user->username . ' to the group: ' . $group . ' cancelled', 'yellow');
@@ -497,8 +510,10 @@ class User extends BaseCommand
         $user = $this->findUser('Remove user from group', $username, $email);
 
         $confirm = CLI::prompt('Remove the user: ' . $user->username . ' fromt the group: ' . $group . ' ?', ['y', 'n']);
+
         if ($confirm === 'y') {
             $user->removeGroup($group);
+
             CLI::write('User ' . $user->username . ' removed from group ' . $group, 'green');
         } else {
             CLI::write('Removal of the user: ' . $user->username . ' from the group: ' . $group . ' cancelled', 'yellow');
