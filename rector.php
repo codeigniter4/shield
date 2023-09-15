@@ -101,11 +101,13 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__ . '/tests/Commands/UserModelGeneratorTest.php',
             __DIR__ . '/tests/Controllers/LoginTest.php',
             __DIR__ . '/tests/Commands/SetupTest.php',
+            __DIR__ . '/tests/Commands/UserTest.php',
         ],
         RemoveUnusedPrivatePropertyRector::class => [
             __DIR__ . '/tests/Commands/UserModelGeneratorTest.php',
             __DIR__ . '/tests/Controllers/LoginTest.php',
             __DIR__ . '/tests/Commands/SetupTest.php',
+            __DIR__ . '/tests/Commands/UserTest.php',
         ],
     ]);
 
