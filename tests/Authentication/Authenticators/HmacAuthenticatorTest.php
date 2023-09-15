@@ -43,6 +43,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
 
     public function testLogin(): void
     {
+        /** @var User $user */
         $user = fake(UserModel::class);
 
         $this->auth->login($user);
