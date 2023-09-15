@@ -124,62 +124,69 @@ class User extends BaseCommand
     /**
      * Displays the help for the spark cli script itself.
      */
-    public function run(array $params): void
+    public function run(array $params): int
     {
         $action = $params[0] ?? null;
 
-        if ($action && in_array($action, $this->validActions, true)) {
-            $userid      = (int) ($params['i'] ?? 0);
-            $username    = $params['n'] ?? null;
-            $email       = $params['e'] ?? null;
-            $newUsername = $params['new-name'] ?? null;
-            $newEmail    = $params['new-email'] ?? null;
-            $group       = $params['g'] ?? null;
+        if ($action === null || ! in_array($action, $this->validActions, true)) {
+            CLI::write(
+                'Specify a valid action: ' . implode(',', $this->validActions),
+                'red'
+            );
 
-            switch ($action) {
-                case 'create':
-                    $this->create($username, $email);
-                    break;
-
-                case 'activate':
-                    $this->activate($username, $email);
-                    break;
-
-                case 'deactivate':
-                    $this->deactivate($username, $email);
-                    break;
-
-                case 'changename':
-                    $this->changename($username, $email, $newUsername);
-                    break;
-
-                case 'changeemail':
-                    $this->changeemail($username, $email, $newEmail);
-                    break;
-
-                case 'delete':
-                    $this->delete($userid, $username, $email);
-                    break;
-
-                case 'password':
-                    $this->password($username, $email);
-                    break;
-
-                case 'list':
-                    $this->list($username, $email);
-                    break;
-
-                case 'addgroup':
-                    $this->addgroup($group, $username, $email);
-                    break;
-
-                case 'removegroup':
-                    $this->removegroup($group, $username, $email);
-                    break;
-            }
-        } else {
-            CLI::write('Specify a valid action: ' . implode(',', $this->validActions), 'red');
+            return EXIT_ERROR;
         }
+
+        $userid      = (int) ($params['i'] ?? 0);
+        $username    = $params['n'] ?? null;
+        $email       = $params['e'] ?? null;
+        $newUsername = $params['new-name'] ?? null;
+        $newEmail    = $params['new-email'] ?? null;
+        $group       = $params['g'] ?? null;
+
+        switch ($action) {
+            case 'create':
+                $this->create($username, $email);
+                break;
+
+            case 'activate':
+                $this->activate($username, $email);
+                break;
+
+            case 'deactivate':
+                $this->deactivate($username, $email);
+                break;
+
+            case 'changename':
+                $this->changename($username, $email, $newUsername);
+                break;
+
+            case 'changeemail':
+                $this->changeemail($username, $email, $newEmail);
+                break;
+
+            case 'delete':
+                $this->delete($userid, $username, $email);
+                break;
+
+            case 'password':
+                $this->password($username, $email);
+                break;
+
+            case 'list':
+                $this->list($username, $email);
+                break;
+
+            case 'addgroup':
+                $this->addgroup($group, $username, $email);
+                break;
+
+            case 'removegroup':
+                $this->removegroup($group, $username, $email);
+                break;
+        }
+
+        return EXIT_SUCCESS;
     }
 
     /**
