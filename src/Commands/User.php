@@ -656,7 +656,11 @@ class User extends BaseCommand
             if ($choice === 'u') {
                 $username = $this->prompt('Username', null, 'required');
             } elseif ($choice === 'e') {
-                $email = $this->prompt('Email', null, $this->validationRules['email']['rules']);
+                $email = $this->prompt(
+                    'Email',
+                    null,
+                    'required'
+                );
             }
         }
 
