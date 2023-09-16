@@ -48,6 +48,17 @@ trait HasAccessTokens
     }
 
     /**
+     * Delete any access tokens for the given secret token.
+     */
+    public function revokeAccessTokenBySecret(string $secretToken): void
+    {
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        $identityModel->revokeAccessTokenBySecret($this, $secretToken);
+    }
+
+    /**
      * Revokes all access tokens for this user.
      */
     public function revokeAllAccessTokens(): void
