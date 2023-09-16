@@ -602,15 +602,22 @@ class User extends BaseCommand
         }
 
         $userModel = model(UserModel::class);
+        $userModel
+            ->select('users.id as id, username, secret as email')
+            ->join('auth_identities', 'users.id = auth_identities.user_id', 'LEFT')
+            ->groupStart()
+            ->where('auth_identities.type', Session::ID_TYPE_EMAIL_PASSWORD)
+            ->orGroupStart()
+            ->where('auth_identities.type', null)
+            ->groupEnd()
+            ->groupEnd()
+            ->asArray();
 
-        $user = new UserEntity();
-
-        $users = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
-
+        $user = null;
         if ($username !== null) {
-            $user = $users->where('username', $username)->first();
+            $user = $userModel->where('username', $username)->first();
         } elseif ($email !== null) {
-            $user = $users->where('secret', $email)->first();
+            $user = $userModel->where('email', $email)->first();
         }
 
         if ($user === null) {
@@ -619,7 +626,7 @@ class User extends BaseCommand
             throw new RuntimeException("User doesn't exist");
         }
 
-        return $user;
+        return $userModel->findById($user['id']);
     }
 
     private function ensureInput(): void

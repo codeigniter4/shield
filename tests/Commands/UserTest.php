@@ -228,6 +228,30 @@ final class UserTest extends DatabaseTestCase
         $this->assertNotSame($oldPasswordHash, $user->password_hash);
     }
 
+    public function testPasswordWithoutOptionsAndSpecifyEmail(): void
+    {
+        $this->createUser([
+            'username' => 'user7',
+            'email'    => 'user7@example.com',
+            'password' => 'secret123',
+        ]);
+        $users           = model(UserModel::class);
+        $user            = $users->findByCredentials(['email' => 'user7@example.com']);
+        $oldPasswordHash = $user->password_hash;
+
+        $this->setMockIo(['e', 'user7@example.com', 'y', 'newpassword', 'newpassword']);
+
+        command('shield:user password');
+
+        $this->assertStringContainsString(
+            'Password for "user7" set',
+            $this->io->getLastOutput()
+        );
+
+        $user = $users->findByCredentials(['email' => 'user7@example.com']);
+        $this->assertNotSame($oldPasswordHash, $user->password_hash);
+    }
+
     public function testList(): void
     {
         $this->createUser([
