@@ -216,7 +216,7 @@ class User extends BaseCommand
     /**
      * Outputs a string to the cli on its own line.
      */
-    private static function write(
+    private function write(
         string $text = '',
         ?string $foreground = null,
         ?string $background = null
