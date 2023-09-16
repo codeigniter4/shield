@@ -131,4 +131,174 @@ final class UserTest extends DatabaseTestCase
             'active' => 0,
         ]);
     }
+
+    public function testChangename(): void
+    {
+        $this->createUser([
+            'username' => 'user4',
+            'email'    => 'user4@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $this->setMockIo(['y']);
+
+        command('shield:user changename -n user4 --new-name newuser4');
+
+        $this->assertStringContainsString(
+            'Username "user4" changed to "newuser4"',
+            $this->io->getLastOutput()
+        );
+
+        $users = model(UserModel::class);
+        $user  = $users->findByCredentials(['email' => 'user4@example.com']);
+        $this->seeInDatabase($this->tables['users'], [
+            'id'       => $user->id,
+            'username' => 'newuser4',
+        ]);
+    }
+
+    public function testChangeemail(): void
+    {
+        $this->createUser([
+            'username' => 'user5',
+            'email'    => 'user5@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $this->setMockIo(['y']);
+
+        command('shield:user changeemail -n user5 --new-email newuser5@example.jp');
+
+        $this->assertStringContainsString(
+            'Email for "user5" changed to newuser5@example.jp',
+            $this->io->getLastOutput()
+        );
+
+        $users = model(UserModel::class);
+        $user  = $users->findByCredentials(['email' => 'newuser5@example.jp']);
+        $this->seeInDatabase($this->tables['users'], [
+            'id'       => $user->id,
+            'username' => 'user5',
+        ]);
+    }
+
+    public function testDelete(): void
+    {
+        $this->createUser([
+            'username' => 'user6',
+            'email'    => 'user6@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $this->setMockIo(['y']);
+
+        command('shield:user delete -n user6');
+
+        $this->assertStringContainsString(
+            'User "user6" deleted',
+            $this->io->getLastOutput()
+        );
+
+        $users = model(UserModel::class);
+        $user  = $users->findByCredentials(['email' => 'user6@example.com']);
+        $this->assertNull($user);
+    }
+
+    public function testPassword(): void
+    {
+        $this->createUser([
+            'username' => 'user7',
+            'email'    => 'user7@example.com',
+            'password' => 'secret123',
+        ]);
+        $users           = model(UserModel::class);
+        $user            = $users->findByCredentials(['email' => 'user7@example.com']);
+        $oldPasswordHash = $user->password_hash;
+
+        $this->setMockIo(['y', 'newpassword', 'newpassword']);
+
+        command('shield:user password -n user7');
+
+        $this->assertStringContainsString(
+            'Password for "user7" set',
+            $this->io->getLastOutput()
+        );
+
+        $user = $users->findByCredentials(['email' => 'user7@example.com']);
+        $this->assertNotSame($oldPasswordHash, $user->password_hash);
+    }
+
+    public function testList(): void
+    {
+        $this->createUser([
+            'username' => 'user8',
+            'email'    => 'user8@example.com',
+            'password' => 'secret123',
+        ]);
+        $this->createUser([
+            'username' => 'user9',
+            'email'    => 'user9@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $this->setMockIo([]);
+
+        command('shield:user list');
+
+        $this->assertStringContainsString(
+            'Id	User
+1	user8 (user8@example.com)
+2	user9 (user9@example.com)
+',
+            $this->io->getOutputs()
+        );
+    }
+
+    public function testAddgroup(): void
+    {
+        $this->createUser([
+            'username' => 'user10',
+            'email'    => 'user10@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $this->setMockIo(['y']);
+
+        command('shield:user addgroup -n user10 -g admin');
+
+        $this->assertStringContainsString(
+            'User "user10" added to group "admin"',
+            $this->io->getLastOutput()
+        );
+
+        $users = model(UserModel::class);
+        $user  = $users->findByCredentials(['email' => 'user10@example.com']);
+        $this->assertTrue($user->inGroup('admin'));
+    }
+
+    public function testRemovegroup(): void
+    {
+        $this->createUser([
+            'username' => 'user11',
+            'email'    => 'user11@example.com',
+            'password' => 'secret123',
+        ]);
+        $users = model(UserModel::class);
+        $user  = $users->findByCredentials(['email' => 'user11@example.com']);
+        $user->addGroup('admin');
+        $this->assertTrue($user->inGroup('admin'));
+
+        $this->setMockIo(['y']);
+
+        command('shield:user removegroup -n user11 -g admin');
+
+        $this->assertStringContainsString(
+            'User "user11" removed from group "admin"',
+            $this->io->getLastOutput()
+        );
+
+        $users = model(UserModel::class);
+        $user  = $users->findByCredentials(['email' => 'user11@example.com']);
+        $this->assertFalse($user->inGroup('admin'));
+    }
 }

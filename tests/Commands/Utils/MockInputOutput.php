@@ -24,6 +24,14 @@ final class MockInputOutput extends InputOutput
         return array_shift($this->outputs);
     }
 
+    /**
+     * Returns all outputs.
+     */
+    public function getOutputs(): string
+    {
+        return implode('', $this->outputs);
+    }
+
     public function prompt(string $field, $options = null, $validation = null): string
     {
         return array_shift($this->inputs);
