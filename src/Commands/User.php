@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
-use CodeIgniter\CLI\CLI;
 use CodeIgniter\Shield\Commands\Utils\InputOutput;
+use CodeIgniter\Shield\Entities\User as UserEntity;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserModel;
 use Config\Services;
@@ -273,7 +273,7 @@ class User extends BaseCommand
 
         $userModel = model(UserModel::class);
 
-        $user = new \CodeIgniter\Shield\Entities\User($data);
+        $user = new UserEntity($data);
         $userModel->save($user);
 
         $this->write('User "' . $username . '" created', 'green');
@@ -578,7 +578,7 @@ class User extends BaseCommand
      * @param string|null $username User name to search for (optional)
      * @param string|null $email    User email to search for (optional)
      */
-    private function findUser($question = '', $username = null, $email = null): \CodeIgniter\Shield\Entities\User
+    private function findUser($question = '', $username = null, $email = null): UserEntity
     {
         if ($username === null && $email === null) {
             $choice = $this->prompt($question . ' by username or email ?', ['u', 'e']);
@@ -592,7 +592,7 @@ class User extends BaseCommand
 
         $userModel = model(UserModel::class);
 
-        $user = new \CodeIgniter\Shield\Entities\User();
+        $user = new UserEntity();
 
         $users = $userModel->join('auth_identities', 'auth_identities.user_id = users.id');
 
