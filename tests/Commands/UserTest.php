@@ -8,7 +8,7 @@ use CodeIgniter\Shield\Commands\User;
 use CodeIgniter\Shield\Commands\Utils\InputOutput;
 use CodeIgniter\Shield\Entities\User as UserEntity;
 use CodeIgniter\Shield\Models\UserModel;
-use Tests\Commands\Utils\MockInputOutput;
+use CodeIgniter\Shield\Test\MockInputOutput;
 use Tests\Support\DatabaseTestCase;
 
 /**

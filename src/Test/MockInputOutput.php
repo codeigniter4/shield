@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Commands\Utils;
+namespace CodeIgniter\Shield\Test;
 
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\CodeIgniter;
