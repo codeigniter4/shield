@@ -209,6 +209,7 @@ final class UserTest extends DatabaseTestCase
         $users = model(UserModel::class);
         $users->save($this->user);
 
+        /** @var User $user */
         $user = $users->find($this->user->id);
 
         $this->seeInDatabase($this->tables['identities'], [
@@ -250,6 +251,7 @@ final class UserTest extends DatabaseTestCase
         $users = model(UserModel::class);
         $users->save($this->user);
 
+        /** @var User $user */
         $user = $users->find($this->user->id);
 
         $this->seeInDatabase($this->tables['identities'], [
