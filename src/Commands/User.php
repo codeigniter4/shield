@@ -7,6 +7,7 @@ namespace CodeIgniter\Shield\Commands;
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Commands\Utils\InputOutput;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User as UserEntity;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserModel;
@@ -126,11 +127,19 @@ class User extends BaseCommand
     ];
 
     /**
+     * Auth Table names
+     *
+     * @var array<string, string>
+     */
+    private array $tables = [];
+
+    /**
      * Displays the help for the spark cli script itself.
      */
     public function run(array $params): int
     {
         $this->ensureInput();
+        $this->setTables();
 
         $action = $params[0] ?? null;
 
@@ -197,6 +206,13 @@ class User extends BaseCommand
         }
 
         return EXIT_SUCCESS;
+    }
+
+    private function setTables(): void
+    {
+        /** @var Auth $config */
+        $config       = config('Auth');
+        $this->tables = $config->tables;
     }
 
     /**
@@ -497,12 +513,16 @@ class User extends BaseCommand
     {
         $userModel = model(UserModel::class);
         $userModel
-            ->select('users.id as id, username, secret as email')
-            ->join('auth_identities', 'users.id = auth_identities.user_id', 'LEFT')
+            ->select($this->tables['users'] . '.id as id, username, secret as email')
+            ->join(
+                $this->tables['identities'],
+                $this->tables['users'] . '.id = ' . $this->tables['identities'] . '.user_id',
+                'LEFT'
+            )
             ->groupStart()
-            ->where('auth_identities.type', Session::ID_TYPE_EMAIL_PASSWORD)
+            ->where($this->tables['identities'] . '.type', Session::ID_TYPE_EMAIL_PASSWORD)
             ->orGroupStart()
-            ->where('auth_identities.type', null)
+            ->where($this->tables['identities'] . '.type', null)
             ->groupEnd()
             ->groupEnd()
             ->asArray();
@@ -603,12 +623,16 @@ class User extends BaseCommand
 
         $userModel = model(UserModel::class);
         $userModel
-            ->select('users.id as id, username, secret')
-            ->join('auth_identities', 'users.id = auth_identities.user_id', 'LEFT')
+            ->select($this->tables['users'] . '.id as id, username, secret')
+            ->join(
+                $this->tables['identities'],
+                $this->tables['users'] . '.id = ' . $this->tables['identities'] . '.user_id',
+                'LEFT'
+            )
             ->groupStart()
-            ->where('auth_identities.type', Session::ID_TYPE_EMAIL_PASSWORD)
+            ->where($this->tables['identities'] . '.type', Session::ID_TYPE_EMAIL_PASSWORD)
             ->orGroupStart()
-            ->where('auth_identities.type', null)
+            ->where($this->tables['identities'] . '.type', null)
             ->groupEnd()
             ->groupEnd()
             ->asArray();
