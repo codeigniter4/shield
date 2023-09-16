@@ -32,6 +32,8 @@ class RegistrationValidationRules
             [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
         );
 
+        helper('setting');
+
         return setting('Validation.registration') ?? [
             'username' => [
                 'label' => 'Auth.username',
