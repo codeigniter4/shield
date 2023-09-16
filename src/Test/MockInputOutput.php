@@ -6,24 +6,35 @@ namespace CodeIgniter\Shield\Test;
 
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\CodeIgniter;
+use CodeIgniter\Log\Exceptions\LogException;
 use CodeIgniter\Shield\Commands\Utils\InputOutput;
 use CodeIgniter\Test\Filters\CITestStreamFilter;
+use CodeIgniter\Test\PhpStreamWrapper;
 
 final class MockInputOutput extends InputOutput
 {
     private array $inputs  = [];
     private array $outputs = [];
 
+    /**
+     * Sets user inputs.
+     */
     public function setInputs(array $inputs): void
     {
         $this->inputs = $inputs;
     }
 
+    /**
+     * Takes the last output from the output array.
+     */
     public function getLastOutput(): string
     {
         return array_pop($this->outputs);
     }
 
+    /**
+     * Takes the first output from the output array.
+     */
     public function getFirstOutput(): string
     {
         return array_shift($this->outputs);
@@ -39,7 +50,28 @@ final class MockInputOutput extends InputOutput
 
     public function prompt(string $field, $options = null, $validation = null): string
     {
-        return array_shift($this->inputs);
+        $input = array_shift($this->inputs);
+
+        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
+            CITestStreamFilter::registration();
+            CITestStreamFilter::addOutputFilter();
+
+            PhpStreamWrapper::register();
+            PhpStreamWrapper::setContent($input);
+
+            $userInput = CLI::prompt($field, $options, $validation);
+
+            PhpStreamWrapper::restore();
+
+            CITestStreamFilter::removeOutputFilter();
+            CITestStreamFilter::removeErrorFilter();
+
+            if ($input !== $userInput) {
+                throw new LogException($input . '!==' . $userInput);
+            }
+        }
+
+        return $input;
     }
 
     public function write(
