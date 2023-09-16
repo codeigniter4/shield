@@ -24,6 +24,11 @@ final class MockInputOutput extends InputOutput
         return array_pop($this->outputs);
     }
 
+    public function getFirstOutput(): string
+    {
+        return array_shift($this->outputs);
+    }
+
     /**
      * Returns all outputs.
      */
