@@ -195,6 +195,20 @@ class User extends BaseCommand
     }
 
     /**
+     * Asks the user for input.
+     *
+     * @param string       $field      Output "field" question
+     * @param array|string $options    String to a default value, array to a list of options (the first option will be the default value)
+     * @param array|string $validation Validation rules
+     *
+     * @return string The user input
+     */
+    private function prompt(string $field, $options = null, $validation = null): string
+    {
+        return CLI::prompt($field, $options, $validation);
+    }
+
+    /**
      * Create a new user
      *
      * @param string|null $username User name to create (optional)
@@ -205,17 +219,17 @@ class User extends BaseCommand
         $data = [];
 
         if ($username === null) {
-            $username = CLI::prompt('Username', null, $this->validationRules['username']);
+            $username = $this->prompt('Username', null, $this->validationRules['username']);
         }
         $data['username'] = $username;
 
         if ($email === null) {
-            $email = CLI::prompt('Email', null, $this->validationRules['email']);
+            $email = $this->prompt('Email', null, $this->validationRules['email']);
         }
         $data['email'] = $email;
 
-        $password        = CLI::prompt('Password', null, $this->validationRules['password']);
-        $passwordConfirm = CLI::prompt(
+        $password        = $this->prompt('Password', null, $this->validationRules['password']);
+        $passwordConfirm = $this->prompt(
             'Password confirmation',
             null,
             $this->validationRules['password']
@@ -260,7 +274,7 @@ class User extends BaseCommand
     {
         $user = $this->findUser('Activate user', $username, $email);
 
-        $confirm = CLI::prompt('Activate the user ' . $user->username . ' ?', ['y', 'n']);
+        $confirm = $this->prompt('Activate the user ' . $user->username . ' ?', ['y', 'n']);
 
         if ($confirm === 'y') {
             $userModel = model(UserModel::class);
@@ -284,7 +298,7 @@ class User extends BaseCommand
     {
         $user = $this->findUser('Deactivate user', $username, $email);
 
-        $confirm = CLI::prompt('Deactivate the user ' . $username . ' ?', ['y', 'n']);
+        $confirm = $this->prompt('Deactivate the user ' . $username . ' ?', ['y', 'n']);
 
         if ($confirm === 'y') {
             $userModel = model(UserModel::class);
@@ -318,7 +332,7 @@ class User extends BaseCommand
         $user = $this->findUser('Change username', $username, $email);
 
         if ($newUsername === null) {
-            $newUsername = CLI::prompt('New username', null, $this->validationRules['username']);
+            $newUsername = $this->prompt('New username', null, $this->validationRules['username']);
         } else {
             // Run validation if the user has passed username and/or email via command line
             $validation = Services::validation();
@@ -361,7 +375,7 @@ class User extends BaseCommand
         $user = $this->findUser('Change email', $username, $email);
 
         if ($newEmail === null) {
-            $newEmail = CLI::prompt('New email', null, $this->validationRules['email']);
+            $newEmail = $this->prompt('New email', null, $this->validationRules['email']);
         } else {
             // Run validation if the user has passed username and/or email via command line
             $validation = Services::validation();
@@ -410,7 +424,7 @@ class User extends BaseCommand
             $user = $this->findUser('Delete user', $username, $email);
         }
 
-        $confirm = CLI::prompt(
+        $confirm = $this->prompt(
             'Delete the user ' . $user->username . ' (' . $user->email . ') ?',
             ['y', 'n']
         );
@@ -434,11 +448,11 @@ class User extends BaseCommand
     {
         $user = $this->findUser('Change user password', $username, $email);
 
-        $confirm = CLI::prompt('Set the password for the user ' . $user->username . ' ?', ['y', 'n']);
+        $confirm = $this->prompt('Set the password for the user ' . $user->username . ' ?', ['y', 'n']);
 
         if ($confirm === 'y') {
-            $password        = CLI::prompt('Password', null, 'required');
-            $passwordConfirm = CLI::prompt('Password confirmation', null, $this->validationRules['password']);
+            $password        = $this->prompt('Password', null, 'required');
+            $passwordConfirm = $this->prompt('Password confirmation', null, $this->validationRules['password']);
 
             if ($password !== $passwordConfirm) {
                 CLI::write("The passwords don't match", 'red');
@@ -491,12 +505,12 @@ class User extends BaseCommand
     private function addgroup($group = null, $username = null, $email = null): void
     {
         if ($group === null) {
-            $group = CLI::prompt('Group', null, 'required');
+            $group = $this->prompt('Group', null, 'required');
         }
 
         $user = $this->findUser('Add user to group', $username, $email);
 
-        $confirm = CLI::prompt(
+        $confirm = $this->prompt(
             'Add the user: ' . $user->username . ' to the group: ' . $group . ' ?',
             ['y', 'n']
         );
@@ -523,12 +537,12 @@ class User extends BaseCommand
     private function removegroup($group = null, $username = null, $email = null): void
     {
         if ($group === null) {
-            $group = CLI::prompt('Group', null, 'required');
+            $group = $this->prompt('Group', null, 'required');
         }
 
         $user = $this->findUser('Remove user from group', $username, $email);
 
-        $confirm = CLI::prompt(
+        $confirm = $this->prompt(
             'Remove the user: ' . $user->username . ' fromt the group: ' . $group . ' ?',
             ['y', 'n']
         );
@@ -552,12 +566,12 @@ class User extends BaseCommand
     private function findUser($question = '', $username = null, $email = null): \CodeIgniter\Shield\Entities\User
     {
         if ($username === null && $email === null) {
-            $choice = CLI::prompt($question . ' by username or email ?', ['u', 'e']);
+            $choice = $this->prompt($question . ' by username or email ?', ['u', 'e']);
 
             if ($choice === 'u') {
-                $username = CLI::prompt('Username', null, 'required');
+                $username = $this->prompt('Username', null, 'required');
             } elseif ($choice === 'e') {
-                $email = CLI::prompt('Email', null, 'required|valid_email');
+                $email = $this->prompt('Email', null, 'required|valid_email');
             }
         }
 
