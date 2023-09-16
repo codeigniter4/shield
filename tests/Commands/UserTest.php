@@ -15,6 +15,13 @@ use Tests\Support\DatabaseTestCase;
  */
 final class UserTest extends DatabaseTestCase
 {
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        User::resetInputOutput();
+    }
+
     public function testCreate(): void
     {
         $io = new MockInputOutput();
@@ -25,8 +32,6 @@ final class UserTest extends DatabaseTestCase
         User::setInputOutput($io);
 
         command('shield:user create -n user1 -e user1@example.com');
-
-        User::resetInputOutput();
 
         $this->assertStringContainsString(
             'User user1 created',
@@ -63,8 +68,6 @@ final class UserTest extends DatabaseTestCase
 
         command('shield:user activate -n user2');
 
-        User::resetInputOutput();
-
         $this->assertStringContainsString(
             'User user2 activated',
             $io->getLastOutput()
@@ -95,8 +98,6 @@ final class UserTest extends DatabaseTestCase
         User::setInputOutput($io);
 
         command('shield:user deactivate -n user3');
-
-        User::resetInputOutput();
 
         $this->assertStringContainsString(
             'User user3 deactivated',
