@@ -6,13 +6,15 @@ namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
+use CodeIgniter\Shield\Commands\Utils\InputOutput;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserModel;
 use Config\Services;
 
 class User extends BaseCommand
 {
-    private array $validActions = [
+    private static ?InputOutput $io = null;
+    private array $validActions     = [
         'create', 'activate', 'deactivate', 'changename', 'changeemail',
         'delete', 'password', 'list', 'addgroup', 'removegroup',
     ];
@@ -127,10 +129,12 @@ class User extends BaseCommand
      */
     public function run(array $params): int
     {
+        $this->ensureInput();
+
         $action = $params[0] ?? null;
 
         if ($action === null || ! in_array($action, $this->validActions, true)) {
-            CLI::write(
+            $this->write(
                 'Specify a valid action: ' . implode(',', $this->validActions),
                 'red'
             );
@@ -205,7 +209,18 @@ class User extends BaseCommand
      */
     private function prompt(string $field, $options = null, $validation = null): string
     {
-        return CLI::prompt($field, $options, $validation);
+        return self::$io->prompt($field, $options, $validation);
+    }
+
+    /**
+     * Outputs a string to the cli on its own line.
+     */
+    private static function write(
+        string $text = '',
+        ?string $foreground = null,
+        ?string $background = null
+    ): void {
+        self::$io->write($text, $foreground, $background);
     }
 
     /**
@@ -236,7 +251,7 @@ class User extends BaseCommand
         );
 
         if ($password !== $passwordConfirm) {
-            CLI::write("The passwords don't match", 'red');
+            $this->write("The passwords don't match", 'red');
 
             throw new RuntimeException("The passwords don't match");
         }
@@ -248,10 +263,10 @@ class User extends BaseCommand
 
         if (! $validation->run($data)) {
             foreach ($validation->getErrors() as $message) {
-                CLI::write($message, 'red');
+                $this->write($message, 'red');
             }
 
-            CLI::write('User creation aborted', 'red');
+            $this->write('User creation aborted', 'red');
 
             throw new RuntimeException('User creation aborted');
         }
@@ -261,7 +276,7 @@ class User extends BaseCommand
         $user = new \CodeIgniter\Shield\Entities\User($data);
         $userModel->save($user);
 
-        CLI::write('User ' . $username . ' created', 'green');
+        $this->write('User ' . $username . ' created', 'green');
     }
 
     /**
@@ -282,9 +297,9 @@ class User extends BaseCommand
             $user->active = 1;
             $userModel->save($user);
 
-            CLI::write('User ' . $user->username . ' activated', 'green');
+            $this->write('User ' . $user->username . ' activated', 'green');
         } else {
-            CLI::write('User ' . $user->username . ' activation cancelled', 'yellow');
+            $this->write('User ' . $user->username . ' activation cancelled', 'yellow');
         }
     }
 
@@ -306,9 +321,9 @@ class User extends BaseCommand
             $user->active = 0;
             $userModel->save($user);
 
-            CLI::write('User ' . $user->username . ' deactivated', 'green');
+            $this->write('User ' . $user->username . ' deactivated', 'green');
         } else {
-            CLI::write('User ' . $user->username . ' deactivation cancelled', 'yellow');
+            $this->write('User ' . $user->username . ' deactivation cancelled', 'yellow');
         }
     }
 
@@ -342,10 +357,10 @@ class User extends BaseCommand
 
             if (! $validation->run(['username' => $newUsername])) {
                 foreach ($validation->getErrors() as $message) {
-                    CLI::write($message, 'red');
+                    $this->write($message, 'red');
                 }
 
-                CLI::write('User name change aborted', 'red');
+                $this->write('User name change aborted', 'red');
 
                 throw new RuntimeException('User name change aborted');
             }
@@ -357,7 +372,7 @@ class User extends BaseCommand
         $user->username = $newUsername;
         $userModel->save($user);
 
-        CLI::write('Username ' . $oldUsername . ' changed to ' . $newUsername, 'green');
+        $this->write('Username ' . $oldUsername . ' changed to ' . $newUsername, 'green');
     }
 
     /**
@@ -385,9 +400,9 @@ class User extends BaseCommand
 
             if (! $validation->run(['email' => $newEmail])) {
                 foreach ($validation->getErrors() as $message) {
-                    CLI::write($message, 'red');
+                    $this->write($message, 'red');
                 }
-                CLI::write('User email change aborted', 'red');
+                $this->write('User email change aborted', 'red');
 
                 throw new RuntimeException('User email change aborted');
             }
@@ -398,7 +413,7 @@ class User extends BaseCommand
         $user->email = $newEmail;
         $userModel->save($user);
 
-        CLI::write('Email for the user : ' . $user->username . ' changed to ' . $newEmail, 'green');
+        $this->write('Email for the user : ' . $user->username . ' changed to ' . $newEmail, 'green');
     }
 
     /**
@@ -416,7 +431,7 @@ class User extends BaseCommand
             $user = $userModel->findById($userid);
 
             if ($user === null) {
-                CLI::write("User doesn't exist", 'red');
+                $this->write("User doesn't exist", 'red');
 
                 throw new RuntimeException("User doesn't exis");
             }
@@ -432,9 +447,9 @@ class User extends BaseCommand
         if ($confirm === 'y') {
             $userModel->delete($user->id, true);
 
-            CLI::write('User ' . $user->username . ' deleted', 'green');
+            $this->write('User ' . $user->username . ' deleted', 'green');
         } else {
-            CLI::write('User ' . $user->username . ' deletion cancelled', 'yellow');
+            $this->write('User ' . $user->username . ' deletion cancelled', 'yellow');
         }
     }
 
@@ -455,7 +470,7 @@ class User extends BaseCommand
             $passwordConfirm = $this->prompt('Password confirmation', null, $this->validationRules['password']);
 
             if ($password !== $passwordConfirm) {
-                CLI::write("The passwords don't match", 'red');
+                $this->write("The passwords don't match", 'red');
 
                 throw new RuntimeException("The passwords don't match");
             }
@@ -465,9 +480,9 @@ class User extends BaseCommand
             $user->password = $password;
             $userModel->save($user);
 
-            CLI::write('Password for the user ' . $user->username . ' set', 'green');
+            $this->write('Password for the user ' . $user->username . ' set', 'green');
         } else {
-            CLI::write('Password setting for the user : ' . $user->username . ', cancelled', 'yellow');
+            $this->write('Password setting for the user : ' . $user->username . ', cancelled', 'yellow');
         }
     }
 
@@ -488,10 +503,10 @@ class User extends BaseCommand
             $userModel->like('secret', $email);
         }
 
-        CLI::write("Id\tUser");
+        $this->write("Id\tUser");
 
         foreach ($userModel->findAll() as $user) {
-            CLI::write($user->id . "\t" . $user->username . ' (' . $user->email . ')');
+            $this->write($user->id . "\t" . $user->username . ' (' . $user->email . ')');
         }
     }
 
@@ -518,9 +533,9 @@ class User extends BaseCommand
         if ($confirm === 'y') {
             $user->addGroup($group);
 
-            CLI::write('User ' . $user->username . ' added to group ' . $group, 'green');
+            $this->write('User ' . $user->username . ' added to group ' . $group, 'green');
         } else {
-            CLI::write(
+            $this->write(
                 'Addition of the user: ' . $user->username . ' to the group: ' . $group . ' cancelled',
                 'yellow'
             );
@@ -550,9 +565,9 @@ class User extends BaseCommand
         if ($confirm === 'y') {
             $user->removeGroup($group);
 
-            CLI::write('User ' . $user->username . ' removed from group ' . $group, 'green');
+            $this->write('User ' . $user->username . ' removed from group ' . $group, 'green');
         } else {
-            CLI::write('Removal of the user: ' . $user->username . ' from the group: ' . $group . ' cancelled', 'yellow');
+            $this->write('Removal of the user: ' . $user->username . ' from the group: ' . $group . ' cancelled', 'yellow');
         }
     }
 
@@ -588,11 +603,34 @@ class User extends BaseCommand
         }
 
         if ($user === null) {
-            CLI::write("User doesn't exist", 'red');
+            $this->write("User doesn't exist", 'red');
 
             throw new RuntimeException("User doesn't exist");
         }
 
         return $user;
+    }
+
+    private function ensureInput(): void
+    {
+        if (self::$io === null) {
+            self::$io = new InputOutput();
+        }
+    }
+
+    /**
+     * @internal Testing purpose only
+     */
+    public static function setInputOutput(InputOutput $io): void
+    {
+        self::$io = $io;
+    }
+
+    /**
+     * @internal Testing purpose only
+     */
+    public static function resetInputOutput(): void
+    {
+        self::$io = null;
     }
 }
