@@ -42,7 +42,7 @@ class User extends BaseCommand
      *
      * @var string
      */
-    protected $description = 'Manage Shield users';
+    protected $description = 'Manage Shield users.';
 
     /**
      * Command's usage
