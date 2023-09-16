@@ -356,7 +356,9 @@ final class UserTest extends DatabaseTestCase
         $user            = $users->findByCredentials(['email' => 'user7@example.com']);
         $oldPasswordHash = $user->password_hash;
 
-        $this->setMockIo(['e', 'user7@example.com', 'y', 'newpassword', 'newpassword']);
+        $this->setMockIo([
+            'e', 'user7@example.com', 'y', 'newpassword', 'newpassword',
+        ]);
 
         command('shield:user password');
 
