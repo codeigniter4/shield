@@ -64,12 +64,22 @@ final class UserTest extends DatabaseTestCase
         ]);
     }
 
+    private function createUser(array $userData): UserEntity
+    {
+        /** @var UserEntity $user */
+        $user = fake(UserModel::class, ['username' => $userData['username']]);
+        $user->createEmailIdentity([
+            'email'    => $userData['email'],
+            'password' => $userData['password'],
+        ]);
+
+        return $user;
+    }
+
     public function testActivate(): void
     {
-        // Create a user.
-        /** @var UserEntity $user */
-        $user = fake(UserModel::class, ['username' => 'user2']);
-        $user->createEmailIdentity([
+        $user = $this->createUser([
+            'username' => 'user2',
             'email'    => 'user2@example.com',
             'password' => 'secret123',
         ]);
@@ -93,10 +103,8 @@ final class UserTest extends DatabaseTestCase
 
     public function testDeactivate(): void
     {
-        // Create a user.
-        /** @var UserEntity $user */
-        $user = fake(UserModel::class, ['username' => 'user3', 'active' => 1]);
-        $user->createEmailIdentity([
+        $user = $this->createUser([
+            'username' => 'user3',
             'email'    => 'user3@example.com',
             'password' => 'secret123',
         ]);
