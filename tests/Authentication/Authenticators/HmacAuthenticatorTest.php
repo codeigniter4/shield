@@ -80,7 +80,6 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
 
     public function testLoginByIdBadId(): void
     {
-        /** @var User $user */
         fake(UserModel::class);
 
         $this->assertFalse($this->auth->loggedIn());
