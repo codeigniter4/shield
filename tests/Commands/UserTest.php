@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Commands;
 
-use CodeIgniter\CodeIgniter;
-use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Commands\User;
+use CodeIgniter\Shield\Entities\User as UserEntity;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Test\Filters\CITestStreamFilter;
-use CodeIgniter\Test\PhpStreamWrapper;
+use Tests\Commands\Utils\MockInputOutput;
 use Tests\Support\DatabaseTestCase;
 
 /**
@@ -16,52 +15,22 @@ use Tests\Support\DatabaseTestCase;
  */
 final class UserTest extends DatabaseTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
-            CITestStreamFilter::registration();
-            CITestStreamFilter::addOutputFilter();
-        } else {
-            $this->markTestSkipped('Cannot write tests with CI 4.2.x');
-        }
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        CITestStreamFilter::removeOutputFilter();
-        CITestStreamFilter::removeErrorFilter();
-    }
-
-    private function setUserInput(string $input): void
-    {
-        // Register the PhpStreamWrapper.
-        PhpStreamWrapper::register();
-
-        PhpStreamWrapper::setContent($input);
-    }
-
-    private function resetUserInput(): void
-    {
-        // Restore php protocol wrapper.
-        PhpStreamWrapper::restore();
-    }
-
     public function testCreate(): void
     {
-        $input = 'Secret Passw0rd!';
-        $this->setUserInput($input);
+        $io = new MockInputOutput();
+        $io->setInputs([
+            'Secret Passw0rd!',
+            'Secret Passw0rd!',
+        ]);
+        User::setInputOutput($io);
 
         command('shield:user create -n user1 -e user1@example.com');
 
-        $this->resetUserInput();
+        User::resetInputOutput();
 
         $this->assertStringContainsString(
             'User user1 created',
-            CITestStreamFilter::$buffer
+            $io->getLastOutput()
         );
 
         $users = model(UserModel::class);
@@ -79,23 +48,26 @@ final class UserTest extends DatabaseTestCase
     public function testActivate(): void
     {
         // Create a user.
-        /** @var User $user */
+        /** @var UserEntity $user */
         $user = fake(UserModel::class, ['username' => 'user2']);
         $user->createEmailIdentity([
             'email'    => 'user2@example.com',
             'password' => 'secret123',
         ]);
 
-        $input = 'y';
-        $this->setUserInput($input);
+        $io = new MockInputOutput();
+        $io->setInputs([
+            'y',
+        ]);
+        User::setInputOutput($io);
 
         command('shield:user activate -n user2');
 
-        $this->resetUserInput();
+        User::resetInputOutput();
 
         $this->assertStringContainsString(
             'User user2 activated',
-            CITestStreamFilter::$buffer
+            $io->getLastOutput()
         );
 
         $users = model(UserModel::class);
@@ -109,23 +81,26 @@ final class UserTest extends DatabaseTestCase
     public function testDeactivate(): void
     {
         // Create a user.
-        /** @var User $user */
+        /** @var UserEntity $user */
         $user = fake(UserModel::class, ['username' => 'user3', 'active' => 1]);
         $user->createEmailIdentity([
             'email'    => 'user3@example.com',
             'password' => 'secret123',
         ]);
 
-        $input = 'y';
-        $this->setUserInput($input);
+        $io = new MockInputOutput();
+        $io->setInputs([
+            'y',
+        ]);
+        User::setInputOutput($io);
 
         command('shield:user deactivate -n user3');
 
-        $this->resetUserInput();
+        User::resetInputOutput();
 
         $this->assertStringContainsString(
             'User user3 deactivated',
-            CITestStreamFilter::$buffer
+            $io->getLastOutput()
         );
 
         $users = model(UserModel::class);
