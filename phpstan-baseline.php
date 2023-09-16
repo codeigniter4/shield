@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 $ignoreErrors = [];
 $ignoreErrors[] = [
@@ -256,18 +258,8 @@ The type \'basic\', \'md5\', and \'sha1\' are deprecated\\. They are not cryptog
 	'path' => __DIR__ . '/src/Models/TokenLoginModel.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Cannot access property \\$id on array\\|object\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/TokenLoginModel.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Call to deprecated function random_string\\(\\)\\:
 The type \'basic\', \'md5\', and \'sha1\' are deprecated\\. They are not cryptographically secure\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/UserIdentityModel.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Cannot access property \\$id on array\\|object\\.$#',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Models/UserIdentityModel.php',
 ];
@@ -297,17 +289,7 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Cannot access property \\$id on array\\|object\\.$#',
-	'count' => 2,
-	'path' => __DIR__ . '/tests/Authentication/AuthHelperTest.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with \'CodeIgniter\\\\\\\\Shield\\\\\\\\Result\' and CodeIgniter\\\\Shield\\\\Result will always evaluate to true\\.$#',
-	'count' => 2,
-	'path' => __DIR__ . '/tests/Authentication/Authenticators/AccessTokenAuthenticatorTest.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Cannot access property \\$id on array\\|object\\.$#',
 	'count' => 2,
 	'path' => __DIR__ . '/tests/Authentication/Authenticators/AccessTokenAuthenticatorTest.php',
 ];
@@ -327,11 +309,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/tests/Authentication/Filters/AbstractFilterTestCase.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Cannot access property \\$id on array\\|object\\.$#',
-	'count' => 6,
-	'path' => __DIR__ . '/tests/Authentication/Filters/SessionFilterTest.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Implicit array creation is not allowed \\- variable \\$users might not exist\\.$#',
 	'count' => 1,
 	'path' => __DIR__ . '/tests/Authentication/ForcePasswordResetTest.php',
@@ -347,16 +324,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/tests/Authentication/HasAccessTokensTest.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Cannot access property \\$id on array\\|object\\.$#',
-	'count' => 2,
-	'path' => __DIR__ . '/tests/Authentication/HasAccessTokensTest.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Cannot access property \\$id on array\\|object\\.$#',
-	'count' => 4,
-	'path' => __DIR__ . '/tests/Authorization/AuthorizableTest.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Only booleans are allowed in a ternary operator condition, string\\|null given\\.$#',
 	'count' => 2,
 	'path' => __DIR__ . '/tests/Language/AbstractTranslationTestCase.php',
@@ -365,11 +332,6 @@ $ignoreErrors[] = [
 	'message' => '#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertIsString\\(\\) with string will always evaluate to true\\.$#',
 	'count' => 6,
 	'path' => __DIR__ . '/tests/Unit/Authentication/JWT/JWTManagerTest.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Cannot access property \\$id on array\\|object\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/Unit/UserModelTest.php',
 ];
 $ignoreErrors[] = [
 	'message' => '#^Call to an undefined method CodeIgniter\\\\Shield\\\\Models\\\\UserModel\\:\\:getLastQuery\\(\\)\\.$#',
@@ -384,16 +346,6 @@ $ignoreErrors[] = [
 $ignoreErrors[] = [
 	'message' => '#^Cannot access property \\$active on array\\|object\\.$#',
 	'count' => 2,
-	'path' => __DIR__ . '/tests/Unit/UserTest.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Cannot access property \\$email on array\\|object\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/Unit/UserTest.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Cannot access property \\$id on array\\|object\\.$#',
-	'count' => 4,
 	'path' => __DIR__ . '/tests/Unit/UserTest.php',
 ];
 $ignoreErrors[] = [
