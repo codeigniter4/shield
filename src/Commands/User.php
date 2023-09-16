@@ -139,7 +139,7 @@ class User extends BaseCommand
      */
     public function run(array $params): int
     {
-        $this->ensureInput();
+        $this->ensureInputOutput();
         $this->setTables();
         $this->setValidationRules();
 
@@ -668,7 +668,7 @@ class User extends BaseCommand
         return $userModel->findById($user['id']);
     }
 
-    private function ensureInput(): void
+    private function ensureInputOutput(): void
     {
         if (self::$io === null) {
             self::$io = new InputOutput();
