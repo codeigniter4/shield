@@ -98,15 +98,15 @@ return static function (RectorConfig $rectorConfig): void {
 
         // Ignore tests that use CodeIgniter::CI_VERSION
         UnwrapFutureCompatibleIfPhpVersionRector::class => [
+            __DIR__ . '/src/Test/MockInputOutput.php',
             __DIR__ . '/tests/Commands/SetupTest.php',
             __DIR__ . '/tests/Commands/UserModelGeneratorTest.php',
-            __DIR__ . '/tests/Commands/UserTest.php',
             __DIR__ . '/tests/Controllers/LoginTest.php',
         ],
         RemoveUnusedPrivatePropertyRector::class => [
+            __DIR__ . '/src/Test/MockInputOutput.php',
             __DIR__ . '/tests/Commands/SetupTest.php',
             __DIR__ . '/tests/Commands/UserModelGeneratorTest.php',
-            __DIR__ . '/tests/Commands/UserTest.php',
             __DIR__ . '/tests/Controllers/LoginTest.php',
         ],
     ]);
