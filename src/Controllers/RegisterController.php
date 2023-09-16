@@ -165,7 +165,7 @@ class RegisterController extends BaseController
      * @return array<string, array<string, array<string>|string>>
      * @phpstan-return array<string, array<string, string|list<string>>>
      */
-    public function getValidationRules(): array
+    protected function getValidationRules(): array
     {
         $rules = new RegistrationValidationRules();
 
