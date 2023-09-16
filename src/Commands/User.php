@@ -6,10 +6,12 @@ namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Commands\Exceptions\BadInputException;
+use CodeIgniter\Shield\Commands\Exceptions\CancelException;
 use CodeIgniter\Shield\Commands\Utils\InputOutput;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User as UserEntity;
-use CodeIgniter\Shield\Exceptions\RuntimeException;
+use CodeIgniter\Shield\Exceptions\UserNotFoundException;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Validation\RegistrationValidationRules;
 use Config\Services;
@@ -199,7 +201,7 @@ class User extends BaseCommand
                     $this->removegroup($group, $username, $email);
                     break;
             }
-        } catch (RuntimeException $e) {
+        } catch (BadInputException|CancelException|UserNotFoundException $e) {
             return EXIT_ERROR;
         }
 
@@ -303,7 +305,7 @@ class User extends BaseCommand
         if ($password !== $passwordConfirm) {
             $this->write("The passwords don't match", 'red');
 
-            throw new RuntimeException("The passwords don't match");
+            throw new BadInputException("The passwords don't match");
         }
         $data['password'] = $password;
 
@@ -318,7 +320,7 @@ class User extends BaseCommand
 
             $this->write('User creation aborted', 'red');
 
-            throw new RuntimeException('User creation aborted');
+            throw new CancelException('User creation aborted');
         }
 
         $userModel = model(UserModel::class);
@@ -407,7 +409,7 @@ class User extends BaseCommand
 
                 $this->write('User name change aborted', 'red');
 
-                throw new RuntimeException('User name change aborted');
+                throw new CancelException('User name change aborted');
             }
         }
 
@@ -449,7 +451,7 @@ class User extends BaseCommand
                 }
                 $this->write('User email change aborted', 'red');
 
-                throw new RuntimeException('User email change aborted');
+                throw new CancelException('User email change aborted');
             }
         }
 
@@ -502,7 +504,7 @@ class User extends BaseCommand
         if ($user === null) {
             $this->write("User doesn't exist", 'red');
 
-            throw new RuntimeException("User doesn't exis");
+            throw new UserNotFoundException("User doesn't exist");
         }
     }
 
@@ -533,7 +535,7 @@ class User extends BaseCommand
             if ($password !== $passwordConfirm) {
                 $this->write("The passwords don't match", 'red');
 
-                throw new RuntimeException("The passwords don't match");
+                throw new BadInputException("The passwords don't match");
             }
 
             $userModel = model(UserModel::class);
