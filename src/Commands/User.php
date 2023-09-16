@@ -202,6 +202,8 @@ class User extends BaseCommand
                     break;
             }
         } catch (BadInputException|CancelException|UserNotFoundException $e) {
+            $this->write($e->getMessage(), 'red');
+
             return EXIT_ERROR;
         }
 
@@ -303,8 +305,6 @@ class User extends BaseCommand
         );
 
         if ($password !== $passwordConfirm) {
-            $this->write("The passwords don't match", 'red');
-
             throw new BadInputException("The passwords don't match");
         }
         $data['password'] = $password;
@@ -317,8 +317,6 @@ class User extends BaseCommand
             foreach ($validation->getErrors() as $message) {
                 $this->write($message, 'red');
             }
-
-            $this->write('User creation aborted', 'red');
 
             throw new CancelException('User creation aborted');
         }
@@ -407,8 +405,6 @@ class User extends BaseCommand
                     $this->write($message, 'red');
                 }
 
-                $this->write('User name change aborted', 'red');
-
                 throw new CancelException('User name change aborted');
             }
         }
@@ -449,7 +445,6 @@ class User extends BaseCommand
                 foreach ($validation->getErrors() as $message) {
                     $this->write($message, 'red');
                 }
-                $this->write('User email change aborted', 'red');
 
                 throw new CancelException('User email change aborted');
             }
@@ -502,8 +497,6 @@ class User extends BaseCommand
     private function checkUserExists($user): void
     {
         if ($user === null) {
-            $this->write("User doesn't exist", 'red');
-
             throw new UserNotFoundException("User doesn't exist");
         }
     }
@@ -533,8 +526,6 @@ class User extends BaseCommand
             );
 
             if ($password !== $passwordConfirm) {
-                $this->write("The passwords don't match", 'red');
-
                 throw new BadInputException("The passwords don't match");
             }
 
