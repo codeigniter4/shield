@@ -121,11 +121,7 @@ class User extends BaseCommand
     /**
      * Validation rules for user fields
      */
-    private array $validationRules = [
-        'username' => 'required|is_unique[users.username]',
-        'email'    => 'required|valid_email|is_unique[auth_identities.secret]',
-        'password' => 'required|min_length[10]',
-    ];
+    private array $validationRules = [];
 
     /**
      * Auth Table names
