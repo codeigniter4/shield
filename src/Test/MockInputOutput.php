@@ -21,7 +21,7 @@ final class MockInputOutput extends InputOutput
 
     public function getLastOutput(): string
     {
-        return array_shift($this->outputs);
+        return array_pop($this->outputs);
     }
 
     /**
