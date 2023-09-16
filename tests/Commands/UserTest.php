@@ -48,7 +48,7 @@ final class UserTest extends DatabaseTestCase
         command('shield:user create -n user1 -e user1@example.com');
 
         $this->assertStringContainsString(
-            'User user1 created',
+            'User "user1" created',
             $this->io->getLastOutput()
         );
 
@@ -96,7 +96,7 @@ final class UserTest extends DatabaseTestCase
         command('shield:user activate -n user2');
 
         $this->assertStringContainsString(
-            'User user2 activated',
+            'User "user2" activated',
             $this->io->getLastOutput()
         );
 
@@ -120,7 +120,7 @@ final class UserTest extends DatabaseTestCase
         command('shield:user deactivate -n user3');
 
         $this->assertStringContainsString(
-            'User user3 deactivated',
+            'User "user3" deactivated',
             $this->io->getLastOutput()
         );
 

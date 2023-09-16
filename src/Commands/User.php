@@ -276,7 +276,7 @@ class User extends BaseCommand
         $user = new \CodeIgniter\Shield\Entities\User($data);
         $userModel->save($user);
 
-        $this->write('User ' . $username . ' created', 'green');
+        $this->write('User "' . $username . '" created', 'green');
     }
 
     /**
@@ -297,9 +297,9 @@ class User extends BaseCommand
             $user->active = 1;
             $userModel->save($user);
 
-            $this->write('User ' . $user->username . ' activated', 'green');
+            $this->write('User "' . $user->username . '" activated', 'green');
         } else {
-            $this->write('User ' . $user->username . ' activation cancelled', 'yellow');
+            $this->write('User "' . $user->username . '" activation cancelled', 'yellow');
         }
     }
 
@@ -313,7 +313,7 @@ class User extends BaseCommand
     {
         $user = $this->findUser('Deactivate user', $username, $email);
 
-        $confirm = $this->prompt('Deactivate the user ' . $username . ' ?', ['y', 'n']);
+        $confirm = $this->prompt('Deactivate the user "' . $username . '" ?', ['y', 'n']);
 
         if ($confirm === 'y') {
             $userModel = model(UserModel::class);
@@ -321,9 +321,9 @@ class User extends BaseCommand
             $user->active = 0;
             $userModel->save($user);
 
-            $this->write('User ' . $user->username . ' deactivated', 'green');
+            $this->write('User "' . $user->username . '" deactivated', 'green');
         } else {
-            $this->write('User ' . $user->username . ' deactivation cancelled', 'yellow');
+            $this->write('User "' . $user->username . '" deactivation cancelled', 'yellow');
         }
     }
 
@@ -372,7 +372,7 @@ class User extends BaseCommand
         $user->username = $newUsername;
         $userModel->save($user);
 
-        $this->write('Username ' . $oldUsername . ' changed to ' . $newUsername, 'green');
+        $this->write('Username "' . $oldUsername . '" changed to "' . $newUsername . '"', 'green');
     }
 
     /**
@@ -413,7 +413,7 @@ class User extends BaseCommand
         $user->email = $newEmail;
         $userModel->save($user);
 
-        $this->write('Email for the user : ' . $user->username . ' changed to ' . $newEmail, 'green');
+        $this->write('Email for "' . $user->username . '" changed to ' . $newEmail, 'green');
     }
 
     /**
@@ -440,16 +440,16 @@ class User extends BaseCommand
         }
 
         $confirm = $this->prompt(
-            'Delete the user ' . $user->username . ' (' . $user->email . ') ?',
+            'Delete the user "' . $user->username . '" (' . $user->email . ') ?',
             ['y', 'n']
         );
 
         if ($confirm === 'y') {
             $userModel->delete($user->id, true);
 
-            $this->write('User ' . $user->username . ' deleted', 'green');
+            $this->write('User "' . $user->username . '" deleted', 'green');
         } else {
-            $this->write('User ' . $user->username . ' deletion cancelled', 'yellow');
+            $this->write('User "' . $user->username . '" deletion cancelled', 'yellow');
         }
     }
 
@@ -463,7 +463,7 @@ class User extends BaseCommand
     {
         $user = $this->findUser('Change user password', $username, $email);
 
-        $confirm = $this->prompt('Set the password for the user ' . $user->username . ' ?', ['y', 'n']);
+        $confirm = $this->prompt('Set the password for "' . $user->username . '" ?', ['y', 'n']);
 
         if ($confirm === 'y') {
             $password        = $this->prompt('Password', null, 'required');
@@ -480,9 +480,9 @@ class User extends BaseCommand
             $user->password = $password;
             $userModel->save($user);
 
-            $this->write('Password for the user ' . $user->username . ' set', 'green');
+            $this->write('Password for "' . $user->username . '" set', 'green');
         } else {
-            $this->write('Password setting for the user : ' . $user->username . ', cancelled', 'yellow');
+            $this->write('Password setting for "' . $user->username . '" cancelled', 'yellow');
         }
     }
 
@@ -526,17 +526,17 @@ class User extends BaseCommand
         $user = $this->findUser('Add user to group', $username, $email);
 
         $confirm = $this->prompt(
-            'Add the user: ' . $user->username . ' to the group: ' . $group . ' ?',
+            'Add the user "' . $user->username . '" to the group "' . $group . '" ?',
             ['y', 'n']
         );
 
         if ($confirm === 'y') {
             $user->addGroup($group);
 
-            $this->write('User ' . $user->username . ' added to group ' . $group, 'green');
+            $this->write('User "' . $user->username . '" added to group "' . $group . '"', 'green');
         } else {
             $this->write(
-                'Addition of the user: ' . $user->username . ' to the group: ' . $group . ' cancelled',
+                'Addition of the user "' . $user->username . '" to the group "' . $group . '" cancelled',
                 'yellow'
             );
         }
@@ -558,16 +558,16 @@ class User extends BaseCommand
         $user = $this->findUser('Remove user from group', $username, $email);
 
         $confirm = $this->prompt(
-            'Remove the user: ' . $user->username . ' fromt the group: ' . $group . ' ?',
+            'Remove the user "' . $user->username . '" from the group "' . $group . '" ?',
             ['y', 'n']
         );
 
         if ($confirm === 'y') {
             $user->removeGroup($group);
 
-            $this->write('User ' . $user->username . ' removed from group ' . $group, 'green');
+            $this->write('User "' . $user->username . '" removed from group "' . $group . '"', 'green');
         } else {
-            $this->write('Removal of the user: ' . $user->username . ' from the group: ' . $group . ' cancelled', 'yellow');
+            $this->write('Removal of the user "' . $user->username . '" from the group "' . $group . '" cancelled', 'yellow');
         }
     }
 
