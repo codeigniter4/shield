@@ -10,12 +10,11 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
-use CodeIgniter\Shield\Authentication\Passwords;
-use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Traits\Viewable;
+use CodeIgniter\Shield\Validation\RegistrationValidationRules;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -30,11 +29,6 @@ class RegisterController extends BaseController
 
     protected $helpers = ['setting'];
 
-    /**
-     * Auth Table names
-     */
-    protected array $tables;
-
     public function initController(
         RequestInterface $request,
         ResponseInterface $response,
@@ -45,10 +39,6 @@ class RegisterController extends BaseController
             $response,
             $logger
         );
-
-        /** @var Auth $authConfig */
-        $authConfig   = config('Auth');
-        $this->tables = $authConfig->tables;
     }
 
     /**
@@ -175,37 +165,10 @@ class RegisterController extends BaseController
      * @return array<string, array<string, array<string>|string>>
      * @phpstan-return array<string, array<string, string|list<string>>>
      */
-    protected function getValidationRules(): array
+    public function getValidationRules(): array
     {
-        $registrationUsernameRules = array_merge(
-            config('AuthSession')->usernameValidationRules,
-            [sprintf('is_unique[%s.username]', $this->tables['users'])]
-        );
-        $registrationEmailRules = array_merge(
-            config('AuthSession')->emailValidationRules,
-            [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
-        );
+        $rules = new RegistrationValidationRules();
 
-        return setting('Validation.registration') ?? [
-            'username' => [
-                'label' => 'Auth.username',
-                'rules' => $registrationUsernameRules,
-            ],
-            'email' => [
-                'label' => 'Auth.email',
-                'rules' => $registrationEmailRules,
-            ],
-            'password' => [
-                'label'  => 'Auth.password',
-                'rules'  => 'required|' . Passwords::getMaxLengthRule() . '|strong_password[]',
-                'errors' => [
-                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
-                ],
-            ],
-            'password_confirm' => [
-                'label' => 'Auth.passwordConfirm',
-                'rules' => 'required|matches[password]',
-            ],
-        ];
+        return $rules->get();
     }
 }
