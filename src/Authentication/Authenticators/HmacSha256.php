@@ -92,7 +92,7 @@ class HmacSha256 implements AuthenticatorInterface
         }
 
         $user = $user->setHmacToken(
-            $user->getHmacToken($this->getAuthKeyFromToken())
+            $user->getHmacToken($this->getHmacKeyFromToken())
         );
 
         $this->login($user);
@@ -228,7 +228,7 @@ class HmacSha256 implements AuthenticatorInterface
         }
 
         $user->setHmacToken(
-            $user->getHmacToken($this->getAuthKeyFromToken())
+            $user->getHmacToken($this->getHmacKeyFromToken())
         );
 
         $this->login($user);
@@ -251,16 +251,16 @@ class HmacSha256 implements AuthenticatorInterface
     }
 
     /**
-     * Returns the Full Authorization token from the Authorization header
+     * Returns the Full HMAC Authorization token from the Authorization header
      *
      * @return ?string Trimmed Authorization Token from Header
      */
-    public function getFullAuthToken(): ?string
+    public function getFullHmacToken(): ?string
     {
         /** @var IncomingRequest $request */
         $request = service('request');
 
-        $header = $request->getHeaderLine(config('Auth')->authenticatorHeader['tokens']);
+        $header = $request->getHeaderLine(config('Auth')->authenticatorHeader['hmac']);
 
         if ($header === '') {
             return null;
@@ -279,7 +279,7 @@ class HmacSha256 implements AuthenticatorInterface
     public function getHmacAuthTokens(?string $fullToken = null): ?array
     {
         if (! isset($fullToken)) {
-            $fullToken = $this->getFullAuthToken();
+            $fullToken = $this->getFullHmacToken();
         }
 
         if (isset($fullToken)) {
@@ -294,9 +294,9 @@ class HmacSha256 implements AuthenticatorInterface
      *
      * @return ?string HMAC token key
      */
-    public function getAuthKeyFromToken(): ?string
+    public function getHmacKeyFromToken(): ?string
     {
-        [$key, $hmacHash] = $this->getHmacAuthTokens();
+        [$key, $secretKey] = $this->getHmacAuthTokens();
 
         return $key;
     }
@@ -304,13 +304,13 @@ class HmacSha256 implements AuthenticatorInterface
     /**
      * Retrieve the HMAC Hash from the Auth token
      *
-     * @return ?string HMAC signature
+     * @return ?string HMAC Hash
      */
     public function getHmacHashFromToken(): ?string
     {
-        [$key, $hmacHash] = $this->getHmacAuthTokens();
+        [$key, $hash] = $this->getHmacAuthTokens();
 
-        return $hmacHash;
+        return $hash;
     }
 
     /**

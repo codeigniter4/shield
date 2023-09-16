@@ -6,6 +6,7 @@ namespace Tests\Authentication\Authenticators;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authentication;
+use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\Authenticators\HmacSha256;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\AccessToken;
@@ -75,6 +76,23 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
 
         $this->assertTrue($this->auth->loggedIn());
         $this->assertNull($this->auth->getUser()->currentHmacToken());
+    }
+
+    public function testLoginByIdBadId(): void
+    {
+        /** @var User $user */
+        $user = fake(UserModel::class);
+
+        $this->assertFalse($this->auth->loggedIn());
+
+        try {
+            $this->auth->loginById(0);
+        } catch (AuthenticationException $e) {
+            // Failed login
+        }
+
+        $this->assertFalse($this->auth->loggedIn());
+        $this->assertNull($this->auth->getUser());
     }
 
     public function testLoginByIdWithToken(): void
@@ -246,6 +264,43 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
             'id_type'    => HmacSha256::ID_TYPE_HMAC_TOKEN,
             'identifier' => $rawToken,
             'success'    => 1,
+        ]);
+
+        // Check get key Method
+        $key = $this->auth->getHmacKeyFromToken();
+        $this->assertSame($token->secret, $key);
+
+        // Check get hash method
+        [, $hash]  = explode(':', $rawToken);
+        $secretKey = $this->auth->getHmacHashFromToken();
+        $this->assertSame($hash, $secretKey);
+    }
+
+    public function testAttemptBanned(): void
+    {
+        /** @var User $user */
+        $user = fake(UserModel::class);
+        $user->ban('Test ban.');
+
+        $token    = $user->generateHmacToken('foo');
+        $rawToken = $this->generateRawHeaderToken($token->secret, $token->secret2, 'bar');
+        $this->setRequestHeader($rawToken);
+
+        $result = $this->auth->attempt([
+            'token' => $rawToken,
+            'body'  => 'bar',
+        ]);
+
+        $this->assertFalse($result->isOK());
+
+        $foundUser = $result->extraInfo();
+        $this->assertNull($foundUser);
+
+        // A login attempt should have been recorded
+        $this->seeInDatabase($this->tables['token_logins'], [
+            'id_type'    => HmacSha256::ID_TYPE_HMAC_TOKEN,
+            'identifier' => $rawToken,
+            'success'    => 0,
         ]);
     }
 
