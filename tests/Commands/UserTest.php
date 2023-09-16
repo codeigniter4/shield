@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Commands;
 
 use CodeIgniter\Shield\Commands\User;
-use CodeIgniter\Shield\Commands\Utils\InputOutput;
 use CodeIgniter\Shield\Entities\User as UserEntity;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Test\MockInputOutput;
@@ -16,7 +15,7 @@ use Tests\Support\DatabaseTestCase;
  */
 final class UserTest extends DatabaseTestCase
 {
-    private ?InputOutput $io = null;
+    private ?MockInputOutput $io = null;
 
     protected function tearDown(): void
     {
