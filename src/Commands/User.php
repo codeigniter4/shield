@@ -11,6 +11,7 @@ use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User as UserEntity;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Validation\RegistrationValidationRules;
 use Config\Services;
 
 class User extends BaseCommand
@@ -140,6 +141,7 @@ class User extends BaseCommand
     {
         $this->ensureInput();
         $this->setTables();
+        $this->setValidationRules();
 
         $action = $params[0] ?? null;
 
@@ -213,6 +215,19 @@ class User extends BaseCommand
         /** @var Auth $config */
         $config       = config('Auth');
         $this->tables = $config->tables;
+    }
+
+    private function setValidationRules(): void
+    {
+        $validationRules = new RegistrationValidationRules();
+
+        $rules = $validationRules->get();
+
+        $this->validationRules = [
+            'username' => $rules['username'],
+            'email'    => $rules['email'],
+            'password' => $rules['password'],
+        ];
     }
 
     /**
