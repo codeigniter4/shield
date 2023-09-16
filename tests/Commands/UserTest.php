@@ -64,6 +64,9 @@ final class UserTest extends DatabaseTestCase
         ]);
     }
 
+    /**
+     * Create an active user.
+     */
     private function createUser(array $userData): UserEntity
     {
         /** @var UserEntity $user */
@@ -84,6 +87,10 @@ final class UserTest extends DatabaseTestCase
             'password' => 'secret123',
         ]);
 
+        $user->deactivate();
+        $users = model(UserModel::class);
+        $users->save($user);
+
         $this->setMockIo(['y']);
 
         command('shield:user activate -n user2');
@@ -93,8 +100,7 @@ final class UserTest extends DatabaseTestCase
             $this->io->getLastOutput()
         );
 
-        $users = model(UserModel::class);
-        $user  = $users->findByCredentials(['email' => 'user2@example.com']);
+        $user = $users->findByCredentials(['email' => 'user2@example.com']);
         $this->seeInDatabase($this->tables['users'], [
             'id'     => $user->id,
             'active' => 1,
@@ -103,7 +109,7 @@ final class UserTest extends DatabaseTestCase
 
     public function testDeactivate(): void
     {
-        $user = $this->createUser([
+        $this->createUser([
             'username' => 'user3',
             'email'    => 'user3@example.com',
             'password' => 'secret123',
