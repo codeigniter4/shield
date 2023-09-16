@@ -104,6 +104,31 @@ final class UserTest extends DatabaseTestCase
         $this->assertNull($user);
     }
 
+    public function testCreatePasswordNotMatch(): void
+    {
+        $user = $this->createUser([
+            'username' => 'user1',
+            'email'    => 'user1@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $this->setMockIo([
+            'password',
+            'badpassword',
+        ]);
+
+        command('shield:user create -n user1 -e userx@example.com');
+
+        $this->assertStringContainsString(
+            "The passwords don't match",
+            $this->io->getFirstOutput()
+        );
+
+        $users = model(UserModel::class);
+        $user  = $users->findByCredentials(['email' => 'userx@example.com']);
+        $this->assertNull($user);
+    }
+
     /**
      * Create an active user.
      */
@@ -319,6 +344,28 @@ final class UserTest extends DatabaseTestCase
         $users = model(UserModel::class);
         $user  = $users->findByCredentials(['email' => 'user6@example.com']);
         $this->assertNull($user);
+    }
+
+    public function testDeleteUserNotExist(): void
+    {
+        $this->createUser([
+            'username' => 'user6',
+            'email'    => 'user6@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $this->setMockIo(['y']);
+
+        command('shield:user delete -n userx');
+
+        $this->assertStringContainsString(
+            "User doesn't exist",
+            $this->io->getLastOutput()
+        );
+
+        $users = model(UserModel::class);
+        $user  = $users->findByCredentials(['email' => 'user6@example.com']);
+        $this->assertNotNull($user);
     }
 
     public function testPassword(): void
