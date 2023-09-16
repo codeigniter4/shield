@@ -462,11 +462,7 @@ class User extends BaseCommand
         if ($userid !== 0) {
             $user = $userModel->findById($userid);
 
-            if ($user === null) {
-                $this->write("User doesn't exist", 'red');
-
-                throw new RuntimeException("User doesn't exis");
-            }
+            $this->checkUserExists($user);
         } else {
             $user = $this->findUser('Delete user', $username, $email);
         }
@@ -482,6 +478,18 @@ class User extends BaseCommand
             $this->write('User "' . $user->username . '" deleted', 'green');
         } else {
             $this->write('User "' . $user->username . '" deletion cancelled', 'yellow');
+        }
+    }
+
+    /**
+     * @param UserEntity|null $user
+     */
+    private function checkUserExists($user): void
+    {
+        if ($user === null) {
+            $this->write("User doesn't exist", 'red');
+
+            throw new RuntimeException("User doesn't exis");
         }
     }
 
@@ -659,11 +667,7 @@ class User extends BaseCommand
             $user = $userModel->where('secret', $email)->first();
         }
 
-        if ($user === null) {
-            $this->write("User doesn't exist", 'red');
-
-            throw new RuntimeException("User doesn't exist");
-        }
+        $this->checkUserExists($user);
 
         return $userModel->findById($user['id']);
     }
