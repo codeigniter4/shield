@@ -6,8 +6,8 @@ namespace CodeIgniter\Shield\Test;
 
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\CodeIgniter;
-use CodeIgniter\Log\Exceptions\LogException;
 use CodeIgniter\Shield\Commands\Utils\InputOutput;
+use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Test\Filters\CITestStreamFilter;
 use CodeIgniter\Test\PhpStreamWrapper;
 
@@ -67,7 +67,7 @@ final class MockInputOutput extends InputOutput
             CITestStreamFilter::removeErrorFilter();
 
             if ($input !== $userInput) {
-                throw new LogException($input . '!==' . $userInput);
+                throw new LogicException($input . '!==' . $userInput);
             }
         }
 
