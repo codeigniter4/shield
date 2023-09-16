@@ -367,11 +367,6 @@ class User extends BaseCommand
         ?string $email = null,
         ?string $newUsername = null
     ): void {
-        $validation = Services::validation();
-        $validation->setRules([
-            'username' => 'required|is_unique[users.username]',
-        ]);
-
         $user = $this->findUser('Change username', $username, $email);
 
         if ($newUsername === null) {
