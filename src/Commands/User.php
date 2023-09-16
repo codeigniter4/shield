@@ -219,18 +219,23 @@ class User extends BaseCommand
 
         $rules = $validationRules->get();
 
-        // Remove strong_password because it only supports use cases
+        // Remove `strong_password` because it only supports use cases
         // to check the user's own password.
-        $rules['password']['rules'] = str_replace(
-            '|strong_password[]',
-            '',
-            $rules['password']['rules']
-        );
+        $passwordRules = $rules['password']['rules'];
+        if (is_string($passwordRules)) {
+            $passwordRules = explode('|', $passwordRules);
+        }
+        if (($key = array_search('strong_password[]', $passwordRules, true)) !== false) {
+            unset($passwordRules[$key]);
+        }
 
         /** @var Auth $config */
         $config = config('Auth');
 
-        $rules['password']['rules'] .= '|min_length[' . $config->minimumPasswordLength . ']';
+        // Add `min_length`
+        $passwordRules[] = 'min_length[' . $config->minimumPasswordLength . ']';
+
+        $rules['password']['rules'] = $passwordRules;
 
         $this->validationRules = [
             'username' => $rules['username'],
