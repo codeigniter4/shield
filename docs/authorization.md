@@ -111,12 +111,17 @@ The `Authorizable` trait on the `User` entity provides the following methods to 
 
 #### can()
 
-Allows you to check if a user is permitted to do a specific action. The only argument is the permission string. Returns
+Allows you to check if a user is permitted to do a specific action or group or actions. The permission string(s) should be passed as the argument(s). Returns
 boolean `true`/`false`. Will check the user's direct permissions (**user-level permissions**) first, and then check against all of the user's groups
 permissions (**group-level permissions**) to determine if they are allowed.
 
 ```php
 if ($user->can('users.create')) {
+    //
+}
+
+// If multiple permissions are specified, true is returned if the user has any of them.
+if ($user->can('users.create', 'users.edit')) {
     //
 }
 ```

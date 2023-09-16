@@ -33,7 +33,8 @@ final class JWTFilterTest extends DatabaseTestCase
         $_SESSION = [];
 
         // Add JWT Authenticator
-        $config                        = config(Auth::class);
+        /** @var Auth $config */
+        $config                        = config('Auth');
         $config->authenticators['jwt'] = JWT::class;
 
         // Register our filter

@@ -30,6 +30,7 @@ return [
     'password'        => 'Парола',
     'passwordConfirm' => 'Парола (отново)',
     'haveAccount'     => 'Вече имате акаунт?',
+    'token'           => '(To be translated) Token',
 
     // Бутони
     'confirm' => 'Потвърди',
@@ -51,6 +52,7 @@ return [
     'magicLinkExpired'   => 'Съжаляваме, линкът е изтекъл.',
     'checkYourEmail'     => 'Проверете вашия имейл!',
     'magicLinkDetails'   => 'Току що ви изпратихме имейл с линк за вход. Линкът ще бъде валиден само {0} минути.',
+    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
     'successLogout'      => 'Успешно излязохте от системата.',
     'backToLogin'        => 'Обратно към входа',
 

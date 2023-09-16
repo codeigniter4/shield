@@ -30,6 +30,7 @@ return [
     'password'        => 'رمز عبور',
     'passwordConfirm' => 'رمز عبور (تکرار)',
     'haveAccount'     => 'از قبل حساب کاربری دارید؟',
+    'token'           => 'توکن',
 
     // Buttons
     'confirm' => 'تایید',
@@ -51,6 +52,7 @@ return [
     'magicLinkExpired'   => 'متاسفانه, لینک منقضی شده است.',
     'checkYourEmail'     => 'ایمیلتان را بررسی کنید!',
     'magicLinkDetails'   => 'ما فقط یک لینک ورود به ایمیلتان ارسال کردیم. این لینک فقط برای {0} دقیقه معتبر خواهد بود.',
+    'magicLinkDisabled'  => 'امکان استفاده از لینک جادویی وجود ندارد.',
     'successLogout'      => 'با موفقیت خارج شدید.',
     'backToLogin'        => 'بازگشت به ورود به سیستم',
 

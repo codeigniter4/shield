@@ -30,6 +30,7 @@ return [
     'password'        => 'Şifre',
     'passwordConfirm' => 'Şifre (tekrar)',
     'haveAccount'     => 'Zaten hesabınız var mı?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Onayla',
@@ -51,6 +52,7 @@ return [
     'magicLinkExpired'   => 'Üzgünüm, bağlantının süresi doldu.',
     'checkYourEmail'     => 'E-postanı kontrol et!',
     'magicLinkDetails'   => 'Az önce size içinde bir Giriş bağlantısı olan bir e-posta gönderdik. Bağlantı {0} dakika için geçerlidir.',
+    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
     'successLogout'      => 'Başarıyla çıkış yaptınız.',
     'backToLogin'        => 'Girişe Geri Dön',
 

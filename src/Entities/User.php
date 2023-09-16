@@ -117,6 +117,11 @@ class User extends Entity
         return $identities;
     }
 
+    public function setIdentities(array $identities): void
+    {
+        $this->identities = $identities;
+    }
+
     /**
      * Creates a new identity for this user with an email/password
      * combination.

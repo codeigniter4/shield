@@ -13,7 +13,6 @@ use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
-use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
@@ -90,7 +89,8 @@ class Session implements AuthenticatorInterface
      */
     private function checkSecurityConfig(): void
     {
-        $securityConfig = config(Security::class);
+        /** @var Security $securityConfig */
+        $securityConfig = config('Security');
 
         if ($securityConfig->csrfProtection === 'cookie') {
             throw new SecurityException(
@@ -275,8 +275,8 @@ class Session implements AuthenticatorInterface
     ): void {
         // Determine the type of ID we're using.
         // Standard fields would be email, username,
-        // but any column within config(Auth::class)->validFields can be used.
-        $field = array_intersect(config(Auth::class)->validFields ?? [], array_keys($credentials));
+        // but any column within config('Auth')->validFields can be used.
+        $field = array_intersect(config('Auth')->validFields ?? [], array_keys($credentials));
 
         if (count($field) !== 1) {
             throw new InvalidArgumentException('Invalid credentials passed to recordLoginAttempt.');

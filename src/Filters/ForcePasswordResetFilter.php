@@ -11,7 +11,6 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
-use CodeIgniter\Shield\Config\Auth;
 
 /**
  * Force Password Reset Filter.
@@ -39,7 +38,7 @@ class ForcePasswordResetFilter implements FilterInterface
         $authenticator = auth('session')->getAuthenticator();
 
         if ($authenticator->loggedIn() && $authenticator->getUser()->requiresPasswordReset()) {
-            return redirect()->to(config(Auth::class)->forcePasswordResetRedirect());
+            return redirect()->to(config('Auth')->forcePasswordResetRedirect());
         }
     }
 

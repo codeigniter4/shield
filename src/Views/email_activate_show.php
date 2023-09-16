@@ -1,9 +1,4 @@
-<?php declare(strict_types=1);
-
-use CodeIgniter\Shield\Config\Auth;
-
-?>
-<?= $this->extend(config(Auth::class)->views['layout']) ?>
+<?= $this->extend(config('Auth')->views['layout']) ?>
 
 <?= $this->section('title') ?><?= lang('Auth.emailActivateTitle') ?> <?= $this->endSection() ?>
 
@@ -24,9 +19,10 @@ use CodeIgniter\Shield\Config\Auth;
                 <?= csrf_field() ?>
 
                 <!-- Code -->
-                <div class="mb-2">
-                    <input type="text" class="form-control" name="token" placeholder="000000" inputmode="numeric"
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" id="floatingTokenInput" name="token" placeholder="000000" inputmode="numeric"
                         pattern="[0-9]*" autocomplete="one-time-code" value="<?= old('token') ?>" required />
+                    <label for="floatingTokenInput"><?= lang('Auth.token') ?></label>
                 </div>
 
                 <div class="d-grid col-8 mx-auto m-3">
