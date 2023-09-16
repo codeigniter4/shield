@@ -603,7 +603,7 @@ class User extends BaseCommand
 
         $userModel = model(UserModel::class);
         $userModel
-            ->select('users.id as id, username, secret as email')
+            ->select('users.id as id, username, secret')
             ->join('auth_identities', 'users.id = auth_identities.user_id', 'LEFT')
             ->groupStart()
             ->where('auth_identities.type', Session::ID_TYPE_EMAIL_PASSWORD)
@@ -617,7 +617,7 @@ class User extends BaseCommand
         if ($username !== null) {
             $user = $userModel->where('username', $username)->first();
         } elseif ($email !== null) {
-            $user = $userModel->where('email', $email)->first();
+            $user = $userModel->where('secret', $email)->first();
         }
 
         if ($user === null) {
