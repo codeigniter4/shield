@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Commands;
 
 use CodeIgniter\Shield\Commands\User;
+use CodeIgniter\Shield\Commands\Utils\InputOutput;
 use CodeIgniter\Shield\Entities\User as UserEntity;
 use CodeIgniter\Shield\Models\UserModel;
 use Tests\Commands\Utils\MockInputOutput;
@@ -15,6 +16,8 @@ use Tests\Support\DatabaseTestCase;
  */
 final class UserTest extends DatabaseTestCase
 {
+    private ?InputOutput $io = null;
+
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -22,20 +25,31 @@ final class UserTest extends DatabaseTestCase
         User::resetInputOutput();
     }
 
+    /**
+     * Set MockInputOutput and user inputs.
+     *
+     * @param array<int, string> $inputs User inputs
+     * @phpstan-param list<string> $inputs
+     */
+    private function setMockIo(array $inputs): void
+    {
+        $this->io = new MockInputOutput();
+        $this->io->setInputs($inputs);
+        User::setInputOutput($this->io);
+    }
+
     public function testCreate(): void
     {
-        $io = new MockInputOutput();
-        $io->setInputs([
+        $this->setMockIo([
             'Secret Passw0rd!',
             'Secret Passw0rd!',
         ]);
-        User::setInputOutput($io);
 
         command('shield:user create -n user1 -e user1@example.com');
 
         $this->assertStringContainsString(
             'User user1 created',
-            $io->getLastOutput()
+            $this->io->getLastOutput()
         );
 
         $users = model(UserModel::class);
@@ -60,17 +74,13 @@ final class UserTest extends DatabaseTestCase
             'password' => 'secret123',
         ]);
 
-        $io = new MockInputOutput();
-        $io->setInputs([
-            'y',
-        ]);
-        User::setInputOutput($io);
+        $this->setMockIo(['y']);
 
         command('shield:user activate -n user2');
 
         $this->assertStringContainsString(
             'User user2 activated',
-            $io->getLastOutput()
+            $this->io->getLastOutput()
         );
 
         $users = model(UserModel::class);
@@ -91,17 +101,13 @@ final class UserTest extends DatabaseTestCase
             'password' => 'secret123',
         ]);
 
-        $io = new MockInputOutput();
-        $io->setInputs([
-            'y',
-        ]);
-        User::setInputOutput($io);
+        $this->setMockIo(['y']);
 
         command('shield:user deactivate -n user3');
 
         $this->assertStringContainsString(
             'User user3 deactivated',
-            $io->getLastOutput()
+            $this->io->getLastOutput()
         );
 
         $users = model(UserModel::class);
