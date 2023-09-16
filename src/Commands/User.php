@@ -262,20 +262,20 @@ class User extends BaseCommand
         $data = [];
 
         if ($username === null) {
-            $username = $this->prompt('Username', null, $this->validationRules['username']);
+            $username = $this->prompt('Username', null, $this->validationRules['username']['rules']);
         }
         $data['username'] = $username;
 
         if ($email === null) {
-            $email = $this->prompt('Email', null, $this->validationRules['email']);
+            $email = $this->prompt('Email', null, $this->validationRules['email']['rules']);
         }
         $data['email'] = $email;
 
-        $password        = $this->prompt('Password', null, $this->validationRules['password']);
+        $password        = $this->prompt('Password', null, $this->validationRules['password']['rules']);
         $passwordConfirm = $this->prompt(
             'Password confirmation',
             null,
-            $this->validationRules['password']
+            $this->validationRules['password']['rules']
         );
 
         if ($password !== $passwordConfirm) {
@@ -370,7 +370,7 @@ class User extends BaseCommand
         $user = $this->findUser('Change username', $username, $email);
 
         if ($newUsername === null) {
-            $newUsername = $this->prompt('New username', null, $this->validationRules['username']);
+            $newUsername = $this->prompt('New username', null, $this->validationRules['username']['rules']);
         } else {
             // Run validation if the user has passed username and/or email via command line
             $validation = Services::validation();
@@ -413,7 +413,7 @@ class User extends BaseCommand
         $user = $this->findUser('Change email', $username, $email);
 
         if ($newEmail === null) {
-            $newEmail = $this->prompt('New email', null, $this->validationRules['email']);
+            $newEmail = $this->prompt('New email', null, $this->validationRules['email']['rules']);
         } else {
             // Run validation if the user has passed username and/or email via command line
             $validation = Services::validation();
@@ -498,7 +498,7 @@ class User extends BaseCommand
 
         if ($confirm === 'y') {
             $password        = $this->prompt('Password', null, 'required');
-            $passwordConfirm = $this->prompt('Password confirmation', null, $this->validationRules['password']);
+            $passwordConfirm = $this->prompt('Password confirmation', null, $this->validationRules['password']['rules']);
 
             if ($password !== $passwordConfirm) {
                 $this->write("The passwords don't match", 'red');
@@ -631,7 +631,7 @@ class User extends BaseCommand
             if ($choice === 'u') {
                 $username = $this->prompt('Username', null, 'required');
             } elseif ($choice === 'e') {
-                $email = $this->prompt('Email', null, 'required|valid_email');
+                $email = $this->prompt('Email', null, $this->validationRules['email']['rules']);
             }
         }
 
