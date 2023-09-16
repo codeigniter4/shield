@@ -219,6 +219,19 @@ class User extends BaseCommand
 
         $rules = $validationRules->get();
 
+        // Remove strong_password because it only supports use cases
+        // to check the user's own password.
+        $rules['password']['rules'] = str_replace(
+            '|strong_password[]',
+            '',
+            $rules['password']['rules']
+        );
+
+        /** @var Auth $config */
+        $config = config('Auth');
+
+        $rules['password']['rules'] .= '|min_length[' . $config->minimumPasswordLength . ']';
+
         $this->validationRules = [
             'username' => $rules['username'],
             'email'    => $rules['email'],
@@ -271,7 +284,11 @@ class User extends BaseCommand
         }
         $data['email'] = $email;
 
-        $password        = $this->prompt('Password', null, $this->validationRules['password']['rules']);
+        $password = $this->prompt(
+            'Password',
+            null,
+            $this->validationRules['password']['rules']
+        );
         $passwordConfirm = $this->prompt(
             'Password confirmation',
             null,
@@ -497,8 +514,16 @@ class User extends BaseCommand
         $confirm = $this->prompt('Set the password for "' . $user->username . '" ?', ['y', 'n']);
 
         if ($confirm === 'y') {
-            $password        = $this->prompt('Password', null, 'required');
-            $passwordConfirm = $this->prompt('Password confirmation', null, $this->validationRules['password']['rules']);
+            $password = $this->prompt(
+                'Password',
+                null,
+                $this->validationRules['password']['rules']
+            );
+            $passwordConfirm = $this->prompt(
+                'Password confirmation',
+                null,
+                $this->validationRules['password']['rules']
+            );
 
             if ($password !== $passwordConfirm) {
                 $this->write("The passwords don't match", 'red');
