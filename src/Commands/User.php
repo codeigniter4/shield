@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Commands\Utils\InputOutput;
 use CodeIgniter\Shield\Entities\User as UserEntity;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
@@ -495,6 +496,16 @@ class User extends BaseCommand
     private function list(?string $username = null, ?string $email = null): void
     {
         $userModel = model(UserModel::class);
+        $userModel
+            ->select('users.id as id, username, secret as email')
+            ->join('auth_identities', 'users.id = auth_identities.user_id', 'LEFT')
+            ->groupStart()
+            ->where('auth_identities.type', Session::ID_TYPE_EMAIL_PASSWORD)
+            ->orGroupStart()
+            ->where('auth_identities.type', null)
+            ->groupEnd()
+            ->groupEnd()
+            ->asArray();
 
         if ($username !== null) {
             $userModel->like('username', $username);
@@ -506,7 +517,7 @@ class User extends BaseCommand
         $this->write("Id\tUser");
 
         foreach ($userModel->findAll() as $user) {
-            $this->write($user->id . "\t" . $user->username . ' (' . $user->email . ')');
+            $this->write($user['id'] . "\t" . $user['username'] . ' (' . $user['email'] . ')');
         }
     }
 

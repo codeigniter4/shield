@@ -254,6 +254,31 @@ final class UserTest extends DatabaseTestCase
         );
     }
 
+    public function testListByEmail(): void
+    {
+        $this->createUser([
+            'username' => 'user8',
+            'email'    => 'user8@example.com',
+            'password' => 'secret123',
+        ]);
+        $this->createUser([
+            'username' => 'user9',
+            'email'    => 'user9@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $this->setMockIo([]);
+
+        command('shield:user list -e user9@example.com');
+
+        $this->assertStringContainsString(
+            'Id	User
+2	user9 (user9@example.com)
+',
+            $this->io->getOutputs()
+        );
+    }
+
     public function testAddgroup(): void
     {
         $this->createUser([
