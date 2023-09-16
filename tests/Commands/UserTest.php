@@ -325,6 +325,28 @@ final class UserTest extends DatabaseTestCase
         $this->assertTrue($user->inGroup('admin'));
     }
 
+    public function testAddgroupCancel(): void
+    {
+        $this->createUser([
+            'username' => 'user10',
+            'email'    => 'user10@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $this->setMockIo(['n']);
+
+        command('shield:user addgroup -n user10 -g admin');
+
+        $this->assertStringContainsString(
+            'Addition of the user "user10" to the group "admin" cancelled',
+            $this->io->getLastOutput()
+        );
+
+        $users = model(UserModel::class);
+        $user  = $users->findByCredentials(['email' => 'user10@example.com']);
+        $this->assertFalse($user->inGroup('admin'));
+    }
+
     public function testRemovegroup(): void
     {
         $this->createUser([
