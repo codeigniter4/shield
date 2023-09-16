@@ -60,7 +60,7 @@ final class UserTest extends DatabaseTestCase
 
         $this->assertStringContainsString(
             'User "user1" created',
-            $this->io->getLastOutput()
+            $this->io->getFirstOutput()
         );
 
         $users = model(UserModel::class);
@@ -92,11 +92,11 @@ final class UserTest extends DatabaseTestCase
 
         $this->assertStringContainsString(
             'The Username field must contain a unique value.',
-            $this->io->getOutputs()
+            $this->io->getFirstOutput()
         );
         $this->assertStringContainsString(
             'User creation aborted',
-            $this->io->getOutputs()
+            $this->io->getFirstOutput()
         );
 
         $users = model(UserModel::class);
@@ -211,11 +211,11 @@ final class UserTest extends DatabaseTestCase
 
         $this->assertStringContainsString(
             'The Username field must be at least 3 characters in length.',
-            $this->io->getOutputs()
+            $this->io->getFirstOutput()
         );
         $this->assertStringContainsString(
             'User name change aborted',
-            $this->io->getOutputs()
+            $this->io->getFirstOutput()
         );
 
         $users = model(UserModel::class);
@@ -265,11 +265,11 @@ final class UserTest extends DatabaseTestCase
 
         $this->assertStringContainsString(
             'The Email Address field must contain a valid email address.',
-            $this->io->getOutputs()
+            $this->io->getFirstOutput()
         );
         $this->assertStringContainsString(
             'User email change aborted',
-            $this->io->getOutputs()
+            $this->io->getFirstOutput()
         );
 
         $users = model(UserModel::class);
