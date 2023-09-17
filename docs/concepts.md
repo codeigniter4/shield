@@ -21,7 +21,7 @@ on the standard Config class if nothing is found in the database.
 Shield has a model to handle user persistence. Shield calls this the "User Provider" class.
 A default model is provided for you by the `CodeIgniter\Shield\Models\UserModel` class.
 
-You can use your own model to customize user attributes. See [Customizing Shield](./customization.md#custom-user-provider) for details.
+You can use your own model to customize user attributes. See [Customizing User Provider](./customization/user_provider.md) for details.
 
 ## User Identities
 
