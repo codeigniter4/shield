@@ -27,35 +27,3 @@ The primary goals for Shield are:
 ### License
 
 Shield is licensed under the MIT License - see the [LICENSE](https://github.com/codeigniter4/shield/blob/develop/LICENSE) file for details.
-
-## Getting Started
-
-* [Installation Guide](install.md)
-* [Concepts You Need To Know](concepts.md)
-
-## Quick Start Guide
-
-* [Authentication Flow](authenticaton_flow.md)
-* [Authorization Flow](authorization_flow.md)
-* [Managing Users](managing_users.md)
-
-## References
-
-* [Authentication](authentication.md)
-* [Authorization](authorization.md)
-* [Auth Actions](auth_actions.md)
-* [Events](events.md)
-* [Testing](testing.md)
-* [Customization](customization.md)
-* [Forcing Password Reset](forcing_password_reset.md)
-* [Banning Users](banning_users.md)
-
-## Guides
-
-* [Protecting an API with Access Tokens](guides/api_tokens.md)
-* [Mobile Authentication with Access Tokens](guides/mobile_apps.md)
-* [How to Strengthen the Password](guides/strengthen_password.md)
-
-## Addons
-
-* [JWT Authentication](addons/jwt.md)
