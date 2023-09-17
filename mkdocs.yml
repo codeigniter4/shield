@@ -42,7 +42,7 @@ nav:
     - Concepts: concepts.md
     - Installation: install.md
   - Quick Start Guide:
-    - authenticaton_flow.md
+    - authentication_flow.md
     - authorization_flow.md
     - managing_users.md
   - References:
