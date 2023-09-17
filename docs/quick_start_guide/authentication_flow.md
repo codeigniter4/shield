@@ -27,7 +27,7 @@ public array $redirects = [
 
 ### Configure Remember-me Functionality
 
-Remember-me functionality is enabled by default for the `Session` handler. While this is handled in a secure manner, some sites may want it disabled. You might also want to change how long it remembers a user and doesn't require additional login.
+Remember-me functionality is enabled by default for the `Session` authenticator. While this is handled in a secure manner, some sites may want it disabled. You might also want to change how long it remembers a user and doesn't require additional login.
 
 ```php
 public array $sessionConfig = [
