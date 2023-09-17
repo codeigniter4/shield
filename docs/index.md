@@ -32,7 +32,15 @@ Shield is licensed under the MIT License - see the [LICENSE](https://github.com/
 
 * [Installation Guide](install.md)
 * [Concepts You Need To Know](concepts.md)
-* [Quick Start Guide](quickstart.md)
+
+## Quick Start Guide
+
+* [Authentication Flow](authenticaton_flow.md)
+* [Authorization Flow](authorization_flow.md)
+* [Managing Users](managing_users.md)
+
+## References
+
 * [Authentication](authentication.md)
 * [Authorization](authorization.md)
 * [Auth Actions](auth_actions.md)

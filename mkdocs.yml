@@ -41,7 +41,10 @@ nav:
   - Getting Started:
     - Installation: install.md
     - Concepts: concepts.md
-    - Quick Start Guide: quickstart.md
+  - Quick Start Guide:
+    - authenticaton_flow.md
+    - authorization_flow.md
+    - managing_users.md
   - References:
     - Authentication: authentication.md
     - Authorization: authorization.md
