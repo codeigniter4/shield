@@ -1,18 +1,5 @@
 # Installation
 
-- [Installation](#installation)
-  - [Requirements](#requirements)
-  - [Composer Installation](#composer-installation)
-    - [Troubleshooting](#troubleshooting)
-      - [IMPORTANT: composer error](#important-composer-error)
-  - [Initial Setup](#initial-setup)
-    - [Command Setup](#command-setup)
-    - [Manual Setup](#manual-setup)
-  - [Controller Filters](#controller-filters)
-    - [Protect All Pages](#protect-all-pages)
-    - [Rate Limiting](#rate-limiting)
-    - [Forcing Password Reset](#forcing-password-reset)
-
 These instructions assume that you have already [installed the CodeIgniter 4 app starter](https://codeigniter.com/user_guide/installation/installing_composer.html) as the basis for your new project, set up your **.env** file, and created a database that you can access via the Spark CLI script.
 
 ## Requirements

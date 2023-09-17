@@ -1,20 +1,5 @@
 # Customizing Shield
 
-- [Customizing Shield](#customizing-shield)
-  - [Custom Table Names](#custom-table-names)
-  - [Route Configuration](#route-configuration)
-  - [Custom Redirect URLs](#custom-redirect-urls)
-    - [Customize Login Redirect](#customize-login-redirect)
-    - [Customize Register Redirect](#customize-register-redirect)
-    - [Customize Logout Redirect](#customize-logout-redirect)
-  - [Extending the Controllers](#extending-the-controllers)
-  - [Integrating Custom View Libraries](#integrating-custom-view-libraries)
-  - [Custom Validation Rules](#custom-validation-rules)
-    - [Registration](#registration)
-    - [Login](#login)
-  - [Custom User Provider](#custom-user-provider)
-  - [Custom Login Identifier](#custom-login-identifier)
-
 ## Custom Table Names
 
 If you want to change the default table names, you can change the table names

@@ -2,13 +2,6 @@
 
 This document covers some of the base concepts used throughout the library.
 
-- [Shield Concepts](#shield-concepts)
-  - [Repository State](#repository-state)
-  - [Settings](#settings)
-  - [User Providers](#user-providers)
-  - [User Identities](#user-identities)
-  - [Password Validators](#password-validators)
-
 ## Repository State
 
 Shield is designed so that the initial setup of your application can all happen in code with nothing required to be

@@ -2,10 +2,6 @@
 
 Shield provides a way to ban users from your application. This is useful if you need to prevent a user from logging in, or logging them out in the event that they breach your terms of service.
 
-- [Checking if the User is Banned](#check-if-a-user-is-banned)
-- [Banning a User](#banning-a-user)
-- [Unbanning a User](#unbanning-a-user)
-- [Getting the Reason for Ban ](#getting-the-reason-for-ban)
 
 ### Check if a User is Banned  
 

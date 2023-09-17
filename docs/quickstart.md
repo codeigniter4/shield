@@ -4,33 +4,6 @@ Learning any new authentication system can be difficult, especially as they get 
 
 > **Note** The examples assume that you have run the setup script and that you have copies of the `Auth` and `AuthGroups` config files in your application's **app/Config** folder.
 
-- [Quick Start Guide](#quick-start-guide)
-  - [Authentication Flow](#authentication-flow)
-    - [Configure Config\\Auth](#configure-configauth)
-      - [Configure Redirect URLs](#configure-redirect-urls)
-      - [Configure Remember-me Functionality](#configure-remember-me-functionality)
-      - [Change Access Token Lifetime](#change-access-token-lifetime)
-      - [Enable Account Activation via Email](#enable-account-activation-via-email)
-      - [Enable Two-Factor Authentication](#enable-two-factor-authentication)
-    - [Responding to Magic Link Logins](#responding-to-magic-link-logins)
-      - [Session Notification](#session-notification)
-      - [Event](#event)
-  - [Authorization Flow](#authorization-flow)
-    - [Configure Config\\AuthGroups](#configure-configauthgroups)
-      - [Change Available Groups](#change-available-groups)
-      - [Set the Default Group](#set-the-default-group)
-      - [Change Available Permissions](#change-available-permissions)
-      - [Assign Permissions to a Group](#assign-permissions-to-a-group)
-      - [Assign Permissions to a User](#assign-permissions-to-a-user)
-  - [Check If a User Has Permission](#check-if-a-user-has-permission)
-    - [Adding a Group To a User](#adding-a-group-to-a-user)
-    - [Removing a Group From a User](#removing-a-group-from-a-user)
-    - [Checking If User Belongs To a Group](#checking-if-user-belongs-to-a-group)
-  - [Managing Users](#managing-users)
-    - [Creating Users](#creating-users)
-    - [Deleting Users](#deleting-users)
-    - [Editing a User](#editing-a-user)
-
 ## Authentication Flow
 
 ### Configure Config\Auth
