@@ -4,7 +4,7 @@
 
 ## Controller Filters
 
-The [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can use to protect your routes the shield provides are:
+The [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can use to protect your routes Shield provides are:
 
 ```php
 public $aliases = [
