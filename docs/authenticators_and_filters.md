@@ -41,6 +41,8 @@ These can be used in any of the [normal filter config settings](https://codeigni
 
 > **Note** These filters are already loaded for you by the registrar class located at **src/Config/Registrar.php**.
 
+## Configure Controller Filters
+
 ### Protect All Pages
 
 If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/panel` and ...), you need to add the following code in the **app/Config/Filters.php** file.
