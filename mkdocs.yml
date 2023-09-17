@@ -42,9 +42,9 @@ nav:
     - Concepts: concepts.md
     - Installation: install.md
   - Quick Start Guide:
-    - authentication_flow.md
-    - authorization_flow.md
-    - managing_users.md
+    - quick_start_guide/authentication_flow.md
+    - quick_start_guide/authorization_flow.md
+    - quick_start_guide/managing_users.md
   - References:
     - Authentication: authentication.md
     - Authorization: authorization.md
