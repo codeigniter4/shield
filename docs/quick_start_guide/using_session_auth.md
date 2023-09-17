@@ -1,11 +1,11 @@
-# Authentication Flow
+# Using Session Authenticator
 
 Learning any new authentication system can be difficult, especially as they get more flexible and sophisticated. This guide is intended to provide short examples for common actions you'll take when working with Shield. It is not intended to be the exhaustive documentation for each section. That's better handled through the area-specific doc files.
 
 > **Note**
 > The examples assume that you have run the setup script and that you have copies of the `Auth` and `AuthGroups` config files in your application's **app/Config** folder.
 
-## Configure Config\Auth
+## Configure
 
 ### Configure Redirect URLs
 
@@ -36,14 +36,6 @@ public array $sessionConfig = [
     'rememberCookieName' => 'remember',
     'rememberLength'     => 30 * DAY,
 ];
-```
-
-### Change Access Token Lifetime
-
-By default, Access Tokens can be used for 1 year since the last use. This can be easily modified in the `Auth` config file.
-
-```php
-public int $unusedTokenLifetime = YEAR;
 ```
 
 ### Enable Account Activation via Email

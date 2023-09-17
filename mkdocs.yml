@@ -43,8 +43,8 @@ nav:
     - Installation: install.md
     - Authenticators and Filters: authenticators_and_filters.md
   - Quick Start Guide:
-    - quick_start_guide/authentication_flow.md
-    - quick_start_guide/authorization_flow.md
+    - quick_start_guide/using_session_auth.md
+    - quick_start_guide/using_access_tokens_auth.md
     - quick_start_guide/managing_users.md
   - References:
     - Authentication: authentication.md
