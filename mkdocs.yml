@@ -51,14 +51,14 @@ nav:
     - Auth Actions: auth_actions.md
     - Events: events.md
     - Testing: testing.md
-    - Forcing Password Reset: forcing_password_reset.md
-    - Banning Users: banning_users.md
     - session_auth_event_and_logging.md
   - Customization:
       - customization.md
   - Guides:
-    - guides/api_hmac_keys.md
+    - Forcing Password Reset: forcing_password_reset.md
+    - Banning Users: banning_users.md
     - guides/api_tokens.md
+    - guides/api_hmac_keys.md
     - guides/mobile_apps.md
     - guides/strengthen_password.md
   - Addons:
