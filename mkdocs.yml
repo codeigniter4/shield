@@ -38,18 +38,21 @@ extra_javascript:
 
 nav:
   - Home: index.md
-  - Installation: install.md
-  - Concepts: concepts.md
-  - Quick Start Guide: quickstart.md
-  - Authentication: authentication.md
-  - Authorization: authorization.md
-  - Auth Actions: auth_actions.md
-  - Events: events.md
-  - Testing: testing.md
-  - Customization: customization.md
-  - Forcing Password Reset: forcing_password_reset.md
-  - Banning Users: banning_users.md
-  - session_auth_event_and_logging.md
+  - Getting Started:
+    - Installation: install.md
+    - Concepts: concepts.md
+    - Quick Start Guide: quickstart.md
+  - References:
+    - Authentication: authentication.md
+    - Authorization: authorization.md
+    - Auth Actions: auth_actions.md
+    - Events: events.md
+    - Testing: testing.md
+    - Forcing Password Reset: forcing_password_reset.md
+    - Banning Users: banning_users.md
+    - session_auth_event_and_logging.md
+  - Customization:
+      - customization.md
   - Guides:
     - guides/api_hmac_keys.md
     - guides/api_tokens.md
