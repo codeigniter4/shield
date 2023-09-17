@@ -39,8 +39,8 @@ extra_javascript:
 nav:
   - Home: index.md
   - Getting Started:
-    - Installation: install.md
     - Concepts: concepts.md
+    - Installation: install.md
   - Quick Start Guide:
     - authenticaton_flow.md
     - authorization_flow.md
