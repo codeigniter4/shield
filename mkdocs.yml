@@ -41,6 +41,7 @@ nav:
   - Getting Started:
     - Concepts: concepts.md
     - Installation: install.md
+    - Authenticators and Filters: authenticators_and_filters.md
   - Quick Start Guide:
     - quick_start_guide/authentication_flow.md
     - quick_start_guide/authorization_flow.md
