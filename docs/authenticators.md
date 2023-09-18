@@ -1,6 +1,4 @@
-# Authenticators and Controller Filters
-
-## Authenticators
+# Authenticators
 
 Shield provides the following Authenticators:
 
