@@ -1,11 +1,13 @@
 # Using Session Authenticator
 
+**Session** authenticator provides traditional Email/Password authentication.
+
 Learning any new authentication system can be difficult, especially as they get more flexible and sophisticated. This guide is intended to provide short examples for common actions you'll take when working with Shield. It is not intended to be the exhaustive documentation for each section. That's better handled through the area-specific doc files.
 
 > **Note**
 > The examples assume that you have run the setup script and that you have copies of the `Auth` and `AuthGroups` config files in your application's **app/Config** folder.
 
-## Configure
+## Configuration
 
 ### Configure Redirect URLs
 
@@ -27,7 +29,7 @@ public array $redirects = [
 
 ### Configure Remember-me Functionality
 
-Remember-me functionality is enabled by default for the `Session` authenticator. While this is handled in a secure manner, some sites may want it disabled. You might also want to change how long it remembers a user and doesn't require additional login.
+Remember-me functionality is enabled by default. While this is handled in a secure manner, some sites may want it disabled. You might also want to change how long it remembers a user and doesn't require additional login.
 
 ```php
 public array $sessionConfig = [
@@ -65,3 +67,40 @@ public array $actions = [
     'login'    => \CodeIgniter\Shield\Authentication\Actions\Email2FA::class,
 ];
 ```
+
+## Customizing Routes
+
+If you need to customize how any of the auth features are handled, you can still
+use the `service('auth')->routes()` helper, but you will need to pass the `except`
+option with a list of routes to customize:
+
+```php
+service('auth')->routes($routes, ['except' => ['login', 'register']]);
+```
+
+Then add the routes to your customized controllers:
+
+```php
+$routes->get('login', '\App\Controllers\Auth\LoginController::loginView');
+$routes->get('register', '\App\Controllers\Auth\RegisterController::registerView');
+```
+
+Check your routes with the [spark routes](https://codeigniter.com/user_guide/incoming/routing.html#spark-routes)
+command.
+
+## Protecting Pages
+
+If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/panel` and ...), you need to add the following code in the **app/Config/Filters.php** file.
+
+```php
+public $globals = [
+    'before' => [
+        // ...
+        'session' => ['except' => ['login*', 'register', 'auth/a/*']],
+    ],
+    // ...
+];
+```
+
+Check your filters with the [spark routes](https://codeigniter.com/user_guide/incoming/routing.html#spark-routes)
+command.
