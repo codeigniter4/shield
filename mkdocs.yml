@@ -42,6 +42,7 @@ nav:
     - Concepts: concepts.md
     - Installation: install.md
     - authenticators.md
+    - configuration.md
   - Quick Start Guide:
     - quick_start_guide/using_session_auth.md
     - quick_start_guide/using_authorization.md
