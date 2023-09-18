@@ -68,6 +68,10 @@ final class SetupTest extends TestCase
         $this->assertStringContainsString('namespace Config;', $auth);
         $this->assertStringContainsString('use CodeIgniter\Shield\Config\Auth as ShieldAuth;', $auth);
 
+        $authToken = file_get_contents($appFolder . 'Config/AuthToken.php');
+        $this->assertStringContainsString('namespace Config;', $authToken);
+        $this->assertStringContainsString('use CodeIgniter\Shield\Config\AuthToken as ShieldAuthToken;', $authToken);
+
         $routes = file_get_contents($appFolder . 'Config/Routes.php');
         $this->assertStringContainsString('service(\'auth\')->routes($routes);', $routes);
 
@@ -79,6 +83,7 @@ final class SetupTest extends TestCase
         $this->assertStringContainsString(
             '  Created: vfs://root/Config/Auth.php
   Created: vfs://root/Config/AuthGroups.php
+  Created: vfs://root/Config/AuthToken.php
   Updated: vfs://root/Controllers/BaseController.php
   Updated: vfs://root/Config/Routes.php
   Updated: We have updated file \'vfs://root/Config/Security.php\' for security reasons.',
