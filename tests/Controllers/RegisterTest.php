@@ -82,6 +82,16 @@ final class RegisterTest extends DatabaseTestCase
         $this->assertTrue($user->active);
     }
 
+    public function testRegisterActionSuccessWithNoEmailLogin(): void
+    {
+        /** @var Auth $config */
+        $config = config('Auth');
+        // Use `username` for login
+        $config->validFields = ['username'];
+
+        $this->testRegisterActionSuccess();
+    }
+
     public function testRegisterTooLongPasswordDefault(): void
     {
         $result = $this->withSession()->post('/register', [
