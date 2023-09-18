@@ -1,6 +1,6 @@
 # Using Authorization
 
-## Configure
+## Configuration
 
 ### Change Available Groups
 
