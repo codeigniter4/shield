@@ -1,5 +1,28 @@
 # Magic Link Login
 
+Magic Link Login is a feature that allows users to log in if they forget their
+password.
+
+## Configuration
+
+### Configure Magic Link Login Functionality
+
+Magic Link Login functionality is enabled by default.
+You can change it within the **app/Config/Auth.php** file.
+
+```php
+public bool $allowMagicLinkLogins = true;
+```
+
+### Magic Link Lifetime
+
+By default, Magic Link can be used for 1 hour. This can be easily modified
+in the **app/Config/Auth.php** file.
+
+```php
+public int $magicLinkLifetime = HOUR;
+```
+
 ## Responding to Magic Link Logins
 
 > **Note**
