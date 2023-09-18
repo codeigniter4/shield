@@ -48,6 +48,7 @@ nav:
     - quick_start_guide/using_access_tokens_auth.md
     - quick_start_guide/managing_users.md
   - References:
+    - controller_filters.md
     - Authentication: authentication.md
     - auth_actions.md
     - magic_link_login.md
