@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 $ignoreErrors = [];
 $ignoreErrors[] = [
@@ -264,8 +262,28 @@ The type \'basic\', \'md5\', and \'sha1\' are deprecated\\. They are not cryptog
 	'path' => __DIR__ . '/src/Models/UserIdentityModel.php',
 ];
 $ignoreErrors[] = [
+	'message' => '#^Cannot unset offset \'email\' on array\\{username\\: string, status\\: string, status_message\\: string, active\\: bool, last_active\\: string, deleted_at\\: string\\}\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Models/UserModel.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Cannot unset offset \'password_hash\' on array\\{username\\: string, status\\: string, status_message\\: string, active\\: bool, last_active\\: string, deleted_at\\: string\\}\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Models/UserModel.php',
+];
+$ignoreErrors[] = [
 	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
 	'count' => 2,
+	'path' => __DIR__ . '/src/Models/UserModel.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Offset \'email\' does not exist on array\\{username\\: string, status\\: string, status_message\\: string, active\\: bool, last_active\\: string, deleted_at\\: string\\}\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Models/UserModel.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Offset \'password_hash\' does not exist on array\\{username\\: string, status\\: string, status_message\\: string, active\\: bool, last_active\\: string, deleted_at\\: string\\}\\.$#',
+	'count' => 1,
 	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
 $ignoreErrors[] = [
@@ -340,16 +358,6 @@ $ignoreErrors[] = [
 ];
 $ignoreErrors[] = [
 	'message' => '#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with \'CodeIgniter\\\\\\\\Shield\\\\\\\\Entities\\\\\\\\UserIdentity\' and CodeIgniter\\\\Shield\\\\Entities\\\\UserIdentity will always evaluate to true\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/Unit/UserTest.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Cannot access property \\$active on array\\|object\\.$#',
-	'count' => 2,
-	'path' => __DIR__ . '/tests/Unit/UserTest.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Cannot access property \\$password_hash on array\\|object\\.$#',
 	'count' => 1,
 	'path' => __DIR__ . '/tests/Unit/UserTest.php',
 ];
