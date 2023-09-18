@@ -20,7 +20,7 @@ The primary goals for Shield are:
 * Stateless authentication using Personal Access Tokens
 * Optional Email verification on account registration
 * Optional Email-based Two-Factor Authentication after login
-* Magic Login Links when a user forgets their password
+* Magic Link Login when a user forgets their password
 * Flexible Groups-based access control (think Roles, but more flexible)
 * Users can be granted additional Permissions
 
