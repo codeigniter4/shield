@@ -21,7 +21,7 @@ class TokenAuth implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
-     * By default it should not return anything during
+     * By default, it should not return anything during
      * normal execution. However, when an abnormal state
      * is found, it should return an instance of
      * CodeIgniter\HTTP\Response. If it does, script

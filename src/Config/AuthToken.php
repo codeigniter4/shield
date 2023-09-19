@@ -7,13 +7,13 @@ namespace CodeIgniter\Shield\Config;
 use CodeIgniter\Config\BaseConfig;
 
 /**
- * Authenticator Configuration for Token Auth and HMAC Auth
+ * Configuration for Token Auth and HMAC Auth
  */
 class AuthToken extends BaseConfig
 {
     /**
      * --------------------------------------------------------------------
-     * Record Login Attempts for Token and HMAC Authorization
+     * Record Login Attempts for Token Auth and HMAC Auth
      * --------------------------------------------------------------------
      * Specify which login attempts are recorded in the database.
      *
