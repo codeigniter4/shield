@@ -27,3 +27,22 @@ The primary goals for Shield are:
 ### License
 
 Shield is licensed under the MIT License - see the [LICENSE](https://github.com/codeigniter4/shield/blob/develop/LICENSE) file for details.
+
+### Acknowledgements
+
+Every open-source project depends on it's contributors to be a success. The following users have
+contributed in one manner or another in making Shield:
+
+<a href="https://github.com/codeigniter4/shield/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=codeigniter4/shield" alt="Contributors">
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
+
+The following articles/sites have been fundamental in shaping the security and best practices used
+within this library, in no particular order:
+
+- [Google Cloud: 13 best practices for user account, authentication, and password management, 2021 edition](https://cloud.google.com/blog/products/identity-security/account-authentication-and-password-management-best-practices)
+- [NIST Digital Identity Guidelines](https://pages.nist.gov/800-63-3/sp800-63b.html)
+- [Implementing Secure User Authentication in PHP Applications with Long-Term Persistence (Login with "Remember Me" Cookies) ](https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence)
+- [Password Storage - OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
