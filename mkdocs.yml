@@ -65,13 +65,13 @@ nav:
     - guides/mobile_apps.md
     - guides/strengthen_password.md
   - References:
-      - controller_filters.md
-      - Authentication: authentication.md
-      - auth_actions.md
-      - magic_link_login.md
-      - Authorization: authorization.md
-      - Events: events.md
-      - Testing: testing.md
-      - session_auth_event_and_logging.md
+      - references/controller_filters.md
+      - references/authentication.md
+      - references/auth_actions.md
+      - references/magic_link_login.md
+      - references/authorization.md
+      - references/events.md
+      - references/testing.md
+      - references/session_auth_event_and_logging.md
   - Addons:
     - JWT Authentication: addons/jwt.md
