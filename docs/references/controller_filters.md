@@ -1,5 +1,7 @@
 # Controller Filters
 
+## Provided Filters
+
 The [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can use to protect your routes Shield provides are:
 
 ```php
