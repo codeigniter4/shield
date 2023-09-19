@@ -183,7 +183,7 @@ final class LoginTest extends DatabaseTestCase
                 'password' => 'required',
             ];
         };
-        $config->login['username'] = config('AuthSession')->usernameValidationRules;
+        $config->login['username'] = config('Auth')->usernameValidationRules;
         Factories::injectMock('config', 'Validation', $config);
 
         $this->user->createEmailIdentity([

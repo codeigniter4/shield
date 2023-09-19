@@ -24,11 +24,11 @@ class RegistrationValidationRules
     public function get(): array
     {
         $registrationUsernameRules = array_merge(
-            config('AuthSession')->usernameValidationRules,
+            config('Auth')->usernameValidationRules,
             [sprintf('is_unique[%s.username]', $this->tables['users'])]
         );
         $registrationEmailRules = array_merge(
-            config('AuthSession')->emailValidationRules,
+            config('Auth')->emailValidationRules,
             [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
         );
 

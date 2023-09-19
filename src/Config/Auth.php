@@ -226,6 +226,33 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * The validation rules for username
+     * --------------------------------------------------------------------
+     *
+     * @var string[]
+     */
+    public array $usernameValidationRules = [
+        'required',
+        'max_length[30]',
+        'min_length[3]',
+        'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+    ];
+
+    /**
+     * --------------------------------------------------------------------
+     * The validation rules for email
+     * --------------------------------------------------------------------
+     *
+     * @var string[]
+     */
+    public array $emailValidationRules = [
+        'required',
+        'max_length[254]',
+        'valid_email',
+    ];
+
+    /**
+     * --------------------------------------------------------------------
      * Minimum Password Length
      * --------------------------------------------------------------------
      * The minimum length that a password must be to be accepted.

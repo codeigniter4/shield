@@ -15,6 +15,8 @@ class AuthSession extends BaseConfig
      * The validation rules for username
      *
      * @var string[]
+     *
+     * @deprecated Moved to Auth. No longer used.
      */
     public array $usernameValidationRules = [
         'required',
@@ -27,6 +29,8 @@ class AuthSession extends BaseConfig
      * The validation rules for email
      *
      * @var string[]
+     *
+     * @deprecated Moved to Auth. No longer used.
      */
     public array $emailValidationRules = [
         'required',

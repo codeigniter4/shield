@@ -26,7 +26,7 @@ class LoginController extends BaseController
         $rules = setting('Validation.login') ?? [
             'email' => [
                 'label' => 'Auth.email',
-                'rules' => config('AuthSession')->emailValidationRules,
+                'rules' => config('Auth')->emailValidationRules,
             ],
             'password' => [
                 'label' => 'Auth.password',
