@@ -20,14 +20,21 @@ use CodeIgniter\Shield\Models\UserModel;
 
 class Auth extends BaseConfig
 {
+    /**
+     * ////////////////////////////////////////////////////////////////////
+     * AUTHENTICATION
+     * ////////////////////////////////////////////////////////////////////
+     */
+
+    // Constants for Record Login Attempts. Do not change.
     public const RECORD_LOGIN_ATTEMPT_NONE    = 0; // Do not record at all
     public const RECORD_LOGIN_ATTEMPT_FAILURE = 1; // Record only failures
     public const RECORD_LOGIN_ATTEMPT_ALL     = 2; // Record all login attempts
 
     /**
-     * ////////////////////////////////////////////////////////////////////
-     * AUTHENTICATION
-     * ////////////////////////////////////////////////////////////////////
+     * --------------------------------------------------------------------
+     * View files
+     * --------------------------------------------------------------------
      */
     public array $views = [
         'login'                       => '\CodeIgniter\Shield\Views\login',
