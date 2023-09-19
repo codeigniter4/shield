@@ -50,10 +50,10 @@ nav:
     - customization/table_names.md
     - customization/route_config.md
     - customization/redirect_urls.md
-    - customization/extending_controllers.md
-    - customization/integrating_custom_view_libs.md
     - customization/validation_rules.md
     - customization/user_provider.md
+    - customization/extending_controllers.md
+    - customization/integrating_custom_view_libs.md
     - customization/login_identifier.md
   - User Management:
     - user_management/managing_users.md
