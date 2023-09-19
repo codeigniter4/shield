@@ -4,7 +4,7 @@
 
 Shield provides the following Authenticators:
 
-- **Session** authenticator provides traditional Email/Password authentication.
+- **Session** authenticator provides traditional ID/Password authentication.
   See [Using Session Authenticator](../quick_start_guide/using_session_auth.md)
   for usage.
 - **AccessTokens** authenticator provides stateless authentication using Personal Access Tokens.

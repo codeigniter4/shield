@@ -1,6 +1,6 @@
 # Using Session Authenticator
 
-**Session** authenticator provides traditional Email/Password authentication.
+**Session** authenticator provides traditional ID/Password authentication.
 
 Learning any new authentication system can be difficult, especially as they get more flexible and sophisticated. This guide is intended to provide short examples for common actions you'll take when working with Shield. It is not intended to be the exhaustive documentation for each section. That's better handled through the area-specific doc files.
 
