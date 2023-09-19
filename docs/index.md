@@ -16,7 +16,7 @@ The primary goals for Shield are:
 
 ### Important Features
 
-* Session-based authentication (traditional Email/Password with Remember me)
+* Session-based authentication (traditional Email/Password with Remember-me)
 * Stateless authentication using Personal Access Tokens
 * Optional Email verification on account registration
 * Optional Email-based Two-Factor Authentication after login

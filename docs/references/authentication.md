@@ -73,7 +73,7 @@ Can return a custom bit of information. These will be detailed in the method des
 
 The Session authenticator stores the user's authentication within the user's session, and on a secure cookie
 on their device. This is the standard password-based login used in most web sites. It supports a
-secure remember me feature, and more. This can also be used to handle authentication for
+secure remember-me feature, and more. This can also be used to handle authentication for
 single page applications (SPAs).
 
 ### attempt()
