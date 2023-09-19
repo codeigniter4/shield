@@ -7,6 +7,7 @@ public $aliases = [
     // ...
     'session'     => \CodeIgniter\Shield\Filters\SessionAuth::class,
     'tokens'      => \CodeIgniter\Shield\Filters\TokenAuth::class,
+    'hmac'        => \CodeIgniter\Shield\Filters\HmacAuth::class,
     'chain'       => \CodeIgniter\Shield\Filters\ChainAuth::class,
     'auth-rates'  => \CodeIgniter\Shield\Filters\AuthRates::class,
     'group'       => \CodeIgniter\Shield\Filters\GroupFilter::class,
@@ -16,15 +17,16 @@ public $aliases = [
 ];
 ```
 
-Filters | Description
---- | ---
-session and tokens | The `Session` and `AccessTokens` authenticators, respectively.
-chained | The filter will check both authenticators in sequence to see if the user is logged in through either of authenticators, allowing a single API endpoint to work for both an SPA using session auth, and a mobile app using access tokens.
-jwt | The `JWT` authenticator. See [JWT Authentication](./addons/jwt.md).
-auth-rates | Provides a good basis for rate limiting of auth-related routes.
-group | Checks if the user is in one of the groups passed in.
-permission | Checks if the user has the passed permissions.
-force-reset | Checks if the user requires a password reset.
+| Filters            | Description                                                                                                                                                                                                                              |
+|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| session and tokens | The `Session` and `AccessTokens` authenticators, respectively.                                                                                                                                                                           |
+| chained            | The filter will check both authenticators in sequence to see if the user is logged in through either of authenticators, allowing a single API endpoint to work for both an SPA using session auth, and a mobile app using access tokens. |
+| jwt                | The `JWT` authenticator. See [JWT Authentication](./addons/jwt.md).                                                                                                                                                                      |
+| hmac               | The `HMAC` authenticator. See [HMAC Authentication](./guides/api_hmac_keys.md).                                                                                                                                                          |
+| auth-rates         | Provides a good basis for rate limiting of auth-related routes.                                                                                                                                                                          |
+| group              | Checks if the user is in one of the groups passed in.                                                                                                                                                                                    |
+| permission         | Checks if the user has the passed permissions.                                                                                                                                                                                           |
+| force-reset        | Checks if the user requires a password reset.                                                                                                                                                                                            |
 
 These can be used in any of the [normal filter config settings](https://codeigniter.com/user_guide/incoming/filters.html#globals), or [within the routes file](https://codeigniter.com/user_guide/incoming/routing.html#applying-filters).
 
