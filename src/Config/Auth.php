@@ -55,7 +55,7 @@ class Auth extends BaseConfig
      * Redirect URLs
      * --------------------------------------------------------------------
      * The default URL that a user will be redirected to after various auth
-     * auth actions. This can be either of the following:
+     * actions. This can be either of the following:
      *
      * 1. An absolute URL. E.g. http://example.com OR https://example.com
      * 2. A named route that can be accessed using `route_to()` or `url_to()`
@@ -149,7 +149,7 @@ class Auth extends BaseConfig
      * Record Last Active Date
      * --------------------------------------------------------------------
      * If true, will always update the `last_active` datetime for the
-     * logged in user on every page request.
+     * logged-in user on every page request.
      * This feature only works when session/tokens filter is active.
      *
      * @see https://codeigniter4.github.io/shield/install/#protect-all-pages for set filters.
