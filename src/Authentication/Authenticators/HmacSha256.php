@@ -124,7 +124,10 @@ class HmacSha256 implements AuthenticatorInterface
         if (! array_key_exists('token', $credentials) || $credentials['token'] === '') {
             return new Result([
                 'success' => false,
-                'reason'  => lang('Auth.noToken', [config('AuthToken')->authenticatorHeader['hmac']]),
+                'reason'  => lang(
+                    'Auth.noToken',
+                    [config('AuthToken')->authenticatorHeader['hmac']]
+                ),
             ]);
         }
 
@@ -202,7 +205,9 @@ class HmacSha256 implements AuthenticatorInterface
         $request = service('request');
 
         return $this->attempt([
-            'token' => $request->getHeaderLine(config('AuthToken')->authenticatorHeader['hmac']),
+            'token' => $request->getHeaderLine(
+                config('AuthToken')->authenticatorHeader['hmac']
+            ),
         ])->isOK();
     }
 

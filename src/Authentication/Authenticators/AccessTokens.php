@@ -124,7 +124,10 @@ class AccessTokens implements AuthenticatorInterface
         if (! array_key_exists('token', $credentials) || empty($credentials['token'])) {
             return new Result([
                 'success' => false,
-                'reason'  => lang('Auth.noToken', [config('AuthToken')->authenticatorHeader['tokens']]),
+                'reason'  => lang(
+                    'Auth.noToken',
+                    [config('AuthToken')->authenticatorHeader['tokens']]
+                ),
             ]);
         }
 
@@ -190,7 +193,9 @@ class AccessTokens implements AuthenticatorInterface
         $request = service('request');
 
         return $this->attempt([
-            'token' => $request->getHeaderLine(config('AuthToken')->authenticatorHeader['tokens']),
+            'token' => $request->getHeaderLine(
+                config('AuthToken')->authenticatorHeader['tokens']
+            ),
         ])->isOK();
     }
 
