@@ -30,7 +30,8 @@ public $aliases = [
 
 These can be used in any of the [normal filter config settings](https://codeigniter.com/user_guide/incoming/filters.html#globals), or [within the routes file](https://codeigniter.com/user_guide/incoming/routing.html#applying-filters).
 
-> **Note** These filters are already loaded for you by the registrar class located at **src/Config/Registrar.php**.
+> **Note**
+> These filters are already loaded for you by the registrar class located at **src/Config/Registrar.php**.
 
 ## Configure Controller Filters
 
@@ -79,7 +80,8 @@ public $globals = [
 ```
 In the example above, it is assumed that the page you have created for users to change their password after successful login is **change-password**.
 
-> **Note** If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the **app/Config/Filter.php** file.
+> **Note**
+> If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the **app/Config/Filter.php** file.
 
 For example, if you configured your routes like so:
 
@@ -88,6 +90,7 @@ $routes->group('accounts', static function($routes) {
     service('auth')->routes($routes);
 });
 ```
+
 Then the global `before` filter for `session` should look like so:
 
 ```php
@@ -98,4 +101,5 @@ public $globals = [
     ]
 ]
 ```
+
 The same should apply for the Rate Limiting and Forcing Password Reset.
