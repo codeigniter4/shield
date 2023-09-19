@@ -1,5 +1,16 @@
 # Upgrade Guide
 
+## Version 1.0.0-beta.6 to 1.0.0-beta.7
+
+### Install New Config AuthToken.php
+
+A new Config file **AuthToken.php** has been introduced. Run `php spark shield:setup`
+again to install it into **app/Config/**, or install it manually.
+
+Then change the default settings as necessary. When using Token authentication,
+the default value has been changed from all accesses to be recorded in the
+``token_logins`` table to only accesses that fail authentication to be recorded.
+
 ## Version 1.0.0-beta.3 to 1.0.0-beta.4
 
 ### Important Password Changes
