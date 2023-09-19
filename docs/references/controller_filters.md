@@ -3,7 +3,7 @@
 ## Provided Filters
 
 > **Note**
-> These filters are already loaded for you by the registrar class located at **src/Config/Registrar.php**.
+> These filters are already loaded for you by the [registrar](https://codeigniter.com/user_guide/general/configuration.html#registrars) class located at **src/Config/Registrar.php**.
 
 The [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can use to protect your routes Shield provides are:
 
