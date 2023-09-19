@@ -110,7 +110,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $result = $this->auth->check([]);
 
         $this->assertFalse($result->isOK());
-        $this->assertSame(lang('Auth.noToken', [config('Auth')->authenticatorHeader['tokens']]), $result->reason());
+        $this->assertSame(lang('Auth.noToken', [config('AuthToken')->authenticatorHeader['tokens']]), $result->reason());
     }
 
     public function testCheckBadToken(): void

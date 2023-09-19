@@ -131,7 +131,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
         $result = $this->auth->check([]);
 
         $this->assertFalse($result->isOK());
-        $this->assertSame(lang('Auth.noToken', [config('Auth')->authenticatorHeader['hmac']]), $result->reason());
+        $this->assertSame(lang('Auth.noToken', [config('AuthToken')->authenticatorHeader['hmac']]), $result->reason());
     }
 
     public function testCheckBadSignature(): void

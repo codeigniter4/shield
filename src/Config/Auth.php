@@ -146,6 +146,8 @@ class Auth extends BaseConfig
      * The name of Header that the Authorization token should be found.
      * According to the specs, this should be `Authorization`, but rare
      * circumstances might need a different header.
+     *
+     * @deprecated Moved to AuthToken. No longer used.
      */
     public array $authenticatorHeader = [
         'tokens' => 'Authorization',
@@ -158,6 +160,8 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * Determines the amount of time, in seconds, that an unused
      * access token can be used.
+     *
+     * @deprecated Moved to AuthToken. No longer used.
      */
     public int $unusedTokenLifetime = YEAR;
 

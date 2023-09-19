@@ -26,6 +26,28 @@ class AuthToken extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Name of Authenticator Header
+     * --------------------------------------------------------------------
+     * The name of Header that the Authorization token should be found.
+     * According to the specs, this should be `Authorization`, but rare
+     * circumstances might need a different header.
+     */
+    public array $authenticatorHeader = [
+        'tokens' => 'Authorization',
+        'hmac'   => 'Authorization',
+    ];
+
+    /**
+     * --------------------------------------------------------------------
+     * Unused Token Lifetime
+     * --------------------------------------------------------------------
+     * Determines the amount of time, in seconds, that an unused token can
+     * be used.
+     */
+    public int $unusedTokenLifetime = YEAR;
+
+    /**
+     * --------------------------------------------------------------------
      * HMAC secret key byte size
      * --------------------------------------------------------------------
      * Specify in integer the desired byte size of the
