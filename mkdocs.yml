@@ -46,7 +46,6 @@ nav:
   - Quick Start Guide:
     - quick_start_guide/using_session_auth.md
     - quick_start_guide/using_authorization.md
-    - quick_start_guide/managing_users.md
   - References:
     - controller_filters.md
     - Authentication: authentication.md
@@ -66,6 +65,7 @@ nav:
     - customization/user_provider.md
     - customization/login_identifier.md
   - Guides:
+    - guides/managing_users.md
     - guides/forcing_password_reset.md
     - guides/banning_users.md
     - guides/api_tokens.md
