@@ -7,6 +7,7 @@ These instructions assume that you have already [installed the CodeIgniter 4 app
 - [Composer](https://getcomposer.org)
 - Codeigniter **v4.2.7** or later
 - A created database that you can access via the Spark CLI script
+  - InnoDB (not MyISAM) is required if MySQL is used.
 
 ## Composer Installation
 
@@ -154,10 +155,6 @@ your project.
 
     1. Remove sample migration files in **tests/_support/Database/Migrations/**
     2. Or install `sqlite3` php extension
-
-    If you get `Specified key was too long` error:
-
-    1. Use InnoDB, not MyISAM.
 
 6. Configure **app/Config/Email.php** to allow Shield to send emails.
 
