@@ -43,7 +43,7 @@ public array $sessionConfig = [
 ### Enable Account Activation via Email
 
 > **Note**
-> You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](../install.md#initial-setup).
+> You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](../getting_started/install.md#initial-setup).
 
 By default, once a user registers they have an active account that can be used. You can enable Shield's built-in, email-based activation flow within the `Auth` config file.
 
@@ -57,7 +57,7 @@ public array $actions = [
 ### Enable Two-Factor Authentication
 
 > **Note**
-> You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](../install.md#initial-setup).
+> You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](../getting_started/install.md#initial-setup).
 
 Turned off by default, Shield's Email-based 2FA can be enabled by specifying the class to use in the `Auth` config file.
 

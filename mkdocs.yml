@@ -39,10 +39,10 @@ extra_javascript:
 nav:
   - Home: index.md
   - Getting Started:
-    - Concepts: concepts.md
-    - Installation: install.md
-    - authenticators.md
-    - configuration.md
+    - Concepts: getting_started/concepts.md
+    - getting_started/install.md
+    - getting_started/authenticators.md
+    - getting_started/configuration.md
   - Quick Start Guide:
     - quick_start_guide/using_session_auth.md
     - quick_start_guide/using_authorization.md

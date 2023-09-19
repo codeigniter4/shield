@@ -1,6 +1,6 @@
 # Managing Users
 
-Since Shield uses a more complex user setup than many other systems, separating [User Identities](../concepts.md#user-identities) from the user accounts themselves. This quick overview should help you feel more confident when working with users on a day-to-day basis.
+Since Shield uses a more complex user setup than many other systems, separating [User Identities](../getting_started/concepts.md#user-identities) from the user accounts themselves. This quick overview should help you feel more confident when working with users on a day-to-day basis.
 
 ## Creating Users
 
