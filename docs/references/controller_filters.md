@@ -2,6 +2,9 @@
 
 ## Provided Filters
 
+> **Note**
+> These filters are already loaded for you by the registrar class located at **src/Config/Registrar.php**.
+
 The [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can use to protect your routes Shield provides are:
 
 ```php
@@ -32,9 +35,6 @@ public $aliases = [
 | force-reset | Checks if the user requires a password reset.                                                                                                                                                                                       |
 
 These can be used in any of the [normal filter config settings](https://codeigniter.com/user_guide/incoming/filters.html#globals), or [within the routes file](https://codeigniter.com/user_guide/incoming/routing.html#applying-filters).
-
-> **Note**
-> These filters are already loaded for you by the registrar class located at **src/Config/Registrar.php**.
 
 ## Configure Controller Filters
 
