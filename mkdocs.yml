@@ -38,21 +38,34 @@ extra_javascript:
 
 nav:
   - Home: index.md
-  - Installation: install.md
-  - Concepts: concepts.md
-  - Quick Start Guide: quickstart.md
-  - Authentication: authentication.md
-  - Authorization: authorization.md
-  - Auth Actions: auth_actions.md
-  - Events: events.md
-  - Testing: testing.md
-  - Customization: customization.md
-  - Forcing Password Reset: forcing_password_reset.md
-  - Banning Users: banning_users.md
-  - session_auth_event_and_logging.md
+  - Getting Started:
+    - Concepts: concepts.md
+    - Installation: install.md
+  - Quick Start Guide:
+    - quick_start_guide/authentication_flow.md
+    - quick_start_guide/authorization_flow.md
+    - quick_start_guide/managing_users.md
+  - References:
+    - Authentication: authentication.md
+    - Authorization: authorization.md
+    - Auth Actions: auth_actions.md
+    - Events: events.md
+    - Testing: testing.md
+    - session_auth_event_and_logging.md
+  - Customization:
+    - customization/table_names.md
+    - customization/route_config.md
+    - customization/redirect_urls.md
+    - customization/extending_controllers.md
+    - customization/integrating_custom_view_libs.md
+    - customization/validation_rules.md
+    - customization/user_provider.md
+    - customization/login_identifier.md
   - Guides:
-    - guides/api_hmac_keys.md
+    - guides/forcing_password_reset.md
+    - guides/banning_users.md
     - guides/api_tokens.md
+    - guides/api_hmac_keys.md
     - guides/mobile_apps.md
     - guides/strengthen_password.md
   - Addons:

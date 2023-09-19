@@ -107,7 +107,7 @@ By default, Shield has the validation rules for maximum password length.
 - 72 bytes for PASSWORD_BCRYPT
 - 255 characters for others
 
-You can customize the validation rule. See [Customizing Shield](../customization.md).
+You can customize the validation rule. See [Customizing Validation Rules](../customization/validation_rules.md).
 
 ## $supportOldDangerousPassword
 

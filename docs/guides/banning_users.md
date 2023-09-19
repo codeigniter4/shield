@@ -2,20 +2,15 @@
 
 Shield provides a way to ban users from your application. This is useful if you need to prevent a user from logging in, or logging them out in the event that they breach your terms of service.
 
-- [Checking if the User is Banned](#check-if-a-user-is-banned)
-- [Banning a User](#banning-a-user)
-- [Unbanning a User](#unbanning-a-user)
-- [Getting the Reason for Ban ](#getting-the-reason-for-ban)
+### Check if a User is Banned
 
-### Check if a User is Banned  
-
-You can check if a user is banned using `isBanned()` method on the `User` entity. The method returns a boolean `true`/`false`. 
+You can check if a user is banned using `isBanned()` method on the `User` entity. The method returns a boolean `true`/`false`.
 
 ```php
 if ($user->isBanned()) {
     //...
 }
-```  
+```
 
 ### Banning a User
 
@@ -30,7 +25,7 @@ $user->ban('Your reason for banning the user here');
 
 ### Unbanning a User
 
-Unbanning a user can be done using the `unBan()` method on the `User` entity. This method will also reset the `status_message` property.   
+Unbanning a user can be done using the `unBan()` method on the `User` entity. This method will also reset the `status_message` property.
 
 ```php
 $user->unBan();
