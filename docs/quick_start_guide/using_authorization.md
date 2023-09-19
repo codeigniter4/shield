@@ -79,7 +79,8 @@ if (! auth()->user()->can('users.create')) {
 }
 ```
 
-> **Note** The example above can also be done through a [controller filter](https://codeigniter.com/user_guide/incoming/filters.html) if you want to apply it to multiple pages of your site.
+> **Note**
+> The example above can also be done through a [controller filter](https://codeigniter.com/user_guide/incoming/filters.html) if you want to apply it to multiple pages of your site.
 
 ## Adding a Group To a User
 

@@ -61,7 +61,8 @@ Require it with an explicit version constraint allowing its desired stability.
     php spark shield:setup
     ```
 
-    > **Note** If you want to customize table names, you must change the table names
+    > **Note**
+    > If you want to customize table names, you must change the table names
     > before running database migrations.
     > See [Customizing Table Names](./customization/table_names.md).
 
@@ -138,7 +139,8 @@ your project.
 
 5. **Migration** Run the migrations.
 
-    > **Note** If you want to customize table names, you must change the table names
+    > **Note**
+    > If you want to customize table names, you must change the table names
     > before running database migrations.
     > See [Customizing Table Names](./customization/table_names.md).
 

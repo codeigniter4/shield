@@ -37,7 +37,8 @@ $users = auth()->getProvider();
 $users->delete($user->id, true);
 ```
 
-> **Note** The User rows use [soft deletes](https://codeigniter.com/user_guide/models/model.html#usesoftdeletes) so they are not actually deleted from the database unless the second parameter is `true`, like above.
+> **Note**
+> The User rows use [soft deletes](https://codeigniter.com/user_guide/models/model.html#usesoftdeletes) so they are not actually deleted from the database unless the second parameter is `true`, like above.
 
 ## Editing a User
 
