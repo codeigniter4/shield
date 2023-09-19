@@ -6,9 +6,8 @@ web apps and APIs.
 
 ## Available Authenticators
 
-Shield ships with 2 authenticators that will serve several typical situations within web app development: the
-Session authenticator, which uses username/email/password to authenticate against and stores it in the session,
-and the Access Tokens authenticator which uses private access tokens passed in the headers.
+Shield ships with 4 authenticators that will serve several typical situations within web app development.
+You can see the [Authenticator List](../getting_started/authenticators.md).
 
 The available authenticators are defined in `Config\Auth`:
 
@@ -18,6 +17,7 @@ public $authenticators = [
     'session' => Session::class,
     'tokens'  => AccessTokens::class,
     'hmac'    => HmacSha256::class,
+    // 'jwt'  => JWT::class,
 ];
 ```
 
