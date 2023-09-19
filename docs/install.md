@@ -1,18 +1,5 @@
 # Installation
 
-- [Installation](#installation)
-  - [Requirements](#requirements)
-  - [Composer Installation](#composer-installation)
-    - [Troubleshooting](#troubleshooting)
-      - [IMPORTANT: composer error](#important-composer-error)
-  - [Initial Setup](#initial-setup)
-    - [Command Setup](#command-setup)
-    - [Manual Setup](#manual-setup)
-  - [Controller Filters](#controller-filters)
-    - [Protect All Pages](#protect-all-pages)
-    - [Rate Limiting](#rate-limiting)
-    - [Forcing Password Reset](#forcing-password-reset)
-
 These instructions assume that you have already [installed the CodeIgniter 4 app starter](https://codeigniter.com/user_guide/installation/installing_composer.html) as the basis for your new project, set up your **.env** file, and created a database that you can access via the Spark CLI script.
 
 ## Requirements
@@ -76,7 +63,7 @@ Require it with an explicit version constraint allowing its desired stability.
 
     > **Note** If you want to customize table names, you must change the table names
     > before running database migrations.
-    > See [Customizing Shield](./customization.md#custom-table-names).
+    > See [Customizing Table Names](./customization/table_names.md).
 
 2. Configure **app/Config/Email.php** to allow Shield to send emails with the [Email Class](https://codeigniter.com/user_guide/libraries/email.html).
 
@@ -108,7 +95,7 @@ Require it with an explicit version constraint allowing its desired stability.
 There are a few setup items to do before you can start using Shield in
 your project.
 
-1. Copy the **Auth.php** and  **AuthGroups.php** from **vendor/codeigniter4/shield/src/Config/** into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
+1. Copy the **Auth.php**, **AuthGroups.php**, and **AuthToken.php** from **vendor/codeigniter4/shield/src/Config/** into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
 
     ```php
     // new file - app/Config/Auth.php
@@ -153,7 +140,7 @@ your project.
 
     > **Note** If you want to customize table names, you must change the table names
     > before running database migrations.
-    > See [Customizing Shield](./customization.md#custom-table-names).
+    > See [Customizing Table Names](./customization/table_names.md).
 
     ```console
     php spark migrate --all
@@ -204,6 +191,7 @@ public $aliases = [
     // ...
     'session'     => \CodeIgniter\Shield\Filters\SessionAuth::class,
     'tokens'      => \CodeIgniter\Shield\Filters\TokenAuth::class,
+    'hmac'        => \CodeIgniter\Shield\Filters\HmacAuth::class,
     'chain'       => \CodeIgniter\Shield\Filters\ChainAuth::class,
     'auth-rates'  => \CodeIgniter\Shield\Filters\AuthRates::class,
     'group'       => \CodeIgniter\Shield\Filters\GroupFilter::class,
@@ -213,15 +201,16 @@ public $aliases = [
 ];
 ```
 
-Filters | Description
---- | ---
-session and tokens | The `Session` and `AccessTokens` authenticators, respectively.
-chained | The filter will check both authenticators in sequence to see if the user is logged in through either of authenticators, allowing a single API endpoint to work for both an SPA using session auth, and a mobile app using access tokens.
-jwt | The `JWT` authenticator. See [JWT Authentication](./addons/jwt.md).
-auth-rates | Provides a good basis for rate limiting of auth-related routes.
-group | Checks if the user is in one of the groups passed in.
-permission | Checks if the user has the passed permissions.
-force-reset | Checks if the user requires a password reset.
+| Filters            | Description                                                                                                                                                                                                                              |
+|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| session and tokens | The `Session` and `AccessTokens` authenticators, respectively.                                                                                                                                                                           |
+| chained            | The filter will check both authenticators in sequence to see if the user is logged in through either of authenticators, allowing a single API endpoint to work for both an SPA using session auth, and a mobile app using access tokens. |
+| jwt                | The `JWT` authenticator. See [JWT Authentication](./addons/jwt.md).                                                                                                                                                                      |
+| hmac               | The `HMAC` authenticator. See [HMAC Authentication](./guides/api_hmac_keys.md).                                                                                                                                                          |
+| auth-rates         | Provides a good basis for rate limiting of auth-related routes.                                                                                                                                                                          |
+| group              | Checks if the user is in one of the groups passed in.                                                                                                                                                                                    |
+| permission         | Checks if the user has the passed permissions.                                                                                                                                                                                           |
+| force-reset        | Checks if the user requires a password reset.                                                                                                                                                                                            |
 
 These can be used in any of the [normal filter config settings](https://codeigniter.com/user_guide/incoming/filters.html#globals), or [within the routes file](https://codeigniter.com/user_guide/incoming/routing.html#applying-filters).
 

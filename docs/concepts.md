@@ -2,13 +2,6 @@
 
 This document covers some of the base concepts used throughout the library.
 
-- [Shield Concepts](#shield-concepts)
-  - [Repository State](#repository-state)
-  - [Settings](#settings)
-  - [User Providers](#user-providers)
-  - [User Identities](#user-identities)
-  - [Password Validators](#password-validators)
-
 ## Repository State
 
 Shield is designed so that the initial setup of your application can all happen in code with nothing required to be
@@ -28,7 +21,7 @@ on the standard Config class if nothing is found in the database.
 Shield has a model to handle user persistence. Shield calls this the "User Provider" class.
 A default model is provided for you by the `CodeIgniter\Shield\Models\UserModel` class.
 
-You can use your own model to customize user attributes. See [Customizing Shield](./customization.md#custom-user-provider) for details.
+You can use your own model to customize user attributes. See [Customizing User Provider](./customization/user_provider.md) for details.
 
 ## User Identities
 

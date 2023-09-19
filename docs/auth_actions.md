@@ -1,9 +1,5 @@
 # Authentication Actions
 
-- [Authentication Actions](#authentication-actions)
-  - [Configuring Actions](#configuring-actions)
-  - [Defining New Actions](#defining-new-actions)
-
 Authentication Actions are a way to group actions that can happen after login or registration.
 Shield ships with two actions you can use, and makes it simple for you to define your own.
 

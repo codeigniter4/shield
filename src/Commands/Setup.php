@@ -83,6 +83,7 @@ class Setup extends BaseCommand
     {
         $this->publishConfigAuth();
         $this->publishConfigAuthGroups();
+        $this->publishConfigAuthToken();
 
         $this->setupHelper();
         $this->setupRoutes();
@@ -126,6 +127,18 @@ class Setup extends BaseCommand
             'namespace CodeIgniter\Shield\Config'  => 'namespace Config',
             'use CodeIgniter\\Config\\BaseConfig;' => 'use CodeIgniter\\Shield\\Config\\AuthGroups as ShieldAuthGroups;',
             'extends BaseConfig'                   => 'extends ShieldAuthGroups',
+        ];
+
+        $this->copyAndReplace($file, $replaces);
+    }
+
+    private function publishConfigAuthToken(): void
+    {
+        $file     = 'Config/AuthToken.php';
+        $replaces = [
+            'namespace CodeIgniter\Shield\Config'  => 'namespace Config',
+            'use CodeIgniter\\Config\\BaseConfig;' => 'use CodeIgniter\\Shield\\Config\\AuthToken as ShieldAuthToken;',
+            'extends BaseConfig'                   => 'extends ShieldAuthToken',
         ];
 
         $this->copyAndReplace($file, $replaces);

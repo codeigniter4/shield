@@ -8,6 +8,7 @@ use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
+use CodeIgniter\Shield\Authentication\Authenticators\HmacSha256;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords\CompositionValidator;
@@ -134,6 +135,7 @@ class Auth extends BaseConfig
     public array $authenticators = [
         'tokens'  => AccessTokens::class,
         'session' => Session::class,
+        'hmac'    => HmacSha256::class,
         // 'jwt'     => JWT::class,
     ];
 
@@ -147,6 +149,7 @@ class Auth extends BaseConfig
      */
     public array $authenticatorHeader = [
         'tokens' => 'Authorization',
+        'hmac'   => 'Authorization',
     ];
 
     /**
@@ -181,6 +184,7 @@ class Auth extends BaseConfig
     public array $authenticationChain = [
         'session',
         'tokens',
+        'hmac',
         // 'jwt',
     ];
 
