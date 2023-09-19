@@ -200,7 +200,7 @@ class HmacSha256 implements AuthenticatorInterface
         $request = service('request');
 
         return $this->attempt([
-            'token' => $request->getHeaderLine(config('Auth')->authenticatorHeader['tokens']),
+            'token' => $request->getHeaderLine(config('Auth')->authenticatorHeader['hmac']),
         ])->isOK();
     }
 
