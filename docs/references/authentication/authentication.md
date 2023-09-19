@@ -7,7 +7,7 @@ web apps and APIs.
 ## Available Authenticators
 
 Shield ships with 4 authenticators that will serve several typical situations within web app development.
-You can see the [Authenticator List](../getting_started/authenticators.md).
+You can see the [Authenticator List](../../getting_started/authenticators.md).
 
 The available authenticators are defined in `Config\Auth`:
 

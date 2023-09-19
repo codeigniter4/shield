@@ -66,8 +66,8 @@ nav:
     - guides/strengthen_password.md
   - References:
       - references/controller_filters.md
-      - references/authentication.md
-      - references/auth_actions.md
+      - references/authentication/authentication.md
+      - references/authentication/auth_actions.md
       - references/magic_link_login.md
       - references/authorization.md
       - references/events.md
