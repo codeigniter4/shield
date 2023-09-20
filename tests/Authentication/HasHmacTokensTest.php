@@ -45,19 +45,16 @@ final class HasHmacTokensTest extends DatabaseTestCase
         $this->assertSame([], $this->user->accessTokens());
 
         // Give the user a couple of access tokens
-        /** @var AccessToken $token1 */
         $token1 = fake(
             UserIdentityModel::class,
             ['user_id' => $this->user->id, 'type' => 'hmac_sha256', 'secret' => 'key1', 'secret2' => 'secretKey1']
         );
 
-        /** @var AccessToken $token2 */
         $token2 = fake(
             UserIdentityModel::class,
             ['user_id' => $this->user->id, 'type' => 'hmac_sha256', 'secret' => 'key2', 'secret2' => 'secretKey2']
         );
 
-        /** @var AccessToken[] $tokens */
         $tokens = $this->user->hmacTokens();
 
         $this->assertCount(2, $tokens);
