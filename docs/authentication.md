@@ -220,6 +220,12 @@ Typically, the plain text token is retrieved from the request's headers as part 
 process. If you need to revoke the token for another user as an admin, and don't have access to the
 token, you would need to get the user's access tokens and delete them manually.
 
+If you dont have the raw token usable to remove the token there is the possibility to remove it using the tokens secret thats stored in the database. It's possible to get a list of all tokens with there secret using the `accessTokens()` function.
+
+```php
+$user->revokeAccessTokenBySecret($secret);
+```
+
 You can revoke all access tokens with the `revokeAllAccessTokens()` method.
 
 ```php
