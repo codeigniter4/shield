@@ -39,34 +39,39 @@ extra_javascript:
 nav:
   - Home: index.md
   - Getting Started:
-    - Concepts: concepts.md
-    - Installation: install.md
+    - Concepts: getting_started/concepts.md
+    - getting_started/install.md
+    - getting_started/authenticators.md
+    - getting_started/configuration.md
   - Quick Start Guide:
-    - quick_start_guide/authentication_flow.md
-    - quick_start_guide/authorization_flow.md
-    - quick_start_guide/managing_users.md
-  - References:
-    - Authentication: authentication.md
-    - Authorization: authorization.md
-    - Auth Actions: auth_actions.md
-    - Events: events.md
-    - Testing: testing.md
-    - session_auth_event_and_logging.md
+    - quick_start_guide/using_session_auth.md
+    - quick_start_guide/using_authorization.md
   - Customization:
     - customization/table_names.md
     - customization/route_config.md
     - customization/redirect_urls.md
-    - customization/extending_controllers.md
-    - customization/integrating_custom_view_libs.md
     - customization/validation_rules.md
     - customization/user_provider.md
+    - customization/extending_controllers.md
+    - customization/integrating_custom_view_libs.md
     - customization/login_identifier.md
+  - User Management:
+    - user_management/managing_users.md
+    - user_management/forcing_password_reset.md
+    - user_management/banning_users.md
   - Guides:
-    - guides/forcing_password_reset.md
-    - guides/banning_users.md
     - guides/api_tokens.md
     - guides/api_hmac_keys.md
     - guides/mobile_apps.md
     - guides/strengthen_password.md
+  - References:
+      - references/controller_filters.md
+      - references/authentication.md
+      - references/auth_actions.md
+      - references/magic_link_login.md
+      - references/authorization.md
+      - references/events.md
+      - references/testing.md
+      - references/session_auth_event_and_logging.md
   - Addons:
     - JWT Authentication: addons/jwt.md

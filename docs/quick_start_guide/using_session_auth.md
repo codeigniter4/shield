@@ -1,11 +1,13 @@
-# Authentication Flow
+# Using Session Authenticator
+
+**Session** authenticator provides traditional ID/Password authentication.
 
 Learning any new authentication system can be difficult, especially as they get more flexible and sophisticated. This guide is intended to provide short examples for common actions you'll take when working with Shield. It is not intended to be the exhaustive documentation for each section. That's better handled through the area-specific doc files.
 
 > **Note**
 > The examples assume that you have run the setup script and that you have copies of the `Auth` and `AuthGroups` config files in your application's **app/Config** folder.
 
-## Configure Config\Auth
+## Configuration
 
 ### Configure Redirect URLs
 
@@ -27,7 +29,7 @@ public array $redirects = [
 
 ### Configure Remember-me Functionality
 
-Remember-me functionality is enabled by default for the `Session` authenticator. While this is handled in a secure manner, some sites may want it disabled. You might also want to change how long it remembers a user and doesn't require additional login.
+Remember-me functionality is enabled by default. While this is handled in a secure manner, some sites may want it disabled. You might also want to change how long it remembers a user and doesn't require additional login.
 
 ```php
 public array $sessionConfig = [
@@ -38,18 +40,10 @@ public array $sessionConfig = [
 ];
 ```
 
-### Change Access Token Lifetime
-
-By default, Access Tokens can be used for 1 year since the last use. This can be easily modified in the `Auth` config file.
-
-```php
-public int $unusedTokenLifetime = YEAR;
-```
-
 ### Enable Account Activation via Email
 
 > **Note**
-> You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](../install.md#initial-setup).
+> You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](../getting_started/install.md#initial-setup).
 
 By default, once a user registers they have an active account that can be used. You can enable Shield's built-in, email-based activation flow within the `Auth` config file.
 
@@ -63,7 +57,7 @@ public array $actions = [
 ### Enable Two-Factor Authentication
 
 > **Note**
-> You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](../install.md#initial-setup).
+> You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](../getting_started/install.md#initial-setup).
 
 Turned off by default, Shield's Email-based 2FA can be enabled by specifying the class to use in the `Auth` config file.
 
@@ -74,35 +68,39 @@ public array $actions = [
 ];
 ```
 
-## Responding to Magic Link Logins
+## Customizing Routes
 
-> **Note**
-> You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](../install.md#initial-setup).
-
-Magic Link logins allow a user that has forgotten their password to have an email sent with a unique, one-time login link. Once they've logged in you can decide how to respond. In some cases, you might want to redirect them to a special page where they must choose a new password. In other cases, you might simply want to display a one-time message prompting them to go to their account page and choose a new password.
-
-### Session Notification
-
-You can detect if a user has finished the magic link login by checking for a session value, `magicLogin`. If they have recently completed the flow, it will exist and have a value of `true`.
+If you need to customize how any of the auth features are handled, you can still
+use the `service('auth')->routes()` helper, but you will need to pass the `except`
+option with a list of routes to customize:
 
 ```php
-if (session('magicLogin')) {
-    return redirect()->route('set_password');
-}
+service('auth')->routes($routes, ['except' => ['login', 'register']]);
 ```
 
-This value sticks around in the session for 5 minutes. Once you no longer need to take any actions, you might want to delete the value from the session.
+Then add the routes to your customized controllers:
 
 ```php
-session()->removeTempdata('magicLogin');
+$routes->get('login', '\App\Controllers\Auth\LoginController::loginView');
+$routes->get('register', '\App\Controllers\Auth\RegisterController::registerView');
 ```
 
-### Event
+Check your routes with the [spark routes](https://codeigniter.com/user_guide/incoming/routing.html#spark-routes)
+command.
 
-At the same time the above session variable is set, a `magicLogin` [event](https://codeigniter.com/user_guide/extending/events.html) is fired off that you may subscribe to. Note that no data is passed to the event as you can easily grab the current user from the `user()` helper or the `auth()->user()` method.
+## Protecting Pages
+
+If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/panel` and ...), you need to add the following code in the **app/Config/Filters.php** file.
 
 ```php
-Events::on('magicLogin', static function () {
+public $globals = [
+    'before' => [
+        // ...
+        'session' => ['except' => ['login*', 'register', 'auth/a/*']],
+    ],
     // ...
-});
+];
 ```
+
+Check your filters with the [spark routes](https://codeigniter.com/user_guide/incoming/routing.html#spark-routes)
+command.

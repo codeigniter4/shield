@@ -1,7 +1,7 @@
 # Customizing User Provider
 
 If you want to customize user attributes, you need to create your own
-[User Provider](../concepts.md#user-providers) class.
+[User Provider](../getting_started/concepts.md#user-providers) class.
 The only requirement is that your new class MUST extend the provided `CodeIgniter\Shield\Models\UserModel`.
 
 Shield has a CLI command to quickly create a custom `UserModel` class by running the following

@@ -1,6 +1,6 @@
 # Managing Users
 
-Since Shield uses a more complex user setup than many other systems, separating [User Identities](../concepts.md#user-identities) from the user accounts themselves. This quick overview should help you feel more confident when working with users on a day-to-day basis.
+Since Shield uses a more complex user setup than many other systems, separating [User Identities](../getting_started/concepts.md#user-identities) from the user accounts themselves. This quick overview should help you feel more confident when working with users on a day-to-day basis.
 
 ## Creating Users
 
@@ -37,7 +37,8 @@ $users = auth()->getProvider();
 $users->delete($user->id, true);
 ```
 
-> **Note** The User rows use [soft deletes](https://codeigniter.com/user_guide/models/model.html#usesoftdeletes) so they are not actually deleted from the database unless the second parameter is `true`, like above.
+> **Note**
+> The User rows use [soft deletes](https://codeigniter.com/user_guide/models/model.html#usesoftdeletes) so they are not actually deleted from the database unless the second parameter is `true`, like above.
 
 ## Editing a User
 

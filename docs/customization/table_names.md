@@ -17,4 +17,5 @@ public array $tables = [
 
 Set the table names that you want in the array values.
 
-> **Note** You must change the table names before running database migrations.
+> **Note**
+> You must change the table names before running database migrations.
