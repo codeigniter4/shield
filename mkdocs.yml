@@ -76,6 +76,5 @@ nav:
       - references/authorization.md
       - references/events.md
       - references/testing.md
-      - references/session_auth_event_and_logging.md
   - Addons:
     - JWT Authentication: addons/jwt.md
