@@ -84,7 +84,7 @@ See the <a href="https://codeigniter4.github.io/shield/" target="_blank">docs</a
 
 Shield does accept and encourage contributions from the community in any shape. It doesn't matter
 whether you can code, write documentation, or help find bugs, all contributions are welcome.
-see the [CONTRIBUTING.md](CONTRIBUTING.md) file for details.
+See the [CONTRIBUTING.md](CONTRIBUTING.md) file for details.
 
 ## License
 
