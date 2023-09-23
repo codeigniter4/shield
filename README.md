@@ -8,7 +8,8 @@
 [![Architecture](https://github.com/codeigniter4/shield/workflows/Deptrac/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/deptrac.yml)
 [![Coverage Status](https://coveralls.io/repos/github/codeigniter4/shield/badge.svg?branch=develop)](https://coveralls.io/github/codeigniter4/shield?branch=develop)
 
-Shield is an authentication and authorization framework for CodeIgniter 4. While it does provide a base set of tools
+Shield is the official authentication and authorization framework for CodeIgniter 4.
+While it does provide a base set of tools
 that are commonly used in websites, it is designed to be flexible and easily customizable.
 
 The primary goals for Shield are:
@@ -18,43 +19,44 @@ The primary goals for Shield are:
 
 ## Authentication Methods
 
-Shield provides two primary methods **Session-based** and **Personal Access Codes**
-of authentication out of the box.
+Shield provides two primary methods **Session-based** and **Access Token**
+authentication out of the box.
 
-It also provides **JSON Web Tokens** authentication.
+It also provides **HMAC SHA256 Token** and **JSON Web Token** authentication.
 
 ### Session-based
 
-This is your typical email/username/password system you see everywhere. It includes a secure "remember me" functionality.
+This is your typical email/username/password system you see everywhere. It includes a secure "remember-me" functionality.
 This can be used for standard web applications, as well as for single page applications. Includes full controllers and
 basic views for all standard functionality, like registration, login, forgot password, etc.
 
-### Personal Access Codes
+### Access Token
 
-These are much like the access codes that GitHub uses, where they are unique to a single user, and a single user
+These are much like the access tokens that GitHub uses, where they are unique to a single user, and a single user
 can have more than one. This can be used for API authentication of third-party users, and even for allowing
 access for a mobile application that you build.
 
-### HMAC - SHA256
+### HMAC SHA256 Token
 
-This is a slightly more complicated improvement on Access Codes/Tokens.  The main advantage with HMAC is the shared Secret Key
+This is a slightly more complicated improvement on Access Token authentication.
+The main advantage with HMAC is the shared Secret Key
 is not passed in the request, but is instead used to create a hash signature of the request body.
 
-### JSON Web Tokens
+### JSON Web Token
 
 JWT or JSON Web Token is a compact and self-contained way of securely transmitting
 information between parties as a JSON object. It is commonly used for authentication
 and authorization purposes in web applications.
 
-## Some Important Features
+## Important Features
 
-* Session-based authentication (traditional email/password with remember me)
+* Session-based authentication (traditional ID/Password with Remember-me)
 * Stateless authentication using Personal Access Tokens
 * Optional Email verification on account registration
 * Optional Email-based Two-Factor Authentication after login
-* Magic Login Links when a user forgets their password
-* Flexible groups-based access control (think roles, but more flexible)
-* Users can be granted additional permissions
+* Magic Link Login when a user forgets their password
+* Flexible Groups-based access control (think Roles, but more flexible)
+* Users can be granted additional Permissions
 
 See the [An Official Auth Library](https://codeigniter.com/news/shield) for more Info.
 
@@ -71,6 +73,7 @@ Usage of Shield requires the following:
 ### Installation
 
 Installation is done through Composer.
+
 ```console
 composer require codeigniter4/shield
 ```
@@ -81,6 +84,7 @@ See the <a href="https://codeigniter4.github.io/shield/" target="_blank">docs</a
 
 Shield does accept and encourage contributions from the community in any shape. It doesn't matter
 whether you can code, write documentation, or help find bugs, all contributions are welcome.
+see the [CONTRIBUTING.md](CONTRIBUTING.md) file for details.
 
 ## License
 
@@ -88,7 +92,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgements
 
-Every open-source project depends on it's contributors to be a success. The following users have
+Every open-source project depends on its contributors to be a success. The following users have
 contributed in one manner or another in making Shield:
 
 <a href="https://github.com/codeigniter4/shield/graphs/contributors">
