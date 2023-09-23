@@ -20,7 +20,7 @@ This section describes the major Config items that are not described elsewhere.
 
 ### Access Token Lifetime
 
-By default, Access Tokens can be used for 1 year since the last use. This can be easily modified in the **app/Config/Auth.php** config file.
+By default, Access Tokens can be used for 1 year since the last use. This can be easily modified in the **app/Config/AuthToken.php** config file.
 
 ```php
 public int $unusedTokenLifetime = YEAR;

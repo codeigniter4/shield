@@ -70,6 +70,6 @@ When making all future requests to the API, the mobile client should return the 
 
 > **Note**
 >
-> By default, `$authenticatorHeader['tokens']` is set to `Authorization`. You can change the header name by setting the `$authenticatorHeader['tokens']` value in the **app/Config/Auth.php** config file.
+> By default, `$authenticatorHeader['tokens']` is set to `Authorization`. You can change the header name by setting the `$authenticatorHeader['tokens']` value in the **app/Config/AuthToken.php** config file.
 >
 > e.g. if `$authenticatorHeader['tokens']` is set to `PersonalAccessCodes` then the mobile client should return the raw token in the `PersonalAccessCodes` header as a `Bearer` token.
