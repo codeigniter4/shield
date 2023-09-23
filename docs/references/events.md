@@ -74,4 +74,4 @@ Events::on('magicLogin', function() {
 
 To learn more about Event timing, please see the list below.
 
-- [Session Authenticator Event and Logging](./session_auth_event_and_logging.md).
+- [Session Authenticator](./authentication/session.md#events-and-logging).

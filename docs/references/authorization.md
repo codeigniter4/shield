@@ -238,7 +238,7 @@ $user->getGroups();
 
 ## User Activation
 
-All users have an `active` flag. This is only used when the [`EmailActivation` action](./auth_actions.md), or a custom action used to activate a user, is enabled.
+All users have an `active` flag. This is only used when the [`EmailActivation` action](./authentication/auth_actions.md), or a custom action used to activate a user, is enabled.
 
 ### Checking Activation Status
 

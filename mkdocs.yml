@@ -13,6 +13,7 @@ theme:
     primary: deep orange
   features:
     - navigation.sections
+    - content.code.copy
 
 extra:
   homepage: https://codeigniter.com
@@ -66,12 +67,15 @@ nav:
     - guides/strengthen_password.md
   - References:
       - references/controller_filters.md
-      - references/authentication.md
-      - references/auth_actions.md
+      - Authentication:
+        - references/authentication/authentication.md
+        - references/authentication/session.md
+        - Token Authenticator: references/authentication/tokens.md
+        - HMAC Authenticator: references/authentication/hmac.md
+        - Auth Actions: references/authentication/auth_actions.md
       - references/magic_link_login.md
       - references/authorization.md
       - references/events.md
       - references/testing.md
-      - references/session_auth_event_and_logging.md
   - Addons:
     - JWT Authentication: addons/jwt.md
