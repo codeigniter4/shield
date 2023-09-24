@@ -2,7 +2,7 @@
 
 ## Registration
 
-Shield has the following rules for registration:
+Shield has the following rules for registration by default:
 
 ```php
 [
@@ -27,7 +27,10 @@ Shield has the following rules for registration:
     ],
     'password' => [
         'label' => 'Auth.password',
-        'rules' => 'required|strong_password',
+        'rules' => 'required|max_byte[72]|strong_password[]',
+        'errors' => [
+            'max_byte' => 'Auth.errorPasswordTooLongBytes'
+        ]
     ],
     'password_confirm' => [
         'label' => 'Auth.passwordConfirm',
@@ -70,7 +73,10 @@ If you need a different set of rules for registration, you can specify them in y
         ],
         'password' => [
             'label' => 'Auth.password',
-            'rules' => 'required|strong_password',
+            'rules' => 'required|max_byte[72]|strong_password[]',
+            'errors' => [
+                'max_byte' => 'Auth.errorPasswordTooLongBytes'
+            ]
         ],
         'password_confirm' => [
             'label' => 'Auth.passwordConfirm',
@@ -97,12 +103,19 @@ Similar to the process for validation rules in the **Registration** section, you
         //     'rules' => 'required|max_length[30]|min_length[3]|regex_match[/\A[a-zA-Z0-9\.]+\z/]',
         // ],
         'email' => [
-            'label' =>  'Auth.email',
-            'rules' => 'required|max_length[254]|valid_email',
+            'label' => 'Auth.email',
+            'rules' => [
+                'required',
+                'max_length[254]',
+                'valid_email'
+            ],
         ],
         'password' => [
-            'label' =>  'Auth.password',
-            'rules' => 'required',
+            'label' => 'Auth.password',
+            'rules' => 'required|max_byte[72]',
+            'errors' => [
+                'max_byte' => 'Auth.errorPasswordTooLongBytes',
+            ]
         ],
     ];
 ```
