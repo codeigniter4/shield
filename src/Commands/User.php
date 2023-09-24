@@ -232,6 +232,9 @@ class User extends BaseCommand
         if (($key = array_search('strong_password[]', $passwordRules, true)) !== false) {
             unset($passwordRules[$key]);
         }
+        if (($key = array_search('strong_password', $passwordRules, true)) !== false) {
+            unset($passwordRules[$key]);
+        }
 
         /** @var Auth $config */
         $config = config('Auth');
