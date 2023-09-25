@@ -124,7 +124,10 @@ class HmacSha256 implements AuthenticatorInterface
         if (! array_key_exists('token', $credentials) || $credentials['token'] === '') {
             return new Result([
                 'success' => false,
-                'reason'  => lang('Auth.noToken', [config('Auth')->authenticatorHeader['hmac']]),
+                'reason'  => lang(
+                    'Auth.noToken',
+                    [config('AuthToken')->authenticatorHeader['hmac']]
+                ),
             ]);
         }
 
@@ -161,7 +164,9 @@ class HmacSha256 implements AuthenticatorInterface
         // Hasn't been used in a long time
         if (
             isset($token->last_used_at)
-            && $token->last_used_at->isBefore(Time::now()->subSeconds(config('Auth')->unusedTokenLifetime))
+            && $token->last_used_at->isBefore(
+                Time::now()->subSeconds(config('AuthToken')->unusedTokenLifetime)
+            )
         ) {
             return new Result([
                 'success' => false,
@@ -200,7 +205,9 @@ class HmacSha256 implements AuthenticatorInterface
         $request = service('request');
 
         return $this->attempt([
-            'token' => $request->getHeaderLine(config('Auth')->authenticatorHeader['hmac']),
+            'token' => $request->getHeaderLine(
+                config('AuthToken')->authenticatorHeader['hmac']
+            ),
         ])->isOK();
     }
 
@@ -260,7 +267,7 @@ class HmacSha256 implements AuthenticatorInterface
         /** @var IncomingRequest $request */
         $request = service('request');
 
-        $header = $request->getHeaderLine(config('Auth')->authenticatorHeader['hmac']);
+        $header = $request->getHeaderLine(config('AuthToken')->authenticatorHeader['hmac']);
 
         if ($header === '') {
             return null;

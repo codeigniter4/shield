@@ -117,7 +117,7 @@ HMAC Keys/Tokens will expire after a specified amount of time has passed since t
 This uses the same configuration value as AccessTokens.
 
 By default, this is set to 1 year. You can change this value by setting the `$unusedTokenLifetime`
-value in the `Auth` config file. This is in seconds so that you can use the
+value in the **app/Config/AuthToken.php** config file. This is in seconds so that you can use the
 [time constants](https://codeigniter.com/user_guide/general/common_functions.html#time-constants)
 that CodeIgniter provides.
 

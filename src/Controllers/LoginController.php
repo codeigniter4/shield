@@ -85,11 +85,11 @@ class LoginController extends BaseController
         return setting('Validation.login') ?? [
             // 'username' => [
             //     'label' => 'Auth.username',
-            //     'rules' => config('AuthSession')->usernameValidationRules,
+            //     'rules' => config('Auth')->usernameValidationRules,
             // ],
             'email' => [
                 'label' => 'Auth.email',
-                'rules' => config('AuthSession')->emailValidationRules,
+                'rules' => config('Auth')->emailValidationRules,
             ],
             'password' => [
                 'label'  => 'Auth.password',

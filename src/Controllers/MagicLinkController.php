@@ -236,7 +236,7 @@ class MagicLinkController extends BaseController
         return [
             'email' => [
                 'label' => 'Auth.email',
-                'rules' => config('AuthSession')->emailValidationRules,
+                'rules' => config('Auth')->emailValidationRules,
             ],
         ];
     }

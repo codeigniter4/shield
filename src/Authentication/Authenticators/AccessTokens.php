@@ -124,7 +124,10 @@ class AccessTokens implements AuthenticatorInterface
         if (! array_key_exists('token', $credentials) || empty($credentials['token'])) {
             return new Result([
                 'success' => false,
-                'reason'  => lang('Auth.noToken', [config('Auth')->authenticatorHeader['tokens']]),
+                'reason'  => lang(
+                    'Auth.noToken',
+                    [config('AuthToken')->authenticatorHeader['tokens']]
+                ),
             ]);
         }
 
@@ -149,7 +152,9 @@ class AccessTokens implements AuthenticatorInterface
         // Hasn't been used in a long time
         if (
             $token->last_used_at
-            && $token->last_used_at->isBefore(Time::now()->subSeconds(config('Auth')->unusedTokenLifetime))
+            && $token->last_used_at->isBefore(
+                Time::now()->subSeconds(config('AuthToken')->unusedTokenLifetime)
+            )
         ) {
             return new Result([
                 'success' => false,
@@ -188,7 +193,9 @@ class AccessTokens implements AuthenticatorInterface
         $request = service('request');
 
         return $this->attempt([
-            'token' => $request->getHeaderLine(config('Auth')->authenticatorHeader['tokens']),
+            'token' => $request->getHeaderLine(
+                config('AuthToken')->authenticatorHeader['tokens']
+            ),
         ])->isOK();
     }
 
@@ -246,7 +253,7 @@ class AccessTokens implements AuthenticatorInterface
         /** @var IncomingRequest $request */
         $request = service('request');
 
-        $header = $request->getHeaderLine(config('Auth')->authenticatorHeader['tokens']);
+        $header = $request->getHeaderLine(config('AuthToken')->authenticatorHeader['tokens']);
 
         if (empty($header)) {
             return null;
