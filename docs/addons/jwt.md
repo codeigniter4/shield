@@ -54,9 +54,9 @@ To use JWT Authentication, you need additional setup and configuration.
 
     You need to add the following constants:
     ```php
-        public const RECORD_LOGIN_ATTEMPT_NONE    = 0; // Do not record at all
-        public const RECORD_LOGIN_ATTEMPT_FAILURE = 1; // Record only failures
-        public const RECORD_LOGIN_ATTEMPT_ALL     = 2; // Record all login attempts
+    public const RECORD_LOGIN_ATTEMPT_NONE    = 0; // Do not record at all
+    public const RECORD_LOGIN_ATTEMPT_FAILURE = 1; // Record only failures
+    public const RECORD_LOGIN_ATTEMPT_ALL     = 2; // Record all login attempts
     ```
 
     You need to add JWT Authenticator:
@@ -65,20 +65,20 @@ To use JWT Authentication, you need additional setup and configuration.
 
     // ...
 
-        public array $authenticators = [
-            'tokens'  => AccessTokens::class,
-            'session' => Session::class,
-            'jwt'     => JWT::class,
-        ];
+    public array $authenticators = [
+        'tokens'  => AccessTokens::class,
+        'session' => Session::class,
+        'jwt'     => JWT::class,
+    ];
     ```
 
     If you want to use JWT Authenticator in Authentication Chain, add `jwt`:
     ```php
-        public array $authenticationChain = [
-            'session',
-            'tokens',
-            'jwt'
-        ];
+    public array $authenticationChain = [
+        'session',
+        'tokens',
+        'jwt'
+    ];
     ```
 
 ## Configuration
@@ -95,9 +95,9 @@ Set the default payload items to the property `$defaultClaims`.
 
 E.g.:
 ```php
-    public array $defaultClaims = [
-        'iss' => 'https://codeigniter.com/',
-    ];
+public array $defaultClaims = [
+    'iss' => 'https://codeigniter.com/',
+];
 ```
 
 The default claims will be included in all tokens issued by Shield.
