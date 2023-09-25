@@ -15,6 +15,7 @@ theme:
     - navigation.sections
     - content.code.copy
     - navigation.footer
+    - content.action.edit
 
 extra:
   homepage: https://codeigniter.com
@@ -25,6 +26,7 @@ extra:
       name: GitHub
 
 repo_url: https://github.com/codeigniter4/shield
+edit_uri: edit/develop/docs/
 
 markdown_extensions:
   - pymdownx.superfences
