@@ -12,7 +12,6 @@ around features, like Beta feature access, or used to provide discrete groups of
 Groups are defined within the `Shield\Config\AuthGroups` config class.
 
 ```php
-
 public array $groups = [
     'superadmin' => [
         'title'       => 'Super Admin',
