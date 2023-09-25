@@ -11,6 +11,7 @@ theme:
     text: Raleway
   palette:
     primary: deep orange
+    accent: orange
   features:
     - navigation.sections
     - content.code.copy
