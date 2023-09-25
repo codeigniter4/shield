@@ -18,6 +18,9 @@ theme:
     - navigation.footer
     - content.action.edit
     - navigation.top
+    - search.suggest
+    - search.highlight
+    - search.share
 
 extra:
   homepage: https://codeigniter.com
