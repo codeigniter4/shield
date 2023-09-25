@@ -17,6 +17,7 @@ theme:
     - content.code.copy
     - navigation.footer
     - content.action.edit
+    - navigation.top
 
 extra:
   homepage: https://codeigniter.com
