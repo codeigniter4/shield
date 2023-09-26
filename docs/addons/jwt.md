@@ -1,7 +1,8 @@
 # JWT Authentication
 
-> **Note**
-> Shield now supports only JWS (Singed JWT). JWE (Encrypted JWT) is not supported.
+!!! note
+
+    Shield now supports only JWS (Singed JWT). JWE (Encrypted JWT) is not supported.
 
 ## What is JWT?
 
@@ -87,9 +88,10 @@ Configure **app/Config/AuthJWT.php** for your needs.
 
 ### Set the Default Claims
 
-> **Note**
-> A payload contains the actual data being transmitted, such as user ID, role,
-> or expiration time. Items in a payload is called *claims*.
+!!! note
+
+    A payload contains the actual data being transmitted, such as user ID, role,
+    or expiration time. Items in a payload is called *claims*.
 
 Set the default payload items to the property `$defaultClaims`.
 
@@ -121,8 +123,9 @@ with the following command:
 php -r 'echo base64_encode(random_bytes(32));'
 ```
 
-> **Note**
-> The secret key is used for signing and validating tokens.
+!!! note
+
+    The secret key is used for signing and validating tokens.
 
 ## Issuing JWTs
 

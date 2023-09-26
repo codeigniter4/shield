@@ -39,11 +39,10 @@ Shield has the following rules for registration by default:
 ];
 ```
 
-> **Note**
-> If you customize the table names, the table names
-> (`users` and `auth_identities`) in the above rules will be automatically
-> changed. The rules are implemented in
-> `RegisterController::getValidationRules()`.
+!!! note
+
+    If you customize the table names, the table names(`users` and `auth_identities`) in the above rules will be automatically changed.
+    The rules are implemented in `RegisterController::getValidationRules()`.
 
 If you need a different set of rules for registration, you can specify them in your `Validation` configuration (**app/Config/Validation.php**) like:
 
@@ -85,9 +84,9 @@ If you need a different set of rules for registration, you can specify them in y
     ];
 ```
 
-> **Note**
-> If you customize the table names, set the correct table names in the
-> rules.
+!!! note
+
+    If you customize the table names, set the correct table names in the rules.
 
 ## Login
 
