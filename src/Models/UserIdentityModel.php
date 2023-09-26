@@ -457,6 +457,21 @@ class UserIdentityModel extends BaseModel
     }
 
     /**
+     * Delete any access tokens for the given secret token.
+     */
+    public function revokeAccessTokenBySecret(User $user, string $secretToken): void
+    {
+        $this->checkUserId($user);
+
+        $return = $this->where('user_id', $user->id)
+            ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
+            ->where('secret', $secretToken)
+            ->delete();
+
+        $this->checkQueryReturn($return);
+    }
+
+    /**
      * Revokes all access tokens for this user.
      */
     public function revokeAllAccessTokens(User $user): void

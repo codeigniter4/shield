@@ -47,10 +47,11 @@ if ($user->tokenCan('users-read')) {
 
 ### Revoking Tokens
 
-Tokens can be revoked by deleting them from the database with the `revokeAccessToken($rawToken)` or `revokeAllAccessTokens()` methods.
+Tokens can be revoked by deleting them from the database with the `revokeAccessToken($rawToken)`, `revokeAccessTokenBySecret($secret)` or `revokeAllAccessTokens()` methods.
 
 ```php
 $user->revokeAccessToken($rawToken);
+$user->revokeAccessTokenBySecret($secret);
 $user->revokeAllAccessTokens();
 ```
 
