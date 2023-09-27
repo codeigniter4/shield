@@ -7,7 +7,7 @@ namespace CodeIgniter\Shield\Validation;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Config\Auth;
 
-class RegistrationValidationRules
+class ValidationRules
 {
     /**
      * Auth Table names
@@ -21,7 +21,7 @@ class RegistrationValidationRules
         $this->tables = $authConfig->tables;
     }
 
-    public function get(): array
+    public function getRegistrationRules(): array
     {
         $config = config('Auth');
 

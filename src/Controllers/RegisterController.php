@@ -14,7 +14,7 @@ use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Traits\Viewable;
-use CodeIgniter\Shield\Validation\RegistrationValidationRules;
+use CodeIgniter\Shield\Validation\ValidationRules;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -167,8 +167,8 @@ class RegisterController extends BaseController
      */
     protected function getValidationRules(): array
     {
-        $rules = new RegistrationValidationRules();
+        $rules = new ValidationRules();
 
-        return $rules->get();
+        return $rules->getRegistrationRules();
     }
 }
