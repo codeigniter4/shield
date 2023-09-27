@@ -23,7 +23,7 @@ This only works with the Session authenticator.
     ```
     !!! warning
 
-       It is very important for security that if you add a new column for identifier, you must write a new **Validation Rules** and then set it using the [Customizing Validation Rules](./validation_rules.md) description.
+        It is very important for security that if you add a new column for identifier, you must write a new **Validation Rules** and then set it using the [Customizing Validation Rules](./validation_rules.md) description.
 
 3. Edit the login form to change the name of the default `email` input to the new field name.
 
