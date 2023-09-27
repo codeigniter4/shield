@@ -74,6 +74,7 @@ extra_css:
 extra_javascript:
   - https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js
   - assets/js/hljs.js
+  - assets/js/curl.min.js
 
 nav:
   - Home: index.md

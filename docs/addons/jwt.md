@@ -234,7 +234,7 @@ class LoginController extends BaseController
 
 You could send a request with the existing user's credentials by curl like this:
 
-```console
+```curl
 curl --location 'http://localhost:8080/auth/jwt' \
 --header 'Content-Type: application/json' \
 --data-raw '{"email" : "admin@example.jp" , "password" : "passw0rd!"}'
@@ -245,7 +245,7 @@ the `Authorization` header as a `Bearer` token.
 
 You could send a request with the `Authorization` header by curl like this:
 
-```console
+```curl
 curl --location --request GET 'http://localhost:8080/api/users' \
 --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTaGllbGQgVGVzdCBBcHAiLCJzdWIiOiIxIiwiaWF0IjoxNjgxODA1OTMwLCJleHAiOjE2ODE4MDk1MzB9.DGpOmRPOBe45whVtEOSt53qJTw_CpH0V8oMoI_gm2XI'
 ```
