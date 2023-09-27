@@ -9,6 +9,8 @@ use CodeIgniter\Shield\Config\Auth;
 
 class ValidationRules
 {
+    private Auth $config;
+
     /**
      * Auth Table names
      */
@@ -17,16 +19,16 @@ class ValidationRules
     public function __construct()
     {
         /** @var Auth $authConfig */
-        $authConfig   = config('Auth');
-        $this->tables = $authConfig->tables;
+        $authConfig = config('Auth');
+
+        $this->config = $authConfig;
+        $this->tables = $this->config->tables;
     }
 
     public function getRegistrationRules(): array
     {
-        $config = config('Auth');
-
-        $usernameValidationRules = $config->usernameValidationRules;
-        $emailValidationRules    = $config->emailValidationRules;
+        $usernameValidationRules = $this->config->usernameValidationRules;
+        $emailValidationRules    = $this->config->emailValidationRules;
 
         $usernameValidationRules['rules'] = array_merge(
             $usernameValidationRules['rules'],
