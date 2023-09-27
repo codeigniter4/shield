@@ -34,16 +34,16 @@ class ValidationRules
             return $setting;
         }
 
-        $usernameValidationRules = $this->config->usernameValidationRules;
-        $emailValidationRules    = $this->config->emailValidationRules;
-
-        $usernameValidationRules['rules'] = array_merge(
-            $usernameValidationRules['rules'],
-            [sprintf('is_unique[%s.username]', $this->tables['users'])]
+        $usernameValidationRules            = $this->config->usernameValidationRules;
+        $usernameValidationRules['rules'][] = sprintf(
+            'is_unique[%s.username]',
+            $this->tables['users']
         );
-        $emailValidationRules['rules'] = array_merge(
-            $emailValidationRules['rules'],
-            [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
+
+        $emailValidationRules            = $this->config->emailValidationRules;
+        $emailValidationRules['rules'][] = sprintf(
+            'is_unique[%s.secret]',
+            $this->tables['identities']
         );
 
         $passwordRules            = $this->getPasswordRules();
