@@ -7,8 +7,8 @@ namespace CodeIgniter\Shield\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
-use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Traits\Viewable;
+use CodeIgniter\Shield\Validation\ValidationRules;
 
 class LoginController extends BaseController
 {
@@ -82,17 +82,9 @@ class LoginController extends BaseController
      */
     protected function getValidationRules(): array
     {
-        return setting('Validation.login') ?? [
-            // 'username' => config('Auth')->usernameValidationRules,
-            'email'    => config('Auth')->emailValidationRules,
-            'password' => [
-                'label'  => 'Auth.password',
-                'rules'  => 'required|' . Passwords::getMaxLengthRule(),
-                'errors' => [
-                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
-                ],
-            ],
-        ];
+        $rules = new ValidationRules();
+
+        return $rules->getLoginRules();
     }
 
     /**

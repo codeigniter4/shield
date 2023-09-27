@@ -49,6 +49,17 @@ class ValidationRules
         ];
     }
 
+    public function getLoginRules(): array
+    {
+        helper('setting');
+
+        return setting('Validation.login') ?? [
+            // 'username' => $this->config->usernameValidationRules,
+            'email'    => $this->config->emailValidationRules,
+            'password' => $this->getPasswordRules(),
+        ];
+    }
+
     public function getPasswordRules(): array
     {
         return [
