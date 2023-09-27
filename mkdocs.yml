@@ -76,6 +76,10 @@ extra_javascript:
   - assets/js/hljs.js
   - assets/js/curl.min.js
 
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
 nav:
   - Home: index.md
   - Getting Started:
