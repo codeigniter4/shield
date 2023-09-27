@@ -46,10 +46,13 @@ class ValidationRules
             [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
         );
 
+        $passwordRules            = $this->getPasswordRules();
+        $passwordRules['rules'][] = 'strong_password[]';
+
         return [
             'username'         => $usernameValidationRules,
             'email'            => $emailValidationRules,
-            'password'         => $this->getPasswordRules(),
+            'password'         => $passwordRules,
             'password_confirm' => $this->getPasswordConfirmRules(),
         ];
     }
@@ -69,7 +72,7 @@ class ValidationRules
     {
         return [
             'label'  => 'Auth.password',
-            'rules'  => 'required|' . Passwords::getMaxLengthRule() . '|strong_password[]',
+            'rules'  => ['required', Passwords::getMaxLengthRule()],
             'errors' => [
                 'max_byte' => 'Auth.errorPasswordTooLongBytes',
             ],
