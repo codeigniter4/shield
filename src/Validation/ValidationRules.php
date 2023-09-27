@@ -27,6 +27,13 @@ class ValidationRules
 
     public function getRegistrationRules(): array
     {
+        helper('setting');
+
+        $setting = setting('Validation.registration');
+        if ($setting !== null) {
+            return $setting;
+        }
+
         $usernameValidationRules = $this->config->usernameValidationRules;
         $emailValidationRules    = $this->config->emailValidationRules;
 
@@ -39,9 +46,7 @@ class ValidationRules
             [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
         );
 
-        helper('setting');
-
-        return setting('Validation.registration') ?? [
+        return [
             'username'         => $usernameValidationRules,
             'email'            => $emailValidationRules,
             'password'         => $this->getPasswordRules(),
