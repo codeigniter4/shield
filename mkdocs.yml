@@ -64,6 +64,8 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.highlight:
       use_pygments: false
+  - admonition
+  - pymdownx.details
 
 extra_css:
   - https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/github.min.css
