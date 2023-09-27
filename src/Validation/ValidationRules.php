@@ -40,19 +40,29 @@ class ValidationRules
         helper('setting');
 
         return setting('Validation.registration') ?? [
-            'username' => $usernameValidationRules,
-            'email'    => $emailValidationRules,
-            'password' => [
-                'label'  => 'Auth.password',
-                'rules'  => 'required|' . Passwords::getMaxLengthRule() . '|strong_password[]',
-                'errors' => [
-                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
-                ],
+            'username'         => $usernameValidationRules,
+            'email'            => $emailValidationRules,
+            'password'         => $this->getPasswordRules(),
+            'password_confirm' => $this->getPasswordConfirmRules(),
+        ];
+    }
+
+    public function getPasswordRules(): array
+    {
+        return [
+            'label'  => 'Auth.password',
+            'rules'  => 'required|' . Passwords::getMaxLengthRule() . '|strong_password[]',
+            'errors' => [
+                'max_byte' => 'Auth.errorPasswordTooLongBytes',
             ],
-            'password_confirm' => [
-                'label' => 'Auth.passwordConfirm',
-                'rules' => 'required|matches[password]',
-            ],
+        ];
+    }
+
+    public function getPasswordConfirmRules(): array
+    {
+        return [
+            'label' => 'Auth.passwordConfirm',
+            'rules' => 'required|matches[password]',
         ];
     }
 }
