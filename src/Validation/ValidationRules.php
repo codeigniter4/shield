@@ -34,14 +34,14 @@ class ValidationRules
             return $setting;
         }
 
-        $usernameValidationRules            = $this->config->usernameValidationRules;
-        $usernameValidationRules['rules'][] = sprintf(
+        $usernameRules            = $this->config->usernameValidationRules;
+        $usernameRules['rules'][] = sprintf(
             'is_unique[%s.username]',
             $this->tables['users']
         );
 
-        $emailValidationRules            = $this->config->emailValidationRules;
-        $emailValidationRules['rules'][] = sprintf(
+        $emailRules            = $this->config->emailValidationRules;
+        $emailRules['rules'][] = sprintf(
             'is_unique[%s.secret]',
             $this->tables['identities']
         );
@@ -50,8 +50,8 @@ class ValidationRules
         $passwordRules['rules'][] = 'strong_password[]';
 
         return [
-            'username'         => $usernameValidationRules,
-            'email'            => $emailValidationRules,
+            'username'         => $usernameRules,
+            'email'            => $emailRules,
             'password'         => $passwordRules,
             'password_confirm' => $this->getPasswordConfirmRules(),
         ];
