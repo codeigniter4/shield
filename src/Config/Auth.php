@@ -203,7 +203,9 @@ class Auth extends BaseConfig
      * The validation rules for username
      * --------------------------------------------------------------------
      *
-     * @var string[]
+     * Do not use string rules like `required|valid_email`.
+     *
+     * @var array<string, array<int, string>|string>
      */
     public array $usernameValidationRules = [
         'label' => 'Auth.username',
@@ -220,7 +222,9 @@ class Auth extends BaseConfig
      * The validation rules for email
      * --------------------------------------------------------------------
      *
-     * @var string[]
+     * Do not use string rules like `required|valid_email`.
+     *
+     * @var array<string, array<int, string>|string>
      */
     public array $emailValidationRules = [
         'label' => 'Auth.email',
