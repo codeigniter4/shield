@@ -23,26 +23,25 @@ class RegistrationValidationRules
 
     public function get(): array
     {
-        $registrationUsernameRules = array_merge(
-            config('Auth')->usernameValidationRules,
+        $config = config('Auth');
+
+        $usernameValidationRules = $config->usernameValidationRules;
+        $emailValidationRules    = $config->emailValidationRules;
+
+        $usernameValidationRules['rules'] = array_merge(
+            $usernameValidationRules['rules'],
             [sprintf('is_unique[%s.username]', $this->tables['users'])]
         );
-        $registrationEmailRules = array_merge(
-            config('Auth')->emailValidationRules,
+        $emailValidationRules['rules'] = array_merge(
+            $emailValidationRules['rules'],
             [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
         );
 
         helper('setting');
 
         return setting('Validation.registration') ?? [
-            'username' => [
-                'label' => 'Auth.username',
-                'rules' => $registrationUsernameRules,
-            ],
-            'email' => [
-                'label' => 'Auth.email',
-                'rules' => $registrationEmailRules,
-            ],
+            'username' => $usernameValidationRules,
+            'email'    => $emailValidationRules,
             'password' => [
                 'label'  => 'Auth.password',
                 'rules'  => 'required|' . Passwords::getMaxLengthRule() . '|strong_password[]',

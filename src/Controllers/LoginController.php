@@ -83,14 +83,8 @@ class LoginController extends BaseController
     protected function getValidationRules(): array
     {
         return setting('Validation.login') ?? [
-            // 'username' => [
-            //     'label' => 'Auth.username',
-            //     'rules' => config('Auth')->usernameValidationRules,
-            // ],
-            'email' => [
-                'label' => 'Auth.email',
-                'rules' => config('Auth')->emailValidationRules,
-            ],
+            // 'username' => config('Auth')->usernameValidationRules,
+            'email'    => config('Auth')->emailValidationRules,
             'password' => [
                 'label'  => 'Auth.password',
                 'rules'  => 'required|' . Passwords::getMaxLengthRule(),

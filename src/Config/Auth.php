@@ -206,10 +206,13 @@ class Auth extends BaseConfig
      * @var string[]
      */
     public array $usernameValidationRules = [
-        'required',
-        'max_length[30]',
-        'min_length[3]',
-        'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+        'label' => 'Auth.username',
+        'rules' => [
+            'required',
+            'max_length[30]',
+            'min_length[3]',
+            'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+        ],
     ];
 
     /**
@@ -220,9 +223,12 @@ class Auth extends BaseConfig
      * @var string[]
      */
     public array $emailValidationRules = [
-        'required',
-        'max_length[254]',
-        'valid_email',
+        'label' => 'Auth.email',
+        'rules' => [
+            'required',
+            'max_length[254]',
+            'valid_email',
+        ],
     ];
 
     /**
