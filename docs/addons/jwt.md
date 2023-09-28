@@ -109,7 +109,7 @@ The default claims will be included in all tokens issued by Shield.
 Set your secret key in the `$keys` property, or set it in your `.env` file.
 
 E.g.:
-```dotenv
+```text
 authjwt.keys.default.0.secret = 8XBFsF6HThIa7OV/bSynahEch+WbKrGcuiJVYPiwqPE=
 ```
 
