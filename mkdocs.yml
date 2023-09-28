@@ -64,15 +64,22 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.highlight:
       use_pygments: false
+  - admonition
+  - pymdownx.details
 
 extra_css:
-  - https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/github.min.css
+  - https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/styles/default.min.css
   - assets/css/dark_mode.css
 
 extra_javascript:
-  - https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js
+  - https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js
   - assets/js/hljs.js
+  - assets/js/curl.min.js
 
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
 nav:
   - Home: index.md
   - Getting Started:

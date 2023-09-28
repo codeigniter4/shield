@@ -56,8 +56,9 @@ public array $permissions = [
 In order to grant any permissions to a group, they must have the permission assigned to the group, within the `AuthGroups`
 config file, under the `$matrix` property.
 
-> **Note**
-> This defines **group-level permissons**.
+!!! note
+
+    This defines **group-level permissons**.
 
 The matrix is an associative array with the group name as the key,
 and an array of permissions that should be applied to that group.
@@ -121,10 +122,11 @@ if (! $user->hasPermission('users.create')) {
 }
 ```
 
-> **Note**
-> This method checks only **user-level permissions**, and does not check
-> group-level permissions. If you want to check if the user can do something,
-> use the `$user->can()` method instead.
+!!! note
+
+    This method checks only **user-level permissions**, and does not check
+    group-level permissions. If you want to check if the user can do something,
+    use the `$user->can()` method instead.
 
 #### Authorizing via Routes
 
@@ -151,9 +153,10 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], static function 
 
 Note that the options (`filter`) passed to the outer `group()` are not merged with the inner `group()` options.
 
-> **Note**
-> If you set more than one filter to a route, you need to enable
-> [Multiple Filters](https://codeigniter.com/user_guide/incoming/routing.html#multiple-filters).
+!!! note
+
+    If you set more than one filter to a route, you need to enable
+    [Multiple Filters](https://codeigniter.com/user_guide/incoming/routing.html#multiple-filters).
 
 ## Managing User Permissions
 
@@ -195,8 +198,9 @@ Returns all **user-level** permissions this user has assigned directly to them.
 $user->getPermissions();
 ```
 
-> **Note**
-> This method does not return **group-level permissions**.
+!!! note
+
+    This method does not return **group-level permissions**.
 
 ## Managing User Groups
 
@@ -249,8 +253,9 @@ if ($user->isActivated()) {
 }
 ```
 
-> **Note**
-> If no activator is specified in the `Auth` config file, `actions['register']` property, then this will always return `true`.
+!!! note
+
+    If no activator is specified in the `Auth` config file, `actions['register']` property, then this will always return `true`.
 
 You can check if a user has not been activated yet via the `isNotActivated()` method.
 

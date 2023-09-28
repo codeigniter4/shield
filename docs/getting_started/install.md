@@ -62,10 +62,10 @@ Require it with an explicit version constraint allowing its desired stability.
     php spark shield:setup
     ```
 
-    > **Note**
-    > If you want to customize table names, you must change the table names
-    > before running database migrations.
-    > See [Customizing Table Names](../customization/table_names.md).
+    !!! note
+
+        If you want to customize table names, you must change the table names before running database migrations.
+        See [Customizing Table Names](../customization/table_names.md).
 
 2. Configure **app/Config/Email.php** to allow Shield to send emails with the [Email Class](https://codeigniter.com/user_guide/libraries/email.html).
 
@@ -140,10 +140,10 @@ your project.
 
 5. **Migration** Run the migrations.
 
-    > **Note**
-    > If you want to customize table names, you must change the table names
-    > before running database migrations.
-    > See [Customizing Table Names](../customization/table_names.md).
+    !!! note
+
+        If you want to customize table names, you must change the table names before running database migrations.
+        See [Customizing Table Names](../customization/table_names.md).
 
     ```console
     php spark migrate --all

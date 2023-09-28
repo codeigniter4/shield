@@ -2,8 +2,9 @@
 
 ## Provided Filters
 
-> **Note**
-> These filters are already loaded for you by the [registrar](https://codeigniter.com/user_guide/general/configuration.html#registrars) class located at **src/Config/Registrar.php**.
+!!! note
+
+    These filters are already loaded for you by the [registrar](https://codeigniter.com/user_guide/general/configuration.html#registrars) class located at **src/Config/Registrar.php**.
 
 The [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can use to protect your routes Shield provides are:
 
@@ -83,8 +84,9 @@ public $globals = [
 ```
 In the example above, it is assumed that the page you have created for users to change their password after successful login is **change-password**.
 
-> **Note**
-> If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the **app/Config/Filter.php** file.
+!!! note
+
+    If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the **app/Config/Filter.php** file.
 
 For example, if you configured your routes like so:
 

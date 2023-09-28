@@ -1,16 +1,18 @@
 # Protecting an API with HMAC Keys
 
-> **Note**
-> For the purpose of this documentation and to maintain a level of consistency with the Authorization Tokens,
+!!! note
+
+    For the purpose of this documentation and to maintain a level of consistency with the Authorization Tokens,
     the term "Token" will be used to represent a set of API Keys (key and secretKey).
 
 HMAC Keys can be used to authenticate users for your own site, or when allowing third-party developers to access your
 API. When making requests using HMAC keys, the token should be included in the `Authorization` header as an
 `HMAC-SHA256` token.
 
-> **Note**
-> By default, `$authenticatorHeader['hmac']` is set to `Authorization`. You can change this value by
-> setting the `$authenticatorHeader['hmac']` value in the **app/Config/AuthToken.php** config file.
+!!! note
+
+    By default, `$authenticatorHeader['hmac']` is set to `Authorization`. You can change this value by
+    setting the `$authenticatorHeader['hmac']` value in the **app/Config/AuthToken.php** config file.
 
 Tokens are issued with the `generateHmacToken()` method on the user. This returns a
 `CodeIgniter\Shield\Entities\AccessToken` instance. These shared keys are saved to the database in plain text. The
@@ -63,9 +65,10 @@ $token = $user->generateHmacToken('token-name', ['users-read']);
 return json_encode(['key' => $token->secret, 'secretKey' => $token->secret2]);
 ```
 
-> **Note**
-> At this time, scope names should avoid using a colon (`:`) as this causes issues with the route filters being
-> correctly recognized.
+!!! note
+
+    At this time, scope names should avoid using a colon (`:`) as this causes issues with the route filters being
+    correctly recognized.
 
 When handling incoming requests you can check if the token has been granted access to the scope with the `hmacTokenCan()` method.
 
@@ -111,5 +114,6 @@ parses the raw token and looks it up the `key` portion in the database. Once fou
 to validate the remainder of the Authorization raw token.  If it passes the signature test it can determine the correct user,
 which will then be available through an `auth()->user()` call.
 
-> **Note**
-> Currently only a single scope can be used on a route filter. If multiple scopes are passed in, only the first one is checked.
+!!! note
+
+    Currently only a single scope can be used on a route filter. If multiple scopes are passed in, only the first one is checked.

@@ -42,4 +42,33 @@
     .hljs-subst {
         color: #ddba52
     }
+
+    .md-typeset .note > .admonition-title,
+    .md-typeset .note > summary {
+        background-color: #0000001a;
+    }
+
+    .md-typeset .admonition.note,
+    .md-typeset details.note {
+        border-color: #675647;
+    }
+
+    .md-typeset .note > .admonition-title:before,
+    .md-typeset .note > summary:before {
+        background-color: #65686d;
+        -webkit-mask-image: var(--md-admonition-icon--note);
+        mask-image: var(--md-admonition-icon--note);
+    }
+
+    .md-typeset .admonition.warning,
+    .md-typeset details.warning {
+        border-color: #776144;
+    }
+
+    .md-typeset .warning > .admonition-title:before,
+    .md-typeset .warning > summary:before {
+        background-color: #d9913bc2;
+        -webkit-mask-image: var(--md-admonition-icon--warning);
+        mask-image: var(--md-admonition-icon--warning);
+    }
 }
