@@ -1,0 +1,23 @@
+name: PHPUnit Lowest
+
+on:
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - '**.php'
+      - 'composer.*'
+      - 'phpunit*'
+      - '.github/workflows/phpunit-lowest.yml'
+  push:
+    branches:
+      - develop
+    paths:
+      - '**.php'
+      - 'composer.*'
+      - 'phpunit*'
+      - '.github/workflows/phpunit-lowest.yml'
+
+jobs:
+  phpunit:
+    uses: codeigniter4/.github/.github/workflows/phpunit-lowest.yml@main
