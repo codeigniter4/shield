@@ -9,12 +9,12 @@ use CodeIgniter\Shield\Config\Auth;
 
 class ValidationRules
 {
-    private Auth $config;
+    protected Auth $config;
 
     /**
      * Auth Table names
      */
-    private array $tables;
+    protected array $tables;
 
     public function __construct()
     {
