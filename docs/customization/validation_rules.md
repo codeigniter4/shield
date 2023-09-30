@@ -27,7 +27,11 @@ Shield has the following rules for registration by default:
     ],
     'password' => [
         'label' => 'Auth.password',
-        'rules' => 'required|max_byte[72]|strong_password[]',
+        'rules' => [
+                'required',
+                'max_byte[72]',
+                'strong_password[]',
+            ],
         'errors' => [
             'max_byte' => 'Auth.errorPasswordTooLongBytes'
         ]
@@ -98,8 +102,13 @@ Similar to the process for validation rules in the **Registration** section, you
 //--------------------------------------------------------------------
 public $login = [
     // 'username' => [
-    //     'label' =>  'Auth.username',
-    //     'rules' => 'required|max_length[30]|min_length[3]|regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+    //     'label' => 'Auth.username',
+    //     'rules' => [
+    //         'required',
+    //         'max_length[30]',
+    //         'min_length[3]',
+    //         'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+    //     ],
     // ],
     'email' => [
         'label' => 'Auth.email',
@@ -111,7 +120,10 @@ public $login = [
     ],
     'password' => [
         'label' => 'Auth.password',
-        'rules' => 'required|max_byte[72]',
+            'rules' => [
+                'required',
+                'max_byte[72]',
+            ],
         'errors' => [
             'max_byte' => 'Auth.errorPasswordTooLongBytes',
         ]

@@ -203,13 +203,18 @@ class Auth extends BaseConfig
      * The validation rules for username
      * --------------------------------------------------------------------
      *
-     * @var string[]
+     * Do not use string rules like `required|valid_email`.
+     *
+     * @var array<string, array<int, string>|string>
      */
     public array $usernameValidationRules = [
-        'required',
-        'max_length[30]',
-        'min_length[3]',
-        'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+        'label' => 'Auth.username',
+        'rules' => [
+            'required',
+            'max_length[30]',
+            'min_length[3]',
+            'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+        ],
     ];
 
     /**
@@ -217,12 +222,17 @@ class Auth extends BaseConfig
      * The validation rules for email
      * --------------------------------------------------------------------
      *
-     * @var string[]
+     * Do not use string rules like `required|valid_email`.
+     *
+     * @var array<string, array<int, string>|string>
      */
     public array $emailValidationRules = [
-        'required',
-        'max_length[254]',
-        'valid_email',
+        'label' => 'Auth.email',
+        'rules' => [
+            'required',
+            'max_length[254]',
+            'valid_email',
+        ],
     ];
 
     /**

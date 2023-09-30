@@ -13,7 +13,7 @@ use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User as UserEntity;
 use CodeIgniter\Shield\Exceptions\UserNotFoundException;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Shield\Validation\RegistrationValidationRules;
+use CodeIgniter\Shield\Validation\ValidationRules;
 use Config\Services;
 
 class User extends BaseCommand
@@ -219,9 +219,9 @@ class User extends BaseCommand
 
     private function setValidationRules(): void
     {
-        $validationRules = new RegistrationValidationRules();
+        $validationRules = new ValidationRules();
 
-        $rules = $validationRules->get();
+        $rules = $validationRules->getRegistrationRules();
 
         // Remove `strong_password` because it only supports use cases
         // to check the user's own password.
