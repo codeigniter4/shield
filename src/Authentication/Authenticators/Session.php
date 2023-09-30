@@ -336,30 +336,20 @@ class Session implements AuthenticatorInterface
         /** @var Passwords $passwords */
         $passwords = service('passwords');
 
-        // This is only for supportOldDangerousPassword.
-        $needsRehash = false;
-
         // Now, try matching the passwords.
         if (! $passwords->verify($givenPassword, $user->password_hash)) {
-            if (
-                ! setting('Auth.supportOldDangerousPassword')
-                || ! $passwords->verifyDanger($givenPassword, $user->password_hash) // @phpstan-ignore-line
-            ) {
                 return new Result([
                     'success' => false,
                     'reason'  => lang('Auth.invalidPassword'),
                 ]);
-            }
-
-            // Passed with old dangerous password.
-            $needsRehash = true;
+            
         }
 
         // Check to see if the password needs to be rehashed.
         // This would be due to the hash algorithm or hash
         // cost changing since the last time that a user
         // logged in.
-        if ($passwords->needsRehash($user->password_hash) || $needsRehash) {
+        if ($passwords->needsRehash($user->password_hash)) {
             $user->password_hash = $passwords->hash($givenPassword);
             $this->provider->save($user);
         }
