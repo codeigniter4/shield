@@ -69,6 +69,7 @@ abstract class AbstractFilterTestCase extends TestCase
             echo 'Open';
         });
         $routes->get('login', 'AuthController::login', ['as' => 'login']);
+        $routes->get('auth/a/show', 'AuthActionController::show', ['as' => 'auth-action-show']);
         $routes->get('protected-user-route', static function (): void {
             echo 'Protected';
         }, ['filter' => $this->alias . ':users-read']);
