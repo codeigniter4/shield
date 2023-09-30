@@ -130,7 +130,7 @@ class Session implements AuthenticatorInterface
         $result = $this->check($credentials);
 
         // Credentials mismatch.
-        if (!$result->isOK()) {
+        if (! $result->isOK()) {
             // Always record a login attempt, whether success or not.
             $this->recordLoginAttempt($credentials, false, $ipAddress, $userAgent);
 
@@ -173,7 +173,7 @@ class Session implements AuthenticatorInterface
 
         $this->issueRememberMeToken();
 
-        if (!$this->hasAction()) {
+        if (! $this->hasAction()) {
             $this->completeLogin($user);
         }
 
@@ -284,10 +284,10 @@ class Session implements AuthenticatorInterface
 
         $field = array_pop($field);
 
-        if (!in_array($field, ['email', 'username'], true)) {
+        if (! in_array($field, ['email', 'username'], true)) {
             $idType = $field;
         } else {
-            $idType = (!isset($credentials['email']) && isset($credentials['username']))
+            $idType = (! isset($credentials['email']) && isset($credentials['username']))
                 ? self::ID_TYPE_USERNAME
                 : self::ID_TYPE_EMAIL_PASSWORD;
         }
@@ -337,7 +337,7 @@ class Session implements AuthenticatorInterface
         $passwords = service('passwords');
 
         // Now, try matching the passwords.
-        if (!$passwords->verify($givenPassword, $user->password_hash)) {
+        if (! $passwords->verify($givenPassword, $user->password_hash)) {
             return new Result([
                 'success' => false,
                 'reason'  => lang('Auth.invalidPassword'),
@@ -885,7 +885,7 @@ class Session implements AuthenticatorInterface
      */
     public function recordActiveDate(): void
     {
-        if (!$this->user instanceof User) {
+        if (! $this->user instanceof User) {
             throw new InvalidArgumentException(
                 __METHOD__ . '() requires logged in user before calling.'
             );
