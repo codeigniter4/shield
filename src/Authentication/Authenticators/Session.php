@@ -102,8 +102,8 @@ class Session implements AuthenticatorInterface
         if ($securityConfig->csrfProtection === 'cookie') {
             throw new SecurityException(
                 'Config\Security::$csrfProtection is set to \'cookie\'.'
-                . ' Same-site attackers may bypass the CSRF protection.'
-                . ' Please set it to \'session\'.'
+                    . ' Same-site attackers may bypass the CSRF protection.'
+                    . ' Please set it to \'session\'.'
             );
         }
     }
@@ -137,7 +137,7 @@ class Session implements AuthenticatorInterface
         $result = $this->check($credentials);
 
         // Credentials mismatch.
-        if (! $result->isOK()) {
+        if (!$result->isOK()) {
             // Always record a login attempt, whether success or not.
             $this->recordLoginAttempt($credentials, false, $ipAddress, $userAgent);
 
@@ -180,7 +180,7 @@ class Session implements AuthenticatorInterface
 
         $this->issueRememberMeToken();
 
-        if (! $this->hasAction()) {
+        if (!$this->hasAction()) {
             $this->completeLogin($user);
         }
 
@@ -291,10 +291,10 @@ class Session implements AuthenticatorInterface
 
         $field = array_pop($field);
 
-        if (! in_array($field, ['email', 'username'], true)) {
+        if (!in_array($field, ['email', 'username'], true)) {
             $idType = $field;
         } else {
-            $idType = (! isset($credentials['email']) && isset($credentials['username']))
+            $idType = (!isset($credentials['email']) && isset($credentials['username']))
                 ? self::ID_TYPE_USERNAME
                 : self::ID_TYPE_EMAIL_PASSWORD;
         }
@@ -344,12 +344,11 @@ class Session implements AuthenticatorInterface
         $passwords = service('passwords');
 
         // Now, try matching the passwords.
-        if (! $passwords->verify($givenPassword, $user->password_hash)) {
-                return new Result([
-                    'success' => false,
-                    'reason'  => lang('Auth.invalidPassword'),
-                ]);
-            
+        if (!$passwords->verify($givenPassword, $user->password_hash)) {
+            return new Result([
+                'success' => false,
+                'reason'  => lang('Auth.invalidPassword'),
+            ]);
         }
 
         // Check to see if the password needs to be rehashed.
@@ -651,10 +650,10 @@ class Session implements AuthenticatorInterface
         if ($userId !== null) {
             throw new LogicException(
                 'The user has User Info in Session, so already logged in or in pending login state.'
-                . ' If a logged in user logs in again with other account, the session data of the previous'
-                . ' user will be used as the new user.'
-                . ' Fix your code to prevent users from logging in without logging out or delete the session data.'
-                . ' user_id: ' . $userId
+                    . ' If a logged in user logs in again with other account, the session data of the previous'
+                    . ' user will be used as the new user.'
+                    . ' Fix your code to prevent users from logging in without logging out or delete the session data.'
+                    . ' user_id: ' . $userId
             );
         }
 
@@ -739,18 +738,18 @@ class Session implements AuthenticatorInterface
         if ($this->getIdentitiesForAction($user) !== []) {
             throw new LogicException(
                 'The user has identities for action, so cannot complete login.'
-                . ' If you want to start to login with auth action, use startLogin() instead.'
-                . ' Or delete identities for action in database.'
-                . ' user_id: ' . $user->id
+                    . ' If you want to start to login with auth action, use startLogin() instead.'
+                    . ' Or delete identities for action in database.'
+                    . ' user_id: ' . $user->id
             );
         }
         // Check auth_action in Session
         if ($this->getSessionKey('auth_action')) {
             throw new LogicException(
                 'The user has auth action in session, so cannot complete login.'
-                . ' If you want to start to login with auth action, use startLogin() instead.'
-                . ' Or delete `auth_action` and `auth_action_message` in session data.'
-                . ' user_id: ' . $user->id
+                    . ' If you want to start to login with auth action, use startLogin() instead.'
+                    . ' Or delete `auth_action` and `auth_action_message` in session data.'
+                    . ' user_id: ' . $user->id
             );
         }
 
@@ -893,7 +892,7 @@ class Session implements AuthenticatorInterface
      */
     public function recordActiveDate(): void
     {
-        if (! $this->user instanceof User) {
+        if (!$this->user instanceof User) {
             throw new InvalidArgumentException(
                 __METHOD__ . '() requires logged in user before calling.'
             );
