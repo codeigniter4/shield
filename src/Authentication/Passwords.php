@@ -91,21 +91,6 @@ class Passwords
     }
 
     /**
-     * Verifies a password against a previously hashed password.
-     *
-     * @param string $password The password we're checking
-     * @param string $hash     The previously hashed password
-     *
-     * @deprecated This is only for backward compatibility.
-     */
-    public function verifyDanger(string $password, string $hash): bool
-    {
-        return password_verify(base64_encode(
-            hash('sha384', $password, true)
-        ), $hash);
-    }
-
-    /**
      * Checks to see if a password should be rehashed.
      */
     public function needsRehash(string $hashedPassword): bool

@@ -375,16 +375,6 @@ class Auth extends BaseConfig
     public int $hashCost = 12;
 
     /**
-     * If you need to support passwords saved in versions prior to Shield v1.0.0-beta.4.
-     * set this to true.
-     *
-     * See https://github.com/codeigniter4/shield/security/advisories/GHSA-c5vj-f36q-p9vg
-     *
-     * @deprecated This is only for backward compatibility.
-     */
-    public bool $supportOldDangerousPassword = false;
-
-    /**
      * ////////////////////////////////////////////////////////////////////
      * OTHER SETTINGS
      * ////////////////////////////////////////////////////////////////////

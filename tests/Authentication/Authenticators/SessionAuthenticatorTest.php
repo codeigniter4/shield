@@ -313,34 +313,6 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
         $this->assertSame($this->user->id, $foundUser->id);
     }
 
-    public function testCheckSuccessOldDangerousPassword(): void
-    {
-        /** @var Auth $config */
-        $config                              = config('Auth');
-        $config->supportOldDangerousPassword = true; // @phpstan-ignore-line
-
-        fake(
-            UserIdentityModel::class,
-            [
-                'user_id' => $this->user->id,
-                'type'    => Session::ID_TYPE_EMAIL_PASSWORD,
-                'secret'  => 'foo@example.com',
-                'secret2' => '$2y$10$WswjNNcR24cJvsXvBc5TveVVVQ9/EYC0eq.Ad9e/2cVnmeSEYBOEm',
-            ]
-        );
-
-        $result = $this->auth->check([
-            'email'    => 'foo@example.com',
-            'password' => 'passw0rd!',
-        ]);
-
-        $this->assertInstanceOf(Result::class, $result);
-        $this->assertTrue($result->isOK());
-
-        $foundUser = $result->extraInfo();
-        $this->assertSame($this->user->id, $foundUser->id);
-    }
-
     public function testAttemptCannotFindUser(): void
     {
         $result = $this->auth->attempt([
