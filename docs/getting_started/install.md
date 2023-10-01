@@ -136,7 +136,7 @@ your project.
     service('auth')->routes($routes);
     ```
 
-4. **Security Setup** Set `Config\Security::$csrfProtection` to `'session'` (or set `security.csrfProtection = session` in your **.env** file) for security reasons, if you use Session Authenticator.
+4. **Security Setup** Set `Config\Security::$csrfProtection` to `'session'` for security reasons, if you use Session Authenticator.
 
 5. **Migration** Run the migrations.
 
