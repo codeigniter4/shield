@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Test;
 
 use CodeIgniter\CLI\CLI;
-use CodeIgniter\CodeIgniter;
 use CodeIgniter\Shield\Commands\Utils\InputOutput;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Test\Filters\CITestStreamFilter;
@@ -52,23 +51,21 @@ final class MockInputOutput extends InputOutput
     {
         $input = array_shift($this->inputs);
 
-        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
-            CITestStreamFilter::registration();
-            CITestStreamFilter::addOutputFilter();
+        CITestStreamFilter::registration();
+        CITestStreamFilter::addOutputFilter();
 
-            PhpStreamWrapper::register();
-            PhpStreamWrapper::setContent($input);
+        PhpStreamWrapper::register();
+        PhpStreamWrapper::setContent($input);
 
-            $userInput = CLI::prompt($field, $options, $validation);
+        $userInput = CLI::prompt($field, $options, $validation);
 
-            PhpStreamWrapper::restore();
+        PhpStreamWrapper::restore();
 
-            CITestStreamFilter::removeOutputFilter();
-            CITestStreamFilter::removeErrorFilter();
+        CITestStreamFilter::removeOutputFilter();
+        CITestStreamFilter::removeErrorFilter();
 
-            if ($input !== $userInput) {
-                throw new LogicException($input . '!==' . $userInput);
-            }
+        if ($input !== $userInput) {
+            throw new LogicException($input . '!==' . $userInput);
         }
 
         return $input;
@@ -79,23 +76,13 @@ final class MockInputOutput extends InputOutput
         ?string $foreground = null,
         ?string $background = null
     ): void {
-        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
-            CITestStreamFilter::registration();
-            CITestStreamFilter::addOutputFilter();
-        } else {
-            CITestStreamFilter::$buffer = '';
-
-            $streamFilter = stream_filter_append(STDOUT, 'CITestStreamFilter');
-        }
+        CITestStreamFilter::registration();
+        CITestStreamFilter::addOutputFilter();
 
         CLI::write($text, $foreground, $background);
         $this->outputs[] = CITestStreamFilter::$buffer;
 
-        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
-            CITestStreamFilter::removeOutputFilter();
-            CITestStreamFilter::removeErrorFilter();
-        } else {
-            stream_filter_remove($streamFilter);
-        }
+        CITestStreamFilter::removeOutputFilter();
+        CITestStreamFilter::removeErrorFilter();
     }
 }

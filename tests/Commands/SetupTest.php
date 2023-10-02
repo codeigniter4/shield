@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Commands;
 
-use CodeIgniter\CodeIgniter;
 use CodeIgniter\Shield\Commands\Setup;
 use CodeIgniter\Test\Filters\CITestStreamFilter;
 use Config\Services;
@@ -16,31 +15,20 @@ use Tests\Support\TestCase;
  */
 final class SetupTest extends TestCase
 {
-    private $streamFilter;
-
     protected function setUp(): void
     {
         parent::setUp();
 
-        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
-            CITestStreamFilter::registration();
-            CITestStreamFilter::addOutputFilter();
-        } else {
-            CITestStreamFilter::$buffer = '';
-            $this->streamFilter         = stream_filter_append(STDOUT, 'CITestStreamFilter');
-        }
+        CITestStreamFilter::registration();
+        CITestStreamFilter::addOutputFilter();
     }
 
     protected function tearDown(): void
     {
         parent::tearDown();
 
-        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
-            CITestStreamFilter::removeOutputFilter();
-            CITestStreamFilter::removeErrorFilter();
-        } else {
-            stream_filter_remove($this->streamFilter);
-        }
+        CITestStreamFilter::removeOutputFilter();
+        CITestStreamFilter::removeErrorFilter();
     }
 
     public function testRun(): void

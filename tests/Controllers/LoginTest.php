@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Controllers;
 
-use CodeIgniter\CodeIgniter;
 use CodeIgniter\Config\Factories;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\Email2FA;
@@ -110,11 +109,7 @@ final class LoginTest extends DatabaseTestCase
 
     public function testLoginActionEmailSuccess(): void
     {
-        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
-            Time::setTestNow('March 10, 2017', 'UTC');
-        } else {
-            Time::setTestNow('March 10, 2017', 'America/Chicago');
-        }
+        Time::setTestNow('March 10, 2017', 'UTC');
 
         $this->user->createEmailIdentity([
             'email'    => 'foo@example.com',
@@ -166,11 +161,7 @@ final class LoginTest extends DatabaseTestCase
 
     public function testLoginActionUsernameSuccess(): void
     {
-        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
-            Time::setTestNow('March 10, 2017', 'UTC');
-        } else {
-            Time::setTestNow('March 10, 2017', 'America/Chicago');
-        }
+        Time::setTestNow('March 10, 2017', 'UTC');
 
         // Add 'username' to $validFields
         $authConfig                = config('Auth');
