@@ -55,6 +55,7 @@ class EmailActivator implements ActionInterface
         $date      = Time::now()->toDateTimeString();
 
         // Send the email
+        helper('email');
         $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
         $email->setTo($userEmail);
         $email->setSubject(lang('Auth.emailActivateSubject'));

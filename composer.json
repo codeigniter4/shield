@@ -53,8 +53,7 @@
             "CodeIgniter\\Shield\\": "src"
         },
         "files": [
-            "src/Helpers/auth_helper.php",
-            "src/Helpers/email_helper.php"
+            "src/Helpers/auth_helper.php"
         ],
         "exclude-from-classmap": [
             "**/Database/Migrations/**"
