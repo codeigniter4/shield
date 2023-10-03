@@ -49,12 +49,7 @@ final class SetupTest extends TestCase
             'y',
         ]);
 
-        $root = vfsStream::setup('root');
-        vfsStream::copyFromFileSystem(
-            APPPATH,
-            $root
-        );
-        $appFolder = $root->url() . '/';
+        $appFolder = $this->createFilesystem();
 
         $command = new Setup(Services::logger(), Services::commands());
 
@@ -76,7 +71,7 @@ final class SetupTest extends TestCase
         $security = file_get_contents($appFolder . 'Config/Security.php');
         $this->assertStringContainsString('$csrfProtection = \'session\';', $security);
 
-        $result = str_replace(["\033[0;32m", "\033[0m"], '', $this->io->getOutputs());
+        $result = $this->getOutputWithoutColorCode();
 
         $this->assertStringContainsString(
             '  Created: vfs://root/Config/Auth.php
@@ -103,12 +98,7 @@ final class SetupTest extends TestCase
         $config->fromEmail = 'admin@example.com';
         $config->fromName  = 'Site Admin';
 
-        $root = vfsStream::setup('root');
-        vfsStream::copyFromFileSystem(
-            APPPATH,
-            $root
-        );
-        $appFolder = $root->url() . '/';
+        $appFolder = $this->createFilesystem();
 
         $command = new Setup(Services::logger(), Services::commands());
 
@@ -116,7 +106,7 @@ final class SetupTest extends TestCase
 
         $command->run([]);
 
-        $result = str_replace(["\033[0;32m", "\033[0m"], '', $this->io->getOutputs());
+        $result = $this->getOutputWithoutColorCode();
 
         $this->assertStringContainsString(
             '  Created: vfs://root/Config/Auth.php
@@ -127,5 +117,24 @@ final class SetupTest extends TestCase
   Updated: We have updated file \'vfs://root/Config/Security.php\' for security reasons.',
             $result
         );
+    }
+
+    /**
+     * @return string app folder path
+     */
+    private function createFilesystem(): string
+    {
+        $root = vfsStream::setup('root');
+        vfsStream::copyFromFileSystem(
+            APPPATH,
+            $root
+        );
+
+        return $root->url() . '/';
+    }
+
+    private function getOutputWithoutColorCode(): string
+    {
+        return str_replace(["\033[0;32m", "\033[0m"], '', $this->io->getOutputs());
     }
 }
