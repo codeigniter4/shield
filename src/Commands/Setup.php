@@ -4,28 +4,15 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Commands;
 
-use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
-use CodeIgniter\CodeIgniter;
 use CodeIgniter\Commands\Database\Migrate;
 use CodeIgniter\Shield\Commands\Setup\ContentReplacer;
-use CodeIgniter\Shield\Commands\Utils\InputOutput;
 use CodeIgniter\Test\Filters\CITestStreamFilter;
 use Config\Email as EmailConfig;
 use Config\Services;
 
 class Setup extends BaseCommand
 {
-    private static ?InputOutput $io = null;
-
-    /**
-     * The group the command is lumped under
-     * when listing commands.
-     *
-     * @var string
-     */
-    protected $group = 'Shield';
-
     /**
      * The Command's name
      *
@@ -401,49 +388,5 @@ class Setup extends BaseCommand
         $this->write($output);
 
         CITestStreamFilter::$buffer = '';
-    }
-
-    private function prompt(string $field, $options = null, $validation = null): string
-    {
-        return self::$io->prompt($field, $options, $validation);
-    }
-
-    private function write(
-        string $text = '',
-        ?string $foreground = null,
-        ?string $background = null
-    ): void {
-        self::$io->write($text, $foreground, $background);
-    }
-
-    private function error(
-        string $text,
-        string $foreground = 'light_red',
-        ?string $background = null
-    ): void {
-        self::$io->error($text, $foreground, $background);
-    }
-
-    private function ensureInputOutput(): void
-    {
-        if (self::$io === null) {
-            self::$io = new InputOutput();
-        }
-    }
-
-    /**
-     * @internal Testing purpose only
-     */
-    public static function setInputOutput(InputOutput $io): void
-    {
-        self::$io = $io;
-    }
-
-    /**
-     * @internal Testing purpose only
-     */
-    public static function resetInputOutput(): void
-    {
-        self::$io = null;
     }
 }
