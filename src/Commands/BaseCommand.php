@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\BaseCommand as FrameworkBaseCommand;
+use CodeIgniter\CLI\Commands;
 use CodeIgniter\Shield\Commands\Utils\InputOutput;
+use Psr\Log\LoggerInterface;
 
 abstract class BaseCommand extends FrameworkBaseCommand
 {
@@ -18,6 +20,13 @@ abstract class BaseCommand extends FrameworkBaseCommand
      * @var string
      */
     protected $group = 'Shield';
+
+    public function __construct(LoggerInterface $logger, Commands $commands)
+    {
+        parent::__construct($logger, $commands);
+
+        $this->ensureInputOutput();
+    }
 
     /**
      * Asks the user for input.

@@ -126,7 +126,6 @@ class User extends BaseCommand
      */
     public function run(array $params): int
     {
-        $this->ensureInputOutput();
         $this->setTables();
         $this->setValidationRules();
 
