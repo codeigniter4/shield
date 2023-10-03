@@ -175,7 +175,7 @@ class Setup extends BaseCommand
                 ! $overwrite
                 && $this->prompt("  File '{$cleanPath}' already exists in destination. Overwrite?", ['n', 'y']) === 'n'
             ) {
-                CLI::error("  Skipped {$cleanPath}. If you wish to overwrite, please use the '-f' option or reply 'y' to the prompt.");
+                $this->error("  Skipped {$cleanPath}. If you wish to overwrite, please use the '-f' option or reply 'y' to the prompt.");
 
                 return;
             }
@@ -184,7 +184,7 @@ class Setup extends BaseCommand
         if (write_file($path, $content)) {
             $this->write(CLI::color('  Created: ', 'green') . $cleanPath);
         } else {
-            CLI::error("  Error creating {$cleanPath}.");
+            $this->error("  Error creating {$cleanPath}.");
         }
     }
 
@@ -202,12 +202,12 @@ class Setup extends BaseCommand
         $output = $this->replacer->add($content, $code, $pattern, $replace);
 
         if ($output === true) {
-            CLI::error("  Skipped {$cleanPath}. It has already been updated.");
+            $this->error("  Skipped {$cleanPath}. It has already been updated.");
 
             return;
         }
         if ($output === false) {
-            CLI::error("  Error checking {$cleanPath}.");
+            $this->error("  Error checking {$cleanPath}.");
 
             return;
         }
@@ -215,7 +215,7 @@ class Setup extends BaseCommand
         if (write_file($path, $output)) {
             $this->write(CLI::color('  Updated: ', 'green') . $cleanPath);
         } else {
-            CLI::error("  Error updating {$cleanPath}.");
+            $this->error("  Error updating {$cleanPath}.");
         }
     }
 
@@ -244,7 +244,7 @@ class Setup extends BaseCommand
             return true;
         }
 
-        CLI::error("  Error updating {$cleanPath}.");
+        $this->error("  Error updating {$cleanPath}.");
 
         return false;
     }
@@ -294,7 +294,7 @@ class Setup extends BaseCommand
         $cleanPath = clean_path($path);
 
         if (! is_file($path)) {
-            CLI::error("  Not found file '{$cleanPath}'.");
+            $this->error("  Not found file '{$cleanPath}'.");
 
             return;
         }
@@ -312,7 +312,7 @@ class Setup extends BaseCommand
         if (write_file($path, $output)) {
             $this->write(CLI::color('  Updated: ', 'green') . "We have updated file '{$cleanPath}' for security reasons.");
         } else {
-            CLI::error("  Error updating file '{$cleanPath}'.");
+            $this->error("  Error updating file '{$cleanPath}'.");
         }
     }
 
@@ -324,7 +324,7 @@ class Setup extends BaseCommand
         $cleanPath = clean_path($path);
 
         if (! is_file($path)) {
-            CLI::error("  Not found file '{$cleanPath}'.");
+            $this->error("  Not found file '{$cleanPath}'.");
 
             return;
         }
@@ -370,7 +370,7 @@ class Setup extends BaseCommand
         if (write_file($path, $output)) {
             $this->write(CLI::color('  Updated: ', 'green') . $cleanPath);
         } else {
-            CLI::error("  Error updating file '{$cleanPath}'.");
+            $this->error("  Error updating file '{$cleanPath}'.");
         }
     }
 
@@ -414,6 +414,14 @@ class Setup extends BaseCommand
         ?string $background = null
     ): void {
         self::$io->write($text, $foreground, $background);
+    }
+
+    private function error(
+        string $text,
+        string $foreground = 'light_red',
+        ?string $background = null
+    ): void {
+        self::$io->error($text, $foreground, $background);
     }
 
     private function ensureInputOutput(): void
