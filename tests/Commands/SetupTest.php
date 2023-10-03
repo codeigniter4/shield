@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Commands;
 
 use CodeIgniter\Shield\Commands\Setup;
-use CodeIgniter\Test\Filters\CITestStreamFilter;
+use CodeIgniter\Shield\Test\MockInputOutput;
 use Config\Services;
 use org\bovigo\vfs\vfsStream;
 use Tests\Support\TestCase;
@@ -15,24 +15,40 @@ use Tests\Support\TestCase;
  */
 final class SetupTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        CITestStreamFilter::registration();
-        CITestStreamFilter::addOutputFilter();
-    }
+    private ?MockInputOutput $io = null;
+    private $streamFilter;
 
     protected function tearDown(): void
     {
         parent::tearDown();
 
-        CITestStreamFilter::removeOutputFilter();
-        CITestStreamFilter::removeErrorFilter();
+        Setup::resetInputOutput();
+    }
+
+    /**
+     * Set MockInputOutput and user inputs.
+     *
+     * @param array<int, string> $inputs User inputs
+     * @phpstan-param list<string> $inputs
+     */
+    private function setMockIo(array $inputs): void
+    {
+        $this->io = new MockInputOutput();
+        $this->io->setInputs($inputs);
+        Setup::setInputOutput($this->io);
     }
 
     public function testRun(): void
     {
+        // Set MockIO and your inputs.
+        $this->setMockIo([
+            'y',
+            'admin@example.com',
+            'y',
+            'Site Administrator',
+            'y',
+        ]);
+
         $root = vfsStream::setup('root');
         vfsStream::copyFromFileSystem(
             APPPATH,
@@ -40,13 +56,7 @@ final class SetupTest extends TestCase
         );
         $appFolder = $root->url() . '/';
 
-        $command = $this->getMockBuilder(Setup::class)
-            ->setConstructorArgs([Services::logger(), Services::commands()])
-            ->onlyMethods(['cliPrompt'])
-            ->getMock();
-        $command
-            ->method('cliPrompt')
-            ->willReturn('y');
+        $command = new Setup(Services::logger(), Services::commands());
 
         $this->setPrivateProperty($command, 'distPath', $appFolder);
 
@@ -66,7 +76,7 @@ final class SetupTest extends TestCase
         $security = file_get_contents($appFolder . 'Config/Security.php');
         $this->assertStringContainsString('$csrfProtection = \'session\';', $security);
 
-        $result = str_replace(["\033[0;32m", "\033[0m"], '', CITestStreamFilter::$buffer);
+        $result = str_replace(["\033[0;32m", "\033[0m"], '', $this->io->getOutputs());
 
         $this->assertStringContainsString(
             '  Created: vfs://root/Config/Auth.php
@@ -74,7 +84,8 @@ final class SetupTest extends TestCase
   Created: vfs://root/Config/AuthToken.php
   Updated: vfs://root/Controllers/BaseController.php
   Updated: vfs://root/Config/Routes.php
-  Updated: We have updated file \'vfs://root/Config/Security.php\' for security reasons.',
+  Updated: We have updated file \'vfs://root/Config/Security.php\' for security reasons.
+  Updated: vfs://root/Config/Email.php',
             $result
         );
         $this->assertStringContainsString(
