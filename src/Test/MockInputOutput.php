@@ -53,6 +53,7 @@ final class MockInputOutput extends InputOutput
 
         CITestStreamFilter::registration();
         CITestStreamFilter::addOutputFilter();
+        CITestStreamFilter::addErrorFilter();
 
         PhpStreamWrapper::register();
         PhpStreamWrapper::setContent($input);
