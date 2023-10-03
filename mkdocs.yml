@@ -80,6 +80,20 @@ plugins:
   - search
   - git-revision-date-localized:
       enable_creation_date: true
+  - redirects:
+      redirect_maps:
+        'auth_actions.md': 'references/authentication/auth_actions.md'
+        'authentication.md': 'references/authentication/authentication.md'
+        'authorization.md': 'references/authorization.md'
+        'banning_users.md': 'user_management/banning_users.md'
+        'concepts.md': 'getting_started/concepts.md'
+        'customization.md': 'customization/table_names.md'
+        'events.md': 'references/events.md'
+        'forcing_password_reset.md': 'user_management/forcing_password_reset.md'
+        'install.md': 'getting_started/install.md'
+        'quickstart.md': 'quick_start_guide/using_session_auth.md'
+        'session_auth_event_and_logging.md': 'references/authentication/session.md'
+        'testing.md': 'references/testing.md'
 nav:
   - Home: index.md
   - Getting Started:
