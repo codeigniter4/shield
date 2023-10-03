@@ -58,7 +58,7 @@ final class SessionFilterTest extends AbstractFilterTestCase
         $this->assertGreaterThan(auth('session')->user()->updated_at, auth('session')->user()->last_active);
     }
 
-    public function testBlocksInactiveUsers(): void
+    public function testBlocksInactiveUsersAndRedirectsToAuthAction(): void
     {
         $user = fake(UserModel::class, ['active' => false]);
 
@@ -77,7 +77,7 @@ final class SessionFilterTest extends AbstractFilterTestCase
         $result = $this->actingAs($user)
             ->get('protected-route');
 
-        $result->assertRedirectTo('/login');
+        $result->assertRedirectTo('/auth/a/show');
         // User should be logged out
         $this->assertNull(auth('session')->id());
 
