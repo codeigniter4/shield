@@ -43,3 +43,20 @@ jobs:
             See  [unit testing][1] for more info.
 
             [1]: https://github.com/codeigniter4/CodeIgniter4/blob/develop/contributing/pull_request.md#unit-testing
+            
+  add-comment-for-conflict:
+    if: github.event.label.name == 'stale'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Add comment for resolving a merge conflict
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            We detected conflicts in your PR against the base branch :speak_no_evil:
+            You may want to sync :arrows_counterclockwise: your branch with upstream!
+            See [resolving a merge conflict using the Git][1] for more info.
+
+            [1]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/resolving-a-merge-conflict-using-the-command-line
