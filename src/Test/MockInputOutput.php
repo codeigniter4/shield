@@ -85,4 +85,15 @@ final class MockInputOutput extends InputOutput
         CITestStreamFilter::removeOutputFilter();
         CITestStreamFilter::removeErrorFilter();
     }
+
+    public function error(string $text, string $foreground = 'light_red', ?string $background = null): void
+    {
+        CITestStreamFilter::registration();
+        CITestStreamFilter::addErrorFilter();
+
+        CLI::error($text, $foreground, $background);
+        $this->outputs[] = CITestStreamFilter::$buffer;
+
+        CITestStreamFilter::removeErrorFilter();
+    }
 }
