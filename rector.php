@@ -20,6 +20,7 @@ use Rector\CodingStyle\Rector\ClassMethod\MakeInheritedMethodVisibilitySameAsPar
 use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
 use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
+use Rector\DeadCode\Rector\Cast\RecastingRemovalRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPromotedPropertyRector;
 use Rector\DeadCode\Rector\If_\UnwrapFutureCompatibleIfPhpVersionRector;
 use Rector\DeadCode\Rector\Property\RemoveUnusedPrivatePropertyRector;
@@ -108,6 +109,11 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__ . '/tests/Commands/SetupTest.php',
             __DIR__ . '/tests/Commands/UserModelGeneratorTest.php',
             __DIR__ . '/tests/Controllers/LoginTest.php',
+        ],
+
+        RecastingRemovalRector::class => [
+            // To check old Email Config file
+            __DIR__ . '/src/Commands/Setup.php',
         ],
     ]);
 
