@@ -316,7 +316,7 @@ class Setup extends BaseCommand
             return;
         }
 
-        $config    = new EmailConfig();
+        $config    = config(EmailConfig::class);
         $fromEmail = (string) $config->fromEmail; // Old Config may return null.
         $fromName  = (string) $config->fromName;
 
