@@ -5,7 +5,7 @@ These instructions assume that you have already [installed the CodeIgniter 4 app
 ## Requirements
 
 - [Composer](https://getcomposer.org)
-- Codeigniter **v4.2.7** or later
+- Codeigniter **v4.3.5** or later
 - A created database that you can access via the Spark CLI script
   - InnoDB (not MyISAM) is required if MySQL is used.
 

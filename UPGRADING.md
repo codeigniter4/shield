@@ -2,6 +2,12 @@
 
 ## Version 1.0.0-beta.6 to 1.0.0-beta.7
 
+### The minimum CodeIgniter version
+
+Shield requires CodeIgniter 4.3.5 or later.
+Versions prior to 4.3.5 have known vulnerabilities.
+See https://github.com/codeigniter4/CodeIgniter4/security/advisories
+
 ### Mandatory Config Changes
 
 #### New Config\AuthToken

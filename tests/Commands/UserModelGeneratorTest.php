@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Commands;
 
-use CodeIgniter\CodeIgniter;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\Filters\CITestStreamFilter;
 
@@ -13,22 +12,13 @@ use CodeIgniter\Test\Filters\CITestStreamFilter;
  */
 final class UserModelGeneratorTest extends CIUnitTestCase
 {
-    private $streamFilter;
-
     protected function setUp(): void
     {
         parent::setUp();
 
-        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
-            CITestStreamFilter::registration();
-            CITestStreamFilter::addOutputFilter();
-            CITestStreamFilter::addErrorFilter();
-        } else {
-            CITestStreamFilter::$buffer = '';
-
-            $this->streamFilter = stream_filter_append(STDOUT, 'CITestStreamFilter');
-            $this->streamFilter = stream_filter_append(STDERR, 'CITestStreamFilter');
-        }
+        CITestStreamFilter::registration();
+        CITestStreamFilter::addOutputFilter();
+        CITestStreamFilter::addErrorFilter();
 
         if (is_file(HOMEPATH . 'src/Models/UserModel.php')) {
             copy(HOMEPATH . 'src/Models/UserModel.php', HOMEPATH . 'src/Models/UserModel.php.bak');
@@ -41,12 +31,8 @@ final class UserModelGeneratorTest extends CIUnitTestCase
     {
         parent::tearDown();
 
-        if (version_compare(CodeIgniter::CI_VERSION, '4.3.0', '>=')) {
-            CITestStreamFilter::removeOutputFilter();
-            CITestStreamFilter::removeErrorFilter();
-        } else {
-            stream_filter_remove($this->streamFilter);
-        }
+        CITestStreamFilter::removeOutputFilter();
+        CITestStreamFilter::removeErrorFilter();
 
         $this->deleteTestFiles();
 
