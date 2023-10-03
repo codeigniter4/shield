@@ -16,13 +16,19 @@ The primary goals for Shield are:
 
 ### Important Features 🌠
 
-* Session-based authentication (traditional ID/Password with Remember-me)
-* Stateless authentication using Personal Access Tokens
-* Optional Email verification on account registration
-* Optional Email-based Two-Factor Authentication after login
-* Magic Link Login when a user forgets their password
-* Flexible Groups-based access control (think Roles, but more flexible)
-* Users can be granted additional Permissions
+* **Session-based Authentication** (traditional **ID/Password** with **Remember-me**)
+* **Stateless Authentication** using **Access Token**, **HMAC SHA256 Token**, or **JWT**
+* Optional **Email verification** on account registration
+* Optional **Email-based Two-Factor Authentication** after login
+* **Magic Link Login** when a user forgets their password
+* Flexible **Group-based Access Control** (think Roles, but more flexible), and users can be granted additional **Permissions**
+* A simple **Auth Helper** that provides access to the most common auth actions
+* Save initial settings in your code, so it can be in version control, but can also be updated in the database, thanks to our [Settings](https://github.com/codeigniter4/settings) library
+* Highly configurable
+* **User Entity** and **User Provider** (`UserModel`) ready for you to use or extend
+* Built to extend and modify
+    * Easily extendable controllers
+    * All required views that can be used as is or swapped out for your own
 
 ### License 📑
 
