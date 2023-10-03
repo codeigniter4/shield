@@ -135,6 +135,12 @@ final class SetupTest extends TestCase
 
     private function getOutputWithoutColorCode(): string
     {
-        return str_replace(["\033[0;32m", "\033[0m"], '', $this->io->getOutputs());
+        $output = str_replace(["\033[0;32m", "\033[0m"], '', $this->io->getOutputs());
+
+        if (is_windows()) {
+            $output = str_replace("\r\n", "\n", $output);
+        }
+
+        return $output;
     }
 }
