@@ -16,7 +16,6 @@ use Tests\Support\TestCase;
 final class SetupTest extends TestCase
 {
     private ?MockInputOutput $io = null;
-    private $streamFilter;
 
     protected function tearDown(): void
     {
