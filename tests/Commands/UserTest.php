@@ -37,6 +37,17 @@ final class UserTest extends DatabaseTestCase
         User::setInputOutput($this->io);
     }
 
+    private function getOutputWithoutColorCode(): string
+    {
+        $output = str_replace(["\033[0;32m", "\033[0m"], '', $this->io->getOutputs());
+
+        if (is_windows()) {
+            $output = str_replace("\r\n", "\n", $output);
+        }
+
+        return $output;
+    }
+
     public function testNoAction(): void
     {
         $this->setMockIo([]);
@@ -466,7 +477,7 @@ final class UserTest extends DatabaseTestCase
 1	user8 (user8@example.com)
 2	user9 (user9@example.com)
 ',
-            $this->io->getOutputs()
+            $this->getOutputWithoutColorCode()
         );
     }
 
@@ -491,7 +502,7 @@ final class UserTest extends DatabaseTestCase
             'Id	User
 2	user9 (user9@example.com)
 ',
-            $this->io->getOutputs()
+            $this->getOutputWithoutColorCode()
         );
     }
 
