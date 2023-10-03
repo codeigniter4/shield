@@ -6,6 +6,7 @@ namespace Tests\Commands;
 
 use CodeIgniter\Shield\Commands\Setup;
 use CodeIgniter\Shield\Test\MockInputOutput;
+use Config\Email as EmailConfig;
 use Config\Services;
 use org\bovigo\vfs\vfsStream;
 use Tests\Support\TestCase;
@@ -89,6 +90,41 @@ final class SetupTest extends TestCase
         );
         $this->assertStringContainsString(
             'Running all new migrations...',
+            $result
+        );
+    }
+
+    public function testRunEmailConfigIsFine(): void
+    {
+        // Set MockIO and your inputs.
+        $this->setMockIo(['y']);
+
+        $config            = config(EmailConfig::class);
+        $config->fromEmail = 'admin@example.com';
+        $config->fromName  = 'Site Admin';
+
+        $root = vfsStream::setup('root');
+        vfsStream::copyFromFileSystem(
+            APPPATH,
+            $root
+        );
+        $appFolder = $root->url() . '/';
+
+        $command = new Setup(Services::logger(), Services::commands());
+
+        $this->setPrivateProperty($command, 'distPath', $appFolder);
+
+        $command->run([]);
+
+        $result = str_replace(["\033[0;32m", "\033[0m"], '', $this->io->getOutputs());
+
+        $this->assertStringContainsString(
+            '  Created: vfs://root/Config/Auth.php
+  Created: vfs://root/Config/AuthGroups.php
+  Created: vfs://root/Config/AuthToken.php
+  Updated: vfs://root/Controllers/BaseController.php
+  Updated: vfs://root/Config/Routes.php
+  Updated: We have updated file \'vfs://root/Config/Security.php\' for security reasons.',
             $result
         );
     }
