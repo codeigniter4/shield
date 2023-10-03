@@ -124,16 +124,8 @@ your project.
 
     class Email extends BaseConfig
     {
-        /**
-         * @var string
-         */
-        public $fromEmail = 'your_mail@example.com';
-
-        /**
-         * @var string
-         */
-        public $fromName = 'your name';
-
+        public string $fromEmail  = 'your_mail@example.com';
+        public string $fromName   = 'your name';
         // ...
     }
     ```
