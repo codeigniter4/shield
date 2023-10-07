@@ -32,4 +32,12 @@ class InputOutput
     ): void {
         CLI::write($text, $foreground, $background);
     }
+
+    /**
+     * Outputs an error to the CLI using STDERR instead of STDOUT
+     */
+    public function error(string $text, string $foreground = 'light_red', ?string $background = null): void
+    {
+        CLI::error($text, $foreground, $background);
+    }
 }

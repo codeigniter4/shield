@@ -53,6 +53,7 @@ final class MockInputOutput extends InputOutput
 
         CITestStreamFilter::registration();
         CITestStreamFilter::addOutputFilter();
+        CITestStreamFilter::addErrorFilter();
 
         PhpStreamWrapper::register();
         PhpStreamWrapper::setContent($input);
@@ -83,6 +84,16 @@ final class MockInputOutput extends InputOutput
         $this->outputs[] = CITestStreamFilter::$buffer;
 
         CITestStreamFilter::removeOutputFilter();
+    }
+
+    public function error(string $text, string $foreground = 'light_red', ?string $background = null): void
+    {
+        CITestStreamFilter::registration();
+        CITestStreamFilter::addErrorFilter();
+
+        CLI::error($text, $foreground, $background);
+        $this->outputs[] = CITestStreamFilter::$buffer;
+
         CITestStreamFilter::removeErrorFilter();
     }
 }
