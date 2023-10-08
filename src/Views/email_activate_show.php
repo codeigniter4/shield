@@ -15,7 +15,7 @@
 
             <p><?= lang('Auth.emailActivateBody') ?></p>
 
-            <form action="<?= site_url('auth/a/verify') ?>" method="post">
+            <form action="<?= url_to('auth-action-verify') ?>" method="post">
                 <?= csrf_field() ?>
 
                 <!-- Code -->
