@@ -31,7 +31,6 @@ use Rector\EarlyReturn\Rector\If_\RemoveAlwaysElseRector;
 use Rector\EarlyReturn\Rector\Return_\PreparedValueToEarlyReturnRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
-use Rector\Php73\Rector\FuncCall\StringifyStrNeedlesRector;
 use Rector\PHPUnit\AnnotationsToAttributes\Rector\Class_\AnnotationWithValueToAttributeRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\YieldDataProviderRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
@@ -82,7 +81,6 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__ . '/src/Views',
 
         JsonThrowOnErrorRector::class,
-        StringifyStrNeedlesRector::class,
         YieldDataProviderRector::class,
 
         // Note: requires php 8
