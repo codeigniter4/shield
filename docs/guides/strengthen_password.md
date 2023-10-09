@@ -15,13 +15,12 @@ It is the recommended minimum value by NIST. However, some organizations recomme
 
 The longer the password, the stronger it is. Consider increasing the value.
 
-> **Note**
->
-> This checking works when you validate passwords with the `strong_password`
-> validation rule.
->
-> If you disable `CompositionValidator` (enabled by default) in `$passwordValidators`,
-> this checking will not work.
+!!! note
+
+    This checking works when you validate passwords with the `strong_password[]`
+    validation rule.
+    If you disable `CompositionValidator` (enabled by default) in `$passwordValidators`,
+    this checking will not work.
 
 ## Password Hashing Algorithm
 
@@ -107,7 +106,7 @@ By default, Shield has the validation rules for maximum password length.
 - 72 bytes for PASSWORD_BCRYPT
 - 255 characters for others
 
-You can customize the validation rule. See [Customizing Shield](../customization.md).
+You can customize the validation rule. See [Customizing Validation Rules](../customization/validation_rules.md).
 
 ## $supportOldDangerousPassword
 
@@ -117,6 +116,6 @@ setting for using passwords stored in older versions of Shield that were [vulner
 This setting is deprecated.  If you have this setting set to `true`, you should change
 it to `false` as soon as possible, and remove old hashed password in your database.
 
-> **Note**
->
-> This setting will be removed in v1.0.0 official release.
+!!! note
+
+    This setting will be removed in v1.0.0 official release.

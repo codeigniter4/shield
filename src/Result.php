@@ -13,7 +13,7 @@ class Result
     /**
      * Provides a simple explanation of
      * the error that happened.
-     * Typically a single sentence.
+     * Typically, a single sentence.
      */
     protected ?string $reason = null;
 

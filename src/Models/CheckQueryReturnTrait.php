@@ -32,7 +32,7 @@ trait CheckQueryReturnTrait
 
     protected function checkValidationError(): void
     {
-        $validationErrors = $this->getValidationErrors();
+        $validationErrors = $this->validation->getErrors();
 
         if ($validationErrors !== []) {
             $message = 'Validation error:';
@@ -43,27 +43,6 @@ trait CheckQueryReturnTrait
 
             throw new ValidationException($message);
         }
-    }
-
-    /**
-     * Gets real validation errors that are not saved in the Session.
-     *
-     * @return string[]
-     */
-    protected function getValidationErrors(): array
-    {
-        // @TODO When CI v4.3 is released, you don't need this hack.
-        //       See https://github.com/codeigniter4/CodeIgniter4/pull/6384
-        return $this->getValidationPropertyErrors();
-    }
-
-    protected function getValidationPropertyErrors(): array
-    {
-        $refClass    = new ReflectionObject($this->validation);
-        $refProperty = $refClass->getProperty('errors');
-        $refProperty->setAccessible(true);
-
-        return $refProperty->getValue($this->validation);
     }
 
     protected function disableDBDebug(): void

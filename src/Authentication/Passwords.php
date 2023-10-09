@@ -143,7 +143,7 @@ class Passwords
     /**
      * Returns the validation rule for max length.
      */
-    public static function getMaxLenghtRule(): string
+    public static function getMaxLengthRule(): string
     {
         if (config('Auth')->hashAlgorithm === PASSWORD_BCRYPT) {
             return 'max_byte[72]';

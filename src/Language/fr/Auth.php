@@ -30,6 +30,7 @@ return [
     'password'        => 'Mot de passe',
     'passwordConfirm' => 'Mot de passe (répéter)',
     'haveAccount'     => 'Vous avez déjà un compte ?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Confirmer',
@@ -51,7 +52,9 @@ return [
     'magicLinkExpired'   => 'Désolé, le lien a expiré.',
     'checkYourEmail'     => 'Vérifier votre email !',
     'magicLinkDetails'   => 'Nous venons de vous envoyer un email contenant un lien de connexion. Il n\'est valable que {0} minutes.',
+    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
     'successLogout'      => 'Vous avez été déconnecté avec succès.',
+    'backToLogin'        => 'Retour à la connexion',
 
     // Passwords
     'errorPasswordLength'       => 'Le mot de passe doit contenir au moins {0, number} caractères.',

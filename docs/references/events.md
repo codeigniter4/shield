@@ -2,16 +2,6 @@
 
 Shield fires off several events during the lifecycle of the application that your code can tap into.
 
-- [Events](#events)
-  - [Responding to Events](#responding-to-events)
-    - [Event List](#event-list)
-      - [register](#register)
-      - [login](#login)
-      - [failedLogin](#failedlogin)
-      - [logout](#logout)
-      - [magicLogin](#magiclogin)
-    - [Event Timing](#event-timing)
-
 ## Responding to Events
 
 When you want to respond to an event that Shield publishes, you will need to add it to your **app/Config/Events.php**
@@ -23,7 +13,7 @@ for more information.
 
 #### register
 
-Triggered when a new user has registered in the system. It's only argument is the `User` entity itself.
+Triggered when a new user has registered in the system. The only argument is the `User` entity itself.
 
 ```php
 Events::trigger('register', $user);
@@ -84,4 +74,4 @@ Events::on('magicLogin', function() {
 
 To learn more about Event timing, please see the list below.
 
-- [Session Authenticator Event and Logging](./session_auth_event_and_logging.md).
+- [Session Authenticator](./authentication/session.md#events-and-logging).

@@ -32,13 +32,15 @@
                     <?= csrf_field() ?>
 
                     <!-- Email -->
-                    <div class="mb-2">
-                        <input type="email" class="form-control" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required />
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="floatingEmailInput" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required />
+                        <label for="floatingEmailInput"><?= lang('Auth.email') ?></label>
                     </div>
 
                     <!-- Password -->
-                    <div class="mb-2">
-                        <input type="password" class="form-control" name="password" inputmode="text" autocomplete="current-password" placeholder="<?= lang('Auth.password') ?>" required />
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="floatingPasswordInput" name="password" inputmode="text" autocomplete="current-password" placeholder="<?= lang('Auth.password') ?>" required />
+                        <label for="floatingPasswordInput"><?= lang('Auth.password') ?></label>
                     </div>
 
                     <!-- Remember me -->

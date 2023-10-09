@@ -87,6 +87,35 @@ final class UserTest extends DatabaseTestCase
         $this->assertCount(2, $user->identities);
     }
 
+    public function testModelFindAllWithIdentitiesWhereInQuery(): void
+    {
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
+
+        // Grab the user again, using the model's identity helper
+        $users = model(UserModel::class)->withIdentities()->findAll();
+
+        $identities = [];
+
+        foreach ($users as $user) {
+            if ($user->id !== $this->user->id) {
+                continue;
+            }
+
+            $identities = $user->identities;
+
+            // Check the last query and see if a proper type of query was used
+            $query = (string) model(UserModel::class)->getLastQuery();
+            $this->assertMatchesRegularExpression(
+                '/WHERE\s+.*\s+IN\s+\([^)]+\)/i',
+                $query,
+                'Identities were not obtained with the single query (missing "WHERE ... IN" condition)'
+            );
+        }
+
+        $this->assertCount(2, $identities);
+    }
+
     public function testModelFindByIdWithIdentitiesUserNotExists(): void
     {
         $user = model(UserModel::class)->where('active', 0)->withIdentities()->findById(1);
@@ -180,6 +209,7 @@ final class UserTest extends DatabaseTestCase
         $users = model(UserModel::class);
         $users->save($this->user);
 
+        /** @var User $user */
         $user = $users->find($this->user->id);
 
         $this->seeInDatabase($this->tables['identities'], [
@@ -221,6 +251,7 @@ final class UserTest extends DatabaseTestCase
         $users = model(UserModel::class);
         $users->save($this->user);
 
+        /** @var User $user */
         $user = $users->find($this->user->id);
 
         $this->seeInDatabase($this->tables['identities'], [

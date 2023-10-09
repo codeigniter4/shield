@@ -35,7 +35,10 @@ class MagicLinkController extends BaseController
     public function __construct()
     {
         helper('setting');
-        $providerClass  = setting('Auth.userProvider');
+
+        /** @var class-string<UserModel> $providerClass */
+        $providerClass = setting('Auth.userProvider');
+
         $this->provider = new $providerClass();
     }
 
@@ -47,6 +50,10 @@ class MagicLinkController extends BaseController
      */
     public function loginView()
     {
+        if (! setting('Auth.allowMagicLinkLogins')) {
+            return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
+        }
+
         if (auth()->loggedIn()) {
             return redirect()->to(config('Auth')->loginRedirect());
         }
@@ -63,9 +70,13 @@ class MagicLinkController extends BaseController
      */
     public function loginAction()
     {
+        if (! setting('Auth.allowMagicLinkLogins')) {
+            return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
+        }
+
         // Validate email format
         $rules = $this->getValidationRules();
-        if (! $this->validateData($this->request->getPost(), $rules)) {
+        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->route('magic-link')->with('errors', $this->validator->getErrors());
         }
 
@@ -102,6 +113,7 @@ class MagicLinkController extends BaseController
         $date      = Time::now()->toDateTimeString();
 
         // Send the user an email with the code
+        helper('email');
         $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
         $email->setTo($user->email);
         $email->setSubject(lang('Auth.magicLinkSubject'));
@@ -132,6 +144,10 @@ class MagicLinkController extends BaseController
      */
     public function verify(): RedirectResponse
     {
+        if (! setting('Auth.allowMagicLinkLogins')) {
+            return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
+        }
+
         $token = $this->request->getGet('token');
 
         /** @var UserIdentityModel $identityModel */
@@ -219,10 +235,7 @@ class MagicLinkController extends BaseController
     protected function getValidationRules(): array
     {
         return [
-            'email' => [
-                'label' => 'Auth.email',
-                'rules' => config('AuthSession')->emailValidationRules,
-            ],
+            'email' => config('Auth')->emailValidationRules,
         ];
     }
 }

@@ -101,6 +101,17 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $this->assertCount(0, $this->user->accessTokens());
     }
 
+    public function testRevokeAccessTokenBySecret(): void
+    {
+        $token = $this->user->generateAccessToken('foo');
+
+        $this->assertCount(1, $this->user->accessTokens());
+
+        $this->user->revokeAccessTokenBySecret($token->secret);
+
+        $this->assertCount(0, $this->user->accessTokens());
+    }
+
     public function testRevokeAllAccessTokens(): void
     {
         $this->user->generateAccessToken('foo');

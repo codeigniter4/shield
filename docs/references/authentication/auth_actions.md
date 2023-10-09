@@ -1,9 +1,5 @@
 # Authentication Actions
 
-- [Authentication Actions](#authentication-actions)
-  - [Configuring Actions](#configuring-actions)
-  - [Defining New Actions](#defining-new-actions)
-
 Authentication Actions are a way to group actions that can happen after login or registration.
 Shield ships with two actions you can use, and makes it simple for you to define your own.
 
@@ -49,13 +45,13 @@ $routes->post('auth/a/verify', 'ActionController::verify');
 Views for all of these pages are defined in the `Auth` config file, with the `$views` array.
 
 ```php
-    public $views = [
-        'action_email_2fa'            => '\CodeIgniter\Shield\Views\email_2fa_show',
-        'action_email_2fa_verify'     => '\CodeIgniter\Shield\Views\email_2fa_verify',
-        'action_email_2fa_email'      => '\CodeIgniter\Shield\Views\Email\email_2fa_email',
-        'action_email_activate_show'  => '\CodeIgniter\Shield\Views\email_activate_show',
-        'action_email_activate_email' => '\CodeIgniter\Shield\Views\Email\email_activate_email',
-    ];
+public $views = [
+    'action_email_2fa'            => '\CodeIgniter\Shield\Views\email_2fa_show',
+    'action_email_2fa_verify'     => '\CodeIgniter\Shield\Views\email_2fa_verify',
+    'action_email_2fa_email'      => '\CodeIgniter\Shield\Views\Email\email_2fa_email',
+    'action_email_activate_show'  => '\CodeIgniter\Shield\Views\email_activate_show',
+    'action_email_activate_email' => '\CodeIgniter\Shield\Views\Email\email_activate_email',
+];
 ```
 
 ## Defining New Actions

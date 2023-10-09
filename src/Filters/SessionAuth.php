@@ -61,10 +61,12 @@ class SessionAuth implements FilterInterface
             }
 
             if ($user !== null && ! $user->isActivated()) {
-                $authenticator->logout();
-
-                return redirect()->route('login')
-                    ->with('error', lang('Auth.activationBlocked'));
+                // If an action has been defined for register, start it up.
+                $hasAction = $authenticator->startUpAction('register', $user);
+                if ($hasAction) {
+                    return redirect()->route('auth-action-show')
+                        ->with('error', lang('Auth.activationBlocked'));
+                }
             }
 
             return;
@@ -73,6 +75,11 @@ class SessionAuth implements FilterInterface
         if ($authenticator->isPending()) {
             return redirect()->route('auth-action-show')
                 ->with('error', $authenticator->getPendingMessage());
+        }
+
+        if (! url_is('login')) {
+            $session = session();
+            $session->setTempdata('beforeLoginUrl', current_url(), 300);
         }
 
         return redirect()->route('login');

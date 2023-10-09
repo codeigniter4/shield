@@ -26,7 +26,7 @@ class LoginController extends BaseController
         $rules = setting('Validation.login') ?? [
             'email' => [
                 'label' => 'Auth.email',
-                'rules' => config('AuthSession')->emailValidationRules,
+                'rules' => config('Auth')->emailValidationRules,
             ],
             'password' => [
                 'label' => 'Auth.password',
@@ -38,7 +38,7 @@ class LoginController extends BaseController
             ],
         ];
 
-        if (! $this->validateData($this->request->getPost(), $rules)) {
+        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return $this->response
                 ->setJSON(['errors' => $this->validator->getErrors()])
                 ->setStatusCode(401);
@@ -68,8 +68,7 @@ class LoginController extends BaseController
 
 When making all future requests to the API, the mobile client should return the raw token in the `Authorization` header as a `Bearer` token.
 
-> **Note**
->
-> By default, `$authenticatorHeader['tokens']` is set to `Authorization`. You can change the header name by setting the `$authenticatorHeader['tokens']` value in the **app/Config/Auth.php** config file.
->
-> e.g. if `$authenticatorHeader['tokens']` is set to `PersonalAccessCodes` then the mobile client should return the raw token in the `PersonalAccessCodes` header as a `Bearer` token.
+!!! note
+
+    By default, `$authenticatorHeader['tokens']` is set to `Authorization`. You can change the header name by setting the `$authenticatorHeader['tokens']` value in the **app/Config/AuthToken.php** config file.
+    e.g. if `$authenticatorHeader['tokens']` is set to `PersonalAccessCodes` then the mobile client should return the raw token in the `PersonalAccessCodes` header as a `Bearer` token.

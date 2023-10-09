@@ -39,6 +39,7 @@ class ValidationRules
         if (function_exists('auth') && auth()->user()) {
             $user = auth()->user();
         } else {
+            /** @phpstan-ignore-next-line */
             $user = empty($data) ? $this->buildUserFromRequest() : $this->buildUserFromData($data);
         }
 
@@ -65,6 +66,10 @@ class ValidationRules
 
     /**
      * Builds a new user instance from the global request.
+     *
+     * @deprecated This will be removed soon.
+     *
+     * @see https://github.com/codeigniter4/shield/pull/747#discussion_r1198778666
      */
     protected function buildUserFromRequest(): User
     {
@@ -97,10 +102,9 @@ class ValidationRules
      */
     protected function prepareValidFields(): array
     {
-        $config   = config('Auth');
-        $fields   = array_merge($config->validFields, $config->personalFields);
-        $fields[] = 'password';
+        $config = config('Auth');
+        $fields = array_merge($config->validFields, $config->personalFields, ['email', 'password']);
 
-        return $fields;
+        return array_unique($fields);
     }
 }

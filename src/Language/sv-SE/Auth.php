@@ -30,6 +30,7 @@ return [
     'password'        => 'Lösenord',
     'passwordConfirm' => 'Lösenord (igen)',
     'haveAccount'     => 'Har du redan ett konto?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Bekräfta',
@@ -51,7 +52,9 @@ return [
     'magicLinkExpired'   => 'Tyvärr, länken har gått ut.',
     'checkYourEmail'     => 'Kontrollera din epost!',
     'magicLinkDetails'   => 'En login-länk har skickats med epost. Den gäller bara i {0} minuter.',
+    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
     'successLogout'      => 'Du har loggats ut.',
+    'backToLogin'        => 'Tillbaka till inloggning',
 
     // Passwords
     'errorPasswordLength'       => 'Lösenordet måste vara minst {0, number} tecken långt.',

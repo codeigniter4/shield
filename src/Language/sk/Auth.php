@@ -21,15 +21,16 @@ return [
     'throttled'             => 'Z tejto adresy IP bolo odoslaných príliš veľa žiadostí. Môžete to skúsiť znova o {0} sekúnd.',
     'notEnoughPrivilege'    => 'Nemáte potrebné povolenie na vykonanie požadovanej operácie.',
     // JWT Exceptions
-    'invalidJWT'     => '(To be translated) The token is invalid.',
-    'expiredJWT'     => '(To be translated) The token has expired.',
-    'beforeValidJWT' => '(To be translated) The token is not yet available.',
+    'invalidJWT'     => 'Neplatný token.',
+    'expiredJWT'     => 'Platnosť tokenu vypršala.',
+    'beforeValidJWT' => 'Token ešte nie je dostupný.',
 
     'email'           => 'Emailová adresa',
     'username'        => 'Používateľské meno',
     'password'        => 'Heslo',
     'passwordConfirm' => 'Heslo (znova)',
     'haveAccount'     => 'Máte už účet?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Potvrdiť',
@@ -51,7 +52,9 @@ return [
     'magicLinkExpired'   => 'Ľutujeme, platnosť odkazu vypršala.',
     'checkYourEmail'     => 'Skontrolujte e-mail',
     'magicLinkDetails'   => 'Práve sme vám poslali e-mail s odkazom na prihlásenie. Platí iba {0} minút.',
+    'magicLinkDisabled'  => 'Použitie magického linku momentálne nie je povolené.',
     'successLogout'      => 'Úspešne ste sa odhlásili.',
+    'backToLogin'        => 'Späť na prihlásenie',
 
     // Passwords
     'errorPasswordLength'       => 'Heslá musia mať aspoň {0, number} znakov.',

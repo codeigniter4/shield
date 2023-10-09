@@ -8,6 +8,7 @@ use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Traits\HasAccessTokens;
+use CodeIgniter\Shield\Authentication\Traits\HasHmacTokens;
 use CodeIgniter\Shield\Authorization\Traits\Authorizable;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
@@ -28,6 +29,7 @@ class User extends Entity
 {
     use Authorizable;
     use HasAccessTokens;
+    use HasHmacTokens;
     use Resettable;
     use Activatable;
     use Bannable;
@@ -115,6 +117,11 @@ class User extends Entity
         }
 
         return $identities;
+    }
+
+    public function setIdentities(array $identities): void
+    {
+        $this->identities = $identities;
     }
 
     /**

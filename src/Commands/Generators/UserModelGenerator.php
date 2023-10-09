@@ -73,8 +73,7 @@ class UserModelGenerator extends BaseCommand
 
         $params[0] = $class;
 
-        // @TODO execute() is deprecated in CI v4.3.0.
-        $this->execute($params); // @phpstan-ignore-line suppress deprecated error.
+        $this->generateClass($params);
 
         return 0;
     }

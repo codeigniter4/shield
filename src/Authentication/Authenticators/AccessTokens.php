@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
+use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Models\TokenLoginModel;
@@ -42,6 +43,8 @@ class AccessTokens implements AuthenticatorInterface
      */
     public function attempt(array $credentials): Result
     {
+        $config = config('AuthToken');
+
         /** @var IncomingRequest $request */
         $request = service('request');
 
@@ -51,14 +54,16 @@ class AccessTokens implements AuthenticatorInterface
         $result = $this->check($credentials);
 
         if (! $result->isOK()) {
-            // Always record a login attempt, whether success or not.
-            $this->loginModel->recordLoginAttempt(
-                self::ID_TYPE_ACCESS_TOKEN,
-                $credentials['token'] ?? '',
-                false,
-                $ipAddress,
-                $userAgent
-            );
+            if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
+                // Record all failed login attempts.
+                $this->loginModel->recordLoginAttempt(
+                    self::ID_TYPE_ACCESS_TOKEN,
+                    $credentials['token'] ?? '',
+                    false,
+                    $ipAddress,
+                    $userAgent
+                );
+            }
 
             return $result;
         }
@@ -66,6 +71,18 @@ class AccessTokens implements AuthenticatorInterface
         $user = $result->extraInfo();
 
         if ($user->isBanned()) {
+            if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
+                // Record a banned login attempt.
+                $this->loginModel->recordLoginAttempt(
+                    self::ID_TYPE_ACCESS_TOKEN,
+                    $credentials['token'] ?? '',
+                    false,
+                    $ipAddress,
+                    $userAgent,
+                    $user->id
+                );
+            }
+
             $this->user = null;
 
             return new Result([
@@ -80,14 +97,17 @@ class AccessTokens implements AuthenticatorInterface
 
         $this->login($user);
 
-        $this->loginModel->recordLoginAttempt(
-            self::ID_TYPE_ACCESS_TOKEN,
-            $credentials['token'] ?? '',
-            true,
-            $ipAddress,
-            $userAgent,
-            $this->user->id
-        );
+        if ($config->recordLoginAttempt === Auth::RECORD_LOGIN_ATTEMPT_ALL) {
+            // Record a successful login attempt.
+            $this->loginModel->recordLoginAttempt(
+                self::ID_TYPE_ACCESS_TOKEN,
+                $credentials['token'] ?? '',
+                true,
+                $ipAddress,
+                $userAgent,
+                $this->user->id
+            );
+        }
 
         return $result;
     }
@@ -104,7 +124,10 @@ class AccessTokens implements AuthenticatorInterface
         if (! array_key_exists('token', $credentials) || empty($credentials['token'])) {
             return new Result([
                 'success' => false,
-                'reason'  => lang('Auth.noToken', [config('Auth')->authenticatorHeader['tokens']]),
+                'reason'  => lang(
+                    'Auth.noToken',
+                    [config('AuthToken')->authenticatorHeader['tokens']]
+                ),
             ]);
         }
 
@@ -129,7 +152,9 @@ class AccessTokens implements AuthenticatorInterface
         // Hasn't been used in a long time
         if (
             $token->last_used_at
-            && $token->last_used_at->isBefore(Time::now()->subSeconds(config('Auth')->unusedTokenLifetime))
+            && $token->last_used_at->isBefore(
+                Time::now()->subSeconds(config('AuthToken')->unusedTokenLifetime)
+            )
         ) {
             return new Result([
                 'success' => false,
@@ -168,7 +193,9 @@ class AccessTokens implements AuthenticatorInterface
         $request = service('request');
 
         return $this->attempt([
-            'token' => $request->getHeaderLine(config('Auth')->authenticatorHeader['tokens']),
+            'token' => $request->getHeaderLine(
+                config('AuthToken')->authenticatorHeader['tokens']
+            ),
         ])->isOK();
     }
 
@@ -226,7 +253,7 @@ class AccessTokens implements AuthenticatorInterface
         /** @var IncomingRequest $request */
         $request = service('request');
 
-        $header = $request->getHeaderLine(config('Auth')->authenticatorHeader['tokens']);
+        $header = $request->getHeaderLine(config('AuthToken')->authenticatorHeader['tokens']);
 
         if (empty($header)) {
             return null;

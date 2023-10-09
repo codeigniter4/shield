@@ -28,23 +28,27 @@
                     <?= csrf_field() ?>
 
                     <!-- Email -->
-                    <div class="mb-2">
-                        <input type="email" class="form-control" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required />
+                    <div class="form-floating mb-2">
+                        <input type="email" class="form-control" id="floatingEmailInput" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required />
+                        <label for="floatingEmailInput"><?= lang('Auth.email') ?></label>
                     </div>
 
                     <!-- Username -->
-                    <div class="mb-4">
-                        <input type="text" class="form-control" name="username" inputmode="text" autocomplete="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" required />
+                    <div class="form-floating mb-4">
+                        <input type="text" class="form-control" id="floatingUsernameInput" name="username" inputmode="text" autocomplete="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" required />
+                        <label for="floatingUsernameInput"><?= lang('Auth.username') ?></label>
                     </div>
 
                     <!-- Password -->
-                    <div class="mb-2">
-                        <input type="password" class="form-control" name="password" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.password') ?>" required />
+                    <div class="form-floating mb-2">
+                        <input type="password" class="form-control" id="floatingPasswordInput" name="password" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.password') ?>" required />
+                        <label for="floatingPasswordInput"><?= lang('Auth.password') ?></label>
                     </div>
 
                     <!-- Password (Again) -->
-                    <div class="mb-5">
-                        <input type="password" class="form-control" name="password_confirm" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.passwordConfirm') ?>" required />
+                    <div class="form-floating mb-5">
+                        <input type="password" class="form-control" id="floatingPasswordConfirmInput" name="password_confirm" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.passwordConfirm') ?>" required />
+                        <label for="floatingPasswordConfirmInput"><?= lang('Auth.passwordConfirm') ?></label>
                     </div>
 
                     <div class="d-grid col-12 col-md-8 mx-auto m-3">

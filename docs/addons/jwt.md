@@ -1,7 +1,8 @@
 # JWT Authentication
 
-> **Note**
-> Shield now supports only JWS (Singed JWT). JWE (Encrypted JWT) is not supported.
+!!! note
+
+    Shield now supports only JWS (Singed JWT). JWE (Encrypted JWT) is not supported.
 
 ## What is JWT?
 
@@ -54,9 +55,9 @@ To use JWT Authentication, you need additional setup and configuration.
 
     You need to add the following constants:
     ```php
-        public const RECORD_LOGIN_ATTEMPT_NONE    = 0; // Do not record at all
-        public const RECORD_LOGIN_ATTEMPT_FAILURE = 1; // Record only failures
-        public const RECORD_LOGIN_ATTEMPT_ALL     = 2; // Record all login attempts
+    public const RECORD_LOGIN_ATTEMPT_NONE    = 0; // Do not record at all
+    public const RECORD_LOGIN_ATTEMPT_FAILURE = 1; // Record only failures
+    public const RECORD_LOGIN_ATTEMPT_ALL     = 2; // Record all login attempts
     ```
 
     You need to add JWT Authenticator:
@@ -65,20 +66,20 @@ To use JWT Authentication, you need additional setup and configuration.
 
     // ...
 
-        public array $authenticators = [
-            'tokens'  => AccessTokens::class,
-            'session' => Session::class,
-            'jwt'     => JWT::class,
-        ];
+    public array $authenticators = [
+        'tokens'  => AccessTokens::class,
+        'session' => Session::class,
+        'jwt'     => JWT::class,
+    ];
     ```
 
     If you want to use JWT Authenticator in Authentication Chain, add `jwt`:
     ```php
-        public array $authenticationChain = [
-            'session',
-            'tokens',
-            'jwt'
-        ];
+    public array $authenticationChain = [
+        'session',
+        'tokens',
+        'jwt'
+    ];
     ```
 
 ## Configuration
@@ -87,17 +88,18 @@ Configure **app/Config/AuthJWT.php** for your needs.
 
 ### Set the Default Claims
 
-> **Note**
-> A payload contains the actual data being transmitted, such as user ID, role,
-> or expiration time. Items in a payload is called *claims*.
+!!! note
+
+    A payload contains the actual data being transmitted, such as user ID, role,
+    or expiration time. Items in a payload is called *claims*.
 
 Set the default payload items to the property `$defaultClaims`.
 
 E.g.:
 ```php
-    public array $defaultClaims = [
-        'iss' => 'https://codeigniter.com/',
-    ];
+public array $defaultClaims = [
+    'iss' => 'https://codeigniter.com/',
+];
 ```
 
 The default claims will be included in all tokens issued by Shield.
@@ -107,7 +109,7 @@ The default claims will be included in all tokens issued by Shield.
 Set your secret key in the `$keys` property, or set it in your `.env` file.
 
 E.g.:
-```dotenv
+```text
 authjwt.keys.default.0.secret = 8XBFsF6HThIa7OV/bSynahEch+WbKrGcuiJVYPiwqPE=
 ```
 
@@ -121,8 +123,9 @@ with the following command:
 php -r 'echo base64_encode(random_bytes(32));'
 ```
 
-> **Note**
-> The secret key is used for signing and validating tokens.
+!!! note
+
+    The secret key is used for signing and validating tokens.
 
 ## Issuing JWTs
 
@@ -147,8 +150,7 @@ use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\JWTManager;
-use CodeIgniter\Shield\Authentication\Passwords;
-use CodeIgniter\Shield\Config\AuthSession;
+use CodeIgniter\Shield\Validation\ValidationRules;
 
 class LoginController extends BaseController
 {
@@ -163,7 +165,7 @@ class LoginController extends BaseController
         $rules = $this->getValidationRules();
 
         // Validate credentials
-        if (! $this->validateData($this->request->getJSON(true), $rules)) {
+        if (! $this->validateData($this->request->getJSON(true), $rules, [], config('Auth')->DBGroup)) {
             return $this->fail(
                 ['errors' => $this->validator->getErrors()],
                 $this->codes['unauthorized']
@@ -212,26 +214,16 @@ class LoginController extends BaseController
      */
     protected function getValidationRules(): array
     {
-        return setting('Validation.login') ?? [
-            'email' => [
-                'label' => 'Auth.email',
-                'rules' => config(AuthSession::class)->emailValidationRules,
-            ],
-            'password' => [
-                'label'  => 'Auth.password',
-                'rules'  => 'required|' . Passwords::getMaxLenghtRule(),
-                'errors' => [
-                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
-                ],
-            ],
-        ];
+        $rules = new ValidationRules();
+
+        return $rules->getLoginRules();
     }
 }
 ```
 
 You could send a request with the existing user's credentials by curl like this:
 
-```console
+```curl
 curl --location 'http://localhost:8080/auth/jwt' \
 --header 'Content-Type: application/json' \
 --data-raw '{"email" : "admin@example.jp" , "password" : "passw0rd!"}'
@@ -242,7 +234,7 @@ the `Authorization` header as a `Bearer` token.
 
 You could send a request with the `Authorization` header by curl like this:
 
-```console
+```curl
 curl --location --request GET 'http://localhost:8080/api/users' \
 --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTaGllbGQgVGVzdCBBcHAiLCJzdWIiOiIxIiwiaWF0IjoxNjgxODA1OTMwLCJleHAiOjE2ODE4MDk1MzB9.DGpOmRPOBe45whVtEOSt53qJTw_CpH0V8oMoI_gm2XI'
 ```

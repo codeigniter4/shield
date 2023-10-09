@@ -30,6 +30,7 @@ return [
     'password'        => 'Lozinka',
     'passwordConfirm' => 'Lozinka (ponovo)',
     'haveAccount'     => 'Već imate nalog?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Potvrdi',
@@ -51,7 +52,9 @@ return [
     'magicLinkExpired'   => 'Žao nam je, link je istekao.',
     'checkYourEmail'     => 'Proverite Vaš email!',
     'magicLinkDetails'   => 'Upravo smo Vam poslali pristupni link. Pristupni link će biti validan još samo {0} minuta.',
+    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
     'successLogout'      => 'Uspešno ste se odjavili sa sistema.',
+    'backToLogin'        => 'Nazad na prijavljivanje',
 
     // Passwords
     'errorPasswordLength'       => 'Lozinka mora biti najmanje {0, number} znakova dužine.',

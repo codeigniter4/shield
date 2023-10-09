@@ -4,22 +4,15 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Commands;
 
-use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\Commands\Database\Migrate;
 use CodeIgniter\Shield\Commands\Setup\ContentReplacer;
+use CodeIgniter\Test\Filters\CITestStreamFilter;
+use Config\Email as EmailConfig;
 use Config\Services;
 
 class Setup extends BaseCommand
 {
-    /**
-     * The group the command is lumped under
-     * when listing commands.
-     *
-     * @var string
-     */
-    protected $group = 'Shield';
-
     /**
      * The Command's name
      *
@@ -83,11 +76,13 @@ class Setup extends BaseCommand
     {
         $this->publishConfigAuth();
         $this->publishConfigAuthGroups();
+        $this->publishConfigAuthToken();
 
         $this->setupHelper();
         $this->setupRoutes();
 
         $this->setSecurityCSRF();
+        $this->setupEmail();
 
         $this->runMigrations();
     }
@@ -131,6 +126,18 @@ class Setup extends BaseCommand
         $this->copyAndReplace($file, $replaces);
     }
 
+    private function publishConfigAuthToken(): void
+    {
+        $file     = 'Config/AuthToken.php';
+        $replaces = [
+            'namespace CodeIgniter\Shield\Config'  => 'namespace Config',
+            'use CodeIgniter\\Config\\BaseConfig;' => 'use CodeIgniter\\Shield\\Config\\AuthToken as ShieldAuthToken;',
+            'extends BaseConfig'                   => 'extends ShieldAuthToken',
+        ];
+
+        $this->copyAndReplace($file, $replaces);
+    }
+
     /**
      * Write a file, catching any exceptions and showing a
      * nicely formatted error.
@@ -153,18 +160,18 @@ class Setup extends BaseCommand
 
             if (
                 ! $overwrite
-                && CLI::prompt("  File '{$cleanPath}' already exists in destination. Overwrite?", ['n', 'y']) === 'n'
+                && $this->prompt("  File '{$cleanPath}' already exists in destination. Overwrite?", ['n', 'y']) === 'n'
             ) {
-                CLI::error("  Skipped {$cleanPath}. If you wish to overwrite, please use the '-f' option or reply 'y' to the prompt.");
+                $this->error("  Skipped {$cleanPath}. If you wish to overwrite, please use the '-f' option or reply 'y' to the prompt.");
 
                 return;
             }
         }
 
         if (write_file($path, $content)) {
-            CLI::write(CLI::color('  Created: ', 'green') . $cleanPath);
+            $this->write(CLI::color('  Created: ', 'green') . $cleanPath);
         } else {
-            CLI::error("  Error creating {$cleanPath}.");
+            $this->error("  Error creating {$cleanPath}.");
         }
     }
 
@@ -182,20 +189,20 @@ class Setup extends BaseCommand
         $output = $this->replacer->add($content, $code, $pattern, $replace);
 
         if ($output === true) {
-            CLI::error("  Skipped {$cleanPath}. It has already been updated.");
+            $this->error("  Skipped {$cleanPath}. It has already been updated.");
 
             return;
         }
         if ($output === false) {
-            CLI::error("  Error checking {$cleanPath}.");
+            $this->error("  Error checking {$cleanPath}.");
 
             return;
         }
 
         if (write_file($path, $output)) {
-            CLI::write(CLI::color('  Updated: ', 'green') . $cleanPath);
+            $this->write(CLI::color('  Updated: ', 'green') . $cleanPath);
         } else {
-            CLI::error("  Error updating {$cleanPath}.");
+            $this->error("  Error updating {$cleanPath}.");
         }
     }
 
@@ -219,12 +226,12 @@ class Setup extends BaseCommand
         }
 
         if (write_file($path, $output)) {
-            CLI::write(CLI::color('  Updated: ', 'green') . $cleanPath);
+            $this->write(CLI::color('  Updated: ', 'green') . $cleanPath);
 
             return true;
         }
 
-        CLI::error("  Error updating {$cleanPath}.");
+        $this->error("  Error updating {$cleanPath}.");
 
         return false;
     }
@@ -274,7 +281,7 @@ class Setup extends BaseCommand
         $cleanPath = clean_path($path);
 
         if (! is_file($path)) {
-            CLI::error("  Not found file '{$cleanPath}'.");
+            $this->error("  Not found file '{$cleanPath}'.");
 
             return;
         }
@@ -284,35 +291,102 @@ class Setup extends BaseCommand
 
         // check $csrfProtection = 'session'
         if ($output === $content) {
-            CLI::write(CLI::color('  Security Setup: ', 'green') . 'Everything is fine.');
+            $this->write(CLI::color('  Security Setup: ', 'green') . 'Everything is fine.');
 
             return;
         }
 
         if (write_file($path, $output)) {
-            CLI::write(CLI::color('  Updated: ', 'green') . "We have updated file '{$cleanPath}' for security reasons.");
+            $this->write(CLI::color('  Updated: ', 'green') . "We have updated file '{$cleanPath}' for security reasons.");
         } else {
-            CLI::error("  Error updating file '{$cleanPath}'.");
+            $this->error("  Error updating file '{$cleanPath}'.");
+        }
+    }
+
+    private function setupEmail(): void
+    {
+        $file = 'Config/Email.php';
+
+        $path      = $this->distPath . $file;
+        $cleanPath = clean_path($path);
+
+        if (! is_file($path)) {
+            $this->error("  Not found file '{$cleanPath}'.");
+
+            return;
+        }
+
+        $config    = config(EmailConfig::class);
+        $fromEmail = (string) $config->fromEmail; // Old Config may return null.
+        $fromName  = (string) $config->fromName;
+
+        if ($fromEmail !== '' && $fromName !== '') {
+            $this->write(CLI::color('  Email Setup: ', 'green') . 'Everything is fine.');
+
+            return;
+        }
+
+        $content = file_get_contents($path);
+        $output  = $content;
+
+        if ($fromEmail === '') {
+            $set = $this->prompt('  The required Config\Email::$fromEmail is not set. Do you set now?', ['y', 'n']);
+
+            if ($set === 'y') {
+                // Input from email
+                $fromEmail = $this->prompt('  What is your email?', null, 'required|valid_email');
+
+                $pattern = '/^    public .*\$fromEmail\s+= \'\';/mu';
+                $replace = '    public string $fromEmail  = \'' . $fromEmail . '\';';
+                $output  = preg_replace($pattern, $replace, $content);
+            }
+        }
+
+        if ($fromName === '') {
+            $set = $this->prompt('  The required Config\Email::$fromName is not set. Do you set now?', ['y', 'n']);
+
+            if ($set === 'y') {
+                $fromName = $this->prompt('  What is your name?', null, 'required');
+
+                $pattern = '/^    public .*\$fromName\s+= \'\';/mu';
+                $replace = '    public string $fromName   = \'' . $fromName . '\';';
+                $output  = preg_replace($pattern, $replace, $output);
+            }
+        }
+
+        if (write_file($path, $output)) {
+            $this->write(CLI::color('  Updated: ', 'green') . $cleanPath);
+        } else {
+            $this->error("  Error updating file '{$cleanPath}'.");
         }
     }
 
     private function runMigrations(): void
     {
         if (
-            $this->cliPrompt('  Run `spark migrate --all` now?', ['y', 'n']) === 'n'
+            $this->prompt('  Run `spark migrate --all` now?', ['y', 'n']) === 'n'
         ) {
             return;
         }
 
         $command = new Migrate(Services::logger(), Services::commands());
-        $command->run(['all' => null]);
-    }
 
-    /**
-     * This method is for testing.
-     */
-    protected function cliPrompt(string $field, array $options): string
-    {
-        return CLI::prompt($field, $options);
+        // This is a hack for testing.
+        // @TODO Remove CITestStreamFilter and refactor when CI 4.5.0 or later is supported.
+        CITestStreamFilter::registration();
+        CITestStreamFilter::addOutputFilter();
+        CITestStreamFilter::addErrorFilter();
+
+        $command->run(['all' => null]);
+
+        CITestStreamFilter::removeOutputFilter();
+        CITestStreamFilter::removeErrorFilter();
+
+        // Capture the output, and write for testing.
+        // @TODO Remove CITestStreamFilter and refactor when CI 4.5.0 or later is supported.
+        $output = CITestStreamFilter::$buffer;
+        $this->write($output);
+
+        CITestStreamFilter::$buffer = '';
     }
 }

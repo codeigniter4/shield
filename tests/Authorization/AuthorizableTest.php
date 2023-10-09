@@ -306,6 +306,28 @@ final class AuthorizableTest extends DatabaseTestCase
     }
 
     /**
+     * @see https://github.com/codeigniter4/shield/pull/791#discussion_r1297712860
+     */
+    public function testCanWorksWithMultiplePermissions(): void
+    {
+        // Check for user's direct permissions (user-level permissions)
+        $this->user->addPermission('users.create', 'users.edit');
+
+        $this->assertTrue($this->user->can('users.create', 'users.edit'));
+        $this->assertFalse($this->user->can('beta.access', 'admin.access'));
+
+        $this->user->removePermission('users.create', 'users.edit');
+
+        $this->assertFalse($this->user->can('users.edit', 'users.create'));
+
+        // Check for user's group permissions (group-level permissions)
+        $this->user->addGroup('superadmin');
+
+        $this->assertTrue($this->user->can('admin.access', 'beta.access'));
+        $this->assertTrue($this->user->can('admin.*', 'users.*'));
+    }
+
+    /**
      * @see https://github.com/codeigniter4/shield/pull/238
      */
     public function testCreatedAtIfDefaultLocaleSetFaWithAddGroup(): void

@@ -82,7 +82,8 @@ final class FirebaseAdapaterTest extends TestCase
         $token = $this->generateJWT();
 
         // Change algorithm and it makes the key invalid.
-        $config                            = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config                            = config('AuthJWT');
         $config->keys['default'][0]['alg'] = 'ES256';
 
         $adapter = new FirebaseAdapter();
@@ -110,7 +111,8 @@ final class FirebaseAdapaterTest extends TestCase
         $token = $this->generateJWT();
 
         // Set invalid key.
-        $config                     = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config                     = config('AuthJWT');
         $config->keys['default'][0] = [
             'alg'    => '',
             'secret' => '',
@@ -128,7 +130,8 @@ final class FirebaseAdapaterTest extends TestCase
         $this->expectExceptionMessage('Cannot encode JWT: Algorithm not supported');
 
         // Set unsupported algorithm.
-        $config                            = config(AuthJWT::class);
+        /** @var AuthJWT $config */
+        $config                            = config('AuthJWT');
         $config->keys['default'][0]['alg'] = 'PS256';
 
         $adapter = new FirebaseAdapter();

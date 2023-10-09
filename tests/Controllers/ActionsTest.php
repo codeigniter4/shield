@@ -93,7 +93,7 @@ final class ActionsTest extends DatabaseTestCase
             ]);
 
         $result->assertRedirect();
-        $result->assertEquals(site_url('/auth/a/show'), $result->getRedirectUrl());
+        $result->assertSame(site_url('/auth/a/show'), $result->getRedirectUrl());
         $result->assertSessionHas('error', lang('Auth.invalidEmail'));
     }
 

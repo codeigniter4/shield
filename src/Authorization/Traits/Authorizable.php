@@ -226,49 +226,54 @@ trait Authorizable
 
     /**
      * Checks user permissions and their group permissions
-     * to see if the user has a specific permission.
+     * to see if the user has a specific permission or group
+     * of permissions.
      *
-     * @param string $permission string consisting of a scope and action, like `users.create`
+     * @param string $permissions string(s) consisting of a scope and action, like `users.create`
      */
-    public function can(string $permission): bool
+    public function can(string ...$permissions): bool
     {
-        if (strpos($permission, '.') === false) {
-            throw new LogicException(
-                'A permission must be a string consisting of a scope and action, like `users.create`.'
-                . ' Invalid permission: ' . $permission
-            );
-        }
-
+        // Get user's permissions and store in cache
         $this->populatePermissions();
-
-        $permission = strtolower($permission);
-
-        // Check user's permissions
-        if (in_array($permission, $this->permissionsCache, true)) {
-            return true;
-        }
 
         // Check the groups the user belongs to
         $this->populateGroups();
 
-        if (! count($this->groupCache)) {
-            return false;
-        }
+        foreach ($permissions as $permission) {
+            // Permission must contain a scope and action
+            if (strpos($permission, '.') === false) {
+                throw new LogicException(
+                    'A permission must be a string consisting of a scope and action, like `users.create`.'
+                    . ' Invalid permission: ' . $permission
+                );
+            }
 
-        $matrix = function_exists('setting')
-            ? setting('AuthGroups.matrix')
-            : config('AuthGroups')->matrix;
+            $permission = strtolower($permission);
 
-        foreach ($this->groupCache as $group) {
-            // Check exact match
-            if (isset($matrix[$group]) && in_array($permission, $matrix[$group], true)) {
+            // Check user's permissions
+            if (in_array($permission, $this->permissionsCache, true)) {
                 return true;
             }
 
-            // Check wildcard match
-            $check = substr($permission, 0, strpos($permission, '.')) . '.*';
-            if (isset($matrix[$group]) && in_array($check, $matrix[$group], true)) {
-                return true;
+            if (! count($this->groupCache)) {
+                return false;
+            }
+
+            $matrix = function_exists('setting')
+                ? setting('AuthGroups.matrix')
+                : config('AuthGroups')->matrix;
+
+            foreach ($this->groupCache as $group) {
+                // Check exact match
+                if (isset($matrix[$group]) && in_array($permission, $matrix[$group], true)) {
+                    return true;
+                }
+
+                // Check wildcard match
+                $check = substr($permission, 0, strpos($permission, '.')) . '.*';
+                if (isset($matrix[$group]) && in_array($check, $matrix[$group], true)) {
+                    return true;
+                }
             }
         }
 

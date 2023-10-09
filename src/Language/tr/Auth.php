@@ -7,8 +7,8 @@ return [
     'unknownAuthenticator'  => '{0} geçerli bir kimlik doğrulayıcı değil.',
     'unknownUserProvider'   => 'Kullanılacak Kullanıcı Sağlayıcı belirlenemiyor.',
     'invalidUser'           => 'Belirtilen kullanıcı bulunamadı.',
-    'bannedUser'            => '(To be translated) Can not log you in as you are currently banned.',
-    'logOutBannedUser'      => '(To be translated) You have been logged out because you have been banned.',
+    'bannedUser'            => 'Bu hesap yasaklandı. Şu anda giriş yapamazsınız.',
+    'logOutBannedUser'      => 'Bu hesap yasaklandığından dolayı oturumunuz kapatıldı.',
     'badAttempt'            => 'Oturumunuz açılamıyor. Lütfen kimlik bilgilerinizi kontrol edin.',
     'noPassword'            => 'Parola olmadan bir kullanıcı doğrulanamaz.',
     'invalidPassword'       => 'Oturumunuz açılamıyor. Lütfen şifrenizi kontrol edin.',
@@ -21,15 +21,16 @@ return [
     'throttled'             => 'Bu IP adresinden çok fazla istek yapıldı. {0} saniye sonra tekrar deneyebilirsiniz.',
     'notEnoughPrivilege'    => 'İstediğiniz işlemi gerçekleştirmek için gerekli izne sahip değilsiniz.',
     // JWT Exceptions
-    'invalidJWT'     => '(To be translated) The token is invalid.',
-    'expiredJWT'     => '(To be translated) The token has expired.',
-    'beforeValidJWT' => '(To be translated) The token is not yet available.',
+    'invalidJWT'     => 'Token geçersiz.',
+    'expiredJWT'     => 'Tokenin süresi dolmuş.',
+    'beforeValidJWT' => 'Token henüz geçerli değil.',
 
     'email'           => 'E-posta Adresi',
     'username'        => 'Kullanıcı Adı',
     'password'        => 'Şifre',
     'passwordConfirm' => 'Şifre (tekrar)',
     'haveAccount'     => 'Zaten hesabınız var mı?',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Onayla',
@@ -38,7 +39,7 @@ return [
     // Registration
     'register'         => 'Kayıt Ol',
     'registerDisabled' => 'Kayıt işlemine şu anda izin verilmiyor.',
-    'registerSuccess'  => 'Gemiye Hoşgeldiniz!',
+    'registerSuccess'  => 'Aramıza Hoşgeldiniz!',
 
     // Login
     'login'              => 'Giriş',
@@ -51,7 +52,9 @@ return [
     'magicLinkExpired'   => 'Üzgünüm, bağlantının süresi doldu.',
     'checkYourEmail'     => 'E-postanı kontrol et!',
     'magicLinkDetails'   => 'Az önce size içinde bir Giriş bağlantısı olan bir e-posta gönderdik. Bağlantı {0} dakika için geçerlidir.',
+    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
     'successLogout'      => 'Başarıyla çıkış yaptınız.',
+    'backToLogin'        => 'Girişe Geri Dön',
 
     // Passwords
     'errorPasswordLength'       => 'Şifre en az {0, number} karakter uzunluğunda olmalıdır.',
@@ -65,7 +68,7 @@ return [
     'errorPasswordPwned'        => '{0} şifresi, bir veri ihlali nedeniyle açığa çıktı ve güvenliği ihlal edilmiş şifrelerin {2} tanesinde {1, sayı} kez görüldü.',
     'suggestPasswordPwned'      => '{0} asla şifre olarak kullanılmamalıdır. Herhangi bir yerde kullanıyorsanız hemen değiştirin.',
     'errorPasswordEmpty'        => 'Şifre gerekli.',
-    'errorPasswordTooLongBytes' => '(To be translated) Password cannot exceed {param} bytes in length.',
+    'errorPasswordTooLongBytes' => 'Şifre uzunluğu {param} baytı geçemez.',
     'passwordChangeSuccess'     => 'Şifre başarıyla değiştirildi.',
     'userDoesNotExist'          => 'Şifre değiştirilmedi. Kullanıcı yok.',
     'resetTokenExpired'         => 'Üzgünüz. Sıfırlama anahtarınızın süresi doldu.',
@@ -94,7 +97,7 @@ return [
     'emailActivateMailBody' => 'Hesabınızı etkinleştirmek ve siteyi kullanmaya başlamak için lütfen aşağıdaki kodu kullanın.',
     'invalidActivateToken'  => 'Kod yanlıştı.',
     'needActivate'          => 'E-posta adresinize gönderilen kodu onaylayarak kaydınızı tamamlamanız gerekmektedir.',
-    'activationBlocked'     => '(to be translated) You must activate your account before logging in.',
+    'activationBlocked'     => 'Giriş yapmadan önce hesabınızı etkinleştirmeniz gerekmektedir.',
 
     // Groups
     'unknownGroup' => '{0} geçerli bir grup değil.',

@@ -82,6 +82,16 @@ final class RegisterTest extends DatabaseTestCase
         $this->assertTrue($user->active);
     }
 
+    public function testRegisterActionSuccessWithNoEmailLogin(): void
+    {
+        /** @var Auth $config */
+        $config = config('Auth');
+        // Use `username` for login
+        $config->validFields = ['username'];
+
+        $this->testRegisterActionSuccess();
+    }
+
     public function testRegisterTooLongPasswordDefault(): void
     {
         $result = $this->withSession()->post('/register', [
@@ -292,6 +302,24 @@ final class RegisterTest extends DatabaseTestCase
         $result->assertStatus(302);
         $result->assertRedirect();
         $result->assertRedirectTo(config('Auth')->registerRedirect());
+    }
+
+    public function testRegisterActionWithBadEmailValue(): void
+    {
+        $result = $this->withSession()->post('/register', [
+            'username'         => 'JohnDoe',
+            'email'            => 'john.doe',
+            'password'         => '123456789aa',
+            'password_confirm' => '123456789aa',
+        ]);
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionHas(
+            'errors',
+            ['email' => 'The Email Address field must contain a valid email address.']
+        );
     }
 
     protected function setupConfig(): void

@@ -110,7 +110,10 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $result = $this->auth->check([]);
 
         $this->assertFalse($result->isOK());
-        $this->assertSame(lang('Auth.noToken', [config('Auth')->authenticatorHeader['tokens']]), $result->reason());
+        $this->assertSame(
+            lang('Auth.noToken', [config('AuthToken')->authenticatorHeader['tokens']]),
+            $result->reason()
+        );
     }
 
     public function testCheckBadToken(): void
@@ -174,7 +177,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $this->assertFalse($result->isOK());
         $this->assertSame(lang('Auth.badToken'), $result->reason());
 
-        // A login attempt should have always been recorded
+        // A failed login attempt should have been recorded by default.
         $this->seeInDatabase($this->tables['token_logins'], [
             'id_type'    => AccessTokens::ID_TYPE_ACCESS_TOKEN,
             'identifier' => 'abc123',
@@ -202,8 +205,8 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $this->assertInstanceOf(AccessToken::class, $foundUser->currentAccessToken());
         $this->assertSame($token->token, $foundUser->currentAccessToken()->token);
 
-        // A login attempt should have been recorded
-        $this->seeInDatabase($this->tables['token_logins'], [
+        // A successful login attempt is not recorded by default.
+        $this->dontSeeInDatabase($this->tables['token_logins'], [
             'id_type'    => AccessTokens::ID_TYPE_ACCESS_TOKEN,
             'identifier' => $token->raw_token,
             'success'    => 1,

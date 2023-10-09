@@ -113,7 +113,8 @@ class UserModel extends BaseModel
      */
     private function assignIdentities(array $data, array $identities): array
     {
-        $mappedUsers = [];
+        $mappedUsers    = [];
+        $userIdentities = [];
 
         $users = $data['singleton'] ? [$data['data']] : $data['data'];
 
@@ -122,15 +123,17 @@ class UserModel extends BaseModel
         }
         unset($users);
 
-        // Now assign the identities to the user
+        // Now group the identities by user
         foreach ($identities as $identity) {
-            $userId = $identity->user_id;
-
-            $newIdentities   = $mappedUsers[$userId]->identities;
-            $newIdentities[] = $identity;
-
-            $mappedUsers[$userId]->identities = $newIdentities;
+            $userIdentities[$identity->user_id][] = $identity;
         }
+        unset($identities);
+
+        // Now assign the identities to the user
+        foreach ($userIdentities as $userId => $identityArray) {
+            $mappedUsers[$userId]->identities = $identityArray;
+        }
+        unset($userIdentities);
 
         return $mappedUsers;
     }
