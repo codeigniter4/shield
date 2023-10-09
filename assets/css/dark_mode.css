@@ -1,0 +1,74 @@
+[data-md-color-scheme="slate"] {
+    --md-primary-fg-color: #6a290d;
+    --md-primary-fg-color--light: #8d7474;
+    --md-primary-fg-color--dark: #6d554d;
+
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+        color: #c9a69b;
+    }
+
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+        color: #a3b4c7;
+    }
+
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+        color: #c1b79f;
+    }
+
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+        color: #c97100;
+    }
+
+    .hljs-subst {
+        color: #ddba52
+    }
+
+    .md-typeset .note > .admonition-title,
+    .md-typeset .note > summary {
+        background-color: #0000001a;
+    }
+
+    .md-typeset .admonition.note,
+    .md-typeset details.note {
+        border-color: #675647;
+    }
+
+    .md-typeset .note > .admonition-title:before,
+    .md-typeset .note > summary:before {
+        background-color: #65686d;
+        -webkit-mask-image: var(--md-admonition-icon--note);
+        mask-image: var(--md-admonition-icon--note);
+    }
+
+    .md-typeset .admonition.warning,
+    .md-typeset details.warning {
+        border-color: #776144;
+    }
+
+    .md-typeset .warning > .admonition-title:before,
+    .md-typeset .warning > summary:before {
+        background-color: #d9913bc2;
+        -webkit-mask-image: var(--md-admonition-icon--warning);
+        mask-image: var(--md-admonition-icon--warning);
+    }
+}
