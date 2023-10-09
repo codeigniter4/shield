@@ -126,7 +126,7 @@ class RegisterController extends BaseController
         // If an action has been defined for register, start it up.
         $hasAction = $authenticator->startUpAction('register', $user);
         if ($hasAction) {
-            return redirect()->to('auth/a/show');
+            return redirect()->route('auth-action-show');
         }
 
         // Set the user active
