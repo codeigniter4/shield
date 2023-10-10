@@ -72,7 +72,8 @@ your project.
 
 ### Manual Setup
 
-1. Copy the **Auth.php**, **AuthGroups.php**, and **AuthToken.php** from **vendor/codeigniter4/shield/src/Config/** into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
+1. **Config Setup:**
+   Copy the **Auth.php**, **AuthGroups.php**, and **AuthToken.php** from **vendor/codeigniter4/shield/src/Config/** into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below. These files contain all the settings, group, and permission information for your application and will need to be modified to meet the needs of your site.
 
     ```php
     // new file - app/Config/Auth.php
@@ -91,29 +92,26 @@ your project.
     }
     ```
 
-2. **Helper Setup** The `setting` helper needs to be included in almost every page. The simplest way to do this is to add it to the `BaseController::initController()` method:
+2. **Helper Setup:**
+   The `auth` and `setting` helpers need to be included in almost every page.
+   The simplest way to do this is to add it to the **app/Config/Autoload.php** file:
 
     ```php
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
-    {
-        $this->helpers = array_merge($this->helpers, ['setting']);
-
-        // Do Not Edit This Line
-        parent::initController($request, $response, $logger);
-    }
+    public $helpers = ['auth', 'setting'];
     ```
 
-    This requires that all of your controllers extend the `BaseController`, but that's a good practice anyway.
-
-3. **Routes Setup** The default auth routes can be setup with a single call in **app/Config/Routes.php**:
+3. **Routes Setup:**
+   The default auth routes can be setup with a single call in **app/Config/Routes.php**:
 
     ```php
     service('auth')->routes($routes);
     ```
 
-4. **Security Setup** Set `Config\Security::$csrfProtection` to `'session'` for security reasons, if you use Session Authenticator.
+4. **Security Setup:**
+   Set `Config\Security::$csrfProtection` to `'session'` for security reasons, if you use Session Authenticator.
 
-5. Configure **app/Config/Email.php** to allow Shield to send emails with the [Email Class](https://codeigniter.com/user_guide/libraries/email.html).
+5. **Email Setup:**
+   Configure **app/Config/Email.php** to allow Shield to send emails.
 
     ```php
     <?php
@@ -130,7 +128,8 @@ your project.
     }
     ```
 
-6. **Migration** Run the migrations.
+6. **Migration:**
+   Run the migrations.
 
     !!! note
 

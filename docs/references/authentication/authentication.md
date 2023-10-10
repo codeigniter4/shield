@@ -48,8 +48,9 @@ auth()->getProvider();
 
 !!! note
 
-    The `auth_helper` is autoloaded by Composer. If you want to *override* the functions,
-    you need to define them in **app/Common.php**.
+    The `auth_helper` is autoloaded by CodeIgniter's autoloader if you follow the
+    installation instruction. If you want to *override* the functions, create
+    **app/Helpers/auth_helper.php**.
 
 ## Authenticator Responses
 
