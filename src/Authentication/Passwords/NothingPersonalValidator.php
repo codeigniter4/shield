@@ -79,7 +79,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
             if (! empty($domain)) {
                 $emailParts[] = $domain;
             }
-            $needles = array_merge($needles, $emailParts);
+            $needles = [...$needles, ...$emailParts];
 
             // Get any other "personal" fields defined in config
             $personalFields = $this->config->personalFields;
@@ -183,6 +183,8 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      *
      * Replaces all non-word characters and underscores in $str with a space.
      * Then it explodes that result using the space for a delimiter.
+     *
+     * @return array<int, string>
      */
     protected function strip_explode(string $str): array
     {
