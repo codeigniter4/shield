@@ -26,6 +26,9 @@ abstract class TestCase extends CIUnitTestCase
         $settings                 = new Settings($configSettings);
         Services::injectMock('settings', $settings);
 
+        // Load helpers that should be autoloaded
+        helper(['auth', 'setting']);
+
         // Ensure from email is available anywhere during Tests
         helper('setting');
         setting('Email.fromEmail', 'foo@example.com');
