@@ -65,6 +65,9 @@ final class SetupTest extends TestCase
         $this->assertStringContainsString('namespace Config;', $authToken);
         $this->assertStringContainsString('use CodeIgniter\Shield\Config\AuthToken as ShieldAuthToken;', $authToken);
 
+        $autoload = file_get_contents($appFolder . 'Config/Autoload.php');
+        $this->assertStringContainsString('$helpers = [\'auth\', \'setting\'];', $autoload);
+
         $routes = file_get_contents($appFolder . 'Config/Routes.php');
         $this->assertStringContainsString('service(\'auth\')->routes($routes);', $routes);
 
@@ -77,7 +80,7 @@ final class SetupTest extends TestCase
             '  Created: vfs://root/Config/Auth.php
   Created: vfs://root/Config/AuthGroups.php
   Created: vfs://root/Config/AuthToken.php
-  Updated: vfs://root/Controllers/BaseController.php
+  Updated: vfs://root/Config/Autoload.php
   Updated: vfs://root/Config/Routes.php
   Updated: We have updated file \'vfs://root/Config/Security.php\' for security reasons.
   Updated: vfs://root/Config/Email.php',
@@ -112,7 +115,7 @@ final class SetupTest extends TestCase
             '  Created: vfs://root/Config/Auth.php
   Created: vfs://root/Config/AuthGroups.php
   Created: vfs://root/Config/AuthToken.php
-  Updated: vfs://root/Controllers/BaseController.php
+  Updated: vfs://root/Config/Autoload.php
   Updated: vfs://root/Config/Routes.php
   Updated: We have updated file \'vfs://root/Config/Security.php\' for security reasons.',
             $result
