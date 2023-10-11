@@ -11,7 +11,7 @@ adds a new column to the `users` table.
 
 ## Change $validFields
 
-Edit `app/Config/Auth.php` so that the new column you just created is within the
+Edit **app/Config/Auth.php** so that the new column you just created is within the
 `$validFields` array.
 
 ```php
@@ -41,7 +41,7 @@ You must write new **Validation Rules** and then set them using the
 
 ## Customize Login View
 
-1. Change the `login` view file in the `app/Config/Auth.php` file.
+1. Change the `login` view file in the **app/Config/Auth.php** file.
 
     ```php
     public array $views = [
@@ -50,7 +50,7 @@ You must write new **Validation Rules** and then set them using the
     ];
     ```
 
-2. Copy file `vendor/codeigniter4/shield/src/Views/login.php` to `app/Views/Shield/login.php`.
+2. Copy file **vendor/codeigniter4/shield/src/Views/login.php** to **app/Views/Shield/login.php**.
 3. Customize the login form to change the name of the default `email` input to the new field name.
 
     ```php
