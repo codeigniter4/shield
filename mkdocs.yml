@@ -106,6 +106,7 @@ nav:
     - quick_start_guide/using_authorization.md
   - Customization:
     - customization/table_names.md
+    - customization/views.md
     - customization/route_config.md
     - customization/redirect_urls.md
     - customization/validation_rules.md
