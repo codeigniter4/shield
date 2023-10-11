@@ -50,7 +50,7 @@ You must write new **Validation Rules** and then set them using the
     ];
     ```
 
-2. Copy file `vendor\codeigniter4\shield\src\Views\login.php` to `app\Views\Shield\login.php`.
+2. Copy file `vendor/codeigniter4/shield/src/Views/login.php` to `app/Views/Shield/login.php`.
 3. Customize the login form to change the name of the default `email` input to the new field name.
 
     ```php
