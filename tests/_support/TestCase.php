@@ -30,7 +30,6 @@ abstract class TestCase extends CIUnitTestCase
         helper(['auth', 'setting']);
 
         // Ensure from email is available anywhere during Tests
-        helper('setting');
         setting('Email.fromEmail', 'foo@example.com');
         setting('Email.fromName', 'John Smith');
 
