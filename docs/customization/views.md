@@ -3,6 +3,10 @@
 Shield provides the default view files, but they are sample files.
 Customization is recommended.
 
+If your application uses a different method to convert view files to HTML than
+CodeIgniter's built-in `view()` helper, see
+[Integrating Custom View Libraries](./integrating_custom_view_libs.md).
+
 ## Change $views
 
 Change values in `$views` in the **app/Config/Auth.php** file.
