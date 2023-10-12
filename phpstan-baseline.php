@@ -28,9 +28,19 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Authentication/Actions/Email2FA.php',
 ];
 $ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\UserIdentityModel\\:\\:class is discouraged\\.$#',
+	'count' => 2,
+	'path' => __DIR__ . '/src/Authentication/Actions/Email2FA.php',
+];
+$ignoreErrors[] = [
 	'message' => '#^Call to deprecated function random_string\\(\\)\\:
 The type \'basic\', \'md5\', and \'sha1\' are deprecated\\. They are not cryptographically secure\\.$#',
 	'count' => 1,
+	'path' => __DIR__ . '/src/Authentication/Actions/EmailActivator.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\UserIdentityModel\\:\\:class is discouraged\\.$#',
+	'count' => 2,
 	'path' => __DIR__ . '/src/Authentication/Actions/EmailActivator.php',
 ];
 $ignoreErrors[] = [
@@ -49,12 +59,27 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Authentication/Authenticators/AccessTokens.php',
 ];
 $ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\TokenLoginModel\\:\\:class is discouraged\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Authentication/Authenticators/AccessTokens.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\UserIdentityModel\\:\\:class is discouraged\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Authentication/Authenticators/AccessTokens.php',
+];
+$ignoreErrors[] = [
 	'message' => '#^Parameter \\#1 \\$credentials \\(array\\{token\\?\\: string\\}\\) of method CodeIgniter\\\\Shield\\\\Authentication\\\\Authenticators\\\\JWT\\:\\:attempt\\(\\) should be contravariant with parameter \\$credentials \\(array\\) of method CodeIgniter\\\\Shield\\\\Authentication\\\\AuthenticatorInterface\\:\\:attempt\\(\\)$#',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Authenticators/JWT.php',
 ];
 $ignoreErrors[] = [
 	'message' => '#^Parameter \\#1 \\$credentials \\(array\\{token\\?\\: string\\}\\) of method CodeIgniter\\\\Shield\\\\Authentication\\\\Authenticators\\\\JWT\\:\\:check\\(\\) should be contravariant with parameter \\$credentials \\(array\\) of method CodeIgniter\\\\Shield\\\\Authentication\\\\AuthenticatorInterface\\:\\:check\\(\\)$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Authentication/Authenticators/JWT.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\TokenLoginModel\\:\\:class is discouraged\\.$#',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Authenticators/JWT.php',
 ];
@@ -85,6 +110,21 @@ $ignoreErrors[] = [
 ];
 $ignoreErrors[] = [
 	'message' => '#^Parameter \\#1 \\$credentials \\(array\\{email\\?\\: string, username\\?\\: string, password\\?\\: string\\}\\) of method CodeIgniter\\\\Shield\\\\Authentication\\\\Authenticators\\\\Session\\:\\:check\\(\\) should be contravariant with parameter \\$credentials \\(array\\) of method CodeIgniter\\\\Shield\\\\Authentication\\\\AuthenticatorInterface\\:\\:check\\(\\)$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\LoginModel\\:\\:class is discouraged\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\RememberModel\\:\\:class is discouraged\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\UserIdentityModel\\:\\:class is discouraged\\.$#',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
 ];
@@ -160,6 +200,16 @@ The type \'basic\', \'md5\', and \'sha1\' are deprecated\\. They are not cryptog
 	'path' => __DIR__ . '/src/Controllers/MagicLinkController.php',
 ];
 $ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\UserIdentityModel\\:\\:class is discouraged\\.$#',
+	'count' => 2,
+	'path' => __DIR__ . '/src/Controllers/MagicLinkController.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\LoginModel\\:\\:class is discouraged\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Controllers/MagicLinkController.php',
+];
+$ignoreErrors[] = [
 	'message' => '#^Call to function assert\\(\\) with false and \'Config Auth…\' will always evaluate to false\\.$#',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Controllers/RegisterController.php',
@@ -223,6 +273,21 @@ $ignoreErrors[] = [
 	'message' => '#^Only booleans are allowed in a ternary operator condition, int\\<0, max\\> given\\.$#',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Entities/User.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\UserIdentityModel\\:\\:class is discouraged\\.$#',
+	'count' => 19,
+	'path' => __DIR__ . '/src/Entities/User.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\LoginModel\\:\\:class is discouraged\\.$#',
+	'count' => 2,
+	'path' => __DIR__ . '/src/Entities/User.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\UserModel\\:\\:class is discouraged\\.$#',
+	'count' => 9,
+	'path' => __DIR__ . '/src/Commands/User.php',
 ];
 $ignoreErrors[] = [
 	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
@@ -307,6 +372,11 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
 $ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\UserIdentityModel\\:\\:class is discouraged\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Models/UserModel.php',
+];
+$ignoreErrors[] = [
 	'message' => '#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with \'CodeIgniter\\\\\\\\Shield\\\\\\\\Result\' and CodeIgniter\\\\Shield\\\\Result will always evaluate to true\\.$#',
 	'count' => 2,
 	'path' => __DIR__ . '/tests/Authentication/Authenticators/AccessTokenAuthenticatorTest.php',
@@ -366,5 +436,29 @@ $ignoreErrors[] = [
 	'count' => 1,
 	'path' => __DIR__ . '/tests/_support/Config/Registrar.php',
 ];
-
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\TokenLoginModel\\:\\:class is discouraged\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Authentication/Authenticators/HmacSha256.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\UserIdentityModel\\:\\:class is discouraged\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Authentication/Authenticators/HmacSha256.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\GroupModel\\:\\:class is discouraged\\.$#',
+	'count' => 2,
+	'path' => __DIR__ . '/src/Authorization/Traits/Authorizable.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\PermissionModel\\:\\:class is discouraged\\.$#',
+	'count' => 2,
+	'path' => __DIR__ . '/src/Authorization/Traits/Authorizable.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function config with Config\\\\Email\\:\\:class is discouraged\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Commands/Setup.php',
+];
 return ['parameters' => ['ignoreErrors' => $ignoreErrors]];
