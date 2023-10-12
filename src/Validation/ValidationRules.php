@@ -27,8 +27,6 @@ class ValidationRules
 
     public function getRegistrationRules(): array
     {
-        helper('setting');
-
         $setting = setting('Validation.registration');
         if ($setting !== null) {
             return $setting;
@@ -59,8 +57,6 @@ class ValidationRules
 
     public function getLoginRules(): array
     {
-        helper('setting');
-
         return setting('Validation.login') ?? [
             // 'username' => $this->config->usernameValidationRules,
             'email'    => $this->config->emailValidationRules,

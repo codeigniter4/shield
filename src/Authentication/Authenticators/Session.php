@@ -73,8 +73,6 @@ class Session implements AuthenticatorInterface
 
     public function __construct(UserModel $provider)
     {
-        helper('setting');
-
         $this->provider = $provider;
 
         $this->loginModel        = model(LoginModel::class);

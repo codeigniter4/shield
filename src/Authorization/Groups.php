@@ -13,13 +13,6 @@ use CodeIgniter\Shield\Exceptions\RuntimeException;
  */
 class Groups
 {
-    public function __construct()
-    {
-        if (! function_exists('setting')) {
-            helper('setting');
-        }
-    }
-
     /**
      * Grabs a group info from settings.
      */

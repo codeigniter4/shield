@@ -259,9 +259,7 @@ trait Authorizable
                 return false;
             }
 
-            $matrix = function_exists('setting')
-                ? setting('AuthGroups.matrix')
-                : config('AuthGroups')->matrix;
+            $matrix = setting('AuthGroups.matrix');
 
             foreach ($this->groupCache as $group) {
                 // Check exact match
@@ -396,9 +394,7 @@ trait Authorizable
      */
     private function getConfigGroups(): array
     {
-        return function_exists('setting')
-            ? array_keys(setting('AuthGroups.groups'))
-            : array_keys(config('AuthGroups')->groups);
+        return array_keys(setting('AuthGroups.groups'));
     }
 
     /**
@@ -406,8 +402,6 @@ trait Authorizable
      */
     private function getConfigPermissions(): array
     {
-        return function_exists('setting')
-            ? array_keys(setting('AuthGroups.permissions'))
-            : array_keys(config('AuthGroups')->permissions);
+        return array_keys(setting('AuthGroups.permissions'));
     }
 }

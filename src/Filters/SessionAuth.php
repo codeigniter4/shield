@@ -39,8 +39,6 @@ class SessionAuth implements FilterInterface
             return;
         }
 
-        helper('setting');
-
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 

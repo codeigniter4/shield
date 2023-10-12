@@ -14,8 +14,6 @@ class LoginController extends BaseController
 {
     use Viewable;
 
-    protected $helpers = ['setting'];
-
     /**
      * Displays the form the login to the site.
      *

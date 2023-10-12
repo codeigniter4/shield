@@ -39,8 +39,6 @@ class TokenAuth implements FilterInterface
             return;
         }
 
-        helper('setting');
-
         /** @var AccessTokens $authenticator */
         $authenticator = auth('tokens')->getAuthenticator();
 
