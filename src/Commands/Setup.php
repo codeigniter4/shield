@@ -244,12 +244,6 @@ class Setup extends BaseCommand
         $path      = $this->distPath . $file;
         $cleanPath = clean_path($path);
 
-        if (! is_file($path)) {
-            $this->error("  Not found file '{$cleanPath}'.");
-
-            return;
-        }
-
         $config     = new AutoloadConfig();
         $helpers    = $config->helpers;
         $newHelpers = array_unique(array_merge($helpers, ['auth', 'setting']));
