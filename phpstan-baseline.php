@@ -432,11 +432,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/tests/Unit/UserTest.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/_support/Config/Registrar.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\TokenLoginModel\\:\\:class is discouraged\\.$#',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Authenticators/HmacSha256.php',
