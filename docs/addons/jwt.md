@@ -33,9 +33,10 @@ To use JWT Authentication, you need additional setup and configuration.
 2. Copy the **AuthJWT.php** from **vendor/codeigniter4/shield/src/Config/** into your project's config folder and update the namespace to `Config`. You will also need to have these classes extend the original classes. See the example below.
 
     ```php
-    // new file - app/Config/AuthJWT.php
     <?php
-
+    
+    // app/Config/AuthJWT.php
+    
     declare(strict_types=1);
 
     namespace Config;
@@ -140,7 +141,10 @@ $routes->post('auth/jwt', '\App\Controllers\Auth\LoginController::jwtLogin');
 ```
 
 ```php
+<?php
+
 // app/Controllers/Auth/LoginController.php
+
 declare(strict_types=1);
 
 namespace App\Controllers\Auth;
@@ -260,6 +264,7 @@ file itself:
 $routes->group('api', ['filter' => 'jwt'], static function ($routes) {
     // ...
 });
+
 $routes->get('users', 'UserController::list', ['filter' => 'jwt']);
 ```
 
