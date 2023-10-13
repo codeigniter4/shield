@@ -70,7 +70,7 @@ systems that are appropriate for your application. The following Validators are 
 You can choose which validators are used in `Config\Auth::$passwordValidators`:
 
 ```php
-public $passwordValidators = [
+public array $passwordValidators = [
     CompositionValidator::class,
     NothingPersonalValidator::class,
     DictionaryValidator::class,

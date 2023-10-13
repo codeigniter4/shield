@@ -12,7 +12,7 @@ You can see the [Authenticator List](../../getting_started/authenticators.md).
 The available authenticators are defined in `Config\Auth`:
 
 ```php
-public $authenticators = [
+public array $authenticators = [
     // alias  => classname
     'session' => Session::class,
     'tokens'  => AccessTokens::class,
@@ -24,7 +24,7 @@ public $authenticators = [
 The default authenticator is also defined in the configuration file, and uses the alias given above:
 
 ```php
-public $defaultAuthenticator = 'session';
+public string $defaultAuthenticator = 'session';
 ```
 
 ## Auth Helper

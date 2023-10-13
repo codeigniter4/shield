@@ -9,11 +9,15 @@ Typically, a mobile application would issue a request from their login screen, p
 Start by creating a route that would handle the request from the login screen on the mobile device. The device name can be any arbitrary string, but is typically used to identify the device the request is being made from, like "Johns iPhone 13".
 
 ```php
-
 // Routes.php
 $routes->post('auth/token', '\App\Controllers\Auth\LoginController::mobileLogin');
+```
 
-// LoginController.php
+```php
+<?php
+
+// app/Controllers/Auth/LoginController.php
+
 namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
