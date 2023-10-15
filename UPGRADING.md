@@ -1,5 +1,30 @@
 # Upgrade Guide
 
+## Version 1.0.0-beta.7 to 1.0.0-beta.8
+
+### Mandatory Config Changes
+
+#### Helper Autoloading
+
+Helper autoloading has been changed to be done by CodeIgniter's autoloader
+instead of Composer.
+
+So you need to update the settings. Run `php spark shield:setup` again, and the
+following steps will be done.
+
+1. Add `auth` and `setting` to the `$helpers` array in **app/Config/Autoload.php**:
+
+    ```php
+    public $helpers = ['auth', 'setting'];
+    ```
+
+2. Remove the following code in the `initController()` method in
+   `**app/Controllers/BaseController.php**:
+
+    ```php
+    $this->helpers = array_merge($this->helpers, ['setting']);
+    ```
+
 ## Version 1.0.0-beta.6 to 1.0.0-beta.7
 
 ### The minimum CodeIgniter version

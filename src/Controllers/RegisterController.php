@@ -27,8 +27,6 @@ class RegisterController extends BaseController
 {
     use Viewable;
 
-    protected $helpers = ['setting'];
-
     public function initController(
         RequestInterface $request,
         ResponseInterface $response,

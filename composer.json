@@ -52,9 +52,6 @@
         "psr-4": {
             "CodeIgniter\\Shield\\": "src"
         },
-        "files": [
-            "src/Helpers/auth_helper.php"
-        ],
         "exclude-from-classmap": [
             "**/Database/Migrations/**"
         ]

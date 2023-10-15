@@ -12,8 +12,6 @@ if (! defined('emailer')) {
      */
     function emailer(array $overrides = []): Email
     {
-        helper('setting');
-
         $config = [
             'userAgent'     => setting('Email.userAgent'),
             'protocol'      => setting('Email.protocol'),
