@@ -67,7 +67,7 @@ class Auth
      */
     public function setAuthenticator(?string $alias = null): self
     {
-        if (! empty($alias)) {
+        if ($alias !== null) {
             $this->alias = $alias;
         }
 
@@ -102,9 +102,9 @@ class Auth
      */
     public function id()
     {
-        return ($user = $this->user())
-            ? $user->id
-            : null;
+        $user = $this->user();
+
+        return ($user !== null) ? $user->id : null;
     }
 
     public function authenticate(array $credentials): Result

@@ -2,16 +2,6 @@
 
 $ignoreErrors = [];
 $ignoreErrors[] = [
-	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Auth.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Only booleans are allowed in a ternary operator condition, CodeIgniter\\\\Shield\\\\Entities\\\\User\\|null given\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Auth.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Call to deprecated function random_string\\(\\)\\:
 The type \'basic\', \'md5\', and \'sha1\' are deprecated\\. They are not cryptographically secure\\.$#',
 	'count' => 1,
