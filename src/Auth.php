@@ -33,6 +33,7 @@ class Auth
      */
     public const SHIELD_VERSION = '1.0.0-beta.7';
 
+    protected AuthConfig $config;
     protected ?Authentication $authenticate = null;
 
     /**
@@ -42,16 +43,18 @@ class Auth
 
     protected ?UserModel $userProvider = null;
 
+    public function __construct(AuthConfig $config)
+    {
+        $this->config = $config;
+    }
+
     protected function ensureAuthentication(): void
     {
         if ($this->authenticate !== null) {
             return;
         }
 
-        /** @var AuthConfig $config */
-        $config = config('Auth');
-
-        $authenticate = new Authentication($config);
+        $authenticate = new Authentication($this->config);
         $authenticate->setProvider($this->getProvider());
 
         $this->authenticate = $authenticate;
@@ -150,14 +153,11 @@ class Auth
             return $this->userProvider;
         }
 
-        /** @var \CodeIgniter\Shield\Config\Auth $config */
-        $config = config('Auth');
-
-        if (! property_exists($config, 'userProvider')) {
+        if (! property_exists($this->config, 'userProvider')) {
             throw AuthenticationException::forUnknownUserProvider();
         }
 
-        $className          = $config->userProvider;
+        $className          = $this->config->userProvider;
         $this->userProvider = new $className();
 
         return $this->userProvider;
