@@ -12,6 +12,8 @@ use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
 
 /**
+ * Facade for Authentication
+ *
  * @method Result    attempt(array $credentials)
  * @method Result    check(array $credentials)
  * @method bool      checkAction(string $token, string $type) [Session]
@@ -148,7 +150,7 @@ class Auth
 
     /**
      * Provide magic function-access to Authenticators to save use
-     * from repeating code here, and to allow them have their
+     * from repeating code here, and to allow them to have their
      * own, additional, features on top of the required ones,
      * like "remember-me" functionality.
      *
