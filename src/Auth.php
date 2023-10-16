@@ -8,6 +8,7 @@ use CodeIgniter\Router\RouteCollection;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
+use CodeIgniter\Shield\Config\Auth as AuthConfig;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
 
@@ -32,7 +33,7 @@ class Auth
      */
     public const SHIELD_VERSION = '1.0.0-beta.7';
 
-    protected Authentication $authenticate;
+    protected ?Authentication $authenticate = null;
 
     /**
      * The Authenticator alias to use for this request.
@@ -41,9 +42,19 @@ class Auth
 
     protected ?UserModel $userProvider = null;
 
-    public function __construct(Authentication $authenticate)
+    protected function ensureAuthentication(): void
     {
-        $this->authenticate = $authenticate->setProvider($this->getProvider());
+        if ($this->authenticate !== null) {
+            return;
+        }
+
+        /** @var AuthConfig $config */
+        $config = config('Auth');
+
+        $authenticate = new Authentication($config);
+        $authenticate->setProvider($this->getProvider());
+
+        $this->authenticate = $authenticate;
     }
 
     /**
@@ -65,6 +76,8 @@ class Auth
      */
     public function getAuthenticator(): AuthenticatorInterface
     {
+        $this->ensureAuthentication();
+
         return $this->authenticate
             ->factory($this->alias);
     }
@@ -93,6 +106,8 @@ class Auth
 
     public function authenticate(array $credentials): Result
     {
+        $this->ensureAuthentication();
+
         return $this->authenticate
             ->factory($this->alias)
             ->attempt($credentials);
@@ -160,6 +175,8 @@ class Auth
      */
     public function __call(string $method, array $args)
     {
+        $this->ensureAuthentication();
+
         $authenticator = $this->authenticate->factory($this->alias);
 
         if (method_exists($authenticator, $method)) {
