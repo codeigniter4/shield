@@ -2,11 +2,6 @@
 
 $ignoreErrors = [];
 $ignoreErrors[] = [
-	'message' => '#^Call to function property_exists\\(\\) with CodeIgniter\\\\Shield\\\\Config\\\\Auth and \'userProvider\' will always evaluate to true\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Auth.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Auth.php',

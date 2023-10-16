@@ -153,10 +153,6 @@ class Auth
             return $this->userProvider;
         }
 
-        if (! property_exists($this->config, 'userProvider')) {
-            throw AuthenticationException::forUnknownUserProvider();
-        }
-
         $className          = $this->config->userProvider;
         $this->userProvider = new $className();
 
