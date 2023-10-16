@@ -48,6 +48,12 @@ public array $validFields = [
 You must write new **Validation Rules** and then set them using the
 [Customizing Validation Rules](./validation_rules.md#login) description.
 
+!!! note
+
+    Not only the Validation Rules for **login**, but also the rules for
+    [registration](./validation_rules.md#registration) should be updated. If you do
+    not add the new **Validation Rules**, the new field will not be saved to the database.
+
 ## Customize Login View
 
 1. Change the `login` view file in the **app/Config/Auth.php** file.
