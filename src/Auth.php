@@ -160,10 +160,10 @@ class Auth
      */
     public function __call(string $method, array $args)
     {
-        $authenticate = $this->authenticate->factory($this->alias);
+        $authenticator = $this->authenticate->factory($this->alias);
 
-        if (method_exists($authenticate, $method)) {
-            return $authenticate->{$method}(...$args);
+        if (method_exists($authenticator, $method)) {
+            return $authenticator->{$method}(...$args);
         }
     }
 }
