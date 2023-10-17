@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Authentication\Filters;
 
-use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Filters\PermissionFilter;
 use CodeIgniter\Shield\Models\UserModel;
@@ -70,7 +69,7 @@ final class PermissionFilterTest extends AbstractFilterTestCase
             ->get('protected-route');
 
         // Should redirect to home page since previous_url is not set
-        $result->assertRedirectTo(config(Auth::class)->permissionDeniedRedirect());
+        $result->assertRedirectTo(config('Auth')->permissionDeniedRedirect());
         // Should have error message
         $result->assertSessionHas('error', lang('Auth.notEnoughPrivilege'));
     }

@@ -25,6 +25,28 @@ following steps will be done.
     $this->helpers = array_merge($this->helpers, ['setting']);
     ```
 
+#### Config\Auth
+
+The following items have been added. Copy the properties in **src/Config/Auth.php**.
+
+- `$permission_denied` and `$group_denied` are added to `Config\Auth::$redirects`.
+- `permissionDeniedRedirect()` and `groupDeniedRedirect()` are added.
+
+#### Fix Custom Filter If extends `AbstractAuthFilter`
+If you have written a custom filter that extends `AbstractAuthFilter`. Now you need to add and implement method `redirectToDeniedUrl()` to your custom filter.
+The following example is related to the above explanation for **group** filter.
+```php
+/**
+ * If there is no necessary access to the group,
+ * it will redirect the user to the set URL with an error message.
+ */
+protected function redirectToDeniedUrl(): RedirectResponse
+{
+    return redirect()->to(config('Auth')->groupDeniedRedirect())
+        ->with('error', lang('Auth.notEnoughPrivilege'));
+} 
+```
+
 ## Version 1.0.0-beta.6 to 1.0.0-beta.7
 
 ### The minimum CodeIgniter version

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\HTTP\RedirectResponse;
-use CodeIgniter\Shield\Config\Auth;
 
 /**
  * Group Authorization Filter.
@@ -27,7 +26,7 @@ class GroupFilter extends AbstractAuthFilter
      */
     protected function redirectToDeniedUrl(): RedirectResponse
     {
-        return redirect()->to(config(Auth::class)->groupDeniedRedirect())
+        return redirect()->to(config('Auth')->groupDeniedRedirect())
             ->with('error', lang('Auth.notEnoughPrivilege'));
     }
 }

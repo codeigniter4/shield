@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Authentication\Filters;
 
-use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Filters\GroupFilter;
 use CodeIgniter\Shield\Models\UserModel;
@@ -70,7 +69,7 @@ final class GroupFilterTest extends AbstractFilterTestCase
             ->get('protected-route');
 
         // Should redirect to home page since previous_url is not set
-        $result->assertRedirectTo(config(Auth::class)->groupDeniedRedirect());
+        $result->assertRedirectTo(config('Auth')->groupDeniedRedirect());
         // Should have error message
         $result->assertSessionHas('error', lang('Auth.notEnoughPrivilege'));
     }

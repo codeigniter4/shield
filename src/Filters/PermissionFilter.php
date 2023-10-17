@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\HTTP\RedirectResponse;
-use CodeIgniter\Shield\Config\Auth;
 
 /**
  * Permission Authorization Filter.
@@ -33,7 +32,7 @@ class PermissionFilter extends AbstractAuthFilter
      */
     protected function redirectToDeniedUrl(): RedirectResponse
     {
-        return redirect()->to(config(Auth::class)->permissionDeniedRedirect())
+        return redirect()->to(config('Auth')->permissionDeniedRedirect())
             ->with('error', lang('Auth.notEnoughPrivilege'));
     }
 }
