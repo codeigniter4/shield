@@ -1,8 +1,17 @@
 # Customizing Login Identifier
 
-If your application has a need to use something other than `email` or `username`, you may specify any valid column within the `users` table that you may have added. This allows you to easily use phone numbers, employee or school IDs, etc. as the user identifier. You must implement the following steps to set this up:
+If your application has a need to use something other than `email` or `username`, you may specify any valid column within the `users` table that you may have added.
+
+This allows you to easily use phone numbers, employee or school IDs, etc. as the user identifier.
+You must implement the following steps to set this up.
 
 This only works with the Session authenticator.
+
+!!! note
+
+    By default, Shield requires users to register their email and password.
+    Further customization is required beyond the steps on this page to remove
+    emails from user registrations.
 
 ## Create Migration File
 
@@ -38,6 +47,12 @@ public array $validFields = [
 
 You must write new **Validation Rules** and then set them using the
 [Customizing Validation Rules](./validation_rules.md#login) description.
+
+!!! note
+
+    Not only the Validation Rules for **login**, but also the rules for
+    [registration](./validation_rules.md#registration) should be updated. If you do
+    not add the new **Validation Rules**, the new field will not be saved to the database.
 
 ## Customize Login View
 
