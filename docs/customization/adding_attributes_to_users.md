@@ -139,7 +139,7 @@ class Validation extends BaseConfig
                 'strong_password[]',
             ],
             'errors' => [
-                'max_byte' => 'Auth.errorPasswordTooLongBytes'
+                'max_byte' => 'Auth.errorPasswordTooLongBytes',
             ]
         ],
         'password_confirm' => [
