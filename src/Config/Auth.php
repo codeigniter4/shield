@@ -356,14 +356,14 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * The BCRYPT method of hashing allows you to define the "cost"
      * or number of iterations made, whenever a password hash is created.
-     * This defaults to a value of 10 which is an acceptable number.
+     * This defaults to a value of 12 which is an acceptable number.
      * However, depending on the security needs of your application
      * and the power of your hardware, you might want to increase the
      * cost. This makes the hashing process takes longer.
      *
      * Valid range is between 4 - 31.
      */
-    public int $hashCost = 10;
+    public int $hashCost = 12;
 
     /**
      * If you need to support passwords saved in versions prior to Shield v1.0.0-beta.4.

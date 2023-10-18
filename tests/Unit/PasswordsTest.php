@@ -52,7 +52,7 @@ final class PasswordsTest extends CIUnitTestCase
     public function testNeedsRehashTakesCareOptions(string $hashedPassword): void
     {
         $config           = new AuthConfig();
-        $config->hashCost = 12;
+        $config->hashCost = 13;
         $passwords        = new Passwords($config);
 
         $result = $passwords->needsRehash($hashedPassword);
