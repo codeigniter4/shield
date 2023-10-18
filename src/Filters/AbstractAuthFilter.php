@@ -55,7 +55,14 @@ abstract class AbstractAuthFilter implements FilterInterface
         // Nothing required
     }
 
+    /**
+     * Ensures the user is logged in and has one or more
+     * of the permissions as specified in the filter.
+     */
     abstract protected function isAuthorized(array $arguments): bool;
 
+    /**
+     * Returns redirect response when the user does not have access authorizations.
+     */
     abstract protected function redirectToDeniedUrl(): RedirectResponse;
 }

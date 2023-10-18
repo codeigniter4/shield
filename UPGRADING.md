@@ -29,16 +29,17 @@ following steps will be done.
 
 The following items have been added. Copy the properties in **src/Config/Auth.php**.
 
-- `$permission_denied` and `$group_denied` are added to `Config\Auth::$redirects`.
+- `permission_denied` and `group_denied` are added to `Config\Auth::$redirects`.
 - `permissionDeniedRedirect()` and `groupDeniedRedirect()` are added.
 
 #### Fix Custom Filter If extends `AbstractAuthFilter`
-If you have written a custom filter that extends `AbstractAuthFilter`. Now you need to add and implement method `redirectToDeniedUrl()` to your custom filter.
+
+If you have written a custom filter that extends `AbstractAuthFilter`, now you need to add and implement the `redirectToDeniedUrl()` method to your custom filter.
 The following example is related to the above explanation for **group** filter.
+
 ```php
 /**
- * If there is no necessary access to the group,
- * it will redirect the user to the set URL with an error message.
+ * If the user does not belong to the group, redirect to the configured URL with an error message.
  */
 protected function redirectToDeniedUrl(): RedirectResponse
 {

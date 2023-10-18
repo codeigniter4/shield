@@ -27,8 +27,7 @@ class PermissionFilter extends AbstractAuthFilter
     }
 
     /**
-     * If there is no necessary access to the permission,
-     * it will redirect the user to the set URL with an error message.
+     * If the user does not have the permission, redirect to the configured URL with an error message.
      */
     protected function redirectToDeniedUrl(): RedirectResponse
     {

@@ -21,8 +21,7 @@ class GroupFilter extends AbstractAuthFilter
     }
 
     /**
-     * If there is no necessary access to the group,
-     * it will redirect the user to the set URL with an error message.
+     * If the user does not belong to the group, redirect to the configured URL with an error message.
      */
     protected function redirectToDeniedUrl(): RedirectResponse
     {
