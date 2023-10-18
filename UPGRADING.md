@@ -32,7 +32,7 @@ The following items have been added. Copy the properties in **src/Config/Auth.ph
 - `permission_denied` and `group_denied` are added to `Config\Auth::$redirects`.
 - `permissionDeniedRedirect()` and `groupDeniedRedirect()` are added.
 
-#### Fix Custom Filter If extends `AbstractAuthFilter`
+### Fix Custom Filter If extends `AbstractAuthFilter`
 
 If you have written a custom filter that extends `AbstractAuthFilter`, now you need to add and implement the `redirectToDeniedUrl()` method to your custom filter.
 The following example is related to the above explanation for **group** filter.
