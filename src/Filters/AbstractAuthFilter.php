@@ -30,7 +30,7 @@ abstract class AbstractAuthFilter implements FilterInterface
 
         if (! auth()->loggedIn()) {
             // Set the entrance url to redirect a user after successful login
-            if (! url_is('login')) {
+            if (uri_string() !== route_to('login')) {
                 $session = session();
                 $session->setTempdata('beforeLoginUrl', current_url(), 300);
             }
