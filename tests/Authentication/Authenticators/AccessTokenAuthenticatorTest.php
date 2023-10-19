@@ -17,6 +17,7 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Config\AuthToken;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
@@ -218,6 +219,38 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $this->dontSeeInDatabase($this->tables['token_logins'], [
             'id_type'    => AccessTokens::ID_TYPE_ACCESS_TOKEN,
             'identifier' => $token->raw_token,
+            'success'    => 1,
+        ]);
+    }
+
+    public function testAttemptSuccessLog(): void
+    {
+        // Change $recordLoginAttempt in Config.
+        /** @var AuthToken $config */
+        $config                     = config('AuthToken');
+        $config->recordLoginAttempt = Auth::RECORD_LOGIN_ATTEMPT_ALL;
+
+        /** @var User $user */
+        $user  = fake(UserModel::class);
+        $token = $user->generateAccessToken('foo');
+        $this->setRequestHeader($token->raw_token);
+
+        $result = $this->auth->attempt([
+            'token' => $token->raw_token,
+        ]);
+
+        $this->assertInstanceOf(Result::class, $result);
+        $this->assertTrue($result->isOK());
+
+        $foundUser = $result->extraInfo();
+        $this->assertInstanceOf(User::class, $foundUser);
+        $this->assertSame($user->id, $foundUser->id);
+        $this->assertInstanceOf(AccessToken::class, $foundUser->currentAccessToken());
+        $this->assertSame($token->token, $foundUser->currentAccessToken()->token);
+
+        $this->seeInDatabase($this->tables['token_logins'], [
+            'id_type'    => AccessTokens::ID_TYPE_ACCESS_TOKEN,
+            'identifier' => 'foo',
             'success'    => 1,
         ]);
     }
