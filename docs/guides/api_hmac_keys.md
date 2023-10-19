@@ -24,7 +24,7 @@ The `generateHmacToken()` method requires a name for the token. These are free s
 the user/device the token was generated from/for, like 'Johns MacBook Air'.
 
 ```php
-$routes->get('/hmac/token', static function () {
+$routes->get('hmac/token', static function () {
     $token = auth()->user()->generateHmacToken(service('request')->getVar('token_name'));
 
     return json_encode(['key' => $token->secret, 'secretKey' => $token->secret2]);
