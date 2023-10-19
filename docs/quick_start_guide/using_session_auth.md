@@ -100,7 +100,7 @@ If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/pa
 public $globals = [
     'before' => [
         // ...
-        'session' => ['except' => ['login*', 'register', 'auth/a/*']],
+        'session' => ['except' => ['login*', 'register', 'auth/a/*', 'logout']],
     ],
     // ...
 ];

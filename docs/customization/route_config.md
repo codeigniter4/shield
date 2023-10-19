@@ -57,7 +57,7 @@ update the paths for `except`:
 public $globals = [
     'before' => [
         // ...
-        'session' => ['except' => ['*/login*', '*/register', '*/auth/a/*']],
+        'session' => ['except' => ['*/login*', '*/register', '*/auth/a/*', 'logout']],
     ],
     // ...
 ];
