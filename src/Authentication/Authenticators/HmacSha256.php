@@ -78,14 +78,15 @@ class HmacSha256 implements AuthenticatorInterface
             return $result;
         }
 
-        $user = $result->extraInfo();
+        $user  = $result->extraInfo();
+        $token = $user->getHmacToken($this->getHmacKeyFromToken());
 
         if ($user->isBanned()) {
             if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
                 // Record a banned login attempt.
                 $this->loginModel->recordLoginAttempt(
                     self::ID_TYPE_HMAC_TOKEN,
-                    $credentials['token'] ?? '',
+                    $token->name ?? '',
                     false,
                     $ipAddress,
                     $userAgent,
@@ -101,9 +102,7 @@ class HmacSha256 implements AuthenticatorInterface
             ]);
         }
 
-        $user = $user->setHmacToken(
-            $user->getHmacToken($this->getHmacKeyFromToken())
-        );
+        $user = $user->setHmacToken($token);
 
         $this->login($user);
 
@@ -111,7 +110,7 @@ class HmacSha256 implements AuthenticatorInterface
             // Record a successful login attempt.
             $this->loginModel->recordLoginAttempt(
                 self::ID_TYPE_HMAC_TOKEN,
-                $credentials['token'] ?? '',
+                $token->name ?? '',
                 true,
                 $ipAddress,
                 $userAgent,

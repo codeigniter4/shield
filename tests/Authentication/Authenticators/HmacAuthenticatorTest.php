@@ -273,7 +273,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
         // A login attempt should have been recorded
         $this->seeInDatabase($this->tables['token_logins'], [
             'id_type'    => HmacSha256::ID_TYPE_HMAC_TOKEN,
-            'identifier' => $rawToken,
+            'identifier' => 'foo',
             'success'    => 1,
         ]);
 
@@ -310,7 +310,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
         // A login attempt should have been recorded
         $this->seeInDatabase($this->tables['token_logins'], [
             'id_type'    => HmacSha256::ID_TYPE_HMAC_TOKEN,
-            'identifier' => $rawToken,
+            'identifier' => 'foo',
             'success'    => 0,
         ]);
     }
