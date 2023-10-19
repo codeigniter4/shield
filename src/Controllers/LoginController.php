@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Traits\Viewable;
@@ -87,9 +88,15 @@ class LoginController extends BaseController
 
     /**
      * Logs the current user out.
+     *
+     * @throws PageNotFoundException if user not login
      */
     public function logoutAction(): RedirectResponse
     {
+        if (! auth()->loggedIn()) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
         // Capture logout redirect URL before auth logout,
         // otherwise you cannot check the user in `logoutRedirect()`.
         $url = config('Auth')->logoutRedirect();
