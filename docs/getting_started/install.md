@@ -33,6 +33,8 @@ Require it with an explicit version constraint allowing its desired stability.
 
     ```console
     composer config minimum-stability dev
+    ```
+    ```console
     composer config prefer-stable true
     ```
 
