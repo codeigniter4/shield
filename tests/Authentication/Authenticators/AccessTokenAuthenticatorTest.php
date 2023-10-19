@@ -22,7 +22,6 @@ use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Shield\Result;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
 use Tests\Support\DatabaseTestCase;
@@ -183,7 +182,6 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
             'token' => 'abc123',
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
         $this->assertSame(lang('Auth.badToken'), $result->reason());
 
@@ -206,7 +204,6 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
             'token' => $token->raw_token,
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertTrue($result->isOK());
 
         $foundUser = $result->extraInfo();
@@ -239,7 +236,6 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
             'token' => $token->raw_token,
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertTrue($result->isOK());
 
         $foundUser = $result->extraInfo();
