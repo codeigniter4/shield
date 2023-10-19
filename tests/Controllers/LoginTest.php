@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Controllers;
 
 use CodeIgniter\Config\Factories;
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\Email2FA;
 use CodeIgniter\Shield\Config\Auth;
@@ -213,8 +214,17 @@ final class LoginTest extends DatabaseTestCase
 
     public function testLogoutAction(): void
     {
-        // log them in
-        session()->set('user', ['id' => $this->user->id]);
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $result = $this->post('/login', [
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $result->assertSessionHas('user', ['id' => 1]);
 
         $result = $this->get('logout');
 
@@ -223,6 +233,14 @@ final class LoginTest extends DatabaseTestCase
         $this->assertSame(site_url(config('Auth')->redirects['logout']), $result->getRedirectUrl());
 
         $this->assertNull(session('user'));
+    }
+
+    public function testLogoutActionIFNotLogin(): void
+    {
+        $this->expectException(PageNotFoundException::class);
+        $this->expectExceptionMessage('Page Not Found');
+
+        $this->get('logout');
     }
 
     public function testLoginRedirectsToActionIfDefined(): void
