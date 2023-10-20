@@ -34,9 +34,9 @@ To use JWT Authentication, you need additional setup and configuration.
 
     ```php
     <?php
-    
+
     // app/Config/AuthJWT.php
-    
+
     declare(strict_types=1);
 
     namespace Config;
@@ -127,6 +127,19 @@ php -r 'echo base64_encode(random_bytes(32));'
 !!! note
 
     The secret key is used for signing and validating tokens.
+
+### Login Attempt Logging
+
+By default, only failed login attempts are recorded in the `auth_token_logins` table.
+
+```php
+public int $recordLoginAttempt = Auth::RECORD_LOGIN_ATTEMPT_FAILURE;
+```
+
+If you don't want any logs, set it to `Auth::RECORD_LOGIN_ATTEMPT_NONE`.
+
+If you want to log all login attempts, set it to `Auth::RECORD_LOGIN_ATTEMPT_ALL`.
+It means you log all requests.
 
 ## Issuing JWTs
 
@@ -351,3 +364,14 @@ It uses the `secret` and `alg` in the `Config\AuthJWT::$keys['default']`.
 It sets the `Config\AuthJWT::$defaultClaims` to the token, and sets
 `"iat"` (Issued At) and `"exp"` (Expiration Time) claims automatically even if
 you don't pass them.
+
+## Logging
+
+Login attempts are recorded in the `auth_token_logins` table, according to the
+configuration above.
+
+When a failed login attempt is logged, the raw token value sent is saved in
+the `identifier` column.
+
+When a successful login attempt is logged, the SHA256 hash value of the token
+sent is saved in the `identifier` column.

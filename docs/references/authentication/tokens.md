@@ -125,3 +125,30 @@ if ($user->tokenCant('forums.manage')) {
     // do something....
 }
 ```
+
+## Configuration
+
+### Login Attempt Logging
+
+By default, only failed login attempts are recorded in the `auth_token_logins` table.
+This can be modified in the **app/Config/AuthToken.php** config file.
+
+```php
+public int $recordLoginAttempt = Auth::RECORD_LOGIN_ATTEMPT_FAILURE;
+```
+
+If you don't want any logs, set it to `Auth::RECORD_LOGIN_ATTEMPT_NONE`.
+
+If you want to log all login attempts, set it to `Auth::RECORD_LOGIN_ATTEMPT_ALL`.
+It means you log all requests.
+
+## Logging
+
+Login attempts are recorded in the `auth_token_logins` table, according to the
+configuration above.
+
+When a failed login attempt is logged, the raw token value sent is saved in
+the `identifier` column.
+
+When a successful login attempt is logged, the token name is saved in the
+`identifier` column.
