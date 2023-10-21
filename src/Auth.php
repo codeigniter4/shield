@@ -15,6 +15,7 @@ use CodeIgniter\Shield\Models\UserModel;
  * @method Result    attempt(array $credentials)
  * @method Result    check(array $credentials)
  * @method bool      checkAction(string $token, string $type) [Session]
+ * @method void      forget(?User $user = null)               [Session]
  * @method User|null getUser()
  * @method bool      loggedIn()
  * @method bool      login(User $user)
