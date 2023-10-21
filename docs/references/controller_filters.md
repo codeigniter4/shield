@@ -47,7 +47,7 @@ If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/pa
 public $globals = [
     'before' => [
         // ...
-        'session' => ['except' => ['login*', 'register', 'auth/a/*']],
+        'session' => ['except' => ['login*', 'register', 'auth/a/*', 'logout']],
     ],
     // ...
 ];
@@ -102,7 +102,7 @@ Then the global `before` filter for `session` should look like so:
 public $globals = [
     'before' => [
         // ...
-        'session' => ['except' => ['accounts/login*', 'accounts/register', 'accounts/auth/a/*']]
+        'session' => ['except' => ['accounts/login*', 'accounts/register', 'accounts/auth/a/*', 'accounts/logout']]
     ]
 ]
 ```
