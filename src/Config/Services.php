@@ -6,9 +6,9 @@ namespace CodeIgniter\Shield\Config;
 
 use CodeIgniter\Config\BaseService;
 use CodeIgniter\Shield\Auth;
-use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Authentication\Passwords;
+use CodeIgniter\Shield\Config\Auth as AuthConfig;
 
 class Services extends BaseService
 {
@@ -21,9 +21,10 @@ class Services extends BaseService
             return self::getSharedInstance('auth');
         }
 
+        /** @var AuthConfig $config */
         $config = config('Auth');
 
-        return new Auth(new Authentication($config));
+        return new Auth($config);
     }
 
     /**

@@ -7,6 +7,9 @@ namespace CodeIgniter\Shield\Authentication;
 use CodeIgniter\Shield\Config\Auth as AuthConfig;
 use CodeIgniter\Shield\Models\UserModel;
 
+/**
+ * Factory for Authenticators.
+ */
 class Authentication
 {
     /**
@@ -26,13 +29,10 @@ class Authentication
     }
 
     /**
-     * Returns an instance of the specified Authenticator.
+     * Creates and returns the shared instance of the specified Authenticator.
      *
-     * You can pass 'default' as the Authenticator and it
-     * will return an instance of the first Authenticator specified
-     * in the Auth config file.
-     *
-     * @param string|null $alias Authenticator alias
+     * @param string|null $alias Authenticator alias. Passing `null` returns the
+     *                           default authenticator.
      *
      * @throws AuthenticationException
      */
@@ -61,7 +61,7 @@ class Authentication
     }
 
     /**
-     * Sets the User provider to use
+     * Sets the User Provider to use.
      *
      * @return $this
      */
