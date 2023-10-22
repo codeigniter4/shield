@@ -208,13 +208,19 @@ throw a `RuntimeException`.
 
 ## Configuration
 
+Configure **app/Config/AuthToken.php** for your needs.
+
+!!! note
+
+    Shield does not expect you use the Access Token Authenticator and HMAC Authenticator
+    at the same time. Therefore, some Config items are common.
+
 ### HMAC Keys Lifetime
 
 HMAC Keys/Tokens will expire after a specified amount of time has passed since they have been used.
-This uses the same configuration value as AccessTokens.
 
 By default, this is set to 1 year. You can change this value by setting the `$unusedTokenLifetime`
-value in the **app/Config/AuthToken.php** config file. This is in seconds so that you can use the
+value. This is in seconds so that you can use the
 [time constants](https://codeigniter.com/user_guide/general/common_functions.html#time-constants)
 that CodeIgniter provides.
 
@@ -225,7 +231,7 @@ public $unusedTokenLifetime = YEAR;
 ### Login Attempt Logging
 
 By default, only failed login attempts are recorded in the `auth_token_logins` table.
-This can be modified in the **app/Config/AuthToken.php** config file.
+This can be modified by changing the `$recordLoginAttempt` value.
 
 ```php
 public int $recordLoginAttempt = Auth::RECORD_LOGIN_ATTEMPT_FAILURE;
