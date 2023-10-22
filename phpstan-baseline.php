@@ -436,9 +436,4 @@ $ignoreErrors[] = [
 	'count' => 2,
 	'path' => __DIR__ . '/src/Authorization/Traits/Authorizable.php',
 ];
-$ignoreErrors[] = [
-	'message' => '#^Call to function config with Config\\\\Email\\:\\:class is discouraged\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Commands/Setup.php',
-];
 return ['parameters' => ['ignoreErrors' => $ignoreErrors]];
