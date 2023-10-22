@@ -13,15 +13,3 @@ the following configuration files:
 - **app/Config/AuthJWT.php** - For [JWT Authentication](../addons/jwt.md#configuration)
 
 Note that you do not need to have configuration files for features you do not use.
-
-This section describes the major Config items that are not described elsewhere.
-
-## AccessTokens Authenticator
-
-### Access Token Lifetime
-
-By default, Access Tokens can be used for 1 year since the last use. This can be easily modified in the **app/Config/AuthToken.php** config file.
-
-```php
-public int $unusedTokenLifetime = YEAR;
-```
