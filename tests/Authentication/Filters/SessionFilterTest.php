@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Authentication\Filters;
 
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Filters\SessionAuth;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
@@ -43,7 +44,7 @@ final class SessionFilterTest extends AbstractFilterTestCase
         $this->assertSame($user->id, auth('session')->id());
         $this->assertSame($user->id, auth('session')->user()->id);
         // Last Active should have been updated
-        $this->assertNotEmpty(auth('session')->user()->last_active);
+        $this->assertInstanceOf(Time::class, auth('session')->user()->last_active);
     }
 
     public function testRecordActiveDate(): void
