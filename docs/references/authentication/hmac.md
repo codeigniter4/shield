@@ -156,3 +156,14 @@ if ($user->hmacTokenCant('forums.manage')) {
     // do something....
 }
 ```
+
+## HMAC Secret Key Encryption
+
+The HMAC Secret Key is stored encrypted.  Before you start using HMAC, you will need to set/override the encryption key
+`$hmacEncryptionKey` in **app/Config/AuthToken.php**. This should be set using .env and/or system environment variables.
+Instructions on how to do that can be found in the
+[Setting Your Encryption Key](https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key)
+section of the CodeIgniter 4 documentation.
+
+You will also be able to adjust the default Driver `$hmacEncryptionDriver` and the default Digest
+`$hmacEncryptionDigest`, these default to `'OpenSSL'` and `'SHA512'` respectively.

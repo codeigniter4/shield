@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Authentication;
 
+use CodeIgniter\Encryption\Encryption;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
@@ -30,6 +31,9 @@ final class HasHmacTokensTest extends DatabaseTestCase
     {
         parent::setUp();
 
+        $authConfig                    = config('AuthToken');
+        $authConfig->hmacEncryptionKey = Encryption::createKey();
+
         $this->user = fake(UserModel::class);
         $this->db->table($this->tables['identities'])->truncate();
     }
@@ -43,6 +47,7 @@ final class HasHmacTokensTest extends DatabaseTestCase
 
         $this->assertIsString($token->secret);
         $this->assertIsString($token->secret2);
+        $this->assertIsString($token->rawSecretKey);
 
         // All scopes are assigned by default via wildcard
         $this->assertSame(['*'], $token->scopes);
