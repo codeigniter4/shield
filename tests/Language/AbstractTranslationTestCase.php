@@ -68,7 +68,7 @@ abstract class AbstractTranslationTestCase extends TestCase
         //        PolishTranslationTest::class             => 'pl',
         PortugueseTranslationTest::class => 'pt',
         BrazilianTranslationTest::class  => 'pt-BR',
-        //        RussianTranslationTest::class            => 'ru',
+        RussianTranslationTest::class    => 'ru',
         //        SinhalaTranslationTest::class            => 'si',
         SlovakTranslationTest::class  => 'sk',
         SerbianTranslationTest::class => 'sr',
