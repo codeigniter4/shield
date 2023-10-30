@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Authentication\Authenticators;
 
+use CodeIgniter\Encryption\Encryption;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
@@ -36,6 +37,9 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $authConfig                    = config('AuthToken');
+        $authConfig->hmacEncryptionKey = Encryption::createKey();
 
         $config = new Auth();
         $auth   = new Authentication($config);
@@ -109,7 +113,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
         $user  = fake(UserModel::class);
         $token = $user->generateHmacToken('foo');
 
-        $rawToken = $this->generateRawHeaderToken($token->secret, $token->secret2, 'bar');
+        $rawToken = $this->generateRawHeaderToken($token->secret, $token->rawSecretKey, 'bar');
         $this->setRequestHeader($rawToken);
 
         $this->auth->loginById($user->id);
@@ -126,7 +130,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
         $token1 = $user->generateHmacToken('foo');
         $user->generateHmacToken('bar');
 
-        $this->setRequestHeader($this->generateRawHeaderToken($token1->secret, $token1->secret2, 'bar'));
+        $this->setRequestHeader($this->generateRawHeaderToken($token1->secret, $token1->rawSecretKey, 'bar'));
 
         $this->auth->loginById($user->id);
 
@@ -170,7 +174,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
         $identities->save($token);
 
         $result = $this->auth->check([
-            'token' => $this->generateRawHeaderToken($token->secret, $token->secret2, 'bar'),
+            'token' => $this->generateRawHeaderToken($token->secret, $token->rawSecretKey, 'bar'),
             'body'  => 'bar',
         ]);
 
@@ -190,7 +194,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
             'last_used_at' => null,
         ]);
 
-        $rawToken = $this->generateRawHeaderToken($token->secret, $token->secret2, 'bar');
+        $rawToken = $this->generateRawHeaderToken($token->secret, $token->rawSecretKey, 'bar');
 
         $result = $this->auth->check([
             'token' => $rawToken,
@@ -220,7 +224,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
             'last_used_at' => null,
         ]);
 
-        $rawToken = $this->generateRawHeaderToken($token->secret, $token->secret2, 'foobar');
+        $rawToken = $this->generateRawHeaderToken($token->secret, $token->rawSecretKey, 'foobar');
 
         $result = $this->auth->check([
             'token' => $rawToken,
@@ -254,7 +258,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
         /** @var User $user */
         $user     = fake(UserModel::class);
         $token    = $user->generateHmacToken('foo');
-        $rawToken = $this->generateRawHeaderToken($token->secret, $token->secret2, 'bar');
+        $rawToken = $this->generateRawHeaderToken($token->secret, $token->rawSecretKey, 'bar');
         $this->setRequestHeader($rawToken);
 
         $result = $this->auth->attempt([
@@ -294,7 +298,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
         $user->ban('Test ban.');
 
         $token    = $user->generateHmacToken('foo');
-        $rawToken = $this->generateRawHeaderToken($token->secret, $token->secret2, 'bar');
+        $rawToken = $this->generateRawHeaderToken($token->secret, $token->rawSecretKey, 'bar');
         $this->setRequestHeader($rawToken);
 
         $result = $this->auth->attempt([

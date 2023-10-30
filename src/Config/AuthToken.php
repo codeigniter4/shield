@@ -63,4 +63,40 @@ class AuthToken extends BaseConfig
      * HMAC SHA256 byte size
      */
     public int $hmacSecretKeyByteSize = 32;
+
+    /**
+     * --------------------------------------------------------------------
+     * HMAC encryption key
+     * --------------------------------------------------------------------
+     * Key to be used when encrypting HMAC Secret Key for storage.
+     *
+     * @see https://codeigniter.com/user_guide/libraries/encryption.html
+     */
+    public string $hmacEncryptionKey = '';
+
+    /**
+     * --------------------------------------------------------------------
+     * HMAC encryption driver
+     * --------------------------------------------------------------------
+     * Driver to be used when encrypting HMAC Secret Key for storage.
+     *
+     * Available drivers:
+     * OpenSSL
+     * Sodium
+     *
+     * @see https://codeigniter.com/user_guide/libraries/encryption.html
+     */
+    public string $hmacEncryptionDriver = 'OpenSSL';
+
+    /**
+     * --------------------------------------------------------------------
+     * HMAC encryption digest
+     * --------------------------------------------------------------------
+     * Digest to be used when encrypting HMAC Secret Key for storage.
+     *
+     * e.g. 'SHA512' or 'SHA256'. Default value is 'SHA512'.
+     *
+     * @see https://codeigniter.com/user_guide/libraries/encryption.html
+     */
+    public string $hmacEncryptionDigest = 'SHA512';
 }

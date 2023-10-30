@@ -18,12 +18,15 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Config\AuthToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Models\TokenLoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
+use Config\Encryption;
+use Config\Services;
 
 class HmacSha256 implements AuthenticatorInterface
 {
@@ -159,8 +162,20 @@ class HmacSha256 implements AuthenticatorInterface
             ]);
         }
 
+        /** @var AuthToken $authConfig */
+        $authConfig = config('AuthToken');
+        $config     = new Encryption();
+
+        $config->key    = $authConfig->hmacEncryptionKey;
+        $config->driver = $authConfig->hmacEncryptionDriver;
+        $config->digest = $authConfig->hmacEncryptionDigest;
+
+        // decrypt secret key so signature can be validated
+        $encrypter = Services::encrypter($config);
+        $secretKey = $encrypter->decrypt(hex2bin($token->secret2));
+
         // Check signature...
-        $hash = hash_hmac('sha256', $credentials['body'], $token->secret2);
+        $hash = hash_hmac('sha256', $credentials['body'], $secretKey);
         if ($hash !== $signature) {
             return new Result([
                 'success' => false,
