@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Tests\Authentication\Authenticators;
 
-use CodeIgniter\Encryption\Encryption;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
@@ -37,9 +36,6 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        $authConfig                    = config('AuthToken');
-        $authConfig->hmacEncryptionKey = Encryption::createKey();
 
         $config = new Auth();
         $auth   = new Authentication($config);

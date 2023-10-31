@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Tests\Authentication\Filters;
 
-use CodeIgniter\Encryption\Encryption;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Filters\HmacAuth;
@@ -30,14 +29,6 @@ final class HmacFilterTest extends AbstractFilterTestCase
     // Filter alias and classname
     protected string $alias     = 'hmacAuth';
     protected string $classname = HmacAuth::class;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $authConfig                    = config('AuthToken');
-        $authConfig->hmacEncryptionKey = Encryption::createKey();
-    }
 
     public function testFilterNotAuthorized(): void
     {

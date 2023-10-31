@@ -1,5 +1,25 @@
 # Upgrade Guide
 
+## Version 1.0.0-beta.8 to 1.0.0-beta.9
+
+### Mandatory Config Changes
+
+#### Config\AuthToken
+
+If you are using the HMAC authentication you need to update the encryption settings in **app/Config/AuthToken.php**.
+You will need to update and set the encryption key `$hmacEncryptionKey`. This should be set using .env and/or system
+environment variables. Instructions on how to do that can be found in the
+[Setting Your Encryption Key](https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key)
+section of the CodeIgniter 4 documentation.
+
+You also may wish to adjust the default Driver `$hmacEncryptionDriver` and the default Digest `$hmacEncryptionDigest`,
+these currently default to `'OpenSSL'` and `'SHA512'` respectively.
+
+### Database Migrations
+
+After updating the `$hmacEncryptionKey` value, you will need to run `php spark migrate --all` in order to encrypt any
+existing HMAC tokens.
+
 ## Version 1.0.0-beta.7 to 1.0.0-beta.8
 
 ### Mandatory Config Changes
@@ -45,7 +65,7 @@ protected function redirectToDeniedUrl(): RedirectResponse
 {
     return redirect()->to(config('Auth')->groupDeniedRedirect())
         ->with('error', lang('Auth.notEnoughPrivilege'));
-} 
+}
 ```
 
 ## Version 1.0.0-beta.6 to 1.0.0-beta.7

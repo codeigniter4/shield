@@ -68,18 +68,18 @@ $token = $user->generateHmacToken('Work Laptop');
 
 This creates the keys/tokens using a cryptographically secure random string. The keys operate as shared keys.
 This means they are stored as-is in the database. The method returns an instance of
-`CodeIgniters\Shield\Authentication\Entities\AccessToken`. The field `secret` is the 'key' the field `secret2` is
-the shared 'secretKey'. Both are required to when using this authentication method.
+`CodeIgniters\Shield\Authentication\Entities\AccessToken`. The field `secret` is the '_key_' the field `rawSecretKey` is
+the shared '_secretKey_'. Both are required to when using this authentication method.
 
 **The plain text version of these keys should be displayed to the user immediately, so they can copy it for
-their use.** It is recommended that after that only the 'key' field is displayed to a user.  If a user loses the
-'secretKey', they should be required to generate a new set of keys to use.
+their use.** It is recommended that after that only the '_key_' field is displayed to a user.  If a user loses the
+'_secretKey_', they should be required to generate a new set of keys to use.
 
 ```php
 $token = $user->generateHmacToken('Work Laptop');
 
 echo 'Key: ' . $token->secret;
-echo 'SecretKey: ' . $token->secret2;
+echo 'SecretKey: ' . $token->rawSecretKey;
 ```
 
 ## Revoking HMAC Keys

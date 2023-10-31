@@ -171,8 +171,8 @@ class HmacSha256 implements AuthenticatorInterface
         $config->digest = $authConfig->hmacEncryptionDigest;
 
         // decrypt secret key so signature can be validated
-        $encrypter = Services::encrypter($config);
-        $secretKey = $encrypter->decrypt(hex2bin($token->secret2));
+        $encryptor = Services::encrypter($config);
+        $secretKey = $encryptor->decrypt(hex2bin($token->secret2));
 
         // Check signature...
         $hash = hash_hmac('sha256', $credentials['body'], $secretKey);

@@ -16,8 +16,8 @@ API. When making requests using HMAC keys, the token should be included in the `
 
 Tokens are issued with the `generateHmacToken()` method on the user. This returns a
 `CodeIgniter\Shield\Entities\AccessToken` instance. These shared keys are saved to the database in plain text. The
-`AccessToken` object returned when you generate it will include a `secret` field which will be the `key` and a `secret2`
-field that will be the `secretKey`. You should display the `secretKey` to your user once, so they have a chance to copy
+`AccessToken` object returned when you generate it will include a `secret` field which will be the '_key_' and a `rawSecretKey`
+field that will be the '_secretKey_'. You should display the '_secretKey_' to your user once, so they have a chance to copy
 it somewhere safe, as this is the only time you should reveal this key.
 
 The `generateHmacToken()` method requires a name for the token. These are free strings and are often used to identify
@@ -27,7 +27,7 @@ the user/device the token was generated from/for, like 'Johns MacBook Air'.
 $routes->get('hmac/token', static function () {
     $token = auth()->user()->generateHmacToken(service('request')->getVar('token_name'));
 
-    return json_encode(['key' => $token->secret, 'secretKey' => $token->secret2]);
+    return json_encode(['key' => $token->secret, 'secretKey' => $token->rawSecretKey]);
 });
 ```
 
@@ -62,7 +62,7 @@ token is granted all access to all scopes. This might be enough for a smaller AP
 
 ```php
 $token = $user->generateHmacToken('token-name', ['users-read']);
-return json_encode(['key' => $token->secret, 'secretKey' => $token->secret2]);
+return json_encode(['key' => $token->secret, 'secretKey' => $token->rawSecretKey]);
 ```
 
 !!! note
