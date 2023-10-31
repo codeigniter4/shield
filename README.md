@@ -58,13 +58,13 @@ and authorization purposes in web applications.
 * Flexible Groups-based access control (think Roles, but more flexible)
 * Users can be granted additional Permissions
 
-See the [An Official Auth Library](https://codeigniter.com/news/shield) for more Info.
+See the [An Official Auth Library](https://forum.codeigniter.com/showthread.php?tid=82003) for more Info.
 
 ## Getting Started
 
 ### Prerequisites
 
-Usage of Shield requires the following:
+sage of Shield requires the following:
 
 - A [CodeIgniter 4.3.5+](https://github.com/codeigniter4/CodeIgniter4/) based project
 - [Composer](https://getcomposer.org/) for package management
