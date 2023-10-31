@@ -64,7 +64,7 @@ See the [An Official Auth Library](https://forum.codeigniter.com/showthread.php?
 
 ### Prerequisites
 
-sage of Shield requires the following:
+Usage of Shield requires the following:
 
 - A [CodeIgniter 4.3.5+](https://github.com/codeigniter4/CodeIgniter4/) based project
 - [Composer](https://getcomposer.org/) for package management
