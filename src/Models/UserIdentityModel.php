@@ -17,15 +17,13 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\HmacSha256;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Authentication\HMAC\HmacEncrypter;
 use CodeIgniter\Shield\Authentication\Passwords;
-use CodeIgniter\Shield\Config\AuthToken;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\ValidationException;
-use Config\Encryption;
-use Config\Services;
 use Exception;
 use Faker\Generator;
 use ReflectionException;
@@ -254,18 +252,9 @@ class UserIdentityModel extends BaseModel
     {
         $this->checkUserId($user);
 
-        /** @var AuthToken $authConfig */
-        $authConfig = config('AuthToken');
-        $config     = new Encryption();
-
-        $config->key    = $authConfig->hmacEncryptionKey;
-        $config->driver = $authConfig->hmacEncryptionDriver;
-        $config->digest = $authConfig->hmacEncryptionDigest;
-
-        // Generate and encrypt secret key
-        $encrypter    = Services::encrypter($config);
-        $rawSecretKey = bin2hex(random_bytes(config('AuthToken')->hmacSecretKeyByteSize));
-        $secretKey    = bin2hex($encrypter->encrypt($rawSecretKey));
+        $encrypter    = new HmacEncrypter();
+        $rawSecretKey = $encrypter->generateSecretKey();
+        $secretKey    = $encrypter->encrypt($rawSecretKey);
 
         $return = $this->insert([
             'type'    => HmacSha256::ID_TYPE_HMAC_TOKEN,
