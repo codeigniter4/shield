@@ -7,7 +7,7 @@ access to your API. These keys typically have a very long expiration time, often
 
 These are also suitable for use with mobile applications. In this case, the user would register/sign-in
 with their email/password. The application would create a new access token for them, with a recognizable
-name, like John's iPhone 12, and return it to the mobile application, where it is stored and used
+name, like "John's iPhone 12", and return it to the mobile application, where it is stored and used
 in all future requests.
 
 !!! note
@@ -67,13 +67,13 @@ $token = $user->generateHmacToken('Work Laptop');
 ```
 
 This creates the keys/tokens using a cryptographically secure random string. The keys operate as shared keys.
-This means they are stored as-is in the database. The method returns an instance of
-`CodeIgniters\Shield\Authentication\Entities\AccessToken`. The field `secret` is the '_key_' the field `rawSecretKey` is
-the shared '_secretKey_'. Both are required to when using this authentication method.
+The '**key**' is stored as plain text in the database, the '**secretKey**' is stored encrypted. The method returns an
+instance of `CodeIgniters\Shield\Authentication\Entities\AccessToken`. The field `secret` is the '**key**' the field
+`rawSecretKey` is the shared '**secretKey**'. Both are required to when using this authentication method.
 
 **The plain text version of these keys should be displayed to the user immediately, so they can copy it for
-their use.** It is recommended that after that only the '_key_' field is displayed to a user.  If a user loses the
-'_secretKey_', they should be required to generate a new set of keys to use.
+their use.** It is recommended that after that only the '**key**' field is displayed to a user.  If a user loses the
+'**secretKey**', they should be required to generate a new set of keys to use.
 
 ```php
 $token = $user->generateHmacToken('Work Laptop');
