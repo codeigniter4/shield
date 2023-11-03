@@ -25,8 +25,6 @@ abstract class TestCase extends CIUnitTestCase
 {
     protected function setUp(): void
     {
-        $_ENV['authtoken.hmacEncryptionKey'] = 'hex2bin:178ed94fd0b6d57dd31dd6b22fc601fab8ad191efac165a5f3f30a8ac09d813d';
-
         $this->resetServices();
 
         parent::setUp();
