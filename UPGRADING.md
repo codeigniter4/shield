@@ -32,17 +32,6 @@ The following items have been added. Copy the properties in **src/Config/Auth.ph
 - `permission_denied` and `group_denied` are added to `Config\Auth::$redirects`.
 - `permissionDeniedRedirect()` and `groupDeniedRedirect()` are added.
 
-#### Config\AuthToken
-
-If you are using the HMAC authentication you need to update the encryption settings in **app/Config/AuthToken.php**.
-You will need to update and set the encryption key `$hmacEncryptionKey`. This should be set using .env and/or system
-environment variables. Instructions on how to do that can be found in the
-[Setting Your Encryption Key](https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key)
-section of the CodeIgniter 4 documentation.
-
-You also may wish to adjust the default Driver `$hmacEncryptionDriver` and the default Digest `$hmacEncryptionDigest`,
-these currently default to `'OpenSSL'` and `'SHA512'` respectively.
-
 ### Fix Custom Filter If extends `AbstractAuthFilter`
 
 If you have written a custom filter that extends `AbstractAuthFilter`, now you need to add and implement the `redirectToDeniedUrl()` method to your custom filter.
@@ -58,10 +47,25 @@ protected function redirectToDeniedUrl(): RedirectResponse
         ->with('error', lang('Auth.notEnoughPrivilege'));
 }
 ```
-### Database Migrations
 
-After updating the `$hmacEncryptionKey` value, you will need to run `php spark migrate --all` in order to encrypt any
-existing HMAC tokens.
+### Fix to HMAC Secret Key Encryption
+
+#### Config\AuthToken
+
+If you are using the HMAC authentication you need to update the encryption settings in **app/Config/AuthToken.php**.
+You will need to update and set the encryption key `$hmacEncryptionKey`. This should be set using .env and/or system
+environment variables. Instructions on how to do that can be found in the
+[Setting Your Encryption Key](https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key)
+section of the CodeIgniter 4 documentation.
+
+You also may wish to adjust the default Driver `$hmacEncryptionDriver` and the default Digest `$hmacEncryptionDigest`,
+these currently default to `'OpenSSL'` and `'SHA512'` respectively.
+
+#### Encrypt Existing Keys
+
+After updating the `$hmacEncryptionKey` value, you will need to run `php spark shield:hmac encrypt` in order to encrypt
+any existing HMAC tokens.  This only needs to be run if you have existing unencrypted HMAC secretKeys in stored in the
+database.
 
 ## Version 1.0.0-beta.6 to 1.0.0-beta.7
 

@@ -99,6 +99,9 @@ section of the CodeIgniter 4 documentation.
 You will also be able to adjust the default Driver `$hmacEncryptionDriver` and the default Digest
 `$hmacEncryptionDigest`, these default to `'OpenSSL'` and `'SHA512'` respectively.
 
+Depending on the set length of the Secret Key and the type of encryption used, it is possible for the encrypted value to
+exceed the database column character limit of 255 characters.  If this happens, creation of a new HMAC identity will
+throw a `RuntimeException`.
 
 ## Protecting Routes
 

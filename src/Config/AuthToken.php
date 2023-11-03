@@ -57,6 +57,14 @@ class AuthToken extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Secret2 storage character limit
+     * --------------------------------------------------------------------
+     * Database size limit for the identities 'secret2' field.
+     */
+    public int $secret2StorageLimit = 255;
+
+    /**
+     * --------------------------------------------------------------------
      * HMAC secret key byte size
      * --------------------------------------------------------------------
      * Specify in integer the desired byte size of the

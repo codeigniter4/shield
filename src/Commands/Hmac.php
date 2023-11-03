@@ -7,6 +7,7 @@ namespace CodeIgniter\Shield\Commands;
 use CodeIgniter\Shield\Authentication\HMAC\HmacEncrypter;
 use CodeIgniter\Shield\Commands\Exceptions\BadInputException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
+use Exception;
 use ReflectionException;
 
 class Hmac extends BaseCommand
@@ -82,7 +83,7 @@ class Hmac extends BaseCommand
                 default:
                     throw new BadInputException('Unrecognized Command');
             }
-        } catch (BadInputException|ReflectionException $e) {
+        } catch (Exception $e) {
             $this->write($e->getMessage(), 'red');
 
             return EXIT_ERROR;

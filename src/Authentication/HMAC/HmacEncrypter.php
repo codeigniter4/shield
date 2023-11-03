@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Authentication\HMAC;
 
 use CodeIgniter\Encryption\EncrypterInterface;
+use CodeIgniter\Encryption\Exceptions\EncryptionException;
 use CodeIgniter\Shield\Config\AuthToken;
+use CodeIgniter\Shield\Exceptions\RuntimeException;
 use Config\Encryption;
 use Config\Services;
 use Exception;
@@ -47,13 +49,15 @@ class HmacEncrypter
     /**
      * Decrypt
      *
-     * @param string $hexString Encrypted string in Hex format
+     * @param string $base64String Encrypted string in base64 format
      *
      * @return string Raw decrypted string
+     *
+     * @throws EncryptionException
      */
-    public function decrypt(string $hexString): string
+    public function decrypt(string $base64String): string
     {
-        return $this->encrypter->decrypt(hex2bin($hexString));
+        return $this->encrypter->decrypt(base64_decode($base64String, true));
     }
 
     /**
@@ -61,22 +65,31 @@ class HmacEncrypter
      *
      * @param string $rawString Raw string to encrypt
      *
-     * @return string Encrypted string in hex format
+     * @return string Encrypted string in base64 format
+     *
+     * @throws EncryptionException
+     * @throws RuntimeException
      */
     public function encrypt(string $rawString): string
     {
-        return bin2hex($this->encrypter->encrypt($rawString));
+        $encryptedString = base64_encode($this->encrypter->encrypt($rawString));
+
+        if (strlen($encryptedString) > $this->authConfig->secret2StorageLimit) {
+            throw new RuntimeException('Encrypted key too long. Unable to store value.');
+        }
+
+        return $encryptedString;
     }
 
     /**
      * Generate Key
      *
-     * @return string Secret Key in hexed format
+     * @return string Secret Key in base64 format
      *
      * @throws Exception
      */
     public function generateSecretKey(): string
     {
-        return bin2hex(random_bytes($this->authConfig->hmacSecretKeyByteSize));
+        return base64_encode(random_bytes($this->authConfig->hmacSecretKeyByteSize));
     }
 }
