@@ -49,15 +49,18 @@ class HmacEncrypter
     /**
      * Decrypt
      *
-     * @param string $base64String Encrypted string in base64 format
+     * @param string $encString Encrypted string
      *
      * @return string Raw decrypted string
      *
      * @throws EncryptionException
      */
-    public function decrypt(string $base64String): string
+    public function decrypt(string $encString): string
     {
-        return $this->encrypter->decrypt(base64_decode($base64String, true));
+        // Removes `$b6$` for base64 format.
+        $encString = substr($encString, 4);
+
+        return $this->encrypter->decrypt(base64_decode($encString, true));
     }
 
     /**
@@ -65,20 +68,28 @@ class HmacEncrypter
      *
      * @param string $rawString Raw string to encrypt
      *
-     * @return string Encrypted string in base64 format
+     * @return string Encrypted string
      *
      * @throws EncryptionException
      * @throws RuntimeException
      */
     public function encrypt(string $rawString): string
     {
-        $encryptedString = base64_encode($this->encrypter->encrypt($rawString));
+        $encryptedString = '$b6$' . base64_encode($this->encrypter->encrypt($rawString));
 
         if (strlen($encryptedString) > $this->authConfig->secret2StorageLimit) {
             throw new RuntimeException('Encrypted key too long. Unable to store value.');
         }
 
         return $encryptedString;
+    }
+
+    /**
+     * Check if the string already encrypted
+     */
+    public function isEncrypted(string $string): bool
+    {
+        return str_starts_with($string, '$b6$');
     }
 
     /**

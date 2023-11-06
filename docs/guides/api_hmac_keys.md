@@ -18,7 +18,7 @@ Tokens are issued with the `generateHmacToken()` method on the user. This return
 `CodeIgniter\Shield\Entities\AccessToken` instance. The `AccessToken` object returned will include a `secret` field
 which will be the '**key**' and a `rawSecretKey` field that will be the '**secretKey**'. You should display the
 '**secretKey**' to your user immediately, so they have a chance to copy it somewhere safe, as this is the only time
-you can reveal this key. The '**key**' and '**sharedKey**' are saved to the database. The '**secretKey**' is stored
+you can reveal this key. The '**key**' and '**secretKey**' are saved to the database. The '**secretKey**' is stored
 encrypted.
 
 The `generateHmacToken()` method requires a name for the token. These are free strings and are often used to identify
@@ -91,7 +91,7 @@ $user->revokeAllHmacTokens();
 ## HMAC Secret Key Encryption
 
 The HMAC Secret Key is stored encrypted.  Before you start using HMAC, you will need to set/override the encryption key
-`$hmacEncryptionKey` in **app/Config/AuthToken.php**. This should be set using .env and/or system environment variables.
+`$hmacEncryptionKey` in **app/Config/AuthToken.php**. This should be set using **.env** and/or system environment variables.
 Instructions on how to do that can be found in the
 [Setting Your Encryption Key](https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key)
 section of the CodeIgniter 4 documentation.

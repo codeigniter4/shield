@@ -6,6 +6,7 @@ namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\Shield\Authentication\HMAC\HmacEncrypter;
 use CodeIgniter\Shield\Commands\Exceptions\BadInputException;
+use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use Exception;
 use ReflectionException;
@@ -99,15 +100,29 @@ class Hmac extends BaseCommand
      */
     public function encrypt(): void
     {
-        $uIdModel  = new UserIdentityModel();
-        $encrypter = $this->encrypter;
+        $uIdModel    = new UserIdentityModel();
+        $uIdModelSub = new UserIdentityModel(); // For saving.
+        $encrypter   = $this->encrypter;
 
-        $uIdModel->where('type', 'hmac_sha256')->chunk(
+        $that = $this;
+
+        $uIdModel->where('type', 'hmac_sha256')->orderBy('id')->chunk(
             100,
-            static function ($identity) use ($uIdModel, $encrypter): void {
-                $identity->secret2 = $encrypter->encrypt($identity->secret2);
+            static function ($identity) use ($uIdModelSub, $encrypter, $that): void {
+                if ($encrypter->isEncrypted($identity->secret2)) {
+                    $that->write('id: ' . $identity->id . ', already encrypted, skipped.');
 
-                $uIdModel->save($identity);
+                    return;
+                }
+
+                try {
+                    $identity->secret2 = $encrypter->encrypt($identity->secret2);
+                    $uIdModelSub->save($identity);
+
+                    $that->write('id: ' . $identity->id . ', encrypted.');
+                } catch (RuntimeException $e) {
+                    $that->error('id: ' . $identity->id . ', ' . $e->getMessage());
+                }
             }
         );
     }
@@ -119,15 +134,25 @@ class Hmac extends BaseCommand
      */
     public function decrypt(): void
     {
-        $uIdModel  = new UserIdentityModel();
-        $encrypter = $this->encrypter;
+        $uIdModel    = new UserIdentityModel();
+        $uIdModelSub = new UserIdentityModel(); // For saving.
+        $encrypter   = $this->encrypter;
+
+        $that = $this;
 
         $uIdModel->where('type', 'hmac_sha256')->chunk(
             100,
-            static function ($identity) use ($uIdModel, $encrypter): void {
-                $identity->secret2 = $encrypter->decrypt($identity->secret2);
+            static function ($identity) use ($uIdModelSub, $encrypter, $that): void {
+                if (! $encrypter->isEncrypted($identity->secret2)) {
+                    $that->write('id: ' . $identity->id . ', not encrypted, skipped.');
 
-                $uIdModel->save($identity);
+                    return;
+                }
+
+                $identity->secret2 = $encrypter->decrypt($identity->secret2);
+                $uIdModelSub->save($identity);
+
+                $that->write('id: ' . $identity->id . ', decrypted.');
             }
         );
     }

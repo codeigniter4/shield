@@ -53,7 +53,7 @@ protected function redirectToDeniedUrl(): RedirectResponse
 #### Config\AuthToken
 
 If you are using the HMAC authentication you need to update the encryption settings in **app/Config/AuthToken.php**.
-You will need to update and set the encryption key `$hmacEncryptionKey`. This should be set using .env and/or system
+You will need to update and set the encryption key `$hmacEncryptionKey`. This should be set using **.env** and/or system
 environment variables. Instructions on how to do that can be found in the
 [Setting Your Encryption Key](https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key)
 section of the CodeIgniter 4 documentation.
