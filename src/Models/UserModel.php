@@ -342,6 +342,7 @@ class UserModel extends BaseModel
             // If you get identity (email/password), the User object must have the id.
             $this->tempUser->id = $user->id;
 
+            $user->name          = $this->tempUser->name ?? '';
             $user->email         = $this->tempUser->email ?? '';
             $user->password      = $this->tempUser->password ?? '';
             $user->password_hash = $this->tempUser->password_hash ?? '';
