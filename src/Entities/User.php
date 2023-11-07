@@ -177,6 +177,10 @@ class User extends Entity
             $identity->secret = $this->email;
         }
 
+        if (!empty($this->name)) {
+            $identity->name = $this->name;
+        }
+
         if (! empty($this->password)) {
             $identity->secret2 = service('passwords')->hash($this->password);
         }
