@@ -29,7 +29,7 @@ class AuthGroups extends BaseConfig
      *
      * @var array<string, array<string, string>>
      *
-     * @see https://github.com/codeigniter4/shield/blob/develop/docs/quickstart.md#change-available-groups for more info
+     * @see https://codeigniter4.github.io/shield/quick_start_guide/using_authorization/#change-available-groups for more info
      */
     public array $groups = [
         'superadmin' => [
