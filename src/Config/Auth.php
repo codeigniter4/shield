@@ -154,7 +154,7 @@ class Auth extends BaseConfig
      * logged-in user on every page request.
      * This feature only works when session/tokens filter is active.
      *
-     * @see https://codeigniter4.github.io/shield/install/#protect-all-pages for set filters.
+     * @see https://codeigniter4.github.io/shield/quick_start_guide/using_session_auth/#protecting-pages for set filters.
      */
     public bool $recordActiveDate = true;
 
