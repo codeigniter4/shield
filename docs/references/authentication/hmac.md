@@ -166,4 +166,65 @@ Instructions on how to do that can be found in the
 section of the CodeIgniter 4 documentation.
 
 You will also be able to adjust the default Driver `$hmacEncryptionDriver` and the default Digest
-`$hmacEncryptionDigest`, these default to `'OpenSSL'` and `'SHA512'` respectively.
+`$hmacEncryptionDigest`, these default to `'OpenSSL'` and `'SHA512'` respectively. All three properties (`$hmacEncryptionKey`,
+`$hmacEncryptionDriver`, and `$hmacEncryptionDigest`) are set in array format (see below).
+
+```php
+public $hmacEncryptionKey = [
+    'k1' => 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
+];
+
+public $hmacEncryptionDriver = [
+    'k1' => 'OpenSSL',
+];
+
+public $hmacEncryptionDigest = [
+    'k1' => 'SHA512',
+];
+
+public string $hmacKeyIndex = 'k1';
+```
+
+When it is time to update your encryption keys you will need to add an additional key to the above arrays. Then adjust
+the `$hmacKeyIndex` to point at the new key and adjust `$hmacDeprecatedKeyIndex` to point at the old key.  After the new
+encryption key is in place, run `php spark shield:hmac reencrypt` to re-encrypt all existing keys with the new encryption
+key.
+
+```php
+public $hmacEncryptionKey = [
+    'k1' => 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
+    'k2' => 'hex2bin:451df599363b19be1434605fff8556a0bbfc50bede1bb33793dcde4d97fce4b0',
+];
+
+public $hmacEncryptionDriver = [
+    'k1' => 'OpenSSL',
+    'k2' => 'OpenSSL',
+];
+
+public $hmacEncryptionDigest = [
+    'k1' => 'SHA512',
+    'k2' => 'SHA512',
+];
+
+public string $hmacKeyIndex = 'k2';
+public string $hmacDeprecatedKeyIndex = 'k1';
+```
+
+```shell
+php spark shield:hmac reencrypt
+```
+
+You can (and should) set these values using environment variable and/or the `.env` file. To do this you will need to set
+the values as JSON strings:
+
+```dotenv
+authtoken.hmacEncryptionKey = '{"k1":"hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7","k2":"hex2bin:451df599363b19be1434605fff8556a0bbfc50bede1bb33793dcde4d97fce4b0"}'
+authtoken.hmacEncryptionDriver = '{"k1":"OpenSSL","k2":"OpenSSL"}'
+authtoken.hmacEncryptionDigest = '{"k1":"SHA512","k2":"SHA512"}'
+authtoken.hmacKeyIndex = k2
+authtoken.hmacDeprecatedKeyIndex = k1
+```
+
+Depending on the set length of the Secret Key and the type of encryption used, it is possible for the encrypted value to
+exceed the database column character limit of 255 characters.  If this happens, creation of a new HMAC identity will
+throw a `RuntimeException`.

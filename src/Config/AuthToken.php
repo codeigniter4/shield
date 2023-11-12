@@ -152,6 +152,9 @@ class AuthToken extends BaseConfig
      */
     public string $hmacDeprecatedKeyIndex = '';
 
+    /**
+     * AuthToken Config Constructor
+     */
     public function __construct()
     {
         parent::__construct();
