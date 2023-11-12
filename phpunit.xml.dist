@@ -94,7 +94,9 @@
 		<env name="COMPOSER_DISABLE_XDEBUG_WARN" value="1"/>
 
         <!-- Default HMAC encryption key -->
-        <env name="authtoken.hmacEncryptionKey" value="hex2bin:178ed94fd0b6d57dd31dd6b22fc601fab8ad191efac165a5f3f30a8ac09d813d"/>
+        <env name="authtoken.hmacEncryptionKey" value="{&quot;k1&quot;:&quot;hex2bin:178ed94fd0b6d57dd31dd6b22fc601fab8ad191efac165a5f3f30a8ac09d813d&quot;,&quot;k2&quot;:&quot;hex2bin:b0ab85bd0320824c496db2f40eb47c8712a6dfcfdf99b805988e22bdea6b9203&quot;}"/>
+        <env name="authtoken.hmacEncryptionDriver" value="{&quot;k1&quot;:&quot;OpenSSL&quot;,&quot;k2&quot;:&quot;OpenSSL&quot;}"/>
+        <env name="authtoken.hmacEncryptionDigest" value="{&quot;k1&quot;:&quot;SHA512&quot;,&quot;k2&quot;:&quot;SHA512&quot;}"/>
 
         <!-- Database configuration -->
 		<env name="database.tests.strictOn" value="true"/>

@@ -6,6 +6,7 @@ namespace CodeIgniter\Shield\Authentication\HMAC;
 
 use CodeIgniter\Encryption\EncrypterInterface;
 use CodeIgniter\Encryption\Exceptions\EncryptionException;
+use CodeIgniter\Shield\Auth;
 use CodeIgniter\Shield\Config\AuthToken;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use Config\Encryption;
@@ -30,18 +31,30 @@ class HmacEncrypter
     private AuthToken $authConfig;
 
     /**
+     * Selected Key Index
+     */
+    private string $keyIndex;
+
+    /**
      * Constructor
      * Setup encryption configuration
+     *
+     * @param bool $deprecatedKey Use the deprecated key (useful when re-encrypting on key rotation) [default: false]
      */
-    public function __construct()
+    public function __construct(bool $deprecatedKey = false)
     {
-        $this->authConfig = config('AuthToken');
-        $config           = new Encryption();
+        /** @var AuthToken $authConfig */
+        $authConfig = config('AuthToken');
+        $config     = new Encryption();
 
-        $config->key    = $this->authConfig->hmacEncryptionKey;
-        $config->driver = $this->authConfig->hmacEncryptionDriver;
-        $config->digest = $this->authConfig->hmacEncryptionDigest;
+        // identify which encryption key should be used
+        $this->keyIndex = $deprecatedKey ? $authConfig->hmacDeprecatedKeyIndex : $authConfig->hmacKeyIndex;
 
+        $config->key    = $authConfig->hmacEncryptionKey[$this->keyIndex];
+        $config->driver = $authConfig->hmacEncryptionDriver[$this->keyIndex];
+        $config->digest = $authConfig->hmacEncryptionDigest[$this->keyIndex];
+
+        $this->authConfig = $authConfig;
         // decrypt secret key so signature can be validated
         $this->encrypter = Services::encrypter($config);
     }
@@ -57,8 +70,8 @@ class HmacEncrypter
      */
     public function decrypt(string $encString): string
     {
-        // Removes `$b6$` for base64 format.
-        $encString = substr($encString, 4);
+        // Removes `$b6$keyIndex$` for base64 format.
+        $encString = substr($encString, strlen($this->keyIndex) + 5);
 
         return $this->encrypter->decrypt(base64_decode($encString, true));
     }
@@ -75,7 +88,7 @@ class HmacEncrypter
      */
     public function encrypt(string $rawString): string
     {
-        $encryptedString = '$b6$' . base64_encode($this->encrypter->encrypt($rawString));
+        $encryptedString = '$b6$' . $this->keyIndex . '$' . base64_encode($this->encrypter->encrypt($rawString));
 
         if (strlen($encryptedString) > $this->authConfig->secret2StorageLimit) {
             throw new RuntimeException('Encrypted key too long. Unable to store value.');
@@ -89,7 +102,7 @@ class HmacEncrypter
      */
     public function isEncrypted(string $string): bool
     {
-        return str_starts_with($string, '$b6$');
+        return str_starts_with($string, '$b6$' . $this->keyIndex . '$');
     }
 
     /**

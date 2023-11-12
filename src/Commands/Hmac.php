@@ -25,7 +25,8 @@ class Hmac extends BaseCommand
      *
      * @var string
      */
-    protected $description = 'Encrypt/Decrypt secretKey for HMAC tokens. The encryption should only be run on existing raw secret keys (extremely rare).';
+    protected $description = 'Encrypt/Decrypt secretKey for HMAC tokens. The reencrypt command should be used when
+     rotating the encryption keys. The encrypt command should only be run on existing raw secret keys (extremely rare).';
 
     /**
      * the Command's usage
@@ -34,6 +35,7 @@ class Hmac extends BaseCommand
      */
     protected $usage = <<<'EOL'
         shield:hmac <action>
+            shield:hmac reencrypt
             shield:hmac encrypt
             shield:hmac decrypt
         EOL;
@@ -45,6 +47,7 @@ class Hmac extends BaseCommand
      */
     protected $arguments = [
         'action' => <<<'EOL'
+                reencrypt: Re-encrypts all HMAC Secret Keys on encryption key rotation
                 encrypt: Encrypt all raw HMAC Secret Keys
                 decrypt: Decrypt all encrypted HMAC Secret Keys
             EOL,
@@ -79,6 +82,10 @@ class Hmac extends BaseCommand
 
                 case 'decrypt':
                     $this->decrypt();
+                    break;
+
+                case 'reencrypt':
+                    $this->reEncrypt();
                     break;
 
                 default:
@@ -153,6 +160,39 @@ class Hmac extends BaseCommand
                 $uIdModelSub->save($identity);
 
                 $that->write('id: ' . $identity->id . ', decrypted.');
+            }
+        );
+    }
+
+    /**
+     * Re-encrypt all encrypted HMAC Secret Keys from existing/deprecated
+     * encryption key to new encryption key.
+     *
+     * @throws ReflectionException
+     */
+    public function reEncrypt(): void
+    {
+        $uIdModel    = new UserIdentityModel();
+        $uIdModelSub = new UserIdentityModel(); // For saving.
+        $decrypter   = new HmacEncrypter(true);
+        $encrypter   = $this->encrypter;
+
+        $that = $this;
+
+        $uIdModel->where('type', 'hmac_sha256')->chunk(
+            100,
+            static function ($identity) use ($uIdModelSub, $decrypter, $encrypter, $that): void {
+                if (! $decrypter->isEncrypted($identity->secret2)) {
+                    $that->write('id: ' . $identity->id . ', not re-encrypted, skipped.');
+
+                    return;
+                }
+
+                $identity->secret2 = $decrypter->decrypt($identity->secret2);
+                $identity->secret2 = $encrypter->encrypt($identity->secret2);
+                $uIdModelSub->save($identity);
+
+                $that->write('id: ' . $identity->id . ', Re-encrypted.');
             }
         );
     }

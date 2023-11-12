@@ -78,9 +78,20 @@ class AuthToken extends BaseConfig
      * --------------------------------------------------------------------
      * Key to be used when encrypting HMAC Secret Key for storage.
      *
+     * This is an array of keys which will facilitate key rotation. Valid
+     *  keyTitles must include only [a-zA-z0-9_] and should be kept to a
+     *  max of 8 characters.
+     *
+     * The valid and old/deprecated keys are identified using $hmacKeyIndex
+     *  and $hmacDeprecatedKeyIndex.
+     *
+     * @param array<string, string>|string $hmacEncryptionKey ['keyTitle' => 'keyValue']
+     *
      * @see https://codeigniter.com/user_guide/libraries/encryption.html
      */
-    public string $hmacEncryptionKey = '';
+    public $hmacEncryptionKey = [
+        'k1' => '',
+    ];
 
     /**
      * --------------------------------------------------------------------
@@ -92,9 +103,16 @@ class AuthToken extends BaseConfig
      * OpenSSL
      * Sodium
      *
+     * This is an array of drivers values.  The keys MUST match and correlate
+     *  to the $hmacEncryptionKey array keys.
+     *
+     * @param array<string, string>|string $hmacEncryptionDriver ['keyTitle' => 'driverValue']
+     *
      * @see https://codeigniter.com/user_guide/libraries/encryption.html
      */
-    public string $hmacEncryptionDriver = 'OpenSSL';
+    public $hmacEncryptionDriver = [
+        'k1' => 'OpenSSL',
+    ];
 
     /**
      * --------------------------------------------------------------------
@@ -104,7 +122,79 @@ class AuthToken extends BaseConfig
      *
      * e.g. 'SHA512' or 'SHA256'. Default value is 'SHA512'.
      *
+     * This is an array of digest values.  The keys MUST match and correlate
+     *  to the $hmacEncryptionKey array keys.
+     *
+     * @param array<string, string>|string $hmacEncryptionDigest ['keyTitle' => 'digestValue']
+     *
      * @see https://codeigniter.com/user_guide/libraries/encryption.html
      */
-    public string $hmacEncryptionDigest = 'SHA512';
+    public $hmacEncryptionDigest = [
+        'k1' => 'SHA512',
+    ];
+
+    /**
+     * --------------------------------------------------------------------
+     * HMAC encryption key selector
+     * --------------------------------------------------------------------
+     * This identifies which encryption key {$hmacEncryptionKey} is active
+     *  and valid.
+     */
+    public string $hmacKeyIndex = 'k1';
+
+    /**
+     * --------------------------------------------------------------------
+     * HMAC encryption key deprecated selector
+     * --------------------------------------------------------------------
+     * This identifies which encryption key {$hmacEncryptionKey} is
+     *  recently deprecated.  This is required and used when rotating keys.
+     *  Effectively, this is the index selector for the old key.
+     */
+    public string $hmacDeprecatedKeyIndex = '';
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        if (is_string($this->hmacEncryptionKey)) {
+            $array = json_decode($this->hmacEncryptionKey, true);
+            if (is_array($array)) {
+                $this->hmacEncryptionKey = $array;
+            }
+        }
+        if (is_string($this->hmacEncryptionDriver)) {
+            $array = json_decode($this->hmacEncryptionDriver, true);
+            if (is_array($array)) {
+                $this->hmacEncryptionDriver = $array;
+            }
+        }
+        if (is_string($this->hmacEncryptionDigest)) {
+            $array = json_decode($this->hmacEncryptionDigest, true);
+            if (is_array($array)) {
+                $this->hmacEncryptionDigest = $array;
+            }
+        }
+    }
+
+    /**
+     * Override parent initEnvValue() to allow for direct setting to array properties values from ENV
+     *
+     * In order to set array properties via ENV vars we need to set the property to a string value first.
+     *
+     * @param mixed $property
+     */
+    protected function initEnvValue(&$property, string $name, string $prefix, string $shortPrefix): void
+    {
+        switch ($name) {
+            case 'hmacEncryptionKey':
+            case 'hmacEncryptionDriver':
+            case 'hmacEncryptionDigest':
+                // if attempting to set property from ENV, first set to empty string
+                if ((bool) $this->getEnvValue($name, $prefix, $shortPrefix)) {
+                    $property = '';
+                }
+        }
+
+        parent::initEnvValue($property, $name, $prefix, $shortPrefix);
+    }
 }
