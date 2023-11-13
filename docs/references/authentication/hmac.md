@@ -160,54 +160,49 @@ if ($user->hmacTokenCant('forums.manage')) {
 ## HMAC Secret Key Encryption
 
 The HMAC Secret Key is stored encrypted.  Before you start using HMAC, you will need to set/override the encryption key
-`$hmacEncryptionKey` in **app/Config/AuthToken.php**. This should be set using .env and/or system environment variables.
+`$hmacEncryption['key']` in **app/Config/AuthToken.php**. This should be set using .env and/or system environment variables.
 Instructions on how to do that can be found in the
 [Setting Your Encryption Key](https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key)
 section of the CodeIgniter 4 documentation.
 
-You will also be able to adjust the default Driver `$hmacEncryptionDriver` and the default Digest
-`$hmacEncryptionDigest`, these default to `'OpenSSL'` and `'SHA512'` respectively. All three properties (`$hmacEncryptionKey`,
-`$hmacEncryptionDriver`, and `$hmacEncryptionDigest`) are set in array format (see below).
+You will also be able to adjust the default Driver `$hmacEncryption['driver']` and the default Digest
+`$hmacEncryption['digest']`, these default to `'OpenSSL'` and `'SHA512'` respectively. All three properties (`$hmacEncryption['key']`,
+`$hmacEncryption['driver']`, and `$hmacEncryption['digest']`) are set in array format (see below).
 
 ```php
-public $hmacEncryptionKey = [
-    'k1' => 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
+public array $hmacEncryption [
+    'key' => [
+        'k1' => 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
+    ],
+    'driver' => ['k1' => 'OpenSSL'],
+    'digest' => ['k1' => 'SHA512'],
+    'currentKey' => 'k1',
+    'deprecatedKey' => null
 ];
-
-public $hmacEncryptionDriver = [
-    'k1' => 'OpenSSL',
-];
-
-public $hmacEncryptionDigest = [
-    'k1' => 'SHA512',
-];
-
-public string $hmacKeyIndex = 'k1';
 ```
 
 When it is time to update your encryption keys you will need to add an additional key to the above arrays. Then adjust
-the `$hmacKeyIndex` to point at the new key and adjust `$hmacDeprecatedKeyIndex` to point at the old key.  After the new
-encryption key is in place, run `php spark shield:hmac reencrypt` to re-encrypt all existing keys with the new encryption
-key.
+the `$hmacEncryption['currentKey']` to point at the new key and adjust `$hmacEncryption['deprecatedKey']` to point at the
+old key.  After the new encryption key is in place, run `php spark shield:hmac reencrypt` to re-encrypt all existing keys
+with the new encryption key.
 
 ```php
-public $hmacEncryptionKey = [
-    'k1' => 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
-    'k2' => 'hex2bin:451df599363b19be1434605fff8556a0bbfc50bede1bb33793dcde4d97fce4b0',
+public array $hmacEncryption [
+    'key' => [
+        'k1' => 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
+        'k2' => 'hex2bin:451df599363b19be1434605fff8556a0bbfc50bede1bb33793dcde4d97fce4b0',
+    ],
+    'driver' => [
+        'k1' => 'OpenSSL',
+        'k2' => 'OpenSSL',
+    ],
+    'digest' => [
+        'k1' => 'SHA512',
+        'k2' => 'SHA512'
+    ],
+    'currentKey' => 'k2',
+    'deprecatedKey' => 'k1'
 ];
-
-public $hmacEncryptionDriver = [
-    'k1' => 'OpenSSL',
-    'k2' => 'OpenSSL',
-];
-
-public $hmacEncryptionDigest = [
-    'k1' => 'SHA512',
-    'k2' => 'SHA512',
-];
-
-public string $hmacKeyIndex = 'k2';
-public string $hmacDeprecatedKeyIndex = 'k1';
 ```
 
 ```shell
@@ -218,11 +213,11 @@ You can (and should) set these values using environment variable and/or the `.en
 the values as JSON strings:
 
 ```dotenv
-authtoken.hmacEncryptionKey = '{"k1":"hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7","k2":"hex2bin:451df599363b19be1434605fff8556a0bbfc50bede1bb33793dcde4d97fce4b0"}'
-authtoken.hmacEncryptionDriver = '{"k1":"OpenSSL","k2":"OpenSSL"}'
-authtoken.hmacEncryptionDigest = '{"k1":"SHA512","k2":"SHA512"}'
-authtoken.hmacKeyIndex = k2
-authtoken.hmacDeprecatedKeyIndex = k1
+authtoken.hmacEncryption.key = '{"k1":"hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7","k2":"hex2bin:451df599363b19be1434605fff8556a0bbfc50bede1bb33793dcde4d97fce4b0"}'
+authtoken.hmacEncryption.driver = '{"k1":"OpenSSL","k2":"OpenSSL"}'
+authtoken.hmacEncryption.digest = '{"k1":"SHA512","k2":"SHA512"}'
+authtoken.hmacEncryption.currentKey = k2
+authtoken.hmacEncryption.deprecatedKey = k1
 ```
 
 Depending on the set length of the Secret Key and the type of encryption used, it is possible for the encrypted value to

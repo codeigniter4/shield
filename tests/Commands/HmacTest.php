@@ -44,6 +44,13 @@ final class HmacTest extends DatabaseTestCase
         $decryptedKey = $encrypter->decrypt($tokenCheck->secret2);
 
         $this->assertSame($rawSecretKey, $decryptedKey);
+
+        // verify that encryption can only happen once
+        $this->setMockIo([]);
+        $this->assertNotFalse(command('shield:hmac encrypt'));
+
+        $resultsString = trim($this->io->getOutputs());
+        $this->assertSame('id: 1, already encrypted, skipped.', $resultsString);
     }
 
     public function testDecrypt(): void
@@ -64,6 +71,13 @@ final class HmacTest extends DatabaseTestCase
         $tokenCheck = $idModel->find($token->id);
 
         $this->assertSame($rawSecretKey, $tokenCheck->secret2);
+
+        // verify that decryption does not run on fields already decrypted
+        $this->setMockIo([]);
+        $this->assertNotFalse(command('shield:hmac decrypt'));
+
+        $resultsString = trim($this->io->getOutputs());
+        $this->assertSame('id: 1, not encrypted, skipped.', $resultsString);
     }
 
     public function testReEncrypt(): void
@@ -79,8 +93,8 @@ final class HmacTest extends DatabaseTestCase
         /** @var AuthToken $config */
         $config = config('AuthToken');
 
-        $config->hmacKeyIndex           = 'k2';
-        $config->hmacDeprecatedKeyIndex = 'k1';
+        $config->hmacEncryption['currentKey']    = 'k2';
+        $config->hmacEncryption['deprecatedKey'] = 'k1';
 
         // new key generated with updated encryption
         $token2 = $user->generateHmacToken('bar');
@@ -107,6 +121,16 @@ final class HmacTest extends DatabaseTestCase
         $this->assertSame($token2->rawSecretKey, $descryptSecretKey2);
     }
 
+    public function testBadCommand(): void
+    {
+        $this->setMockIo([]);
+        $this->assertNotFalse(command('shield:hmac badcommand'));
+
+        $resultsString = $this->stripRedColorCode(trim($this->io->getOutputs()));
+
+        $this->assertSame('Unrecognized Command', $resultsString);
+    }
+
     /**
      * Set MockInputOutput and user inputs.
      *
@@ -118,5 +142,21 @@ final class HmacTest extends DatabaseTestCase
         $this->io = new MockInputOutput();
         $this->io->setInputs($inputs);
         Hmac::setInputOutput($this->io);
+    }
+
+    /**
+     * Strip color from output code
+     *
+     * @param mixed $output
+     */
+    private function stripRedColorCode($output): string
+    {
+        $output = str_replace(["\033[0;31m", "\033[0m"], '', $output);
+
+        if (is_windows()) {
+            $output = str_replace("\r\n", "\n", $output);
+        }
+
+        return $output;
     }
 }

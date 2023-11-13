@@ -25,8 +25,7 @@ class Hmac extends BaseCommand
      *
      * @var string
      */
-    protected $description = 'Encrypt/Decrypt secretKey for HMAC tokens. The reencrypt command should be used when
-     rotating the encryption keys. The encrypt command should only be run on existing raw secret keys (extremely rare).';
+    protected $description = 'Encrypt/Decrypt secretKey for HMAC tokens.';
 
     /**
      * the Command's usage
@@ -38,6 +37,9 @@ class Hmac extends BaseCommand
             shield:hmac reencrypt
             shield:hmac encrypt
             shield:hmac decrypt
+
+            The reencrypt command should be used when rotating the encryption keys.
+            The encrypt command should only be run on existing raw secret keys (extremely rare).
         EOL;
 
     /**
@@ -147,7 +149,7 @@ class Hmac extends BaseCommand
 
         $that = $this;
 
-        $uIdModel->where('type', 'hmac_sha256')->chunk(
+        $uIdModel->where('type', 'hmac_sha256')->orderBy('id')->chunk(
             100,
             static function ($identity) use ($uIdModelSub, $encrypter, $that): void {
                 if (! $encrypter->isEncrypted($identity->secret2)) {
@@ -179,10 +181,10 @@ class Hmac extends BaseCommand
 
         $that = $this;
 
-        $uIdModel->where('type', 'hmac_sha256')->chunk(
+        $uIdModel->where('type', 'hmac_sha256')->orderBy('id')->chunk(
             100,
             static function ($identity) use ($uIdModelSub, $decrypter, $encrypter, $that): void {
-                if (! $decrypter->isEncrypted($identity->secret2)) {
+                if (! $decrypter->isEncryptedWithSetKey($identity->secret2)) {
                     $that->write('id: ' . $identity->id . ', not re-encrypted, skipped.');
 
                     return;

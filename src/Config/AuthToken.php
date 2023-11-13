@@ -74,83 +74,44 @@ class AuthToken extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
-     * HMAC encryption key
+     * HMAC encryption Keys
      * --------------------------------------------------------------------
-     * Key to be used when encrypting HMAC Secret Key for storage.
+     * This sets the key to be used when encrypting a user's HMAC Secret Key.
      *
-     * This is an array of keys which will facilitate key rotation. Valid
+     * 'key' is an array of keys which will facilitate key rotation. Valid
      *  keyTitles must include only [a-zA-z0-9_] and should be kept to a
      *  max of 8 characters.
      *
-     * The valid and old/deprecated keys are identified using $hmacKeyIndex
-     *  and $hmacDeprecatedKeyIndex.
-     *
-     * @param array<string, string>|string $hmacEncryptionKey ['keyTitle' => 'keyValue']
-     *
-     * @see https://codeigniter.com/user_guide/libraries/encryption.html
-     */
-    public $hmacEncryptionKey = [
-        'k1' => '',
-    ];
-
-    /**
-     * --------------------------------------------------------------------
-     * HMAC encryption driver
-     * --------------------------------------------------------------------
-     * Driver to be used when encrypting HMAC Secret Key for storage.
-     *
-     * Available drivers:
-     * OpenSSL
-     * Sodium
+     * 'driver' is used when encrypting HMAC Secret Key for storage.
+     *    Available drivers:
+     *      - OpenSSL
+     *      - Sodium
      *
      * This is an array of drivers values.  The keys MUST match and correlate
-     *  to the $hmacEncryptionKey array keys.
+     *  to the 'key' array keys.
      *
-     * @param array<string, string>|string $hmacEncryptionDriver ['keyTitle' => 'driverValue']
-     *
-     * @see https://codeigniter.com/user_guide/libraries/encryption.html
-     */
-    public $hmacEncryptionDriver = [
-        'k1' => 'OpenSSL',
-    ];
-
-    /**
-     * --------------------------------------------------------------------
-     * HMAC encryption digest
-     * --------------------------------------------------------------------
-     * Digest to be used when encrypting HMAC Secret Key for storage.
-     *
-     * e.g. 'SHA512' or 'SHA256'. Default value is 'SHA512'.
+     * 'digest' is used when encrypting HMAC Secret Key for storage.
+     *    e.g. 'SHA512' or 'SHA256'. Default value is 'SHA512'.
      *
      * This is an array of digest values.  The keys MUST match and correlate
-     *  to the $hmacEncryptionKey array keys.
+     *  to the 'key' array keys.
      *
-     * @param array<string, string>|string $hmacEncryptionDigest ['keyTitle' => 'digestValue']
+     * The valid and old/deprecated keys are identified using 'currentKey'
+     *  and 'deprecatedKey'.
+     *
+     * 'deprecatedKey' reflects which 'key' is recently deprecated.  This
+     *  is required and used when rotating keys. Effectively, this is the
+     *  index selector for the old key.
      *
      * @see https://codeigniter.com/user_guide/libraries/encryption.html
      */
-    public $hmacEncryptionDigest = [
-        'k1' => 'SHA512',
+    public array $hmacEncryption = [
+        'key'           => ['k1' => ''],
+        'driver'        => ['k1' => 'OpenSSL'],
+        'digest'        => ['k1' => 'SHA512'],
+        'currentKey'    => 'k1',
+        'deprecatedKey' => '',
     ];
-
-    /**
-     * --------------------------------------------------------------------
-     * HMAC encryption key selector
-     * --------------------------------------------------------------------
-     * This identifies which encryption key {$hmacEncryptionKey} is active
-     *  and valid.
-     */
-    public string $hmacKeyIndex = 'k1';
-
-    /**
-     * --------------------------------------------------------------------
-     * HMAC encryption key deprecated selector
-     * --------------------------------------------------------------------
-     * This identifies which encryption key {$hmacEncryptionKey} is
-     *  recently deprecated.  This is required and used when rotating keys.
-     *  Effectively, this is the index selector for the old key.
-     */
-    public string $hmacDeprecatedKeyIndex = '';
 
     /**
      * AuthToken Config Constructor
@@ -159,22 +120,18 @@ class AuthToken extends BaseConfig
     {
         parent::__construct();
 
-        if (is_string($this->hmacEncryptionKey)) {
-            $array = json_decode($this->hmacEncryptionKey, true);
-            if (is_array($array)) {
-                $this->hmacEncryptionKey = $array;
-            }
-        }
-        if (is_string($this->hmacEncryptionDriver)) {
-            $array = json_decode($this->hmacEncryptionDriver, true);
-            if (is_array($array)) {
-                $this->hmacEncryptionDriver = $array;
-            }
-        }
-        if (is_string($this->hmacEncryptionDigest)) {
-            $array = json_decode($this->hmacEncryptionDigest, true);
-            if (is_array($array)) {
-                $this->hmacEncryptionDigest = $array;
+        $overwriteHmacEncryptionFields = [
+            'key',
+            'driver',
+            'digest',
+        ];
+
+        foreach ($overwriteHmacEncryptionFields as $fieldName) {
+            if (is_string($this->hmacEncryption[$fieldName])) {
+                $array = json_decode($this->hmacEncryption[$fieldName], true);
+                if (is_array($array)) {
+                    $this->hmacEncryption[$fieldName] = $array;
+                }
             }
         }
     }
@@ -189,12 +146,12 @@ class AuthToken extends BaseConfig
     protected function initEnvValue(&$property, string $name, string $prefix, string $shortPrefix): void
     {
         switch ($name) {
-            case 'hmacEncryptionKey':
-            case 'hmacEncryptionDriver':
-            case 'hmacEncryptionDigest':
+            case 'hmacEncryption.key':
+            case 'hmacEncryption.driver':
+            case 'hmacEncryption.digest':
                 // if attempting to set property from ENV, first set to empty string
                 if ((bool) $this->getEnvValue($name, $prefix, $shortPrefix)) {
-                    $property = '';
+                    $property = null;
                 }
         }
 

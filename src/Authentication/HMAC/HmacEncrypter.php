@@ -47,12 +47,19 @@ class HmacEncrypter
         $authConfig = config('AuthToken');
         $config     = new Encryption();
 
-        // identify which encryption key should be used
-        $this->keyIndex = $deprecatedKey ? $authConfig->hmacDeprecatedKeyIndex : $authConfig->hmacKeyIndex;
+        //        // identify which encryption key should be used
+        //        $this->keyIndex = $deprecatedKey ? $authConfig->hmacDeprecatedKeyIndex : $authConfig->hmacKeyIndex;
+        //
+        //        $config->key    = $authConfig->hmacEncryptionKey[$this->keyIndex];
+        //        $config->driver = $authConfig->hmacEncryptionDriver[$this->keyIndex];
+        //        $config->digest = $authConfig->hmacEncryptionDigest[$this->keyIndex];
 
-        $config->key    = $authConfig->hmacEncryptionKey[$this->keyIndex];
-        $config->driver = $authConfig->hmacEncryptionDriver[$this->keyIndex];
-        $config->digest = $authConfig->hmacEncryptionDigest[$this->keyIndex];
+        // identify which encryption key should be used
+        $this->keyIndex = $deprecatedKey ? $authConfig->hmacEncryption['deprecatedKey'] : $authConfig->hmacEncryption['currentKey'];
+
+        $config->key    = $authConfig->hmacEncryption['key'][$this->keyIndex];
+        $config->driver = $authConfig->hmacEncryption['driver'][$this->keyIndex];
+        $config->digest = $authConfig->hmacEncryption['digest'][$this->keyIndex];
 
         $this->authConfig = $authConfig;
         // decrypt secret key so signature can be validated
@@ -102,7 +109,16 @@ class HmacEncrypter
      */
     public function isEncrypted(string $string): bool
     {
-        return str_starts_with($string, '$b6$' . $this->keyIndex . '$');
+        return (bool) preg_match('/^\$b6\$/', $string);
+    }
+
+    /**
+     * Check if the string already encrypted
+     */
+    public function isEncryptedWithSetKey(string $string): bool
+    {
+        return (bool) preg_match('/^\$b6\$' . $this->keyIndex . '\$/', $string);
+        //        return str_starts_with($string, '$b6$' . $this->keyIndex . '$');
     }
 
     /**
