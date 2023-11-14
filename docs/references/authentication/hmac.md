@@ -183,7 +183,7 @@ public array $hmacEncryption = [
 When it is time to update your encryption keys you will need to add an additional key to the above arrays. Then adjust
 the `$hmacEncryption['currentKey']` to point at the new key.  After the new encryption key is in place, run
 `php spark shield:hmac reencrypt` to re-encrypt all existing keys with the new encryption key.  You will need to leave
-the old key in the array as it will be used read the existing keys during re-encryption.
+the old key in the array as it will be used read the existing 'Secret Keys' during re-encryption.
 
 ```php
 public array $hmacEncryption = [
