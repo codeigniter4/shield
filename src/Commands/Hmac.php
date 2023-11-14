@@ -184,7 +184,7 @@ class Hmac extends BaseCommand
             100,
             static function ($identity) use ($uIdModelSub, $encrypter, $that): void {
                 if ($encrypter->isEncryptedWithCurrentKey($identity->secret2)) {
-                    $that->write('id: ' . $identity->id . ', not re-encrypted, skipped.');
+                    $that->write('id: ' . $identity->id . ', already encrypted with current key, skipped.');
 
                     return;
                 }
