@@ -187,7 +187,7 @@ old key.  After the new encryption key is in place, run `php spark shield:hmac r
 with the new encryption key.
 
 ```php
-public array $hmacEncryption [
+public array $hmacEncryption = [
     'key' => [
         'k1' => 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
         'k2' => 'hex2bin:451df599363b19be1434605fff8556a0bbfc50bede1bb33793dcde4d97fce4b0',
@@ -198,10 +198,10 @@ public array $hmacEncryption [
     ],
     'digest' => [
         'k1' => 'SHA512',
-        'k2' => 'SHA512'
+        'k2' => 'SHA512',
     ],
-    'currentKey' => 'k2',
-    'deprecatedKey' => 'k1'
+    'currentKey'    => 'k2',
+    'deprecatedKey' => 'k1',
 ];
 ```
 
