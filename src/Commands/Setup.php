@@ -140,9 +140,8 @@ class Setup extends BaseCommand
     {
         $file     = 'Config/AuthToken.php';
         $replaces = [
-            'namespace CodeIgniter\Shield\Config'  => 'namespace Config',
-            'use CodeIgniter\\Config\\BaseConfig;' => 'use CodeIgniter\\Shield\\Config\\AuthToken as ShieldAuthToken;',
-            'extends BaseConfig'                   => 'extends ShieldAuthToken',
+            'namespace CodeIgniter\Shield\Config;' => "namespace Config;\n\nuse CodeIgniter\\Shield\\Config\\AuthToken as ShieldAuthToken;",
+            'extends BaseAuthToken'                => 'extends ShieldAuthToken',
         ];
 
         $this->copyAndReplace($file, $replaces);

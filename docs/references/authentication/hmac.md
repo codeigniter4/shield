@@ -177,14 +177,13 @@ public array $hmacEncryption = [
     'driver'        => ['k1' => 'OpenSSL'],
     'digest'        => ['k1' => 'SHA512'],
     'currentKey'    => 'k1',
-    'deprecatedKey' => null,
 ];
 ```
 
 When it is time to update your encryption keys you will need to add an additional key to the above arrays. Then adjust
-the `$hmacEncryption['currentKey']` to point at the new key and adjust `$hmacEncryption['deprecatedKey']` to point at the
-old key.  After the new encryption key is in place, run `php spark shield:hmac reencrypt` to re-encrypt all existing keys
-with the new encryption key.
+the `$hmacEncryption['currentKey']` to point at the new key.  After the new encryption key is in place, run
+`php spark shield:hmac reencrypt` to re-encrypt all existing keys with the new encryption key.  You will need to leave
+the old key in the array as it will be used read the existing keys during re-encryption.
 
 ```php
 public array $hmacEncryption = [
@@ -201,7 +200,6 @@ public array $hmacEncryption = [
         'k2' => 'SHA512',
     ],
     'currentKey'    => 'k2',
-    'deprecatedKey' => 'k1',
 ];
 ```
 
@@ -217,7 +215,6 @@ authtoken.hmacEncryption.key = '{"k1":"hex2bin:923dfab5ddca0c7784c2c388a848a704f
 authtoken.hmacEncryption.driver = '{"k1":"OpenSSL","k2":"OpenSSL"}'
 authtoken.hmacEncryption.digest = '{"k1":"SHA512","k2":"SHA512"}'
 authtoken.hmacEncryption.currentKey = k2
-authtoken.hmacEncryption.deprecatedKey = k1
 ```
 
 Depending on the set length of the Secret Key and the type of encryption used, it is possible for the encrypted value to

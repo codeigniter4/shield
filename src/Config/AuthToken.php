@@ -13,12 +13,10 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Config;
 
-use CodeIgniter\Config\BaseConfig;
-
 /**
  * Configuration for Token Auth and HMAC Auth
  */
-class AuthToken extends BaseConfig
+class AuthToken extends BaseAuthToken
 {
     /**
      * --------------------------------------------------------------------
@@ -79,7 +77,7 @@ class AuthToken extends BaseConfig
      * This sets the key to be used when encrypting a user's HMAC Secret Key.
      *
      * 'key' is an array of keys which will facilitate key rotation. Valid
-     *  keyTitles must include only [a-zA-z0-9_] and should be kept to a
+     *  keyTitles must include only [a-zA-Z0-9_] and should be kept to a
      *  max of 8 characters.
      *
      * 'driver' is used when encrypting HMAC Secret Key for storage.
@@ -96,65 +94,18 @@ class AuthToken extends BaseConfig
      * This is an array of digest values.  The keys MUST match and correlate
      *  to the 'key' array keys.
      *
-     * The valid and old/deprecated keys are identified using 'currentKey'
-     *  and 'deprecatedKey'.
+     * The valid/current key is identified using 'currentKey'
      *
-     * 'deprecatedKey' reflects which 'key' is recently deprecated.  This
-     *  is required and used when rotating keys. Effectively, this is the
-     *  index selector for the old key.
+     * Old keys will are used to decrypt existing Secret Keys.  It is encouraged
+     *  to run 'php spark shield:hmac reencrypt' to update existing Secret
+     *  Key encryptions.
      *
      * @see https://codeigniter.com/user_guide/libraries/encryption.html
      */
     public array $hmacEncryption = [
-        'key'           => ['k1' => ''],
-        'driver'        => ['k1' => 'OpenSSL'],
-        'digest'        => ['k1' => 'SHA512'],
-        'currentKey'    => 'k1',
-        'deprecatedKey' => '',
+        'key'        => ['k1' => ''],
+        'driver'     => ['k1' => 'OpenSSL'],
+        'digest'     => ['k1' => 'SHA512'],
+        'currentKey' => 'k1',
     ];
-
-    /**
-     * AuthToken Config Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $overwriteHmacEncryptionFields = [
-            'key',
-            'driver',
-            'digest',
-        ];
-
-        foreach ($overwriteHmacEncryptionFields as $fieldName) {
-            if (is_string($this->hmacEncryption[$fieldName])) {
-                $array = json_decode($this->hmacEncryption[$fieldName], true);
-                if (is_array($array)) {
-                    $this->hmacEncryption[$fieldName] = $array;
-                }
-            }
-        }
-    }
-
-    /**
-     * Override parent initEnvValue() to allow for direct setting to array properties values from ENV
-     *
-     * In order to set array properties via ENV vars we need to set the property to a string value first.
-     *
-     * @param mixed $property
-     */
-    protected function initEnvValue(&$property, string $name, string $prefix, string $shortPrefix): void
-    {
-        switch ($name) {
-            case 'hmacEncryption.key':
-            case 'hmacEncryption.driver':
-            case 'hmacEncryption.digest':
-                // if attempting to set property from ENV, first set to empty string
-                if ($this->getEnvValue($name, $prefix, $shortPrefix) !== null) {
-                    $property = '';
-                }
-        }
-
-        parent::initEnvValue($property, $name, $prefix, $shortPrefix);
-    }
 }

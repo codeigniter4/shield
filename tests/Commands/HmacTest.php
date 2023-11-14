@@ -93,8 +93,7 @@ final class HmacTest extends DatabaseTestCase
         /** @var AuthToken $config */
         $config = config('AuthToken');
 
-        $config->hmacEncryption['currentKey']    = 'k2';
-        $config->hmacEncryption['deprecatedKey'] = 'k1';
+        $config->hmacEncryption['currentKey'] = 'k2';
 
         // new key generated with updated encryption
         $token2 = $user->generateHmacToken('bar');

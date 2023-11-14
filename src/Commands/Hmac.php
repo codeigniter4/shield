@@ -176,21 +176,20 @@ class Hmac extends BaseCommand
     {
         $uIdModel    = new UserIdentityModel();
         $uIdModelSub = new UserIdentityModel(); // For saving.
-        $decrypter   = new HmacEncrypter(true);
         $encrypter   = $this->encrypter;
 
         $that = $this;
 
         $uIdModel->where('type', 'hmac_sha256')->orderBy('id')->chunk(
             100,
-            static function ($identity) use ($uIdModelSub, $decrypter, $encrypter, $that): void {
-                if (! $decrypter->isEncryptedWithSetKey($identity->secret2)) {
+            static function ($identity) use ($uIdModelSub, $encrypter, $that): void {
+                if ($encrypter->isEncryptedWithCurrentKey($identity->secret2)) {
                     $that->write('id: ' . $identity->id . ', not re-encrypted, skipped.');
 
                     return;
                 }
 
-                $identity->secret2 = $decrypter->decrypt($identity->secret2);
+                $identity->secret2 = $encrypter->decrypt($identity->secret2);
                 $identity->secret2 = $encrypter->encrypt($identity->secret2);
                 $uIdModelSub->save($identity);
 
