@@ -150,8 +150,8 @@ class AuthToken extends BaseConfig
             case 'hmacEncryption.driver':
             case 'hmacEncryption.digest':
                 // if attempting to set property from ENV, first set to empty string
-                if ((bool) $this->getEnvValue($name, $prefix, $shortPrefix)) {
-                    $property = null;
+                if ($this->getEnvValue($name, $prefix, $shortPrefix) !== null) {
+                    $property = '';
                 }
         }
 

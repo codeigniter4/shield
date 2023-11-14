@@ -47,13 +47,6 @@ class HmacEncrypter
         $authConfig = config('AuthToken');
         $config     = new Encryption();
 
-        //        // identify which encryption key should be used
-        //        $this->keyIndex = $deprecatedKey ? $authConfig->hmacDeprecatedKeyIndex : $authConfig->hmacKeyIndex;
-        //
-        //        $config->key    = $authConfig->hmacEncryptionKey[$this->keyIndex];
-        //        $config->driver = $authConfig->hmacEncryptionDriver[$this->keyIndex];
-        //        $config->digest = $authConfig->hmacEncryptionDigest[$this->keyIndex];
-
         // identify which encryption key should be used
         $this->keyIndex = $deprecatedKey ? $authConfig->hmacEncryption['deprecatedKey'] : $authConfig->hmacEncryption['currentKey'];
 
@@ -117,8 +110,7 @@ class HmacEncrypter
      */
     public function isEncryptedWithSetKey(string $string): bool
     {
-        return (bool) preg_match('/^\$b6\$' . $this->keyIndex . '\$/', $string);
-        //        return str_starts_with($string, '$b6$' . $this->keyIndex . '$');
+        return preg_match('/^\$b6\$' . $this->keyIndex . '\$/', $string) === 1;
     }
 
     /**
