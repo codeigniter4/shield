@@ -170,14 +170,14 @@ You will also be able to adjust the default Driver `$hmacEncryption['driver']` a
 `$hmacEncryption['driver']`, and `$hmacEncryption['digest']`) are set in array format (see below).
 
 ```php
-public array $hmacEncryption [
+public array $hmacEncryption = [
     'key' => [
         'k1' => 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
     ],
-    'driver' => ['k1' => 'OpenSSL'],
-    'digest' => ['k1' => 'SHA512'],
-    'currentKey' => 'k1',
-    'deprecatedKey' => null
+    'driver'        => ['k1' => 'OpenSSL'],
+    'digest'        => ['k1' => 'SHA512'],
+    'currentKey'    => 'k1',
+    'deprecatedKey' => null,
 ];
 ```
 
