@@ -133,8 +133,7 @@ final class HmacTest extends DatabaseTestCase
     /**
      * Set MockInputOutput and user inputs.
      *
-     * @param array<int, string> $inputs User inputs
-     * @phpstan-param list<string> $inputs
+     * @param list<string> $inputs User inputs
      */
     private function setMockIo(array $inputs): void
     {
