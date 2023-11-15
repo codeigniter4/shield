@@ -148,7 +148,7 @@ final class HmacTest extends DatabaseTestCase
      *
      * @param mixed $output
      */
-    private function stripRedColorCode($output): string
+    private function stripRedColorCode(string $output): string
     {
         $output = str_replace(["\033[0;31m", "\033[0m"], '', $output);
 
