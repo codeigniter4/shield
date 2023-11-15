@@ -144,8 +144,6 @@ final class HmacTest extends DatabaseTestCase
 
     /**
      * Strip color from output code
-     *
-     * @param mixed $output
      */
     private function stripRedColorCode(string $output): string
     {
