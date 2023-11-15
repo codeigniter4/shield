@@ -56,7 +56,7 @@ class HmacEncrypter
     {
         $matches = [];
         // check for a match
-        if (preg_match('/^\$b6\$(\w+?)\$(.+)$/', $encString, $matches) !== 1) {
+        if (preg_match('/^\$b6\$(\w+?)\$(.+)\z/', $encString, $matches) !== 1) {
             throw new EncryptionException('Unable to decrypt string');
         }
 
