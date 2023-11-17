@@ -64,7 +64,7 @@ these currently default to `'OpenSSL'` and `'SHA512'` respectively.
 #### Encrypt Existing Keys
 
 After updating the `$hmacEncryption['key']` value, you will need to run `php spark shield:hmac encrypt` in order to encrypt
-any existing HMAC tokens.  This only needs to be run if you have existing unencrypted HMAC secretKeys in stored in the
+any existing HMAC tokens. This only needs to be run if you have existing unencrypted HMAC secretKeys in stored in the
 database.
 
 ## Version 1.0.0-beta.6 to 1.0.0-beta.7

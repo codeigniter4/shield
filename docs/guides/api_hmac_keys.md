@@ -90,7 +90,7 @@ $user->revokeAllHmacTokens();
 
 ## HMAC Secret Key Encryption
 
-The HMAC Secret Key is stored encrypted.  Before you start using HMAC, you will need to set/override the encryption key
+The HMAC Secret Key is stored encrypted. Before you start using HMAC, you will need to set/override the encryption key
 `$hmacEncryption['key']` in **app/Config/AuthToken.php**. This should be set using **.env** and/or system environment variables.
 Instructions on how to do that can be found in the
 [Setting Your Encryption Key](https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key)

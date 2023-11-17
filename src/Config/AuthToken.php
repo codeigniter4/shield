@@ -85,18 +85,18 @@ class AuthToken extends BaseAuthToken
      *      - OpenSSL
      *      - Sodium
      *
-     * This is an array of drivers values.  The keys MUST match and correlate
+     * This is an array of drivers values. The keys MUST match and correlate
      *  to the 'key' array keys.
      *
      * 'digest' is used when encrypting HMAC Secret Key for storage.
      *    e.g. 'SHA512' or 'SHA256'. Default value is 'SHA512'.
      *
-     * This is an array of digest values.  The keys MUST match and correlate
+     * This is an array of digest values. The keys MUST match and correlate
      *  to the 'key' array keys.
      *
      * The valid/current key is identified using 'currentKey'
      *
-     * Old keys will are used to decrypt existing Secret Keys.  It is encouraged
+     * Old keys will are used to decrypt existing Secret Keys. It is encouraged
      *  to run 'php spark shield:hmac reencrypt' to update existing Secret
      *  Key encryptions.
      *

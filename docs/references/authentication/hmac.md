@@ -72,7 +72,7 @@ instance of `CodeIgniters\Shield\Authentication\Entities\AccessToken`. The field
 `rawSecretKey` is the shared '**secretKey**'. Both are required to when using this authentication method.
 
 **The plain text version of these keys should be displayed to the user immediately, so they can copy it for
-their use.** It is recommended that after that only the '**key**' field is displayed to a user.  If a user loses the
+their use.** It is recommended that after that only the '**key**' field is displayed to a user. If a user loses the
 '**secretKey**', they should be required to generate a new set of keys to use.
 
 ```php
@@ -159,8 +159,8 @@ if ($user->hmacTokenCant('forums.manage')) {
 
 ## HMAC Secret Key Encryption
 
-The HMAC Secret Key is stored encrypted.  Before you start using HMAC, you will need to set/override the encryption key
-`$hmacEncryption['key']` in **app/Config/AuthToken.php**. This should be set using .env and/or system environment variables.
+The HMAC Secret Key is stored encrypted. Before you start using HMAC, you will need to set/override the encryption key
+`$hmacEncryption['key']` in **app/Config/AuthToken.php**. This should be set using **.env** and/or system environment variables.
 Instructions on how to do that can be found in the
 [Setting Your Encryption Key](https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key)
 section of the CodeIgniter 4 documentation.
@@ -210,7 +210,7 @@ php spark shield:hmac reencrypt
 You can (and should) set these values using environment variable and/or the `.env` file. To do this you will need to set
 the values as JSON strings:
 
-```dotenv
+```text
 authtoken.hmacEncryption.key = '{"k1":"hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7","k2":"hex2bin:451df599363b19be1434605fff8556a0bbfc50bede1bb33793dcde4d97fce4b0"}'
 authtoken.hmacEncryption.driver = '{"k1":"OpenSSL","k2":"OpenSSL"}'
 authtoken.hmacEncryption.digest = '{"k1":"SHA512","k2":"SHA512"}'
@@ -218,5 +218,5 @@ authtoken.hmacEncryption.currentKey = k2
 ```
 
 Depending on the set length of the Secret Key and the type of encryption used, it is possible for the encrypted value to
-exceed the database column character limit of 255 characters.  If this happens, creation of a new HMAC identity will
+exceed the database column character limit of 255 characters. If this happens, creation of a new HMAC identity will
 throw a `RuntimeException`.
