@@ -106,8 +106,8 @@ final class HmacTest extends DatabaseTestCase
 
         // verify that only 1 key needed to be re-encrypted
         $this->assertCount(2, $results);
-        $this->assertSame('id: 1, Re-encrypted.', $results[0]);
-        $this->assertSame('id: 2, already encrypted with current key, skipped.', $results[1]);
+        $this->assertSame('id: 1, Re-encrypted.', trim($results[0]));
+        $this->assertSame('id: 2, already encrypted with current key, skipped.', trim($results[1]));
 
         $encrypter = new HmacEncrypter();
 
