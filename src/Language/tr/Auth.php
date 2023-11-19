@@ -65,7 +65,7 @@ return [
     'suggestPasswordPersonal'   => 'E-posta adresiniz veya kullanıcı adınızdaki varyasyonlar, şifreler için kullanılmamalıdır.',
     'errorPasswordTooSimilar'   => 'Şifre, kullanıcı adınıza çok benziyor.',
     'suggestPasswordTooSimilar' => 'Kullanıcı adınızın bazı kısımlarını şifrenizde kullanmayın.',
-    'errorPasswordPwned'        => '{0} şifresi, bir veri ihlali nedeniyle açığa çıktı ve güvenliği ihlal edilmiş şifrelerin {2} tanesinde {1, sayı} kez görüldü.',
+    'errorPasswordPwned'        => '{0} şifresi, bir veri ihlali nedeniyle açığa çıktı ve güvenliği ihlal edilmiş şifrelerin {2} tanesinde {1, number} kez görüldü.',
     'suggestPasswordPwned'      => '{0} asla şifre olarak kullanılmamalıdır. Herhangi bir yerde kullanıyorsanız hemen değiştirin.',
     'errorPasswordEmpty'        => 'Şifre gerekli.',
     'errorPasswordTooLongBytes' => 'Şifre uzunluğu {param} baytı geçemez.',
