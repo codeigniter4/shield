@@ -207,7 +207,7 @@ public array $hmacEncryption = [
 php spark shield:hmac reencrypt
 ```
 
-You can (and should) set these values using environment variable and/or the `.env` file. To do this you will need to set
+You can (and should) set these values using environment variable and/or the **.env** file. To do this you will need to set
 the values as JSON strings:
 
 ```text
