@@ -203,7 +203,7 @@ public array $hmacEncryption = [
 ];
 ```
 
-```shell
+```console
 php spark shield:hmac reencrypt
 ```
 
