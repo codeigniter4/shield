@@ -39,12 +39,11 @@ class BaseAuthToken extends BaseConfig
      */
     protected function initEnvValue(&$property, string $name, string $prefix, string $shortPrefix): void
     {
-        switch ($name) {
-            case 'hmacEncryptionKeys':
-                // if attempting to set property from ENV, first set to empty string
-                if ($this->getEnvValue($name, $prefix, $shortPrefix) !== null) {
-                    $property = '';
-                }
+        if ($name === 'hmacEncryptionKeys') {
+            // if attempting to set property from ENV, first set to empty string
+            if ($this->getEnvValue($name, $prefix, $shortPrefix) !== null) {
+                $property = '';
+            }
         }
 
         parent::initEnvValue($property, $name, $prefix, $shortPrefix);
