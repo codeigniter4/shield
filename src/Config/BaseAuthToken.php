@@ -11,7 +11,7 @@ class BaseAuthToken extends BaseConfig
     /**
      * List of HMAC Encryption Keys
      *
-     * @var array|string
+     * @var array<string, array{key: string, driver?: string, digest?: string}>|string
      */
     public $hmacEncryptionKeys;
 
@@ -39,11 +39,9 @@ class BaseAuthToken extends BaseConfig
      */
     protected function initEnvValue(&$property, string $name, string $prefix, string $shortPrefix): void
     {
-        if ($name === 'hmacEncryptionKeys') {
-            // if attempting to set property from ENV, first set to empty string
-            if ($this->getEnvValue($name, $prefix, $shortPrefix) !== null) {
-                $property = '';
-            }
+        // if attempting to set property from ENV, first set to empty string
+        if ($name === 'hmacEncryptionKeys' && $this->getEnvValue($name, $prefix, $shortPrefix) !== null) {
+            $property = '';
         }
 
         parent::initEnvValue($property, $name, $prefix, $shortPrefix);

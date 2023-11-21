@@ -170,7 +170,7 @@ You will also be able to adjust the default Driver `$hmacEncryptionDefaultDriver
 overridden for an individual key by including them in the keys array.
 
 ```php
-public array $hmacEncryptionKeys = [
+public $hmacEncryptionKeys = [
     'k1' => [
         'key' => 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
     ],
@@ -188,7 +188,7 @@ encryption key.  You will need to leave the old key in the array as it will be u
 during re-encryption.
 
 ```php
-public array $hmacEncryptionKeys = [
+public $hmacEncryptionKeys = [
     'k1' => [
         'key' => 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
     ],
