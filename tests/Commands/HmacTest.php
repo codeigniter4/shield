@@ -36,6 +36,7 @@ final class HmacTest extends DatabaseTestCase
 
         $this->assertSame($rawSecretKey, $tokenCheck->secret2);
 
+        $this->setMockIo([]);
         $this->assertNotFalse(command('shield:hmac encrypt'));
 
         $tokenCheck = $idModel->find($token->id);
@@ -63,6 +64,7 @@ final class HmacTest extends DatabaseTestCase
 
         $rawSecretKey = $token->rawSecretKey;
 
+        $this->setMockIo([]);
         $this->assertNotFalse(command('shield:hmac decrypt'));
 
         $token->secret2 = $rawSecretKey;
