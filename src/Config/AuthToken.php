@@ -91,7 +91,12 @@ class AuthToken extends BaseAuthToken
      *
      * @see https://codeigniter.com/user_guide/libraries/encryption.html
      *
-     * @var array|string
+     * @var array<string, array<string, string>>|string Temporarily becomes a
+     *                                                  string when setting value
+     *                                                  as JSON from environment
+     *                                                  variable.
+     *
+     * [key_name => ['key' => key_value]]
      */
     public $hmacEncryptionKeys = [
         'k1' => [
