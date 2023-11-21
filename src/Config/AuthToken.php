@@ -76,36 +76,55 @@ class AuthToken extends BaseAuthToken
      * --------------------------------------------------------------------
      * This sets the key to be used when encrypting a user's HMAC Secret Key.
      *
-     * 'key' is an array of keys which will facilitate key rotation. Valid
+     * 'keys' is an array of keys which will facilitate key rotation. Valid
      *  keyTitles must include only [a-zA-Z0-9_] and should be kept to a
      *  max of 8 characters.
      *
-     * 'driver' is used when encrypting HMAC Secret Key for storage.
-     *    Available drivers:
-     *      - OpenSSL
-     *      - Sodium
-     *
-     * This is an array of drivers values. The keys MUST match and correlate
-     *  to the 'key' array keys.
-     *
-     * 'digest' is used when encrypting HMAC Secret Key for storage.
-     *    e.g. 'SHA512' or 'SHA256'. Default value is 'SHA512'.
-     *
-     * This is an array of digest values. The keys MUST match and correlate
-     *  to the 'key' array keys.
-     *
-     * The valid/current key is identified using 'currentKey'
+     * Each keyTitle is an associative array containing the required 'key'
+     *  value, and the optional 'driver' and 'digest' values. If the
+     *  'driver' and 'digest' values are not specified, the default 'driver'
+     *  and 'digest' values will be used.
      *
      * Old keys will are used to decrypt existing Secret Keys. It is encouraged
      *  to run 'php spark shield:hmac reencrypt' to update existing Secret
      *  Key encryptions.
      *
      * @see https://codeigniter.com/user_guide/libraries/encryption.html
+     *
+     * @var array|string
      */
-    public array $hmacEncryption = [
-        'key'        => ['k1' => ''],
-        'driver'     => ['k1' => 'OpenSSL'],
-        'digest'     => ['k1' => 'SHA512'],
-        'currentKey' => 'k1',
+    public $hmacEncryptionKeys = [
+        'k1' => [
+            'key' => '',
+        ],
     ];
+
+    /**
+     * --------------------------------------------------------------------
+     * HMAC Current Encryption Key Selector
+     * --------------------------------------------------------------------
+     * This specifies which of the encryption keys should be used.
+     */
+    public string $hmacEncryptionCurrentKey = 'k1';
+
+    /**
+     * --------------------------------------------------------------------
+     * HMAC Encryption Key Driver
+     * --------------------------------------------------------------------
+     * This specifies which of the encryption drivers should be used.
+     *
+     * Available drivers:
+     *     - OpenSSL
+     *     - Sodium
+     */
+    public string $hmacEncryptionDefaultDriver = 'OpenSSL';
+
+    /**
+     * --------------------------------------------------------------------
+     * HMAC Encryption Key Driver
+     * --------------------------------------------------------------------
+     * THis specifies the type of encryption to be used.
+     *     e.g. 'SHA512' or 'SHA256'.
+     */
+    public string $hmacEncryptionDefaultDigest = 'SHA512';
 }

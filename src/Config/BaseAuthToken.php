@@ -8,7 +8,12 @@ use CodeIgniter\Config\BaseConfig;
 
 class BaseAuthToken extends BaseConfig
 {
-    public array $hmacEncryption;
+    /**
+     * List of HMAC Encryption Keys
+     *
+     * @var array|string
+     */
+    public $hmacEncryptionKeys;
 
     /**
      * AuthToken Config Constructor
@@ -17,18 +22,10 @@ class BaseAuthToken extends BaseConfig
     {
         parent::__construct();
 
-        $overwriteHmacEncryptionFields = [
-            'key',
-            'driver',
-            'digest',
-        ];
-
-        foreach ($overwriteHmacEncryptionFields as $fieldName) {
-            if (is_string($this->hmacEncryption[$fieldName])) {
-                $array = json_decode($this->hmacEncryption[$fieldName], true);
-                if (is_array($array)) {
-                    $this->hmacEncryption[$fieldName] = $array;
-                }
+        if (is_string($this->hmacEncryptionKeys)) {
+            $array = json_decode($this->hmacEncryptionKeys, true);
+            if (is_array($array)) {
+                $this->hmacEncryptionKeys = $array;
             }
         }
     }
@@ -43,9 +40,7 @@ class BaseAuthToken extends BaseConfig
     protected function initEnvValue(&$property, string $name, string $prefix, string $shortPrefix): void
     {
         switch ($name) {
-            case 'hmacEncryption.key':
-            case 'hmacEncryption.driver':
-            case 'hmacEncryption.digest':
+            case 'hmacEncryptionKeys':
                 // if attempting to set property from ENV, first set to empty string
                 if ($this->getEnvValue($name, $prefix, $shortPrefix) !== null) {
                     $property = '';

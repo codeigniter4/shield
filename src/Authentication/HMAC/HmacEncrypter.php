@@ -40,7 +40,7 @@ class HmacEncrypter
     {
         $this->authConfig = config('AuthToken');
 
-        $this->getEncrypter($this->authConfig->hmacEncryption['currentKey']);
+        $this->getEncrypter($this->authConfig->hmacEncryptionCurrentKey);
     }
 
     /**
@@ -77,7 +77,7 @@ class HmacEncrypter
      */
     public function encrypt(string $rawString): string
     {
-        $currentKey = $this->authConfig->hmacEncryption['currentKey'];
+        $currentKey = $this->authConfig->hmacEncryptionCurrentKey;
 
         $encryptedString = '$b6$' . $currentKey . '$' . base64_encode($this->encrypter[$currentKey]->encrypt($rawString));
 
@@ -101,7 +101,7 @@ class HmacEncrypter
      */
     public function isEncryptedWithCurrentKey(string $string): bool
     {
-        $currentKey = $this->authConfig->hmacEncryption['currentKey'];
+        $currentKey = $this->authConfig->hmacEncryptionCurrentKey;
 
         return preg_match('/^\$b6\$' . $currentKey . '\$/', $string) === 1;
     }
@@ -126,15 +126,15 @@ class HmacEncrypter
     private function getEncrypter(string $encrypterKey): EncrypterInterface
     {
         if (! isset($this->encrypter[$encrypterKey])) {
-            if (! isset($this->authConfig->hmacEncryption['key'][$encrypterKey])) {
+            if (! isset($this->authConfig->hmacEncryptionKeys[$encrypterKey]['key'])) {
                 throw new RuntimeException('Encryption key does not exist.');
             }
 
             $config = new Encryption();
 
-            $config->key    = $this->authConfig->hmacEncryption['key'][$encrypterKey];
-            $config->driver = $this->authConfig->hmacEncryption['driver'][$encrypterKey];
-            $config->digest = $this->authConfig->hmacEncryption['digest'][$encrypterKey];
+            $config->key    = $this->authConfig->hmacEncryptionKeys[$encrypterKey]['key'];
+            $config->driver = $this->authConfig->hmacEncryptionKeys[$encrypterKey]['driver'] ?? $this->authConfig->hmacEncryptionDefaultDriver;
+            $config->digest = $this->authConfig->hmacEncryptionKeys[$encrypterKey]['digest'] ?? $this->authConfig->hmacEncryptionDefaultDigest;
 
             $this->encrypter[$encrypterKey] = Services::encrypter($config);
         }

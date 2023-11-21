@@ -53,19 +53,19 @@ protected function redirectToDeniedUrl(): RedirectResponse
 #### Config\AuthToken
 
 If you are using the HMAC authentication you need to update the encryption settings in **app/Config/AuthToken.php**.
-You will need to update and set the encryption key `$hmacEncryption['key']`. This should be set using **.env** and/or system
-environment variables. Instructions on how to do that can be found in the
+You will need to update and set the encryption key in `$hmacEncryptionKeys`. This should be set using **.env** and/or
+system environment variables. Instructions on how to do that can be found in the
 [Setting Your Encryption Key](https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key)
 section of the CodeIgniter 4 documentation and in [HMAC SHA256 Token Authenticator](./docs/references/authentication/hmac.md#hmac-secret-key-encryption).
 
-You also may wish to adjust the default Driver `$hmacEncryption['driver']` and the default Digest `$hmacEncryption['digest']`,
-these currently default to `'OpenSSL'` and `'SHA512'` respectively.
+You also may wish to adjust the default Driver `$hmacEncryptionDefaultDriver` and the default Digest
+`$hmacEncryptionDefaultDigest`, these currently default to `'OpenSSL'` and `'SHA512'` respectively.
 
 #### Encrypt Existing Keys
 
-After updating the `$hmacEncryption['key']` value, you will need to run `php spark shield:hmac encrypt` in order to encrypt
-any existing HMAC tokens. This only needs to be run if you have existing unencrypted HMAC secretKeys in stored in the
-database.
+After updating the key in `$hmacEncryptionKeys` value, you will need to run `php spark shield:hmac encrypt` in order
+to encrypt any existing HMAC tokens. This only needs to be run if you have existing unencrypted HMAC secretKeys in
+stored in the database.
 
 ## Version 1.0.0-beta.6 to 1.0.0-beta.7
 
