@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.10">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.fad675c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
@@ -542,6 +542,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../../customization/views/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Customizing Views
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../customization/route_config/" class="md-nav__link">
         
   
@@ -607,6 +627,26 @@
   
   <span class="md-ellipsis">
     Customizing User Provider
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../customization/adding_attributes_to_users/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adding Attributes to Users
   </span>
   
 
@@ -1000,14 +1040,18 @@
       
         <li class="md-nav__item">
   <a href="#provided-filters" class="md-nav__link">
-    Provided Filters
+    <span class="md-ellipsis">
+      Provided Filters
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#configure-controller-filters" class="md-nav__link">
-    Configure Controller Filters
+    <span class="md-ellipsis">
+      Configure Controller Filters
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Configure Controller Filters">
@@ -1015,21 +1059,27 @@
         
           <li class="md-nav__item">
   <a href="#protect-all-pages" class="md-nav__link">
-    Protect All Pages
+    <span class="md-ellipsis">
+      Protect All Pages
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#rate-limiting" class="md-nav__link">
-    Rate Limiting
+    <span class="md-ellipsis">
+      Rate Limiting
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#forcing-password-reset" class="md-nav__link">
-    Forcing Password Reset
+    <span class="md-ellipsis">
+      Forcing Password Reset
+    </span>
   </a>
   
 </li>
@@ -1370,14 +1420,18 @@
       
         <li class="md-nav__item">
   <a href="#provided-filters" class="md-nav__link">
-    Provided Filters
+    <span class="md-ellipsis">
+      Provided Filters
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#configure-controller-filters" class="md-nav__link">
-    Configure Controller Filters
+    <span class="md-ellipsis">
+      Configure Controller Filters
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Configure Controller Filters">
@@ -1385,21 +1439,27 @@
         
           <li class="md-nav__item">
   <a href="#protect-all-pages" class="md-nav__link">
-    Protect All Pages
+    <span class="md-ellipsis">
+      Protect All Pages
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#rate-limiting" class="md-nav__link">
-    Rate Limiting
+    <span class="md-ellipsis">
+      Rate Limiting
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#forcing-password-reset" class="md-nav__link">
-    Forcing Password Reset
+    <span class="md-ellipsis">
+      Forcing Password Reset
+    </span>
   </a>
   
 </li>
@@ -1436,11 +1496,13 @@
 <h2 id="provided-filters">Provided Filters</h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>These filters are already loaded for you by the <a href="https://codeigniter.com/user_guide/general/configuration.html#registrars">registrar</a> class located at <strong>src/Config/Registrar.php</strong>.</p>
+<p>The filter <code>$aliases</code> that Shield provides are automatically added for you by the
+<a href="https://codeigniter.com/user_guide/general/configuration.html#registrars">Registrar</a>
+class located at <strong>src/Config/Registrar.php</strong>. So you don't need to add in
+your <strong>app/Config/Filters.php</strong>.</p>
 </div>
 <p>The <a href="https://codeigniter.com/user_guide/incoming/filters.html">Controller Filters</a> you can use to protect your routes Shield provides are:</p>
-<pre class="highlight"><code class="language-php">public $aliases = [
-    // ...
+<pre class="highlight"><code class="language-php">$aliases = [
     'session'     =&gt; \CodeIgniter\Shield\Filters\SessionAuth::class,
     'tokens'      =&gt; \CodeIgniter\Shield\Filters\TokenAuth::class,
     'hmac'        =&gt; \CodeIgniter\Shield\Filters\HmacAuth::class,
@@ -1504,7 +1566,7 @@
 <pre class="highlight"><code class="language-php">public $globals = [
     'before' =&gt; [
         // ...
-        'session' =&gt; ['except' =&gt; ['login*', 'register', 'auth/a/*']],
+        'session' =&gt; ['except' =&gt; ['login*', 'register', 'auth/a/*', 'logout']],
     ],
     // ...
 ];</code></pre>
@@ -1541,7 +1603,7 @@ In the example above, it is assumed that the page you have created for users to 
 <pre class="highlight"><code class="language-php">public $globals = [
     'before' =&gt; [
         // ...
-        'session' =&gt; ['except' =&gt; ['accounts/login*', 'accounts/register', 'accounts/auth/a/*']]
+        'session' =&gt; ['except' =&gt; ['accounts/login*', 'accounts/register', 'accounts/auth/a/*', 'accounts/logout']]
     ]
 ]</code></pre>
 <p>The same should apply for the Rate Limiting and Forcing Password Reset.</p>
@@ -1551,11 +1613,11 @@ In the example above, it is assumed that the page you have created for users to 
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 9, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 25, 2023</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 9, 2023</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">September 17, 2023</span>
       
     
   </small>
@@ -1682,7 +1744,7 @@ In the example above, it is assumed that the page you have created for users to 
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      <script src="../../assets/javascripts/bundle.6c14ae12.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
       

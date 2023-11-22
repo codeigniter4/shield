@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.10">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.fad675c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
@@ -544,6 +544,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../views/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Customizing Views
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../route_config/" class="md-nav__link">
         
   
@@ -609,6 +629,26 @@
   
   <span class="md-ellipsis">
     Customizing User Provider
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adding_attributes_to_users/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adding Attributes to Users
   </span>
   
 
@@ -1315,7 +1355,13 @@
 <h1 id="integrating-custom-view-libraries">Integrating Custom View Libraries</h1>
 <p>If your application uses a different method to convert view files to HTML than CodeIgniter's built-in <code>view()</code> helper, you can easily integrate your system anywhere that a view is rendered within Shield.</p>
 <p>All controllers and actions use the <code>CodeIgniter\Shield\Traits\Viewable</code> trait which provides a simple <code>view()</code> method that takes the same arguments as the <code>view()</code> helper. This allows you to extend the Action or Controller and only change the single method of rendering the view, leaving all of the logic untouched so your app will not need to maintain Shield logic when it doesn't need to change it.</p>
-<pre class="highlight"><code class="language-php">use Acme\Themes\Traits\Themeable;
+<pre class="highlight"><code class="language-php">&lt;?php
+
+declare(strict_types=1);
+
+namespace App\Controllers;
+
+use Acme\Themes\Traits\Themeable;
 use CodeIgniter\Shield\Controllers\LoginController;
 
 class MyLoginController extends LoginController
@@ -1333,11 +1379,11 @@ class MyLoginController extends LoginController
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 9, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 13, 2023</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 9, 2023</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">September 17, 2023</span>
       
     
   </small>
@@ -1464,7 +1510,7 @@ class MyLoginController extends LoginController
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      <script src="../../assets/javascripts/bundle.6c14ae12.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
       

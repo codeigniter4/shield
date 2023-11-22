@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.10">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.fad675c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
@@ -542,6 +542,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../../customization/views/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Customizing Views
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../customization/route_config/" class="md-nav__link">
         
   
@@ -607,6 +627,26 @@
   
   <span class="md-ellipsis">
     Customizing User Provider
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../customization/adding_attributes_to_users/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adding Attributes to Users
   </span>
   
 
@@ -897,14 +937,18 @@
       
         <li class="md-nav__item">
   <a href="#usage" class="md-nav__link">
-    Usage
+    <span class="md-ellipsis">
+      Usage
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#hmac-keys-permissions" class="md-nav__link">
-    HMAC Keys Permissions
+    <span class="md-ellipsis">
+      HMAC Keys Permissions
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="HMAC Keys Permissions">
@@ -912,7 +956,33 @@
         
           <li class="md-nav__item">
   <a href="#revoking-keystokens" class="md-nav__link">
-    Revoking Keys/Tokens
+    <span class="md-ellipsis">
+      Revoking Keys/Tokens
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hmac-secret-key-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      HMAC Secret Key Encryption
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HMAC Secret Key Encryption">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#encryption-key-rotation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encryption Key Rotation
+    </span>
   </a>
   
 </li>
@@ -924,7 +994,9 @@
       
         <li class="md-nav__item">
   <a href="#protecting-routes" class="md-nav__link">
-    Protecting Routes
+    <span class="md-ellipsis">
+      Protecting Routes
+    </span>
   </a>
   
 </li>
@@ -1363,14 +1435,18 @@
       
         <li class="md-nav__item">
   <a href="#usage" class="md-nav__link">
-    Usage
+    <span class="md-ellipsis">
+      Usage
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#hmac-keys-permissions" class="md-nav__link">
-    HMAC Keys Permissions
+    <span class="md-ellipsis">
+      HMAC Keys Permissions
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="HMAC Keys Permissions">
@@ -1378,7 +1454,33 @@
         
           <li class="md-nav__item">
   <a href="#revoking-keystokens" class="md-nav__link">
-    Revoking Keys/Tokens
+    <span class="md-ellipsis">
+      Revoking Keys/Tokens
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hmac-secret-key-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      HMAC Secret Key Encryption
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HMAC Secret Key Encryption">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#encryption-key-rotation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encryption Key Rotation
+    </span>
   </a>
   
 </li>
@@ -1390,7 +1492,9 @@
       
         <li class="md-nav__item">
   <a href="#protecting-routes" class="md-nav__link">
-    Protecting Routes
+    <span class="md-ellipsis">
+      Protecting Routes
+    </span>
   </a>
   
 </li>
@@ -1433,16 +1537,17 @@ API. When making requests using HMAC keys, the token should be included in the <
 setting the <code>$authenticatorHeader['hmac']</code> value in the <strong>app/Config/AuthToken.php</strong> config file.</p>
 </div>
 <p>Tokens are issued with the <code>generateHmacToken()</code> method on the user. This returns a
-<code>CodeIgniter\Shield\Entities\AccessToken</code> instance. These shared keys are saved to the database in plain text. The
-<code>AccessToken</code> object returned when you generate it will include a <code>secret</code> field which will be the <code>key</code> and a <code>secret2</code>
-field that will be the <code>secretKey</code>. You should display the <code>secretKey</code> to your user once, so they have a chance to copy
-it somewhere safe, as this is the only time you should reveal this key.</p>
+<code>CodeIgniter\Shield\Entities\AccessToken</code> instance. The <code>AccessToken</code> object returned will include a <code>secret</code> field
+which will be the '<strong>key</strong>' and a <code>rawSecretKey</code> field that will be the '<strong>secretKey</strong>'. You should display the
+'<strong>secretKey</strong>' to your user immediately, so they have a chance to copy it somewhere safe, as this is the only time
+you can reveal this key. The '<strong>key</strong>' and '<strong>secretKey</strong>' are saved to the database. The '<strong>secretKey</strong>' is stored
+encrypted.</p>
 <p>The <code>generateHmacToken()</code> method requires a name for the token. These are free strings and are often used to identify
 the user/device the token was generated from/for, like 'Johns MacBook Air'.</p>
-<pre class="highlight"><code class="language-php">$routes-&gt;get('/hmac/token', static function () {
+<pre class="highlight"><code class="language-php">$routes-&gt;get('hmac/token', static function () {
     $token = auth()-&gt;user()-&gt;generateHmacToken(service('request')-&gt;getVar('token_name'));
 
-    return json_encode(['key' =&gt; $token-&gt;secret, 'secretKey' =&gt; $token-&gt;secret2]);
+    return json_encode(['key' =&gt; $token-&gt;secret, 'secretKey' =&gt; $token-&gt;rawSecretKey]);
 });</code></pre>
 <p>You can access all the user's HMAC keys with the <code>hmacTokens()</code> method on that user.</p>
 <pre class="highlight"><code class="language-php">$tokens = $user-&gt;hmacTokens();
@@ -1459,7 +1564,7 @@ foreach ($tokens as $token) {
 the same as the permission the user has, but is used to specify the permissions on the API itself. If not specified, the
 token is granted all access to all scopes. This might be enough for a smaller API.</p>
 <pre class="highlight"><code class="language-php">$token = $user-&gt;generateHmacToken('token-name', ['users-read']);
-return json_encode(['key' =&gt; $token-&gt;secret, 'secretKey' =&gt; $token-&gt;secret2]);</code></pre>
+return json_encode(['key' =&gt; $token-&gt;secret, 'secretKey' =&gt; $token-&gt;rawSecretKey]);</code></pre>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>At this time, scope names should avoid using a colon (<code>:</code>) as this causes issues with the route filters being
@@ -1473,6 +1578,19 @@ correctly recognized.</p>
 <p>Tokens can be revoked by deleting them from the database with the <code>revokeHmacToken($key)</code> or <code>revokeAllHmacTokens()</code> methods.</p>
 <pre class="highlight"><code class="language-php">$user-&gt;revokeHmacToken($key);
 $user-&gt;revokeAllHmacTokens();</code></pre>
+<h2 id="hmac-secret-key-encryption">HMAC Secret Key Encryption</h2>
+<p>The HMAC Secret Key is stored encrypted. Before you start using HMAC, you will need to set/override the encryption key
+in <code>$hmacEncryptionKeys</code> in <strong>app/Config/AuthToken.php</strong>. This should be set using <strong>.env</strong> and/or system
+environment variables. Instructions on how to do that can be found in the
+<a href="https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key">Setting Your Encryption Key</a>
+section of the CodeIgniter 4 documentation.</p>
+<p>You will also be able to adjust the default Driver <code>$hmacEncryptionDefaultDriver</code> and the default Digest
+<code>$hmacEncryptionDefaultDigest</code>, these default to <code>'OpenSSL'</code> and <code>'SHA512'</code> respectively.</p>
+<p>See <a href="../../references/authentication/hmac/#hmac-secret-key-encryption">HMAC SHA256 Token Authenticator</a> for additional
+details on setting these values.</p>
+<h3 id="encryption-key-rotation">Encryption Key Rotation</h3>
+<p>See <a href="../../references/authentication/hmac/#hmac-secret-key-encryption">HMAC SHA256 Token Authenticator</a> for information on
+how to set, rotate encryption keys and re-encrypt existing HMAC <code>'secretKey'</code> values.</p>
 <h2 id="protecting-routes">Protecting Routes</h2>
 <p>The first way to specify which routes are protected is to use the <code>hmac</code> controller filter.</p>
 <p>For example, to ensure it protects all routes under the <code>/api</code> route group, you would use the <code>$filters</code> setting
@@ -1499,11 +1617,11 @@ which will then be available through an <code>auth()-&gt;user()</code> call.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 9, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 21, 2023</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 9, 2023</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">August 18, 2023</span>
       
     
   </small>
@@ -1630,7 +1748,7 @@ which will then be available through an <code>auth()-&gt;user()</code> call.</p>
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      <script src="../../assets/javascripts/bundle.6c14ae12.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
       

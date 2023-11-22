@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.10">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.fad675c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
@@ -425,28 +425,10 @@
       
         <li class="md-nav__item">
   <a href="#config-files" class="md-nav__link">
-    Config files
+    <span class="md-ellipsis">
+      Config files
+    </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#accesstokens-authenticator" class="md-nav__link">
-    AccessTokens Authenticator
-  </a>
-  
-    <nav class="md-nav" aria-label="AccessTokens Authenticator">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#access-token-lifetime" class="md-nav__link">
-    Access Token Lifetime
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -611,6 +593,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../../customization/views/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Customizing Views
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../customization/route_config/" class="md-nav__link">
         
   
@@ -676,6 +678,26 @@
   
   <span class="md-ellipsis">
     Customizing User Provider
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../customization/adding_attributes_to_users/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adding Attributes to Users
   </span>
   
 
@@ -1356,28 +1378,10 @@
       
         <li class="md-nav__item">
   <a href="#config-files" class="md-nav__link">
-    Config files
+    <span class="md-ellipsis">
+      Config files
+    </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#accesstokens-authenticator" class="md-nav__link">
-    AccessTokens Authenticator
-  </a>
-  
-    <nav class="md-nav" aria-label="AccessTokens Authenticator">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#access-token-lifetime" class="md-nav__link">
-    Access Token Lifetime
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1411,27 +1415,22 @@
 the following configuration files:</p>
 <ul>
 <li><strong>app/Config/Auth.php</strong></li>
-<li><strong>app/Config/AuthGroups.php</strong> - For Authorization</li>
-<li><strong>app/Config/AuthToken.php</strong> - For AccessTokens and HmacSha256 Authentication</li>
-<li><strong>app/Config/AuthJWT.php</strong> - For JWT Authentication</li>
+<li><strong>app/Config/AuthGroups.php</strong> - For <a href="../../references/authorization/">Authorization</a></li>
+<li><strong>app/Config/AuthToken.php</strong> - For <a href="../../references/authentication/tokens/#configuration">AccessTokens</a> and <a href="../../references/authentication/hmac/#configuration">HmacSha256</a> Authentication</li>
+<li><strong>app/Config/AuthJWT.php</strong> - For <a href="../../addons/jwt/#configuration">JWT Authentication</a></li>
 </ul>
 <p>Note that you do not need to have configuration files for features you do not use.</p>
-<p>This section describes the major Config items that are not described elsewhere.</p>
-<h2 id="accesstokens-authenticator">AccessTokens Authenticator</h2>
-<h3 id="access-token-lifetime">Access Token Lifetime</h3>
-<p>By default, Access Tokens can be used for 1 year since the last use. This can be easily modified in the <strong>app/Config/AuthToken.php</strong> config file.</p>
-<pre class="highlight"><code class="language-php">public int $unusedTokenLifetime = YEAR;</code></pre>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 9, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 22, 2023</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 9, 2023</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">September 18, 2023</span>
       
     
   </small>
@@ -1558,7 +1557,7 @@ the following configuration files:</p>
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      <script src="../../assets/javascripts/bundle.6c14ae12.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
       

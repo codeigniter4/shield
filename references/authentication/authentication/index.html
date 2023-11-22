@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.10">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.bd3936ea.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.fad675c6.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
@@ -542,6 +542,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../customization/views/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Customizing Views
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../customization/route_config/" class="md-nav__link">
         
   
@@ -607,6 +627,26 @@
   
   <span class="md-ellipsis">
     Customizing User Provider
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../customization/adding_attributes_to_users/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adding Attributes to Users
   </span>
   
 
@@ -1058,21 +1098,27 @@
       
         <li class="md-nav__item">
   <a href="#available-authenticators" class="md-nav__link">
-    Available Authenticators
+    <span class="md-ellipsis">
+      Available Authenticators
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#auth-helper" class="md-nav__link">
-    Auth Helper
+    <span class="md-ellipsis">
+      Auth Helper
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#authenticator-responses" class="md-nav__link">
-    Authenticator Responses
+    <span class="md-ellipsis">
+      Authenticator Responses
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Authenticator Responses">
@@ -1080,21 +1126,27 @@
         
           <li class="md-nav__item">
   <a href="#isok" class="md-nav__link">
-    isOK()
+    <span class="md-ellipsis">
+      isOK()
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#reason" class="md-nav__link">
-    reason()
+    <span class="md-ellipsis">
+      reason()
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#extrainfo" class="md-nav__link">
-    extraInfo()
+    <span class="md-ellipsis">
+      extraInfo()
+    </span>
   </a>
   
 </li>
@@ -1379,21 +1431,27 @@
       
         <li class="md-nav__item">
   <a href="#available-authenticators" class="md-nav__link">
-    Available Authenticators
+    <span class="md-ellipsis">
+      Available Authenticators
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#auth-helper" class="md-nav__link">
-    Auth Helper
+    <span class="md-ellipsis">
+      Auth Helper
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#authenticator-responses" class="md-nav__link">
-    Authenticator Responses
+    <span class="md-ellipsis">
+      Authenticator Responses
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Authenticator Responses">
@@ -1401,21 +1459,27 @@
         
           <li class="md-nav__item">
   <a href="#isok" class="md-nav__link">
-    isOK()
+    <span class="md-ellipsis">
+      isOK()
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#reason" class="md-nav__link">
-    reason()
+    <span class="md-ellipsis">
+      reason()
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#extrainfo" class="md-nav__link">
-    extraInfo()
+    <span class="md-ellipsis">
+      extraInfo()
+    </span>
   </a>
   
 </li>
@@ -1456,7 +1520,7 @@ web apps and APIs.</p>
 <p>Shield ships with 4 authenticators that will serve several typical situations within web app development.
 You can see the <a href="../../../getting_started/authenticators/">Authenticator List</a>.</p>
 <p>The available authenticators are defined in <code>Config\Auth</code>:</p>
-<pre class="highlight"><code class="language-php">public $authenticators = [
+<pre class="highlight"><code class="language-php">public array $authenticators = [
     // alias  =&gt; classname
     'session' =&gt; Session::class,
     'tokens'  =&gt; AccessTokens::class,
@@ -1464,7 +1528,7 @@ You can see the <a href="../../../getting_started/authenticators/">Authenticator
     // 'jwt'  =&gt; JWT::class,
 ];</code></pre>
 <p>The default authenticator is also defined in the configuration file, and uses the alias given above:</p>
-<pre class="highlight"><code class="language-php">public $defaultAuthenticator = 'session';</code></pre>
+<pre class="highlight"><code class="language-php">public string $defaultAuthenticator = 'session';</code></pre>
 <h2 id="auth-helper">Auth Helper</h2>
 <p>The auth functionality is designed to be used with the <code>auth_helper</code> that comes with Shield. This
 helper method provides the <code>auth()</code> function which returns a convenient interface to the most frequently
@@ -1481,8 +1545,9 @@ user_id();
 auth()-&gt;getProvider();</code></pre>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The <code>auth_helper</code> is autoloaded by Composer. If you want to <em>override</em> the functions,
-you need to define them in <strong>app/Common.php</strong>.</p>
+<p>The <code>auth_helper</code> is autoloaded by CodeIgniter's autoloader if you follow the
+installation instruction. If you want to <em>override</em> the functions, create
+<strong>app/Helpers/auth_helper.php</strong>.</p>
 </div>
 <h2 id="authenticator-responses">Authenticator Responses</h2>
 <p>Many of the authenticator methods will return a <code>CodeIgniter\Shield\Result</code> class. This provides a consistent
@@ -1500,11 +1565,11 @@ has the following methods:</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 9, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 15, 2023</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 9, 2023</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 2, 2021</span>
       
     
   </small>
@@ -1631,7 +1696,7 @@ has the following methods:</p>
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.94c44541.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.6c14ae12.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
       

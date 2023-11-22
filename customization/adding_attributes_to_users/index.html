@@ -11,10 +11,10 @@
       
       
       
-        <link rel="prev" href="../integrating_custom_view_libs/">
+        <link rel="prev" href="../user_provider/">
       
       
-        <link rel="next" href="../../user_management/managing_users/">
+        <link rel="next" href="../extending_controllers/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Customizing Login Identifier - CodeIgniter Shield</title>
+        <title>Adding Attributes to Users - CodeIgniter Shield</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#customizing-login-identifier" class="md-skip">
+        <a href="#adding-attributes-to-users" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Customizing Login Identifier
+              Adding Attributes to Users
             
           </span>
         </div>
@@ -642,9 +642,29 @@
                 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../adding_attributes_to_users/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Adding Attributes to Users
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -653,6 +673,71 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create-migration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create Migration File
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run Migrations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-usermodel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create UserModel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-validation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update Validation Rules
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customize-register-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customize Register View
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -702,29 +787,9 @@
                 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Customizing Login Identifier
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../login_identifier/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -733,62 +798,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#create-migration-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create Migration File
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#change-validfields" class="md-nav__link">
-    <span class="md-ellipsis">
-      Change $validFields
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#update-validation-rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      Update Validation Rules
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#customize-login-view" class="md-nav__link">
-    <span class="md-ellipsis">
-      Customize Login View
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1413,9 +1422,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#change-validfields" class="md-nav__link">
+  <a href="#run-migrations" class="md-nav__link">
     <span class="md-ellipsis">
-      Change $validFields
+      Run Migrations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-usermodel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create UserModel
     </span>
   </a>
   
@@ -1431,9 +1449,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#customize-login-view" class="md-nav__link">
+  <a href="#customize-register-view" class="md-nav__link">
     <span class="md-ellipsis">
-      Customize Login View
+      Customize Register View
     </span>
   </a>
   
@@ -1454,7 +1472,7 @@
                   
 
   
-    <a href="https://github.com/codeigniter4/shield/edit/develop/docs/customization/login_identifier.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/codeigniter4/shield/edit/develop/docs/customization/adding_attributes_to_users.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1462,62 +1480,148 @@
   
 
 
-<h1 id="customizing-login-identifier">Customizing Login Identifier</h1>
-<p>If your application has a need to use something other than <code>email</code> or <code>username</code>, you may specify any valid column within the <code>users</code> table that you may have added.</p>
-<p>This allows you to easily use phone numbers, employee or school IDs, etc. as the user identifier.
-You must implement the following steps to set this up.</p>
-<p>This only works with the Session authenticator.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>By default, Shield requires users to register their email and password.
-Further customization is required beyond the steps on this page to remove
-emails from user registrations.</p>
-</div>
+<h1 id="adding-attributes-to-users">Adding Attributes to Users</h1>
+<p>If you need to add new attributes like phone numbers, employee or school IDs, etc.
+to users, one way is to add columns to <code>users</code> table.</p>
 <h2 id="create-migration-file">Create Migration File</h2>
-<p>Create a <a href="http://codeigniter.com/user_guide/dbmgmt/migration.html">migration</a> that
-adds a new column to the <code>users</code> table.</p>
-<h2 id="change-validfields">Change $validFields</h2>
-<p>Edit <strong>app/Config/Auth.php</strong> so that the new column you just created is within the
-<code>$validFields</code> array.</p>
-<pre class="highlight"><code class="language-php">public array $validFields = [
-    'employee_id'
-];</code></pre>
-<p>If you have multiple login forms on your site that use different credentials, you
-must have all of the valid identifying fields in the array.</p>
-<pre class="highlight"><code class="language-php">public array $validFields = [
-    'email',
-    'employee_id'
-];</code></pre>
+<p>Create a migration file to add new columns.</p>
+<p>You can easily create a file for it with the <code>spark</code> command:
+<pre class="highlight"><code class="language-console">php spark make:migration AddMobileNumberToUsers</code></pre></p>
+<p>And write code to add/drop columns.</p>
+<pre class="highlight"><code class="language-php">&lt;?php
+
+namespace App\Database\Migrations;
+
+use CodeIgniter\Database\Forge;
+use CodeIgniter\Database\Migration;
+
+class AddMobileNumberToUsers extends Migration
+{
+    /**
+     * @var string[]
+     */
+    private array $tables;
+
+    public function __construct(?Forge $forge = null)
+    {
+        parent::__construct($forge);
+
+        /** @var \Config\Auth $authConfig */
+        $authConfig   = config('Auth');
+        $this-&gt;tables = $authConfig-&gt;tables;
+    }
+
+    public function up()
+    {
+        $fields = [
+            'mobile_number' =&gt; ['type' =&gt; 'VARCHAR', 'constraint' =&gt; '20', 'null' =&gt; true],
+        ];
+        $this-&gt;forge-&gt;addColumn($this-&gt;tables['users'], $fields);
+    }
+
+    public function down()
+    {
+        $fields = [
+            'mobile_number',
+        ];
+        $this-&gt;forge-&gt;dropColumn($this-&gt;tables['users'], $fields);
+    }
+}</code></pre>
+<h2 id="run-migrations">Run Migrations</h2>
+<p>Run the migration file:</p>
+<pre class="highlight"><code class="language-console">php spark migrate</code></pre>
+<p>And check the <code>users</code> table:</p>
+<pre class="highlight"><code class="language-console">php spark db:table users</code></pre>
+<h2 id="create-usermodel">Create UserModel</h2>
+<p>See <a href="../user_provider/">Customizing User Provider</a>.</p>
 <h2 id="update-validation-rules">Update Validation Rules</h2>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This is very important for security.</p>
-</div>
-<p>You must write new <strong>Validation Rules</strong> and then set them using the
-<a href="../validation_rules/#login">Customizing Validation Rules</a> description.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Not only the Validation Rules for <strong>login</strong>, but also the rules for
-<a href="../validation_rules/#registration">registration</a> should be updated. If you do
-not add the new <strong>Validation Rules</strong>, the new field will not be saved to the database.</p>
-</div>
-<h2 id="customize-login-view">Customize Login View</h2>
+<p>You need to update the <a href="../validation_rules/">validation rules</a> for registration.</p>
+<p>If you do not add the validation rules for the new fields, the new field data will
+not be saved to the database.</p>
+<p>Add the <code>$registration</code> property with the all validation rules for registration
+in <strong>app/Config/Validation.php</strong>:</p>
+<pre class="highlight"><code class="language-php">&lt;?php
+
+namespace Config;
+
+use CodeIgniter\Config\BaseConfig;
+use CodeIgniter\Validation\StrictRules\CreditCardRules;
+use CodeIgniter\Validation\StrictRules\FileRules;
+use CodeIgniter\Validation\StrictRules\FormatRules;
+use CodeIgniter\Validation\StrictRules\Rules;
+
+class Validation extends BaseConfig
+{
+    // ...
+
+    // --------------------------------------------------------------------
+    // Rules
+    // --------------------------------------------------------------------
+    public $registration = [
+        'username' =&gt; [
+            'label' =&gt; 'Auth.username',
+            'rules' =&gt; [
+                'required',
+                'max_length[30]',
+                'min_length[3]',
+                'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+                'is_unique[users.username]',
+            ],
+        ],
+        'mobile_number' =&gt; [
+            'label' =&gt; 'Mobile Number',
+            'rules' =&gt; [
+                'max_length[20]',
+                'min_length[10]',
+                'regex_match[/\A[0-9]+\z/]',
+                'is_unique[users.mobile_number]',
+            ],
+        ],
+        'email' =&gt; [
+            'label' =&gt; 'Auth.email',
+            'rules' =&gt; [
+                'required',
+                'max_length[254]',
+                'valid_email',
+                'is_unique[auth_identities.secret]',
+            ],
+        ],
+        'password' =&gt; [
+            'label' =&gt; 'Auth.password',
+            'rules' =&gt; [
+                'required',
+                'max_byte[72]',
+                'strong_password[]',
+            ],
+            'errors' =&gt; [
+                'max_byte' =&gt; 'Auth.errorPasswordTooLongBytes',
+            ]
+        ],
+        'password_confirm' =&gt; [
+            'label' =&gt; 'Auth.passwordConfirm',
+            'rules' =&gt; 'required|matches[password]',
+        ],
+    ];
+}</code></pre>
+<h2 id="customize-register-view">Customize Register View</h2>
 <ol>
 <li>
-<p>Change the <code>login</code> view file in the <strong>app/Config/Auth.php</strong> file.</p>
+<p>Change the <code>register</code> view file in the <strong>app/Config/Auth.php</strong> file.</p>
 <pre class="highlight"><code class="language-php">public array $views = [
-    'login'                       =&gt; '\App\Views\Shield\login',
+    // ...
+    'register'                   =&gt; '\App\Views\Shield\register',
     // ...
 ];</code></pre>
 </li>
 <li>
-<p>Copy file <strong>vendor/codeigniter4/shield/src/Views/login.php</strong> to <strong>app/Views/Shield/login.php</strong>.</p>
+<p>Copy file <strong>vendor/codeigniter4/shield/src/Views/register.php</strong> to <strong>app/Views/Shield/register.php</strong>.</p>
 </li>
 <li>
-<p>Customize the login form to change the name of the default <code>email</code> input to the new field name.</p>
-<pre class="highlight"><code class="language-php">&lt;!-- Email --&gt;
-&lt;div class="mb-2"&gt;
-    &lt;input type="text" class="form-control" name="employee_id" autocomplete="new-employee-id" placeholder="12345" value="&lt;?= old('employee_id') ?&gt;" required&gt;
+<p>Customize the registration form to add the new fields.</p>
+<pre class="highlight"><code class="language-php">&lt;!-- Mobile Number --&gt;
+&lt;div class="form-floating mb-2"&gt;
+    &lt;input type="tel" class="form-control" id="floatingMobileNumberInput" name="mobile_number" autocomplete="tel" placeholder="Mobile Number (without hyphen)" value="&lt;?= old('mobile_number') ?&gt;"&gt;
+    &lt;label for="floatingMobileNumberInput"&gt;Mobile Number (without hyphen)&lt;/label&gt;
 &lt;/div&gt;</code></pre>
 </li>
 </ol>
@@ -1527,11 +1631,11 @@ not add the new <strong>Validation Rules</strong>, the new field will not be sav
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 16, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 17, 2023</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">September 17, 2023</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 16, 2023</span>
       
     
   </small>
@@ -1563,7 +1667,7 @@ not add the new <strong>Validation Rules</strong>, the new field will not be sav
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../integrating_custom_view_libs/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Integrating Custom View Libraries">
+          <a href="../user_provider/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Customizing User Provider">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1573,20 +1677,20 @@ not add the new <strong>Validation Rules</strong>, the new field will not be sav
                 Previous
               </span>
               <div class="md-ellipsis">
-                Integrating Custom View Libraries
+                Customizing User Provider
               </div>
             </div>
           </a>
         
         
           
-          <a href="../../user_management/managing_users/" class="md-footer__link md-footer__link--next" aria-label="Next: Managing Users">
+          <a href="../extending_controllers/" class="md-footer__link md-footer__link--next" aria-label="Next: Extending the Controllers">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Managing Users
+                Extending the Controllers
               </div>
             </div>
             <div class="md-footer__button md-icon">
