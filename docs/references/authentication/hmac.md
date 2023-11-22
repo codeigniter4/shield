@@ -7,7 +7,7 @@ access to your API. These keys typically have a very long expiration time, often
 
 These are also suitable for use with mobile applications. In this case, the user would register/sign-in
 with their email/password. The application would create a new access token for them, with a recognizable
-name, like John's iPhone 12, and return it to the mobile application, where it is stored and used
+name, like "John's iPhone 12", and return it to the mobile application, where it is stored and used
 in all future requests.
 
 !!! note
@@ -67,19 +67,19 @@ $token = $user->generateHmacToken('Work Laptop');
 ```
 
 This creates the keys/tokens using a cryptographically secure random string. The keys operate as shared keys.
-This means they are stored as-is in the database. The method returns an instance of
-`CodeIgniters\Shield\Authentication\Entities\AccessToken`. The field `secret` is the 'key' the field `secret2` is
-the shared 'secretKey'. Both are required to when using this authentication method.
+The '**key**' is stored as plain text in the database, the '**secretKey**' is stored encrypted. The method returns an
+instance of `CodeIgniters\Shield\Authentication\Entities\AccessToken`. The field `secret` is the '**key**' the field
+`rawSecretKey` is the shared '**secretKey**'. Both are required to when using this authentication method.
 
 **The plain text version of these keys should be displayed to the user immediately, so they can copy it for
-their use.** It is recommended that after that only the 'key' field is displayed to a user.  If a user loses the
-'secretKey', they should be required to generate a new set of keys to use.
+their use.** It is recommended that after that only the '**key**' field is displayed to a user. If a user loses the
+'**secretKey**', they should be required to generate a new set of keys to use.
 
 ```php
 $token = $user->generateHmacToken('Work Laptop');
 
 echo 'Key: ' . $token->secret;
-echo 'SecretKey: ' . $token->secret2;
+echo 'SecretKey: ' . $token->rawSecretKey;
 ```
 
 ## Revoking HMAC Keys
@@ -156,3 +156,66 @@ if ($user->hmacTokenCant('forums.manage')) {
     // do something....
 }
 ```
+
+## HMAC Secret Key Encryption
+
+The HMAC Secret Key is stored encrypted. Before you start using HMAC, you will need to set/override the encryption key
+in `$hmacEncryptionKeys` in **app/Config/AuthToken.php**. This should be set using **.env** and/or system
+environment variables. Instructions on how to do that can be found in the
+[Setting Your Encryption Key](https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key)
+section of the CodeIgniter 4 documentation.
+
+You will also be able to adjust the default Driver `$hmacEncryptionDefaultDriver` and the default Digest
+`$hmacEncryptionDefaultDigest`, these default to `'OpenSSL'` and `'SHA512'` respectively. These can also be
+overridden for an individual key by including them in the keys array.
+
+```php
+public $hmacEncryptionKeys = [
+    'k1' => [
+        'key' => 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
+    ],
+];
+
+public string $hmacEncryptionCurrentKey    = 'k1';
+public string $hmacEncryptionDefaultDriver = 'OpenSSL';
+public string $hmacEncryptionDefaultDigest = 'SHA512';
+```
+
+When it is time to update your encryption keys you will need to add an additional key to the above
+`$hmacEncryptionKeys` array. Then adjust the `$hmacEncryptionCurrentKey` to point at the new key.  After the new
+encryption key is in place, run `php spark shield:hmac reencrypt` to re-encrypt all existing keys with the new
+encryption key.  You will need to leave the old key in the array as it will be used read the existing 'Secret Keys'
+during re-encryption.
+
+```php
+public $hmacEncryptionKeys = [
+    'k1' => [
+        'key' => 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
+    ],
+    'k2' => [
+        'key'    => 'hex2bin:451df599363b19be1434605fff8556a0bbfc50bede1bb33793dcde4d97fce4b0',
+        'digest' => 'SHA256',
+    ],
+];
+
+public string $hmacEncryptionCurrentKey    = 'k2';
+public string $hmacEncryptionDefaultDriver = 'OpenSSL';
+public string $hmacEncryptionDefaultDigest = 'SHA512';
+
+```
+
+```console
+php spark shield:hmac reencrypt
+```
+
+You can (and should) set these values using environment variable and/or the **.env** file. To do this you will need to set
+the values as JSON strings:
+
+```text
+authtoken.hmacEncryptionKeys = '{"k1":{"key":"hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7"},"k2":{"key":"hex2bin:451df599363b19be1434605fff8556a0bbfc50bede1bb33793dcde4d97fce4b0"}}'
+authtoken.hmacEncryptionCurrentKey = k2
+```
+
+Depending on the set length of the Secret Key and the type of encryption used, it is possible for the encrypted value to
+exceed the database column character limit of 255 characters. If this happens, creation of a new HMAC identity will
+throw a `RuntimeException`.

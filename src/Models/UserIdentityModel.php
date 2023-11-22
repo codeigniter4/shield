@@ -17,6 +17,7 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\HmacSha256;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Authentication\HMAC\HmacEncrypter;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
@@ -251,20 +252,29 @@ class UserIdentityModel extends BaseModel
     {
         $this->checkUserId($user);
 
+        $encrypter    = new HmacEncrypter();
+        $rawSecretKey = $encrypter->generateSecretKey();
+        $secretKey    = $encrypter->encrypt($rawSecretKey);
+
         $return = $this->insert([
             'type'    => HmacSha256::ID_TYPE_HMAC_TOKEN,
             'user_id' => $user->id,
             'name'    => $name,
             'secret'  => bin2hex(random_bytes(16)), // Key
-            'secret2' => bin2hex(random_bytes(config('AuthToken')->hmacSecretKeyByteSize)), // Secret Key
+            'secret2' => $secretKey,
             'extra'   => serialize($scopes),
         ]);
 
         $this->checkQueryReturn($return);
 
-        return $this
+        /** @var AccessToken $token */
+        $token = $this
             ->asObject(AccessToken::class)
             ->find($this->getInsertID());
+
+        $token->rawSecretKey = $rawSecretKey;
+
+        return $token;
     }
 
     /**

@@ -17,6 +17,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
+use CodeIgniter\Shield\Authentication\HMAC\HmacEncrypter;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
@@ -159,8 +160,11 @@ class HmacSha256 implements AuthenticatorInterface
             ]);
         }
 
+        $encrypter = new HmacEncrypter();
+        $secretKey = $encrypter->decrypt($token->secret2);
+
         // Check signature...
-        $hash = hash_hmac('sha256', $credentials['body'], $token->secret2);
+        $hash = hash_hmac('sha256', $credentials['body'], $secretKey);
         if ($hash !== $signature) {
             return new Result([
                 'success' => false,

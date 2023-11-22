@@ -43,6 +43,7 @@ final class HasHmacTokensTest extends DatabaseTestCase
 
         $this->assertIsString($token->secret);
         $this->assertIsString($token->secret2);
+        $this->assertIsString($token->rawSecretKey);
 
         // All scopes are assigned by default via wildcard
         $this->assertSame(['*'], $token->scopes);
@@ -56,12 +57,12 @@ final class HasHmacTokensTest extends DatabaseTestCase
         // Give the user a couple of access tokens
         $token1 = fake(
             UserIdentityModel::class,
-            ['user_id' => $this->user->id, 'type' => 'hmac_sha256', 'secret' => 'key1', 'secret2' => 'secretKey1']
+            ['user_id' => $this->user->id, 'type' => 'hmac_sha256', 'secret' => 'key1', 'secret2' => 'd862cd9ddc23e960ca6d45a3e0b64c7509f0c0ef0e5f7b64be8910a6a714c89b83fab95251bbf17f6c84b42c26cf460a28ea969591dc64b1f5c4b323f47615d2e8cbe4c62118001d3274e0f25850b0ac2617bc43119af22c99a1a83072002267177da01f9f37225435e1914be004f4d35a49869b737ed10ab232c1ed1048bb96ef6fb70979dc9c981e17134f4356a938']
         );
 
         $token2 = fake(
             UserIdentityModel::class,
-            ['user_id' => $this->user->id, 'type' => 'hmac_sha256', 'secret' => 'key2', 'secret2' => 'secretKey2']
+            ['user_id' => $this->user->id, 'type' => 'hmac_sha256', 'secret' => 'key2', 'secret2' => 'd862cd9ddc23e960ca6d45a3e0b64c7509f0c0ef0e5f7b64be8910a6a714c89b83fab95251bbf17f6c84b42c26cf460a28ea969591dc64b1f5c4b323f47615d2e8cbe4c62118001d3274e0f25850b0ac2617bc43119af22c99a1a83072002267177da01f9f37225435e1914be004f4d35a49869b737ed10ab232c1ed1048bb96ef6fb70979dc9c981e17134f4356a938']
         );
 
         $tokens = $this->user->hmacTokens();
