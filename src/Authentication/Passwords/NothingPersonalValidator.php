@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace CodeIgniter\Shield\Authentication\Passwords;
 
 use CodeIgniter\Shield\Entities\User;
@@ -79,7 +88,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
             if (! empty($domain)) {
                 $emailParts[] = $domain;
             }
-            $needles = array_merge($needles, $emailParts);
+            $needles = [...$needles, ...$emailParts];
 
             // Get any other "personal" fields defined in config
             $personalFields = $this->config->personalFields;
@@ -183,6 +192,8 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      *
      * Replaces all non-word characters and underscores in $str with a space.
      * Then it explodes that result using the space for a delimiter.
+     *
+     * @return array<int, string>
      */
     protected function strip_explode(string $str): array
     {

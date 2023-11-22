@@ -2,12 +2,20 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
-use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
 
 /**
@@ -31,7 +39,7 @@ abstract class AbstractAuthFilter implements FilterInterface
 
         if (! auth()->loggedIn()) {
             // Set the entrance url to redirect a user after successful login
-            if (! url_is('login')) {
+            if (uri_string() !== route_to('login')) {
                 $session = session();
                 $session->setTempdata('beforeLoginUrl', current_url(), 300);
             }
@@ -43,20 +51,27 @@ abstract class AbstractAuthFilter implements FilterInterface
             return;
         }
 
-        // Otherwise, we'll just send them to the home page.
-        return redirect()->to('/')->with('error', lang('Auth.notEnoughPrivilege'));
+        return $this->redirectToDeniedUrl();
     }
 
     /**
      * We don't have anything to do here.
      *
-     * @param Response|ResponseInterface $response
-     * @param array|null                 $arguments
+     * @param array|null $arguments
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null): void
     {
         // Nothing required
     }
 
+    /**
+     * Ensures the user is logged in and has one or more
+     * of the permissions as specified in the filter.
+     */
     abstract protected function isAuthorized(array $arguments): bool;
+
+    /**
+     * Returns redirect response when the user does not have access authorizations.
+     */
+    abstract protected function redirectToDeniedUrl(): RedirectResponse;
 }

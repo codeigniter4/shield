@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
@@ -39,8 +48,6 @@ class SessionAuth implements FilterInterface
             return;
         }
 
-        helper('setting');
-
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
@@ -77,7 +84,7 @@ class SessionAuth implements FilterInterface
                 ->with('error', $authenticator->getPendingMessage());
         }
 
-        if (! url_is('login')) {
+        if (uri_string() !== route_to('login')) {
             $session = session();
             $session->setTempdata('beforeLoginUrl', current_url(), 300);
         }

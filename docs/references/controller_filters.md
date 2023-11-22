@@ -4,13 +4,15 @@
 
 !!! note
 
-    These filters are already loaded for you by the [registrar](https://codeigniter.com/user_guide/general/configuration.html#registrars) class located at **src/Config/Registrar.php**.
+    The filter `$aliases` that Shield provides are automatically added for you by the
+    [Registrar](https://codeigniter.com/user_guide/general/configuration.html#registrars)
+    class located at **src/Config/Registrar.php**. So you don't need to add in
+    your **app/Config/Filters.php**.
 
 The [Controller Filters](https://codeigniter.com/user_guide/incoming/filters.html) you can use to protect your routes Shield provides are:
 
 ```php
-public $aliases = [
-    // ...
+$aliases = [
     'session'     => \CodeIgniter\Shield\Filters\SessionAuth::class,
     'tokens'      => \CodeIgniter\Shield\Filters\TokenAuth::class,
     'hmac'        => \CodeIgniter\Shield\Filters\HmacAuth::class,
@@ -47,7 +49,7 @@ If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/pa
 public $globals = [
     'before' => [
         // ...
-        'session' => ['except' => ['login*', 'register', 'auth/a/*']],
+        'session' => ['except' => ['login*', 'register', 'auth/a/*', 'logout']],
     ],
     // ...
 ];
@@ -102,7 +104,7 @@ Then the global `before` filter for `session` should look like so:
 public $globals = [
     'before' => [
         // ...
-        'session' => ['except' => ['accounts/login*', 'accounts/register', 'accounts/auth/a/*']]
+        'session' => ['except' => ['accounts/login*', 'accounts/register', 'accounts/auth/a/*', 'accounts/logout']]
     ]
 ]
 ```

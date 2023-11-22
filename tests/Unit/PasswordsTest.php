@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace Tests\Unit;
 
 use CodeIgniter\Shield\Authentication\Passwords;
@@ -52,7 +61,7 @@ final class PasswordsTest extends CIUnitTestCase
     public function testNeedsRehashTakesCareOptions(string $hashedPassword): void
     {
         $config           = new AuthConfig();
-        $config->hashCost = 12;
+        $config->hashCost = 13;
         $passwords        = new Passwords($config);
 
         $result = $passwords->needsRehash($hashedPassword);

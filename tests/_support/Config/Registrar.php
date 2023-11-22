@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of CodeIgniter 4 framework.
+ * This file is part of CodeIgniter Shield.
  *
  * (c) CodeIgniter Foundation <admin@codeigniter.com>
  *
@@ -37,7 +37,7 @@ class Registrar
             'DBDriver' => 'MySQLi',
             'DBPrefix' => 'db_',
             'pConnect' => false,
-            'DBDebug'  => (ENVIRONMENT !== 'production'),
+            'DBDebug'  => true,
             'charset'  => 'utf8',
             'DBCollat' => 'utf8_general_ci',
             'swapPre'  => '',
@@ -56,7 +56,7 @@ class Registrar
             'DBDriver' => 'Postgre',
             'DBPrefix' => 'db_',
             'pConnect' => false,
-            'DBDebug'  => (ENVIRONMENT !== 'production'),
+            'DBDebug'  => true,
             'charset'  => 'utf8',
             'DBCollat' => 'utf8_general_ci',
             'swapPre'  => '',
@@ -75,7 +75,7 @@ class Registrar
             'DBDriver'    => 'SQLite3',
             'DBPrefix'    => 'db_',
             'pConnect'    => false,
-            'DBDebug'     => (ENVIRONMENT !== 'production'),
+            'DBDebug'     => true,
             'charset'     => 'utf8',
             'DBCollat'    => 'utf8_general_ci',
             'swapPre'     => '',
@@ -95,7 +95,7 @@ class Registrar
             'DBDriver' => 'SQLSRV',
             'DBPrefix' => 'db_',
             'pConnect' => false,
-            'DBDebug'  => (ENVIRONMENT !== 'production'),
+            'DBDebug'  => true,
             'charset'  => 'utf8',
             'DBCollat' => 'utf8_general_ci',
             'swapPre'  => '',
@@ -114,7 +114,7 @@ class Registrar
             'DBDriver' => 'OCI8',
             'DBPrefix' => 'db_',
             'pConnect' => false,
-            'DBDebug'  => (ENVIRONMENT !== 'production'),
+            'DBDebug'  => true,
             'charset'  => 'utf8',
             'DBCollat' => 'utf8_general_ci',
             'swapPre'  => '',
@@ -136,7 +136,7 @@ class Registrar
 
         // Under GitHub Actions, we can set an ENV var named 'DB'
         // so that we can test against multiple databases.
-        if (($group = getenv('DB')) && ! empty(self::$dbConfig[$group])) {
+        if (($group = getenv('DB')) && ! isset(self::$dbConfig[$group])) {
             $config['tests'] = self::$dbConfig[$group];
         }
 

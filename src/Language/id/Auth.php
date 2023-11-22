@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} bukan otentikator yang sah.',
@@ -30,7 +39,7 @@ return [
     'password'        => 'Kata Sandi',
     'passwordConfirm' => 'Kata Sandi (lagi)',
     'haveAccount'     => 'Sudah punya akun?',
-    'token'           => '(To be translated) Token',
+    'token'           => 'Token',
 
     // Buttons
     'confirm' => 'Konfirmasi',
@@ -52,7 +61,7 @@ return [
     'magicLinkExpired'   => 'Maaf, tautan sudah tidak berlaku.',
     'checkYourEmail'     => 'Periksa email Anda!',
     'magicLinkDetails'   => 'Kami baru saja mengirimi Anda email dengan tautan Masuk di dalamnya. Ini hanya berlaku selama {0} menit.',
-    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
+    'magicLinkDisabled'  => 'Penggunaan MagicLink saat ini tidak diperbolehkan.',
     'successLogout'      => 'Anda telah berhasil keluar.',
     'backToLogin'        => 'Kembali ke masuk',
 
@@ -71,7 +80,7 @@ return [
     'errorPasswordTooLongBytes' => 'Panjang kata sandi tidak boleh lebih dari {param} byte.',
     'passwordChangeSuccess'     => 'Kata sandi berhasil diubah',
     'userDoesNotExist'          => 'Kata sandi tidak diubah. User tidak ditemukan',
-    'resetTokenExpired'         => 'Maaf, token setel ulang Anda sudah habis waktu.',
+    'resetTokenExpired'         => 'Maaf, token setel ulang Anda sudah kedaluwarsa.',
 
     // Email Globals
     'emailInfo'      => 'Beberapa informasi tentang seseorang:',
@@ -81,7 +90,7 @@ return [
 
     // 2FA
     'email2FATitle'       => 'Otentikasi Dua Faktor',
-    'confirmEmailAddress' => 'Alamat email konfirmasi Anda.',
+    'confirmEmailAddress' => 'Konfirmasi alamat email Anda.',
     'emailEnterCode'      => 'Konfirmasi email Anda',
     'emailConfirmCode'    => 'Masukkan kode 6 digit yang baru saja kami kirimkan ke alamat email Anda.',
     'email2FASubject'     => 'Kode otentikasi Anda',

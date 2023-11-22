@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace CodeIgniter\Shield\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
@@ -38,8 +47,6 @@ class TokenAuth implements FilterInterface
         if (! $request instanceof IncomingRequest) {
             return;
         }
-
-        helper('setting');
 
         /** @var AccessTokens $authenticator */
         $authenticator = auth('tokens')->getAuthenticator();

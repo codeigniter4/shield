@@ -2,17 +2,26 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace Tests\Authentication\Authenticators;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Config\AuthToken;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Shield\Result;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
 use Tests\Support\DatabaseTestCase;
@@ -173,7 +182,6 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
             'token' => 'abc123',
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
         $this->assertSame(lang('Auth.badToken'), $result->reason());
 
@@ -196,7 +204,6 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
             'token' => $token->raw_token,
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertTrue($result->isOK());
 
         $foundUser = $result->extraInfo();
@@ -209,6 +216,37 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         $this->dontSeeInDatabase($this->tables['token_logins'], [
             'id_type'    => AccessTokens::ID_TYPE_ACCESS_TOKEN,
             'identifier' => $token->raw_token,
+            'success'    => 1,
+        ]);
+    }
+
+    public function testAttemptSuccessLog(): void
+    {
+        // Change $recordLoginAttempt in Config.
+        /** @var AuthToken $config */
+        $config                     = config('AuthToken');
+        $config->recordLoginAttempt = Auth::RECORD_LOGIN_ATTEMPT_ALL;
+
+        /** @var User $user */
+        $user  = fake(UserModel::class);
+        $token = $user->generateAccessToken('foo');
+        $this->setRequestHeader($token->raw_token);
+
+        $result = $this->auth->attempt([
+            'token' => $token->raw_token,
+        ]);
+
+        $this->assertTrue($result->isOK());
+
+        $foundUser = $result->extraInfo();
+        $this->assertInstanceOf(User::class, $foundUser);
+        $this->assertSame($user->id, $foundUser->id);
+        $this->assertInstanceOf(AccessToken::class, $foundUser->currentAccessToken());
+        $this->assertSame($token->token, $foundUser->currentAccessToken()->token);
+
+        $this->seeInDatabase($this->tables['token_logins'], [
+            'id_type'    => AccessTokens::ID_TYPE_ACCESS_TOKEN,
+            'identifier' => 'foo',
             'success'    => 1,
         ]);
     }

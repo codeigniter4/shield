@@ -2,12 +2,22 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\Commands\Database\Migrate;
 use CodeIgniter\Shield\Commands\Setup\ContentReplacer;
 use CodeIgniter\Test\Filters\CITestStreamFilter;
+use Config\Autoload as AutoloadConfig;
 use Config\Email as EmailConfig;
 use Config\Services;
 
@@ -78,7 +88,7 @@ class Setup extends BaseCommand
         $this->publishConfigAuthGroups();
         $this->publishConfigAuthToken();
 
-        $this->setupHelper();
+        $this->setAutoloadHelpers();
         $this->setupRoutes();
 
         $this->setSecurityCSRF();
@@ -130,9 +140,8 @@ class Setup extends BaseCommand
     {
         $file     = 'Config/AuthToken.php';
         $replaces = [
-            'namespace CodeIgniter\Shield\Config'  => 'namespace Config',
-            'use CodeIgniter\\Config\\BaseConfig;' => 'use CodeIgniter\\Shield\\Config\\AuthToken as ShieldAuthToken;',
-            'extends BaseConfig'                   => 'extends ShieldAuthToken',
+            'namespace CodeIgniter\Shield\Config;' => "namespace Config;\n\nuse CodeIgniter\\Shield\\Config\\AuthToken as ShieldAuthToken;",
+            'extends BaseAuthToken'                => 'extends ShieldAuthToken',
         ];
 
         $this->copyAndReplace($file, $replaces);
@@ -236,24 +245,55 @@ class Setup extends BaseCommand
         return false;
     }
 
-    private function setupHelper(): void
+    private function setAutoloadHelpers(): void
     {
-        $file  = 'Controllers/BaseController.php';
-        $check = '$this->helpers = array_merge($this->helpers, [\'setting\']);';
+        $file = 'Config/Autoload.php';
+
+        $path      = $this->distPath . $file;
+        $cleanPath = clean_path($path);
+
+        $config     = new AutoloadConfig();
+        $helpers    = $config->helpers;
+        $newHelpers = array_unique(array_merge($helpers, ['auth', 'setting']));
+
+        $pattern = '/^    public \$helpers = \[.*\];/mu';
+        $replace = '    public $helpers = [\'' . implode("', '", $newHelpers) . '\'];';
+        $content = file_get_contents($path);
+        $output  = preg_replace($pattern, $replace, $content);
+
+        // check if the content is updated
+        if ($output === $content) {
+            $this->write(CLI::color('  Autoload Setup: ', 'green') . 'Everything is fine.');
+
+            return;
+        }
+
+        if (write_file($path, $output)) {
+            $this->write(CLI::color('  Updated: ', 'green') . $cleanPath);
+
+            $this->removeHelperLoadingInBaseController();
+        } else {
+            $this->error("  Error updating file '{$cleanPath}'.");
+        }
+    }
+
+    private function removeHelperLoadingInBaseController(): void
+    {
+        $file = 'Controllers/BaseController.php';
+
+        $check = '        $this->helpers = array_merge($this->helpers, [\'setting\']);';
 
         // Replace old helper setup
         $replaces = [
             '$this->helpers = array_merge($this->helpers, [\'auth\', \'setting\']);' => $check,
         ];
-        if ($this->replace($file, $replaces)) {
-            return;
-        }
+        $this->replace($file, $replaces);
 
-        // Add helper setup
-        $pattern = '/(' . preg_quote('// Do Not Edit This Line', '/') . ')/u';
-        $replace = $check . "\n\n        " . '$1';
-
-        $this->add($file, $check, $pattern, $replace);
+        // Remove helper setup
+        $replaces = [
+            "\n" . $check . "\n" => '',
+        ];
+        $this->replace($file, $replaces);
     }
 
     private function setupRoutes(): void

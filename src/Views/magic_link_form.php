@@ -30,7 +30,7 @@
                 <!-- Email -->
                 <div class="form-floating mb-2">
                     <input type="email" class="form-control" id="floatingEmailInput" name="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
-                           value="<?= old('email', auth()->user()->email ?? null) ?>" required />
+                           value="<?= old('email', auth()->user()->email ?? null) ?>" required>
                     <label for="floatingEmailInput"><?= lang('Auth.email') ?></label>
                 </div>
 

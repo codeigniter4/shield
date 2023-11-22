@@ -2,19 +2,32 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace CodeIgniter\Shield;
 
 use CodeIgniter\Router\RouteCollection;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
+use CodeIgniter\Shield\Config\Auth as AuthConfig;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
 
 /**
+ * Facade for Authentication
+ *
  * @method Result    attempt(array $credentials)
  * @method Result    check(array $credentials)
  * @method bool      checkAction(string $token, string $type) [Session]
+ * @method void      forget(?User $user = null)               [Session]
  * @method User|null getUser()
  * @method bool      loggedIn()
  * @method bool      login(User $user)
@@ -28,9 +41,10 @@ class Auth
     /**
      * The current version of CodeIgniter Shield
      */
-    public const SHIELD_VERSION = '1.0.0-beta.7';
+    public const SHIELD_VERSION = '1.0.0-beta.8';
 
-    protected Authentication $authenticate;
+    protected AuthConfig $config;
+    protected ?Authentication $authenticate = null;
 
     /**
      * The Authenticator alias to use for this request.
@@ -39,9 +53,21 @@ class Auth
 
     protected ?UserModel $userProvider = null;
 
-    public function __construct(Authentication $authenticate)
+    public function __construct(AuthConfig $config)
     {
-        $this->authenticate = $authenticate->setProvider($this->getProvider());
+        $this->config = $config;
+    }
+
+    protected function ensureAuthentication(): void
+    {
+        if ($this->authenticate !== null) {
+            return;
+        }
+
+        $authenticate = new Authentication($this->config);
+        $authenticate->setProvider($this->getProvider());
+
+        $this->authenticate = $authenticate;
     }
 
     /**
@@ -51,7 +77,7 @@ class Auth
      */
     public function setAuthenticator(?string $alias = null): self
     {
-        if (! empty($alias)) {
+        if ($alias !== null) {
             $this->alias = $alias;
         }
 
@@ -63,6 +89,8 @@ class Auth
      */
     public function getAuthenticator(): AuthenticatorInterface
     {
+        $this->ensureAuthentication();
+
         return $this->authenticate
             ->factory($this->alias);
     }
@@ -84,13 +112,15 @@ class Auth
      */
     public function id()
     {
-        return ($user = $this->user())
-            ? $user->id
-            : null;
+        $user = $this->user();
+
+        return ($user !== null) ? $user->id : null;
     }
 
     public function authenticate(array $credentials): Result
     {
+        $this->ensureAuthentication();
+
         return $this->authenticate
             ->factory($this->alias)
             ->attempt($credentials);
@@ -133,14 +163,7 @@ class Auth
             return $this->userProvider;
         }
 
-        /** @var \CodeIgniter\Shield\Config\Auth $config */
-        $config = config('Auth');
-
-        if (! property_exists($config, 'userProvider')) {
-            throw AuthenticationException::forUnknownUserProvider();
-        }
-
-        $className          = $config->userProvider;
+        $className          = $this->config->userProvider;
         $this->userProvider = new $className();
 
         return $this->userProvider;
@@ -148,7 +171,7 @@ class Auth
 
     /**
      * Provide magic function-access to Authenticators to save use
-     * from repeating code here, and to allow them have their
+     * from repeating code here, and to allow them to have their
      * own, additional, features on top of the required ones,
      * like "remember-me" functionality.
      *
@@ -158,10 +181,12 @@ class Auth
      */
     public function __call(string $method, array $args)
     {
-        $authenticate = $this->authenticate->factory($this->alias);
+        $this->ensureAuthentication();
 
-        if (method_exists($authenticate, $method)) {
-            return $authenticate->{$method}(...$args);
+        $authenticator = $this->authenticate->factory($this->alias);
+
+        if (method_exists($authenticator, $method)) {
+            return $authenticator->{$method}(...$args);
         }
     }
 }

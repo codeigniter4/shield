@@ -11,7 +11,7 @@ Tokens are issued with the `generateAccessToken()` method on the user. This retu
 The `generateAccessToken()` method requires a name for the token. These are free strings and are often used to identify the user/device the token was generated from, like 'Johns MacBook Air'.
 
 ```php
-$routes->get('/access/token', static function() {
+$routes->get('access/token', static function() {
     $token = auth()->user()->generateAccessToken(service('request')->getVar('token_name'));
 
     return json_encode(['token' => $token->raw_token]);

@@ -1,5 +1,72 @@
 # Upgrade Guide
 
+## Version 1.0.0-beta.7 to 1.0.0-beta.8
+
+### Mandatory Config Changes
+
+#### Helper Autoloading
+
+Helper autoloading has been changed to be done by CodeIgniter's autoloader
+instead of Composer.
+
+So you need to update the settings. Run `php spark shield:setup` again, and the
+following steps will be done.
+
+1. Add `auth` and `setting` to the `$helpers` array in **app/Config/Autoload.php**:
+
+    ```php
+    public $helpers = ['auth', 'setting'];
+    ```
+
+2. Remove the following code in the `initController()` method in
+   `**app/Controllers/BaseController.php**:
+
+    ```php
+    $this->helpers = array_merge($this->helpers, ['setting']);
+    ```
+
+#### Config\Auth
+
+The following items have been added. Copy the properties in **src/Config/Auth.php**.
+
+- `permission_denied` and `group_denied` are added to `Config\Auth::$redirects`.
+- `permissionDeniedRedirect()` and `groupDeniedRedirect()` are added.
+
+### Fix Custom Filter If extends `AbstractAuthFilter`
+
+If you have written a custom filter that extends `AbstractAuthFilter`, now you need to add and implement the `redirectToDeniedUrl()` method to your custom filter.
+The following example is related to the above explanation for **group** filter.
+
+```php
+/**
+ * If the user does not belong to the group, redirect to the configured URL with an error message.
+ */
+protected function redirectToDeniedUrl(): RedirectResponse
+{
+    return redirect()->to(config('Auth')->groupDeniedRedirect())
+        ->with('error', lang('Auth.notEnoughPrivilege'));
+}
+```
+
+### Fix to HMAC Secret Key Encryption
+
+#### Config\AuthToken
+
+If you are using the HMAC authentication you need to update the encryption settings in **app/Config/AuthToken.php**.
+You will need to update and set the encryption key in `$hmacEncryptionKeys`. This should be set using **.env** and/or
+system environment variables. Instructions on how to do that can be found in the
+[Setting Your Encryption Key](https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key)
+section of the CodeIgniter 4 documentation and in [HMAC SHA256 Token Authenticator](./docs/references/authentication/hmac.md#hmac-secret-key-encryption).
+
+You also may wish to adjust the default Driver `$hmacEncryptionDefaultDriver` and the default Digest
+`$hmacEncryptionDefaultDigest`, these currently default to `'OpenSSL'` and `'SHA512'` respectively.
+
+#### Encrypt Existing Keys
+
+After updating the key in `$hmacEncryptionKeys` value, you will need to run `php spark shield:hmac encrypt` in order
+to encrypt any existing HMAC tokens. This only needs to be run if you have existing unencrypted HMAC secretKeys in
+stored in the database.
+
 ## Version 1.0.0-beta.6 to 1.0.0-beta.7
 
 ### The minimum CodeIgniter version

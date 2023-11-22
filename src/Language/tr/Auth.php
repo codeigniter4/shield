@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} geçerli bir kimlik doğrulayıcı değil.',
@@ -65,7 +74,7 @@ return [
     'suggestPasswordPersonal'   => 'E-posta adresiniz veya kullanıcı adınızdaki varyasyonlar, şifreler için kullanılmamalıdır.',
     'errorPasswordTooSimilar'   => 'Şifre, kullanıcı adınıza çok benziyor.',
     'suggestPasswordTooSimilar' => 'Kullanıcı adınızın bazı kısımlarını şifrenizde kullanmayın.',
-    'errorPasswordPwned'        => '{0} şifresi, bir veri ihlali nedeniyle açığa çıktı ve güvenliği ihlal edilmiş şifrelerin {2} tanesinde {1, sayı} kez görüldü.',
+    'errorPasswordPwned'        => '{0} şifresi, bir veri ihlali nedeniyle açığa çıktı ve güvenliği ihlal edilmiş şifrelerin {2} tanesinde {1, number} kez görüldü.',
     'suggestPasswordPwned'      => '{0} asla şifre olarak kullanılmamalıdır. Herhangi bir yerde kullanıyorsanız hemen değiştirin.',
     'errorPasswordEmpty'        => 'Şifre gerekli.',
     'errorPasswordTooLongBytes' => 'Şifre uzunluğu {param} baytı geçemez.',

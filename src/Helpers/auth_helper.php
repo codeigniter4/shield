@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 use CodeIgniter\Shield\Auth;
 
 if (! function_exists('auth')) {
@@ -22,8 +31,7 @@ if (! function_exists('auth')) {
 
 if (! function_exists('user_id')) {
     /**
-     * Returns the ID for the current logged in user.
-     * Note: For \CodeIgniter\Shield\Entities\User this will always return an int.
+     * Returns the ID for the current logged-in user.
      *
      * @return int|string|null
      */

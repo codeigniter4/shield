@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace CodeIgniter\Shield\Authentication\Passwords;
 
 use CodeIgniter\Config\Services;
@@ -35,7 +44,8 @@ class PwnedValidator extends BaseValidator implements ValidatorInterface
     {
         $hashedPword = strtoupper(sha1($password));
         $rangeHash   = substr($hashedPword, 0, 5);
-        $searchHash  = substr($hashedPword, 5);
+        /** @var string $searchHash */
+        $searchHash = substr($hashedPword, 5);
 
         try {
             $client = Services::curlrequest([

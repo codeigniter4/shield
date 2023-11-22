@@ -21,7 +21,7 @@
                 <!-- Code -->
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control" id="floatingTokenInput" name="token" placeholder="000000" inputmode="numeric"
-                        pattern="[0-9]*" autocomplete="one-time-code" value="<?= old('token') ?>" required />
+                        pattern="[0-9]*" autocomplete="one-time-code" value="<?= old('token') ?>" required>
                     <label for="floatingTokenInput"><?= lang('Auth.token') ?></label>
                 </div>
 

@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace Tests\Support;
 
 use CodeIgniter\Config\Factories;
@@ -26,8 +35,10 @@ abstract class TestCase extends CIUnitTestCase
         $settings                 = new Settings($configSettings);
         Services::injectMock('settings', $settings);
 
+        // Load helpers that should be autoloaded
+        helper(['auth', 'setting']);
+
         // Ensure from email is available anywhere during Tests
-        helper('setting');
         setting('Email.fromEmail', 'foo@example.com');
         setting('Email.fromName', 'John Smith');
 

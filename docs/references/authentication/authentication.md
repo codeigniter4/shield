@@ -12,7 +12,7 @@ You can see the [Authenticator List](../../getting_started/authenticators.md).
 The available authenticators are defined in `Config\Auth`:
 
 ```php
-public $authenticators = [
+public array $authenticators = [
     // alias  => classname
     'session' => Session::class,
     'tokens'  => AccessTokens::class,
@@ -24,7 +24,7 @@ public $authenticators = [
 The default authenticator is also defined in the configuration file, and uses the alias given above:
 
 ```php
-public $defaultAuthenticator = 'session';
+public string $defaultAuthenticator = 'session';
 ```
 
 ## Auth Helper
@@ -48,8 +48,9 @@ auth()->getProvider();
 
 !!! note
 
-    The `auth_helper` is autoloaded by Composer. If you want to *override* the functions,
-    you need to define them in **app/Common.php**.
+    The `auth_helper` is autoloaded by CodeIgniter's autoloader if you follow the
+    installation instruction. If you want to *override* the functions, create
+    **app/Helpers/auth_helper.php**.
 
 ## Authenticator Responses
 

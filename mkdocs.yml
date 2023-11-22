@@ -106,10 +106,12 @@ nav:
     - quick_start_guide/using_authorization.md
   - Customization:
     - customization/table_names.md
+    - customization/views.md
     - customization/route_config.md
     - customization/redirect_urls.md
     - customization/validation_rules.md
     - customization/user_provider.md
+    - customization/adding_attributes_to_users.md
     - customization/extending_controllers.md
     - customization/integrating_custom_view_libs.md
     - customization/login_identifier.md

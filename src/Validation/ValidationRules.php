@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace CodeIgniter\Shield\Validation;
 
 use CodeIgniter\Shield\Authentication\Passwords;
@@ -27,8 +36,6 @@ class ValidationRules
 
     public function getRegistrationRules(): array
     {
-        helper('setting');
-
         $setting = setting('Validation.registration');
         if ($setting !== null) {
             return $setting;
@@ -59,8 +66,6 @@ class ValidationRules
 
     public function getLoginRules(): array
     {
-        helper('setting');
-
         return setting('Validation.login') ?? [
             // 'username' => $this->config->usernameValidationRules,
             'email'    => $this->config->emailValidationRules,

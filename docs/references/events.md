@@ -44,8 +44,7 @@ Events::on('failedLogin', function($credentials) {
     dd($credentials);
 });
 
-// Outputs:
-['email' => 'foo@example.com'];
+// Outputs: ['email' => 'foo@example.com'];
 ```
 
 When the magic link login fails, the following array will be provided:

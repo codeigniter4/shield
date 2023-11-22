@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace CodeIgniter\Shield\Authentication\Authenticators;
 
 use CodeIgniter\HTTP\IncomingRequest;
@@ -68,14 +77,15 @@ class AccessTokens implements AuthenticatorInterface
             return $result;
         }
 
-        $user = $result->extraInfo();
+        $user  = $result->extraInfo();
+        $token = $user->getAccessToken($this->getBearerToken());
 
         if ($user->isBanned()) {
             if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
                 // Record a banned login attempt.
                 $this->loginModel->recordLoginAttempt(
                     self::ID_TYPE_ACCESS_TOKEN,
-                    $credentials['token'] ?? '',
+                    $token->name ?? '',
                     false,
                     $ipAddress,
                     $userAgent,
@@ -91,9 +101,7 @@ class AccessTokens implements AuthenticatorInterface
             ]);
         }
 
-        $user = $user->setAccessToken(
-            $user->getAccessToken($this->getBearerToken())
-        );
+        $user = $user->setAccessToken($token);
 
         $this->login($user);
 
@@ -101,7 +109,7 @@ class AccessTokens implements AuthenticatorInterface
             // Record a successful login attempt.
             $this->loginModel->recordLoginAttempt(
                 self::ID_TYPE_ACCESS_TOKEN,
-                $credentials['token'] ?? '',
+                $token->name ?? '',
                 true,
                 $ipAddress,
                 $userAgent,

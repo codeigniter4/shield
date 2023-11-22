@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace CodeIgniter\Shield\Authentication\Authenticators;
 
 use CodeIgniter\HTTP\IncomingRequest;
@@ -94,7 +103,7 @@ class JWT implements AuthenticatorInterface
                 // Record a banned login attempt.
                 $this->tokenLoginModel->recordLoginAttempt(
                     self::ID_TYPE_JWT,
-                    $credentials['token'] ?? '',
+                    'sha256:' . hash('sha256', $credentials['token'] ?? ''),
                     false,
                     $ipAddress,
                     $userAgent,
@@ -116,7 +125,7 @@ class JWT implements AuthenticatorInterface
             // Record a successful login attempt.
             $this->tokenLoginModel->recordLoginAttempt(
                 self::ID_TYPE_JWT,
-                $credentials['token'] ?? '',
+                'sha256:' . hash('sha256', $credentials['token']),
                 true,
                 $ipAddress,
                 $userAgent,

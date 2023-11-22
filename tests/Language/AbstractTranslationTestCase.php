@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of CodeIgniter 4 framework.
+ * This file is part of CodeIgniter Shield.
  *
  * (c) CodeIgniter Foundation <admin@codeigniter.com>
  *
@@ -68,7 +68,7 @@ abstract class AbstractTranslationTestCase extends TestCase
         //        PolishTranslationTest::class             => 'pl',
         PortugueseTranslationTest::class => 'pt',
         BrazilianTranslationTest::class  => 'pt-BR',
-        //        RussianTranslationTest::class            => 'ru',
+        RussianTranslationTest::class    => 'ru',
         //        SinhalaTranslationTest::class            => 'si',
         SlovakTranslationTest::class  => 'sk',
         SerbianTranslationTest::class => 'sr',

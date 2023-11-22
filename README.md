@@ -58,7 +58,7 @@ and authorization purposes in web applications.
 * Flexible Groups-based access control (think Roles, but more flexible)
 * Users can be granted additional Permissions
 
-See the [An Official Auth Library](https://codeigniter.com/news/shield) for more Info.
+See the [An Official Auth Library](https://forum.codeigniter.com/showthread.php?tid=82003) for more Info.
 
 ## Getting Started
 

@@ -9,11 +9,18 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: 3.x
-      - run: pip3 install mkdocs-material
-      - run: pip3 install mkdocs-git-revision-date-localized-plugin
-      - run: pip3 install mkdocs-redirects
-      - run: mkdocs gh-deploy --force
+      - name: Install Dependencies
+        run: |
+          pip3 install mkdocs-material
+          pip3 install mkdocs-git-revision-date-localized-plugin
+          pip3 install mkdocs-redirects
+      - name: Publish Shiled Documentation
+        run: mkdocs gh-deploy --force

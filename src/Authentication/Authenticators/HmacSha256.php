@@ -2,12 +2,22 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace CodeIgniter\Shield\Authentication\Authenticators;
 
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
+use CodeIgniter\Shield\Authentication\HMAC\HmacEncrypter;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
@@ -68,14 +78,15 @@ class HmacSha256 implements AuthenticatorInterface
             return $result;
         }
 
-        $user = $result->extraInfo();
+        $user  = $result->extraInfo();
+        $token = $user->getHmacToken($this->getHmacKeyFromToken());
 
         if ($user->isBanned()) {
             if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
                 // Record a banned login attempt.
                 $this->loginModel->recordLoginAttempt(
                     self::ID_TYPE_HMAC_TOKEN,
-                    $credentials['token'] ?? '',
+                    $token->name ?? '',
                     false,
                     $ipAddress,
                     $userAgent,
@@ -91,9 +102,7 @@ class HmacSha256 implements AuthenticatorInterface
             ]);
         }
 
-        $user = $user->setHmacToken(
-            $user->getHmacToken($this->getHmacKeyFromToken())
-        );
+        $user = $user->setHmacToken($token);
 
         $this->login($user);
 
@@ -101,7 +110,7 @@ class HmacSha256 implements AuthenticatorInterface
             // Record a successful login attempt.
             $this->loginModel->recordLoginAttempt(
                 self::ID_TYPE_HMAC_TOKEN,
-                $credentials['token'] ?? '',
+                $token->name ?? '',
                 true,
                 $ipAddress,
                 $userAgent,
@@ -150,8 +159,11 @@ class HmacSha256 implements AuthenticatorInterface
             ]);
         }
 
+        $encrypter = new HmacEncrypter();
+        $secretKey = $encrypter->decrypt($token->secret2);
+
         // Check signature...
-        $hash = hash_hmac('sha256', $credentials['body'], $token->secret2);
+        $hash = hash_hmac('sha256', $credentials['body'], $secretKey);
         if ($hash !== $signature) {
             return new Result([
                 'success' => false,

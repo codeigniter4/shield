@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
@@ -18,7 +27,6 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 class ActionController extends BaseController
 {
     protected ?ActionInterface $action = null;
-    protected $helpers                 = ['setting'];
 
     /**
      * Perform an initial check if we have a valid action or not.

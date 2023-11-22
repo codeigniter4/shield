@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of CodeIgniter Shield.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace Tests\Unit;
 
 use CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator;
@@ -281,7 +290,8 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
             [
                 66,
                 false,
-            ], [
+            ],
+            [
                 0,
                 true,
             ],
@@ -314,7 +324,8 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
             [
                 'test',
                 true,
-            ], [
+            ],
+            [
                 'test@example',
                 true,
             ],

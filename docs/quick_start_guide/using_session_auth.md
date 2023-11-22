@@ -100,11 +100,18 @@ If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/pa
 public $globals = [
     'before' => [
         // ...
-        'session' => ['except' => ['login*', 'register', 'auth/a/*']],
+        'session' => ['except' => ['login*', 'register', 'auth/a/*', 'logout']],
     ],
     // ...
 ];
 ```
+
+!!! note
+
+    The filter `$aliases` that Shield provides are automatically added for you by the
+    [Registrar](https://codeigniter.com/user_guide/general/configuration.html#registrars)
+    class located at **src/Config/Registrar.php**. So you don't need to add in
+    your **app/Config/Filters.php**.
 
 Check your filters with the [spark routes](https://codeigniter.com/user_guide/incoming/routing.html#spark-routes)
 command.

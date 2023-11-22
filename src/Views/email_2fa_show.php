@@ -23,7 +23,7 @@
                     <input type="email" class="form-control" name="email"
                         inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
                         <?php /** @var \CodeIgniter\Shield\Entities\User $user */ ?>
-                        value="<?= old('email', $user->email) ?>" required />
+                        value="<?= old('email', $user->email) ?>" required>
                 </div>
 
                 <div class="d-grid col-8 mx-auto m-3">
