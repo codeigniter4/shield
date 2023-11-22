@@ -112,20 +112,6 @@ $token = $user->getHmacTokenById($id);
 $tokens = $user->hmacTokens();
 ```
 
-## HMAC Keys Lifetime
-
-HMAC Keys/Tokens will expire after a specified amount of time has passed since they have been used.
-This uses the same configuration value as AccessTokens.
-
-By default, this is set to 1 year. You can change this value by setting the `$unusedTokenLifetime`
-value in the **app/Config/AuthToken.php** config file. This is in seconds so that you can use the
-[time constants](https://codeigniter.com/user_guide/general/common_functions.html#time-constants)
-that CodeIgniter provides.
-
-```php
-public $unusedTokenLifetime = YEAR;
-```
-
 ## HMAC Keys Scopes
 
 Each token (set of keys) can be given one or more scopes they can be used within. These can be thought of as
@@ -219,3 +205,50 @@ authtoken.hmacEncryptionCurrentKey = k2
 Depending on the set length of the Secret Key and the type of encryption used, it is possible for the encrypted value to
 exceed the database column character limit of 255 characters. If this happens, creation of a new HMAC identity will
 throw a `RuntimeException`.
+
+## Configuration
+
+Configure **app/Config/AuthToken.php** for your needs.
+
+!!! note
+
+    Shield does not expect you use the Access Token Authenticator and HMAC Authenticator
+    at the same time. Therefore, some Config items are common.
+
+### HMAC Keys Lifetime
+
+HMAC Keys/Tokens will expire after a specified amount of time has passed since they have been used.
+
+By default, this is set to 1 year. You can change this value by setting the `$unusedTokenLifetime`
+value. This is in seconds so that you can use the
+[time constants](https://codeigniter.com/user_guide/general/common_functions.html#time-constants)
+that CodeIgniter provides.
+
+```php
+public $unusedTokenLifetime = YEAR;
+```
+
+### Login Attempt Logging
+
+By default, only failed login attempts are recorded in the `auth_token_logins` table.
+This can be modified by changing the `$recordLoginAttempt` value.
+
+```php
+public int $recordLoginAttempt = Auth::RECORD_LOGIN_ATTEMPT_FAILURE;
+```
+
+If you don't want any logs, set it to `Auth::RECORD_LOGIN_ATTEMPT_NONE`.
+
+If you want to log all login attempts, set it to `Auth::RECORD_LOGIN_ATTEMPT_ALL`.
+It means you log all requests.
+
+## Logging
+
+Login attempts are recorded in the `auth_token_logins` table, according to the
+configuration above.
+
+When a failed login attempt is logged, the raw token value sent is saved in
+the `identifier` column.
+
+When a successful login attempt is logged, the token name is saved in the
+`identifier` column.

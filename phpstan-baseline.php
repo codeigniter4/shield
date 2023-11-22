@@ -363,11 +363,6 @@ $ignoreErrors[] = [
 ];
 $ignoreErrors[] = [
 	'message' => '#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with \'CodeIgniter\\\\\\\\Shield\\\\\\\\Result\' and CodeIgniter\\\\Shield\\\\Result will always evaluate to true\\.$#',
-	'count' => 2,
-	'path' => __DIR__ . '/tests/Authentication/Authenticators/AccessTokenAuthenticatorTest.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with \'CodeIgniter\\\\\\\\Shield\\\\\\\\Result\' and CodeIgniter\\\\Shield\\\\Result will always evaluate to true\\.$#',
 	'count' => 3,
 	'path' => __DIR__ . '/tests/Authentication/Authenticators/JWTAuthenticatorTest.php',
 ];

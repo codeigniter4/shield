@@ -46,7 +46,7 @@ class AuthToken extends BaseAuthToken
 
     /**
      * --------------------------------------------------------------------
-     * Unused Token Lifetime
+     * Unused Token Lifetime for Token Auth and HMAC Auth
      * --------------------------------------------------------------------
      * Determines the amount of time, in seconds, that an unused token can
      * be used.
