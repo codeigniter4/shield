@@ -305,6 +305,61 @@ abstract class AbstractTranslationTestCase extends TestCase
     }
 
     /**
+     * @see https://codeigniter4.github.io/CodeIgniter4/outgoing/localization.html#replacing-parameters
+     *
+     * @dataProvider localesProvider
+     */
+    final public function testAllLocalizationParametersAreNotTranslated(string $locale): void
+    {
+        $diffs = [];
+
+        foreach ($this->foundSets($locale) as $file) {
+            $original   = $this->loadFile($file);
+            $translated = $this->loadFile($file, $locale);
+
+            foreach ($original as $key => $translation) {
+                if (! array_key_exists($key, $translated)) {
+                    continue;
+                }
+
+                preg_match_all('/(\{[^\}]+\})/', $translation, $matches);
+                array_shift($matches);
+
+                if ($matches === []) {
+                    unset($matches);
+
+                    continue;
+                }
+
+                foreach ($matches as $match) {
+                    foreach ($match as $parameter) {
+                        if (strpos($translated[$key], (string) $parameter) === false) {
+                            $id = sprintf('%s.%s', substr($file, 0, -4), $key);
+
+                            $diffs[$id] ??= [];
+
+                            $diffs[$id][] = $parameter;
+                        }
+                    }
+                }
+
+                unset($matches);
+            }
+        }
+
+        ksort($diffs);
+
+        $this->assertEmpty($diffs, sprintf(
+            "Failed asserting that parameters of translation keys are not translated:\n%s",
+            implode("\n", array_map(
+                static fn (string $key, array $values): string => sprintf('  * %s => %s', $key, implode(', ', $values)),
+                array_keys($diffs),
+                array_values($diffs)
+            ))
+        ));
+    }
+
+    /**
      * @return string[][]
      */
     final public static function localesProvider(): iterable
