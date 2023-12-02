@@ -204,6 +204,7 @@ class UserModel extends BaseModel
         }
 
         if ($email !== null) {
+            /** @var array<string, int|string|null>|null $data */
             $data = $this->select(
                 sprintf('%1$s.*, %2$s.secret as email, %2$s.secret2 as password_hash', $this->table, $this->tables['identities'])
             )
