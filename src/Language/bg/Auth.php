@@ -39,7 +39,7 @@ return [
     'password'        => 'Парола',
     'passwordConfirm' => 'Парола (отново)',
     'haveAccount'     => 'Вече имате акаунт?',
-    'token'           => '(To be translated) Token',
+    'token'           => 'Токен',
 
     // Бутони
     'confirm' => 'Потвърди',
@@ -61,7 +61,7 @@ return [
     'magicLinkExpired'   => 'Съжаляваме, линкът е изтекъл.',
     'checkYourEmail'     => 'Проверете вашия имейл!',
     'magicLinkDetails'   => 'Току що ви изпратихме имейл с линк за вход. Линкът ще бъде валиден само {0} минути.',
-    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
+    'magicLinkDisabled'  => 'Използването на линк за вход в момента не е разрешено.',
     'successLogout'      => 'Успешно излязохте от системата.',
     'backToLogin'        => 'Обратно към входа',
 
@@ -83,7 +83,7 @@ return [
     'resetTokenExpired'         => 'Съжаляваме. Вашият токен за нулиране на паролата е изтекъл.',
 
     // Глобални променливи за електронна поща
-    'emailInfo'      => 'Някаква информации за потребителя:',
+    'emailInfo'      => 'Информации за потребител:',
     'emailIpAddress' => 'IP Адрес:',
     'emailDevice'    => 'Устройство:',
     'emailDate'      => 'Дата:',
