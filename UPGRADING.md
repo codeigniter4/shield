@@ -1,5 +1,13 @@
 # Upgrade Guide
 
+## Version 1.0.0-beta.8 to 1.0.0
+
+## Removed Deprecated Items
+
+The [$supportOldDangerousPassword](#if-you-want-to-allow-login-with-existing-passwords)
+feature for backward compatiblity has been removed. The old passwords saved in
+Shield v1.0.0-beta.3 or earlier are no longer supported.
+
 ## Version 1.0.0-beta.7 to 1.0.0-beta.8
 
 ### Mandatory Config Changes
