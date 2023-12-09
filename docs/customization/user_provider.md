@@ -15,6 +15,15 @@ php spark shield:model UserModel
 
 The class name is optional. If none is provided, the generated class name would be `UserModel`.
 
+## Configuring to Use Your UserModel
+
+After creating the class, set your model classname to the `$userProvider` property
+in **app/Config/Auth.php**:
+
+```php
+public string $userProvider = \App\Models\UserModel::class;
+```
+
 ## Customizing Your UserModel
 
 Customize your model as you like.
@@ -44,13 +53,4 @@ class UserModel extends ShieldUserModel
         ];
     }
 }
-```
-
-## Configuring to Use Your UserModel
-
-After creating the class, set your model classname to the `$userProvider` property
-in **app/Config/Auth.php**:
-
-```php
-public string $userProvider = \App\Models\UserModel::class;
 ```
