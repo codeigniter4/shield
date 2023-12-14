@@ -21,7 +21,6 @@ use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\RememberModel;
-use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Result;
 use CodeIgniter\Test\Mock\MockEvents;
@@ -304,34 +303,6 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
         $result = $this->auth->check([
             'email'    => $this->user->email,
             'password' => 'secret123',
-        ]);
-
-        $this->assertInstanceOf(Result::class, $result);
-        $this->assertTrue($result->isOK());
-
-        $foundUser = $result->extraInfo();
-        $this->assertSame($this->user->id, $foundUser->id);
-    }
-
-    public function testCheckSuccessOldDangerousPassword(): void
-    {
-        /** @var Auth $config */
-        $config                              = config('Auth');
-        $config->supportOldDangerousPassword = true; // @phpstan-ignore-line
-
-        fake(
-            UserIdentityModel::class,
-            [
-                'user_id' => $this->user->id,
-                'type'    => Session::ID_TYPE_EMAIL_PASSWORD,
-                'secret'  => 'foo@example.com',
-                'secret2' => '$2y$10$WswjNNcR24cJvsXvBc5TveVVVQ9/EYC0eq.Ad9e/2cVnmeSEYBOEm',
-            ]
-        );
-
-        $result = $this->auth->check([
-            'email'    => 'foo@example.com',
-            'password' => 'passw0rd!',
         ]);
 
         $this->assertInstanceOf(Result::class, $result);
