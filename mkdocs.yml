@@ -12,17 +12,17 @@ theme:
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: deep orange
-      accent: orange
+      scheme: codeigniter
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: deep orange
-      accent: orange
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
@@ -68,8 +68,9 @@ markdown_extensions:
   - pymdownx.details
 
 extra_css:
-  - https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/styles/default.min.css
-  - assets/css/dark_mode.css
+  - https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/styles/github.min.css
+  - assets/css/codeigniter.css
+  - assets/css/codeigniter_dark_mode.css
 
 extra_javascript:
   - https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js
