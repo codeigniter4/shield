@@ -19,6 +19,16 @@ $routes->get('register', '\App\Controllers\Auth\RegisterController::registerView
 
 After customization, check your routes with the [spark routes](https://codeigniter.com/user_guide/incoming/routing.html#spark-routes) command.
 
+## Change Namespace
+
+If you are overriding all of the auth controllers, you can specify the namespace as an option to the `routes()` helper:
+
+```php
+service('auth')->routes($routes, ['namespace' => '\App\Controllers\Auth']);
+```
+
+This will generate the routes with the specified namespace instead of the default Shield namespace. This can be combined with any other options, like `except`.
+
 ## Use Locale Routes
 
 You can use the `{locale}` placeholder in your routes
