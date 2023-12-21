@@ -138,7 +138,9 @@ class Auth
     {
         $authRoutes = config('AuthRoutes')->routes;
 
-        $routes->group('/', ['namespace' => 'CodeIgniter\Shield\Controllers'], static function (RouteCollection $routes) use ($authRoutes, $config): void {
+        $namespace = $config['namespace'] ?? 'CodeIgniter\Shield\Controllers';
+
+        $routes->group('/', ['namespace' => $namespace], static function (RouteCollection $routes) use ($authRoutes, $config): void {
             foreach ($authRoutes as $name => $row) {
                 if (! isset($config['except']) || ! in_array($name, $config['except'], true)) {
                     foreach ($row as $params) {
