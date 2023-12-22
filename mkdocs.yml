@@ -28,7 +28,6 @@ theme:
         name: Switch to light mode
   features:
     - navigation.instant
-    - navigation.instant.prefetch
     - content.code.copy
     - navigation.footer
     - content.action.edit
