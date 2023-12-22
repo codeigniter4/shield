@@ -1,3 +1,3 @@
-document.addEventListener('DOMContentLoaded', (event) => {
+window.document$.subscribe(() => {
     hljs.highlightAll();
 });
