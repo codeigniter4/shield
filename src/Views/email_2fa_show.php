@@ -22,7 +22,7 @@
                 <div class="mb-2">
                     <input type="email" class="form-control" name="email"
                         inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
-                        <?php /** @var \CodeIgniter\Shield\Entities\User $user */ ?>
+                        <?php /** @var CodeIgniter\Shield\Entities\User $user */ ?>
                         value="<?= old('email', $user->email) ?>" required>
                 </div>
 
