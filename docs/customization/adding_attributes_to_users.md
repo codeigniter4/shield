@@ -74,6 +74,8 @@ php spark db:table users
 
 See [Customizing User Provider](./user_provider.md).
 
+Don't forget to add the added attributes to the `$allowedFields` property.
+
 ## Update Validation Rules
 
 You need to update the [validation rules](./validation_rules.md) for registration.

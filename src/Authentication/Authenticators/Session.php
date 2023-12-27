@@ -102,8 +102,8 @@ class Session implements AuthenticatorInterface
         if ($securityConfig->csrfProtection === 'cookie') {
             throw new SecurityException(
                 'Config\Security::$csrfProtection is set to \'cookie\'.'
-                . ' Same-site attackers may bypass the CSRF protection.'
-                . ' Please set it to \'session\'.'
+                    . ' Same-site attackers may bypass the CSRF protection.'
+                    . ' Please set it to \'session\'.'
             );
         }
     }
@@ -343,30 +343,19 @@ class Session implements AuthenticatorInterface
         /** @var Passwords $passwords */
         $passwords = service('passwords');
 
-        // This is only for supportOldDangerousPassword.
-        $needsRehash = false;
-
         // Now, try matching the passwords.
         if (! $passwords->verify($givenPassword, $user->password_hash)) {
-            if (
-                ! setting('Auth.supportOldDangerousPassword')
-                || ! $passwords->verifyDanger($givenPassword, $user->password_hash) // @phpstan-ignore-line
-            ) {
-                return new Result([
-                    'success' => false,
-                    'reason'  => lang('Auth.invalidPassword'),
-                ]);
-            }
-
-            // Passed with old dangerous password.
-            $needsRehash = true;
+            return new Result([
+                'success' => false,
+                'reason'  => lang('Auth.invalidPassword'),
+            ]);
         }
 
         // Check to see if the password needs to be rehashed.
         // This would be due to the hash algorithm or hash
         // cost changing since the last time that a user
         // logged in.
-        if ($passwords->needsRehash($user->password_hash) || $needsRehash) {
+        if ($passwords->needsRehash($user->password_hash)) {
             $user->password_hash = $passwords->hash($givenPassword);
             $this->provider->save($user);
         }
@@ -661,10 +650,10 @@ class Session implements AuthenticatorInterface
         if ($userId !== null) {
             throw new LogicException(
                 'The user has User Info in Session, so already logged in or in pending login state.'
-                . ' If a logged in user logs in again with other account, the session data of the previous'
-                . ' user will be used as the new user.'
-                . ' Fix your code to prevent users from logging in without logging out or delete the session data.'
-                . ' user_id: ' . $userId
+                    . ' If a logged in user logs in again with other account, the session data of the previous'
+                    . ' user will be used as the new user.'
+                    . ' Fix your code to prevent users from logging in without logging out or delete the session data.'
+                    . ' user_id: ' . $userId
             );
         }
 
@@ -749,18 +738,18 @@ class Session implements AuthenticatorInterface
         if ($this->getIdentitiesForAction($user) !== []) {
             throw new LogicException(
                 'The user has identities for action, so cannot complete login.'
-                . ' If you want to start to login with auth action, use startLogin() instead.'
-                . ' Or delete identities for action in database.'
-                . ' user_id: ' . $user->id
+                    . ' If you want to start to login with auth action, use startLogin() instead.'
+                    . ' Or delete identities for action in database.'
+                    . ' user_id: ' . $user->id
             );
         }
         // Check auth_action in Session
         if ($this->getSessionKey('auth_action')) {
             throw new LogicException(
                 'The user has auth action in session, so cannot complete login.'
-                . ' If you want to start to login with auth action, use startLogin() instead.'
-                . ' Or delete `auth_action` and `auth_action_message` in session data.'
-                . ' user_id: ' . $user->id
+                    . ' If you want to start to login with auth action, use startLogin() instead.'
+                    . ' Or delete `auth_action` and `auth_action_message` in session data.'
+                    . ' user_id: ' . $user->id
             );
         }
 

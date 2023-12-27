@@ -312,28 +312,8 @@ The type \'basic\', \'md5\', and \'sha1\' are deprecated\\. They are not cryptog
 	'path' => __DIR__ . '/src/Models/UserIdentityModel.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Cannot unset offset \'email\' on array\\{username\\: string, status\\: string, status_message\\: string, active\\: bool, last_active\\: string, deleted_at\\: string\\}\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/UserModel.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Cannot unset offset \'password_hash\' on array\\{username\\: string, status\\: string, status_message\\: string, active\\: bool, last_active\\: string, deleted_at\\: string\\}\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/UserModel.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
 	'count' => 2,
-	'path' => __DIR__ . '/src/Models/UserModel.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Offset \'email\' does not exist on array\\{username\\: string, status\\: string, status_message\\: string, active\\: bool, last_active\\: string, deleted_at\\: string\\}\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/UserModel.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Offset \'password_hash\' does not exist on array\\{username\\: string, status\\: string, status_message\\: string, active\\: bool, last_active\\: string, deleted_at\\: string\\}\\.$#',
-	'count' => 1,
 	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
 $ignoreErrors[] = [
@@ -368,7 +348,7 @@ $ignoreErrors[] = [
 ];
 $ignoreErrors[] = [
 	'message' => '#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with \'CodeIgniter\\\\\\\\Shield\\\\\\\\Result\' and CodeIgniter\\\\Shield\\\\Result will always evaluate to true\\.$#',
-	'count' => 9,
+	'count' => 8,
 	'path' => __DIR__ . '/tests/Authentication/Authenticators/SessionAuthenticatorTest.php',
 ];
 $ignoreErrors[] = [

@@ -51,4 +51,16 @@ final class AuthRoutesTest extends TestCase
         $this->assertArrayHasKey('logout', $routes);
         $this->assertArrayHasKey('auth/a/show', $routes);
     }
+
+    public function testRoutesCustomNamespace(): void
+    {
+        $collection = single_service('routes');
+        $auth       = service('auth');
+
+        $auth->routes($collection, ['namespace' => 'Auth']);
+
+        $routes = $collection->getRoutes('get');
+
+        $this->assertSame('\Auth\RegisterController::registerView', $routes['register']);
+    }
 }

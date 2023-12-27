@@ -182,9 +182,9 @@ final class JWTManagerTest extends TestCase
         $this->assertIsString($token);
 
         $headers = $this->decodeJWT($token, 'header');
-        $this->assertSame([
-            'extra_key' => 'extra_value',
+        $this->assertEqualsCanonicalizing([
             'typ'       => 'JWT',
+            'extra_key' => 'extra_value',
             'alg'       => 'HS256',
         ], $headers);
     }

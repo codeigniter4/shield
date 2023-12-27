@@ -38,6 +38,8 @@ the changelog.
 
 * [ ] Clone **codeigniter4/shield** and resolve any necessary PRs
     ```console
+    rm -rf shield.bk
+    mv shield shield.bk
     git clone git@github.com:codeigniter4/shield.git
     ```
 * [ ] Merge any Security Advisory PRs in private forks
