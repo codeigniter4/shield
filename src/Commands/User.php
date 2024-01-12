@@ -86,7 +86,7 @@ class User extends BaseCommand
     /**
      * Command's Arguments
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $arguments = [
         'action' => <<<'EOL'
@@ -107,7 +107,7 @@ class User extends BaseCommand
     /**
      * Command's Options
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $options = [
         '-i'          => 'User id',
@@ -300,6 +300,10 @@ class User extends BaseCommand
 
         $user = new UserEntity($data);
         $userModel->save($user);
+
+        // Add to default group
+        $user = $userModel->findById($userModel->getInsertID());
+        $userModel->addToDefaultGroup($user);
 
         $this->write('User "' . $username . '" created', 'green');
     }
