@@ -159,16 +159,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Collectors/Auth.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^PHPDoc type array\\<string, string\\> of property CodeIgniter\\\\Shield\\\\Commands\\\\Generators\\\\UserModelGenerator\\:\\:\\$arguments is not the same as PHPDoc type array of overridden property CodeIgniter\\\\CLI\\\\BaseCommand\\:\\:\\$arguments\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Commands/Generators/UserModelGenerator.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^PHPDoc type array\\<string, string\\> of property CodeIgniter\\\\Shield\\\\Commands\\\\Generators\\\\UserModelGenerator\\:\\:\\$options is not the same as PHPDoc type array of overridden property CodeIgniter\\\\CLI\\\\BaseCommand\\:\\:\\$options\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Commands/Generators/UserModelGenerator.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Controllers/ActionController.php',
@@ -317,28 +307,13 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$data \\(array\\|CodeIgniter\\\\Shield\\\\Entities\\\\User\\) of method CodeIgniter\\\\Shield\\\\Models\\\\UserModel\\:\\:insert\\(\\) should be contravariant with parameter \\$data \\(array\\|object\\|null\\) of method CodeIgniter\\\\Model\\:\\:insert\\(\\)$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/UserModel.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$data \\(array\\|CodeIgniter\\\\Shield\\\\Entities\\\\User\\) of method CodeIgniter\\\\Shield\\\\Models\\\\UserModel\\:\\:save\\(\\) should be contravariant with parameter \\$data \\(array\\|object\\) of method CodeIgniter\\\\BaseModel\\:\\:save\\(\\)$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/UserModel.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Parameter \\#2 \\$data \\(array\\|CodeIgniter\\\\Shield\\\\Entities\\\\User\\) of method CodeIgniter\\\\Shield\\\\Models\\\\UserModel\\:\\:update\\(\\) should be contravariant with parameter \\$data \\(array\\|object\\|null\\) of method CodeIgniter\\\\Model\\:\\:update\\(\\)$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/UserModel.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Return type \\(int\\|string\\|true\\) of method CodeIgniter\\\\Shield\\\\Models\\\\UserModel\\:\\:insert\\(\\) should be covariant with return type \\(int\\|object\\|string\\|false\\) of method CodeIgniter\\\\Model\\:\\:insert\\(\\)$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/UserModel.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\UserIdentityModel\\:\\:class is discouraged\\.$#',
 	'count' => 1,
+	'path' => __DIR__ . '/src/Models/UserModel.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Return type \\(int|string|true\\) of method CodeIgniter\\\\Shield\\\\Models\\\\UserModel\\:\\:insert\\(\\) should be covariant with return type \\(\\(\\$returnID is true \\? int|string|false \\: bool\\) of method CodeIgniter\\\\Model\\:\\:insert\\(\\)\\$#',
+	'count' => 4,
 	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
 $ignoreErrors[] = [
