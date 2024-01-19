@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Commands;
 
 use CodeIgniter\Shield\Commands\User;
+use CodeIgniter\Shield\Config\AuthGroups;
 use CodeIgniter\Shield\Entities\User as UserEntity;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Test\MockInputOutput;
@@ -92,6 +93,10 @@ final class UserTest extends DatabaseTestCase
         $this->seeInDatabase($this->tables['users'], [
             'id'     => $user->id,
             'active' => 0,
+        ]);
+        $this->seeInDatabase($this->tables['groups_users'], [
+            'user_id' => $user->id,
+            'group'   => config(AuthGroups::class)->defaultGroup,
         ]);
     }
 

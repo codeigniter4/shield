@@ -103,7 +103,7 @@ final class MagicLinkTest extends TestCase
             'user_id' => $user->id,
             'type'    => Session::ID_TYPE_MAGIC_LINK,
             'secret'  => 'abasdasdf',
-            'expires' => Time::now()->addMinutes(60),
+            'expires' => Time::now()->addMinutes(60)->format('Y-m-d H:i:s'),
         ]);
 
         $result = $this->get(route_to('verify-magic-link') . '?token=abasdasdf');

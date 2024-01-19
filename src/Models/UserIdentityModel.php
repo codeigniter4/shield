@@ -542,15 +542,15 @@ class UserIdentityModel extends BaseModel
      * Throws an Exception when it fails.
      *
      * @param array|int|string|null $id
-     * @param array|object|null     $data
+     * @param array|object|null     $row
      *
      * @return true if the update is successful
      *
      * @throws ValidationException
      */
-    public function update($id = null, $data = null): bool
+    public function update($id = null, $row = null): bool
     {
-        $result = parent::update($id, $data);
+        $result = parent::update($id, $row);
 
         $this->checkQueryReturn($result);
 

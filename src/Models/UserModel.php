@@ -251,18 +251,18 @@ class UserModel extends BaseModel
      * Override the BaseModel's `insert()` method.
      * If you pass User object, also inserts Email Identity.
      *
-     * @param array|User $data
+     * @param array|User $row
      *
      * @return int|string|true Insert ID if $returnID is true
      *
      * @throws ValidationException
      */
-    public function insert($data = null, bool $returnID = true)
+    public function insert($row = null, bool $returnID = true)
     {
         // Clone User object for not changing the passed object.
-        $this->tempUser = $data instanceof User ? clone $data : null;
+        $this->tempUser = $row instanceof User ? clone $row : null;
 
-        $result = parent::insert($data, $returnID);
+        $result = parent::insert($row, $returnID);
 
         $this->checkQueryReturn($result);
 
@@ -274,20 +274,20 @@ class UserModel extends BaseModel
      * If you pass User object, also updates Email Identity.
      *
      * @param array|int|string|null $id
-     * @param array|User            $data
+     * @param array|User            $row
      *
      * @return true if the update is successful
      *
      * @throws ValidationException
      */
-    public function update($id = null, $data = null): bool
+    public function update($id = null, $row = null): bool
     {
         // Clone User object for not changing the passed object.
-        $this->tempUser = $data instanceof User ? clone $data : null;
+        $this->tempUser = $row instanceof User ? clone $row : null;
 
         try {
             /** @throws DataException */
-            $result = parent::update($id, $data);
+            $result = parent::update($id, $row);
         } catch (DataException $e) {
             // When $data is an array.
             if ($this->tempUser === null) {
@@ -316,15 +316,15 @@ class UserModel extends BaseModel
      * Override the BaseModel's `save()` method.
      * If you pass User object, also updates Email Identity.
      *
-     * @param array|User $data
+     * @param array|User $row
      *
      * @return true if the save is successful
      *
      * @throws ValidationException
      */
-    public function save($data): bool
+    public function save($row): bool
     {
-        $result = parent::save($data);
+        $result = parent::save($row);
 
         $this->checkQueryReturn($result);
 
