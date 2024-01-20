@@ -114,7 +114,7 @@ final class MagicLinkTest extends DatabaseTestCase
             'user_id' => $user->id,
             'type'    => Session::ID_TYPE_MAGIC_LINK,
             'secret'  => 'abasdasdf',
-            'expires' => Time::now()->subDays(5),
+            'expires' => Time::now()->subDays(5)->format('Y-m-d H:i:s'),
         ]);
 
         $result = $this->get(route_to('verify-magic-link') . '?token=abasdasdf');
@@ -136,7 +136,7 @@ final class MagicLinkTest extends DatabaseTestCase
             'user_id' => $user->id,
             'type'    => Session::ID_TYPE_MAGIC_LINK,
             'secret'  => 'abasdasdf',
-            'expires' => Time::now()->addMinutes(60),
+            'expires' => Time::now()->addMinutes(60)->format('Y-m-d H:i:s'),
         ]);
 
         $result = $this->get(route_to('verify-magic-link') . '?token=abasdasdf');

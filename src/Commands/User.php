@@ -86,7 +86,7 @@ class User extends BaseCommand
     /**
      * Command's Arguments
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $arguments = [
         'action' => <<<'EOL'
@@ -107,7 +107,7 @@ class User extends BaseCommand
     /**
      * Command's Options
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $options = [
         '-i'          => 'User id',

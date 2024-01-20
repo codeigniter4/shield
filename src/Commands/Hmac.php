@@ -54,7 +54,7 @@ class Hmac extends BaseCommand
     /**
      * the Command's Arguments
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $arguments = [
         'action' => <<<'EOL'
@@ -72,7 +72,7 @@ class Hmac extends BaseCommand
     /**
      * the Command's Options
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $options = [];
 
