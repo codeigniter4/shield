@@ -236,7 +236,7 @@ class MagicLinkController extends BaseController
     /**
      * Returns the rules that should be used for validation.
      *
-     * @return array<string, array<string, array<string>|string>>
+     * @return         array<string, array<string, array<string>|string>>
      * @phpstan-return array<string, array<string, string|list<string>>>
      */
     protected function getValidationRules(): array

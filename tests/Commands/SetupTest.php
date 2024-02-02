@@ -37,8 +37,8 @@ final class SetupTest extends TestCase
     /**
      * Set MockInputOutput and user inputs.
      *
-     * @param array<int, string> $inputs User inputs
-     * @phpstan-param list<string> $inputs
+     * @param         array<int, string> $inputs User inputs
+     * @phpstan-param list<string>       $inputs
      */
     private function setMockIo(array $inputs): void
     {
