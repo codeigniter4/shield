@@ -18,4 +18,7 @@ namespace Tests\Language;
  */
 final class CzechTranslationTest extends AbstractTranslationTestCase
 {
+    protected array $excludedLocaleKeyTranslations = [
+        'Auth.token',
+    ];
 }
