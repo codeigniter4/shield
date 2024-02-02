@@ -116,7 +116,7 @@ class UserModel extends BaseModel
      * @param array          $data       Event $data
      * @param UserIdentity[] $identities
      *
-     * @return User[] UserId => User object
+     * @return         User[]                  UserId => User object
      * @phpstan-return array<int|string, User> UserId => User object
      */
     private function assignIdentities(array $data, array $identities): array

@@ -105,7 +105,7 @@ class UserIdentityModel extends BaseModel
      * Create an identity with 6 digits code for auth action
      *
      * @phpstan-param array{type: string, name: string, extra: string} $data
-     * @param callable $codeGenerator generate secret code
+     * @param         callable                                         $codeGenerator generate secret code
      *
      * @return string secret
      */
