@@ -26,7 +26,7 @@ return [
     'oldToken'              => 'Platnosť prístupového tokenu vypršala.',
     'noUserEntity'          => 'Na overenie hesla je potrebné zadať entitu používateľa.',
     'invalidEmail'          => 'Nie je možné overiť, či sa e-mailová adresa zhoduje so zaznamenaným e-mailom.',
-    'unableSendEmailToUser' => 'Ľutujeme, pri odosielaní e-mailu sa vyskytol problém. Nepodarilo sa nám odoslať e-mail na adresu „{0}".',
+    'unableSendEmailToUser' => 'Ľutujeme, pri odosielaní e-mailu sa vyskytol problém. Nepodarilo sa nám odoslať e-mail na adresu "{0}".',
     'throttled'             => 'Z tejto adresy IP bolo odoslaných príliš veľa žiadostí. Môžete to skúsiť znova o {0} sekúnd.',
     'notEnoughPrivilege'    => 'Nemáte potrebné povolenie na vykonanie požadovanej operácie.',
     // JWT Exceptions
@@ -39,7 +39,7 @@ return [
     'password'        => 'Heslo',
     'passwordConfirm' => 'Heslo (znova)',
     'haveAccount'     => 'Máte už účet?',
-    'token'           => '(To be translated) Token',
+    'token'           => 'Token',
 
     // Buttons
     'confirm' => 'Potvrdiť',

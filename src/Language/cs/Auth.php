@@ -52,17 +52,17 @@ return [
 
     // Login
     'login'              => 'Přihlášení',
-    'needAccount'        => 'Potrebujete účet?',
+    'needAccount'        => 'Potřebujete účet?',
     'rememberMe'         => 'Zapamatovat si přihlášení?',
     'forgotPassword'     => 'Zapomněli jste heslo?',
-    'useMagicLink'       => 'Použít odkaz na přihlášení',
-    'magicLinkSubject'   => 'Váš odkaz na přihlášení',
+    'useMagicLink'       => 'Použít odkaz pro přihlášení',
+    'magicLinkSubject'   => 'Váš odkaz pro přihlášení',
     'magicTokenNotFound' => 'Odkaz se nepodařilo ověřit.',
     'magicLinkExpired'   => 'Litujeme, ale platnost odkazu vypršela.',
-    'checkYourEmail'     => 'Zkontrolujte váš e-mail',
+    'checkYourEmail'     => 'Zkontrolujte si vaši e-mailovou schránku',
     'magicLinkDetails'   => 'Právě jsme vám poslali e-mail s tajným odkazem pro přihlášení. Platí pouze po dobu {0} minut.',
     'magicLinkDisabled'  => 'Použití tajného odkazu není v současné době povoleno.',
-    'successLogout'      => 'Úspěšně jste se odhlásili.',
+    'successLogout'      => 'Odhlášení proběhlo úspěšně.',
     'backToLogin'        => 'Zpět na přihlášení',
 
     // Passwords
@@ -72,15 +72,15 @@ return [
     'suggestPasswordCommon'     => 'Heslo bylo porovnáno s více než 65 tisíci běžně používanými hesly nebo hesly, která unikla prostřednictvím hackerů.',
     'errorPasswordPersonal'     => 'Hesla nemohou obsahovat přepsané osobní údaje.',
     'suggestPasswordPersonal'   => 'Jako hesla by se neměly používat varianty e-mailové adresy nebo uživatelského jména.',
-    'errorPasswordTooSimilar'   => 'Heslo je příliš podobné uživatelské nabídce.',
-    'suggestPasswordTooSimilar' => 'V hesle nepoužívejte části svého uživatelského jména.',
+    'errorPasswordTooSimilar'   => 'Heslo je příliš podobné uživatelskému jménu.',
+    'suggestPasswordTooSimilar' => 'V heslu nepoužívejte části svého uživatelského jména.',
     'errorPasswordPwned'        => 'Heslo {0} bylo odhaleno v důsledku úniku dat a bylo zaznamenáno {1, počet}krát z {2} prolomených hesel.',
-    'suggestPasswordPwned'      => '{0} by se nikdy nemělo používat jako heslo. Pokud ho někde použijete, okamžitě ho změňte.',
+    'suggestPasswordPwned'      => '{0} by se nikdy nemělo používat jako heslo. Pokud ho někde používáte, okamžitě ho změňte.',
     'errorPasswordEmpty'        => 'Je vyžadováno heslo.',
-    'errorPasswordTooLongBytes' => 'Heslo nesmí být delší než {param} bajtů',
-    'passwordChangeSuccess'     => 'Heslo bylo úspěšně změněno',
-    'userDoesNotExist'          => 'Heslo nebylo změněno. Uživatel neexistuje',
-    'resetTokenExpired'         => 'Promiňte. Platnost vašeho resetovacího tokenu vypršela.',
+    'errorPasswordTooLongBytes' => 'Heslo nesmí být delší než {param} bytů.',
+    'passwordChangeSuccess'     => 'Heslo bylo úspěšně změněno.',
+    'userDoesNotExist'          => 'Heslo nebylo změněno. Uživatel neexistuje.',
+    'resetTokenExpired'         => 'Omlouváme se, ale platnost vašeho resetovacího tokenu vypršela.',
 
     // Email Globals
     'emailInfo'      => 'Některé informace o osobě:',
@@ -97,7 +97,7 @@ return [
     'email2FAMailBody'    => 'Váš ověřovací kód je:',
     'invalid2FAToken'     => 'Kód byl nesprávný.',
     'need2FA'             => 'Je nutné provést dvoufaktorové ověření.',
-    'needVerification'    => 'Zkontrolujte svůj e-mail a dokončete aktivaci účtu.',
+    'needVerification'    => 'Zkontrolujte si svoji e-mailovou adresu a dokončete aktivaci účtu.',
 
     // Activate
     'emailActivateTitle'    => 'E-mailová aktivace',
