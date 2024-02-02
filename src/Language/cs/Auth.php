@@ -39,7 +39,7 @@ return [
     'password'        => 'Heslo',
     'passwordConfirm' => 'Heslo (znovu)',
     'haveAccount'     => 'Máte už účet?',
-    'token'           => 'Token',
+    'token'           => '(To be translated) Token',
 
     // Buttons
     'confirm' => 'Potvrdit',
@@ -66,7 +66,7 @@ return [
     'backToLogin'        => 'Zpět na přihlášení',
 
     // Passwords
-    'errorPasswordLength'       => 'Heslo musí mít alespoň {0, číslo} znaků.',
+    'errorPasswordLength'       => 'Heslo musí mít alespoň {0, number} znaků.',
     'suggestPasswordLength'     => 'Hesla - dlouhá až 255 znaků - jsou bezpečnější a snadno zapamatovatelná.',
     'errorPasswordCommon'       => 'Heslo nesmí být běžné heslo.',
     'suggestPasswordCommon'     => 'Heslo bylo porovnáno s více než 65 tisíci běžně používanými hesly nebo hesly, která unikla prostřednictvím hackerů.',
@@ -74,7 +74,7 @@ return [
     'suggestPasswordPersonal'   => 'Jako hesla by se neměly používat varianty e-mailové adresy nebo uživatelského jména.',
     'errorPasswordTooSimilar'   => 'Heslo je příliš podobné uživatelskému jménu.',
     'suggestPasswordTooSimilar' => 'V heslu nepoužívejte části svého uživatelského jména.',
-    'errorPasswordPwned'        => 'Heslo {0} bylo odhaleno v důsledku úniku dat a bylo zaznamenáno {1, počet}krát z {2} prolomených hesel.',
+    'errorPasswordPwned'        => 'Heslo {0} bylo odhaleno v důsledku úniku dat a bylo zaznamenáno {1, number}krát z {2} prolomených hesel.',
     'suggestPasswordPwned'      => '{0} by se nikdy nemělo používat jako heslo. Pokud ho někde používáte, okamžitě ho změňte.',
     'errorPasswordEmpty'        => 'Je vyžadováno heslo.',
     'errorPasswordTooLongBytes' => 'Heslo nesmí být delší než {param} bytů.',
