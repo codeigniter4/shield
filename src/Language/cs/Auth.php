@@ -39,7 +39,7 @@ return [
     'password'        => 'Heslo',
     'passwordConfirm' => 'Heslo (znovu)',
     'haveAccount'     => 'Máte už účet?',
-    'token'           => '(To be translated) Token',
+    'token'           => 'Token',
 
     // Buttons
     'confirm' => 'Potvrdit',
