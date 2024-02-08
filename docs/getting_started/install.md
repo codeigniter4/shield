@@ -124,6 +124,7 @@ your project.
     {
         public string $fromEmail  = 'your_mail@example.com';
         public string $fromName   = 'your name';
+        public string $mailType = 'html';
         // ...
     }
     ```
