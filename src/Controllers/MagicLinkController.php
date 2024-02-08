@@ -125,7 +125,11 @@ class MagicLinkController extends BaseController
             ->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
         $email->setTo($user->email);
         $email->setSubject(lang('Auth.magicLinkSubject'));
-        $email->setMessage($this->view(setting('Auth.views')['magic-link-email'], ['token' => $token, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date]));
+        $email->setMessage($this->view(
+            setting('Auth.views')['magic-link-email'],
+            ['token' => $token, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date],
+            ['debug' => false]
+        ));
 
         if ($email->send(false) === false) {
             log_message('error', $email->printDebugger(['headers']));
