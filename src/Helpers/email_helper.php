@@ -17,6 +17,8 @@ if (! defined('emailer')) {
     /**
      * Provides convenient access to the CodeIgniter Email class.
      *
+     * @param array<string, mixed> $overrides Email preferences to override.
+     *
      * @internal
      */
     function emailer(array $overrides = []): Email
@@ -46,7 +48,7 @@ if (! defined('emailer')) {
         ];
 
         if ($overrides !== []) {
-            $config = array_merge($overrides, $config);
+            $config = array_merge($config, $overrides);
         }
 
         /** @var Email $email */

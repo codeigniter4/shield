@@ -88,10 +88,15 @@ class Email2FA implements ActionInterface
 
         // Send the user an email with the code
         helper('email');
-        $email = emailer()->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
+        $email = emailer(['mailType' => 'html'])
+            ->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
         $email->setTo($user->email);
         $email->setSubject(lang('Auth.email2FASubject'));
-        $email->setMessage($this->view(setting('Auth.views')['action_email_2fa_email'], ['code' => $identity->secret, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date]));
+        $email->setMessage($this->view(
+            setting('Auth.views')['action_email_2fa_email'],
+            ['code'  => $identity->secret, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date],
+            ['debug' => false]
+        ));
 
         if ($email->send(false) === false) {
             throw new RuntimeException('Cannot send email for user: ' . $user->email . "\n" . $email->printDebugger(['headers']));
