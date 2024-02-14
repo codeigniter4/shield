@@ -15,7 +15,6 @@ namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Entities\User;
-use DateTime;
 use Faker\Generator;
 use stdClass;
 
@@ -45,22 +44,22 @@ class RememberModel extends BaseModel
             'user_id'         => 1,
             'selector'        => 'selector',
             'hashedValidator' => 'validator',
-            'expires'         => Time::parse('+1 day')->format('Y-m-d H:i:s'),
+            'expires'         => Time::parse('+1 day'),
         ];
     }
 
     /**
      * Stores a remember-me token for the user.
+     *
+     * @TODO `string $expires` → `Time $expires`
      */
     public function rememberUser(User $user, string $selector, string $hashedValidator, string $expires): void
     {
-        $expires = new DateTime($expires);
-
         $return = $this->insert([
             'user_id'         => $user->id,
             'selector'        => $selector,
             'hashedValidator' => $hashedValidator,
-            'expires'         => $expires->format('Y-m-d H:i:s'),
+            'expires'         => Time::parse($expires),
         ]);
 
         $this->checkQueryReturn($return);
