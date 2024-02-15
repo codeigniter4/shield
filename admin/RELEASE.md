@@ -2,6 +2,9 @@
 
 > Documentation guide based on the releases of `1.0.0-beta.5` on March 17, 2023.
 >
+> Updated for `1.0.1` on February 15, 2024.
+> Starting with this version, we have stopped using the `master` branch.
+>
 > -kenjis
 
 ## Changelog
@@ -25,8 +28,8 @@ To auto-generate, navigate to the
 [Releases](https://github.com/codeigniter4/shield/releases) page,
 click the "Draft a new release" button.
 
-* Tag: "v1.0.0-beta.5" (Create new tag)
-* Target: develop
+* Tag: `v1.x.x` (Create new tag)
+* Target: `develop`
 
 Click the "Generate release notes" button.
 
@@ -50,42 +53,29 @@ the changelog.
 > been included with their PR, so this process assumes you will not be
 > generating much new content.
 
-* [ ] Create a new branch `release-1.x.x`
-* [ ] Update **src/Auth.php** with the new version number:
-  `const SHIELD_VERSION = '1.x.x';`
-* [ ] Commit the changes with "Prep for 1.x.x release" and push to origin
+* [ ] Run `php admin/prepare-release.php 1.x.x` and push to origin
+    * The above command does the following:
+      * Create a new branch `release-1.x.x`
+      * Update **src/Auth.php** with the new version number:
+        `const SHIELD_VERSION = '1.x.x';`
+      * Commit the changes with "Prep for 1.x.x release" and push to origin
 * [ ] Create a new PR from `release-1.x.x` to `develop`:
-    * Title: "Prep for 1.x.x release"
-    * Description: "Updates version references for `1.x.x`." (plus checklist)
+    * Title: `Prep for 1.x.x release`
+    * Description: `Updates version references for 1.x.x.` (plus checklist)
 * [ ] Let all tests run, then review and merge the PR
-* [ ] Create a new PR from `develop` to `master`:
-    * Title: "1.x.x Ready code"
-    * Description: blank
 * [ ] Merge the PR
 * [ ] Create a new Release:
-    * Version: "v1.x.x"
-    * Target: master
-    * Title: "v1.x.x"
+    * Version: `v1.x.x`
+    * Target: `develop`
+    * Title: `v1.x.x`
     * Click the "Generate release notes" button
-    * Remove "### Others (Only for checking. Remove this category)" section
-    * Add important notes if necessary
-    * Add link to Upgrade Guide if necessary
-    * Check "Create a discussion for this release"
+    * [ ] Remove "### Others (Only for checking. Remove this category)" section
+    * [ ] Add important notes if necessary
+    * [ ] Add link to Upgrade Guide if necessary
+    * [ ] Check "Create a discussion for this release"
     * Click the "Publish release" button
 * [ ] Watch for the "docs" action and verify that the user guide updated:
     * [docs](https://github.com/codeigniter4/shield/actions/workflows/docs.yml)
-* [ ] Fast-forward `develop` branch to catch the merge commit from `master`
-  (note: pushing to `develop` is restricted to administrators):
-    ```console
-    git fetch origin
-    git checkout develop
-    git merge origin/develop
-    git merge origin/master
-    git push origin HEAD # Only administrators can push to the protected branch.
-    ```
-  **At this point, `master` must be merged into `develop`.** Otherwise, the
-  GitHub-generated release note from `develop` for the next release will not be
-  generated correctly.
 * [ ] Publish any Security Advisories that were resolved from private forks
   (note: publishing is restricted to administrators)
 * [ ] Announce the release on the forums and Slack channel
