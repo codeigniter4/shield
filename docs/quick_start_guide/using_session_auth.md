@@ -94,7 +94,13 @@ command.
 
 ## Protecting Pages
 
-If you want to limit all routes (e.g. `localhost:8080/admin`, `localhost:8080/panel` and ...), you need to add the following code in the **app/Config/Filters.php** file.
+By default, Shield does not protect pages. To make certain pages accessible only
+to logged-in users, set the `session`
+[controller filter](../references/controller_filters.md).
+
+For example, if you want to limit all routes (e.g. `localhost:8080/admin`,
+`localhost:8080/panel` and ...), you need to add the following code in the
+**app/Config/Filters.php** file.
 
 ```php
 public $globals = [
