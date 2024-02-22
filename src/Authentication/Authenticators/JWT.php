@@ -207,14 +207,17 @@ class JWT implements AuthenticatorInterface
         /** @var IncomingRequest $request */
         $request = service('request');
 
-        $token = $this->getTokenFromHeader($request);
+        $token = $this->getTokenFromRequest($request);
 
         return $this->attempt([
             'token' => $token,
         ])->isOK();
     }
 
-    public function getTokenFromHeader(RequestInterface $request): string
+    /**
+     * Gets token from Request.
+     */
+    public function getTokenFromRequest(RequestInterface $request): string
     {
         assert($request instanceof IncomingRequest);
 

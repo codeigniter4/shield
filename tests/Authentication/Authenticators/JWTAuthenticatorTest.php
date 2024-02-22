@@ -282,4 +282,16 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
 
         return $generator->generateToken($this->user);
     }
+
+    public function testGetTokenFromRequest(): void
+    {
+        $request = Services::incomingrequest(null, false);
+
+        $jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+        $request->setHeader('Authorization', 'Bearer ' . $jwt);
+
+        $token = $this->auth->getTokenFromRequest($request);
+
+        $this->assertSame($jwt, $token);
+    }
 }

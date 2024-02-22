@@ -44,7 +44,7 @@ class JWTAuth implements FilterInterface
         /** @var JWT $authenticator */
         $authenticator = auth('jwt')->getAuthenticator();
 
-        $token = $authenticator->getTokenFromHeader($request);
+        $token = $authenticator->getTokenFromRequest($request);
 
         $result = $authenticator->attempt(['token' => $token]);
 
