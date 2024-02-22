@@ -207,9 +207,6 @@ class JWT implements AuthenticatorInterface
         /** @var IncomingRequest $request */
         $request = service('request');
 
-        /** @var AuthJWT $config */
-        $config = config('AuthJWT');
-
         $token = $this->getTokenFromHeader($request);
 
         return $this->attempt([
@@ -217,7 +214,7 @@ class JWT implements AuthenticatorInterface
         ])->isOK();
     }
 
-    private function getTokenFromHeader(RequestInterface $request): string
+    public function getTokenFromHeader(RequestInterface $request): string
     {
         assert($request instanceof IncomingRequest);
 

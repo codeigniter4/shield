@@ -19,7 +19,6 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT;
-use CodeIgniter\Shield\Config\AuthJWT;
 use Config\Services;
 
 /**
@@ -45,7 +44,7 @@ class JWTAuth implements FilterInterface
         /** @var JWT $authenticator */
         $authenticator = auth('jwt')->getAuthenticator();
 
-        $token = $this->getTokenFromHeader($request);
+        $token = $authenticator->getTokenFromHeader($request);
 
         $result = $authenticator->attempt(['token' => $token]);
 
@@ -60,24 +59,6 @@ class JWTAuth implements FilterInterface
         if (setting('Auth.recordActiveDate')) {
             $authenticator->recordActiveDate();
         }
-    }
-
-    private function getTokenFromHeader(RequestInterface $request): string
-    {
-        assert($request instanceof IncomingRequest);
-
-        /** @var AuthJWT $config */
-        $config = config('AuthJWT');
-
-        $tokenHeader = $request->getHeaderLine(
-            $config->authenticatorHeader ?? 'Authorization'
-        );
-
-        if (strpos($tokenHeader, 'Bearer') === 0) {
-            return trim(substr($tokenHeader, 6));
-        }
-
-        return $tokenHeader;
     }
 
     /**
