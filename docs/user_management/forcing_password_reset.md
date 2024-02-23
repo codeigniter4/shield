@@ -10,7 +10,9 @@ This guide provides you with ways to achieve this.
 
 ## Available Methods
 
-Shield provides a way to enforce password resets throughout your application. The `Resettable` trait on the `User` entity and the `UserIdentityModel` provides the following methods to do so.
+Shield provides a way to enforce password resets throughout your application.
+The `Resettable` trait on the `User` entity and the `UserIdentityModel` provides
+the following methods to do so.
 
 ### Check if a User Requires Password Reset
 
