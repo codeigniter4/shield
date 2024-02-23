@@ -1,6 +1,12 @@
 # Forcing Password Reset
 
-Depending on the scope of your application, there may be times when you'll decide that it is absolutely necessary to force user(s) to reset their password. This practice is common when you find out that users of your application do not use strong passwords OR there is a reasonable suspicion that their passwords have been compromised. This guide provides you with ways to achieve this.
+Depending on the scope of your application, there may be times when you'll decide
+that it is absolutely necessary to force user(s) to reset their password. This
+practice is common when you find out that users of your application do not use
+strong passwords OR there is a reasonable suspicion that their passwords have been
+compromised.
+
+This guide provides you with ways to achieve this.
 
 ## Available Methods
 
