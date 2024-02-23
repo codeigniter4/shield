@@ -14,6 +14,12 @@ Shield provides a way to enforce password resets throughout your application.
 The `Resettable` trait on the `User` entity and the `UserIdentityModel` provides
 the following methods to do so.
 
+!!! note
+
+    If a user is put into the force reset state, Shield does nothing by default.
+    You need to check if a user requires password reset (see below), and set the
+    redirect URL for the reset page, and create the reset page.
+
 ### Check if a User Requires Password Reset
 
 When you need to check if a user requires password reset, you can do so using the `requiresPasswordReset()` method on the `User` entity. Returns boolean `true`/`false`.
