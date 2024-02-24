@@ -442,7 +442,7 @@ class UserIdentityModel extends BaseModel
      */
     public function touchIdentity(UserIdentity $identity): void
     {
-        $identity->last_used_at = Time::now()->format('Y-m-d H:i:s');
+        $identity->last_used_at = Time::now();
 
         $return = $this->save($identity);
 

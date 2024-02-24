@@ -390,7 +390,7 @@ trait Authorizable
                 $inserts[] = [
                     'user_id'    => $this->id,
                     $type        => $item,
-                    'created_at' => Time::now()->format('Y-m-d H:i:s'),
+                    'created_at' => Time::now(),
                 ];
             }
 

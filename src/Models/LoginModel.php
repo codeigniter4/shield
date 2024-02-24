@@ -40,7 +40,7 @@ class LoginModel extends BaseModel
         'identifier' => 'permit_empty|string',
         'user_agent' => 'permit_empty|string',
         'user_id'    => 'permit_empty|integer',
-        'date'       => 'required|valid_date',
+        'date'       => 'required',
     ];
     protected $validationMessages = [];
     protected $skipValidation     = false;
@@ -80,7 +80,7 @@ class LoginModel extends BaseModel
             'id_type'    => $idType,
             'identifier' => $identifier,
             'user_id'    => $userId,
-            'date'       => Time::now()->format('Y-m-d H:i:s'),
+            'date'       => Time::now(),
             'success'    => (int) $success,
         ]);
 
@@ -121,7 +121,7 @@ class LoginModel extends BaseModel
             'id_type'    => Session::ID_TYPE_EMAIL_PASSWORD,
             'identifier' => $faker->email(),
             'user_id'    => null,
-            'date'       => Time::parse('-1 day')->format('Y-m-d H:i:s'),
+            'date'       => Time::parse('-1 day'),
             'success'    => true,
         ]);
     }

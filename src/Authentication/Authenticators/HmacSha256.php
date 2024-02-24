@@ -186,7 +186,7 @@ class HmacSha256 implements AuthenticatorInterface
             ]);
         }
 
-        $token->last_used_at = Time::now()->format('Y-m-d H:i:s');
+        $token->last_used_at = Time::now();
 
         if ($token->hasChanged()) {
             $identityModel->save($token);
