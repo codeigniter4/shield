@@ -1542,14 +1542,32 @@
 
 
 <h1 id="forcing-password-reset">Forcing Password Reset</h1>
-<p>Depending on the scope of your application, there may be times when you'll decide that it is absolutely necessary to force user(s) to reset their password. This practice is common when you find out that users of your application do not use strong passwords OR there is a reasonable suspicion that their passwords have been compromised. This guide provides you with ways to achieve this.</p>
+<p>Depending on the scope of your application, there may be times when you'll decide
+that it is absolutely necessary to force user(s) to reset their password. This
+practice is common when you find out that users of your application do not use
+strong passwords OR there is a reasonable suspicion that their passwords have been
+compromised.</p>
+<p>This guide provides you with ways to achieve this.</p>
 <h2 id="available-methods">Available Methods</h2>
-<p>Shield provides a way to enforce password resets throughout your application. The <code>Resettable</code> trait on the <code>User</code> entity and the <code>UserIdentityModel</code> provides the following methods to do so.</p>
+<p>Shield provides a way to enforce password resets throughout your application.
+The <code>Resettable</code> trait on the <code>User</code> entity and the <code>UserIdentityModel</code> provides
+the following methods to do so.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If a user is put into the force reset state, Shield does nothing by default.
+You need to check if a user requires password reset (see below), and set the
+redirect URL for the reset page, and create the reset page.</p>
+</div>
 <h3 id="check-if-a-user-requires-password-reset">Check if a User Requires Password Reset</h3>
 <p>When you need to check if a user requires password reset, you can do so using the <code>requiresPasswordReset()</code> method on the <code>User</code> entity. Returns boolean <code>true</code>/<code>false</code>.</p>
 <pre class="highlight"><code class="language-php">if ($user-&gt;requiresPasswordReset()) {
     //...
 }</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can use the <a href="../../references/controller_filters/#forcing-password-reset">force-reset</a>
+filter to check.</p>
+</div>
 <h3 id="force-password-reset-on-a-user">Force Password Reset On a User</h3>
 <p>To force password reset on a user, you can do so using the <code>forcePasswordReset()</code> method on the <code>User</code> entity.</p>
 <pre class="highlight"><code class="language-php">$user-&gt;forcePasswordReset();</code></pre>
@@ -1592,7 +1610,7 @@ $identities-&gt;forceGlobalPasswordReset();</code></pre>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">September 19, 2023</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 23, 2024</span>
   </span>
 
     
