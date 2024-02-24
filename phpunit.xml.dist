@@ -79,6 +79,8 @@
 
 	<php>
 		<env name="XDEBUG_MODE" value="coverage"/>
+		<!-- Set hashCost for improving the speed of running tests -->
+		<env name="auth.hashCost" value="4"/>
 		<server name="app.baseURL" value="https://example.com/"/>
 
 		<!-- Directory containing phpunit.xml -->
