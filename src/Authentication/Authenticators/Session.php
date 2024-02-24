@@ -922,17 +922,17 @@ class Session implements AuthenticatorInterface
             $user,
             $selector,
             $this->hashValidator($validator),
-            $expires
+            $expires->format('Y-m-d H:i:s')
         );
 
         $this->setRememberMeCookie($rawToken);
     }
 
-    private function calcExpires(): string
+    private function calcExpires(): Time
     {
         $timestamp = Time::now()->getTimestamp() + setting('Auth.sessionConfig')['rememberLength'];
 
-        return Time::createFromTimestamp($timestamp)->format('Y-m-d H:i:s');
+        return Time::createFromTimestamp($timestamp);
     }
 
     private function setRememberMeCookie(string $rawToken): void

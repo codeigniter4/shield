@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Authentication\Authenticators;
 
 use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
@@ -206,12 +207,32 @@ class JWT implements AuthenticatorInterface
         /** @var IncomingRequest $request */
         $request = service('request');
 
+        $token = $this->getTokenFromRequest($request);
+
+        return $this->attempt([
+            'token' => $token,
+        ])->isOK();
+    }
+
+    /**
+     * Gets token from Request.
+     */
+    public function getTokenFromRequest(RequestInterface $request): string
+    {
+        assert($request instanceof IncomingRequest);
+
         /** @var AuthJWT $config */
         $config = config('AuthJWT');
 
-        return $this->attempt([
-            'token' => $request->getHeaderLine($config->authenticatorHeader),
-        ])->isOK();
+        $tokenHeader = $request->getHeaderLine(
+            $config->authenticatorHeader ?? 'Authorization'
+        );
+
+        if (strpos($tokenHeader, 'Bearer') === 0) {
+            return trim(substr($tokenHeader, 6));
+        }
+
+        return $tokenHeader;
     }
 
     /**

@@ -33,3 +33,16 @@ class ActionsTest extends TestCase
     }
 }
 ```
+
+## Improving the Speed of Running Tests
+
+By default, Shield has set the `Config\Auth::$hashCost = 12` due to the greater security of passwords. However, to increase the test execution time, we have set the `$hashCost = 4` for the test environment.
+
+If you use Shield in your project and your tests execution time is high, just set the `$hashCost = 4` in file **phpunit.xml.dist** of your project as follows:
+
+```
+<php>
+	<!-- Set hashCost for improving the speed of running tests -->
+	<env name="auth.hashCost" value="4"/>
+</php>
+```

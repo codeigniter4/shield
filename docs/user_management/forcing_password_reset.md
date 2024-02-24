@@ -1,10 +1,24 @@
 # Forcing Password Reset
 
-Depending on the scope of your application, there may be times when you'll decide that it is absolutely necessary to force user(s) to reset their password. This practice is common when you find out that users of your application do not use strong passwords OR there is a reasonable suspicion that their passwords have been compromised. This guide provides you with ways to achieve this.
+Depending on the scope of your application, there may be times when you'll decide
+that it is absolutely necessary to force user(s) to reset their password. This
+practice is common when you find out that users of your application do not use
+strong passwords OR there is a reasonable suspicion that their passwords have been
+compromised.
+
+This guide provides you with ways to achieve this.
 
 ## Available Methods
 
-Shield provides a way to enforce password resets throughout your application. The `Resettable` trait on the `User` entity and the `UserIdentityModel` provides the following methods to do so.
+Shield provides a way to enforce password resets throughout your application.
+The `Resettable` trait on the `User` entity and the `UserIdentityModel` provides
+the following methods to do so.
+
+!!! note
+
+    If a user is put into the force reset state, Shield does nothing by default.
+    You need to check if a user requires password reset (see below), and set the
+    redirect URL for the reset page, and create the reset page.
 
 ### Check if a User Requires Password Reset
 
@@ -15,6 +29,11 @@ if ($user->requiresPasswordReset()) {
     //...
 }
 ```
+
+!!! note
+
+    You can use the [force-reset](../../references/controller_filters/#forcing-password-reset)
+    filter to check.
 
 ### Force Password Reset On a User
 
