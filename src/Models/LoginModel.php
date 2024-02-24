@@ -39,7 +39,7 @@ class LoginModel extends BaseModel
         'id_type'    => 'required',
         'identifier' => 'permit_empty|string',
         'user_agent' => 'permit_empty|string',
-        'user_id'    => 'permit_empty|integer',
+        'user_id'    => 'permit_empty',
         'date'       => 'required|valid_date',
     ];
     protected $validationMessages = [];
