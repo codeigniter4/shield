@@ -34,8 +34,8 @@ trait HasAccessTokens
     /**
      * Generates a new personal access token for this user.
      *
-     * @param string   $name   Token name
-     * @param string[] $scopes Permissions the token grants
+     * @param string       $name   Token name
+     * @param list<string> $scopes Permissions the token grants
      */
     public function generateAccessToken(string $name, array $scopes = ['*']): AccessToken
     {
@@ -81,7 +81,7 @@ trait HasAccessTokens
     /**
      * Retrieves all personal access tokens for this user.
      *
-     * @return AccessToken[]
+     * @return list<AccessToken>
      */
     public function accessTokens(): array
     {

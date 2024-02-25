@@ -20,7 +20,7 @@ interface JWSAdapterInterface
     /**
      * Issues Signed JWT (JWS)
      *
-     * @param array<mixed>               $payload The payload.
+     * @param list<mixed>                $payload The payload.
      * @param string                     $keyset  The key group.
      *                                            The array key of Config\AuthJWT::$keys.
      * @param array<string, string>|null $headers An array with header elements to attach.

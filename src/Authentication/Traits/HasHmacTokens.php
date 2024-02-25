@@ -35,8 +35,8 @@ trait HasHmacTokens
     /**
      * Generates a new personal HMAC token for this user.
      *
-     * @param string   $name   Token name
-     * @param string[] $scopes Permissions the token grants
+     * @param string       $name   Token name
+     * @param list<string> $scopes Permissions the token grants
      *
      * @throws ReflectionException
      */
@@ -73,7 +73,7 @@ trait HasHmacTokens
     /**
      * Retrieves all personal HMAC tokens for this user.
      *
-     * @return AccessToken[]
+     * @return list<AccessToken>
      */
     public function hmacTokens(): array
     {

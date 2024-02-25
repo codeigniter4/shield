@@ -113,10 +113,10 @@ class UserModel extends BaseModel
     /**
      * Map our users by ID to make assigning simpler
      *
-     * @param array          $data       Event $data
-     * @param UserIdentity[] $identities
+     * @param array              $data       Event $data
+     * @param list<UserIdentity> $identities
      *
-     * @return         User[]                  UserId => User object
+     * @return         list<User>              UserId => User object
      * @phpstan-return array<int|string, User> UserId => User object
      */
     private function assignIdentities(array $data, array $identities): array

@@ -177,7 +177,7 @@ class Auth
      * own, additional, features on top of the required ones,
      * like "remember-me" functionality.
      *
-     * @param string[] $args
+     * @param list<string> $args
      *
      * @throws AuthenticationException
      */
