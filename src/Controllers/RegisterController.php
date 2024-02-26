@@ -169,8 +169,7 @@ class RegisterController extends BaseController
     /**
      * Returns the rules that should be used for validation.
      *
-     * @return         array<string, array<string, array<string>|string>>
-     * @phpstan-return array<string, array<string, string|list<string>>>
+     * @return array<string, array<string, list<string>|string>>
      */
     protected function getValidationRules(): array
     {

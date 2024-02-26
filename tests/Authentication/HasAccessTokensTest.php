@@ -66,7 +66,7 @@ final class HasAccessTokensTest extends DatabaseTestCase
             ['user_id' => $this->user->id, 'type' => 'access_token', 'secret' => 'secretToken2']
         );
 
-        /** @var AccessToken[] $tokens */
+        /** @var list<AccessToken> $tokens */
         $tokens = $this->user->accessTokens();
 
         $this->assertCount(2, $tokens);

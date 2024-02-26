@@ -399,7 +399,7 @@ trait Authorizable
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     private function getConfigGroups(): array
     {
@@ -407,7 +407,7 @@ trait Authorizable
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     private function getConfigPermissions(): array
     {

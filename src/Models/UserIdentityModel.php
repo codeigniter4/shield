@@ -144,8 +144,8 @@ class UserIdentityModel extends BaseModel
     /**
      * Generates a new personal access token for the user.
      *
-     * @param string   $name   Token name
-     * @param string[] $scopes Permissions the token grants
+     * @param string       $name   Token name
+     * @param list<string> $scopes Permissions the token grants
      */
     public function generateAccessToken(User $user, string $name, array $scopes = ['*']): AccessToken
     {
@@ -210,7 +210,7 @@ class UserIdentityModel extends BaseModel
     }
 
     /**
-     * @return AccessToken[]
+     * @return list<AccessToken>
      */
     public function getAllAccessTokens(User $user): array
     {
@@ -242,8 +242,8 @@ class UserIdentityModel extends BaseModel
     /**
      * Generates a new personal access token for the user.
      *
-     * @param string   $name   Token name
-     * @param string[] $scopes Permissions the token grants
+     * @param string       $name   Token name
+     * @param list<string> $scopes Permissions the token grants
      *
      * @throws Exception
      * @throws ReflectionException
@@ -321,7 +321,7 @@ class UserIdentityModel extends BaseModel
      *
      * @param User $user User object
      *
-     * @return AccessToken[]
+     * @return list<AccessToken>
      */
     public function getAllHmacTokens(User $user): array
     {
@@ -384,7 +384,7 @@ class UserIdentityModel extends BaseModel
     /**
      * Returns all identities.
      *
-     * @return UserIdentity[]
+     * @return list<UserIdentity>
      */
     public function getIdentities(User $user): array
     {
@@ -394,9 +394,9 @@ class UserIdentityModel extends BaseModel
     }
 
     /**
-     * @param int[]|string[] $userIds
+     * @param list<int>|list<string> $userIds
      *
-     * @return UserIdentity[]
+     * @return list<UserIdentity>
      */
     public function getIdentitiesByUserIds(array $userIds): array
     {
@@ -419,9 +419,9 @@ class UserIdentityModel extends BaseModel
     /**
      * Returns all identities for the specific types.
      *
-     * @param string[] $types
+     * @param list<string> $types
      *
-     * @return UserIdentity[]
+     * @return list<UserIdentity>
      */
     public function getIdentitiesByTypes(User $user, array $types): array
     {
@@ -507,7 +507,7 @@ class UserIdentityModel extends BaseModel
     /**
      * Force password reset for multiple users.
      *
-     * @param int[]|string[] $userIds
+     * @param list<int>|list<string> $userIds
      */
     public function forceMultiplePasswordReset(array $userIds): void
     {

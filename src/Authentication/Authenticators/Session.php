@@ -501,7 +501,7 @@ class Session implements AuthenticatorInterface
     /**
      * Gets identities for action
      *
-     * @return UserIdentity[]
+     * @return list<UserIdentity>
      */
     private function getIdentitiesForAction(User $user): array
     {
@@ -512,7 +512,7 @@ class Session implements AuthenticatorInterface
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     private function getActionTypes(): array
     {

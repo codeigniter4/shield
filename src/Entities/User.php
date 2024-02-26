@@ -26,13 +26,13 @@ use CodeIgniter\Shield\Traits\Bannable;
 use CodeIgniter\Shield\Traits\Resettable;
 
 /**
- * @property string|null         $email
- * @property int|string|null     $id
- * @property UserIdentity[]|null $identities
- * @property Time|null           $last_active
- * @property string|null         $password
- * @property string|null         $password_hash
- * @property string|null         $username
+ * @property string|null             $email
+ * @property int|string|null         $id
+ * @property list<UserIdentity>|null $identities
+ * @property Time|null               $last_active
+ * @property string|null             $password
+ * @property string|null             $password_hash
+ * @property string|null             $username
  */
 class User extends Entity
 {
@@ -44,7 +44,7 @@ class User extends Entity
     use Bannable;
 
     /**
-     * @var UserIdentity[]|null
+     * @var list<UserIdentity>|null
      */
     private ?array $identities = null;
 
@@ -53,9 +53,7 @@ class User extends Entity
     private ?string $password_hash = null;
 
     /**
-     * @var string[]
-     * @phpstan-var list<string>
-     * @psalm-var list<string>
+     * @var list<string>
      */
     protected $dates = [
         'created_at',
@@ -107,7 +105,7 @@ class User extends Entity
      *
      * @param string $type 'all' returns all identities.
      *
-     * @return UserIdentity[]
+     * @return list<UserIdentity>
      */
     public function getIdentities(string $type = 'all'): array
     {
