@@ -63,7 +63,7 @@ abstract class AbstractTranslationTestCase extends TestCase
         LithuanianTranslationTest::class => 'lt',
         //        LatvianTranslationTest::class            => 'lv',
         //        MalayalamTranslationTest::class          => 'ml',
-        //        DutchTranslationTest::class              => 'nl',
+        DutchTranslationTest::class => 'nl',
         //        NorwegianTranslationTest::class          => 'no',
         //        PolishTranslationTest::class             => 'pl',
         PortugueseTranslationTest::class => 'pt',
