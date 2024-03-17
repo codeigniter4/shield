@@ -63,7 +63,6 @@ the changelog.
     * Title: `Prep for 1.x.x release`
     * Description: `Updates version references for 1.x.x.` (plus checklist)
 * [ ] Let all tests run, then review and merge the PR
-* [ ] Merge the PR
 * [ ] Create a new Release:
     * Version: `v1.x.x`
     * Target: `develop`
