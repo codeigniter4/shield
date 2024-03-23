@@ -32,8 +32,6 @@ jobs:
   add-comment-for-tests:
     if: github.event.label.name == 'tests needed'
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
     steps:
       - name: Add comment for PHPUnit test
         uses: peter-evans/create-or-update-comment@v4
