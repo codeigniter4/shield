@@ -8,6 +8,8 @@ on:
         - '**.php'
         - 'composer.*'
         - '.github/workflows/smart-commenting.yml'
+      types:
+        - labeled
     push:
       branches:
         - develop
