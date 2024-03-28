@@ -220,7 +220,7 @@ class User extends BaseCommand
 
         $rules = $validationRules->getRegistrationRules();
 
-        // Remove `strong_password` because it only supports use cases
+        // Remove `strong_password` rule because it only supports use cases
         // to check the user's own password.
         $passwordRules = $rules['password']['rules'];
         if (is_string($passwordRules)) {
@@ -241,11 +241,10 @@ class User extends BaseCommand
 
         $rules['password']['rules'] = $passwordRules;
 
-        $this->validationRules = [
-            'username' => $rules['username'],
-            'email'    => $rules['email'],
-            'password' => $rules['password'],
-        ];
+        // Remove `password_confirm` field.
+        unset($rules['password_confirm']);
+
+        $this->validationRules = $rules;
     }
 
     /**
@@ -258,10 +257,13 @@ class User extends BaseCommand
     {
         $data = [];
 
-        if ($username === null) {
+        if ($username === null && isset($this->validationRules['username'])) {
             $username = $this->prompt('Username', null, $this->validationRules['username']['rules']);
         }
         $data['username'] = $username;
+        if ($username === null) {
+            unset($data['username']);
+        }
 
         if ($email === null) {
             $email = $this->prompt('Email', null, $this->validationRules['email']['rules']);
