@@ -257,6 +257,7 @@ class User extends BaseCommand
     {
         $data = [];
 
+        // If you don't use `username`, remove the validation rules for it.
         if ($username === null && isset($this->validationRules['username'])) {
             $username = $this->prompt('Username', null, $this->validationRules['username']['rules']);
         }
@@ -301,7 +302,12 @@ class User extends BaseCommand
         $userModel = model(UserModel::class);
 
         $user = new UserEntity($data);
-        $userModel->save($user);
+
+        if ($username === null) {
+            $userModel->allowEmptyInserts()->save($user);
+        } else {
+            $userModel->save($user);
+        }
 
         $this->write('User "' . $username . '" created', 'green');
     }
