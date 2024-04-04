@@ -305,11 +305,11 @@ class User extends BaseCommand
 
         if ($username === null) {
             $userModel->allowEmptyInserts()->save($user);
+            $this->write('New User created', 'green');
         } else {
             $userModel->save($user);
+            $this->write('User "' . $username . '" created', 'green');
         }
-
-        $this->write('User "' . $username . '" created', 'green');
     }
 
     /**
