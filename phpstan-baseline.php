@@ -14,7 +14,7 @@ $ignoreErrors[] = [
 ];
 $ignoreErrors[] = [
 	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
-	'count' => 2,
+	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Actions/Email2FA.php',
 ];
 $ignoreErrors[] = [
@@ -45,7 +45,7 @@ $ignoreErrors[] = [
 ];
 $ignoreErrors[] = [
 	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
-	'count' => 4,
+	'count' => 2,
 	'path' => __DIR__ . '/src/Authentication/Authenticators/AccessTokens.php',
 ];
 $ignoreErrors[] = [
@@ -95,16 +95,6 @@ $ignoreErrors[] = [
 ];
 $ignoreErrors[] = [
 	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
-	'count' => 3,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Only booleans are allowed in an elseif condition, string\\|null given\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Only booleans are allowed in an if condition, CodeIgniter\\\\Shield\\\\Entities\\\\UserIdentity\\|null given\\.$#',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
 ];
@@ -130,27 +120,12 @@ $ignoreErrors[] = [
 ];
 $ignoreErrors[] = [
 	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Passwords.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Passwords/CompositionValidator.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
-	'count' => 5,
+	'count' => 4,
 	'path' => __DIR__ . '/src/Authentication/Passwords/NothingPersonalValidator.php',
 ];
 $ignoreErrors[] = [
 	'message' => '#^Call to method CodeIgniter\\\\Shield\\\\Result\\:\\:isOK\\(\\) with incorrect case\\: isOk$#',
 	'count' => 2,
-	'path' => __DIR__ . '/src/Authentication/Passwords/ValidationRules.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
-	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Passwords/ValidationRules.php',
 ];
 $ignoreErrors[] = [
@@ -250,11 +225,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Entities/Entity.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
-	'count' => 2,
-	'path' => __DIR__ . '/src/Entities/Group.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\GroupModel\\:\\:class is discouraged\\.$#',
 	'count' => 2,
 	'path' => __DIR__ . '/src/Entities/User.php',
@@ -276,7 +246,7 @@ $ignoreErrors[] = [
 ];
 $ignoreErrors[] = [
 	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
-	'count' => 8,
+	'count' => 7,
 	'path' => __DIR__ . '/src/Entities/User.php',
 ];
 $ignoreErrors[] = [
@@ -365,11 +335,6 @@ $ignoreErrors[] = [
 	'message' => '#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with \'CodeIgniter\\\\\\\\Shield\\\\\\\\Result\' and CodeIgniter\\\\Shield\\\\Result will always evaluate to true\\.$#',
 	'count' => 8,
 	'path' => __DIR__ . '/tests/Authentication/Authenticators/SessionAuthenticatorTest.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/Authentication/Filters/AbstractFilterTestCase.php',
 ];
 $ignoreErrors[] = [
 	'message' => '#^Implicit array creation is not allowed \\- variable \\$users might not exist\\.$#',
