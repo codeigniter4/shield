@@ -79,7 +79,7 @@ class TokenAuth implements FilterInterface
     /**
      * We don't have anything to do here.
      *
-     * @param array|null                 $arguments
+     * @param array|null $arguments
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null): void
     {
