@@ -193,7 +193,7 @@ class AccessTokens implements AuthenticatorInterface
      */
     public function loggedIn(): bool
     {
-        if (! empty($this->user)) {
+        if ($this->user instanceof User) {
             return true;
         }
 
@@ -226,7 +226,7 @@ class AccessTokens implements AuthenticatorInterface
     {
         $user = $this->provider->findById($userId);
 
-        if (empty($user)) {
+        if (! $user instanceof User) {
             throw AuthenticationException::forInvalidUser();
         }
 

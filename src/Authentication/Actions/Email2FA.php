@@ -78,7 +78,7 @@ class Email2FA implements ActionInterface
 
         $identity = $this->getIdentity($user);
 
-        if (empty($identity)) {
+        if (! $identity instanceof UserIdentity) {
             return redirect()->route('auth-action-show')->with('error', lang('Auth.need2FA'));
         }
 

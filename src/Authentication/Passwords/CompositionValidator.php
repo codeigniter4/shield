@@ -37,7 +37,7 @@ class CompositionValidator extends BaseValidator implements ValidatorInterface
      */
     public function check(string $password, ?User $user = null): Result
     {
-        if (empty($this->config->minimumPasswordLength)) {
+        if ($this->config->minimumPasswordLength === 0) {
             throw AuthenticationException::forUnsetPasswordLength();
         }
 

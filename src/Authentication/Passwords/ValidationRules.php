@@ -49,13 +49,13 @@ class ValidationRules
             $user = auth()->user();
         } else {
             /** @phpstan-ignore-next-line */
-            $user = empty($data) ? $this->buildUserFromRequest() : $this->buildUserFromData($data);
+            $user = $data === [] ? $this->buildUserFromRequest() : $this->buildUserFromData($data);
         }
 
         $result = $checker->check($value, $user);
 
         if (! $result->isOk()) {
-            if (empty($data)) {
+            if ($data === []) {
                 $error1 = $result->reason();
             } else {
                 $error2 = $result->reason();

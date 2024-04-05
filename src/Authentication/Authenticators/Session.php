@@ -241,7 +241,7 @@ class Session implements AuthenticatorInterface
             throw new LogicException('Cannot get the User.');
         }
 
-        if (empty($token) || $token !== $identity->secret) {
+        if ($token === '' || $token !== $identity->secret) {
             return false;
         }
 
@@ -485,7 +485,7 @@ class Session implements AuthenticatorInterface
 
             $identity = $this->userIdentityModel->getIdentityByType($this->user, $action->getType());
 
-            if ($identity) {
+            if ($identity instanceof UserIdentity) {
                 $this->userState = self::STATE_PENDING;
 
                 $this->setSessionKey('auth_action', $actionClass);
@@ -767,7 +767,7 @@ class Session implements AuthenticatorInterface
 
             // Reset so it doesn't mess up future calls.
             $this->shouldRemember = false;
-        } elseif ($this->getRememberMeToken()) {
+        } elseif ($this->getRememberMeToken() !== null) {
             $this->removeRememberCookie();
 
             // @TODO delete the token record.
@@ -804,7 +804,7 @@ class Session implements AuthenticatorInterface
     {
         $user = $this->provider->findById($userId);
 
-        if (empty($user)) {
+        if (! $user instanceof User) {
             throw AuthenticationException::forInvalidUser();
         }
 
@@ -935,6 +935,9 @@ class Session implements AuthenticatorInterface
         return Time::createFromTimestamp($timestamp);
     }
 
+    /**
+     * @param non-empty-string $rawToken
+     */
     private function setRememberMeCookie(string $rawToken): void
     {
         /** @var Response $response */

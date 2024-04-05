@@ -112,7 +112,7 @@ class Passwords
 
         $password = trim($password);
 
-        if (empty($password)) {
+        if ($password === '') {
             return new Result([
                 'success' => false,
                 'reason'  => lang('Auth.errorPasswordEmpty'),
