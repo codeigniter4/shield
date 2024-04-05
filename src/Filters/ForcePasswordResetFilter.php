@@ -52,7 +52,6 @@ class ForcePasswordResetFilter implements FilterInterface
     /**
      * We don't have anything to do here.
      *
-     * @param Response|ResponseInterface $response
      * @param array|null                 $arguments
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null): void
