@@ -61,7 +61,7 @@ abstract class AbstractFilterTestCase extends TestCase
     {
         $routes = service('routes');
 
-        $filterString = isset($this->routeFilter) && ($this->routeFilter !== '' && $this->routeFilter !== '0')
+        $filterString = isset($this->routeFilter) && ($this->routeFilter !== '')
             ? $this->routeFilter
             : $this->alias;
 

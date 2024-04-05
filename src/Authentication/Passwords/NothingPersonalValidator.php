@@ -85,7 +85,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
 
             // might be john.doe@example.com and we want all the needles we can get
             $emailParts = $this->strip_explode($localPart);
-            if ($domain !== null && $domain !== '' && $domain !== '0') {
+            if ($domain !== null && $domain !== '') {
                 $emailParts[] = $domain;
             }
             $needles = [...$needles, ...$emailParts];

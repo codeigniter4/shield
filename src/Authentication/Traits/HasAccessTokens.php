@@ -97,7 +97,7 @@ trait HasAccessTokens
      */
     public function getAccessToken(?string $rawToken): ?AccessToken
     {
-        if ($rawToken === null || $rawToken === '' || $rawToken === '0') {
+        if ($rawToken === null || $rawToken === '') {
             return null;
         }
 
