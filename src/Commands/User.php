@@ -220,7 +220,7 @@ class User extends BaseCommand
 
         $rules = $validationRules->getRegistrationRules();
 
-        // Remove `strong_password` because it only supports use cases
+        // Remove `strong_password` rule because it only supports use cases
         // to check the user's own password.
         $passwordRules = $rules['password']['rules'];
         if (is_string($passwordRules)) {
@@ -241,11 +241,10 @@ class User extends BaseCommand
 
         $rules['password']['rules'] = $passwordRules;
 
-        $this->validationRules = [
-            'username' => $rules['username'],
-            'email'    => $rules['email'],
-            'password' => $rules['password'],
-        ];
+        // Remove `password_confirm` field.
+        unset($rules['password_confirm']);
+
+        $this->validationRules = $rules;
     }
 
     /**
@@ -258,10 +257,14 @@ class User extends BaseCommand
     {
         $data = [];
 
-        if ($username === null) {
+        // If you don't use `username`, remove the validation rules for it.
+        if ($username === null && isset($this->validationRules['username'])) {
             $username = $this->prompt('Username', null, $this->validationRules['username']['rules']);
         }
         $data['username'] = $username;
+        if ($username === null) {
+            unset($data['username']);
+        }
 
         if ($email === null) {
             $email = $this->prompt('Email', null, $this->validationRules['email']['rules']);
@@ -299,9 +302,14 @@ class User extends BaseCommand
         $userModel = model(UserModel::class);
 
         $user = new UserEntity($data);
-        $userModel->save($user);
 
-        $this->write('User "' . $username . '" created', 'green');
+        if ($username === null) {
+            $userModel->allowEmptyInserts()->save($user);
+            $this->write('New User created', 'green');
+        } else {
+            $userModel->save($user);
+            $this->write('User "' . $username . '" created', 'green');
+        }
     }
 
     /**
