@@ -264,7 +264,7 @@ trait Authorizable
                 return true;
             }
 
-            if (! count($this->groupCache)) {
+            if (count($this->groupCache) === 0) {
                 return false;
             }
 
