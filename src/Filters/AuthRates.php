@@ -17,7 +17,6 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
-use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
 
 /**
@@ -59,8 +58,7 @@ class AuthRates implements FilterInterface
     /**
      * We don't have anything to do here.
      *
-     * @param Response|ResponseInterface $response
-     * @param array|null                 $arguments
+     * @param array|null $arguments
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null): void
     {
