@@ -280,11 +280,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Filters/TokenAuth.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Property CodeIgniter\\\\Shield\\\\Models\\\\LoginModel\\:\\:\\$validationRules \\(list\\<string\\>\\|string\\) does not accept default value of type array\\{ip_address\\: \'required\', id_type\\: \'required\', identifier\\: \'permit_empty\\|string\', user_agent\\: \'permit_empty\\|string\', user_id\\: \'permit_empty\', date\\: \'required\'\\}\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/LoginModel.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Call to deprecated function random_string\\(\\)\\:
 The type \'basic\', \'md5\', and \'sha1\' are deprecated\\. They are not cryptographically secure\\.$#',
 	'count' => 1,
