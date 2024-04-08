@@ -41,6 +41,8 @@ trait CheckQueryReturnTrait
 
     protected function checkValidationError(): void
     {
+        $this->validation ??= service('validation');
+
         $validationErrors = $this->validation->getErrors();
 
         if ($validationErrors !== []) {
