@@ -376,7 +376,7 @@ class UserModel extends BaseModel
         assert($user->last_active instanceof Time);
 
         // Safe date string for database
-        $last_active = $user->last_active;
+        $last_active = $this->timeToDate($user->last_active);
 
         $this->builder()
             ->set('last_active', $last_active)
