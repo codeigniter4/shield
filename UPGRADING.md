@@ -27,7 +27,7 @@ following steps will be done.
     ```
 
 2. Remove the following code in the `initController()` method in
-   `**app/Controllers/BaseController.php**:
+   **app/Controllers/BaseController.php**:
 
     ```php
     $this->helpers = array_merge($this->helpers, ['setting']);
