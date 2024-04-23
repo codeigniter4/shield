@@ -164,7 +164,7 @@ class UserModel extends BaseModel
 
     public function fake(Generator &$faker): User
     {
-        return new User([
+        return new $this->returnType([
             'username' => $faker->unique()->userName(),
             'active'   => true,
         ]);
@@ -226,7 +226,7 @@ class UserModel extends BaseModel
             $password_hash = $data['password_hash'];
             unset($data['password_hash']);
 
-            $user                = new User($data);
+            $user                = new $this->returnType($data);
             $user->email         = $email;
             $user->password_hash = $password_hash;
             $user->syncOriginal();
