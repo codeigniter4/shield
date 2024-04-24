@@ -18,4 +18,7 @@ namespace Tests\Language;
  */
 final class GermanTranslationTest extends AbstractTranslationTestCase
 {
+    protected array $excludedLocaleKeyTranslations = [
+        'Auth.token',
+    ];    
 }
