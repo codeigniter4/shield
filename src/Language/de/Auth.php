@@ -30,16 +30,16 @@ return [
     'throttled'             => 'Es wurden zu viele Anfragen von dieser IP-Adresse gestellt. Sie können es in {0} Sekunden erneut versuchen.',
     'notEnoughPrivilege'    => 'Sie haben nicht die erforderliche Berechtigung, um den gewünschten Vorgang auszuführen.',
     // JWT Exceptions
-    'invalidJWT'     => '(To be translated) The token is invalid.',
-    'expiredJWT'     => '(To be translated) The token has expired.',
-    'beforeValidJWT' => '(To be translated) The token is not yet available.',
+    'invalidJWT'     => 'Der Token ist ungültig.',
+    'expiredJWT'     => 'Der Token ist abgelaufen.',
+    'beforeValidJWT' => 'Der Token ist noch nicht verfügbar.',
 
     'email'           => 'E-Mail-Adresse',
     'username'        => 'Benutzername',
     'password'        => 'Passwort',
     'passwordConfirm' => 'Passwort (erneut)',
     'haveAccount'     => 'Haben Sie bereits ein Konto?',
-    'token'           => '(To be translated) Token',
+    'token'           => 'Token',
 
     // Buttons
     'confirm' => 'Bestätigen',
@@ -61,7 +61,7 @@ return [
     'magicLinkExpired'   => 'Sorry, der Link ist abgelaufen.',
     'checkYourEmail'     => 'Prüfen Sie Ihre E-Mail!',
     'magicLinkDetails'   => 'Wir haben Ihnen gerade eine E-Mail mit einem Login-Link geschickt. Er ist nur für {0} Minuten gültig.',
-    'magicLinkDisabled'  => '(To be translated) Use of MagicLink is currently not allowed.',
+    'magicLinkDisabled'  => 'Die Verwendung von MagicLink ist derzeit nicht erlaubt.',
     'successLogout'      => 'Sie haben sich erfolgreich abgemeldet.',
     'backToLogin'        => 'Zurück zur Anmeldung',
 
