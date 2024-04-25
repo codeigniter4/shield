@@ -29,28 +29,42 @@ public string $defaultAuthenticator = 'session';
 
 ## Auth Helper
 
-The auth functionality is designed to be used with the `auth_helper` that comes with Shield. This
-helper method provides the `auth()` function which returns a convenient interface to the most frequently
-used functionality within the auth libraries.
-
-```php
-// get the current user
-auth()->user();
-
-// get the current user's id
-auth()->id();
-// or
-user_id();
-
-// get the User Provider (UserModel by default)
-auth()->getProvider();
-```
+The auth functionality is designed to be used with the `auth_helper` that comes
+with Shield.
 
 !!! note
 
     The `auth_helper` is autoloaded by CodeIgniter's autoloader if you follow the
     installation instruction. If you want to *override* the functions, create
     **app/Helpers/auth_helper.php**.
+
+### Getting the Current User
+
+The `auth()` function returns a convenient interface to the most frequently used
+functionality within the auth libraries.
+
+You can get the current `User` entity.
+
+```php
+// get the current user
+$user = auth()->user();
+
+// get the current user's id
+$user_id = auth()->id();
+// or
+$user_id = user_id();
+```
+
+The `user_id()` function returns the current user's id.
+
+### Getting the User Provider
+
+You can also get the User Provider.
+
+```php
+// get the User Provider (UserModel by default)
+$users = auth()->getProvider();
+```
 
 ## Authenticator Responses
 

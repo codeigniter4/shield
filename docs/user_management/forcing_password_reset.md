@@ -8,6 +8,12 @@ compromised.
 
 This guide provides you with ways to achieve this.
 
+!!! note
+
+    Before using the following methods, you need to get the `User` entity. See
+    [Getting the Current User](../references/authentication/authentication.md#getting-the-current-user)
+    or [Finding a User](./managing_users.md#finding-a-user) for details.
+
 ## Available Methods
 
 Shield provides a way to enforce password resets throughout your application.
@@ -32,7 +38,7 @@ if ($user->requiresPasswordReset()) {
 
 !!! note
 
-    You can use the [force-reset](../../references/controller_filters/#forcing-password-reset)
+    You can use the [force-reset](../references/controller_filters/#forcing-password-reset)
     filter to check.
 
 ### Force Password Reset On a User

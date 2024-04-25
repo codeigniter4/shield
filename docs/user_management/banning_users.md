@@ -2,6 +2,12 @@
 
 Shield provides a way to ban users from your application. This is useful if you need to prevent a user from logging in, or logging them out in the event that they breach your terms of service.
 
+!!! note
+
+    Before using the following methods, you need to get the `User` entity. See
+    [Getting the Current User](../references/authentication/authentication.md#getting-the-current-user)
+    or [Finding a User](./managing_users.md#finding-a-user) for details.
+
 ### Check if a User is Banned
 
 You can check if a user is banned using `isBanned()` method on the `User` entity. The method returns a boolean `true`/`false`.
