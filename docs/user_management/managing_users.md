@@ -6,7 +6,9 @@ Since Shield uses a more complex user setup than many other systems, separating 
 
 ### Creating Users
 
-By default, the only values stored in the users table is the username. The first step is to create the user record with the username. If you don't have a username, be sure to set the value to `null` anyway, so that it passes CodeIgniter's empty data check.
+By default, the only values stored in the users table is the username.
+
+The first step is to create the user record with the username. If you don't have a username, be sure to set the value to `null` anyway, so that it passes CodeIgniter's empty data check.
 
 ```php
 use CodeIgniter\Shield\Entities\User;
@@ -30,7 +32,9 @@ $users->addToDefaultGroup($user);
 
 ### Deleting Users
 
-A user's data can be spread over a few different tables so you might be concerned about how to delete all of the user's data from the system. This is handled automatically at the database level for all information that Shield knows about, through the `onCascade` settings of the table's foreign keys. You can delete a user like any other entity.
+A user's data can be spread over a few different tables so you might be concerned about how to delete all of the user's data from the system. This is handled automatically at the database level for all information that Shield knows about, through the `onCascade` settings of the table's foreign keys.
+
+You can delete a user like any other entity.
 
 ```php
 // Get the User Provider (UserModel by default)
