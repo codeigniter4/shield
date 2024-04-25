@@ -4,6 +4,21 @@ Since Shield uses a more complex user setup than many other systems, separating 
 
 ## Managing Users by Code
 
+### Finding a User
+
+You can find an existing user from the User Provider. It returns a `User`
+[entity](https://codeigniter.com/user_guide/models/entities.html).
+
+```php
+// Get the User Provider (UserModel by default)
+$users = auth()->getProvider();
+
+// Find by the user_id
+$user = $users->findById(123);
+// Find by the user email
+$user = $users->findByCredentials(['email' => 'user@example.com']);
+```
+
 ### Creating Users
 
 By default, the only values stored in the users table is the username.
