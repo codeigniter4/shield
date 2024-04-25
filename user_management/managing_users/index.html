@@ -841,6 +841,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#finding-a-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      Finding a User
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#creating-users" class="md-nav__link">
     <span class="md-ellipsis">
       Creating Users
@@ -1460,6 +1469,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#finding-a-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      Finding a User
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#creating-users" class="md-nav__link">
     <span class="md-ellipsis">
       Creating Users
@@ -1526,8 +1544,19 @@
 <h1 id="managing-users">Managing Users</h1>
 <p>Since Shield uses a more complex user setup than many other systems, separating <a href="../../getting_started/concepts/#user-identities">User Identities</a> from the user accounts themselves. This quick overview should help you feel more confident when working with users on a day-to-day basis.</p>
 <h2 id="managing-users-by-code">Managing Users by Code</h2>
+<h3 id="finding-a-user">Finding a User</h3>
+<p>You can find an existing user from the User Provider. It returns a <code>User</code>
+<a href="https://codeigniter.com/user_guide/models/entities.html">entity</a>.</p>
+<pre class="highlight"><code class="language-php">// Get the User Provider (UserModel by default)
+$users = auth()-&gt;getProvider();
+
+// Find by the user_id
+$user = $users-&gt;findById(123);
+// Find by the user email
+$user = $users-&gt;findByCredentials(['email' =&gt; 'user@example.com']);</code></pre>
 <h3 id="creating-users">Creating Users</h3>
-<p>By default, the only values stored in the users table is the username. The first step is to create the user record with the username. If you don't have a username, be sure to set the value to <code>null</code> anyway, so that it passes CodeIgniter's empty data check.</p>
+<p>By default, the only values stored in the users table is the username.</p>
+<p>The first step is to create the user record with the username. If you don't have a username, be sure to set the value to <code>null</code> anyway, so that it passes CodeIgniter's empty data check.</p>
 <pre class="highlight"><code class="language-php">use CodeIgniter\Shield\Entities\User;
 
 // Get the User Provider (UserModel by default)
@@ -1546,7 +1575,8 @@ $user = $users-&gt;findById($users-&gt;getInsertID());
 // Add to default group
 $users-&gt;addToDefaultGroup($user);</code></pre>
 <h3 id="deleting-users">Deleting Users</h3>
-<p>A user's data can be spread over a few different tables so you might be concerned about how to delete all of the user's data from the system. This is handled automatically at the database level for all information that Shield knows about, through the <code>onCascade</code> settings of the table's foreign keys. You can delete a user like any other entity.</p>
+<p>A user's data can be spread over a few different tables so you might be concerned about how to delete all of the user's data from the system. This is handled automatically at the database level for all information that Shield knows about, through the <code>onCascade</code> settings of the table's foreign keys.</p>
+<p>You can delete a user like any other entity.</p>
 <pre class="highlight"><code class="language-php">// Get the User Provider (UserModel by default)
 $users = auth()-&gt;getProvider();
 
@@ -1603,7 +1633,7 @@ removegroup: Remove a user from a group</code></pre>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">September 26, 2023</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">April 25, 2024</span>
   </span>
 
     

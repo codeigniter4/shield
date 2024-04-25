@@ -1495,6 +1495,12 @@
 
 <h1 id="banning-users">Banning Users</h1>
 <p>Shield provides a way to ban users from your application. This is useful if you need to prevent a user from logging in, or logging them out in the event that they breach your terms of service.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before using the following methods, you need to get the <code>User</code> entity. See
+<a href="../../references/authentication/authentication/#getting-the-current-user">Getting the Current User</a>
+or <a href="../managing_users/#finding-a-user">Finding a User</a> for details.</p>
+</div>
 <h3 id="check-if-a-user-is-banned">Check if a User is Banned</h3>
 <p>You can check if a user is banned using <code>isBanned()</code> method on the <code>User</code> entity. The method returns a boolean <code>true</code>/<code>false</code>.</p>
 <pre class="highlight"><code class="language-php">if ($user-&gt;isBanned()) {
@@ -1534,7 +1540,7 @@ $user-&gt;ban('Your reason for banning the user here');</code></pre>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">September 19, 2023</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">April 25, 2024</span>
   </span>
 
     
