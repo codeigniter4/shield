@@ -32,7 +32,7 @@ if ($user->requiresPasswordReset()) {
 
 !!! note
 
-    You can use the [force-reset](../../references/controller_filters/#forcing-password-reset)
+    You can use the [force-reset](../references/controller_filters/#forcing-password-reset)
     filter to check.
 
 ### Force Password Reset On a User
