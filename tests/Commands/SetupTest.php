@@ -131,6 +131,41 @@ final class SetupTest extends TestCase
         );
     }
 
+    public function testUpdateAutoloadHelpers(): void
+    {
+        $command = new Setup(Services::logger(), Services::commands());
+
+        $updateAutoloadHelpers = $this->getPrivateMethodInvoker($command, 'updateAutoloadHelpers');
+
+        $content = <<<'EOL'
+            class Autoload extends AutoloadConfig
+            {
+                /**
+                 * -------------------------------------------------------------------
+                 * Helpers
+                 * -------------------------------------------------------------------
+                 * Prototype:
+                 *   $helpers = [
+                 *       'form',
+                 *   ];
+                 *
+                 * @var list<string>
+                 */
+                public $helpers = [
+                    'text',
+                    'form',
+                ];
+            }
+            EOL;
+        $helpers = ['text', 'form', 'auth', 'setting'];
+        $output  = $updateAutoloadHelpers($content, $helpers);
+
+        $this->assertStringContainsString(
+            "public \$helpers = ['text', 'form', 'auth', 'setting'];",
+            $output
+        );
+    }
+
     /**
      * @return string app folder path
      */
