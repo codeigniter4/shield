@@ -166,7 +166,7 @@ class UserModel extends BaseModel
     public function fake(Generator &$faker): User
     {
         if (! is_a($this->returnType, User::class, true)) {
-            throw new LogicException('Model Return type must be a subclass of ' . User::class);
+            throw new LogicException('Return type must be a subclass of ' . User::class);
         }
 
         return new $this->returnType([
@@ -232,7 +232,7 @@ class UserModel extends BaseModel
             unset($data['password_hash']);
 
             if (! is_a($this->returnType, User::class, true)) {
-                throw new LogicException('Model Return type must be a subclass of ' . User::class);
+                throw new LogicException('Return type must be a subclass of ' . User::class);
             }
 
             $user                = new $this->returnType($data);
