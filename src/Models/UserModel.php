@@ -21,6 +21,7 @@ use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use Faker\Generator;
+use LogicException;
 
 /**
  * @phpstan-consistent-constructor
@@ -164,6 +165,10 @@ class UserModel extends BaseModel
 
     public function fake(Generator &$faker): User
     {
+        if (! is_a($this->returnType, User::class, true)) {
+            throw new LogicException('Return type must be a subclass of ' . User::class);
+        }
+
         return new $this->returnType([
             'username' => $faker->unique()->userName(),
             'active'   => true,
@@ -225,6 +230,10 @@ class UserModel extends BaseModel
             unset($data['email']);
             $password_hash = $data['password_hash'];
             unset($data['password_hash']);
+
+            if (! is_a($this->returnType, User::class, true)) {
+                throw new LogicException('Return type must be a subclass of ' . User::class);
+            }
 
             $user                = new $this->returnType($data);
             $user->email         = $email;
