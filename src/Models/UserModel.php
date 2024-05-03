@@ -19,9 +19,9 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
+use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use Faker\Generator;
-use LogicException;
 
 /**
  * @phpstan-consistent-constructor
@@ -165,9 +165,7 @@ class UserModel extends BaseModel
 
     public function fake(Generator &$faker): User
     {
-        if (! is_a($this->returnType, User::class, true)) {
-            throw new LogicException('Return type must be a subclass of ' . User::class);
-        }
+        $this->checkReturnType();
 
         return new $this->returnType([
             'username' => $faker->unique()->userName(),
@@ -231,9 +229,7 @@ class UserModel extends BaseModel
             $password_hash = $data['password_hash'];
             unset($data['password_hash']);
 
-            if (! is_a($this->returnType, User::class, true)) {
-                throw new LogicException('Return type must be a subclass of ' . User::class);
-            }
+            $this->checkReturnType();
 
             $user                = new $this->returnType($data);
             $user->email         = $email;
@@ -391,5 +387,12 @@ class UserModel extends BaseModel
             ->set('last_active', $last_active)
             ->where('id', $user->id)
             ->update();
+    }
+
+    private function checkReturnType(): void
+    {
+        if (! is_a($this->returnType, User::class, true)) {
+            throw new LogicException('Return type must be a subclass of ' . User::class);
+        }
     }
 }
