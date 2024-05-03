@@ -680,7 +680,7 @@ class Session implements AuthenticatorInterface
     /**
      * Gets User Info in Session
      */
-    private function getSessionUserInfo(): array
+    protected function getSessionUserInfo(): array
     {
         return session(setting('Auth.sessionConfig')['field']) ?? [];
     }
@@ -688,7 +688,7 @@ class Session implements AuthenticatorInterface
     /**
      * Removes User Info in Session
      */
-    private function removeSessionUserInfo(): void
+    protected function removeSessionUserInfo(): void
     {
         session()->remove(setting('Auth.sessionConfig')['field']);
     }
@@ -698,7 +698,7 @@ class Session implements AuthenticatorInterface
      *
      * @return int|string|null
      */
-    private function getSessionKey(string $key)
+    protected function getSessionKey(string $key)
     {
         $sessionUserInfo = $this->getSessionUserInfo();
 
@@ -710,7 +710,7 @@ class Session implements AuthenticatorInterface
      *
      * @param int|string|null $value
      */
-    private function setSessionKey(string $key, $value): void
+    protected function setSessionKey(string $key, $value): void
     {
         $sessionUserInfo       = $this->getSessionUserInfo();
         $sessionUserInfo[$key] = $value;
@@ -720,7 +720,7 @@ class Session implements AuthenticatorInterface
     /**
      * Remove the key value in Session User Info
      */
-    private function removeSessionKey(string $key): void
+    protected function removeSessionKey(string $key): void
     {
         $sessionUserInfo = $this->getSessionUserInfo();
         unset($sessionUserInfo[$key]);
