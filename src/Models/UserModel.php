@@ -19,6 +19,7 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
+use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use Faker\Generator;
 
@@ -164,7 +165,9 @@ class UserModel extends BaseModel
 
     public function fake(Generator &$faker): User
     {
-        return new User([
+        $this->checkReturnType();
+
+        return new $this->returnType([
             'username' => $faker->unique()->userName(),
             'active'   => true,
         ]);
@@ -226,7 +229,9 @@ class UserModel extends BaseModel
             $password_hash = $data['password_hash'];
             unset($data['password_hash']);
 
-            $user                = new User($data);
+            $this->checkReturnType();
+
+            $user                = new $this->returnType($data);
             $user->email         = $email;
             $user->password_hash = $password_hash;
             $user->syncOriginal();
@@ -382,5 +387,12 @@ class UserModel extends BaseModel
             ->set('last_active', $last_active)
             ->where('id', $user->id)
             ->update();
+    }
+
+    private function checkReturnType(): void
+    {
+        if (! is_a($this->returnType, User::class, true)) {
+            throw new LogicException('Return type must be a subclass of ' . User::class);
+        }
     }
 }
