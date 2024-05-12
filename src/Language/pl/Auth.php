@@ -46,7 +46,7 @@ return [
     'send'    => 'Wyślij',
 
     // Registration
-    'register'         => 'Zarejestruj',
+    'register'         => 'Zarejestruj się',
     'registerDisabled' => 'Rejestracja nie jest obecnie dozwolona.',
     'registerSuccess'  => 'Witamy na pokładzie!',
 
