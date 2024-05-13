@@ -18,7 +18,7 @@ return [
     'invalidUser'           => 'Nie można zlokalizować określonego użytkownika.',
     'bannedUser'            => 'Nie możesz cię zalogować, ponieważ jesteś obecnie zbanowany.',
     'logOutBannedUser'      => 'Zostałeś wylogowany, ponieważ zostałeś zbanowany.',
-    'badAttempt'            => 'Nie można cię zalogować. Sprawdź swoje poświadczenia.',
+    'badAttempt'            => 'Nie można Cię zalogować. Sprawdź swoje dane uwierzytelniające.',
     'noPassword'            => 'Nie może zweryfikować użytkownika bez hasła.',
     'invalidPassword'       => 'Nie można cię zalogować. Sprawdź swoje hasło.',
     'noToken'               => 'Każde żądanie musi mieć token w nagłówku {0}.',
