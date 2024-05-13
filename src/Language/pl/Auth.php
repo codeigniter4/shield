@@ -34,7 +34,7 @@ return [
     'expiredJWT'     => 'Token wygasł.',
     'beforeValidJWT' => 'Token nie jest jeszcze dostępny.',
 
-    'email'           => 'Adres e -mail',
+    'email'           => 'Adres e-mail',
     'username'        => 'Nazwa użytkownika',
     'password'        => 'Hasło',
     'passwordConfirm' => 'Hasło (ponownie)',
