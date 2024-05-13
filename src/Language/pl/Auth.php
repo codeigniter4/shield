@@ -62,7 +62,7 @@ return [
     'checkYourEmail'     => 'Sprawdź swój e-mail!',
     'magicLinkDetails'   => 'Właśnie wysłaliśmy do Ciebie wiadomość e-mail z linkiem do logowania. Jest on ważny tylko {0} minut.',
     'magicLinkDisabled'  => 'Korzystanie z MagicLink jest obecnie niedozwolone.',
-    'successLogout'      => 'Udało Ci się wylogować.',
+    'successLogout'      => 'Wylogowanie powiodło się.',
     'backToLogin'        => 'Powrót do logowania',
 
     // Passwords
