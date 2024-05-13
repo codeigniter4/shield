@@ -27,7 +27,7 @@ return [
     'noUserEntity'          => 'User Entity jest niezbędne do sprawdzania poprawności hasła.',
     'invalidEmail'          => 'Nie można zweryfikować zgodności adresu e-mail z zarejestrowanym adresem e-mail.',
     'unableSendEmailToUser' => 'Przepraszamy, był problem z wysłaniem wiadomości e-mail. Nie mogliśmy wysłać wiadomości e-mail do "{0}".',
-    'throttled'             => 'Zbyt wiele żądań złożonych z tego adresu IP. Możesz spróbować ponownie za {0} sekundy.',
+    'throttled'             => 'Zbyt wiele żądań z tego adresu IP. Możesz spróbować ponownie za {0} sekund.',
     'notEnoughPrivilege'    => 'Nie masz niezbędnego pozwolenia na wykonanie pożądanej operacji.',
     // JWT Exceptions
     'invalidJWT'     => 'Token jest nieważny.',
