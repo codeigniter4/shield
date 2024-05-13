@@ -78,7 +78,7 @@ return [
     'suggestPasswordPwned'      => '{0} nigdy nie powinien być używany jako hasło.Jeśli używasz go w dowolnym miejscu, zmień go natychmiast.',
     'errorPasswordEmpty'        => 'Wymagane jest hasło.',
     'errorPasswordTooLongBytes' => 'Hasło nie może przekraczać długości {param} bajtów.',
-    'passwordChangeSuccess'     => 'Hasło zmieniło się pomyślnie',
+    'passwordChangeSuccess'     => 'Hasło zostało pomyślnie zmienione',
     'userDoesNotExist'          => 'Hasło nie zostało zmienione.użytkownik nie istnieje',
     'resetTokenExpired'         => 'Przepraszam. Twój token resetowania wygasł.',
 
