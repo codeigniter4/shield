@@ -94,7 +94,7 @@ return [
     'emailEnterCode'      => 'Potwierdź swój email',
     'emailConfirmCode'    => 'Wprowadź 6-cyfrowy kod, który właśnie wysłaliśmy na Twój adres e-mail.',
     'email2FASubject'     => 'Twój kod uwierzytelnienia',
-    'email2FAMailBody'    => 'Twój kod uwierzytelnienia jest:',
+    'email2FAMailBody'    => 'Twój kod uwierzytelnienia to:',
     'invalid2FAToken'     => 'Kod był nieprawidłowy.',
     'need2FA'             => 'Musisz ukończyć weryfikację dwuskładnikową.',
     'needVerification'    => 'Sprawdź swój e-mail, aby zakończyć aktywację konta.',
