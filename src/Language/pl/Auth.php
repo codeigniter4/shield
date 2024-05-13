@@ -60,7 +60,7 @@ return [
     'magicTokenNotFound' => 'Nie można zweryfikować linku.',
     'magicLinkExpired'   => 'Przepraszamy, link wygasł.',
     'checkYourEmail'     => 'Sprawdź swój e-mail!',
-    'magicLinkDetails'   => 'Właśnie wysłaliśmy Ci wiadomość e-mail z linkiem logowania w środku. Jest on ważny tylko {0} minut.',
+    'magicLinkDetails'   => 'Właśnie wysłaliśmy do Ciebie wiadomość e-mail z linkiem do logowania. Jest on ważny tylko {0} minut.',
     'magicLinkDisabled'  => 'Korzystanie z MagicLink jest obecnie niedozwolone.',
     'successLogout'      => 'Udało Ci się wylogować.',
     'backToLogin'        => 'Powrót do logowania',
