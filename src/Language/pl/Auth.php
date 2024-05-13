@@ -91,7 +91,7 @@ return [
     // 2FA
     'email2FATitle'       => 'Uwierzytelnianie dwuskładnikowe',
     'confirmEmailAddress' => 'Potwierdź adres e-mail.',
-    'emailEnterCode'      => 'Potwierdź swój email',
+    'emailEnterCode'      => 'Potwierdź swój e-mail',
     'emailConfirmCode'    => 'Wprowadź 6-cyfrowy kod, który właśnie wysłaliśmy na Twój adres e-mail.',
     'email2FASubject'     => 'Twój kod uwierzytelnienia',
     'email2FAMailBody'    => 'Twój kod uwierzytelnienia to:',
