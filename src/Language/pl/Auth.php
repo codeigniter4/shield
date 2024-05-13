@@ -79,8 +79,8 @@ return [
     'errorPasswordEmpty'        => 'Wymagane jest hasło.',
     'errorPasswordTooLongBytes' => 'Hasło nie może przekraczać długości {param} bajtów.',
     'passwordChangeSuccess'     => 'Hasło zostało pomyślnie zmienione',
-    'userDoesNotExist'          => 'Hasło nie zostało zmienione.użytkownik nie istnieje',
-    'resetTokenExpired'         => 'Przepraszam. Twój token resetowania wygasł.',
+    'userDoesNotExist'          => 'Hasło nie zostało zmienione. Użytkownik nie istnieje',
+    'resetTokenExpired'         => 'Przepraszamy. Twój token resetowania wygasł.',
 
     // Email Globals
     'emailInfo'      => 'Niektóre informacje o osobie:',
