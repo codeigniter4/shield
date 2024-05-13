@@ -113,5 +113,5 @@ return [
     'missingTitle' => 'Grupy muszą mieć tytuł.',
 
     // Permissions
-    'unknownPermission' => '{0} nie jest ważnym pozwoleniem.',
+    'unknownPermission' => '{0} nie jest ważnym uprawnieniem.',
 ];
