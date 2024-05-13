@@ -69,7 +69,7 @@ return [
     'errorPasswordLength'       => 'Hasła muszą mieć długość co najmniej {0, number} znaków.',
     'suggestPasswordLength'     => 'Pass phrases - do 255 znaków - bezpieczniejsze hasła, które są łatwe do zapamiętania.',
     'errorPasswordCommon'       => 'Hasło nie może być jednym z powszechnie używanych.',
-    'suggestPasswordCommon'     => 'Hasło sprawdzono na ponad 65 000 powszechnie używanych haseł lub haseł, które zostały wyciekane przez hacki.',
+    'suggestPasswordCommon'     => 'Hasło zostało porównane z ponad 65 tysiącami powszechnie używanych haseł lub haseł, które wyciekły w wyniku włamania.',
     'errorPasswordPersonal'     => 'Hasła nie mogą zawierać danych osobowych.',
     'suggestPasswordPersonal'   => 'Odmiany twojego adresu e -mail lub nazwy użytkownika nie powinny być używane do haseł.',
     'errorPasswordTooSimilar'   => 'Hasło jest zbyt podobne do nazwy użytkownika.',
