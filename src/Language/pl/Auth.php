@@ -20,7 +20,7 @@ return [
     'logOutBannedUser'      => 'Zostałeś wylogowany, ponieważ zostałeś zbanowany.',
     'badAttempt'            => 'Nie można cię zalogować. Sprawdź swoje poświadczenia.',
     'noPassword'            => 'Nie może zweryfikować użytkownika bez hasła.',
-    'invalidPassword'       => 'Nie można cię zalogować. Sprawdź hasło.',
+    'invalidPassword'       => 'Nie można cię zalogować. Sprawdź swoje hasło.',
     'noToken'               => 'Każde żądanie musi mieć token w nagłówku {0}.',
     'badToken'              => 'Token dostępu jest nieprawidłowy.',
     'oldToken'              => 'Token dostępu wygasł.',
