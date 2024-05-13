@@ -100,7 +100,7 @@ return [
     'needVerification'    => 'Sprawdź swój e-mail, aby zakończyć aktywację konta.',
 
     // Activate
-    'emailActivateTitle'    => 'Aktywacja e-maila',
+    'emailActivateTitle'    => 'Aktywacja e-mail',
     'emailActivateBody'     => 'Właśnie wysłaliśmy do Ciebie wiadomość e -mail z kodem, aby potwierdzić Twój adres e -mail.Skopiuj ten kod i wklej go poniżej.',
     'emailActivateSubject'  => 'Twój kod aktywacyjny',
     'emailActivateMailBody' => 'Użyj poniższego kodu, aby aktywować konto i rozpocząć korzystanie z witryny.',
