@@ -71,7 +71,7 @@ return [
     'errorPasswordCommon'       => 'Hasło nie może być jednym z powszechnie używanych.',
     'suggestPasswordCommon'     => 'Hasło zostało porównane z ponad 65 tysiącami powszechnie używanych haseł lub haseł, które wyciekły w wyniku włamania.',
     'errorPasswordPersonal'     => 'Hasła nie mogą zawierać danych osobowych.',
-    'suggestPasswordPersonal'   => 'Odmiany twojego adresu e -mail lub nazwy użytkownika nie powinny być używane do haseł.',
+    'suggestPasswordPersonal'   => 'W hasłach nie należy stosować odmian adresu e-mail lub nazwy użytkownika.',
     'errorPasswordTooSimilar'   => 'Hasło jest zbyt podobne do nazwy użytkownika.',
     'suggestPasswordTooSimilar' => 'Nie używaj części swojej nazwy użytkownika w hasłach.',
     'errorPasswordPwned'        => 'Hasło {0} zostało ujawnione z powodu naruszenia danych i zostało opublikowane {1, number} razy w {2} listach haseł.',
