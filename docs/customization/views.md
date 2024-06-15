@@ -37,3 +37,5 @@ to the **app/Views/Shield/** folder.
 ## Customize Content
 
 Customize the content of the view file in **app/Views/Shield/** as you like.
+
+When customizing email templates in **app/Views/Shield/Email**, you have access to the User Entity object through the `$user` variable. Utilize `$user` to personalize the email messages according to individual user details.

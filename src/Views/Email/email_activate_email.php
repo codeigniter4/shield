@@ -23,6 +23,7 @@
         </tbody>
     </table>
     <b><?= lang('Auth.emailInfo') ?></b>
+    <p><?= lang('Auth.username') ?>: <?= esc($user->username) ?></p>
     <p><?= lang('Auth.emailIpAddress') ?> <?= esc($ipAddress) ?></p>
     <p><?= lang('Auth.emailDevice') ?> <?= esc($userAgent) ?></p>
     <p><?= lang('Auth.emailDate') ?> <?= esc($date) ?></p>

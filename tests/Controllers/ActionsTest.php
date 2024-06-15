@@ -134,6 +134,9 @@ final class ActionsTest extends DatabaseTestCase
 
         // Should have sent an email with the code....
         $this->assertStringContainsString('Your authentication code is:', service('email')->archive['body']);
+
+        // Should have included the username in the email
+        $this->assertStringContainsString($this->user->username, service('email')->archive['body']);
     }
 
     public function testEmail2FAVerifyFails(): void
@@ -248,6 +251,9 @@ final class ActionsTest extends DatabaseTestCase
             '!<h1>[0-9]{6}</h1>!',
             service('email')->archive['body']
         );
+
+        // Should have included the username in the email
+        $this->assertStringContainsString($this->user->username, service('email')->archive['body']);
     }
 
     public function testEmailActivateVerify(): void

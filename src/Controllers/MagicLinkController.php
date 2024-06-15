@@ -127,7 +127,7 @@ class MagicLinkController extends BaseController
         $email->setSubject(lang('Auth.magicLinkSubject'));
         $email->setMessage($this->view(
             setting('Auth.views')['magic-link-email'],
-            ['token' => $token, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date],
+            ['token' => $token, 'user' => $user, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date],
             ['debug' => false]
         ));
 
