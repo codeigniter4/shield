@@ -103,14 +103,16 @@ class MagicLinkController extends BaseController
 
         // Generate the code and save it as an identity
         helper('text');
-        $token = random_string('crypto', 20);
+        $generator = static fn (): string => random_string('crypto', 20);
 
-        $identityModel->insert([
-            'user_id' => $user->id,
-            'type'    => Session::ID_TYPE_MAGIC_LINK,
-            'secret'  => $token,
-            'expires' => Time::now()->addSeconds(setting('Auth.magicLinkLifetime')),
-        ]);
+        $token = $identityModel->createCodeIdentity(
+            $user,
+            [
+                'type'  => Session::ID_TYPE_MAGIC_LINK,
+                'expires' => Time::now()->addSeconds(setting('Auth.magicLinkLifetime')),
+            ],
+            $generator
+        );
 
         /** @var IncomingRequest $request */
         $request = service('request');
