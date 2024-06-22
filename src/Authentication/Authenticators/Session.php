@@ -646,8 +646,8 @@ class Session implements AuthenticatorInterface
         /** @var int|string|null $userId */
         $userId = $this->getSessionUserKey('id');
 
-        // Check if already logged in.
-        if ($userId !== null) {
+        // Check if already logged in and magic link force login config.
+        if ($userId !== null && config('Auth')->allowMagicLinkForceLogin === false) {
             throw new LogicException(
                 'The user has User Info in Session, so already logged in or in pending login state.'
                     . ' If a logged in user logs in again with other account, the session data of the previous'
