@@ -180,6 +180,15 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Force Magic Link Logins
+     * --------------------------------------------------------------------
+     * If true, will allows the use of "magic links" sent via the email
+     * to replace the current session user data with a new user session.
+     */
+    public bool $allowMagicLinkForceLogin = false;
+
+    /**
+     * --------------------------------------------------------------------
      * Magic Link Lifetime
      * --------------------------------------------------------------------
      * Specifies the amount of time, in seconds, that a magic link is valid.
