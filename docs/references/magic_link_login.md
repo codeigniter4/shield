@@ -23,6 +23,15 @@ in the **app/Config/Auth.php** file.
 public int $magicLinkLifetime = HOUR;
 ```
 
+### Magic Link Force Login
+
+By default, Magic Link will throw Logic exception if current user session is exist. If you want replace existing user session with new user session change it to `true`
+in the **app/Config/Auth.php** file.
+
+```php
+public bool $allowMagicLinkForceLogin = false;
+```
+
 ## Responding to Magic Link Logins
 
 !!! note
