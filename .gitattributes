@@ -1,11 +1,23 @@
-/.github           export-ignore
-/admin             export-ignore
-/tests             export-ignore
-/.editorconfig     export-ignore
-/.gitattributes    export-ignore
-/.gitignore        export-ignore
-/phpunit.xml.dist  export-ignore
-/phpstan.neon.dist export-ignore
+/.github                export-ignore
+/admin                  export-ignore
+/bin                    export-ignore
+/tests                  export-ignore
+/.editorconfig          export-ignore
+/.gitattributes         export-ignore
+/.gitignore             export-ignore
+/.php-cs-fixer.dist.php export-ignore
+/composer-unused.php    export-ignore
+/deptrac.yml            export-ignore
+/infection.json.dist    export-ignore
+/mkdocs.yml             export-ignore
+/phpstan-baseline.php   export-ignore
+/phpstan.neon.dist      export-ignore
+/phpunit.xml.dist       export-ignore
+/psalm_autoload.php     export-ignore
+/psalm-baseline.xml     export-ignore
+/psalm.xml              export-ignore
+/rector.php             export-ignore
+/roave-bc-check.yml     export-ignore
 
 # Configure diff output for .php and .phar files.
 *.php diff=php
