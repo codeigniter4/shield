@@ -15,6 +15,7 @@ namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Events\Events;
 
 
 /**
