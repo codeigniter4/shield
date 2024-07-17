@@ -92,7 +92,7 @@ class MagicLinkController extends BaseController
         $user  = $this->provider->findByCredentials(['email' => $email]);
 
         if ($user === null) {
-            return redirect()->route('magic-link')->with('error', lang('Auth.invalidEmail'));
+            return redirect()->route('magic-link')->with('error', lang('Auth.invalidEmail', [$email]));
         }
 
         /** @var UserIdentityModel $identityModel */
