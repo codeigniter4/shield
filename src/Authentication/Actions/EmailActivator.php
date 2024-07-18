@@ -92,8 +92,8 @@ class EmailActivator implements ActionInterface
                 throw new RuntimeException('Cannot send email for user: ' . $user->email . "\n" . $email->printDebugger(['headers']));
             }
 
-            // Add flag
-            model('UserIdentityModel')
+            /** @var UserIdentityModel $identityModel */
+            model(UserIdentityModel::class)
                 ->where('secret', $code)
                 ->set(['secret2' => 'SEND'])
                 ->update();
