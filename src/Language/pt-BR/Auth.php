@@ -25,7 +25,7 @@ return [
     'badToken'              => 'O token de acesso é inválido.',
     'oldToken'              => 'O token de acesso expirou.',
     'noUserEntity'          => 'A entidade de usuário deve ser fornecida para validação de senha.',
-    'invalidEmail'          => 'Não foi possível verificar se o endereço de email corresponde ao e-mail registrado.',
+    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email {0}.',
     'unableSendEmailToUser' => 'Desculpe, houve um problema ao enviar o email. Não pudemos enviar um email para {0}.',
     'throttled'             => 'Muitas solicitações feitas a partir deste endereço IP. Você pode tentar novamente em {0} segundos.',
     'notEnoughPrivilege'    => 'Você não tem a permissão necessária para realizar a operação desejada.',
