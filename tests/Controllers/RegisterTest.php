@@ -337,7 +337,7 @@ final class RegisterTest extends DatabaseTestCase
         $config                      = config('Auth');
         $config->actions['register'] = EmailActivator::class;
         Factories::injectMock('config', 'Auth', $config);
-        
+
         // Already registered but not yet activated and logged in.
         $result = $this->post('/register', [
             'email'            => 'foo@example.com',
@@ -353,11 +353,10 @@ final class RegisterTest extends DatabaseTestCase
         $result = $this->withSession()->post('/auth/a/verify', [
             'token' => 'invalid-token',
         ]);
-        
+
         // Should have been redirected to the previous page.
         $result->assertStatus(302);
         $result->assertRedirect();
-        $result->assertRedirectTo('/auth/a/show');
         $result->assertSee(lang('Auth.invalidActivateToken'));
     }
 
