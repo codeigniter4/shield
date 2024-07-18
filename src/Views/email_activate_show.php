@@ -10,7 +10,7 @@
             <h5 class="card-title mb-5"><?= lang('Auth.emailActivateTitle') ?></h5>
 
             <?php if (session('error')) : ?>
-                <div class="alert alert-danger"><?= session('error') ?></div>
+                <div class="alert alert-danger"><?= esc(session('error')) ?></div>
             <?php endif ?>
 
             <p><?= lang('Auth.emailActivateBody') ?></p>
