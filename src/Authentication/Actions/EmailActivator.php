@@ -62,9 +62,11 @@ class EmailActivator implements ActionInterface
 
         $timDiff = $identityCreated->difference($now);
 
-        $resendCodeVerificationTime = (setting('Auth.resendCodeVerification') - $timDiff->getSeconds());
+        $configRCV = setting('Auth.resendCodeVerification');
 
-        if ($timDiff->getSeconds() >= setting('Auth.resendCodeVerification') || $userIdentity->secret2 === null) {
+        $resendCodeVerificationTime = ((int) $configRCV - $timDiff->getSeconds());
+
+        if ($timDiff->getSeconds() >= (int) $configRCV || $userIdentity->secret2 === null) {
             $code = $this->createIdentity($user);
 
             /** @var IncomingRequest $request */
@@ -91,7 +93,7 @@ class EmailActivator implements ActionInterface
             }
 
             // Add flag
-            model(UserIdentityModel::class)
+            model('UserIdentityModel')
                 ->where('secret', $code)
                 ->set(['secret2' => 'SEND'])
                 ->update();
