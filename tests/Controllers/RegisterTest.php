@@ -358,6 +358,7 @@ final class RegisterTest extends DatabaseTestCase
         $result->assertStatus(302);
         $result->assertRedirect();
         $result->assertRedirectTo('/auth/a/show');
+        $result->assertSee(lang('Auth.invalidActivateToken'));
     }
 
     protected function setupConfig(): void
