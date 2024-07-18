@@ -187,7 +187,7 @@ class Auth extends BaseConfig
      */
     public int $magicLinkLifetime = HOUR;
 
-     /**
+    /**
      * --------------------------------------------------------------------
      * Resend Code Verification Time for re-new the code and send it again
      * --------------------------------------------------------------------
