@@ -25,7 +25,7 @@ return [
     'badToken'              => 'Prístupový token je neplatný.',
     'oldToken'              => 'Platnosť prístupového tokenu vypršala.',
     'noUserEntity'          => 'Na overenie hesla je potrebné zadať entitu používateľa.',
-    'invalidEmail'          => 'Nie je možné overiť, či sa e-mailová adresa zhoduje so zaznamenaným e-mailom.',
+    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email {0}.',
     'unableSendEmailToUser' => 'Ľutujeme, pri odosielaní e-mailu sa vyskytol problém. Nepodarilo sa nám odoslať e-mail na adresu „{0}".',
     'throttled'             => 'Z tejto adresy IP bolo odoslaných príliš veľa žiadostí. Môžete to skúsiť znova o {0} sekúnd.',
     'notEnoughPrivilege'    => 'Nemáte potrebné povolenie na vykonanie požadovanej operácie.',
