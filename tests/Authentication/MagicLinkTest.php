@@ -67,7 +67,7 @@ final class MagicLinkTest extends DatabaseTestCase
     {
         $email  = 'foo@example.com';
         $result = $this->post(route_to('magic-link'), [
-            'email' => $email
+            'email' => $email,
         ]);
 
         $result->assertRedirectTo(route_to('magic-link'));
