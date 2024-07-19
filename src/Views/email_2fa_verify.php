@@ -1,4 +1,4 @@
-(<?= $this->extend(config('Auth')->views['layout']) ?>
+<?= $this->extend(config('Auth')->views['layout']) ?>
 
 <?= $this->section('title') ?><?= lang('Auth.email2FATitle') ?> <?= $this->endSection() ?>
 
