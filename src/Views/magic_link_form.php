@@ -19,7 +19,7 @@
                                 <br>
                             <?php endforeach ?>
                         <?php else : ?>
-                            <?= session('errors') ?>
+                            <?= esc(session('errors')) ?>
                         <?php endif ?>
                     </div>
                 <?php endif ?>
