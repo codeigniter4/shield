@@ -25,7 +25,7 @@ return [
     'badToken'              => 'Akses token tidak sah.',
     'oldToken'              => 'Akses token sudah tidak berlaku.',
     'noUserEntity'          => 'Entitas Pengguna harus disediakan untuk validasi kata sandi.',
-    'invalidEmail'          => 'Tidak dapat memverifikasi alamat email yang cocok dengan email {0}.',
+    'invalidEmail'          => 'Tidak dapat memverifikasi alamat email yang cocok dengan email "{0}".',
     'unableSendEmailToUser' => 'Maaf, ada masalah saat mengirim email. Kami tidak dapat mengirim email ke "{0}".',
     'throttled'             => 'Terlalu banyak permintaan yang dibuat dari alamat IP ini. Anda dapat mencoba lagi dalam {0} detik.',
     'notEnoughPrivilege'    => 'Anda tidak memiliki izin yang diperlukan untuk melakukan operasi yang diinginkan.',
