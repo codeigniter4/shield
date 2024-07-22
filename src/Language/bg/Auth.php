@@ -25,7 +25,7 @@ return [
     'badToken'              => 'Токенът за достъп не е валиден.',
     'oldToken'              => 'Токенът за достъп е изтекъл.',
     'noUserEntity'          => 'Потребителското съдържание трябва да бъде предоставено за потвърждение на паролата.',
-    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email {0}.',
+    'invalidEmail'          => 'Unable to verify the email address matches the email "{0}".',
     'unableSendEmailToUser' => 'Съжаляваме, имаше проблем с изпращането на имейла. Не можем да изпратим имейл до "{0}".',
     'throttled'             => 'Твърде много заявки са направени от този IP адрес. Може да опитате отново след {0} секунди.',
     'notEnoughPrivilege'    => 'Нямате необходимите права за изпълнение на желаната операция.',

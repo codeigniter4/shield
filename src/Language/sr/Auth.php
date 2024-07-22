@@ -25,7 +25,7 @@ return [
     'badToken'              => 'Pristupni token nije validan.',
     'oldToken'              => 'Pristupni token je istekao.',
     'noUserEntity'          => 'Korisnički entitet mora postojati za verifikaciju naloga.',
-    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email {0}.',
+    'invalidEmail'          => 'Unable to verify the email address matches the email "{0}".',
     'unableSendEmailToUser' => 'Žao nam je ali slanje email poruke nije moguće. Nismo u mogućnosti poslati poruku na "{0}".',
     'throttled'             => 'Preveliki broj zahteva sa vaše IP adrese. Možete pokušati ponovo za {0} secondi.',
     'notEnoughPrivilege'    => 'Nemate dovoljan nivo autorizacije za zahtevanu akciju.',
