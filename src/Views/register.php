@@ -10,16 +10,16 @@
                 <h5 class="card-title mb-5"><?= lang('Auth.register') ?></h5>
 
                 <?php if (session('error') !== null) : ?>
-                    <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+                    <div class="alert alert-danger" role="alert"><?= esc(session('error')) ?></div>
                 <?php elseif (session('errors') !== null) : ?>
                     <div class="alert alert-danger" role="alert">
                         <?php if (is_array(session('errors'))) : ?>
                             <?php foreach (session('errors') as $error) : ?>
-                                <?= $error ?>
+                                <?= esc($error) ?>
                                 <br>
                             <?php endforeach ?>
                         <?php else : ?>
-                            <?= session('errors') ?>
+                            <?= esc(session('errors')) ?>
                         <?php endif ?>
                     </div>
                 <?php endif ?>
