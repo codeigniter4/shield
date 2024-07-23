@@ -25,7 +25,7 @@ return [
     'badToken'              => 'Токен доступа недействителен.',
     'oldToken'              => 'Срок действия токена доступа истёк.',
     'noUserEntity'          => 'Для проверки пароля необходимо предоставить сущность пользователя.',
-    'invalidEmail'          => 'Unable to verify the email address matches the email "{0}".',
+    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email "{0}".',
     'unableSendEmailToUser' => 'Извините, возникла проблема с отправкой электронного письма. Не удалось отправить электронное письмо на "{0}".',
     'throttled'             => 'С этого IP-адреса было сделано слишком много запросов. Вы можете попробовать снова через {0} секунд.',
     'notEnoughPrivilege'    => 'У вас нет необходимых разрешений для выполнения требуемой операции.',

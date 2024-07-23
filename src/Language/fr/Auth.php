@@ -25,7 +25,7 @@ return [
     'badToken'              => 'Le jeton d\'accès est invalide.',
     'oldToken'              => 'Le jeton d\'accès a expiré.',
     'noUserEntity'          => 'User Entity doit être fournie pour la validation du mot de passe.',
-    'invalidEmail'          => 'Unable to verify the email address matches the email "{0}".',
+    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email "{0}".',
     'unableSendEmailToUser' => 'Désolé, il y a eu un problème lors de l\'envoi de l\'email. Nous ne pouvons pas envoyer un email à "{0}".',
     'throttled'             => 'Trop de requêtes faites depuis cette adresse IP. Vous pouvez réessayer dans {0} secondes.',
     'notEnoughPrivilege'    => 'Vous n\'avez pas l\'autorisation nécessaire pour effectuer l\'opération souhaitée.',

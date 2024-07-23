@@ -25,7 +25,7 @@ return [
     'badToken'              => 'Prieigos raktas neteisingas.',
     'oldToken'              => 'Prieigos raktas nebegalioja.',
     'noUserEntity'          => 'Slaptažodžio patikrinimui turi būti pateiktas vartotojo subjektas.',
-    'invalidEmail'          => 'Unable to verify the email address matches the email "{0}".',
+    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email "{0}".',
     'unableSendEmailToUser' => 'Deja, nepavyko išsiųsti el. laiško. Nepavyko išsiųsti laiško adresu "{0}".',
     'throttled'             => 'Per daug užklausų iš šio IP adreso. Galite pamėginti iš naujo po {0} sekundžių.',
     'notEnoughPrivilege'    => 'Neturite operacijai atlikti užtektinų leidimų.',

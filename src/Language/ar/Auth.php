@@ -25,7 +25,7 @@ return [
     'badToken'              => 'رمز الوصول (Token) غير صالح.',
     'oldToken'              => 'انتهت صلاحية رمز الوصول.',
     'noUserEntity'          => 'يجب توفير كيان المستخدم للتحقق من صحة كلمة المرور.',
-    'invalidEmail'          => 'Unable to verify the email address matches the email "{0}".',
+    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email "{0}".',
     'unableSendEmailToUser' => 'عذرا ، كانت هناك مشكلة في إرسال البريد الإلكتروني. لم نتمكن من إرسال بريد إلكتروني إلى "{0}".',
     'throttled'             => 'تم إجراء العديد من الطلبات من عنوان IP هذا. يمكنك المحاولة مرة أخرى في غضون {0} ثانية.',
     'notEnoughPrivilege'    => 'ليس لديك الإذن اللازم لإجراء العملية المطلوبة.',

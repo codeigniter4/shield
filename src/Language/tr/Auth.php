@@ -25,7 +25,7 @@ return [
     'badToken'              => 'Erişim anahtarı geçersiz.',
     'oldToken'              => 'Erişim anahtarının süresi doldu.',
     'noUserEntity'          => 'Parola doğrulaması için Kullanıcı Varlığı sağlanmalıdır.',
-    'invalidEmail'          => 'Unable to verify the email address matches the email "{0}".',
+    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email "{0}".',
     'unableSendEmailToUser' => 'Üzgünüz, e-posta gönderilirken bir sorun oluştu. "{0}" adresine e-posta gönderemedik.',
     'throttled'             => 'Bu IP adresinden çok fazla istek yapıldı. {0} saniye sonra tekrar deneyebilirsiniz.',
     'notEnoughPrivilege'    => 'İstediğiniz işlemi gerçekleştirmek için gerekli izne sahip değilsiniz.',

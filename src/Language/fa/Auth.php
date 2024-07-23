@@ -25,7 +25,7 @@ return [
     'badToken'              => 'توکن دسترسی معتبر نمی باشد.',
     'oldToken'              => 'توکن دسترسی منقضی شده است.',
     'noUserEntity'          => 'برای اعتبار سنجی هویت کاربر بایستی رمز عبور ارائه شود',
-    'invalidEmail'          => 'Unable to verify the email address matches the email "{0}".',
+    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email "{0}".',
     'unableSendEmailToUser' => 'متاسفانه, در ارسال ایمیل مشکلی پیش آمد. ما نتوانستیم ایمیلی را به "{0}" ارسال کنیم.',
     'throttled'             => 'درخواست های بسیار زیادی از این آدرس IP انجام شده است. می توانید بعد از {0} ثانیه دوباره امتحان کنید.',
     'notEnoughPrivilege'    => 'شما مجوز لازم برای انجام عملیات مورد نظر را ندارید.',
