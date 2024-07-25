@@ -65,12 +65,13 @@ final class MagicLinkTest extends DatabaseTestCase
 
     public function testMagicLinkSubmitBadEmail(): void
     {
+        $email  = 'foo@example.com';
         $result = $this->post(route_to('magic-link'), [
-            'email' => 'foo@example.com',
+            'email' => $email,
         ]);
 
         $result->assertRedirectTo(route_to('magic-link'));
-        $result->assertSessionHas('error', lang('Auth.invalidEmail'));
+        $result->assertSessionHas('error', lang('Auth.invalidEmail', [$email]));
     }
 
     public function testMagicLinkSubmitSuccess(): void
