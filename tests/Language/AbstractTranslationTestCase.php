@@ -324,7 +324,7 @@ abstract class AbstractTranslationTestCase extends TestCase
                 preg_match_all('/(\{[^\}]+\})/', $translation, $matches);
                 array_shift($matches);
 
-                if ($matches === []) {
+                if ($matches === [[]]) {
                     unset($matches);
 
                     continue;
