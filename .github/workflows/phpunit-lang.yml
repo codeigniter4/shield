@@ -9,6 +9,7 @@ on:
       - '!src/Language/en/**.php'
       - 'phpunit*'
       - '.github/workflows/phpunit-lang.yml'
+      - 'tests/Language/AbstractTranslationTestCase.php'
   push:
     branches:
       - develop
@@ -17,6 +18,7 @@ on:
       - '!src/Language/en/**.php'
       - 'phpunit*'
       - '.github/workflows/phpunit-lang.yml'
+      - 'tests/Language/AbstractTranslationTestCase.php'
 
 jobs:
   main:
