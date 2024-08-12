@@ -103,7 +103,7 @@ final class ActionsTest extends DatabaseTestCase
 
         $result->assertRedirect();
         $this->assertSame(site_url('/auth/a/show'), $result->getRedirectUrl());
-        $result->assertSessionHas('error', lang('Auth.invalidEmail'));
+        $result->assertSessionHas('error', lang('Auth.invalidEmail', ['foo@example.com']));
     }
 
     private function insertIdentityEmal2FA(): void
