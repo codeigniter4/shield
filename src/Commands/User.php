@@ -53,6 +53,7 @@ class User extends BaseCommand
         shield:user <action> options
 
             shield:user create -n newusername -e newuser@example.com
+            shield:user create -n newusername -e newuser@example.com -g mygroup
 
             shield:user activate -n username
             shield:user activate -e user@example.com
@@ -159,7 +160,7 @@ class User extends BaseCommand
         try {
             switch ($action) {
                 case 'create':
-                    $this->create($username, $email);
+                    $this->create($username, $email, $group);
                     break;
 
                 case 'activate':
@@ -252,8 +253,9 @@ class User extends BaseCommand
      *
      * @param string|null $username User name to create (optional)
      * @param string|null $email    User email to create (optional)
+     * @param string|null $group    Group to add user to (optional)
      */
-    private function create(?string $username = null, ?string $email = null): void
+    private function create(?string $username = null, ?string $email = null, ?string $group = null): void
     {
         $data = [];
 
@@ -311,11 +313,18 @@ class User extends BaseCommand
             $this->write('User "' . $username . '" created', 'green');
         }
 
-        // Add to default group
         $user = $userModel->findById($userModel->getInsertID());
-        $userModel->addToDefaultGroup($user);
 
-        $this->write('The user is added to the default group.', 'green');
+        if ($group === null) {
+            // Add to default group
+            $userModel->addToDefaultGroup($user);
+
+            $this->write('The user is added to the default group.', 'green');
+        } else {
+            $user->addGroup($group);
+
+            $this->write('The user is added to group "' . $group . '".', 'green');
+        }
     }
 
     /**

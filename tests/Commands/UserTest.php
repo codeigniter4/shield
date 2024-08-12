@@ -100,6 +100,40 @@ final class UserTest extends DatabaseTestCase
         ]);
     }
 
+    public function testCreateWithGroupBeta(): void
+    {
+        $this->setMockIo([
+            'Secret Passw0rd!',
+            'Secret Passw0rd!',
+        ]);
+
+        command('shield:user create -n user1 -e user1@example.com -g beta');
+
+        $this->assertStringContainsString(
+            'User "user1" created',
+            $this->io->getFirstOutput()
+        );
+        $this->assertStringContainsString(
+            'The user is added to group "beta"',
+            $this->io->getFirstOutput()
+        );
+
+        $users = model(UserModel::class);
+        $user  = $users->findByCredentials(['email' => 'user1@example.com']);
+        $this->seeInDatabase($this->tables['identities'], [
+            'user_id' => $user->id,
+            'secret'  => 'user1@example.com',
+        ]);
+        $this->seeInDatabase($this->tables['users'], [
+            'id'     => $user->id,
+            'active' => 0,
+        ]);
+        $this->seeInDatabase($this->tables['groups_users'], [
+            'user_id' => $user->id,
+            'group'   => 'beta',
+        ]);
+    }
+
     public function testCreateNotUniqueName(): void
     {
         $user = $this->createUser([
