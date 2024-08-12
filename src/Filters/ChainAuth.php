@@ -53,9 +53,17 @@ class ChainAuth implements FilterInterface
         $chain = config('Auth')->authenticationChain;
 
         foreach ($chain as $alias) {
-            if (auth($alias)->loggedIn()) {
+            $auth = auth($alias);
+
+            if ($auth->loggedIn()) {
                 // Make sure Auth uses this Authenticator
                 auth()->setAuthenticator($alias);
+
+                $authenticator = $auth->getAuthenticator();
+
+                if (setting('Auth.recordActiveDate')) {
+                    $authenticator->recordActiveDate();
+                }
 
                 return;
             }
