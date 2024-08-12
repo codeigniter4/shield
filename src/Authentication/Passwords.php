@@ -124,7 +124,7 @@ class Passwords
             $class = new $className($this->config);
 
             $result = $class->check($password, $user);
-            if (! $result->isOk()) {
+            if (! $result->isOK()) {
                 return $result;
             }
         }
