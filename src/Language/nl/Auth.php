@@ -25,7 +25,7 @@ return [
     'badToken'              => 'Ongeldige toegangstoken.',
     'oldToken'              => 'Vervallen toegangstoken.',
     'noUserEntity'          => 'Gebruikersentiteit moet worden opgegeven voor wachtwoordvalidatie.',
-    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email "{0}".',
+    'invalidEmail'          => 'Het e-mailadres "{0}" kon niet geverifieerd worden.',
     'unableSendEmailToUser' => 'Sorry, er is een probleem opgetreden bij het verzenden van de e-mail. We konden geen e-mail versturen naar "{0}".',
     'throttled'             => 'Te veel inlogpogingen van dit IP adres. Probeer het over {0} seconden opnieuw.',
     'notEnoughPrivilege'    => 'U hebt niet de nodige rechten om de gewenste bewerking uit te voeren.',
