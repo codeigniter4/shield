@@ -160,7 +160,7 @@ class Auth extends BaseConfig
      * --------------------------------------------------------------------
      * If true, will always update the `last_active` datetime for the
      * logged-in user on every page request.
-     * This feature only works when session/tokens filter is active.
+     * This feature only works when session/tokens/hmac/chain/jwt filter is active.
      *
      * @see https://codeigniter4.github.io/shield/quick_start_guide/using_session_auth/#protecting-pages for set filters.
      */

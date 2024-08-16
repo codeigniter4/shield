@@ -17,7 +17,6 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
-use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
 
 /**
@@ -29,14 +28,8 @@ use CodeIgniter\HTTP\ResponseInterface;
 class ChainAuth implements FilterInterface
 {
     /**
-     * Do whatever processing this filter needs to do.
-     * By default it should not return anything during
-     * normal execution. However, when an abnormal state
-     * is found, it should return an instance of
-     * CodeIgniter\HTTP\Response. If it does, script
-     * execution will end and that Response will be
-     * sent back to the client, allowing for error pages,
-     * redirects, etc.
+     * Checks authenticators in sequence to see if the user is logged in through
+     * either of authenticators.
      *
      * @param array|null $arguments
      *
@@ -53,9 +46,17 @@ class ChainAuth implements FilterInterface
         $chain = config('Auth')->authenticationChain;
 
         foreach ($chain as $alias) {
-            if (auth($alias)->loggedIn()) {
+            $auth = auth($alias);
+
+            if ($auth->loggedIn()) {
                 // Make sure Auth uses this Authenticator
                 auth()->setAuthenticator($alias);
+
+                $authenticator = $auth->getAuthenticator();
+
+                if (setting('Auth.recordActiveDate')) {
+                    $authenticator->recordActiveDate();
+                }
 
                 return;
             }
