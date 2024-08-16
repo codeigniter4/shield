@@ -136,22 +136,10 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
 ];
 $ignoreErrors[] = [
-	// identifier: method.nameCase
-	'message' => '#^Call to method CodeIgniter\\\\Shield\\\\Result\\:\\:isOK\\(\\) with incorrect case\\: isOk$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Passwords.php',
-];
-$ignoreErrors[] = [
 	// identifier: empty.notAllowed
 	'message' => '#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#',
 	'count' => 4,
 	'path' => __DIR__ . '/src/Authentication/Passwords/NothingPersonalValidator.php',
-];
-$ignoreErrors[] = [
-	// identifier: method.nameCase
-	'message' => '#^Call to method CodeIgniter\\\\Shield\\\\Result\\:\\:isOK\\(\\) with incorrect case\\: isOk$#',
-	'count' => 2,
-	'path' => __DIR__ . '/src/Authentication/Passwords/ValidationRules.php',
 ];
 $ignoreErrors[] = [
 	// identifier: booleanAnd.rightNotBoolean
@@ -315,12 +303,6 @@ $ignoreErrors[] = [
 	'message' => '#^Method CodeIgniter\\\\Shield\\\\Filters\\\\AuthRates\\:\\:before\\(\\) should return CodeIgniter\\\\HTTP\\\\RedirectResponse\\|void but returns CodeIgniter\\\\HTTP\\\\ResponseInterface\\.$#',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Filters/AuthRates.php',
-];
-$ignoreErrors[] = [
-	// identifier: method.nameCase
-	'message' => '#^Call to method CodeIgniter\\\\HTTP\\\\ResponseInterface\\:\\:setJSON\\(\\) with incorrect case\\: setJson$#',
-	'count' => 2,
-	'path' => __DIR__ . '/src/Filters/TokenAuth.php',
 ];
 $ignoreErrors[] = [
 	// identifier: empty.notAllowed

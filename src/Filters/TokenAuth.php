@@ -58,7 +58,7 @@ class TokenAuth implements FilterInterface
         if (! $result->isOK() || (! empty($arguments) && $result->extraInfo()->tokenCant($arguments[0]))) {
             return service('response')
                 ->setStatusCode(Response::HTTP_UNAUTHORIZED)
-                ->setJson(['message' => lang('Auth.badToken')]);
+                ->setJSON(['message' => lang('Auth.badToken')]);
         }
 
         if (setting('Auth.recordActiveDate')) {
@@ -72,7 +72,7 @@ class TokenAuth implements FilterInterface
 
             return service('response')
                 ->setStatusCode(Response::HTTP_FORBIDDEN)
-                ->setJson(['message' => lang('Auth.activationBlocked')]);
+                ->setJSON(['message' => lang('Auth.activationBlocked')]);
         }
     }
 
