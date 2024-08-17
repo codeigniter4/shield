@@ -33,7 +33,7 @@ class HmacAuth implements FilterInterface
         $authenticator = auth('hmac')->getAuthenticator();
 
         $requestParams = [
-            'token' => $request->getHeaderLine(setting('Auth.authenticatorHeader')['hmac'] ?? 'Authorization'),
+            'token' => $request->getHeaderLine(setting('AuthToken.authenticatorHeader')['hmac'] ?? 'Authorization'),
             'body'  => $request->getBody() ?? '',
         ];
 
