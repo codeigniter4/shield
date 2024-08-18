@@ -395,4 +395,9 @@ class UserModel extends BaseModel
             throw new LogicException('Return type must be a subclass of ' . User::class);
         }
     }
+
+    public function getUserEntity(): User
+    {
+        return $this->returnType;
+    }
 }
