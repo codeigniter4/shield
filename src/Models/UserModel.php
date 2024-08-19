@@ -396,7 +396,12 @@ class UserModel extends BaseModel
         }
     }
 
-    public function getUserEntity(): User
+    /**
+     * Returns User Entity Type
+     *
+     * @return class-string<User>
+     */
+    public function getReturnType(): string
     {
         return $this->returnType;
     }
