@@ -310,6 +310,12 @@ class User extends BaseCommand
             $userModel->save($user);
             $this->write('User "' . $username . '" created', 'green');
         }
+
+        // Add to default group
+        $user = $userModel->findById($userModel->getInsertID());
+        $userModel->addToDefaultGroup($user);
+
+        $this->write('The user is added to the default group.', 'green');
     }
 
     /**
