@@ -43,8 +43,11 @@ trait Authorizable
                 continue;
             }
 
+            /** @var GroupModel $groupModel */
+            $groupModel = model(GroupModel::class);
+
             // make sure it's a valid group
-            if (! $this->isValidGroup($group)) {
+            if (! $groupModel->isValidGroup($group)) {
                 throw AuthorizationException::forUnknownGroup($group);
             }
 
@@ -57,18 +60,6 @@ trait Authorizable
         }
 
         return $this;
-    }
-
-    /**
-     * @TODO duplicate of UserModel::isValidGroup()
-     *
-     * @param non-empty-string $group
-     */
-    private function isValidGroup(string $group): bool
-    {
-        $allowedGroups = array_keys(setting('AuthGroups.groups'));
-
-        return (bool) (in_array($group, $allowedGroups, true));
     }
 
     /**
@@ -106,8 +97,11 @@ trait Authorizable
     {
         $this->populateGroups();
 
+        /** @var GroupModel $groupModel */
+        $groupModel = model(GroupModel::class);
+
         foreach ($groups as $group) {
-            if (! $this->isValidGroup($group)) {
+            if (! $groupModel->isValidGroup($group)) {
                 throw AuthorizationException::forUnknownGroup($group);
             }
         }

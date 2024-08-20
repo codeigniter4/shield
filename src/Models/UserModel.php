@@ -155,23 +155,14 @@ class UserModel extends BaseModel
     {
         $defaultGroup = setting('AuthGroups.defaultGroup');
 
-        if (empty($defaultGroup) || ! $this->isValidGroup($defaultGroup)) {
+        /** @var GroupModel $groupModel */
+        $groupModel = model(GroupModel::class);
+
+        if (empty($defaultGroup) || ! $groupModel->isValidGroup($defaultGroup)) {
             throw new InvalidArgumentException(lang('Auth.unknownGroup', [$defaultGroup ?? '--not found--']));
         }
 
         $user->addGroup($defaultGroup);
-    }
-
-    /**
-     * @TODO duplicate of Authorizable::isValidGroup()
-     *
-     * @param non-empty-string $group
-     */
-    private function isValidGroup(string $group): bool
-    {
-        $allowedGroups = array_keys(setting('AuthGroups.groups'));
-
-        return (bool) (in_array($group, $allowedGroups, true));
     }
 
     public function fake(Generator &$faker): User
