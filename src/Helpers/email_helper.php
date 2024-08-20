@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 use CodeIgniter\Email\Email;
 
-if (! defined('emailer')) {
+if (! function_exists('emailer')) {
     /**
      * Provides convenient access to the CodeIgniter Email class.
      *
