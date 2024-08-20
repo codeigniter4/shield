@@ -81,6 +81,6 @@ class GroupModel extends BaseModel
     {
         $allowedGroups = array_keys(setting('AuthGroups.groups'));
 
-        return (bool) (in_array($group, $allowedGroups, true));
+        return in_array($group, $allowedGroups, true);
     }
 }
