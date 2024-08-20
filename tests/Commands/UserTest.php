@@ -134,6 +134,25 @@ final class UserTest extends DatabaseTestCase
         ]);
     }
 
+    public function testCreateWithInvalidGroup(): void
+    {
+        $this->setMockIo([
+            'Secret Passw0rd!',
+            'Secret Passw0rd!',
+        ]);
+
+        command('shield:user create -n user1 -e user1@example.com -g invalid');
+
+        $this->assertStringContainsString(
+            'Invalid group: "invalid"',
+            $this->io->getFirstOutput()
+        );
+
+        $users = model(UserModel::class);
+        $user  = $users->findByCredentials(['email' => 'user1@example.com']);
+        $this->assertNull($user);
+    }
+
     public function testCreateNotUniqueName(): void
     {
         $user = $this->createUser([

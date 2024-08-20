@@ -19,6 +19,7 @@ use CodeIgniter\Shield\Commands\Exceptions\CancelException;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User as UserEntity;
 use CodeIgniter\Shield\Exceptions\UserNotFoundException;
+use CodeIgniter\Shield\Models\GroupModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Validation\ValidationRules;
 use Config\Services;
@@ -305,6 +306,11 @@ class User extends BaseCommand
 
         $user = new UserEntity($data);
 
+        // Validate the group
+        if ($group !== null && ! $this->validateGroup($group)) {
+            throw new CancelException('Invalid group: "' . $group . '"');
+        }
+
         if ($username === null) {
             $userModel->allowEmptyInserts()->save($user);
             $this->write('New User created', 'green');
@@ -325,6 +331,14 @@ class User extends BaseCommand
 
             $this->write('The user is added to group "' . $group . '".', 'green');
         }
+    }
+
+    private function validateGroup(string $group): bool
+    {
+        /** @var GroupModel $groupModel */
+        $groupModel = model(GroupModel::class);
+
+        return $groupModel->isValidGroup($group);
     }
 
     /**
