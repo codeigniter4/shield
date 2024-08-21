@@ -25,7 +25,7 @@ return [
     'badToken'              => 'Access token är ogiltig.',
     'oldToken'              => 'Access token har gått ut.',
     'noUserEntity'          => 'User Entity måste anges för lösenordsvalidering.',
-    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email "{0}".',
+    'invalidEmail'          => '(To be translated) Unable to verify the email address "{0}" matches the email on record.',
     'unableSendEmailToUser' => 'Det var inte möjligt att skicka epost. Det gick inte att skicka till "{0}".',
     'throttled'             => 'För många anrop från denna IP-adress. Du kan försöka igen om {0} sekunder.',
     'notEnoughPrivilege'    => 'Du har inte nödvändiga rättigheter för detta kommando.',
