@@ -161,6 +161,12 @@ $ignoreErrors[] = [
 ];
 $ignoreErrors[] = [
 	// identifier: codeigniter.factoriesClassConstFetch
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\GroupModel\\:\\:class is discouraged\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Commands/User.php',
+];
+$ignoreErrors[] = [
+	// identifier: codeigniter.factoriesClassConstFetch
 	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\UserModel\\:\\:class is discouraged\\.$#',
 	'count' => 9,
 	'path' => __DIR__ . '/src/Commands/User.php',
@@ -259,7 +265,7 @@ $ignoreErrors[] = [
 $ignoreErrors[] = [
 	// identifier: codeigniter.factoriesClassConstFetch
 	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\GroupModel\\:\\:class is discouraged\\.$#',
-	'count' => 2,
+	'count' => 4,
 	'path' => __DIR__ . '/src/Entities/User.php',
 ];
 $ignoreErrors[] = [
@@ -329,6 +335,12 @@ $ignoreErrors[] = [
 The type \'basic\', \'md5\', and \'sha1\' are deprecated\\. They are not cryptographically secure\\.$#',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Models/UserIdentityModel.php',
+];
+$ignoreErrors[] = [
+	// identifier: codeigniter.factoriesClassConstFetch
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\GroupModel\\:\\:class is discouraged\\.$#',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
 $ignoreErrors[] = [
 	// identifier: codeigniter.factoriesClassConstFetch

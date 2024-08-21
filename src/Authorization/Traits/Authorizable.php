@@ -33,8 +33,6 @@ trait Authorizable
     {
         $this->populateGroups();
 
-        $configGroups = $this->getConfigGroups();
-
         $groupCount = count($this->groupCache);
 
         foreach ($groups as $group) {
@@ -45,8 +43,11 @@ trait Authorizable
                 continue;
             }
 
+            /** @var GroupModel $groupModel */
+            $groupModel = model(GroupModel::class);
+
             // make sure it's a valid group
-            if (! in_array($group, $configGroups, true)) {
+            if (! $groupModel->isValidGroup($group)) {
                 throw AuthorizationException::forUnknownGroup($group);
             }
 
@@ -96,10 +97,11 @@ trait Authorizable
     {
         $this->populateGroups();
 
-        $configGroups = $this->getConfigGroups();
+        /** @var GroupModel $groupModel */
+        $groupModel = model(GroupModel::class);
 
         foreach ($groups as $group) {
-            if (! in_array($group, $configGroups, true)) {
+            if (! $groupModel->isValidGroup($group)) {
                 throw AuthorizationException::forUnknownGroup($group);
             }
         }
@@ -396,14 +398,6 @@ trait Authorizable
 
             $model->insertBatch($inserts);
         }
-    }
-
-    /**
-     * @return list<string>
-     */
-    private function getConfigGroups(): array
-    {
-        return array_keys(setting('AuthGroups.groups'));
     }
 
     /**

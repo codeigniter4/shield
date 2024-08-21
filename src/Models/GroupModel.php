@@ -73,4 +73,14 @@ class GroupModel extends BaseModel
 
         $this->checkQueryReturn($return);
     }
+
+    /**
+     * @param non-empty-string $group Group name
+     */
+    public function isValidGroup(string $group): bool
+    {
+        $allowedGroups = array_keys(setting('AuthGroups.groups'));
+
+        return in_array($group, $allowedGroups, true);
+    }
 }
