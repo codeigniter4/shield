@@ -595,6 +595,24 @@ final class UserTest extends DatabaseTestCase
         $this->assertTrue($user->inGroup('admin'));
     }
 
+    public function testAddgroupWithInvalidGroup(): void
+    {
+        $this->createUser([
+            'username' => 'user10',
+            'email'    => 'user10@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $this->setMockIo(['y']);
+
+        command('shield:user addgroup -n user10 -g invalid');
+
+        $this->assertStringContainsString(
+            'Invalid group: "invalid"',
+            $this->io->getLastOutput()
+        );
+    }
+
     public function testAddgroupCancel(): void
     {
         $this->createUser([
@@ -641,6 +659,32 @@ final class UserTest extends DatabaseTestCase
         $users = model(UserModel::class);
         $user  = $users->findByCredentials(['email' => 'user11@example.com']);
         $this->assertFalse($user->inGroup('admin'));
+    }
+
+    public function testRemovegroupWithInvalidGroup(): void
+    {
+        $this->createUser([
+            'username' => 'user11',
+            'email'    => 'user11@example.com',
+            'password' => 'secret123',
+        ]);
+        $users = model(UserModel::class);
+        $user  = $users->findByCredentials(['email' => 'user11@example.com']);
+        $user->addGroup('admin');
+        $this->assertTrue($user->inGroup('admin'));
+
+        $this->setMockIo(['y']);
+
+        command('shield:user removegroup -n user11 -g invalid');
+
+        $this->assertStringContainsString(
+            'Invalid group: "invalid"',
+            $this->io->getLastOutput()
+        );
+
+        $users = model(UserModel::class);
+        $user  = $users->findByCredentials(['email' => 'user11@example.com']);
+        $this->assertTrue($user->inGroup('admin'));
     }
 
     public function testRemovegroupCancel(): void
