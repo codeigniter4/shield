@@ -603,6 +603,11 @@ class User extends BaseCommand
             $group = $this->prompt('Group', null, 'required');
         }
 
+        // Validate the group
+        if (! $this->validateGroup($group)) {
+            throw new CancelException('Invalid group: "' . $group . '"');
+        }
+
         $user = $this->findUser('Add user to group', $username, $email);
 
         $confirm = $this->prompt(
@@ -633,6 +638,11 @@ class User extends BaseCommand
     {
         if ($group === null) {
             $group = $this->prompt('Group', null, 'required');
+        }
+
+        // Validate the group
+        if (! $this->validateGroup($group)) {
+            throw new CancelException('Invalid group: "' . $group . '"');
         }
 
         $user = $this->findUser('Remove user from group', $username, $email);
