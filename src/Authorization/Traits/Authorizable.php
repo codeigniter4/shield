@@ -250,6 +250,9 @@ trait Authorizable
         // Check the groups the user belongs to
         $this->populateGroups();
 
+        // Get the group matrix
+        $matrix = setting('AuthGroups.matrix');
+
         foreach ($permissions as $permission) {
             // Permission must contain a scope and action
             if (strpos($permission, '.') === false) {
@@ -269,8 +272,6 @@ trait Authorizable
             if (count($this->groupCache) === 0) {
                 return false;
             }
-
-            $matrix = setting('AuthGroups.matrix');
 
             foreach ($this->groupCache as $group) {
                 // Check exact match
