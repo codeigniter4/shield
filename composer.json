@@ -39,7 +39,7 @@
         "phpstan/extension-installer": "^1.3",
         "phpstan/phpstan-strict-rules": "^1.5",
         "phpunit/phpunit": "^9.6",
-        "rector/rector": "1.2.3"
+        "rector/rector": "1.2.4"
     },
     "provide": {
         "codeigniter4/authentication-implementation": "1.0"
