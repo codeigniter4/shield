@@ -90,14 +90,14 @@ permissions the token grants to the user. Scopes are provided when the token is 
 cannot be modified afterword.
 
 ```php
-$token = $user->gererateAccessToken('Work Laptop', ['posts.manage', 'forums.manage']);
+$token = $user->generateAccessToken('Work Laptop', ['posts.manage', 'forums.manage']);
 ```
 
 By default a user is granted a wildcard scope which provides access to all scopes. This is the
 same as:
 
 ```php
-$token = $user->gererateAccessToken('Work Laptop', ['*']);
+$token = $user->generateAccessToken('Work Laptop', ['*']);
 ```
 
 During authentication, the token the user used is stored on the user. Once authenticated, you
