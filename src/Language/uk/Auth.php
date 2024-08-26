@@ -25,7 +25,7 @@ return [
     'badToken'              => 'Токен доступу недійсний.',
     'oldToken'              => 'Термін дії токена доступу минув.',
     'noUserEntity'          => 'Потрібно вказати сутність користувача для підтвердження пароля.',
-    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email "{0}".',
+    'invalidEmail'          => '(To be translated) Unable to verify the email address "{0}" matches the email on record.',
     'unableSendEmailToUser' => 'Вибачте, під час надсилання електронного листа виникла проблема. Не вдалося надіслати електронний лист на "{0}".',
     'throttled'             => 'Із цієї IP-адреси зроблено забагато запитів. Ви можете спробувати ще раз через {0} секунд.',
     'notEnoughPrivilege'    => 'У вас немає необхідного дозволу для виконання потрібної операції.',

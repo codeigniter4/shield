@@ -25,7 +25,7 @@ return [
     'badToken'              => 'Il token di accesso non è valido.',
     'oldToken'              => 'Il token di accesso è scaduto.',
     'noUserEntity'          => 'Deve essere fornita una User Entity per la validazione della password.',
-    'invalidEmail'          => '(To be translated) Unable to verify the email address matches the email "{0}".',
+    'invalidEmail'          => '(To be translated) Unable to verify the email address "{0}" matches the email on record.',
     'unableSendEmailToUser' => 'Spiacente, c\'è stato un problema inviando l\'email. Non possiamo inviare un\'email a "{0}".',
     'throttled'             => 'Troppe richieste effettuate da questo indirizzo IP. Potrai riprovare tra {0} secondi.',
     'notEnoughPrivilege'    => 'Non si dispone dell\'autorizzazione necessaria per eseguire l\'operazione desiderata.',
