@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Entities;
 
+use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Passwords;
 
@@ -41,7 +42,7 @@ class UserIdentity extends Entity
      */
     protected $casts = [
         'id'          => '?integer',
-        'force_reset' => 'int_bool',
+        'force_reset' => 'int-bool',
     ];
 
     /**
