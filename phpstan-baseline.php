@@ -233,36 +233,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Database/Migrations/2020-12-28-223112_create_auth_tables.php',
 ];
 $ignoreErrors[] = [
-	// identifier: method.childParameterType
-	'message' => '#^Parameter \\#1 \\$value \\(bool\\|int\\|string\\) of method CodeIgniter\\\\Shield\\\\Entities\\\\Cast\\\\IntBoolCast\\:\\:set\\(\\) should be contravariant with parameter \\$value \\(array\\|bool\\|float\\|int\\|object\\|string\\|null\\) of method CodeIgniter\\\\Entity\\\\Cast\\\\BaseCast\\:\\:set\\(\\)$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Entities/Cast/IntBoolCast.php',
-];
-$ignoreErrors[] = [
-	// identifier: method.childParameterType
-	'message' => '#^Parameter \\#1 \\$value \\(bool\\|int\\|string\\) of method CodeIgniter\\\\Shield\\\\Entities\\\\Cast\\\\IntBoolCast\\:\\:set\\(\\) should be contravariant with parameter \\$value \\(array\\|bool\\|float\\|int\\|object\\|string\\|null\\) of method CodeIgniter\\\\Entity\\\\Cast\\\\CastInterface\\:\\:set\\(\\)$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Entities/Cast/IntBoolCast.php',
-];
-$ignoreErrors[] = [
-	// identifier: method.childParameterType
-	'message' => '#^Parameter \\#1 \\$value \\(int\\) of method CodeIgniter\\\\Shield\\\\Entities\\\\Cast\\\\IntBoolCast\\:\\:get\\(\\) should be contravariant with parameter \\$value \\(array\\|bool\\|float\\|int\\|object\\|string\\|null\\) of method CodeIgniter\\\\Entity\\\\Cast\\\\BaseCast\\:\\:get\\(\\)$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Entities/Cast/IntBoolCast.php',
-];
-$ignoreErrors[] = [
-	// identifier: method.childParameterType
-	'message' => '#^Parameter \\#1 \\$value \\(int\\) of method CodeIgniter\\\\Shield\\\\Entities\\\\Cast\\\\IntBoolCast\\:\\:get\\(\\) should be contravariant with parameter \\$value \\(array\\|bool\\|float\\|int\\|object\\|string\\|null\\) of method CodeIgniter\\\\Entity\\\\Cast\\\\CastInterface\\:\\:get\\(\\)$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Entities/Cast/IntBoolCast.php',
-];
-$ignoreErrors[] = [
-	// identifier: property.phpDocType
-	'message' => '#^PHPDoc type array\\<string, class\\-string\\> of property CodeIgniter\\\\Shield\\\\Entities\\\\Entity\\:\\:\\$castHandlers is not the same as PHPDoc type array\\<string, string\\> of overridden property CodeIgniter\\\\Entity\\\\Entity\\:\\:\\$castHandlers\\.$#',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Entities/Entity.php',
-];
-$ignoreErrors[] = [
 	// identifier: codeigniter.factoriesClassConstFetch
 	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\GroupModel\\:\\:class is discouraged\\.$#',
 	'count' => 4,
