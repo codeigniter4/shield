@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Entities;
 
+use CodeIgniter\Entity\Entity;
+
 class Login extends Entity
 {
     /**
@@ -20,6 +22,6 @@ class Login extends Entity
      */
     protected $casts = [
         'date'    => 'datetime',
-        'success' => 'int_bool',
+        'success' => 'int-bool',
     ];
 }
