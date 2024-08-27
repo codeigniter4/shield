@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Entities;
 
 use CodeIgniter\Database\Exceptions\DataException;
+use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Traits\HasAccessTokens;
@@ -67,7 +68,7 @@ class User extends Entity
      */
     protected $casts = [
         'id'          => '?integer',
-        'active'      => 'int_bool',
+        'active'      => 'int-bool',
         'permissions' => 'array',
         'groups'      => 'array',
     ];
