@@ -1,5 +1,17 @@
 # Upgrade Guide
 
+## Version 1.1.0 to 1.1.1
+
+## Added Index to `deleted_at` Column
+
+In the new version, an `index` has been added to the **deleted_at** column in the **users** table. This change improves the performance of queries related to soft deletions.To apply the changes, execute the following command:
+
+```console
+php spark migrate
+```
+
+This will add the new index to your database and enhance query performance.
+
 ## Version 1.0.0-beta.8 to 1.0.0
 
 ## Removed Deprecated Items
