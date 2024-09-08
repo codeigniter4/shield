@@ -55,13 +55,16 @@ class UserModel extends ShieldUserModel
 }
 ```
 
-## Using a Custom User Entity
+## Creating a Custom User Entity
 
-If you have set a custom `$returnType` in your custom `UserModel`, you may
-retrieve the return type using the `UserModel::getReturnType()` method and
-easily create a new User Entity using it:
+Starting from v1.2.0, `UserModel` in Shield has the `createNewUser()` method to
+create a new User Entity.
 
 ```php
-$userEntityClass = $userModel->getReturnType();
-$newUser         = new $userEntityClass();
+$user = $userModel->createNewUser($data);
 ```
+
+It takes an optional user data array as the first argument, and passes it to the
+constructor of the `$returnType` class.
+
+If your custom User entity cannot be instantiated in this way, override this method.
