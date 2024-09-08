@@ -163,10 +163,9 @@ class RegisterController extends BaseController
      */
     protected function getUserEntity(): User
     {
-        $userProvider    = $this->getUserProvider();
-        $userEntityClass = $userProvider->getReturnType();
+        $userProvider = $this->getUserProvider();
 
-        return new $userEntityClass();
+        return $userProvider->createNewUser();
     }
 
     /**

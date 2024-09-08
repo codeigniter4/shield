@@ -397,12 +397,12 @@ class UserModel extends BaseModel
     }
 
     /**
-     * Returns User Entity Type
+     * Returns a new User Entity.
      *
-     * @return class-string<User>
+     * @param array<string, array<array-key, mixed>|bool|float|int|object|string|null> $data (Optional) user data
      */
-    public function getReturnType(): string
+    public function createNewUser(array $data = []): User
     {
-        return $this->returnType;
+        return new $this->returnType($data);
     }
 }
