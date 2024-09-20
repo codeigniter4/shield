@@ -25,6 +25,7 @@ $finder = Finder::create()
     ->append([
         __FILE__,
         __DIR__ . '/rector.php',
+        __DIR__ . '/psalm_autoload.php',
     ]);
 
 $overrides = [
