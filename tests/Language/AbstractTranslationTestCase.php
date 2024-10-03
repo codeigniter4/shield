@@ -332,7 +332,7 @@ abstract class AbstractTranslationTestCase extends TestCase
 
                 foreach ($matches as $match) {
                     foreach ($match as $parameter) {
-                        if (strpos($translated[$key], (string) $parameter) === false) {
+                        if (strpos($translated[$key], $parameter) === false) {
                             $id = sprintf('%s.%s', substr($file, 0, -4), $key);
 
                             $diffs[$id] ??= [];
