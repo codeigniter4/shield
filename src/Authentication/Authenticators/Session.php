@@ -193,7 +193,7 @@ class Session implements AuthenticatorInterface
      */
     public function startUpAction(string $type, User $user): bool
     {
-        $actionClass = setting('Auth.actions')[$type] ?? null;
+        $actionClass = shieldSetting('Auth.actions')[$type] ?? null;
 
         if ($actionClass === null) {
             return false;
@@ -414,7 +414,7 @@ class Session implements AuthenticatorInterface
 
         // No User Info in Session.
         // Check remember-me token.
-        if (setting('Auth.sessionConfig')['allowRemembering']) {
+        if (shieldSetting('Auth.sessionConfig')['allowRemembering']) {
             if ($this->checkRememberMe()) {
                 $this->setAuthAction();
             }
@@ -470,7 +470,7 @@ class Session implements AuthenticatorInterface
             return false;
         }
 
-        $authActions = setting('Auth.actions');
+        $authActions = shieldSetting('Auth.actions');
 
         foreach ($authActions as $actionClass) {
             if ($actionClass === null) {
@@ -513,7 +513,7 @@ class Session implements AuthenticatorInterface
      */
     private function getActionTypes(): array
     {
-        $actions = setting('Auth.actions');
+        $actions = shieldSetting('Auth.actions');
         $types   = [];
 
         foreach ($actions as $actionClass) {
@@ -608,7 +608,7 @@ class Session implements AuthenticatorInterface
         /** @var IncomingRequest $request */
         $request = service('request');
 
-        $cookieName = setting('Cookie.prefix') . setting('Auth.sessionConfig')['rememberCookieName'];
+        $cookieName = shieldSetting('Cookie.prefix') . shieldSetting('Auth.sessionConfig')['rememberCookieName'];
 
         return $request->getCookie($cookieName);
     }
@@ -679,7 +679,7 @@ class Session implements AuthenticatorInterface
      */
     protected function getSessionUserInfo(): array
     {
-        return session(setting('Auth.sessionConfig')['field']) ?? [];
+        return session(shieldSetting('Auth.sessionConfig')['field']) ?? [];
     }
 
     /**
@@ -687,7 +687,7 @@ class Session implements AuthenticatorInterface
      */
     protected function removeSessionUserInfo(): void
     {
-        session()->remove(setting('Auth.sessionConfig')['field']);
+        session()->remove(shieldSetting('Auth.sessionConfig')['field']);
     }
 
     /**
@@ -711,7 +711,7 @@ class Session implements AuthenticatorInterface
     {
         $sessionUserInfo       = $this->getSessionUserInfo();
         $sessionUserInfo[$key] = $value;
-        session()->set(setting('Auth.sessionConfig')['field'], $sessionUserInfo);
+        session()->set(shieldSetting('Auth.sessionConfig')['field'], $sessionUserInfo);
     }
 
     /**
@@ -721,7 +721,7 @@ class Session implements AuthenticatorInterface
     {
         $sessionUserInfo = $this->getSessionUserInfo();
         unset($sessionUserInfo[$key]);
-        session()->set(setting('Auth.sessionConfig')['field'], $sessionUserInfo);
+        session()->set(shieldSetting('Auth.sessionConfig')['field'], $sessionUserInfo);
     }
 
     /**
@@ -759,7 +759,7 @@ class Session implements AuthenticatorInterface
 
     private function issueRememberMeToken(): void
     {
-        if ($this->shouldRemember && setting('Auth.sessionConfig')['allowRemembering']) {
+        if ($this->shouldRemember && shieldSetting('Auth.sessionConfig')['allowRemembering']) {
             $this->rememberUser($this->user);
 
             // Reset so it doesn't mess up future calls.
@@ -785,10 +785,10 @@ class Session implements AuthenticatorInterface
 
         // Remove remember-me cookie
         $response->deleteCookie(
-            setting('Auth.sessionConfig')['rememberCookieName'],
-            setting('Cookie.domain'),
-            setting('Cookie.path'),
-            setting('Cookie.prefix'),
+            shieldSetting('Auth.sessionConfig')['rememberCookieName'],
+            shieldSetting('Cookie.domain'),
+            shieldSetting('Cookie.path'),
+            shieldSetting('Cookie.prefix'),
         );
     }
 
@@ -926,7 +926,7 @@ class Session implements AuthenticatorInterface
 
     private function calcExpires(): Time
     {
-        $rememberLength = setting('Auth.sessionConfig')['rememberLength'];
+        $rememberLength = shieldSetting('Auth.sessionConfig')['rememberLength'];
 
         return Time::now()->addSeconds($rememberLength);
     }
@@ -942,13 +942,13 @@ class Session implements AuthenticatorInterface
         // Save it to the user's browser in a cookie.
         // Create the cookie
         $response->setCookie(
-            setting('Auth.sessionConfig')['rememberCookieName'],
+            shieldSetting('Auth.sessionConfig')['rememberCookieName'],
             $rawToken,                                             // Value
-            setting('Auth.sessionConfig')['rememberLength'],      // # Seconds until it expires
-            setting('Cookie.domain'),
-            setting('Cookie.path'),
-            setting('Cookie.prefix'),
-            setting('Cookie.secure'),                          // Only send over HTTPS?
+            shieldSetting('Auth.sessionConfig')['rememberLength'],      // # Seconds until it expires
+            shieldSetting('Cookie.domain'),
+            shieldSetting('Cookie.path'),
+            shieldSetting('Cookie.prefix'),
+            shieldSetting('Cookie.secure'),                          // Only send over HTTPS?
             true,                                                  // Hide from Javascript?
         );
     }
