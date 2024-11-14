@@ -156,7 +156,7 @@ class AccessTokens implements AuthenticatorInterface
 
         // Is expired ?
         if (
-            $token->expires
+            $token->expires !== null
             && $token->expires->isBefore(
                 Time::now()
             )
