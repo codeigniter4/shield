@@ -53,7 +53,7 @@ return [
     // Login
     'login'              => 'Inloggen',
     'needAccount'        => 'Heb je nog geen account?',
-    'rememberMe'         => 'Wachtwoord onthouden',
+    'rememberMe'         => 'Ingelogd blijven',
     'forgotPassword'     => 'Wachtwoord vergeten?',
     'useMagicLink'       => 'Gebruik een Login Link',
     'magicLinkSubject'   => 'Jou Login Link',
