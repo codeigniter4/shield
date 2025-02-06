@@ -29,5 +29,8 @@ parameters:
 		allRules: false
 		disallowedLooseComparison: true
 		booleansInConditions: true
-		disallowedConstructs: true
+		disallowedBacktick: true
+		disallowedEmpty: true
+		disallowedImplicitArrayCreation: true
+		disallowedShortTernary: true
 		matchingInheritedMethodNames: true
