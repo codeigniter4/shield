@@ -103,7 +103,8 @@ class RegisterController extends BaseController
 
         // Save the user
         $allowedPostFields = array_keys($rules);
-        $user              = $users->createNewUser($this->request->getPost($allowedPostFields));
+        $user              = $this->getUserEntity();
+        $user->fill($this->request->getPost($allowedPostFields));
 
         // Workaround for email only registration/login
         if ($user->username === null) {
@@ -159,14 +160,10 @@ class RegisterController extends BaseController
 
     /**
      * Returns the Entity class that should be used
-     *
-     * @deprecated 1.2.0 No longer used.
      */
     protected function getUserEntity(): User
     {
-        $userProvider = $this->getUserProvider();
-
-        return $userProvider->createNewUser();
+        return new User();
     }
 
     /**
