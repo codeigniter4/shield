@@ -83,7 +83,7 @@ class Auth extends BaseCollector
 
             $html = '<h3>Current User</h3>';
             $html .= '<table><tbody>';
-            $html .= "<tr><td style='width:150px;'>User ID</td><td>#{$user->id}</td></tr>";
+            $html .= "<tr><td width=\"150\">User ID</td><td>#{$user->id}</td></tr>";
             $html .= "<tr><td>Username</td><td>{$user->username}</td></tr>";
             $html .= "<tr><td>Email</td><td>{$user->email}</td></tr>";
             $html .= "<tr><td>Groups</td><td>{$groupsForUser}</td></tr>";

@@ -119,14 +119,14 @@ permissions the token grants to the user. Scopes are provided when the token is 
 cannot be modified afterword.
 
 ```php
-$token = $user->gererateHmacToken('Work Laptop', ['posts.manage', 'forums.manage']);
+$token = $user->generateHmacToken('Work Laptop', ['posts.manage', 'forums.manage']);
 ```
 
 By default, a user is granted a wildcard scope which provides access to all scopes. This is the
 same as:
 
 ```php
-$token = $user->gererateHmacToken('Work Laptop', ['*']);
+$token = $user->generateHmacToken('Work Laptop', ['*']);
 ```
 
 During authentication, the HMAC Keys the user used is stored on the user. Once authenticated, you
