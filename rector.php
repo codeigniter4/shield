@@ -47,6 +47,8 @@ use Rector\Php73\Rector\FuncCall\StringifyStrNeedlesRector;
 use Rector\Php81\Rector\ClassMethod\NewInInitializerRector;
 use Rector\PHPUnit\AnnotationsToAttributes\Rector\Class_\AnnotationWithValueToAttributeRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\YieldDataProviderRector;
+use Rector\PHPUnit\CodeQuality\Rector\MethodCall\AssertCountWithZeroToAssertEmptyRector;
+use Rector\PHPUnit\CodeQuality\Rector\MethodCall\AssertEmptyNullableObjectToAssertInstanceofRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
 use Rector\Set\ValueObject\LevelSetList;
@@ -139,6 +141,10 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__ . '/src/Authentication/JWT/JWSDecoder.php',
             __DIR__ . '/src/Authentication/JWTManager.php',
         ],
+
+        // Ignore some PHPUnit rules
+        AssertCountWithZeroToAssertEmptyRector::class,
+        AssertEmptyNullableObjectToAssertInstanceofRector::class,
     ]);
 
     // auto import fully qualified class names
