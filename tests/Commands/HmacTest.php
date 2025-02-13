@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Commands;
 
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\HMAC\HmacEncrypter;
 use CodeIgniter\Shield\Commands\Hmac;
 use CodeIgniter\Shield\Config\AuthToken;
@@ -147,12 +148,14 @@ final class HmacTest extends DatabaseTestCase
     public function testExpireAll(): void
     {
         /** @var User $user */
+        $tokenExpiration = Time::parse('2024-11-03 12:00:00');
+
         $user = fake(UserModel::class);
-        $user->generateHmacToken('foo', ['*'], '2024-10-01 12:20:00');
+        $user->generateHmacToken('foo', ['*'], $tokenExpiration);
         $user->generateHmacToken('bar');
 
         $this->setMockIo([]);
-        $this->assertNotFalse(command('shield:hmac expireAll'));
+        $this->assertNotFalse(command('shield:hmac invalidateAll'));
 
         $resultsString = $this->io->getOutputs();
         $results       = explode("\n", trim($resultsString));
