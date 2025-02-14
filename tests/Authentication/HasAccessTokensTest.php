@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Authentication;
 
-use Codeigniter\I18n\Time;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
