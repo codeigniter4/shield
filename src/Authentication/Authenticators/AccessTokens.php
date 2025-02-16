@@ -18,6 +18,7 @@ use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Config\AuthToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Models\TokenLoginModel;
@@ -29,6 +30,7 @@ class AccessTokens implements AuthenticatorInterface
 {
     public const ID_TYPE_ACCESS_TOKEN = 'access_token';
 
+    protected AuthToken $authTokenConfig;
     protected ?User $user = null;
     protected TokenLoginModel $loginModel;
 
@@ -38,7 +40,8 @@ class AccessTokens implements AuthenticatorInterface
     public function __construct(
         protected UserModel $provider,
     ) {
-        $this->loginModel = model(TokenLoginModel::class);
+        $this->authTokenConfig = config('AuthToken');
+        $this->loginModel      = model(TokenLoginModel::class);
     }
 
     /**
@@ -49,8 +52,6 @@ class AccessTokens implements AuthenticatorInterface
      */
     public function attempt(array $credentials): Result
     {
-        $config = config('AuthToken');
-
         /** @var IncomingRequest $request */
         $request = service('request');
 
@@ -60,7 +61,7 @@ class AccessTokens implements AuthenticatorInterface
         $result = $this->check($credentials);
 
         if (! $result->isOK()) {
-            if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
+            if ($this->authTokenConfig->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
                 // Record all failed login attempts.
                 $this->loginModel->recordLoginAttempt(
                     self::ID_TYPE_ACCESS_TOKEN,
@@ -78,7 +79,7 @@ class AccessTokens implements AuthenticatorInterface
         $token = $user->getAccessToken($this->getBearerToken());
 
         if ($user->isBanned()) {
-            if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
+            if ($this->authTokenConfig->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
                 // Record a banned login attempt.
                 $this->loginModel->recordLoginAttempt(
                     self::ID_TYPE_ACCESS_TOKEN,
@@ -102,7 +103,7 @@ class AccessTokens implements AuthenticatorInterface
 
         $this->login($user);
 
-        if ($config->recordLoginAttempt === Auth::RECORD_LOGIN_ATTEMPT_ALL) {
+        if ($this->authTokenConfig->recordLoginAttempt === Auth::RECORD_LOGIN_ATTEMPT_ALL) {
             // Record a successful login attempt.
             $this->loginModel->recordLoginAttempt(
                 self::ID_TYPE_ACCESS_TOKEN,
@@ -131,7 +132,7 @@ class AccessTokens implements AuthenticatorInterface
                 'success' => false,
                 'reason'  => lang(
                     'Auth.noToken',
-                    [config('AuthToken')->authenticatorHeader['tokens']],
+                    [$this->authTokenConfig->authenticatorHeader['tokens']],
                 ),
             ]);
         }
@@ -158,7 +159,7 @@ class AccessTokens implements AuthenticatorInterface
         if (
             $token->last_used_at
             && $token->last_used_at->isBefore(
-                Time::now()->subSeconds(config('AuthToken')->unusedTokenLifetime),
+                Time::now()->subSeconds($this->authTokenConfig->unusedTokenLifetime),
             )
         ) {
             return new Result([
@@ -199,7 +200,7 @@ class AccessTokens implements AuthenticatorInterface
 
         return $this->attempt([
             'token' => $request->getHeaderLine(
-                config('AuthToken')->authenticatorHeader['tokens'],
+                $this->authTokenConfig->authenticatorHeader['tokens'],
             ),
         ])->isOK();
     }
@@ -258,7 +259,7 @@ class AccessTokens implements AuthenticatorInterface
         /** @var IncomingRequest $request */
         $request = service('request');
 
-        $header = $request->getHeaderLine(config('AuthToken')->authenticatorHeader['tokens']);
+        $header = $request->getHeaderLine($this->authTokenConfig->authenticatorHeader['tokens']);
 
         if (empty($header)) {
             return null;
