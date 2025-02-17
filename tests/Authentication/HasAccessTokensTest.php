@@ -141,11 +141,11 @@ final class HasAccessTokensTest extends DatabaseTestCase
 
     public function testTokenCanBasics(): void
     {
-        $token = $this->user->generateAccessToken('foo', ['foo:bar']);
+        $token = $this->user->generateAccessToken('foo', ['foo.bar']);
         $this->user->setAccessToken($token);
 
-        $this->assertTrue($this->user->tokenCan('foo:bar'));
-        $this->assertFalse($this->user->tokenCan('foo:baz'));
+        $this->assertTrue($this->user->tokenCan('foo.bar'));
+        $this->assertFalse($this->user->tokenCan('foo.baz'));
     }
 
     public function testTokenCantNoTokenSet(): void
@@ -159,14 +159,14 @@ final class HasAccessTokensTest extends DatabaseTestCase
     public function testGenerateTokenWithExpiration(): void
     {
         $tokenExpiration = Time::parse('2024-11-03 12:00:00');
-        $token           = $this->user->generateAccessToken('foo', ['foo:bar'], $tokenExpiration);
+        $token           = $this->user->generateAccessToken('foo', ['foo.bar'], $tokenExpiration);
         $this->user->setAccessToken($token);
 
         $this->assertSame($tokenExpiration->format('Y-m-d h:i:s'), $this->user->currentAccessToken()->expires->format('Y-m-d h:i:s'));
 
         $tokenExpiration = $tokenExpiration->addMonths(1);
         $tokenExpiration = $tokenExpiration->addYears(1);
-        $token           = $this->user->generateAccessToken('foo', ['foo:bar'], $tokenExpiration);
+        $token           = $this->user->generateAccessToken('foo', ['foo.bar'], $tokenExpiration);
         $this->user->setAccessToken($token);
 
         $this->assertSame($tokenExpiration->format('Y-m-d h:i:s'), $this->user->currentAccessToken()->expires->format('Y-m-d h:i:s'));
@@ -177,7 +177,7 @@ final class HasAccessTokensTest extends DatabaseTestCase
      */
     public function testSetTokenExpirationById(): void
     {
-        $token = $this->user->generateAccessToken('foo', ['foo:bar']);
+        $token = $this->user->generateAccessToken('foo', ['foo.bar']);
 
         $this->user->setAccessToken($token);
 
@@ -195,7 +195,7 @@ final class HasAccessTokensTest extends DatabaseTestCase
     public function testIsTokenExpired(): void
     {
         $tokenExpiration = Time::parse('2024-11-03 12:00:00');
-        $token           = $this->user->generateAccessToken('foo', ['foo:bar'], $tokenExpiration);
+        $token           = $this->user->generateAccessToken('foo', ['foo.bar'], $tokenExpiration);
         $this->user->setAccessToken($token);
 
         $this->assertTrue($this->user->hasAccessTokenExpired($this->user->currentAccessToken()));
@@ -209,7 +209,7 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $tokenExpiration = Time::now();
         $tokenExpiration = $tokenExpiration->addYears(1);
 
-        $token = $this->user->generateAccessToken('foo', ['foo:bar'], $tokenExpiration);
+        $token = $this->user->generateAccessToken('foo', ['foo.bar'], $tokenExpiration);
         $this->user->setAccessToken($token);
 
         $this->assertSame('in 1 year', $this->user->currentAccessToken()->expires->humanize());
@@ -223,11 +223,11 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $tokenExpiration = Time::now();
         $tokenExpiration = $tokenExpiration->addYears(1);
 
-        $token = $this->user->generateAccessToken('foo', ['foo:bar'], $tokenExpiration);
+        $token = $this->user->generateAccessToken('foo', ['foo.bar'], $tokenExpiration);
 
         $this->assertTrue($this->user->canAccessTokenExpire($token));
 
-        $token = $this->user->generateAccessToken('foo', ['foo:bar']);
+        $token = $this->user->generateAccessToken('foo', ['foo.bar']);
 
         $this->assertFalse($this->user->canAccessTokenExpire($token));
     }

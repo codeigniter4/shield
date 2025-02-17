@@ -149,28 +149,26 @@ Access Tokens can be set to expire through the `generateAccessToken()` method. T
 ```php
 // Expiration date = 2024-11-03 12:00:00
 $expiresAt = Time::parse('2024-11-03 12:00:00');
-$token = $this->user->generateAccessToken('foo', ['foo:bar'], $expiresAt);
+$token = $this->user->generateAccessToken('foo', ['foo.bar'], $expiresAt);
 
 // Expiration date = 2024-11-15 00:00:00
 $expiresAt = Time::parse('2024-11-15 00:00:00');
 $user->setAccessTokenExpirationById($token->id, $expiresAt);
 
 // Or Expiration date = 1 month + 15 days into the future
-$expiresAt = Time::now();
-$expiresAt = $expiresAt->addMonths(1);
-$expiresAt = $expiresAt->addDays(15);
+$expiresAt = Time::now()->addMonths(1)->addDays(15);
 
 $user->setAccessTokenExpirationById($token->id, $expiresAt);
 ```
 
 The following support methods are also available:
 
-`hasAccessTokenExpired(AccessToken $accessToken)` - Checks if Access Token has expired. Returns `true` if the Access Token has expired, `false` if not, and `null` if the expire date is not set.
+`hasAccessTokenExpired(AccessToken $accessToken)` - Checks if Access Token has expired. Returns `true` if the Access Token has expired, `false` if not.
 
 ```php
 $expiresAt = Time::parse('2024-11-03 12:00:00');
 
-$token = $this->user->generateAccessToken('foo', ['foo:bar'], $expiresAt);
+$token = $this->user->generateAccessToken('foo', ['foo.bar'], $expiresAt);
 
 $this->user->hasAccessTokenExpired($token); // Returns true
 ```
@@ -180,7 +178,7 @@ $this->user->hasAccessTokenExpired($token); // Returns true
 ```php
 $expiresAt = Time::parse('2024-11-03 12:00:00');
 
-$token = $this->user->generateAccessToken('foo', ['foo:bar'], $expiresAt);
+$token = $this->user->generateAccessToken('foo', ['foo.bar'], $expiresAt);
 $this->user->canAccessTokenExpire($token2); // Returns false
 
 $token2 = $this->user->generateAccessToken('bar');

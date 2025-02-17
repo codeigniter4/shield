@@ -167,7 +167,7 @@ trait HasHmacTokens
      *
      * @return bool Returns true if Access Token has expired, false if not
      */
-    public function hasHmacTokenExpired(?AccessToken $accessToken): bool
+    public function hasHmacTokenExpired(AccessToken $accessToken): bool
     {
         return $accessToken->expires !== null && $accessToken->expires->isBefore(Time::now());
     }
@@ -201,6 +201,6 @@ trait HasHmacTokens
      */
     public function canHmacTokenExpire(AccessToken $accessToken): bool
     {
-        return isset($accessToken->expires);
+        return $accessToken->expires !== null;
     }
 }

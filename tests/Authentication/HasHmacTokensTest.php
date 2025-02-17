@@ -136,11 +136,11 @@ final class HasHmacTokensTest extends DatabaseTestCase
 
     public function testHmacTokenCanBasics(): void
     {
-        $token = $this->user->generateHmacToken('foo', ['foo:bar']);
+        $token = $this->user->generateHmacToken('foo', ['foo.bar']);
         $this->user->setHmacToken($token);
 
-        $this->assertTrue($this->user->hmacTokenCan('foo:bar'));
-        $this->assertFalse($this->user->hmacTokenCan('foo:baz'));
+        $this->assertTrue($this->user->hmacTokenCan('foo.bar'));
+        $this->assertFalse($this->user->hmacTokenCan('foo.baz'));
     }
 
     public function testHmacTokenCantNoTokenSet(): void
@@ -150,11 +150,11 @@ final class HasHmacTokensTest extends DatabaseTestCase
 
     public function testHmacTokenCant(): void
     {
-        $token = $this->user->generateHmacToken('foo', ['foo:bar']);
+        $token = $this->user->generateHmacToken('foo', ['foo.bar']);
         $this->user->setHmacToken($token);
 
-        $this->assertFalse($this->user->hmacTokenCant('foo:bar'));
-        $this->assertTrue($this->user->hmacTokenCant('foo:baz'));
+        $this->assertFalse($this->user->hmacTokenCant('foo.bar'));
+        $this->assertTrue($this->user->hmacTokenCant('foo.baz'));
     }
 
     /**
@@ -164,7 +164,7 @@ final class HasHmacTokensTest extends DatabaseTestCase
     {
         $tokenExpiration = Time::parse('2024-11-03 12:00:00');
 
-        $token = $this->user->generateHmacToken('foo', ['foo:bar'], $tokenExpiration);
+        $token = $this->user->generateHmacToken('foo', ['foo.bar'], $tokenExpiration);
         $this->user->setHmacToken($token);
 
         $this->assertSame($tokenExpiration->format('Y-m-d h:i:s'), $this->user->currentHmacToken()->expires->format('Y-m-d h:i:s'));
@@ -172,7 +172,7 @@ final class HasHmacTokensTest extends DatabaseTestCase
         $tokenExpiration = $tokenExpiration->addMonths(1);
         $tokenExpiration = $tokenExpiration->addYears(1);
 
-        $token = $this->user->generateHmacToken('foo', ['foo:bar'], $tokenExpiration);
+        $token = $this->user->generateHmacToken('foo', ['foo.bar'], $tokenExpiration);
         $this->user->setHmacToken($token);
 
         $this->assertSame($tokenExpiration->format('Y-m-d h:i:s'), $this->user->currentHmacToken()->expires->format('Y-m-d h:i:s'));
@@ -183,7 +183,7 @@ final class HasHmacTokensTest extends DatabaseTestCase
      */
     public function testSetTokenExpirationById(): void
     {
-        $token = $this->user->generateHmacToken('foo', ['foo:bar']);
+        $token = $this->user->generateHmacToken('foo', ['foo.bar']);
 
         $this->user->setHmacToken($token);
 
@@ -204,7 +204,7 @@ final class HasHmacTokensTest extends DatabaseTestCase
     {
         $tokenExpiration = Time::parse('2024-11-03 12:00:00');
 
-        $token = $this->user->generateHmacToken('foo', ['foo:bar'], $tokenExpiration);
+        $token = $this->user->generateHmacToken('foo', ['foo.bar'], $tokenExpiration);
         $this->user->setHmacToken($token);
 
         $this->assertTrue($this->user->hasHmacTokenExpired($token));
@@ -218,7 +218,7 @@ final class HasHmacTokensTest extends DatabaseTestCase
         $tokenExpiration = Time::now();
         $tokenExpiration = $tokenExpiration->addYears(1);
 
-        $token = $this->user->generateHmacToken('foo', ['foo:bar'], $tokenExpiration);
+        $token = $this->user->generateHmacToken('foo', ['foo.bar'], $tokenExpiration);
 
         $this->assertSame('in 1 year', $token->expires->humanize());
     }
@@ -231,11 +231,11 @@ final class HasHmacTokensTest extends DatabaseTestCase
         $tokenExpiration = Time::now();
         $tokenExpiration = $tokenExpiration->addYears(1);
 
-        $token = $this->user->generateHmacToken('foo', ['foo:bar'], $tokenExpiration);
+        $token = $this->user->generateHmacToken('foo', ['foo.bar'], $tokenExpiration);
 
         $this->assertTrue($this->user->canHmacTokenExpire($token));
 
-        $token = $this->user->generateHmacToken('foo', ['foo:bar']);
+        $token = $this->user->generateHmacToken('foo', ['foo.bar']);
 
         $this->assertFalse($this->user->canHmacTokenExpire($token));
     }
