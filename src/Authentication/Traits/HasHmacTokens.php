@@ -180,7 +180,7 @@ trait HasHmacTokens
      *
      * @return bool Returns true if expiration date is set or updated.
      */
-    public function setHmacTokenExpirationById(int $id, Time $expiresAt): bool
+    public function setHmacTokenExpirationById(int $id, ?Time $expiresAt): bool
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);

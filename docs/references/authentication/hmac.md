@@ -101,7 +101,7 @@ $user->revokeAllHmacTokens();
 
 By default, the HMAC keys don't expire unless they meet the HMAC Keys lifetime expiration after their last used date.
 
-HMAC keys can be set to expire through the `generateHmacToken()` method. This takes the expiration date as the $expiresAt argument. It's also possible to update an existing HMAC key using `setHmacTokenExpirationById($HmacTokenID, $expiresAt)`
+HMAC keys can be set to expire through the `generateHmacToken()` method. This takes the expiration date as the $expiresAt argument. To update or remove an existing HMAC key expiration date use `setHmacTokenExpirationById($HmacTokenID, $expiresAt)`
 
 `$expiresAt` [Time](/libraries/time.html) object
 
@@ -114,9 +114,12 @@ $token = $this->user->generateHmacToken('foo', ['foo:bar'], $expiresAt);
 $expiresAt = Time::parse('2024-11-15 00:00:00');
 $token = $user->setHmacTokenExpirationById($token->id, $expiresAt);
 
-// Or Expiration date = 1 month + 15 days into the future
+// Expiration date = 1 month + 15 days into the future
 $expiresAt = Time::now()->addMonths(1)->addDays(15);
 $token = $user->setHmacTokenExpirationById($token->id, $expiresAt);
+
+// Remove the expiration date
+$token = $user->setHmacTokenExpirationById($token->id, null);
 ```
 
 The following support methods are also available:

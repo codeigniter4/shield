@@ -241,14 +241,10 @@ class UserIdentityModel extends BaseModel
     {
         $this->checkUserId($user);
 
-        if ($expiresAt !== null) {
-            return $this->where('user_id', $user->id)
-                ->where('type', $type_token)
-                ->set(['expires' => $expiresAt])
-                ->update($id);
-        }
-
-        return false;
+        return $this->where('user_id', $user->id)
+            ->where('type', $type_token)
+            ->set(['expires' => $expiresAt])
+            ->update($id);
     }
 
     // HMAC

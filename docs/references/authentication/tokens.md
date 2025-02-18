@@ -142,7 +142,7 @@ public $unusedTokenLifetime = YEAR;
 
 By default, the Access Tokens don't expire unless they meet the Access Token lifetime expiration after their last used date.
 
-Access Tokens can be set to expire through the `generateAccessToken()` method. This takes the expiration date as the $expiresAt argument. It's also possible to update an existing HMAC key using `setAccessTokenById($HmacTokenID, $expiresAt)`
+Access Tokens can be set to expire through the `generateAccessToken()` method. This takes the expiration date as the $expiresAt argument. To update or remove an existing HMAC key expiration date use `setAccessTokenById($HmacTokenID, $expiresAt)`
 
 `$expiresAt` [Time](/libraries/time.html) object
 
@@ -157,8 +157,10 @@ $user->setAccessTokenExpirationById($token->id, $expiresAt);
 
 // Or Expiration date = 1 month + 15 days into the future
 $expiresAt = Time::now()->addMonths(1)->addDays(15);
-
 $user->setAccessTokenExpirationById($token->id, $expiresAt);
+
+// Remove the expiration date
+$token = $user->setAccessTokenExpirationById($token->id, null);
 ```
 
 The following support methods are also available:
@@ -187,6 +189,7 @@ $this->user->canAccessTokenExpire($token); // Returns true
 
 
 ### Access Token Expiration vs Lifetime
+
 Expiration and Lifetime are different concepts. The lifetime is the maximum time allowed for the token to exist since its last use. Token expiration, on the other hand, is a set date in which the Access Token will cease to function.
 
 ### Login Attempt Logging

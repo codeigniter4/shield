@@ -190,7 +190,7 @@ trait HasAccessTokens
      *
      * @return bool Returns true if expiration date is set or updated.
      */
-    public function setAccessTokenExpirationById(int $id, Time $expiresAt): bool
+    public function setAccessTokenExpirationById(int $id, ?Time $expiresAt): bool
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);

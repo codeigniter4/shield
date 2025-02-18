@@ -231,4 +231,21 @@ final class HasAccessTokensTest extends DatabaseTestCase
 
         $this->assertFalse($this->user->canAccessTokenExpire($token));
     }
+
+    /**
+     * See https://github.com/codeigniter4/shield/issues/926
+     */
+    public function testAccessTokenRemoveExpiration(): void
+    {
+        $tokenExpiration = Time::now();
+        $tokenExpiration = $tokenExpiration->addYears(1);
+
+        $token = $this->user->generateAccessToken('foo', ['foo.bar'], $tokenExpiration);
+
+        $this->assertTrue($this->user->canAccessTokenExpire($token));
+
+        $this->user->setAccessTokenExpirationById($token->id, null);
+
+        $this->assertFalse($this->user->canAccessTokenExpire($this->user->currentAccessToken()));
+    }
 }

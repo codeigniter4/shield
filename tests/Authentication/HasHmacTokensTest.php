@@ -239,4 +239,21 @@ final class HasHmacTokensTest extends DatabaseTestCase
 
         $this->assertFalse($this->user->canHmacTokenExpire($token));
     }
+
+    /**
+     * See https://github.com/codeigniter4/shield/issues/926
+     */
+    public function testHmacTokenRemoveExpiration(): void
+    {
+        $tokenExpiration = Time::now();
+        $tokenExpiration = $tokenExpiration->addYears(1);
+
+        $token = $this->user->generateHmacToken('foo', ['foo.bar'], $tokenExpiration);
+
+        $this->assertTrue($this->user->canAccessTokenExpire($token));
+
+        $this->user->setHmacTokenExpirationById($token->id, null);
+
+        $this->assertFalse($this->user->canHmacTokenExpire($this->user->currentAccessToken()));
+    }
 }
