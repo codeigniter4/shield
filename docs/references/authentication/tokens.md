@@ -142,9 +142,9 @@ public $unusedTokenLifetime = YEAR;
 
 By default, the Access Tokens don't expire unless they meet the Access Token lifetime expiration after their last used date.
 
-Access Tokens can be set to expire through the `generateAccessToken()` method. This takes the expiration date as the $expiresAt argument. To update or remove an existing HMAC key expiration date use `setAccessTokenById($HmacTokenID, $expiresAt)`
+Access Tokens can be set to expire through the `generateAccessToken()` method. This takes the expiration date as the `$expiresAt` argument. To update an existing HMAC key expiration date use `updateAcessTokenExpiration($hmacTokenID, $expiresAt)` and to remove `removeAccessTokenExpiration($hmacTokenID)`.
 
-`$expiresAt` [Time](/libraries/time.html) object
+`$expiresAt` [Time](https://codeigniter.com/user_guide/libraries/time.html) object
 
 ```php
 // Expiration date = 2024-11-03 12:00:00
@@ -153,19 +153,19 @@ $token = $this->user->generateAccessToken('foo', ['foo.bar'], $expiresAt);
 
 // Expiration date = 2024-11-15 00:00:00
 $expiresAt = Time::parse('2024-11-15 00:00:00');
-$user->setAccessTokenExpirationById($token->id, $expiresAt);
+$user->updateAcessTokenExpiration($token->id, $expiresAt);
 
 // Or Expiration date = 1 month + 15 days into the future
 $expiresAt = Time::now()->addMonths(1)->addDays(15);
-$user->setAccessTokenExpirationById($token->id, $expiresAt);
+$user->updateAcessTokenExpiration($token->id, $expiresAt);
 
 // Remove the expiration date
-$token = $user->setAccessTokenExpirationById($token->id, null);
+$user->removeAccessTokenExpiration($token->id);
 ```
 
 The following support methods are also available:
 
-`hasAccessTokenExpired(AccessToken $accessToken)` - Checks if Access Token has expired. Returns `true` if the Access Token has expired, `false` if not.
+`isAccessTokenExpired(AccessToken $accessToken)` - Checks if Access Token is expired. Returns `true` if the Access Token is expired, `false` if not.
 
 ```php
 $expiresAt = Time::parse('2024-11-03 12:00:00');
@@ -175,7 +175,7 @@ $token = $this->user->generateAccessToken('foo', ['foo.bar'], $expiresAt);
 $this->user->hasAccessTokenExpired($token); // Returns true
 ```
 
-`canAccessTokenExpire(AccessToken $HmacToken)` - Checks if Access Token has an expiration set. Returns `true` or `false` accordingly.
+`hasAccessTokenExpiry(AccessToken $HmacToken)` - Checks if Access Token has an expiration set. Returns `true` or `false` accordingly.
 
 ```php
 $expiresAt = Time::parse('2024-11-03 12:00:00');

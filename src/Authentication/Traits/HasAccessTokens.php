@@ -39,7 +39,7 @@ trait HasAccessTokens
      *
      * @param string       $name      Token name
      * @param list<string> $scopes    Permissions the token grants
-     * @param Time         $expiresAt Expiration date
+     * @param Time|null    $expiresAt Expiration date
      *
      * @throws InvalidArgumentException
      */
@@ -173,11 +173,11 @@ trait HasAccessTokens
     }
 
     /**
-     * Checks if the provided Access Token has expired.
+     * Checks if the provided Access Token is expired.
      *
-     * @return bool Returns true if Access Token has expired, false if not
+     * @return bool Returns true if Access Token is expired, false if not
      */
-    public function hasAccessTokenExpired(AccessToken $accessToken): bool
+    public function isAccessTokenExpired(AccessToken $accessToken): bool
     {
         return $accessToken->expires !== null && $accessToken->expires->isBefore(Time::now());
     }
@@ -190,11 +190,32 @@ trait HasAccessTokens
      *
      * @return bool Returns true if expiration date is set or updated.
      */
-    public function setAccessTokenExpirationById(int $id, ?Time $expiresAt): bool
+    public function updateAccessTokenExpiration(int $id, Time $expiresAt): bool
     {
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
-        $result        = $identityModel->setIdentityExpirationById($id, $this, $expiresAt, AccessTokens::ID_TYPE_ACCESS_TOKEN);
+        $result        = $identityModel->setIdentityExpirationById($id, $this, $expiresAt);
+
+        if ($result) {
+            // refresh currentAccessToken with updated data
+            $this->currentAccessToken = $identityModel->getAccessTokenById($id, $this);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Removes the expiration date for Access Tokens by ID.
+     *
+     * @param int $id AccessTokens ID
+     *
+     * @return bool Returns true if expiration date is set or updated.
+     */
+    public function removeAccessTokenExpiration(int $id): bool
+    {
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+        $result        = $identityModel->setIdentityExpirationById($id, $this);
 
         if ($result) {
             // refresh currentAccessToken with updated data
@@ -209,7 +230,7 @@ trait HasAccessTokens
      *
      * @return bool Returns true if AccessToken can expire.
      */
-    public function canAccessTokenExpire(AccessToken $accessToken): bool
+    public function hasAccessTokenExpiry(AccessToken $accessToken): bool
     {
         return $accessToken->expires !== null;
     }

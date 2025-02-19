@@ -230,21 +230,21 @@ class UserIdentityModel extends BaseModel
     }
 
     /**
-     * Updates or sets expiration date of users' AccessToken or HMAC Token by ID. Returns updated row.
+     * Updates or sets expiration date of users' AccessToken or HMAC Token by ID.
      *
      * @param Time  $expiresAt Expiration date
      * @param mixed $id
      *
      * @return bool Returns true if expiration date was set or updated.
      */
-    public function setIdentityExpirationById($id, User $user, ?Time $expiresAt = null, ?string $type_token = null): bool
+    public function setIdentityExpirationById($id, User $user, ?Time $expiresAt = null): bool
     {
         $this->checkUserId($user);
 
         return $this->where('user_id', $user->id)
-            ->where('type', $type_token)
+            ->where('id', $id)
             ->set(['expires' => $expiresAt])
-            ->update($id);
+            ->update();
     }
 
     // HMAC

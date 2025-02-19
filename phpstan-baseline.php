@@ -265,7 +265,7 @@ $ignoreErrors[] = [
 $ignoreErrors[] = [
 	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\UserIdentityModel\\:\\:class is discouraged\\.$#',
 	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 21,
+	'count' => 23,
 	'path' => __DIR__ . '/src/Entities/User.php',
 ];
 $ignoreErrors[] = [
