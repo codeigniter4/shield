@@ -151,6 +151,7 @@ php spark shield:hmac invalidateAll
 ```
 
 !!! warning
+
     This command invalidates _all_ keys for _all_ users.
 
 ## Retrieving HMAC Keys
