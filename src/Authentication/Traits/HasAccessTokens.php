@@ -174,8 +174,6 @@ trait HasAccessTokens
 
     /**
      * Checks if the provided Access Token is expired.
-     *
-     * @return bool Returns true if Access Token is expired, false if not
      */
     public function isAccessTokenExpired(AccessToken $accessToken): bool
     {
@@ -226,9 +224,7 @@ trait HasAccessTokens
     }
 
     /**
-     * Checks if the current Hmac token can expire
-     *
-     * @return bool Returns true if AccessToken can expire.
+     * Checks if the access token has a set expiration date
      */
     public function hasAccessTokenExpiry(AccessToken $accessToken): bool
     {

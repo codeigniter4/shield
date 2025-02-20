@@ -163,8 +163,6 @@ trait HasHmacTokens
 
     /**
      * Checks if the provided Access Token is expired.
-     *
-     * @return bool Returns true if Access Token is expired, false if not
      */
     public function isHmacTokenExpired(AccessToken $accessToken): bool
     {
@@ -172,7 +170,7 @@ trait HasHmacTokens
     }
 
     /**
-     * Sets an expiration for Hmac Key/Token by ID.
+     * Sets an expiration for HMAC token by ID.
      *
      * @param int  $id        AccessToken ID
      * @param Time $expiresAt Expiration date
@@ -194,11 +192,11 @@ trait HasHmacTokens
     }
 
     /**
-     * Removes the expiration date for Hmac Key/Token by ID.
+     * Removes the expiration date for HMAC token by ID.
      *
      * @param int $id AccessToken ID
      *
-     * @return bool Returns true if expiration date is removed.
+     * @return bool Returns true if expiration date is removed
      */
     public function removeHmacTokenExpiration(int $id): bool
     {
@@ -215,9 +213,7 @@ trait HasHmacTokens
     }
 
     /**
-     * Checks if the current Hmac token can expire
-     *
-     * @return bool Returns true if Hmac Token can expire.
+     * Checks if the current HMAC token has a set expiration date
      */
     public function hasHmacTokenExpiry(AccessToken $accessToken): bool
     {

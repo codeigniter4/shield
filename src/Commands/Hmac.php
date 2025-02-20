@@ -211,15 +211,13 @@ class Hmac extends BaseCommand
         $uIdModel    = new UserIdentityModel();
         $uIdModelSub = new UserIdentityModel();
 
-        $that = $this;
-
         $uIdModel->where('type', 'hmac_sha256')->orderBy('id')->chunk(
             100,
-            static function ($identity) use ($uIdModelSub, $that): void {
-                $timeNow = Time::now(); // Current date/time
+            function ($identity) use ($uIdModelSub): void {
+                $timeNow = Time::now();
 
                 if (null !== $identity->expires && $identity->expires->isBefore($timeNow)) {
-                    $that->write('Hmac Key/Token ID: ' . $identity->id . ', already expired, skipped.');
+                    $this->write('HMAC Token ID: ' . $identity->id . ', already expired, skipped.');
 
                     return;
                 }
@@ -227,7 +225,7 @@ class Hmac extends BaseCommand
                 $identity->expires = $timeNow;
                 $uIdModelSub->save($identity);
 
-                $that->write('Hmac Key/Token ID: ' . $identity->id . ', set as expired.');
+                $this->write('HMAC Token ID: ' . $identity->id . ', set as expired.');
             },
         );
     }

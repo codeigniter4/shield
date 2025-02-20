@@ -125,7 +125,7 @@ Configure **app/Config/AuthToken.php** for your needs.
 
 ### Access Token Lifetime
 
-Tokens will expire after a specified amount of time has passed since they last have been used.
+Tokens will expire after a specified amount of time has passed since they have last been used.
 
 By default, this is set to 1 year.
 You can change this value by setting the `$unusedTokenLifetime` value. This is
