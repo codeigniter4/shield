@@ -161,8 +161,8 @@ final class HmacTest extends DatabaseTestCase
         $results       = explode("\n", trim($resultsString));
 
         $this->assertCount(2, $results);
-        $this->assertSame('Hmac Key/Token ID: 1, already expired, skipped.', trim($results[0]));
-        $this->assertSame('Hmac Key/Token ID: 2, set as expired.', trim($results[1]));
+        $this->assertSame('HMAC Token ID: 1, already expired, skipped.', trim($results[0]));
+        $this->assertSame('HMAC Token ID: 2, set as expired.', trim($results[1]));
     }
 
     /**
