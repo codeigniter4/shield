@@ -140,9 +140,9 @@ public $unusedTokenLifetime = YEAR;
 
 ## Expiring Access Tokens
 
-By default, the Access Tokens don't expire unless they meet the Access Token lifetime expiration after their last used date.
+By default, the Access Tokens don't expire unless they reach the Access Token's lifetime expiration after their last use date.
 
-Access Tokens can be set to expire through the `generateAccessToken()` method. This takes the expiration date as the `$expiresAt` argument. To update an existing HMAC key expiration date use `updateAcessTokenExpiration($hmacTokenID, $expiresAt)` and to remove `removeAccessTokenExpiration($hmacTokenID)`.
+Access Tokens can be set to expire through the `generateAccessToken()` method. This takes the expiration date as the `$expiresAt` argument. To update an existing HMAC key expiration date, use `updateAcessTokenExpiration($accessTokenID, $expiresAt)`. To remove it, use `removeAccessTokenExpiration($accessTokenID)`.
 
 `$expiresAt` [Time](https://codeigniter.com/user_guide/libraries/time.html) object
 
@@ -165,7 +165,7 @@ $user->removeAccessTokenExpiration($token->id);
 
 The following support methods are also available:
 
-`isAccessTokenExpired(AccessToken $accessToken)` - Checks if Access Token is expired. Returns `true` if the Access Token is expired, `false` if not.
+`isAccessTokenExpired(AccessToken $accessToken)` - Checks if Access Token is expired. Returns `true` if the Access Token is expired; otherwise, returns `false`.
 
 ```php
 $expiresAt = Time::parse('2024-11-03 12:00:00');
@@ -175,7 +175,7 @@ $token = $this->user->generateAccessToken('foo', ['foo.bar'], $expiresAt);
 $this->user->isAccessTokenExpired($token); // Returns true
 ```
 
-`hasAccessTokenExpiry(AccessToken $HmacToken)` - Checks if Access Token has an expiration set. Returns `true` or `false` accordingly.
+`hasAccessTokenExpiry(AccessToken $accessToken)` - Returns `true` if the Access Token has a set expiration date; otherwise, returns `false`.
 
 ```php
 $expiresAt = Time::parse('2024-11-03 12:00:00');
@@ -190,7 +190,7 @@ $this->user->hasAccessTokenExpiry($token); // Returns true
 
 ### Access Token Expiration vs Lifetime
 
-Expiration and Lifetime are different concepts. The lifetime is the maximum time allowed for the token to exist since its last use. Token expiration, on the other hand, is a set date in which the Access Token will cease to function.
+Expiration and lifetime are two different concepts. The lifetime is the maximum time allowed for the token to exist since its last use. Token expiration, on the other hand, is a set date in which the Access Token will cease to function.
 
 ### Login Attempt Logging
 

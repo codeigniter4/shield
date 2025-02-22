@@ -99,9 +99,9 @@ $user->revokeAllHmacTokens();
 
 ## Expiring HMAC Keys
 
-By default, the HMAC keys don't expire unless they meet the HMAC Keys lifetime expiration after their last used date.
+By default, the HMAC keys don't expire unless they reach the HMAC keys' lifetime expiration after their last use date.
 
-HMAC keys can be set to expire through the `generateHmacToken()` method. This takes the expiration date as the `$expiresAt` argument. To update an existing HMAC key expiration date use `updateHmacTokenExpiration($hmacTokenID, $expiresAt)` and to remove `removeHmacTokenExpiration($hmacTokenID)`.
+HMAC keys can be set to expire through the `generateHmacToken()` method. This takes the expiration date as the `$expiresAt` argument. To update an existing HMAC key expiration date, use `updateHmacTokenExpiration($hmacTokenID, $expiresAt)`. To remove it, use `removeHmacTokenExpiration($hmacTokenID)`.
 
 `$expiresAt` [Time](https://codeigniter.com/user_guide/libraries/time.html) object
 
@@ -124,7 +124,7 @@ $user->removeHmacTokenExpiration($token->id);
 
 The following support methods are also available:
 
-`isHmacTokenExpired(AccessToken $HmacToken)` - Checks if the HMAC key is expired. Returns `true` if the HMAC key is expired, `false` if not.
+`isHmacTokenExpired(AccessToken $hmacToken)` - Checks if the HMAC key is expired. Returns `true` if the HMAC key is expired; otherwise, returns `false`.
 
 ```php
 $expiresAt = Time::parse('2024-11-03 12:00:00');
@@ -133,7 +133,7 @@ $token = $this->user->generateHmacToken('foo', ['foo.bar'], $expiresAt);
 $this->user->isHmacTokenExpired($token); // Returns true
 ```
 
-`hasHmacTokenExpiry(AccessToken $HmacToken)` - Checks if HMAC key has an expiration set. Returns `true` or `false` accordingly.
+`hasHmacTokenExpiry(AccessToken $hmacToken)` - Checks if HMAC key has an expiration set. Returns `true` if the HMAC key is expired; otherwise, returns `false`.
 
 ```php
 $expiresAt = Time::parse('2024-11-03 12:00:00');
@@ -287,7 +287,7 @@ public $unusedTokenLifetime = YEAR;
 
 ### HMAC Keys Expiration vs Lifetime
 
-Expiration and Lifetime are different concepts. The lifetime is the maximum time allowed for the HMAC Key to exist since its last use. HMAC Key expiration, on the other hand, is a set date in which the HMAC Key will cease to function.
+Expiration and lifetime are two different concepts. The lifetime is the maximum time allowed for the HMAC Key to exist since its last use. HMAC Key expiration, on the other hand, is a set date in which the HMAC Key will cease to function.
 
 ### Login Attempt Logging
 

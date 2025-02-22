@@ -162,17 +162,17 @@ trait HasHmacTokens
     }
 
     /**
-     * Checks if the provided Access Token is expired.
+     * Checks if the provided HMAC Token is expired.
      */
-    public function isHmacTokenExpired(AccessToken $accessToken): bool
+    public function isHmacTokenExpired(AccessToken $hmacToken): bool
     {
-        return $accessToken->expires !== null && $accessToken->expires->isBefore(Time::now());
+        return $hmacToken->expires !== null && $hmacToken->expires->isBefore(Time::now());
     }
 
     /**
      * Sets an expiration for HMAC token by ID.
      *
-     * @param int  $id        AccessToken ID
+     * @param int  $id        HMAC Token ID
      * @param Time $expiresAt Expiration date
      *
      * @return bool Returns true if expiration date is set or updated.
@@ -184,8 +184,8 @@ trait HasHmacTokens
         $result        = $identityModel->setIdentityExpirationById($id, $this, $expiresAt);
 
         if ($result) {
-            // refresh currentAccessToken with updated data
-            $this->currentAccessToken = $identityModel->getHmacTokenById($id, $this);
+            // refresh currentHmacToken with updated data
+            $this->currentHmacToken = $identityModel->getHmacTokenById($id, $this);
         }
 
         return $result;
@@ -194,7 +194,7 @@ trait HasHmacTokens
     /**
      * Removes the expiration date for HMAC token by ID.
      *
-     * @param int $id AccessToken ID
+     * @param int $id HMAC Token ID
      *
      * @return bool Returns true if expiration date is removed
      */
@@ -205,7 +205,7 @@ trait HasHmacTokens
         $result        = $identityModel->setIdentityExpirationById($id, $this);
 
         if ($result) {
-            // refresh currentAccessToken with updated data
+            // refresh currentHmacToken with updated data
             $this->currentHmacToken = $identityModel->getHmacTokenById($id, $this);
         }
 
@@ -215,8 +215,8 @@ trait HasHmacTokens
     /**
      * Checks if the current HMAC token has a set expiration date
      */
-    public function hasHmacTokenExpiry(AccessToken $accessToken): bool
+    public function hasHmacTokenExpiry(AccessToken $hmacToken): bool
     {
-        return $accessToken->expires !== null;
+        return $hmacToken->expires !== null;
     }
 }
