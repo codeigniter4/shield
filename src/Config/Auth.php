@@ -87,13 +87,12 @@ class Auth extends BaseConfig
      * Authentication Actions
      * --------------------------------------------------------------------
      * Specifies the class that represents an action to take after
-     * the user logs in or registers a new account at the site.
+     * the user registers a new account at the site.
      *
      * You must register actions in the order of the actions to be performed.
      *
      * Available actions with Shield:
      * - register: \CodeIgniter\Shield\Authentication\Actions\EmailActivator::class
-     * - login:    \CodeIgniter\Shield\Authentication\Actions\Email2FA::class
      *
      * Custom Actions and Requirements:
      *
@@ -104,7 +103,66 @@ class Auth extends BaseConfig
      */
     public array $actions = [
         'register' => null,
-        'login'    => null,
+    ];
+
+    /**
+     * --------------------------------------------------------------------
+     * Allow Multifactor Authentication (MFA)
+     * --------------------------------------------------------------------
+     * Determines whether MFA is enabled for the site logins.
+     */
+    public bool $Mfa = false;
+
+    /**
+     * --------------------------------------------------------------------
+     * Multifactor Authentication (MFA) Per User
+     * --------------------------------------------------------------------
+     * Determines whether MFA must be forced for all the site logins (true) or
+     * only if the user activates a preferred method (false).
+     */
+    public bool $forceMfa = true;
+
+    /**
+     * --------------------------------------------------------------------
+     * Multifactor Authentication Actions
+     * --------------------------------------------------------------------
+     * Specifies all classes that represent a multifactor action to take after
+     * the user logs in at the site. This allows the user to choose a favorite
+     * MFA method.
+     *
+     * You must register actions in the order of the actions to be performed.
+     *
+     * Available actions with Shield:
+     * - email:    \CodeIgniter\Shield\Authentication\Actions\Email2FA::class
+     *
+     * Custom Actions and Requirements:
+     *
+     * - All actions must implement \CodeIgniter\Shield\Authentication\Actions\ActionInterface.
+     *
+     * @var array<string, class-string<ActionInterface>|null>
+     */
+    public array $actionsMfa = [
+        'email' => null,
+    ];
+
+    /**
+     * --------------------------------------------------------------------
+     * Default Multifactor Action
+     * --------------------------------------------------------------------
+     * Specifies the default MFA action to which to take when the user doesn't
+     * specifiy a preference ($forceMfa = true).
+     */
+    public string $defaultMfa = 'email';
+
+    /**
+     * --------------------------------------------------------------------
+     * Multifactor Action to Group Matrix
+     * --------------------------------------------------------------------
+     * Maps the default MFA action to a user group. The "user" group
+     * follows the $defaultMfa directive.
+     */
+    public array $matrixMfa = [
+        // 'group' => 'Mfa action'
     ];
 
     /**

@@ -44,7 +44,8 @@ final class ActionsTest extends DatabaseTestCase
 
         // Ensure our actions are registered with the system
         $config                      = config('Auth');
-        $config->actions['login']    = Email2FA::class;
+        $config->forceMfa            = true;
+        $config->actionsMfa['email'] = Email2FA::class;
         $config->actions['register'] = EmailActivator::class;
         Factories::injectMock('config', 'Auth', $config);
 

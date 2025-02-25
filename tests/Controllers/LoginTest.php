@@ -17,10 +17,14 @@ use CodeIgniter\Config\Factories;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\Email2FA;
 use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
 use Config\Validation;
 use Tests\Support\DatabaseTestCase;
+use Tests\Support\FakeAction;
 use Tests\Support\FakeUser;
 
 /**
@@ -235,8 +239,9 @@ final class LoginTest extends DatabaseTestCase
     public function testLoginRedirectsToActionIfDefined(): void
     {
         // Ensure our action is defined
-        $config                   = config('Auth');
-        $config->actions['login'] = Email2FA::class;
+        $config                      = config('Auth');
+        $config->Mfa                 = true;
+        $config->actionsMfa['email'] = Email2FA::class;
         Factories::injectMock('config', 'Auth', $config);
 
         $this->user->createEmailIdentity([
@@ -252,6 +257,191 @@ final class LoginTest extends DatabaseTestCase
         // Should have been redirected to the action's page.
         $result->assertStatus(302);
         $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionMissing('errors');
+        $this->assertSame(site_url('auth/a/show'), $result->getRedirectUrl());
+    }
+
+    public function testLoginNotForcedMFAUserWithoutMFA(): void
+    {
+        // Ensure our action is defined
+        $config                      = config('Auth');
+        $config->Mfa                 = true;
+        $config->forceMfa            = false;
+        $config->actionsMfa['email'] = Email2FA::class;
+        Factories::injectMock('config', 'Auth', $config);
+
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $result = $this->post('/login', [
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        // Should have been redirected to the action's page.
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionMissing('errors');
+        $this->assertSame(site_url(), $result->getRedirectUrl());
+    }
+
+    public function testLoginNotForcedMFAUserWithMFA(): void
+    {
+        // Ensure our action is defined
+        $config                      = config('Auth');
+        $config->Mfa                 = true;
+        $config->forceMfa            = false;
+        $config->actionsMfa['email'] = Email2FA::class;
+        Factories::injectMock('config', 'Auth', $config);
+
+        $users = model(UserModel::class);
+        $this->assertFalse($this->user->isMfaActive());
+        $this->user->fill(['mfa' => 1]);
+        $users->save($this->user);
+        $this->assertTrue($this->user->isMfaActive());
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $result = $this->post('/login', [
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        // Should have been redirected to the action's page.
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionMissing('errors');
+        $this->assertSame(site_url('auth/a/show'), $result->getRedirectUrl());
+    }
+
+    public function testLoginForcedMFAUserWithoutMFA(): void
+    {
+        // Ensure our action is defined
+        $config                      = config('Auth');
+        $config->Mfa                 = true;
+        $config->forceMfa            = true;
+        $config->actionsMfa['email'] = Email2FA::class;
+        Factories::injectMock('config', 'Auth', $config);
+
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $result = $this->post('/login', [
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        // Should have been redirected to the action's page.
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionMissing('errors');
+        $this->assertSame(site_url('auth/a/show'), $result->getRedirectUrl());
+    }
+
+    public function testLoginMFADisabled(): void
+    {
+        // Ensure our action is defined
+        $config                      = config('Auth');
+        $config->actionsMfa['email'] = Email2FA::class;
+        Factories::injectMock('config', 'Auth', $config);
+
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $result = $this->post('/login', [
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        // Should have been redirected to the action's page.
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $result->assertSessionMissing('error');
+        $result->assertSessionMissing('errors');
+        $this->assertSame(site_url(), $result->getRedirectUrl());
+    }
+
+    public function testLoginMultipleMFA(): void
+    {
+        // Ensure our action is defined
+        $config                      = config('Auth');
+        $config->Mfa                 = true;
+        $config->actionsMfa['email'] = Email2FA::class;
+        $config->actionsMfa['test']  = FakeAction::class;
+        Factories::injectMock('config', 'Auth', $config);
+
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'test', 'name' => 'login', 'secret' => 'secret-for-test-token', 'extra' => serialize(['recover_pos' => []])]);
+
+        $this->assertFalse($this->user->isMfaActive());
+        $this->user->fill(['mfa' => 1]);
+        $users = model(UserModel::class);
+        $users->save($this->user);
+        $this->assertTrue($this->user->isMfaActive());
+
+        $result = $this->post('/login', [
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        // Should have been redirected to the action's page.
+        $result->assertStatus(302);
+        $result->assertRedirect();
+
+        $result->assertSessionMissing('error');
+        $result->assertSessionMissing('errors');
+        $this->assertSame(site_url('auth/a/show'), $result->getRedirectUrl());
+    }
+
+    public function testLoginMultipleMFAGroups(): void
+    {
+        // Ensure our action is defined
+        $config                      = config('Auth');
+        $config->Mfa                 = true;
+        $config->forceMfa            = false;
+        $config->actionsMfa['email'] = Email2FA::class;
+        $config->actionsMfa['test']  = FakeAction::class;
+        $config->matrixMfa['admin']  = 'test';
+        Factories::injectMock('config', 'Auth', $config);
+
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'test', 'name' => 'login', 'secret' => 'secret-for-test-token', 'extra' => '']);
+
+        $this->assertFalse($this->user->isMfaActive());
+        $this->user->fill(['mfa' => 1]);
+        $users = model(UserModel::class);
+        $users->save($this->user);
+        $this->assertTrue($this->user->isMfaActive());
+
+        $result = $this->post('/login', [
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        // Should have been redirected to the action's page.
+        $result->assertStatus(302);
+        $result->assertRedirect();
+
         $result->assertSessionMissing('error');
         $result->assertSessionMissing('errors');
         $this->assertSame(site_url('auth/a/show'), $result->getRedirectUrl());

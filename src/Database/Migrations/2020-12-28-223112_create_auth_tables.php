@@ -50,6 +50,7 @@ class CreateAuthTables extends Migration
             'status'         => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
             'status_message' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
             'active'         => ['type' => 'tinyint', 'constraint' => 1, 'null' => 0, 'default' => 0],
+            'mfa'            => ['type' => 'tinyint', 'constraint' => 1, 'null' => 0, 'default' => 0],
             'last_active'    => ['type' => 'datetime', 'null' => true],
             'created_at'     => ['type' => 'datetime', 'null' => true],
             'updated_at'     => ['type' => 'datetime', 'null' => true],
