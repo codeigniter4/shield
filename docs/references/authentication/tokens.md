@@ -175,16 +175,16 @@ $token = $this->user->generateAccessToken('foo', ['foo.bar'], $expiresAt);
 $this->user->isAccessTokenExpired($token); // Returns true
 ```
 
-`CanAccessTokenExpire(AccessToken $accessToken)` - Returns `true` if the Access Token has a set expiration date; otherwise, returns `false`.
+`canAccessTokenExpire(AccessToken $accessToken)` - Returns `true` if the Access Token has a set expiration date; otherwise, returns `false`.
 
 ```php
 $expiresAt = Time::parse('2024-11-03 12:00:00');
 
 $token = $this->user->generateAccessToken('foo', ['foo.bar'], $expiresAt);
-$this->user->CanAccessTokenExpire($token2); // Returns false
+$this->user->canAccessTokenExpire($token2); // Returns false
 
 $token2 = $this->user->generateAccessToken('bar');
-$this->user->CanAccessTokenExpire($token); // Returns true
+$this->user->canAccessTokenExpire($token); // Returns true
 ```
 
 

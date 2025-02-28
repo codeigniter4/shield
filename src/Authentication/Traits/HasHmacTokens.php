@@ -215,7 +215,7 @@ trait HasHmacTokens
     /**
      * Checks if the current HMAC token has a set expiration date
      */
-    public function CanHmacTokenExpire(AccessToken $hmacToken): bool
+    public function canHmacTokenExpire(AccessToken $hmacToken): bool
     {
         return $hmacToken->expires !== null;
     }

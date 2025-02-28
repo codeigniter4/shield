@@ -226,7 +226,7 @@ trait HasAccessTokens
     /**
      * Checks if the access token has a set expiration date
      */
-    public function CanAccessTokenExpire(AccessToken $accessToken): bool
+    public function canAccessTokenExpire(AccessToken $accessToken): bool
     {
         return $accessToken->expires !== null;
     }

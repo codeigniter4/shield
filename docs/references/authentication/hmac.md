@@ -133,16 +133,16 @@ $token = $this->user->generateHmacToken('foo', ['foo.bar'], $expiresAt);
 $this->user->isHmacTokenExpired($token); // Returns true
 ```
 
-`CanHmacTokenExpire(AccessToken $hmacToken)` - Checks if HMAC key has an expiration set. Returns `true` if the HMAC key is expired; otherwise, returns `false`.
+`canHmacTokenExpire(AccessToken $hmacToken)` - Checks if HMAC key has an expiration set. Returns `true` if the HMAC key is expired; otherwise, returns `false`.
 
 ```php
 $expiresAt = Time::parse('2024-11-03 12:00:00');
 
 $token = $this->user->generateHmacToken('foo', ['foo.bar'], $expiresAt);
-$this->user->CanHmacTokenExpire($token); // Returns true
+$this->user->canHmacTokenExpire($token); // Returns true
 
 $token2 = $this->user->generateHmacToken('bar');
-$this->user->CanHmacTokenExpire($token2); // Returns false
+$this->user->canHmacTokenExpire($token2); // Returns false
 ```
 
 You can also easily set all existing HMAC keys/tokens as expired with the `spark` command:

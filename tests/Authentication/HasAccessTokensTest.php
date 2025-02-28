@@ -222,11 +222,11 @@ final class HasAccessTokensTest extends DatabaseTestCase
 
         $token = $this->user->generateAccessToken('foo', ['foo.bar'], $tokenExpiration);
 
-        $this->assertTrue($this->user->CanAccessTokenExpire($token));
+        $this->assertTrue($this->user->canAccessTokenExpire($token));
 
         $token = $this->user->generateAccessToken('foo', ['foo.bar']);
 
-        $this->assertFalse($this->user->CanAccessTokenExpire($token));
+        $this->assertFalse($this->user->canAccessTokenExpire($token));
     }
 
     /**
@@ -240,10 +240,10 @@ final class HasAccessTokensTest extends DatabaseTestCase
 
         $this->user->setAccessToken($token);
 
-        $this->assertTrue($this->user->CanAccessTokenExpire($token));
+        $this->assertTrue($this->user->canAccessTokenExpire($token));
 
         $this->assertTrue($this->user->removeAccessTokenExpiration($token->id));
 
-        $this->assertFalse($this->user->CanAccessTokenExpire($this->user->currentAccessToken()));
+        $this->assertFalse($this->user->canAccessTokenExpire($this->user->currentAccessToken()));
     }
 }
