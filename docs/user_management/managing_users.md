@@ -97,20 +97,22 @@ $usersList = $users
     ->withPermissions()
     ->findAll(10);
 
-// The below code would normally trigger
-// an additional DB queries, but now it won't
+// The below code would normally trigger an additional
+// DB queries, on every loop iteration, but now it won't
 
-// Because identities are preloaded
-echo $usersList[0]->email;
+foreach ($usersList as $u) {
+    // Because identities are preloaded
+    echo $u->email;
 
-// Because groups are preloaded
-$usersList[0]->inGroup('admin');
+    // Because groups are preloaded
+    $u->inGroup('admin');
 
-// Because permissions are preloaded
-$usersList[0]->hasPermission('users.delete');
+    // Because permissions are preloaded
+    $u->hasPermission('users.delete');
 
-// Because groups and permissions are preloaded
-$usersList[0]->can('users.delete');
+    // Because groups and permissions are preloaded
+    $u->can('users.delete');
+}
 ```
 
 ## Managing Users via CLI
