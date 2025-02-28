@@ -411,6 +411,12 @@ The type \'basic\', \'md5\', and \'sha1\' are deprecated\\. They are not cryptog
 $ignoreErrors[] = [
 	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\GroupModel\\:\\:class is discouraged\\.$#',
 	'identifier' => 'codeigniter.factoriesClassConstFetch',
+	'count' => 2,
+	'path' => __DIR__ . '/src/Models/UserModel.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to function model with CodeIgniter\\\\Shield\\\\Models\\\\PermissionModel\\:\\:class is discouraged\\.$#',
+	'identifier' => 'codeigniter.factoriesClassConstFetch',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
@@ -502,13 +508,19 @@ $ignoreErrors[] = [
 $ignoreErrors[] = [
 	'message' => '#^Call to an undefined method CodeIgniter\\\\Shield\\\\Models\\\\UserModel\\:\\:getLastQuery\\(\\)\\.$#',
 	'identifier' => 'method.notFound',
-	'count' => 1,
+	'count' => 7,
 	'path' => __DIR__ . '/tests/Unit/UserTest.php',
 ];
 $ignoreErrors[] = [
 	'message' => '#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with \'CodeIgniter\\\\\\\\Shield\\\\\\\\Entities\\\\\\\\UserIdentity\' and CodeIgniter\\\\Shield\\\\Entities\\\\UserIdentity will always evaluate to true\\.$#',
 	'identifier' => 'method.alreadyNarrowedType',
 	'count' => 1,
+	'path' => __DIR__ . '/tests/Unit/UserTest.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Offset 1 does not exist on array\\{CodeIgniter\\\\Shield\\\\Entities\\\\User\\}\\.$#',
+	'identifier' => 'offsetAccess.notFound',
+	'count' => 5,
 	'path' => __DIR__ . '/tests/Unit/UserTest.php',
 ];
 

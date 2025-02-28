@@ -18,7 +18,9 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\Login;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Entities\UserIdentity;
+use CodeIgniter\Shield\Models\GroupModel;
 use CodeIgniter\Shield\Models\LoginModel;
+use CodeIgniter\Shield\Models\PermissionModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use Tests\Support\DatabaseTestCase;
@@ -130,6 +132,162 @@ final class UserTest extends DatabaseTestCase
         $user = model(UserModel::class)->where('active', 0)->withIdentities()->findById(1);
 
         $this->assertNull($user);
+    }
+
+    public function testModelFindAllWithGroupsUserNotExists(): void
+    {
+        $users = model(UserModel::class)->where('active', 0)->withGroups()->findAll();
+
+        $this->assertSame([], $users);
+    }
+
+    public function testModelFindAllWithGroups(): void
+    {
+        fake(GroupModel::class, ['user_id' => $this->user->id, 'group' => 'superadmin']);
+        fake(GroupModel::class, ['user_id' => $this->user->id, 'group' => 'admin']);
+
+        $users = model(UserModel::class)->where('active', 1)->withGroups()->findAll();
+
+        $this->assertCount(1, $users);
+
+        $this->assertTrue($users[1]->inGroup('admin'));
+
+        // Check the last query and see if a proper type of query was used
+        $query = (string) model(UserModel::class)->getLastQuery();
+        $this->assertMatchesRegularExpression(
+            '/WHERE\s+.*\s+IN\s+\([^)]+\)/i',
+            $query,
+            'Groups were not obtained with the single query (missing "WHERE ... IN" condition)',
+        );
+    }
+
+    public function testModelFindByIdWithGroupsUserNotExists(): void
+    {
+        $user = model(UserModel::class)->where('active', 0)->withGroups()->findById(1);
+
+        $this->assertNull($user);
+    }
+
+    public function testModelFindByIdWithGroups(): void
+    {
+        fake(GroupModel::class, ['user_id' => $this->user->id, 'group' => 'superadmin']);
+        fake(GroupModel::class, ['user_id' => $this->user->id, 'group' => 'admin']);
+
+        $user = model(UserModel::class)->where('active', 1)->withGroups()->findById(1);
+
+        $this->assertInstanceOf(User::class, $user);
+
+        $this->assertTrue($user->inGroup('admin'));
+
+        // Check the last query and see if a proper type of query was used
+        $query = (string) model(UserModel::class)->getLastQuery();
+        $this->assertMatchesRegularExpression(
+            '/WHERE\s+.*\s+IN\s+\([^)]+\)/i',
+            $query,
+            'Groups were not obtained with the single query (missing "WHERE ... IN" condition)',
+        );
+    }
+
+    public function testModelFindAllWithPermissionsUserNotExists(): void
+    {
+        $users = model(UserModel::class)->where('active', 0)->withPermissions()->findAll();
+
+        $this->assertSame([], $users);
+    }
+
+    public function testModelFindAllWithPermissions(): void
+    {
+        fake(PermissionModel::class, ['user_id' => $this->user->id, 'permission' => 'users.edit']);
+        fake(PermissionModel::class, ['user_id' => $this->user->id, 'permission' => 'users.delete']);
+
+        $users = model(UserModel::class)->where('active', 1)->withPermissions()->findAll();
+
+        $this->assertCount(1, $users);
+
+        $this->assertTrue($users[1]->hasPermission('users.delete'));
+        $this->assertFalse($users[1]->hasPermission('users.add'));
+
+        // Check the last query and see if a proper type of query was used
+        $query = (string) model(UserModel::class)->getLastQuery();
+        $this->assertMatchesRegularExpression(
+            '/WHERE\s+.*\s+IN\s+\([^)]+\)/i',
+            $query,
+            'Permissions were not obtained with the single query (missing "WHERE ... IN" condition)',
+        );
+    }
+
+    public function testModelFindByIdWithPermissionsUserNotExists(): void
+    {
+        $user = model(UserModel::class)->where('active', 0)->withPermissions()->findById(1);
+
+        $this->assertNull($user);
+    }
+
+    public function testModelFindByIdWithPermissions(): void
+    {
+        fake(PermissionModel::class, ['user_id' => $this->user->id, 'permission' => 'users.edit']);
+        fake(PermissionModel::class, ['user_id' => $this->user->id, 'permission' => 'users.delete']);
+
+        $user = model(UserModel::class)->where('active', 1)->withPermissions()->findById(1);
+
+        $this->assertInstanceOf(User::class, $user);
+
+        $this->assertTrue($user->hasPermission('users.delete'));
+        $this->assertFalse($user->hasPermission('users.add'));
+
+        // Check the last query and see if a proper type of query was used
+        $query = (string) model(UserModel::class)->getLastQuery();
+        $this->assertMatchesRegularExpression(
+            '/WHERE\s+.*\s+IN\s+\([^)]+\)/i',
+            $query,
+            'Permissions were not obtained with the single query (missing "WHERE ... IN" condition)',
+        );
+    }
+
+    public function testModelFindByIdWithGroupsAndPermissions(): void
+    {
+        fake(GroupModel::class, ['user_id' => $this->user->id, 'group' => 'superadmin']);
+        fake(GroupModel::class, ['user_id' => $this->user->id, 'group' => 'admin']);
+        fake(PermissionModel::class, ['user_id' => $this->user->id, 'permission' => 'users.edit']);
+        fake(PermissionModel::class, ['user_id' => $this->user->id, 'permission' => 'users.delete']);
+
+        $user = model(UserModel::class)->where('active', 1)->withGroups()->withPermissions()->findById(1);
+
+        $this->assertInstanceOf(User::class, $user);
+
+        $this->assertTrue($user->can('users.delete'));
+        $this->assertTrue($user->can('users.add'));
+
+        // Check the last query and see if a proper type of query was used
+        $query = (string) model(UserModel::class)->getLastQuery();
+        $this->assertMatchesRegularExpression(
+            '/WHERE\s+.*\s+IN\s+\([^)]+\)/i',
+            $query,
+            'Groups and Permissions were not obtained with the single query (missing "WHERE ... IN" condition)',
+        );
+    }
+
+    public function testModelFindAllWithGroupsAndPermissions(): void
+    {
+        fake(GroupModel::class, ['user_id' => $this->user->id, 'group' => 'superadmin']);
+        fake(GroupModel::class, ['user_id' => $this->user->id, 'group' => 'admin']);
+        fake(PermissionModel::class, ['user_id' => $this->user->id, 'permission' => 'users.edit']);
+        fake(PermissionModel::class, ['user_id' => $this->user->id, 'permission' => 'users.delete']);
+
+        $users = model(UserModel::class)->where('active', 1)->withGroups()->withPermissions()->findAll();
+
+        $this->assertCount(1, $users);
+
+        $this->assertTrue($users[1]->can('users.delete'));
+        $this->assertTrue($users[1]->can('users.add'));
+
+        // Check the last query and see if a proper type of query was used
+        $query = (string) model(UserModel::class)->getLastQuery();
+        $this->assertMatchesRegularExpression(
+            '/WHERE\s+.*\s+IN\s+\([^)]+\)/i',
+            $query,
+            'Groups and Permissions were not obtained with the single query (missing "WHERE ... IN" condition)',
+        );
     }
 
     public function testLastLogin(): void

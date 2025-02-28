@@ -72,4 +72,28 @@ class PermissionModel extends BaseModel
 
         $this->checkQueryReturn($return);
     }
+
+    /**
+     * @param list<int>|list<string> $userIds
+     *
+     * @return array<int, array>
+     */
+    public function getPermissionsByUserIds(array $userIds): array
+    {
+        $permissions = $this->builder()
+            ->select('user_id, permission')
+            ->whereIn('user_id', $userIds)
+            ->orderBy($this->primaryKey)
+            ->get()
+            ->getResultArray();
+
+        return array_map(
+            'array_keys',
+            array_reduce($permissions, static function ($carry, $item) {
+                $carry[$item['user_id']][$item['permission']] = true;
+
+                return $carry;
+            }, []),
+        );
+    }
 }

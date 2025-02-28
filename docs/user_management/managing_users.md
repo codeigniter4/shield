@@ -79,6 +79,40 @@ $user->fill([
 $users->save($user);
 ```
 
+### Listing Users
+
+When displaying a list of users - for example, in the admin panel - we typically use the standard `find*` methods. However, these methods only return basic user information.
+
+If you need additional details like email addresses, groups, or permissions, each piece of information will trigger a separate database query for every user. This happens because user entities lazy-load related data, which can quickly result in a large number of queries.
+
+To optimize this, you can use method scopes like `UserModel::withIdentities()`, `withGroups()`, and `withPermissions()`. These methods preload the related data in a single query (one per each method), drastically reducing the number of database queries and improving performance.
+
+```php
+// Get the User Provider (UserModel by default)
+$users = auth()->getProvider();
+
+$usersList = $users
+    ->withIdentities()
+    ->withGroups()
+    ->withPermissions()
+    ->findAll(10);
+
+// The below code would normally trigger
+// an additional DB queries, but now it won't
+
+// Because identities are preloaded
+echo $usersList[0]->email;
+
+// Because groups are preloaded
+$usersList[0]->inGroup('admin');
+
+// Because permissions are preloaded
+$usersList[0]->hasPermission('users.delete');
+
+// Because groups and permissions are preloaded
+$usersList[0]->can('users.delete');
+```
+
 ## Managing Users via CLI
 
 Shield has a CLI command to manage users. You can do the following actions:
