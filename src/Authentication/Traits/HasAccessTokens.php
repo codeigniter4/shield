@@ -177,7 +177,7 @@ trait HasAccessTokens
      */
     public function isAccessTokenExpired(AccessToken $accessToken): bool
     {
-        return $accessToken->expires !== null && $accessToken->expires->isBefore(Time::now());
+        return $accessToken->expires instanceof Time && $accessToken->expires->isBefore(Time::now());
     }
 
     /**
@@ -226,7 +226,7 @@ trait HasAccessTokens
     /**
      * Checks if the access token has a set expiration date
      */
-    public function hasAccessTokenExpiry(AccessToken $accessToken): bool
+    public function CanAccessTokenExpire(AccessToken $accessToken): bool
     {
         return $accessToken->expires !== null;
     }

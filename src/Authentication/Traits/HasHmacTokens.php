@@ -166,7 +166,7 @@ trait HasHmacTokens
      */
     public function isHmacTokenExpired(AccessToken $hmacToken): bool
     {
-        return $hmacToken->expires !== null && $hmacToken->expires->isBefore(Time::now());
+        return $hmacToken->expires instanceof Time && $hmacToken->expires->isBefore(Time::now());
     }
 
     /**
@@ -215,7 +215,7 @@ trait HasHmacTokens
     /**
      * Checks if the current HMAC token has a set expiration date
      */
-    public function hasHmacTokenExpiry(AccessToken $hmacToken): bool
+    public function CanHmacTokenExpire(AccessToken $hmacToken): bool
     {
         return $hmacToken->expires !== null;
     }
