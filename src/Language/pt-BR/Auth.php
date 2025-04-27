@@ -27,18 +27,23 @@ return [
     'noUserEntity'          => 'A entidade de usuário deve ser fornecida para validação de senha.',
     'invalidEmail'          => 'Não foi possível verificar se o endereço de e-mail "{0}" corresponde ao e-mail registrado.',
     'unableSendEmailToUser' => 'Desculpe, houve um problema ao enviar o e-mail. Não pudemos enviar um e-mail para {0}.',
+    'invalidEmail'          => 'Não foi possível verificar se o endereço de e-mail "{0}" corresponde ao e-mail registrado.',
+    'unableSendEmailToUser' => 'Desculpe, houve um problema ao enviar o e-mail. Não pudemos enviar um e-mail para {0}.',
     'throttled'             => 'Muitas solicitações feitas a partir deste endereço IP. Você pode tentar novamente em {0} segundos.',
     'notEnoughPrivilege'    => 'Você não tem a permissão necessária para realizar a operação desejada.',
     // JWT Exceptions
+    'invalidJWT'     => 'O token não é válido.',
     'invalidJWT'     => 'O token não é válido.',
     'expiredJWT'     => 'O token expirou.',
     'beforeValidJWT' => 'O token ainda não está disponível.',
 
     'email'           => 'Endereço de e-mail',
+    'email'           => 'Endereço de e-mail',
     'username'        => 'Nome de usuário',
     'password'        => 'Senha',
     'passwordConfirm' => 'Senha (novamente)',
     'haveAccount'     => 'Já tem uma conta?',
+    'token'           => 'Token',
     'token'           => 'Token',
 
     // Botões
