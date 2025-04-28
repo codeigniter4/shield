@@ -16,7 +16,7 @@ return [
     'unknownAuthenticator'  => '{0} não é um autenticador válido.',
     'unknownUserProvider'   => 'Não foi possível determinar o provedor de usuário a ser usado.',
     'invalidUser'           => 'Não foi possível localizar o usuário especificado.',
-    'bannedUser'            => 'Não é possível fazer login porque você está banido no momento.',
+    'bannedUser'            => 'Não é possível efetuar seu login, pois você está banido no momento.',
     'logOutBannedUser'      => 'Você foi desconectado porque foi banido.',
     'badAttempt'            => 'Não foi possível fazer login. Verifique suas credenciais.',
     'noPassword'            => 'Não é possível validar um usuário sem uma senha.',
@@ -62,7 +62,7 @@ return [
     'checkYourEmail'     => 'Verifique seu e-mail!',
     'magicLinkDetails'   => 'Acabamos de enviar um e-mail com um link de login. Ele é válido apenas por {0} minutos.',
     'magicLinkDisabled'  => 'O uso de link mágico não é permitido no momento.',
-    'successLogout'      => 'Você foi deslogado.',
+    'successLogout'      => 'Desconectado.',
     'backToLogin'        => 'Voltar para o login',
 
     // Senhas
