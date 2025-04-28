@@ -62,7 +62,7 @@ return [
     'checkYourEmail'     => 'Verifique seu e-mail!',
     'magicLinkDetails'   => 'Acabamos de enviar um e-mail com um link de login. Ele é válido apenas por {0} minutos.',
     'magicLinkDisabled'  => 'O uso de link mágico não é permitido no momento.',
-    'successLogout'      => 'Desconectado.',
+    'successLogout'      => 'Você foi desconectado.',
     'backToLogin'        => 'Voltar para o login',
 
     // Senhas
