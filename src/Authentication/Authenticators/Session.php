@@ -824,10 +824,9 @@ class Session implements AuthenticatorInterface
         /** @var \CodeIgniter\Session\Session $session */
         $session     = session();
         $sessionData = $session->get();
-        if (isset($sessionData)) {
-            foreach (array_keys($sessionData) as $key) {
-                $session->remove($key);
-            }
+
+        foreach (array_keys($sessionData) as $key) {
+            $session->remove($key);
         }
 
         // Regenerate the session ID for a touch of added safety.
