@@ -34,3 +34,7 @@ parameters:
 		disallowedImplicitArrayCreation: true
 		disallowedShortTernary: true
 		matchingInheritedMethodNames: true
+	ignoreErrors:
+		- identifier: function.internal
+		- identifier: return.internalClass
+		- identifier: staticMethod.internal
