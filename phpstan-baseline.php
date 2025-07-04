@@ -166,15 +166,15 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Collectors/Auth.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Cannot access property \\$id on array\\<string, string\\>\\|object\\.$#',
-	'identifier' => 'property.nonObject',
-	'count' => 9,
-	'path' => __DIR__ . '/src/Commands/Hmac.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Cannot access property \\$expires on array\\<string, string\\>\\|object\\.$#',
 	'identifier' => 'property.nonObject',
 	'count' => 3,
+	'path' => __DIR__ . '/src/Commands/Hmac.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Cannot access property \\$id on array\\<string, string\\>\\|object\\.$#',
+	'identifier' => 'property.nonObject',
+	'count' => 9,
 	'path' => __DIR__ . '/src/Commands/Hmac.php',
 ];
 $ignoreErrors[] = [
@@ -491,6 +491,13 @@ $ignoreErrors[] = [
 	'identifier' => 'method.alreadyNarrowedType',
 	'count' => 6,
 	'path' => __DIR__ . '/tests/Unit/Authentication/JWT/JWTManagerTest.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Call to deprecated method __construct\\(\\) of class CodeIgniter\\\\HTTP\\\\Response\\:
+4\\.5\\.0 The param \\$config is no longer used\\.$#',
+	'identifier' => 'method.deprecated',
+	'count' => 3,
+	'path' => __DIR__ . '/tests/Unit/PwnedValidatorTest.php',
 ];
 $ignoreErrors[] = [
 	'message' => '#^Call to an undefined method CodeIgniter\\\\Shield\\\\Models\\\\UserModel\\:\\:getLastQuery\\(\\)\\.$#',
