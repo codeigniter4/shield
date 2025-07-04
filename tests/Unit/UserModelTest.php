@@ -207,6 +207,8 @@ final class UserModelTest extends DatabaseTestCase
 
         $user = $users->findByCredentials(['email' => 'foo@bar.com']);
 
+        $this->assertInstanceOf(User::class, $user);
+
         $user->username = 'bar';
         $user->email    = 'bar@bar.com';
         $user->active   = true;
