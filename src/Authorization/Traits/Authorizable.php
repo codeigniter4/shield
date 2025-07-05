@@ -366,8 +366,8 @@ trait Authorizable
     }
 
     /**
-     * @phpstan-param 'group'|'permission'       $type
-     * @param         GroupModel|PermissionModel $model
+     * @param 'group'|'permission'       $type
+     * @param GroupModel|PermissionModel $model
      */
     private function saveGroupsOrPermissions(string $type, $model, array $cache): void
     {
