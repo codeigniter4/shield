@@ -592,6 +592,7 @@ final class UserTest extends DatabaseTestCase
 
         $users = model(UserModel::class);
         $user  = $users->findByCredentials(['email' => 'user10@example.com']);
+        $this->assertInstanceOf(UserEntity::class, $user);
         $this->assertTrue($user->inGroup('admin'));
     }
 
@@ -632,6 +633,7 @@ final class UserTest extends DatabaseTestCase
 
         $users = model(UserModel::class);
         $user  = $users->findByCredentials(['email' => 'user10@example.com']);
+        $this->assertInstanceOf(UserEntity::class, $user);
         $this->assertFalse($user->inGroup('admin'));
     }
 
@@ -644,6 +646,7 @@ final class UserTest extends DatabaseTestCase
         ]);
         $users = model(UserModel::class);
         $user  = $users->findByCredentials(['email' => 'user11@example.com']);
+        $this->assertInstanceOf(UserEntity::class, $user);
         $user->addGroup('admin');
         $this->assertTrue($user->inGroup('admin'));
 
@@ -658,6 +661,7 @@ final class UserTest extends DatabaseTestCase
 
         $users = model(UserModel::class);
         $user  = $users->findByCredentials(['email' => 'user11@example.com']);
+        $this->assertInstanceOf(UserEntity::class, $user);
         $this->assertFalse($user->inGroup('admin'));
     }
 
@@ -670,6 +674,7 @@ final class UserTest extends DatabaseTestCase
         ]);
         $users = model(UserModel::class);
         $user  = $users->findByCredentials(['email' => 'user11@example.com']);
+        $this->assertInstanceOf(UserEntity::class, $user);
         $user->addGroup('admin');
         $this->assertTrue($user->inGroup('admin'));
 
@@ -684,6 +689,7 @@ final class UserTest extends DatabaseTestCase
 
         $users = model(UserModel::class);
         $user  = $users->findByCredentials(['email' => 'user11@example.com']);
+        $this->assertInstanceOf(UserEntity::class, $user);
         $this->assertTrue($user->inGroup('admin'));
     }
 
@@ -696,6 +702,7 @@ final class UserTest extends DatabaseTestCase
         ]);
         $users = model(UserModel::class);
         $user  = $users->findByCredentials(['email' => 'user11@example.com']);
+        $this->assertInstanceOf(UserEntity::class, $user);
         $user->addGroup('admin');
         $this->assertTrue($user->inGroup('admin'));
 
@@ -710,6 +717,7 @@ final class UserTest extends DatabaseTestCase
 
         $users = model(UserModel::class);
         $user  = $users->findByCredentials(['email' => 'user11@example.com']);
+        $this->assertInstanceOf(UserEntity::class, $user);
         $this->assertTrue($user->inGroup('admin'));
     }
 }
