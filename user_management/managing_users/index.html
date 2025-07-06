@@ -929,6 +929,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#listing-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing Users
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1603,6 +1612,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#listing-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing Users
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1697,6 +1715,35 @@ $user-&gt;fill([
     'password' =&gt; 'secret123'
 ]);
 $users-&gt;save($user);</code></pre>
+<h3 id="listing-users">Listing Users</h3>
+<p>When displaying a list of users - for example, in the admin panel - we typically use the standard <code>find*</code> methods. However, these methods only return basic user information.</p>
+<p>If you need additional details like email addresses, groups, or permissions, each piece of information will trigger a separate database query for every user. This happens because user entities lazy-load related data, which can quickly result in a large number of queries.</p>
+<p>To optimize this, you can use method scopes like <code>UserModel::withIdentities()</code>, <code>withGroups()</code>, and <code>withPermissions()</code>. These methods preload the related data in a single query (one per each method), drastically reducing the number of database queries and improving performance.</p>
+<pre class="highlight"><code class="language-php">// Get the User Provider (UserModel by default)
+$users = auth()-&gt;getProvider();
+
+$usersList = $users
+    -&gt;withIdentities()
+    -&gt;withGroups()
+    -&gt;withPermissions()
+    -&gt;findAll(10);
+
+// The below code would normally trigger an additional
+// DB queries, on every loop iteration, but now it won't
+
+foreach ($usersList as $u) {
+    // Because identities are preloaded
+    echo $u-&gt;email;
+
+    // Because groups are preloaded
+    $u-&gt;inGroup('admin');
+
+    // Because permissions are preloaded
+    $u-&gt;hasPermission('users.delete');
+
+    // Because groups and permissions are preloaded
+    $u-&gt;can('users.delete');
+}</code></pre>
 <h2 id="managing-users-via-cli">Managing Users via CLI</h2>
 <p>Shield has a CLI command to manage users. You can do the following actions:</p>
 <pre class="highlight"><code class="language-text">create:      Create a new user
@@ -1733,7 +1780,7 @@ removegroup: Remove a user from a group</code></pre>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 25, 2024 00:18:47 UTC">April 25, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 6, 2025 07:05:38 UTC">July 6, 2025</span>
   </span>
 
     
