@@ -113,6 +113,22 @@ trait Authorizable
     }
 
     /**
+     * Set groups cache manually
+     */
+    public function setGroupsCache(array $groups): void
+    {
+        $this->groupCache = $groups === [] ? null : $groups;
+    }
+
+    /**
+     * Set permissions cache manually
+     */
+    public function setPermissionsCache(array $permissions): void
+    {
+        $this->permissionsCache = $permissions === [] ? null : $permissions;
+    }
+
+    /**
      * Returns all groups this user is a part of.
      */
     public function getGroups(): ?array

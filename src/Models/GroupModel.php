@@ -82,4 +82,28 @@ class GroupModel extends BaseModel
 
         return in_array($group, $allowedGroups, true);
     }
+
+    /**
+     * @param list<int>|list<string> $userIds
+     *
+     * @return array<int, array>
+     */
+    public function getGroupsByUserIds(array $userIds): array
+    {
+        $groups = $this->builder()
+            ->select('user_id, group')
+            ->whereIn('user_id', $userIds)
+            ->orderBy($this->primaryKey)
+            ->get()
+            ->getResultArray();
+
+        return array_map(
+            'array_keys',
+            array_reduce($groups, static function ($carry, $item) {
+                $carry[$item['user_id']][$item['group']] = true;
+
+                return $carry;
+            }, []),
+        );
+    }
 }
