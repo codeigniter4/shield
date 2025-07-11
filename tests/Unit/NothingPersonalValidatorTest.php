@@ -162,9 +162,9 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
      *  $config->maxSimilarity = 50; is the highest setting where all tests pass.
      */
     #[DataProvider('provideIsNotPersonalFalsePositivesCaughtByIsNotSimilar')]
-    public function testIsNotPersonalFalsePositivesCaughtByIsNotSimilar(mixed $password): void
+    public function testIsNotPersonalFalsePositivesCaughtByIsNotSimilar(string $password): void
     {
-        new User([
+        $user = new User([
             'username' => 'CaptainJoe',
             'email'    => 'JosephSmith@example.com',
         ]);
@@ -173,16 +173,19 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $config->maxSimilarity = 50;
         $this->validator       = new NothingPersonalValidator($config);
 
-        $isNotPersonal = $this->getPrivateMethodInvoker($this->validator, 'isNotPersonal');
+        $isNotPersonal = self::getPrivateMethodInvoker($this->validator, 'isNotPersonal');
 
-        $isNotSimilar = $this->getPrivateMethodInvoker($this->validator, 'isNotSimilar');
+        $isNotSimilar = self::getPrivateMethodInvoker($this->validator, 'isNotSimilar');
 
-        $this->assertNotSame($isNotPersonal, $isNotSimilar);
+        $this->assertNotSame($isNotPersonal($password, $user), $isNotSimilar($password, $user));
     }
 
+    /**
+     * @return iterable<int, array{0: string}>
+     */
     public static function provideIsNotPersonalFalsePositivesCaughtByIsNotSimilar(): iterable
     {
-        return [
+        yield from [
             ['JoeTheCaptain'],
             ['JoeCaptain'],
             ['CaptainJ'],
