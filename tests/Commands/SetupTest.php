@@ -67,24 +67,28 @@ final class SetupTest extends TestCase
         $command->run([]);
 
         $auth = file_get_contents($appFolder . 'Config/Auth.php');
+        $this->assertIsString($auth);
         $this->assertStringContainsString('namespace Config;', $auth);
         $this->assertStringContainsString('use CodeIgniter\Shield\Config\Auth as ShieldAuth;', $auth);
 
         $authToken = file_get_contents($appFolder . 'Config/AuthToken.php');
+        $this->assertIsString($authToken);
         $this->assertStringContainsString('namespace Config;', $authToken);
         $this->assertStringContainsString('use CodeIgniter\Shield\Config\AuthToken as ShieldAuthToken;', $authToken);
 
         $autoload = file_get_contents($appFolder . 'Config/Autoload.php');
+        $this->assertIsString($autoload);
         $this->assertStringContainsString('$helpers = [\'auth\', \'setting\'];', $autoload);
 
         $routes = file_get_contents($appFolder . 'Config/Routes.php');
+        $this->assertIsString($routes);
         $this->assertStringContainsString('service(\'auth\')->routes($routes);', $routes);
 
         $security = file_get_contents($appFolder . 'Config/Security.php');
+        $this->assertIsString($security);
         $this->assertStringContainsString('$csrfProtection = \'session\';', $security);
 
         $result = $this->getOutputWithoutColorCode();
-
         $this->assertStringContainsString(
             '  Created: vfs://root/Config/Auth.php
   Created: vfs://root/Config/AuthGroups.php
@@ -135,7 +139,7 @@ final class SetupTest extends TestCase
     {
         $command = new Setup(Services::logger(), Services::commands());
 
-        $updateAutoloadHelpers = $this->getPrivateMethodInvoker($command, 'updateAutoloadHelpers');
+        $updateAutoloadHelpers = self::getPrivateMethodInvoker($command, 'updateAutoloadHelpers');
 
         $content = <<<'EOL'
             class Autoload extends AutoloadConfig

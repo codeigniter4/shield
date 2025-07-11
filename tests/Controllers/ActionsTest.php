@@ -132,11 +132,16 @@ final class ActionsTest extends DatabaseTestCase
         $result->assertStatus(200);
         $result->assertSee(lang('Auth.emailEnterCode'));
 
+        $archive = service('email')->archive;
+        $this->assertIsArray($archive);
+        $this->assertArrayHasKey('body', $archive);
+        $this->assertIsString($archive['body']);
+
         // Should have sent an email with the code....
-        $this->assertStringContainsString('Your authentication code is:', service('email')->archive['body']);
+        $this->assertStringContainsString('Your authentication code is:', $archive['body']);
 
         // Should have included the username in the email
-        $this->assertStringContainsString($this->user->username, service('email')->archive['body']);
+        $this->assertStringContainsString($this->user->username, $archive['body']);
     }
 
     public function testEmail2FAVerifyFails(): void
@@ -242,18 +247,23 @@ final class ActionsTest extends DatabaseTestCase
 
         $result->assertStatus(200);
 
+        $archive = service('email')->archive;
+        $this->assertIsArray($archive);
+        $this->assertArrayHasKey('body', $archive);
+        $this->assertIsString($archive['body']);
+
         // Should have sent an email with the link....
         $this->assertStringContainsString(
             'Please use the code below to activate your account and start using the site',
-            service('email')->archive['body'],
+            $archive['body'],
         );
         $this->assertMatchesRegularExpression(
             '!<h1>[0-9]{6}</h1>!',
-            service('email')->archive['body'],
+            $archive['body'],
         );
 
         // Should have included the username in the email
-        $this->assertStringContainsString($this->user->username, service('email')->archive['body']);
+        $this->assertStringContainsString($this->user->username, $archive['body']);
     }
 
     public function testEmailActivateVerify(): void
