@@ -1,4 +1,4 @@
-parameters:
+deptrac:
   paths:
     - ./src/
     - ./vendor/codeigniter4/framework/system/
@@ -155,4 +155,4 @@ parameters:
       - Vendor Entity
       - Vendor Model
       - Vendor View
-  skip_violations:
+  skip_violations: []
