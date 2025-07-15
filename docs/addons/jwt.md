@@ -2,7 +2,7 @@
 
 !!! note
 
-    Shield now supports only JWS (Singed JWT). JWE (Encrypted JWT) is not supported.
+    Shield now supports only JWS (Signed JWT). JWE (Encrypted JWT) is not supported.
 
 ## What is JWT?
 
