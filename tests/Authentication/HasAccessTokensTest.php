@@ -213,6 +213,8 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $this->user->setAccessToken($token);
 
         $this->assertSame('in 1 year', $this->user->currentAccessToken()->expires->humanize());
+
+        Time::setTestNow();
     }
 
     /**

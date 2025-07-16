@@ -222,6 +222,8 @@ final class HasHmacTokensTest extends DatabaseTestCase
         $token = $this->user->generateHmacToken('foo', ['foo.bar'], $tokenExpiration);
 
         $this->assertSame('in 1 year', $token->expires->humanize());
+
+        Time::setTestNow();
     }
 
     /**
