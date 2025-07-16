@@ -205,6 +205,8 @@ final class HasAccessTokensTest extends DatabaseTestCase
      */
     public function testTokenTimeToExpired(): void
     {
+        Time::setTestNow('2025-07-16 12:00:00');
+
         $tokenExpiration = Time::now()->addYears(1);
 
         $token = $this->user->generateAccessToken('foo', ['foo.bar'], $tokenExpiration);

@@ -214,6 +214,8 @@ final class HasHmacTokensTest extends DatabaseTestCase
      */
     public function testHmacTokenTimeToExpired(): void
     {
+        Time::setTestNow('2025-07-16 12:00:00');
+
         $tokenExpiration = Time::now();
         $tokenExpiration = $tokenExpiration->addYears(1);
 
