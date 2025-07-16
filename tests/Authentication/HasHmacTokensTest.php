@@ -35,6 +35,14 @@ final class HasHmacTokensTest extends DatabaseTestCase
         $this->db->table($this->tables['identities'])->truncate();
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        // Reset the current time.
+        Time::setTestNow();
+    }
+
     public function testGenerateHmacToken(): void
     {
         $token = $this->user->generateHmacToken('foo');
@@ -214,6 +222,8 @@ final class HasHmacTokensTest extends DatabaseTestCase
      */
     public function testHmacTokenTimeToExpired(): void
     {
+        Time::setTestNow('2025-07-16 12:00:00');
+
         $tokenExpiration = Time::now();
         $tokenExpiration = $tokenExpiration->addYears(1);
 
