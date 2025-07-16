@@ -35,6 +35,14 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $this->db->table($this->tables['identities'])->truncate();
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        // Reset the current time.
+        Time::setTestNow();
+    }
+
     public function testGenerateToken(): void
     {
         $token = $this->user->generateAccessToken('foo');
@@ -213,8 +221,6 @@ final class HasAccessTokensTest extends DatabaseTestCase
         $this->user->setAccessToken($token);
 
         $this->assertSame('in 1 year', $this->user->currentAccessToken()->expires->humanize());
-
-        Time::setTestNow();
     }
 
     /**
