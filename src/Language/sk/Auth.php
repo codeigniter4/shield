@@ -25,7 +25,7 @@ return [
     'badToken'              => 'Prístupový token je neplatný.',
     'oldToken'              => 'Platnosť prístupového tokenu vypršala.',
     'noUserEntity'          => 'Na overenie hesla je potrebné zadať entitu používateľa.',
-    'invalidEmail'          => '(To be translated) Unable to verify the email address "{0}" matches the email on record.',
+    'invalidEmail'          => 'Nie je možné overiť, či sa e-mailová adresa "{0}" zhoduje s e-mailom v databáze.',
     'unableSendEmailToUser' => 'Ľutujeme, pri odosielaní e-mailu sa vyskytol problém. Nepodarilo sa nám odoslať e-mail na adresu „{0}".',
     'throttled'             => 'Z tejto adresy IP bolo odoslaných príliš veľa žiadostí. Môžete to skúsiť znova o {0} sekúnd.',
     'notEnoughPrivilege'    => 'Nemáte potrebné povolenie na vykonanie požadovanej operácie.',
@@ -39,7 +39,7 @@ return [
     'password'        => 'Heslo',
     'passwordConfirm' => 'Heslo (znova)',
     'haveAccount'     => 'Máte už účet?',
-    'token'           => '(To be translated) Token',
+    'token'           => 'Token',
 
     // Buttons
     'confirm' => 'Potvrdiť',
