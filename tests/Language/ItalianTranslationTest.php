@@ -19,6 +19,7 @@ namespace Tests\Language;
 final class ItalianTranslationTest extends AbstractTranslationTestCase
 {
     protected array $excludedLocaleKeyTranslations = [
+        'Auth.token',
         'Auth.password',
         'Auth.login',
     ];
