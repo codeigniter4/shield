@@ -10,26 +10,28 @@
       
       
       
-        <link rel="canonical" href="https://shield.codeigniter.com/index.html">
+        <link rel="canonical" href="https://shield.codeigniter.com/customization/redirect_urls.html">
       
       
+        <link rel="prev" href="route_config.html">
       
-        <link rel="next" href="getting_started/concepts.html">
+      
+        <link rel="next" href="validation_rules.html">
       
       
-      <link rel="icon" href="assets/favicon.ico">
+      <link rel="icon" href="../assets/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
     
     
       
-        <title>CodeIgniter Shield</title>
+        <title>Customizing Redirect URLs - CodeIgniter Shield</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.7e37652d.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -50,11 +52,11 @@
     
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/styles/github.min.css">
     
-      <link rel="stylesheet" href="assets/css/codeigniter.css">
+      <link rel="stylesheet" href="../assets/css/codeigniter.css">
     
-      <link rel="stylesheet" href="assets/css/codeigniter_dark_mode.css">
+      <link rel="stylesheet" href="../assets/css/codeigniter_dark_mode.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#shield-documentation" class="md-skip">
+        <a href="#customizing-redirect-urls" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +100,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="https://codeigniter.com" title="CodeIgniter Shield" class="md-header__button md-logo" aria-label="CodeIgniter Shield" data-md-component="logo">
       
-  <img src="assets/flame.svg" alt="logo">
+  <img src="../assets/flame.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -115,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Customizing Redirect URLs
             
           </span>
         </div>
@@ -240,7 +242,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="https://codeigniter.com" title="CodeIgniter Shield" class="md-nav__button md-logo" aria-label="CodeIgniter Shield" data-md-component="logo">
       
-  <img src="assets/flame.svg" alt="logo">
+  <img src="../assets/flame.svg" alt="logo">
 
     </a>
     CodeIgniter Shield
@@ -264,32 +266,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Home
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="index.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
         
   
   
@@ -300,77 +280,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-is-shield" class="md-nav__link">
-    <span class="md-ellipsis">
-      What is Shield?
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="What is Shield?">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#primary-goals" class="md-nav__link">
-    <span class="md-ellipsis">
-      Primary Goals
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#important-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      Important Features
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      License
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#acknowledgements" class="md-nav__link">
-    <span class="md-ellipsis">
-      Acknowledgements
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -420,7 +329,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/concepts.html" class="md-nav__link">
+      <a href="../getting_started/concepts.html" class="md-nav__link">
         
   
   
@@ -443,7 +352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/install.html" class="md-nav__link">
+      <a href="../getting_started/install.html" class="md-nav__link">
         
   
   
@@ -466,7 +375,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/authenticators.html" class="md-nav__link">
+      <a href="../getting_started/authenticators.html" class="md-nav__link">
         
   
   
@@ -489,7 +398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/configuration.html" class="md-nav__link">
+      <a href="../getting_started/configuration.html" class="md-nav__link">
         
   
   
@@ -557,7 +466,7 @@
   
   
     <li class="md-nav__item">
-      <a href="quick_start_guide/using_session_auth.html" class="md-nav__link">
+      <a href="../quick_start_guide/using_session_auth.html" class="md-nav__link">
         
   
   
@@ -580,7 +489,7 @@
   
   
     <li class="md-nav__item">
-      <a href="quick_start_guide/using_authorization.html" class="md-nav__link">
+      <a href="../quick_start_guide/using_authorization.html" class="md-nav__link">
         
   
   
@@ -607,18 +516,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
@@ -634,7 +545,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Customization
@@ -648,7 +559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/table_names.html" class="md-nav__link">
+      <a href="table_names.html" class="md-nav__link">
         
   
   
@@ -671,7 +582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/views.html" class="md-nav__link">
+      <a href="views.html" class="md-nav__link">
         
   
   
@@ -694,7 +605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/route_config.html" class="md-nav__link">
+      <a href="route_config.html" class="md-nav__link">
         
   
   
@@ -714,10 +625,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="customization/redirect_urls.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Customizing Redirect URLs
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="redirect_urls.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -728,6 +661,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#customize-login-redirect" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customize Login Redirect
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customize-register-redirect" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customize Register Redirect
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customize-logout-redirect" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customize Logout Redirect
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -740,7 +720,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/validation_rules.html" class="md-nav__link">
+      <a href="validation_rules.html" class="md-nav__link">
         
   
   
@@ -763,7 +743,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/user_provider.html" class="md-nav__link">
+      <a href="user_provider.html" class="md-nav__link">
         
   
   
@@ -786,7 +766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/adding_attributes_to_users.html" class="md-nav__link">
+      <a href="adding_attributes_to_users.html" class="md-nav__link">
         
   
   
@@ -809,7 +789,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/extending_controllers.html" class="md-nav__link">
+      <a href="extending_controllers.html" class="md-nav__link">
         
   
   
@@ -832,7 +812,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/integrating_custom_view_libs.html" class="md-nav__link">
+      <a href="integrating_custom_view_libs.html" class="md-nav__link">
         
   
   
@@ -855,7 +835,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/login_identifier.html" class="md-nav__link">
+      <a href="login_identifier.html" class="md-nav__link">
         
   
   
@@ -923,7 +903,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_management/managing_users.html" class="md-nav__link">
+      <a href="../user_management/managing_users.html" class="md-nav__link">
         
   
   
@@ -946,7 +926,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_management/forcing_password_reset.html" class="md-nav__link">
+      <a href="../user_management/forcing_password_reset.html" class="md-nav__link">
         
   
   
@@ -969,7 +949,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_management/banning_users.html" class="md-nav__link">
+      <a href="../user_management/banning_users.html" class="md-nav__link">
         
   
   
@@ -1037,7 +1017,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/api_tokens.html" class="md-nav__link">
+      <a href="../guides/api_tokens.html" class="md-nav__link">
         
   
   
@@ -1060,7 +1040,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/api_hmac_keys.html" class="md-nav__link">
+      <a href="../guides/api_hmac_keys.html" class="md-nav__link">
         
   
   
@@ -1083,7 +1063,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/mobile_apps.html" class="md-nav__link">
+      <a href="../guides/mobile_apps.html" class="md-nav__link">
         
   
   
@@ -1106,7 +1086,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/strengthen_password.html" class="md-nav__link">
+      <a href="../guides/strengthen_password.html" class="md-nav__link">
         
   
   
@@ -1174,7 +1154,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/controller_filters.html" class="md-nav__link">
+      <a href="../references/controller_filters.html" class="md-nav__link">
         
   
   
@@ -1235,7 +1215,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/authentication.html" class="md-nav__link">
+      <a href="../references/authentication/authentication.html" class="md-nav__link">
         
   
   
@@ -1258,7 +1238,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/session.html" class="md-nav__link">
+      <a href="../references/authentication/session.html" class="md-nav__link">
         
   
   
@@ -1281,7 +1261,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/tokens.html" class="md-nav__link">
+      <a href="../references/authentication/tokens.html" class="md-nav__link">
         
   
   
@@ -1304,7 +1284,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/hmac.html" class="md-nav__link">
+      <a href="../references/authentication/hmac.html" class="md-nav__link">
         
   
   
@@ -1327,7 +1307,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/auth_actions.html" class="md-nav__link">
+      <a href="../references/authentication/auth_actions.html" class="md-nav__link">
         
   
   
@@ -1358,7 +1338,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/magic_link_login.html" class="md-nav__link">
+      <a href="../references/magic_link_login.html" class="md-nav__link">
         
   
   
@@ -1381,7 +1361,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authorization.html" class="md-nav__link">
+      <a href="../references/authorization.html" class="md-nav__link">
         
   
   
@@ -1404,7 +1384,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/events.html" class="md-nav__link">
+      <a href="../references/events.html" class="md-nav__link">
         
   
   
@@ -1427,7 +1407,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/testing.html" class="md-nav__link">
+      <a href="../references/testing.html" class="md-nav__link">
         
   
   
@@ -1495,7 +1475,7 @@
   
   
     <li class="md-nav__item">
-      <a href="addons/jwt.html" class="md-nav__link">
+      <a href="../addons/jwt.html" class="md-nav__link">
         
   
   
@@ -1545,53 +1525,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-is-shield" class="md-nav__link">
+  <a href="#customize-login-redirect" class="md-nav__link">
     <span class="md-ellipsis">
-      What is Shield?
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="What is Shield?">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#primary-goals" class="md-nav__link">
-    <span class="md-ellipsis">
-      Primary Goals
+      Customize Login Redirect
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#important-features" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#customize-register-redirect" class="md-nav__link">
     <span class="md-ellipsis">
-      Important Features
+      Customize Register Redirect
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#customize-logout-redirect" class="md-nav__link">
     <span class="md-ellipsis">
-      License
+      Customize Logout Redirect
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#acknowledgements" class="md-nav__link">
-    <span class="md-ellipsis">
-      Acknowledgements
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1611,7 +1567,7 @@
 
 
   
-    <a href="https://github.com/codeigniter4/shield/edit/develop/docs/index.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/codeigniter4/shield/edit/develop/docs/customization/redirect_urls.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1619,53 +1575,47 @@
   
 
 
-<h1 id="shield-documentation">Shield Documentation</h1>
-<h2 id="what-is-shield">What is Shield?</h2>
-<p>Shield is the official authentication and authorization framework for CodeIgniter 4. While
-it does provide a base set of tools that are commonly used in websites, it is
-designed to be flexible and easily customizable.</p>
-<h3 id="primary-goals">Primary Goals</h3>
-<p>The primary goals for Shield are:</p>
-<ol>
-<li>It must be very flexible and allow developers to extend/override almost any part of it.</li>
-<li>It must have security at its core. It is an auth lib after all.</li>
-<li>To cover many auth needs right out of the box, but be simple to add additional functionality to.</li>
-</ol>
-<h3 id="important-features">Important Features</h3>
-<ul>
-<li><strong>Session-based Authentication</strong> (traditional <strong>ID/Password</strong> with <strong>Remember-me</strong>)</li>
-<li><strong>Stateless Authentication</strong> using <strong>Access Token</strong>, <strong>HMAC SHA256 Token</strong>, or <strong>JWT</strong></li>
-<li>Optional <strong>Email verification</strong> on account registration</li>
-<li>Optional <strong>Email-based Two-Factor Authentication</strong> after login</li>
-<li><strong>Magic Link Login</strong> when a user forgets their password</li>
-<li>Flexible <strong>Group-based Access Control</strong> (think Roles, but more flexible), and users can be granted additional <strong>Permissions</strong></li>
-<li>A simple <strong>Auth Helper</strong> that provides access to the most common auth actions</li>
-<li>Save initial settings in your code, so it can be in version control, but can also be updated in the database, thanks to our <a href="https://github.com/codeigniter4/settings">Settings</a> library</li>
-<li>Highly configurable</li>
-<li><strong>User Entity</strong> and <strong>User Provider</strong> (<code>UserModel</code>) ready for you to use or extend</li>
-<li>Built to extend and modify<ul>
-<li>Easily extendable controllers</li>
-<li>All required views that can be used as is or swapped out for your own</li>
-</ul>
-</li>
-</ul>
-<h3 id="license">License</h3>
-<p>Shield is licensed under the MIT License - see the <a href="https://github.com/codeigniter4/shield/blob/develop/LICENSE">LICENSE</a> file for details.</p>
-<h3 id="acknowledgements">Acknowledgements</h3>
-<p>Every open-source project depends on it's contributors to be a success. The following users have
-contributed in one manner or another in making Shield:</p>
-<p><a href="https://github.com/codeigniter4/shield/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=codeigniter4/shield" alt="Contributors">
-</a></p>
-<p>Made with <a href="https://contrib.rocks">contrib.rocks</a>.</p>
-<p>The following articles/sites have been fundamental in shaping the security and best practices used
-within this library, in no particular order:</p>
-<ul>
-<li><a href="https://cloud.google.com/blog/products/identity-security/account-authentication-and-password-management-best-practices">Google Cloud: 13 best practices for user account, authentication, and password management, 2021 edition</a></li>
-<li><a href="https://pages.nist.gov/800-63-3/sp800-63b.html">NIST Digital Identity Guidelines</a></li>
-<li><a href="https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence">Implementing Secure User Authentication in PHP Applications with Long-Term Persistence (Login with "Remember Me" Cookies) </a></li>
-<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">Password Storage - OWASP Cheat Sheet Series</a></li>
-</ul>
+<h1 id="customizing-redirect-urls">Customizing Redirect URLs</h1>
+<h2 id="customize-login-redirect">Customize Login Redirect</h2>
+<p>You can customize where a user is redirected to on login with the <code>loginRedirect()</code> method of the <strong>app/Config/Auth.php</strong> config file. This is handy if you want to redirect based on user group or other criteria.</p>
+<pre class="highlight"><code class="language-php">public function loginRedirect(): string
+{
+    $url = auth()-&gt;user()-&gt;inGroup('admin')
+        ? '/admin'
+        : setting('Auth.redirects')['login'];
+
+    return $this-&gt;getUrl($url);
+}</code></pre>
+<p>Oftentimes, you will want to have different redirects for different user groups. A simple example
+might be that you want admins redirected to <code>/admin</code> while all other groups redirect to <code>/</code>.
+The <strong>app/Config/Auth.php</strong> config file also includes methods that you can add additional logic to in order to
+achieve this:</p>
+<pre class="highlight"><code class="language-php">public function loginRedirect(): string
+{
+    if (auth()-&gt;user()-&gt;can('admin.access')) {
+        return '/admin';
+    }
+
+    $url = setting('Auth.redirects')['login'];
+
+    return $this-&gt;getUrl($url);
+}</code></pre>
+<h2 id="customize-register-redirect">Customize Register Redirect</h2>
+<p>You can customize where a user is redirected to after registration in the <code>registerRedirect()</code> method of the <strong>app/Config/Auth.php</strong> config file.</p>
+<pre class="highlight"><code class="language-php">public function registerRedirect(): string
+{
+    $url = setting('Auth.redirects')['register'];
+
+    return $this-&gt;getUrl($url);
+}</code></pre>
+<h2 id="customize-logout-redirect">Customize Logout Redirect</h2>
+<p>The logout redirect can also be overridden by the <code>logoutRedirect()</code> method of the <strong>app/Config/Auth.php</strong> config file. This will not be used as often as login and register, but you might find the need. For example, if you programatically logged a user out you might want to take them to a page that specifies why they were logged out. Otherwise, you might take them to the home page or even the login page.</p>
+<pre class="highlight"><code class="language-php">public function logoutRedirect(): string
+{
+    $url = setting('Auth.redirects')['logout'];
+
+    return $this-&gt;getUrl($url);
+}</code></pre>
 
 
 
@@ -1688,7 +1638,7 @@ within this library, in no particular order:</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 19, 2023 13:13:43 UTC">December 19, 2023</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 17, 2023 08:27:17 UTC">September 17, 2023</span>
   </span>
 
     
@@ -1698,7 +1648,7 @@ within this library, in no particular order:</p>
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="June 27, 2022 03:58:22 UTC">June 27, 2022</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 17, 2023 08:27:17 UTC">September 17, 2023</span>
   </span>
 
     
@@ -1732,15 +1682,31 @@ within this library, in no particular order:</p>
       
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
+          
+          <a href="route_config.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Customizing Routes">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Customizing Routes
+              </div>
+            </div>
+          </a>
+        
         
           
-          <a href="getting_started/concepts.html" class="md-footer__link md-footer__link--next" aria-label="Next: Concepts">
+          <a href="validation_rules.html" class="md-footer__link md-footer__link--next" aria-label="Next: Customizing Validation Rules">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Concepts
+                Customizing Validation Rules
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1811,16 +1777,16 @@ within this library, in no particular order:</p>
     
     
       
-      <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.50899def.min.js"></script>
+      <script src="../assets/javascripts/bundle.50899def.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
       
-        <script src="assets/js/hljs.js"></script>
+        <script src="../assets/js/hljs.js"></script>
       
-        <script src="assets/js/curl.min.js"></script>
+        <script src="../assets/js/curl.min.js"></script>
       
     
   </body>

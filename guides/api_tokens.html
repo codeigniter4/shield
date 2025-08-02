@@ -10,26 +10,28 @@
       
       
       
-        <link rel="canonical" href="https://shield.codeigniter.com/index.html">
+        <link rel="canonical" href="https://shield.codeigniter.com/guides/api_tokens.html">
       
       
+        <link rel="prev" href="../user_management/banning_users.html">
       
-        <link rel="next" href="getting_started/concepts.html">
+      
+        <link rel="next" href="api_hmac_keys.html">
       
       
-      <link rel="icon" href="assets/favicon.ico">
+      <link rel="icon" href="../assets/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
     
     
       
-        <title>CodeIgniter Shield</title>
+        <title>Protecting an API with Access Tokens - CodeIgniter Shield</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.7e37652d.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -50,11 +52,11 @@
     
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/styles/github.min.css">
     
-      <link rel="stylesheet" href="assets/css/codeigniter.css">
+      <link rel="stylesheet" href="../assets/css/codeigniter.css">
     
-      <link rel="stylesheet" href="assets/css/codeigniter_dark_mode.css">
+      <link rel="stylesheet" href="../assets/css/codeigniter_dark_mode.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#shield-documentation" class="md-skip">
+        <a href="#protecting-an-api-with-access-tokens" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +100,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="https://codeigniter.com" title="CodeIgniter Shield" class="md-header__button md-logo" aria-label="CodeIgniter Shield" data-md-component="logo">
       
-  <img src="assets/flame.svg" alt="logo">
+  <img src="../assets/flame.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -115,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Protecting an API with Access Tokens
             
           </span>
         </div>
@@ -240,7 +242,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="https://codeigniter.com" title="CodeIgniter Shield" class="md-nav__button md-logo" aria-label="CodeIgniter Shield" data-md-component="logo">
       
-  <img src="assets/flame.svg" alt="logo">
+  <img src="../assets/flame.svg" alt="logo">
 
     </a>
     CodeIgniter Shield
@@ -264,32 +266,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Home
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="index.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
         
   
   
@@ -300,77 +280,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-is-shield" class="md-nav__link">
-    <span class="md-ellipsis">
-      What is Shield?
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="What is Shield?">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#primary-goals" class="md-nav__link">
-    <span class="md-ellipsis">
-      Primary Goals
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#important-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      Important Features
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      License
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#acknowledgements" class="md-nav__link">
-    <span class="md-ellipsis">
-      Acknowledgements
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -420,7 +329,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/concepts.html" class="md-nav__link">
+      <a href="../getting_started/concepts.html" class="md-nav__link">
         
   
   
@@ -443,7 +352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/install.html" class="md-nav__link">
+      <a href="../getting_started/install.html" class="md-nav__link">
         
   
   
@@ -466,7 +375,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/authenticators.html" class="md-nav__link">
+      <a href="../getting_started/authenticators.html" class="md-nav__link">
         
   
   
@@ -489,7 +398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/configuration.html" class="md-nav__link">
+      <a href="../getting_started/configuration.html" class="md-nav__link">
         
   
   
@@ -557,7 +466,7 @@
   
   
     <li class="md-nav__item">
-      <a href="quick_start_guide/using_session_auth.html" class="md-nav__link">
+      <a href="../quick_start_guide/using_session_auth.html" class="md-nav__link">
         
   
   
@@ -580,7 +489,7 @@
   
   
     <li class="md-nav__item">
-      <a href="quick_start_guide/using_authorization.html" class="md-nav__link">
+      <a href="../quick_start_guide/using_authorization.html" class="md-nav__link">
         
   
   
@@ -648,7 +557,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/table_names.html" class="md-nav__link">
+      <a href="../customization/table_names.html" class="md-nav__link">
         
   
   
@@ -671,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/views.html" class="md-nav__link">
+      <a href="../customization/views.html" class="md-nav__link">
         
   
   
@@ -694,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/route_config.html" class="md-nav__link">
+      <a href="../customization/route_config.html" class="md-nav__link">
         
   
   
@@ -717,7 +626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/redirect_urls.html" class="md-nav__link">
+      <a href="../customization/redirect_urls.html" class="md-nav__link">
         
   
   
@@ -740,7 +649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/validation_rules.html" class="md-nav__link">
+      <a href="../customization/validation_rules.html" class="md-nav__link">
         
   
   
@@ -763,7 +672,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/user_provider.html" class="md-nav__link">
+      <a href="../customization/user_provider.html" class="md-nav__link">
         
   
   
@@ -786,7 +695,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/adding_attributes_to_users.html" class="md-nav__link">
+      <a href="../customization/adding_attributes_to_users.html" class="md-nav__link">
         
   
   
@@ -809,7 +718,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/extending_controllers.html" class="md-nav__link">
+      <a href="../customization/extending_controllers.html" class="md-nav__link">
         
   
   
@@ -832,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/integrating_custom_view_libs.html" class="md-nav__link">
+      <a href="../customization/integrating_custom_view_libs.html" class="md-nav__link">
         
   
   
@@ -855,7 +764,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/login_identifier.html" class="md-nav__link">
+      <a href="../customization/login_identifier.html" class="md-nav__link">
         
   
   
@@ -923,7 +832,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_management/managing_users.html" class="md-nav__link">
+      <a href="../user_management/managing_users.html" class="md-nav__link">
         
   
   
@@ -946,7 +855,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_management/forcing_password_reset.html" class="md-nav__link">
+      <a href="../user_management/forcing_password_reset.html" class="md-nav__link">
         
   
   
@@ -969,7 +878,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_management/banning_users.html" class="md-nav__link">
+      <a href="../user_management/banning_users.html" class="md-nav__link">
         
   
   
@@ -996,18 +905,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
@@ -1023,7 +934,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Guides
@@ -1034,10 +945,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="guides/api_tokens.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Protecting an API with Access Tokens
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="api_tokens.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1048,6 +981,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#token-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Token Permissions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Token Permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#revoking-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      Revoking Tokens
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#protecting-routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Protecting Routes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1060,7 +1046,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/api_hmac_keys.html" class="md-nav__link">
+      <a href="api_hmac_keys.html" class="md-nav__link">
         
   
   
@@ -1083,7 +1069,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/mobile_apps.html" class="md-nav__link">
+      <a href="mobile_apps.html" class="md-nav__link">
         
   
   
@@ -1106,7 +1092,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/strengthen_password.html" class="md-nav__link">
+      <a href="strengthen_password.html" class="md-nav__link">
         
   
   
@@ -1174,7 +1160,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/controller_filters.html" class="md-nav__link">
+      <a href="../references/controller_filters.html" class="md-nav__link">
         
   
   
@@ -1235,7 +1221,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/authentication.html" class="md-nav__link">
+      <a href="../references/authentication/authentication.html" class="md-nav__link">
         
   
   
@@ -1258,7 +1244,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/session.html" class="md-nav__link">
+      <a href="../references/authentication/session.html" class="md-nav__link">
         
   
   
@@ -1281,7 +1267,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/tokens.html" class="md-nav__link">
+      <a href="../references/authentication/tokens.html" class="md-nav__link">
         
   
   
@@ -1304,7 +1290,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/hmac.html" class="md-nav__link">
+      <a href="../references/authentication/hmac.html" class="md-nav__link">
         
   
   
@@ -1327,7 +1313,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/auth_actions.html" class="md-nav__link">
+      <a href="../references/authentication/auth_actions.html" class="md-nav__link">
         
   
   
@@ -1358,7 +1344,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/magic_link_login.html" class="md-nav__link">
+      <a href="../references/magic_link_login.html" class="md-nav__link">
         
   
   
@@ -1381,7 +1367,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authorization.html" class="md-nav__link">
+      <a href="../references/authorization.html" class="md-nav__link">
         
   
   
@@ -1404,7 +1390,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/events.html" class="md-nav__link">
+      <a href="../references/events.html" class="md-nav__link">
         
   
   
@@ -1427,7 +1413,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/testing.html" class="md-nav__link">
+      <a href="../references/testing.html" class="md-nav__link">
         
   
   
@@ -1495,7 +1481,7 @@
   
   
     <li class="md-nav__item">
-      <a href="addons/jwt.html" class="md-nav__link">
+      <a href="../addons/jwt.html" class="md-nav__link">
         
   
   
@@ -1545,46 +1531,19 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-is-shield" class="md-nav__link">
+  <a href="#token-permissions" class="md-nav__link">
     <span class="md-ellipsis">
-      What is Shield?
+      Token Permissions
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="What is Shield?">
+    <nav class="md-nav" aria-label="Token Permissions">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#primary-goals" class="md-nav__link">
+  <a href="#revoking-tokens" class="md-nav__link">
     <span class="md-ellipsis">
-      Primary Goals
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#important-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      Important Features
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      License
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#acknowledgements" class="md-nav__link">
-    <span class="md-ellipsis">
-      Acknowledgements
+      Revoking Tokens
     </span>
   </a>
   
@@ -1592,6 +1551,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#protecting-routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Protecting Routes
+    </span>
+  </a>
   
 </li>
       
@@ -1611,7 +1579,7 @@
 
 
   
-    <a href="https://github.com/codeigniter4/shield/edit/develop/docs/index.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/codeigniter4/shield/edit/develop/docs/guides/api_tokens.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1619,53 +1587,56 @@
   
 
 
-<h1 id="shield-documentation">Shield Documentation</h1>
-<h2 id="what-is-shield">What is Shield?</h2>
-<p>Shield is the official authentication and authorization framework for CodeIgniter 4. While
-it does provide a base set of tools that are commonly used in websites, it is
-designed to be flexible and easily customizable.</p>
-<h3 id="primary-goals">Primary Goals</h3>
-<p>The primary goals for Shield are:</p>
-<ol>
-<li>It must be very flexible and allow developers to extend/override almost any part of it.</li>
-<li>It must have security at its core. It is an auth lib after all.</li>
-<li>To cover many auth needs right out of the box, but be simple to add additional functionality to.</li>
-</ol>
-<h3 id="important-features">Important Features</h3>
-<ul>
-<li><strong>Session-based Authentication</strong> (traditional <strong>ID/Password</strong> with <strong>Remember-me</strong>)</li>
-<li><strong>Stateless Authentication</strong> using <strong>Access Token</strong>, <strong>HMAC SHA256 Token</strong>, or <strong>JWT</strong></li>
-<li>Optional <strong>Email verification</strong> on account registration</li>
-<li>Optional <strong>Email-based Two-Factor Authentication</strong> after login</li>
-<li><strong>Magic Link Login</strong> when a user forgets their password</li>
-<li>Flexible <strong>Group-based Access Control</strong> (think Roles, but more flexible), and users can be granted additional <strong>Permissions</strong></li>
-<li>A simple <strong>Auth Helper</strong> that provides access to the most common auth actions</li>
-<li>Save initial settings in your code, so it can be in version control, but can also be updated in the database, thanks to our <a href="https://github.com/codeigniter4/settings">Settings</a> library</li>
-<li>Highly configurable</li>
-<li><strong>User Entity</strong> and <strong>User Provider</strong> (<code>UserModel</code>) ready for you to use or extend</li>
-<li>Built to extend and modify<ul>
-<li>Easily extendable controllers</li>
-<li>All required views that can be used as is or swapped out for your own</li>
-</ul>
-</li>
-</ul>
-<h3 id="license">License</h3>
-<p>Shield is licensed under the MIT License - see the <a href="https://github.com/codeigniter4/shield/blob/develop/LICENSE">LICENSE</a> file for details.</p>
-<h3 id="acknowledgements">Acknowledgements</h3>
-<p>Every open-source project depends on it's contributors to be a success. The following users have
-contributed in one manner or another in making Shield:</p>
-<p><a href="https://github.com/codeigniter4/shield/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=codeigniter4/shield" alt="Contributors">
-</a></p>
-<p>Made with <a href="https://contrib.rocks">contrib.rocks</a>.</p>
-<p>The following articles/sites have been fundamental in shaping the security and best practices used
-within this library, in no particular order:</p>
-<ul>
-<li><a href="https://cloud.google.com/blog/products/identity-security/account-authentication-and-password-management-best-practices">Google Cloud: 13 best practices for user account, authentication, and password management, 2021 edition</a></li>
-<li><a href="https://pages.nist.gov/800-63-3/sp800-63b.html">NIST Digital Identity Guidelines</a></li>
-<li><a href="https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence">Implementing Secure User Authentication in PHP Applications with Long-Term Persistence (Login with "Remember Me" Cookies) </a></li>
-<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">Password Storage - OWASP Cheat Sheet Series</a></li>
-</ul>
+<h1 id="protecting-an-api-with-access-tokens">Protecting an API with Access Tokens</h1>
+<p>Access Tokens can be used to authenticate users for your own site, or when allowing third-party developers to access your API. When making requests using access tokens, the token should be included in the <code>Authorization</code> header as a <code>Bearer</code> token.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By default, <code>$authenticatorHeader['tokens']</code> is set to <code>Authorization</code>. You can change this value by setting the <code>$authenticatorHeader['tokens']</code> value in the <strong>app/Config/AuthToken.php</strong> config file.</p>
+</div>
+<p>Tokens are issued with the <code>generateAccessToken()</code> method on the user. This returns a <code>CodeIgniter\Shield\Entities\AccessToken</code> instance. Tokens are hashed using a SHA-256 algorithm before being saved to the database. The access token returned when you generate it will include a <code>raw_token</code> field that contains the plain-text, un-hashed, token. You should display this to your user at once so they have a chance to copy it somewhere safe, as this is the only time this will be available. After this request, there is no way to get the raw token.</p>
+<p>The <code>generateAccessToken()</code> method requires a name for the token. These are free strings and are often used to identify the user/device the token was generated from, like 'Johns MacBook Air'.</p>
+<pre class="highlight"><code class="language-php">$routes-&gt;get('access/token', static function() {
+    $token = auth()-&gt;user()-&gt;generateAccessToken(service('request')-&gt;getVar('token_name'));
+
+    return json_encode(['token' =&gt; $token-&gt;raw_token]);
+});</code></pre>
+<p>You can access all of the user's tokens with the <code>accessTokens()</code> method on that user.</p>
+<pre class="highlight"><code class="language-php">$tokens = $user-&gt;accessTokens();
+foreach($tokens as $token) {
+    //
+}</code></pre>
+<h2 id="token-permissions">Token Permissions</h2>
+<p>Access tokens can be given <code>scopes</code>, which are basically permission strings, for the token. This is generally not the same as the permission the user has, but is used to specify the permissions on the API itself. If not specified, the token is granted all access to all scopes. This might be enough for a smaller API.</p>
+<pre class="highlight"><code class="language-php">return $user-&gt;generateAccessToken('token-name', ['users-read'])-&gt;raw_token;</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At this time, scope names should avoid using a colon (<code>:</code>) as this causes issues with the route filters being correctly recognized.</p>
+</div>
+<p>When handling incoming requests you can check if the token has been granted access to the scope with the <code>tokenCan()</code> method.</p>
+<pre class="highlight"><code class="language-php">if ($user-&gt;tokenCan('users-read')) {
+    //
+}</code></pre>
+<h3 id="revoking-tokens">Revoking Tokens</h3>
+<p>Tokens can be revoked by deleting them from the database with the <code>revokeAccessToken($rawToken)</code>, <code>revokeAccessTokenBySecret($secret)</code> or <code>revokeAllAccessTokens()</code> methods.</p>
+<pre class="highlight"><code class="language-php">$user-&gt;revokeAccessToken($rawToken);
+$user-&gt;revokeAccessTokenBySecret($secret);
+$user-&gt;revokeAllAccessTokens();</code></pre>
+<h2 id="protecting-routes">Protecting Routes</h2>
+<p>The first way to specify which routes are protected is to use the <code>tokens</code> controller filter.</p>
+<p>For example, to ensure it protects all routes under the <code>/api</code> route group, you would use the <code>$filters</code> setting on <strong>app/Config/Filters.php</strong>.</p>
+<pre class="highlight"><code class="language-php">public $filters = [
+    'tokens' =&gt; ['before' =&gt; ['api/*']],
+];</code></pre>
+<p>You can also specify the filter should run on one or more routes within the routes file itself:</p>
+<pre class="highlight"><code class="language-php">$routes-&gt;group('api', ['filter' =&gt; 'tokens'], function($routes) {
+    //
+});
+$routes-&gt;get('users', 'UserController::list', ['filter' =&gt; 'tokens:users-read']);</code></pre>
+<p>When the filter runs, it checks the <code>Authorization</code> header for a <code>Bearer</code> value that has the raw token. It then hashes the raw token and looks it up in the database. Once found, it can determine the correct user, which will then be available through an <code>auth()-&gt;user()</code> call.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently only a single scope can be used on a route filter. If multiple scopes are passed in, only the first one is checked.</p>
+</div>
 
 
 
@@ -1688,7 +1659,7 @@ within this library, in no particular order:</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 19, 2023 13:13:43 UTC">December 19, 2023</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 19, 2023 01:29:37 UTC">October 19, 2023</span>
   </span>
 
     
@@ -1698,7 +1669,7 @@ within this library, in no particular order:</p>
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="June 27, 2022 03:58:22 UTC">June 27, 2022</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 2, 2022 05:35:36 UTC">September 2, 2022</span>
   </span>
 
     
@@ -1732,15 +1703,31 @@ within this library, in no particular order:</p>
       
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
+          
+          <a href="../user_management/banning_users.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Banning Users">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Banning Users
+              </div>
+            </div>
+          </a>
+        
         
           
-          <a href="getting_started/concepts.html" class="md-footer__link md-footer__link--next" aria-label="Next: Concepts">
+          <a href="api_hmac_keys.html" class="md-footer__link md-footer__link--next" aria-label="Next: Protecting an API with HMAC Keys">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Concepts
+                Protecting an API with HMAC Keys
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1811,16 +1798,16 @@ within this library, in no particular order:</p>
     
     
       
-      <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.50899def.min.js"></script>
+      <script src="../assets/javascripts/bundle.50899def.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
       
-        <script src="assets/js/hljs.js"></script>
+        <script src="../assets/js/hljs.js"></script>
       
-        <script src="assets/js/curl.min.js"></script>
+        <script src="../assets/js/curl.min.js"></script>
       
     
   </body>

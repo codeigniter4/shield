@@ -10,26 +10,28 @@
       
       
       
-        <link rel="canonical" href="https://shield.codeigniter.com/index.html">
+        <link rel="canonical" href="https://shield.codeigniter.com/references/authentication/hmac.html">
       
       
+        <link rel="prev" href="tokens.html">
       
-        <link rel="next" href="getting_started/concepts.html">
+      
+        <link rel="next" href="auth_actions.html">
       
       
-      <link rel="icon" href="assets/favicon.ico">
+      <link rel="icon" href="../../assets/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
     
     
       
-        <title>CodeIgniter Shield</title>
+        <title>HMAC Authenticator - CodeIgniter Shield</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.7e37652d.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -50,11 +52,11 @@
     
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/styles/github.min.css">
     
-      <link rel="stylesheet" href="assets/css/codeigniter.css">
+      <link rel="stylesheet" href="../../assets/css/codeigniter.css">
     
-      <link rel="stylesheet" href="assets/css/codeigniter_dark_mode.css">
+      <link rel="stylesheet" href="../../assets/css/codeigniter_dark_mode.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#shield-documentation" class="md-skip">
+        <a href="#hmac-sha256-token-authenticator" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +100,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="https://codeigniter.com" title="CodeIgniter Shield" class="md-header__button md-logo" aria-label="CodeIgniter Shield" data-md-component="logo">
       
-  <img src="assets/flame.svg" alt="logo">
+  <img src="../../assets/flame.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -115,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              HMAC Authenticator
             
           </span>
         </div>
@@ -240,7 +242,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="https://codeigniter.com" title="CodeIgniter Shield" class="md-nav__button md-logo" aria-label="CodeIgniter Shield" data-md-component="logo">
       
-  <img src="assets/flame.svg" alt="logo">
+  <img src="../../assets/flame.svg" alt="logo">
 
     </a>
     CodeIgniter Shield
@@ -264,32 +266,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Home
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="index.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../index.html" class="md-nav__link">
         
   
   
@@ -300,77 +280,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-is-shield" class="md-nav__link">
-    <span class="md-ellipsis">
-      What is Shield?
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="What is Shield?">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#primary-goals" class="md-nav__link">
-    <span class="md-ellipsis">
-      Primary Goals
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#important-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      Important Features
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      License
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#acknowledgements" class="md-nav__link">
-    <span class="md-ellipsis">
-      Acknowledgements
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -420,7 +329,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/concepts.html" class="md-nav__link">
+      <a href="../../getting_started/concepts.html" class="md-nav__link">
         
   
   
@@ -443,7 +352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/install.html" class="md-nav__link">
+      <a href="../../getting_started/install.html" class="md-nav__link">
         
   
   
@@ -466,7 +375,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/authenticators.html" class="md-nav__link">
+      <a href="../../getting_started/authenticators.html" class="md-nav__link">
         
   
   
@@ -489,7 +398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/configuration.html" class="md-nav__link">
+      <a href="../../getting_started/configuration.html" class="md-nav__link">
         
   
   
@@ -557,7 +466,7 @@
   
   
     <li class="md-nav__item">
-      <a href="quick_start_guide/using_session_auth.html" class="md-nav__link">
+      <a href="../../quick_start_guide/using_session_auth.html" class="md-nav__link">
         
   
   
@@ -580,7 +489,7 @@
   
   
     <li class="md-nav__item">
-      <a href="quick_start_guide/using_authorization.html" class="md-nav__link">
+      <a href="../../quick_start_guide/using_authorization.html" class="md-nav__link">
         
   
   
@@ -648,7 +557,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/table_names.html" class="md-nav__link">
+      <a href="../../customization/table_names.html" class="md-nav__link">
         
   
   
@@ -671,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/views.html" class="md-nav__link">
+      <a href="../../customization/views.html" class="md-nav__link">
         
   
   
@@ -694,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/route_config.html" class="md-nav__link">
+      <a href="../../customization/route_config.html" class="md-nav__link">
         
   
   
@@ -717,7 +626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/redirect_urls.html" class="md-nav__link">
+      <a href="../../customization/redirect_urls.html" class="md-nav__link">
         
   
   
@@ -740,7 +649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/validation_rules.html" class="md-nav__link">
+      <a href="../../customization/validation_rules.html" class="md-nav__link">
         
   
   
@@ -763,7 +672,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/user_provider.html" class="md-nav__link">
+      <a href="../../customization/user_provider.html" class="md-nav__link">
         
   
   
@@ -786,7 +695,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/adding_attributes_to_users.html" class="md-nav__link">
+      <a href="../../customization/adding_attributes_to_users.html" class="md-nav__link">
         
   
   
@@ -809,7 +718,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/extending_controllers.html" class="md-nav__link">
+      <a href="../../customization/extending_controllers.html" class="md-nav__link">
         
   
   
@@ -832,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/integrating_custom_view_libs.html" class="md-nav__link">
+      <a href="../../customization/integrating_custom_view_libs.html" class="md-nav__link">
         
   
   
@@ -855,7 +764,7 @@
   
   
     <li class="md-nav__item">
-      <a href="customization/login_identifier.html" class="md-nav__link">
+      <a href="../../customization/login_identifier.html" class="md-nav__link">
         
   
   
@@ -923,7 +832,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_management/managing_users.html" class="md-nav__link">
+      <a href="../../user_management/managing_users.html" class="md-nav__link">
         
   
   
@@ -946,7 +855,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_management/forcing_password_reset.html" class="md-nav__link">
+      <a href="../../user_management/forcing_password_reset.html" class="md-nav__link">
         
   
   
@@ -969,7 +878,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_management/banning_users.html" class="md-nav__link">
+      <a href="../../user_management/banning_users.html" class="md-nav__link">
         
   
   
@@ -1037,7 +946,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/api_tokens.html" class="md-nav__link">
+      <a href="../../guides/api_tokens.html" class="md-nav__link">
         
   
   
@@ -1060,7 +969,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/api_hmac_keys.html" class="md-nav__link">
+      <a href="../../guides/api_hmac_keys.html" class="md-nav__link">
         
   
   
@@ -1083,7 +992,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/mobile_apps.html" class="md-nav__link">
+      <a href="../../guides/mobile_apps.html" class="md-nav__link">
         
   
   
@@ -1106,7 +1015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/strengthen_password.html" class="md-nav__link">
+      <a href="../../guides/strengthen_password.html" class="md-nav__link">
         
   
   
@@ -1133,18 +1042,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -1160,7 +1071,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             References
@@ -1174,7 +1085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/controller_filters.html" class="md-nav__link">
+      <a href="../controller_filters.html" class="md-nav__link">
         
   
   
@@ -1194,18 +1105,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" checked>
         
           
           <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
@@ -1221,7 +1134,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_2">
             <span class="md-nav__icon md-icon"></span>
             Authentication
@@ -1235,7 +1148,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/authentication.html" class="md-nav__link">
+      <a href="authentication.html" class="md-nav__link">
         
   
   
@@ -1258,7 +1171,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/session.html" class="md-nav__link">
+      <a href="session.html" class="md-nav__link">
         
   
   
@@ -1281,7 +1194,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/tokens.html" class="md-nav__link">
+      <a href="tokens.html" class="md-nav__link">
         
   
   
@@ -1301,10 +1214,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="references/authentication/hmac.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    HMAC Authenticator
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="hmac.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1315,6 +1250,149 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hmac-keysapi-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      HMAC Keys/API Authentication
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generating-hmac-access-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generating HMAC Access Keys
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#revoking-hmac-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      Revoking HMAC Keys
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expiring-hmac-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      Expiring HMAC Keys
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieving-hmac-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retrieving HMAC Keys
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hmac-keys-scopes" class="md-nav__link">
+    <span class="md-ellipsis">
+      HMAC Keys Scopes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hmac-secret-key-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      HMAC Secret Key Encryption
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hmac-keys-lifetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      HMAC Keys Lifetime
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hmac-keys-expiration-vs-lifetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      HMAC Keys Expiration vs Lifetime
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#login-attempt-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Login Attempt Logging
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logging
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1327,7 +1405,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authentication/auth_actions.html" class="md-nav__link">
+      <a href="auth_actions.html" class="md-nav__link">
         
   
   
@@ -1358,7 +1436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/magic_link_login.html" class="md-nav__link">
+      <a href="../magic_link_login.html" class="md-nav__link">
         
   
   
@@ -1381,7 +1459,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/authorization.html" class="md-nav__link">
+      <a href="../authorization.html" class="md-nav__link">
         
   
   
@@ -1404,7 +1482,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/events.html" class="md-nav__link">
+      <a href="../events.html" class="md-nav__link">
         
   
   
@@ -1427,7 +1505,7 @@
   
   
     <li class="md-nav__item">
-      <a href="references/testing.html" class="md-nav__link">
+      <a href="../testing.html" class="md-nav__link">
         
   
   
@@ -1495,7 +1573,7 @@
   
   
     <li class="md-nav__item">
-      <a href="addons/jwt.html" class="md-nav__link">
+      <a href="../../addons/jwt.html" class="md-nav__link">
         
   
   
@@ -1545,46 +1623,109 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-is-shield" class="md-nav__link">
+  <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
-      What is Shield?
+      Usage
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="What is Shield?">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hmac-keysapi-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      HMAC Keys/API Authentication
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generating-hmac-access-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generating HMAC Access Keys
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#revoking-hmac-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      Revoking HMAC Keys
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expiring-hmac-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      Expiring HMAC Keys
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieving-hmac-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retrieving HMAC Keys
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hmac-keys-scopes" class="md-nav__link">
+    <span class="md-ellipsis">
+      HMAC Keys Scopes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hmac-secret-key-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      HMAC Secret Key Encryption
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#primary-goals" class="md-nav__link">
+  <a href="#hmac-keys-lifetime" class="md-nav__link">
     <span class="md-ellipsis">
-      Primary Goals
+      HMAC Keys Lifetime
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#important-features" class="md-nav__link">
+  <a href="#hmac-keys-expiration-vs-lifetime" class="md-nav__link">
     <span class="md-ellipsis">
-      Important Features
+      HMAC Keys Expiration vs Lifetime
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
+  <a href="#login-attempt-logging" class="md-nav__link">
     <span class="md-ellipsis">
-      License
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#acknowledgements" class="md-nav__link">
-    <span class="md-ellipsis">
-      Acknowledgements
+      Login Attempt Logging
     </span>
   </a>
   
@@ -1592,6 +1733,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logging
+    </span>
+  </a>
   
 </li>
       
@@ -1611,7 +1761,7 @@
 
 
   
-    <a href="https://github.com/codeigniter4/shield/edit/develop/docs/index.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/codeigniter4/shield/edit/develop/docs/references/authentication/hmac.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1619,53 +1769,209 @@
   
 
 
-<h1 id="shield-documentation">Shield Documentation</h1>
-<h2 id="what-is-shield">What is Shield?</h2>
-<p>Shield is the official authentication and authorization framework for CodeIgniter 4. While
-it does provide a base set of tools that are commonly used in websites, it is
-designed to be flexible and easily customizable.</p>
-<h3 id="primary-goals">Primary Goals</h3>
-<p>The primary goals for Shield are:</p>
-<ol>
-<li>It must be very flexible and allow developers to extend/override almost any part of it.</li>
-<li>It must have security at its core. It is an auth lib after all.</li>
-<li>To cover many auth needs right out of the box, but be simple to add additional functionality to.</li>
-</ol>
-<h3 id="important-features">Important Features</h3>
-<ul>
-<li><strong>Session-based Authentication</strong> (traditional <strong>ID/Password</strong> with <strong>Remember-me</strong>)</li>
-<li><strong>Stateless Authentication</strong> using <strong>Access Token</strong>, <strong>HMAC SHA256 Token</strong>, or <strong>JWT</strong></li>
-<li>Optional <strong>Email verification</strong> on account registration</li>
-<li>Optional <strong>Email-based Two-Factor Authentication</strong> after login</li>
-<li><strong>Magic Link Login</strong> when a user forgets their password</li>
-<li>Flexible <strong>Group-based Access Control</strong> (think Roles, but more flexible), and users can be granted additional <strong>Permissions</strong></li>
-<li>A simple <strong>Auth Helper</strong> that provides access to the most common auth actions</li>
-<li>Save initial settings in your code, so it can be in version control, but can also be updated in the database, thanks to our <a href="https://github.com/codeigniter4/settings">Settings</a> library</li>
-<li>Highly configurable</li>
-<li><strong>User Entity</strong> and <strong>User Provider</strong> (<code>UserModel</code>) ready for you to use or extend</li>
-<li>Built to extend and modify<ul>
-<li>Easily extendable controllers</li>
-<li>All required views that can be used as is or swapped out for your own</li>
-</ul>
-</li>
-</ul>
-<h3 id="license">License</h3>
-<p>Shield is licensed under the MIT License - see the <a href="https://github.com/codeigniter4/shield/blob/develop/LICENSE">LICENSE</a> file for details.</p>
-<h3 id="acknowledgements">Acknowledgements</h3>
-<p>Every open-source project depends on it's contributors to be a success. The following users have
-contributed in one manner or another in making Shield:</p>
-<p><a href="https://github.com/codeigniter4/shield/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=codeigniter4/shield" alt="Contributors">
-</a></p>
-<p>Made with <a href="https://contrib.rocks">contrib.rocks</a>.</p>
-<p>The following articles/sites have been fundamental in shaping the security and best practices used
-within this library, in no particular order:</p>
-<ul>
-<li><a href="https://cloud.google.com/blog/products/identity-security/account-authentication-and-password-management-best-practices">Google Cloud: 13 best practices for user account, authentication, and password management, 2021 edition</a></li>
-<li><a href="https://pages.nist.gov/800-63-3/sp800-63b.html">NIST Digital Identity Guidelines</a></li>
-<li><a href="https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence">Implementing Secure User Authentication in PHP Applications with Long-Term Persistence (Login with "Remember Me" Cookies) </a></li>
-<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">Password Storage - OWASP Cheat Sheet Series</a></li>
-</ul>
+<h1 id="hmac-sha256-token-authenticator">HMAC SHA256 Token Authenticator</h1>
+<p>The HMAC-SHA256 authenticator supports the use of revocable API keys without using OAuth. This provides
+an alternative to a token that is passed in every request and instead uses a shared secret that is used to sign
+the request in a secure manner. Like authorization tokens, these are commonly used to provide third-party developers
+access to your API. These keys typically have a very long expiration time, often years.</p>
+<p>These are also suitable for use with mobile applications. In this case, the user would register/sign-in
+with their email/password. The application would create a new access token for them, with a recognizable
+name, like "John's iPhone 12", and return it to the mobile application, where it is stored and used
+in all future requests.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For the purpose of this documentation, and to maintain a level of consistency with the Authorization Tokens,
+the term "Token" will be used to represent a set of API Keys (key and secretKey).</p>
+</div>
+<h2 id="usage">Usage</h2>
+<p>In order to use HMAC Keys/Token the <code>Authorization</code> header will be set to the following in the request:</p>
+<pre class="highlight"><code>Authorization: HMAC-SHA256 &lt;key&gt;:&lt;HMAC-HASH-of-request-body&gt;</code></pre>
+<p>The code to do this will look something like this:</p>
+<pre class="highlight"><code class="language-php">header("Authorization: HMAC-SHA256 {$key}:" . hash_hmac('sha256', $requestBody, $secretKey));</code></pre>
+<p>Using the CodeIgniter CURLRequest class:</p>
+<pre class="highlight"><code class="language-php">&lt;?php
+
+$client = \Config\Services::curlrequest();
+
+$key = 'a6c460151b4cabbe1c1d73e08915ce8e';
+$secretKey = '56c85232f0e5b55c05015476cd132c8d';
+$requestBody = '{"name":"John","email":"john@example.com"}';
+
+// $hashValue = b22b0ec11ad61cd4488ab1a09c8a0317e896c22adcc5754ea4cfd0f903a0f8c2
+$hashValue = hash_hmac('sha256', $requestBody, $secretKey);
+
+$response = $client-&gt;setHeader('Authorization', "HMAC-SHA256 {$key}:{$hashValue}")
+    -&gt;setBody($requestBody)
+    -&gt;request('POST', 'https://example.com/api');</code></pre>
+<h2 id="hmac-keysapi-authentication">HMAC Keys/API Authentication</h2>
+<p>Using HMAC keys requires that you either use/extend <code>CodeIgniter\Shield\Models\UserModel</code> or
+use the <code>CodeIgniter\Shield\Authentication\Traits\HasHmacTokens</code> on your own user model. This trait
+provides all the custom methods needed to implement HMAC keys in your application. The necessary
+database table, <code>auth_identities</code>, is created in Shield's only migration class, which must be run
+before first using any of the features of Shield.</p>
+<h2 id="generating-hmac-access-keys">Generating HMAC Access Keys</h2>
+<p>Access keys/tokens are created through the <code>generateHmacToken()</code> method on the user. This takes a name to
+give to the token as the first argument. The name is used to display it to the user, so they can
+differentiate between multiple tokens.</p>
+<pre class="highlight"><code class="language-php">$token = $user-&gt;generateHmacToken('Work Laptop');</code></pre>
+<p>This creates the keys/tokens using a cryptographically secure random string. The keys operate as shared keys.
+The '<strong>key</strong>' is stored as plain text in the database, the '<strong>secretKey</strong>' is stored encrypted. The method returns an
+instance of <code>CodeIgniters\Shield\Authentication\Entities\AccessToken</code>. The field <code>secret</code> is the '<strong>key</strong>' the field
+<code>rawSecretKey</code> is the shared '<strong>secretKey</strong>'. Both are required to when using this authentication method.</p>
+<p><strong>The plain text version of these keys should be displayed to the user immediately, so they can copy it for
+their use.</strong> It is recommended that after that only the '<strong>key</strong>' field is displayed to a user. If a user loses the
+'<strong>secretKey</strong>', they should be required to generate a new set of keys to use.</p>
+<pre class="highlight"><code class="language-php">$token = $user-&gt;generateHmacToken('Work Laptop');
+
+echo 'Key: ' . $token-&gt;secret;
+echo 'SecretKey: ' . $token-&gt;rawSecretKey;</code></pre>
+<h2 id="revoking-hmac-keys">Revoking HMAC Keys</h2>
+<p>HMAC keys can be revoked through the <code>revokeHmacToken()</code> method. This takes the key as the only
+argument. Revoking simply deletes the record from the database.</p>
+<pre class="highlight"><code class="language-php">$user-&gt;revokeHmacToken($key);</code></pre>
+<p>You can revoke all HMAC Keys with the <code>revokeAllHmacTokens()</code> method.</p>
+<pre class="highlight"><code class="language-php">$user-&gt;revokeAllHmacTokens();</code></pre>
+<h2 id="expiring-hmac-keys">Expiring HMAC Keys</h2>
+<p>By default, the HMAC keys don't expire unless they reach the HMAC keys' lifetime expiration after their last use date.</p>
+<p>HMAC keys can be set to expire through the <code>generateHmacToken()</code> method. This takes the expiration date as the <code>$expiresAt</code> argument. To update an existing HMAC key expiration date, use <code>updateHmacTokenExpiration($hmacTokenID, $expiresAt)</code>. To remove it, use <code>removeHmacTokenExpiration($hmacTokenID)</code>.</p>
+<p><code>$expiresAt</code> <a href="https://codeigniter.com/user_guide/libraries/time.html">Time</a> object</p>
+<pre class="highlight"><code class="language-php">// Expiration date = 2024-11-03 12:00:00
+$expiresAt = Time::parse('2024-11-03 12:00:00');
+$token = $this-&gt;user-&gt;generateHmacToken('foo', ['foo.bar'], $expiresAt);
+
+// Expiration date = 2024-11-15 00:00:00
+$expiresAt = Time::parse('2024-11-15 00:00:00');
+$user-&gt;updateHmacTokenExpiration($token-&gt;id, $expiresAt);
+
+// Expiration date = 1 month + 15 days into the future
+$expiresAt = Time::now()-&gt;addMonths(1)-&gt;addDays(15);
+$user-&gt;updateHmacTokenExpiration($token-&gt;id, $expiresAt);
+
+// Remove the expiration date
+$user-&gt;removeHmacTokenExpiration($token-&gt;id);</code></pre>
+<p>The following support methods are also available:</p>
+<p><code>isHmacTokenExpired(AccessToken $hmacToken)</code> - Checks if the HMAC key is expired. Returns <code>true</code> if the HMAC key is expired; otherwise, returns <code>false</code>.</p>
+<pre class="highlight"><code class="language-php">$expiresAt = Time::parse('2024-11-03 12:00:00');
+$token = $this-&gt;user-&gt;generateHmacToken('foo', ['foo.bar'], $expiresAt);
+
+$this-&gt;user-&gt;isHmacTokenExpired($token); // Returns true</code></pre>
+<p><code>canHmacTokenExpire(AccessToken $hmacToken)</code> - Checks if HMAC key has an expiration set. Returns <code>true</code> if the HMAC key is expired; otherwise, returns <code>false</code>.</p>
+<pre class="highlight"><code class="language-php">$expiresAt = Time::parse('2024-11-03 12:00:00');
+
+$token = $this-&gt;user-&gt;generateHmacToken('foo', ['foo.bar'], $expiresAt);
+$this-&gt;user-&gt;canHmacTokenExpire($token); // Returns true
+
+$token2 = $this-&gt;user-&gt;generateHmacToken('bar');
+$this-&gt;user-&gt;canHmacTokenExpire($token2); // Returns false</code></pre>
+<p>You can also easily set all existing HMAC keys/tokens as expired with the <code>spark</code> command:
+<pre class="highlight"><code class="language-console">php spark shield:hmac invalidateAll</code></pre></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This command invalidates <em>all</em> keys for <em>all</em> users.</p>
+</div>
+<h2 id="retrieving-hmac-keys">Retrieving HMAC Keys</h2>
+<p>The following methods are available to help you retrieve a user's HMAC keys:</p>
+<pre class="highlight"><code class="language-php">// Retrieve a set of HMAC Token/Keys by key
+$token = $user-&gt;getHmacToken($key);
+
+// Retrieve an HMAC token/keys by its database ID
+$token = $user-&gt;getHmacTokenById($id);
+
+// Retrieve all HMAC tokens as an array of AccessToken instances.
+$tokens = $user-&gt;hmacTokens();</code></pre>
+<h2 id="hmac-keys-scopes">HMAC Keys Scopes</h2>
+<p>Each token (set of keys) can be given one or more scopes they can be used within. These can be thought of as
+permissions the token grants to the user. Scopes are provided when the token is generated and
+cannot be modified afterword.</p>
+<pre class="highlight"><code class="language-php">$token = $user-&gt;generateHmacToken('Work Laptop', ['posts.manage', 'forums.manage']);</code></pre>
+<p>By default, a user is granted a wildcard scope which provides access to all scopes. This is the
+same as:</p>
+<pre class="highlight"><code class="language-php">$token = $user-&gt;generateHmacToken('Work Laptop', ['*']);</code></pre>
+<p>During authentication, the HMAC Keys the user used is stored on the user. Once authenticated, you
+can use the <code>hmacTokenCan()</code> and <code>hmacTokenCant()</code> methods on the user to determine if they have access
+to the specified scope.</p>
+<pre class="highlight"><code class="language-php">if ($user-&gt;hmacTokenCan('posts.manage')) {
+    // do something....
+}
+
+if ($user-&gt;hmacTokenCant('forums.manage')) {
+    // do something....
+}</code></pre>
+<h2 id="hmac-secret-key-encryption">HMAC Secret Key Encryption</h2>
+<p>The HMAC Secret Key is stored encrypted. Before you start using HMAC, you will need to set/override the encryption key
+in <code>$hmacEncryptionKeys</code> in <strong>app/Config/AuthToken.php</strong>. This should be set using <strong>.env</strong> and/or system
+environment variables. Instructions on how to do that can be found in the
+<a href="https://codeigniter.com/user_guide/libraries/encryption.html#setting-your-encryption-key">Setting Your Encryption Key</a>
+section of the CodeIgniter 4 documentation.</p>
+<p>You will also be able to adjust the default Driver <code>$hmacEncryptionDefaultDriver</code> and the default Digest
+<code>$hmacEncryptionDefaultDigest</code>, these default to <code>'OpenSSL'</code> and <code>'SHA512'</code> respectively. These can also be
+overridden for an individual key by including them in the keys array.</p>
+<pre class="highlight"><code class="language-php">public $hmacEncryptionKeys = [
+    'k1' =&gt; [
+        'key' =&gt; 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
+    ],
+];
+
+public string $hmacEncryptionCurrentKey    = 'k1';
+public string $hmacEncryptionDefaultDriver = 'OpenSSL';
+public string $hmacEncryptionDefaultDigest = 'SHA512';</code></pre>
+<p>When it is time to update your encryption keys you will need to add an additional key to the above
+<code>$hmacEncryptionKeys</code> array. Then adjust the <code>$hmacEncryptionCurrentKey</code> to point at the new key.  After the new
+encryption key is in place, run <code>php spark shield:hmac reencrypt</code> to re-encrypt all existing keys with the new
+encryption key.  You will need to leave the old key in the array as it will be used read the existing 'Secret Keys'
+during re-encryption.</p>
+<pre class="highlight"><code class="language-php">public $hmacEncryptionKeys = [
+    'k1' =&gt; [
+        'key' =&gt; 'hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7',
+    ],
+    'k2' =&gt; [
+        'key'    =&gt; 'hex2bin:451df599363b19be1434605fff8556a0bbfc50bede1bb33793dcde4d97fce4b0',
+        'digest' =&gt; 'SHA256',
+    ],
+];
+
+public string $hmacEncryptionCurrentKey    = 'k2';
+public string $hmacEncryptionDefaultDriver = 'OpenSSL';
+public string $hmacEncryptionDefaultDigest = 'SHA512';
+</code></pre>
+<pre class="highlight"><code class="language-console">php spark shield:hmac reencrypt</code></pre>
+<p>You can (and should) set these values using environment variable and/or the <strong>.env</strong> file. To do this you will need to set
+the values as JSON strings:</p>
+<pre class="highlight"><code class="language-text">authtoken.hmacEncryptionKeys = '{"k1":{"key":"hex2bin:923dfab5ddca0c7784c2c388a848a704f5e048736c1a852c862959da62ade8c7"},"k2":{"key":"hex2bin:451df599363b19be1434605fff8556a0bbfc50bede1bb33793dcde4d97fce4b0"}}'
+authtoken.hmacEncryptionCurrentKey = k2</code></pre>
+<p>Depending on the set length of the Secret Key and the type of encryption used, it is possible for the encrypted value to
+exceed the database column character limit of 255 characters. If this happens, creation of a new HMAC identity will
+throw a <code>RuntimeException</code>.</p>
+<h2 id="configuration">Configuration</h2>
+<p>Configure <strong>app/Config/AuthToken.php</strong> for your needs.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Shield does not expect you use the Access Token Authenticator and HMAC Authenticator
+at the same time. Therefore, some Config items are common.</p>
+</div>
+<h3 id="hmac-keys-lifetime">HMAC Keys Lifetime</h3>
+<p>HMAC Keys will expire after a specified amount of time has passed since they have been used.</p>
+<p>By default, this is set to 1 year. You can change this value by setting the <code>$unusedTokenLifetime</code>
+value. This is in seconds so that you can use the
+<a href="https://codeigniter.com/user_guide/general/common_functions.html#time-constants">time constants</a>
+that CodeIgniter provides.</p>
+<pre class="highlight"><code class="language-php">public $unusedTokenLifetime = YEAR;</code></pre>
+<h3 id="hmac-keys-expiration-vs-lifetime">HMAC Keys Expiration vs Lifetime</h3>
+<p>Expiration and lifetime are two different concepts. The lifetime is the maximum time allowed for the HMAC Key to exist since its last use. HMAC Key expiration, on the other hand, is a set date in which the HMAC Key will cease to function.</p>
+<h3 id="login-attempt-logging">Login Attempt Logging</h3>
+<p>By default, only failed login attempts are recorded in the <code>auth_token_logins</code> table.
+This can be modified by changing the <code>$recordLoginAttempt</code> value.</p>
+<pre class="highlight"><code class="language-php">public int $recordLoginAttempt = Auth::RECORD_LOGIN_ATTEMPT_FAILURE;</code></pre>
+<p>If you don't want any logs, set it to <code>Auth::RECORD_LOGIN_ATTEMPT_NONE</code>.</p>
+<p>If you want to log all login attempts, set it to <code>Auth::RECORD_LOGIN_ATTEMPT_ALL</code>.
+It means you log all requests.</p>
+<h2 id="logging">Logging</h2>
+<p>Login attempts are recorded in the <code>auth_token_logins</code> table, according to the
+configuration above.</p>
+<p>When a failed login attempt is logged, the raw token value sent is saved in
+the <code>identifier</code> column.</p>
+<p>When a successful login attempt is logged, the token name is saved in the
+<code>identifier</code> column.</p>
 
 
 
@@ -1688,7 +1994,7 @@ within this library, in no particular order:</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 19, 2023 13:13:43 UTC">December 19, 2023</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 3, 2025 08:10:52 UTC">March 3, 2025</span>
   </span>
 
     
@@ -1698,7 +2004,7 @@ within this library, in no particular order:</p>
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="June 27, 2022 03:58:22 UTC">June 27, 2022</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 19, 2023 22:04:20 UTC">September 19, 2023</span>
   </span>
 
     
@@ -1732,15 +2038,31 @@ within this library, in no particular order:</p>
       
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
+          
+          <a href="tokens.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Token Authenticator">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Token Authenticator
+              </div>
+            </div>
+          </a>
+        
         
           
-          <a href="getting_started/concepts.html" class="md-footer__link md-footer__link--next" aria-label="Next: Concepts">
+          <a href="auth_actions.html" class="md-footer__link md-footer__link--next" aria-label="Next: Auth Actions">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Concepts
+                Auth Actions
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1811,16 +2133,16 @@ within this library, in no particular order:</p>
     
     
       
-      <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.50899def.min.js"></script>
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
       
-        <script src="assets/js/hljs.js"></script>
+        <script src="../../assets/js/hljs.js"></script>
       
-        <script src="assets/js/curl.min.js"></script>
+        <script src="../../assets/js/curl.min.js"></script>
       
     
   </body>
