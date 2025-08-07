@@ -278,4 +278,49 @@ final class UserModelTest extends DatabaseTestCase
 
         $users->save(['id' => $user->id]);
     }
+
+    public function testGetFirstIdentity(): void
+    {
+        $errors = [];
+        $users  = $this->createUserModel();
+        $user   = $this->createNewUser();
+        $users->save($user);
+
+        // Custom error handler
+        set_error_handler(static function ($severity, $message, $file, $line) use (&$errors) {
+            $errors[] = [
+                'message'  => $message,
+                'severity' => $severity,
+                'file'     => $file,
+                'line'     => $line,
+            ];
+
+            // Return true so that the default handler is not executed
+            return true;
+        });
+
+        try {
+            $user = $users->withIdentities()->first();
+            $this->assertSame(
+                $user->getIdentity('all')->secret,
+                'foo@bar.com',
+                'Verify first() method retrieves user with identity',
+            );
+        } finally {
+            // restore handler
+            restore_error_handler();
+        }
+
+        if ($errors !== []) {
+            $errorMessages = array_map(static fn ($error) => sprintf(
+                '[%s] %s in %s:%s',
+                $error['severity'],
+                $error['message'],
+                $error['file'],
+                $error['line'],
+            ), $errors);
+
+            $this->fail("Errors found:\n" . implode("\n", $errorMessages));
+        }
+    }
 }

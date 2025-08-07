@@ -142,6 +142,10 @@ class UserModel extends BaseModel
 
         $mappedUsers = $this->assignIdentities($data, $identities);
 
+        if ($data['method'] === 'first') {
+            $data['id'] = $data['data']->id;
+        }
+
         $data['data'] = $data['singleton'] ? $mappedUsers[$data['id']] : $mappedUsers;
 
         return $data;
