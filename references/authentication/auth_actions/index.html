@@ -10,22 +10,28 @@
       
       
       
+        <link rel="canonical" href="https://shield.codeigniter.com/references/authentication/auth_actions/">
       
       
+        <link rel="prev" href="../hmac/">
       
-      <link rel="icon" href="/assets/favicon.ico">
+      
+        <link rel="next" href="../../magic_link_login/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
     
     
       
-        <title>CodeIgniter Shield</title>
+        <title>Auth Actions - CodeIgniter Shield</title>
       
     
     
-      <link rel="stylesheet" href="/assets/stylesheets/main.7e37652d.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
       
         
-        <link rel="stylesheet" href="/assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,11 +52,11 @@
     
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/styles/github.min.css">
     
-      <link rel="stylesheet" href="/assets/css/codeigniter.css">
+      <link rel="stylesheet" href="../../../assets/css/codeigniter.css">
     
-      <link rel="stylesheet" href="/assets/css/codeigniter_dark_mode.css">
+      <link rel="stylesheet" href="../../../assets/css/codeigniter_dark_mode.css">
     
-    <script>__md_scope=new URL("/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -75,6 +81,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#authentication-actions" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -89,7 +100,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="https://codeigniter.com" title="CodeIgniter Shield" class="md-header__button md-logo" aria-label="CodeIgniter Shield" data-md-component="logo">
       
-  <img src="/assets/flame.svg" alt="logo">
+  <img src="../../../assets/flame.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -106,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Auth Actions
             
           </span>
         </div>
@@ -231,7 +242,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="https://codeigniter.com" title="CodeIgniter Shield" class="md-nav__button md-logo" aria-label="CodeIgniter Shield" data-md-component="logo">
       
-  <img src="/assets/flame.svg" alt="logo">
+  <img src="../../../assets/flame.svg" alt="logo">
 
     </a>
     CodeIgniter Shield
@@ -258,7 +269,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -318,7 +329,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/concepts/" class="md-nav__link">
+      <a href="../../../getting_started/concepts/" class="md-nav__link">
         
   
   
@@ -341,7 +352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/install/" class="md-nav__link">
+      <a href="../../../getting_started/install/" class="md-nav__link">
         
   
   
@@ -364,7 +375,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/authenticators/" class="md-nav__link">
+      <a href="../../../getting_started/authenticators/" class="md-nav__link">
         
   
   
@@ -387,7 +398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/configuration/" class="md-nav__link">
+      <a href="../../../getting_started/configuration/" class="md-nav__link">
         
   
   
@@ -455,7 +466,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/quick_start_guide/using_session_auth/" class="md-nav__link">
+      <a href="../../../quick_start_guide/using_session_auth/" class="md-nav__link">
         
   
   
@@ -478,7 +489,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/quick_start_guide/using_authorization/" class="md-nav__link">
+      <a href="../../../quick_start_guide/using_authorization/" class="md-nav__link">
         
   
   
@@ -546,7 +557,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/table_names/" class="md-nav__link">
+      <a href="../../../customization/table_names/" class="md-nav__link">
         
   
   
@@ -569,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/views/" class="md-nav__link">
+      <a href="../../../customization/views/" class="md-nav__link">
         
   
   
@@ -592,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/route_config/" class="md-nav__link">
+      <a href="../../../customization/route_config/" class="md-nav__link">
         
   
   
@@ -615,7 +626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/redirect_urls/" class="md-nav__link">
+      <a href="../../../customization/redirect_urls/" class="md-nav__link">
         
   
   
@@ -638,7 +649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/validation_rules/" class="md-nav__link">
+      <a href="../../../customization/validation_rules/" class="md-nav__link">
         
   
   
@@ -661,7 +672,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/user_provider/" class="md-nav__link">
+      <a href="../../../customization/user_provider/" class="md-nav__link">
         
   
   
@@ -684,7 +695,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/adding_attributes_to_users/" class="md-nav__link">
+      <a href="../../../customization/adding_attributes_to_users/" class="md-nav__link">
         
   
   
@@ -707,7 +718,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/extending_controllers/" class="md-nav__link">
+      <a href="../../../customization/extending_controllers/" class="md-nav__link">
         
   
   
@@ -730,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/integrating_custom_view_libs/" class="md-nav__link">
+      <a href="../../../customization/integrating_custom_view_libs/" class="md-nav__link">
         
   
   
@@ -753,7 +764,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/login_identifier/" class="md-nav__link">
+      <a href="../../../customization/login_identifier/" class="md-nav__link">
         
   
   
@@ -821,7 +832,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/user_management/managing_users/" class="md-nav__link">
+      <a href="../../../user_management/managing_users/" class="md-nav__link">
         
   
   
@@ -844,7 +855,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/user_management/forcing_password_reset/" class="md-nav__link">
+      <a href="../../../user_management/forcing_password_reset/" class="md-nav__link">
         
   
   
@@ -867,7 +878,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/user_management/banning_users/" class="md-nav__link">
+      <a href="../../../user_management/banning_users/" class="md-nav__link">
         
   
   
@@ -935,7 +946,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guides/api_tokens/" class="md-nav__link">
+      <a href="../../../guides/api_tokens/" class="md-nav__link">
         
   
   
@@ -958,7 +969,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guides/api_hmac_keys/" class="md-nav__link">
+      <a href="../../../guides/api_hmac_keys/" class="md-nav__link">
         
   
   
@@ -981,7 +992,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guides/mobile_apps/" class="md-nav__link">
+      <a href="../../../guides/mobile_apps/" class="md-nav__link">
         
   
   
@@ -1004,7 +1015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guides/strengthen_password/" class="md-nav__link">
+      <a href="../../../guides/strengthen_password/" class="md-nav__link">
         
   
   
@@ -1031,18 +1042,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -1058,7 +1071,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             References
@@ -1072,7 +1085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/controller_filters/" class="md-nav__link">
+      <a href="../../controller_filters/" class="md-nav__link">
         
   
   
@@ -1092,18 +1105,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" checked>
         
           
           <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
@@ -1119,7 +1134,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_2">
             <span class="md-nav__icon md-icon"></span>
             Authentication
@@ -1133,7 +1148,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/authentication/" class="md-nav__link">
+      <a href="../authentication/" class="md-nav__link">
         
   
   
@@ -1156,7 +1171,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/session/" class="md-nav__link">
+      <a href="../session/" class="md-nav__link">
         
   
   
@@ -1179,7 +1194,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/tokens/" class="md-nav__link">
+      <a href="../tokens/" class="md-nav__link">
         
   
   
@@ -1202,7 +1217,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/hmac/" class="md-nav__link">
+      <a href="../hmac/" class="md-nav__link">
         
   
   
@@ -1222,10 +1237,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/references/authentication/auth_actions/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Auth Actions
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1236,6 +1273,44 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring Actions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-new-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Defining New Actions
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1256,7 +1331,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/magic_link_login/" class="md-nav__link">
+      <a href="../../magic_link_login/" class="md-nav__link">
         
   
   
@@ -1279,7 +1354,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authorization/" class="md-nav__link">
+      <a href="../../authorization/" class="md-nav__link">
         
   
   
@@ -1302,7 +1377,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/events/" class="md-nav__link">
+      <a href="../../events/" class="md-nav__link">
         
   
   
@@ -1325,7 +1400,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/testing/" class="md-nav__link">
+      <a href="../../testing/" class="md-nav__link">
         
   
   
@@ -1393,7 +1468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/addons/jwt/" class="md-nav__link">
+      <a href="../../../addons/jwt/" class="md-nav__link">
         
   
   
@@ -1433,6 +1508,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring Actions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-new-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Defining New Actions
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1444,8 +1547,120 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+    <a href="https://github.com/codeigniter4/shield/edit/develop/docs/references/authentication/auth_actions.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="authentication-actions">Authentication Actions</h1>
+<p>Authentication Actions are a way to group actions that can happen after login or registration.
+Shield ships with two actions you can use, and makes it simple for you to define your own.</p>
+<ol>
+<li><strong>Email-based Account Activation</strong> (EmailActivate) confirms a new user's email address by
+   sending them an email with a link they must follow in order to have their account activated.</li>
+<li><strong>Email-based Two Factor Authentication</strong> (Email2FA) will send a 6-digit code to the user's
+    email address that they must confirm before they can continue.</li>
+</ol>
+<h2 id="configuring-actions">Configuring Actions</h2>
+<p>Actions are setup in the <code>Auth</code> config file, with the <code>$actions</code> variable.</p>
+<pre class="highlight"><code class="language-php">public array $actions = [
+    'register' =&gt; null,
+    'login'    =&gt; null,
+];</code></pre>
+<p>To define an action to happen you will specify the class name as the value for the appropriate task:</p>
+<pre class="highlight"><code class="language-php">public array $actions = [
+    'register' =&gt; \CodeIgniter\Shield\Authentication\Actions\EmailActivator::class,
+    'login'    =&gt; \CodeIgniter\Shield\Authentication\Actions\Email2FA::class,
+];</code></pre>
+<p>You must register actions in the order of the actions to be performed.
+Once configured, everything should work out of the box.</p>
+<p>The routes are added with the basic <code>auth()-&gt;routes($routes)</code>
+call, but can be manually added if you choose not to use this helper method.</p>
+<pre class="highlight"><code class="language-php">use CodeIgniter\Shield\Controllers\ActionController;
+
+$routes-&gt;get('auth/a/show', 'ActionController::show');
+$routes-&gt;post('auth/a/handle', 'ActionController::handle');
+$routes-&gt;post('auth/a/verify', 'ActionController::verify');</code></pre>
+<p>Views for all of these pages are defined in the <code>Auth</code> config file, with the <code>$views</code> array.</p>
+<pre class="highlight"><code class="language-php">public $views = [
+    'action_email_2fa'            =&gt; '\CodeIgniter\Shield\Views\email_2fa_show',
+    'action_email_2fa_verify'     =&gt; '\CodeIgniter\Shield\Views\email_2fa_verify',
+    'action_email_2fa_email'      =&gt; '\CodeIgniter\Shield\Views\Email\email_2fa_email',
+    'action_email_activate_show'  =&gt; '\CodeIgniter\Shield\Views\email_activate_show',
+    'action_email_activate_email' =&gt; '\CodeIgniter\Shield\Views\Email\email_activate_email',
+];</code></pre>
+<h2 id="defining-new-actions">Defining New Actions</h2>
+<p>While the provided email-based activation and 2FA will work for many sites, others will have different
+needs, like using SMS to verify or something completely different. Custom actions must adhere to the following requirements:</p>
+<ol>
+<li>The class name for a "register" action must end with the suffix <code>Activator</code> (e.g., <code>SMSActivator</code>) to ensure consistency.</li>
+<li>All custom actions must implement the <code>CodeIgniter\Shield\Authentication\Actions\ActionInterface</code>.</li>
+</ol>
+<p>The <code>ActionInterface</code> defines three required methods that must be implemented to ensure the action integrates properly with the <code>ActionController</code>.</p>
+<p><strong>show()</strong> should display the initial page the user lands on immediately after the authentication task,
+like login. It will typically display instructions to the user and provide an action to take, like
+clicking a button to have an email or SMS message sent. You might verify email address or phone numbers
+here.</p>
+<p><strong>handle()</strong> is the next page the user would land on and can be used to handle the action the <code>show()</code>
+told the user would be happening. For example, in the <code>Email2FA</code> class, this method generates the code,
+sends the email to the user, and then displays the form the user should enter the 6 digit code into.</p>
+<p><strong>verify()</strong> is the final step in the action's journey. It verifies the information the user provided
+and provides feedback. In the <code>Email2FA</code> class, it verifies the code against what is saved in the
+database and either sends them back to the previous form to try again or redirects the user to the
+page that a <code>login</code> task would have redirected them to anyway.</p>
+<p>All methods should return either a <code>Response</code> or a view string (e.g. using the <code>view()</code> function).</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 14, 2025 19:18:58 UTC">February 14, 2025</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 11, 2021 04:51:40 UTC">February 11, 2021</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -1463,6 +1678,44 @@
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../hmac/" class="md-footer__link md-footer__link--prev" aria-label="Previous: HMAC Authenticator">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                HMAC Authenticator
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../magic_link_login/" class="md-footer__link md-footer__link--next" aria-label="Next: Magic Link Login">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Magic Link Login
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">
@@ -1524,16 +1777,16 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/", "features": ["navigation.instant", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "/assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/assets/javascripts/bundle.50899def.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.50899def.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
       
-        <script src="/assets/js/hljs.js"></script>
+        <script src="../../../assets/js/hljs.js"></script>
       
-        <script src="/assets/js/curl.min.js"></script>
+        <script src="../../../assets/js/curl.min.js"></script>
       
     
   </body>

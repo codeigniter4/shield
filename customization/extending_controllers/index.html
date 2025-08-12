@@ -10,22 +10,28 @@
       
       
       
+        <link rel="canonical" href="https://shield.codeigniter.com/customization/extending_controllers/">
       
       
+        <link rel="prev" href="../adding_attributes_to_users/">
       
-      <link rel="icon" href="/assets/favicon.ico">
+      
+        <link rel="next" href="../integrating_custom_view_libs/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
     
     
       
-        <title>CodeIgniter Shield</title>
+        <title>Extending the Controllers - CodeIgniter Shield</title>
       
     
     
-      <link rel="stylesheet" href="/assets/stylesheets/main.7e37652d.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
       
         
-        <link rel="stylesheet" href="/assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,11 +52,11 @@
     
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/styles/github.min.css">
     
-      <link rel="stylesheet" href="/assets/css/codeigniter.css">
+      <link rel="stylesheet" href="../../assets/css/codeigniter.css">
     
-      <link rel="stylesheet" href="/assets/css/codeigniter_dark_mode.css">
+      <link rel="stylesheet" href="../../assets/css/codeigniter_dark_mode.css">
     
-    <script>__md_scope=new URL("/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -75,6 +81,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#extending-the-controllers" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -89,7 +100,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="https://codeigniter.com" title="CodeIgniter Shield" class="md-header__button md-logo" aria-label="CodeIgniter Shield" data-md-component="logo">
       
-  <img src="/assets/flame.svg" alt="logo">
+  <img src="../../assets/flame.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -106,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Extending the Controllers
             
           </span>
         </div>
@@ -231,7 +242,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="https://codeigniter.com" title="CodeIgniter Shield" class="md-nav__button md-logo" aria-label="CodeIgniter Shield" data-md-component="logo">
       
-  <img src="/assets/flame.svg" alt="logo">
+  <img src="../../assets/flame.svg" alt="logo">
 
     </a>
     CodeIgniter Shield
@@ -258,7 +269,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -318,7 +329,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/concepts/" class="md-nav__link">
+      <a href="../../getting_started/concepts/" class="md-nav__link">
         
   
   
@@ -341,7 +352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/install/" class="md-nav__link">
+      <a href="../../getting_started/install/" class="md-nav__link">
         
   
   
@@ -364,7 +375,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/authenticators/" class="md-nav__link">
+      <a href="../../getting_started/authenticators/" class="md-nav__link">
         
   
   
@@ -387,7 +398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/configuration/" class="md-nav__link">
+      <a href="../../getting_started/configuration/" class="md-nav__link">
         
   
   
@@ -455,7 +466,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/quick_start_guide/using_session_auth/" class="md-nav__link">
+      <a href="../../quick_start_guide/using_session_auth/" class="md-nav__link">
         
   
   
@@ -478,7 +489,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/quick_start_guide/using_authorization/" class="md-nav__link">
+      <a href="../../quick_start_guide/using_authorization/" class="md-nav__link">
         
   
   
@@ -505,18 +516,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
@@ -532,7 +545,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Customization
@@ -546,7 +559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/table_names/" class="md-nav__link">
+      <a href="../table_names/" class="md-nav__link">
         
   
   
@@ -569,7 +582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/views/" class="md-nav__link">
+      <a href="../views/" class="md-nav__link">
         
   
   
@@ -592,7 +605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/route_config/" class="md-nav__link">
+      <a href="../route_config/" class="md-nav__link">
         
   
   
@@ -615,7 +628,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/redirect_urls/" class="md-nav__link">
+      <a href="../redirect_urls/" class="md-nav__link">
         
   
   
@@ -638,7 +651,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/validation_rules/" class="md-nav__link">
+      <a href="../validation_rules/" class="md-nav__link">
         
   
   
@@ -661,7 +674,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/user_provider/" class="md-nav__link">
+      <a href="../user_provider/" class="md-nav__link">
         
   
   
@@ -684,7 +697,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/adding_attributes_to_users/" class="md-nav__link">
+      <a href="../adding_attributes_to_users/" class="md-nav__link">
         
   
   
@@ -704,10 +717,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/customization/extending_controllers/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Extending the Controllers
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -718,6 +753,44 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#provided-controllers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Provided Controllers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-extend" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to Extend
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -730,7 +803,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/integrating_custom_view_libs/" class="md-nav__link">
+      <a href="../integrating_custom_view_libs/" class="md-nav__link">
         
   
   
@@ -753,7 +826,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/login_identifier/" class="md-nav__link">
+      <a href="../login_identifier/" class="md-nav__link">
         
   
   
@@ -821,7 +894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/user_management/managing_users/" class="md-nav__link">
+      <a href="../../user_management/managing_users/" class="md-nav__link">
         
   
   
@@ -844,7 +917,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/user_management/forcing_password_reset/" class="md-nav__link">
+      <a href="../../user_management/forcing_password_reset/" class="md-nav__link">
         
   
   
@@ -867,7 +940,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/user_management/banning_users/" class="md-nav__link">
+      <a href="../../user_management/banning_users/" class="md-nav__link">
         
   
   
@@ -935,7 +1008,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guides/api_tokens/" class="md-nav__link">
+      <a href="../../guides/api_tokens/" class="md-nav__link">
         
   
   
@@ -958,7 +1031,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guides/api_hmac_keys/" class="md-nav__link">
+      <a href="../../guides/api_hmac_keys/" class="md-nav__link">
         
   
   
@@ -981,7 +1054,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guides/mobile_apps/" class="md-nav__link">
+      <a href="../../guides/mobile_apps/" class="md-nav__link">
         
   
   
@@ -1004,7 +1077,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guides/strengthen_password/" class="md-nav__link">
+      <a href="../../guides/strengthen_password/" class="md-nav__link">
         
   
   
@@ -1072,7 +1145,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/controller_filters/" class="md-nav__link">
+      <a href="../../references/controller_filters/" class="md-nav__link">
         
   
   
@@ -1133,7 +1206,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/authentication/" class="md-nav__link">
+      <a href="../../references/authentication/authentication/" class="md-nav__link">
         
   
   
@@ -1156,7 +1229,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/session/" class="md-nav__link">
+      <a href="../../references/authentication/session/" class="md-nav__link">
         
   
   
@@ -1179,7 +1252,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/tokens/" class="md-nav__link">
+      <a href="../../references/authentication/tokens/" class="md-nav__link">
         
   
   
@@ -1202,7 +1275,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/hmac/" class="md-nav__link">
+      <a href="../../references/authentication/hmac/" class="md-nav__link">
         
   
   
@@ -1225,7 +1298,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/auth_actions/" class="md-nav__link">
+      <a href="../../references/authentication/auth_actions/" class="md-nav__link">
         
   
   
@@ -1256,7 +1329,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/magic_link_login/" class="md-nav__link">
+      <a href="../../references/magic_link_login/" class="md-nav__link">
         
   
   
@@ -1279,7 +1352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authorization/" class="md-nav__link">
+      <a href="../../references/authorization/" class="md-nav__link">
         
   
   
@@ -1302,7 +1375,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/events/" class="md-nav__link">
+      <a href="../../references/events/" class="md-nav__link">
         
   
   
@@ -1325,7 +1398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/testing/" class="md-nav__link">
+      <a href="../../references/testing/" class="md-nav__link">
         
   
   
@@ -1393,7 +1466,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/addons/jwt/" class="md-nav__link">
+      <a href="../../addons/jwt/" class="md-nav__link">
         
   
   
@@ -1433,6 +1506,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#provided-controllers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Provided Controllers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-extend" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to Extend
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1444,8 +1545,93 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+    <a href="https://github.com/codeigniter4/shield/edit/develop/docs/customization/extending_controllers.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="extending-the-controllers">Extending the Controllers</h1>
+<h2 id="provided-controllers">Provided Controllers</h2>
+<p>Shield has the following controllers that can be extended to handle
+various parts of the authentication process:</p>
+<ul>
+<li><strong>ActionController</strong> handles the after-login and after-registration actions, like Two Factor Authentication and Email Verification.</li>
+<li><strong>LoginController</strong> handles the login process.</li>
+<li><strong>RegisterController</strong> handles the registration process. Overriding this class allows you to customize the User Provider, the User Entity, and the validation rules.</li>
+<li><strong>MagicLinkController</strong> handles the "lost password" process that allows a user to login with a link sent to their email. This allows you to
+    override the message that is displayed to a user to describe what is happening, if you'd like to provide more information than simply swapping out the view used.</li>
+</ul>
+<h2 id="how-to-extend">How to Extend</h2>
+<p>It is not recommended to copy the entire controller into <strong>app/Controllers</strong> and change its namespace. Instead, you should create a new controller that extends
+the existing controller and then only override the methods needed. This allows the other methods to stay up to date with any security
+updates that might happen in the controllers.</p>
+<pre class="highlight"><code class="language-php">&lt;?php
+
+namespace App\Controllers;
+
+use CodeIgniter\Shield\Controllers\LoginController as ShieldLogin;
+use CodeIgniter\HTTP\RedirectResponse;
+
+class LoginController extends ShieldLogin
+{
+    public function logoutAction(): RedirectResponse
+    {
+        // new functionality
+    }
+}</code></pre>
+<p>After extending, don't forget to change the route. See <a href="../route_config/">Customizing Routes</a>.</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 13, 2024 21:56:29 UTC">February 13, 2024</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 17, 2023 08:27:17 UTC">September 17, 2023</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -1463,6 +1649,44 @@
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../adding_attributes_to_users/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Adding Attributes to Users">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Adding Attributes to Users
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../integrating_custom_view_libs/" class="md-footer__link md-footer__link--next" aria-label="Next: Integrating Custom View Libraries">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Integrating Custom View Libraries
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">
@@ -1524,16 +1748,16 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/", "features": ["navigation.instant", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "/assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/assets/javascripts/bundle.50899def.min.js"></script>
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
       
-        <script src="/assets/js/hljs.js"></script>
+        <script src="../../assets/js/hljs.js"></script>
       
-        <script src="/assets/js/curl.min.js"></script>
+        <script src="../../assets/js/curl.min.js"></script>
       
     
   </body>

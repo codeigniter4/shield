@@ -10,22 +10,28 @@
       
       
       
+        <link rel="canonical" href="https://shield.codeigniter.com/getting_started/concepts/">
       
       
+        <link rel="prev" href="../..">
       
-      <link rel="icon" href="/assets/favicon.ico">
+      
+        <link rel="next" href="../install/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
     
     
       
-        <title>CodeIgniter Shield</title>
+        <title>Concepts - CodeIgniter Shield</title>
       
     
     
-      <link rel="stylesheet" href="/assets/stylesheets/main.7e37652d.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
       
         
-        <link rel="stylesheet" href="/assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,11 +52,11 @@
     
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/styles/github.min.css">
     
-      <link rel="stylesheet" href="/assets/css/codeigniter.css">
+      <link rel="stylesheet" href="../../assets/css/codeigniter.css">
     
-      <link rel="stylesheet" href="/assets/css/codeigniter_dark_mode.css">
+      <link rel="stylesheet" href="../../assets/css/codeigniter_dark_mode.css">
     
-    <script>__md_scope=new URL("/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -75,6 +81,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#shield-concepts" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -89,7 +100,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="https://codeigniter.com" title="CodeIgniter Shield" class="md-header__button md-logo" aria-label="CodeIgniter Shield" data-md-component="logo">
       
-  <img src="/assets/flame.svg" alt="logo">
+  <img src="../../assets/flame.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -106,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Concepts
             
           </span>
         </div>
@@ -231,7 +242,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="https://codeigniter.com" title="CodeIgniter Shield" class="md-nav__button md-logo" aria-label="CodeIgniter Shield" data-md-component="logo">
       
-  <img src="/assets/flame.svg" alt="logo">
+  <img src="../../assets/flame.svg" alt="logo">
 
     </a>
     CodeIgniter Shield
@@ -258,7 +269,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -277,18 +288,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -304,7 +317,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Getting Started
@@ -315,10 +328,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/getting_started/concepts/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Concepts
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -329,6 +364,71 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#repository-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repository State
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Providers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-identities" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Identities
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#password-validators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Password Validators
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -341,7 +441,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/install/" class="md-nav__link">
+      <a href="../install/" class="md-nav__link">
         
   
   
@@ -364,7 +464,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/authenticators/" class="md-nav__link">
+      <a href="../authenticators/" class="md-nav__link">
         
   
   
@@ -387,7 +487,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/configuration/" class="md-nav__link">
+      <a href="../configuration/" class="md-nav__link">
         
   
   
@@ -455,7 +555,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/quick_start_guide/using_session_auth/" class="md-nav__link">
+      <a href="../../quick_start_guide/using_session_auth/" class="md-nav__link">
         
   
   
@@ -478,7 +578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/quick_start_guide/using_authorization/" class="md-nav__link">
+      <a href="../../quick_start_guide/using_authorization/" class="md-nav__link">
         
   
   
@@ -546,7 +646,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/table_names/" class="md-nav__link">
+      <a href="../../customization/table_names/" class="md-nav__link">
         
   
   
@@ -569,7 +669,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/views/" class="md-nav__link">
+      <a href="../../customization/views/" class="md-nav__link">
         
   
   
@@ -592,7 +692,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/route_config/" class="md-nav__link">
+      <a href="../../customization/route_config/" class="md-nav__link">
         
   
   
@@ -615,7 +715,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/redirect_urls/" class="md-nav__link">
+      <a href="../../customization/redirect_urls/" class="md-nav__link">
         
   
   
@@ -638,7 +738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/validation_rules/" class="md-nav__link">
+      <a href="../../customization/validation_rules/" class="md-nav__link">
         
   
   
@@ -661,7 +761,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/user_provider/" class="md-nav__link">
+      <a href="../../customization/user_provider/" class="md-nav__link">
         
   
   
@@ -684,7 +784,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/adding_attributes_to_users/" class="md-nav__link">
+      <a href="../../customization/adding_attributes_to_users/" class="md-nav__link">
         
   
   
@@ -707,7 +807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/extending_controllers/" class="md-nav__link">
+      <a href="../../customization/extending_controllers/" class="md-nav__link">
         
   
   
@@ -730,7 +830,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/integrating_custom_view_libs/" class="md-nav__link">
+      <a href="../../customization/integrating_custom_view_libs/" class="md-nav__link">
         
   
   
@@ -753,7 +853,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/customization/login_identifier/" class="md-nav__link">
+      <a href="../../customization/login_identifier/" class="md-nav__link">
         
   
   
@@ -821,7 +921,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/user_management/managing_users/" class="md-nav__link">
+      <a href="../../user_management/managing_users/" class="md-nav__link">
         
   
   
@@ -844,7 +944,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/user_management/forcing_password_reset/" class="md-nav__link">
+      <a href="../../user_management/forcing_password_reset/" class="md-nav__link">
         
   
   
@@ -867,7 +967,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/user_management/banning_users/" class="md-nav__link">
+      <a href="../../user_management/banning_users/" class="md-nav__link">
         
   
   
@@ -935,7 +1035,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guides/api_tokens/" class="md-nav__link">
+      <a href="../../guides/api_tokens/" class="md-nav__link">
         
   
   
@@ -958,7 +1058,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guides/api_hmac_keys/" class="md-nav__link">
+      <a href="../../guides/api_hmac_keys/" class="md-nav__link">
         
   
   
@@ -981,7 +1081,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guides/mobile_apps/" class="md-nav__link">
+      <a href="../../guides/mobile_apps/" class="md-nav__link">
         
   
   
@@ -1004,7 +1104,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/guides/strengthen_password/" class="md-nav__link">
+      <a href="../../guides/strengthen_password/" class="md-nav__link">
         
   
   
@@ -1072,7 +1172,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/controller_filters/" class="md-nav__link">
+      <a href="../../references/controller_filters/" class="md-nav__link">
         
   
   
@@ -1133,7 +1233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/authentication/" class="md-nav__link">
+      <a href="../../references/authentication/authentication/" class="md-nav__link">
         
   
   
@@ -1156,7 +1256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/session/" class="md-nav__link">
+      <a href="../../references/authentication/session/" class="md-nav__link">
         
   
   
@@ -1179,7 +1279,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/tokens/" class="md-nav__link">
+      <a href="../../references/authentication/tokens/" class="md-nav__link">
         
   
   
@@ -1202,7 +1302,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/hmac/" class="md-nav__link">
+      <a href="../../references/authentication/hmac/" class="md-nav__link">
         
   
   
@@ -1225,7 +1325,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authentication/auth_actions/" class="md-nav__link">
+      <a href="../../references/authentication/auth_actions/" class="md-nav__link">
         
   
   
@@ -1256,7 +1356,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/magic_link_login/" class="md-nav__link">
+      <a href="../../references/magic_link_login/" class="md-nav__link">
         
   
   
@@ -1279,7 +1379,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/authorization/" class="md-nav__link">
+      <a href="../../references/authorization/" class="md-nav__link">
         
   
   
@@ -1302,7 +1402,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/events/" class="md-nav__link">
+      <a href="../../references/events/" class="md-nav__link">
         
   
   
@@ -1325,7 +1425,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/references/testing/" class="md-nav__link">
+      <a href="../../references/testing/" class="md-nav__link">
         
   
   
@@ -1393,7 +1493,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/addons/jwt/" class="md-nav__link">
+      <a href="../../addons/jwt/" class="md-nav__link">
         
   
   
@@ -1433,6 +1533,61 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#repository-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repository State
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Providers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-identities" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Identities
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#password-validators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Password Validators
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1444,8 +1599,135 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+    <a href="https://github.com/codeigniter4/shield/edit/develop/docs/getting_started/concepts.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="shield-concepts">Shield Concepts</h1>
+<p>This document covers some of the base concepts used throughout the library.</p>
+<h2 id="repository-state">Repository State</h2>
+<p>Shield is designed so that the initial setup of your application can all happen in code with nothing required to be
+saved in the database. This means you do not have to create large seeder files that need to run within each environment.</p>
+<p>Instead, it can be placed under version control, though the Settings library allows those settings to be easily stored
+in the database if you create an interface for the user to update those settings.</p>
+<h2 id="settings">Settings</h2>
+<p>In place of the CodeIgniter <code>config()</code> helper, Shield uses the official <a href="https://github.com/codeigniter4/settings">Settings</a>
+library. This provides a way to save any Config class values to the database if you want to modify them, but falls back
+on the standard Config class if nothing is found in the database.</p>
+<h2 id="user-providers">User Providers</h2>
+<p>Shield has a model to handle user persistence. Shield calls this the "User Provider" class.
+A default model is provided for you by the <code>CodeIgniter\Shield\Models\UserModel</code> class.</p>
+<p>You can use your own model to customize user attributes. See <a href="../../customization/user_provider/">Customizing User Provider</a> for details.</p>
+<h2 id="user-identities">User Identities</h2>
+<p>User accounts are stored separately from the information needed to identify that user. These identifying pieces of data are
+called User Identities. By default, the library has two types of identities: one for standard email/password information,
+and one for access tokens.</p>
+<p>Keeping these identities loosely coupled from the user account itself facilitates integrations with third-party sign-in systems, JWT systems, and more - all on a single user.</p>
+<p>While this has the potential to make the system more complex, the <code>email</code> and <code>password</code> fields are automatically
+looked up for you when attempting to access them from the User entity. Caution should be used to craft queries that will pull
+in the <code>email</code> field when you need to display it to the user, as you could easily run into some n+1 slow queries otherwise.</p>
+<p>When you <code>save($user)</code> a <code>User</code> instance in the <code>UserModel</code>, the email/password identity will automatically be updated.
+If no email/password identity exists, you must pass both the email and the password to the User instance prior to calling <code>save()</code>.</p>
+<h2 id="password-validators">Password Validators</h2>
+<p>When registering a user account, the user's password must be validated to ensure it matches the security requirements of
+your application. Shield uses a pipeline of Validators to handle the validation. This allows you turn on or off any validation
+systems that are appropriate for your application. The following Validators are available:</p>
+<ul>
+<li><strong>CompositionValidator</strong> validates the makeup of the password itself. This used to include things
+    like ensuring it contained a symbol, a number, etc. According to the current
+    <a href="https://pages.nist.gov/800-63-3/sp800-63b.html">NIST recommendations</a> this only enforces a
+    minimum length on the password. You can define the minimum length in
+    <code>Config\Auth::$minimumPasswordLength</code> This is enabled by default. The default minimum
+    value is <code>8</code>.</li>
+<li><strong>NothingPersonalValidator</strong> will compare the password against any fields that have been specified
+    in <code>Config\Auth::$personalFields</code>, like first or last names, etc. Additionally, it compares it
+    against a few simple variations of the username. If the given password too closely matches
+    any of the personal information, it will be rejected. The similarity value is defined in
+     <code>Config\Auth::$maxSimilarity</code>. The default value is 50, but see the docblock in the config
+     file for more details. This is enabled by default.</li>
+<li><strong>DictionaryValidator</strong> will compare the password against a provided file with about 600,000
+    frequently used passwords that have been seen in various data dumps over the years. If the
+    chosen password matches any found in the file, it will be rejected. This is enabled by default.</li>
+<li><strong>PwnedValidator</strong> is like the <code>DictionaryValidator</code>. Instead of comparing to a local file, it
+    uses a third-party site, <a href="https://haveibeenpwned.com/Passwords">Have I Been Pwned</a> to check
+    against a list of over 630 million leaked passwords from many data dumps across the web.
+    The search is done securely, and provides more information than the simple dictionary version.
+    However, this does require an API call to a third-party which not every application will
+    find acceptable. You should use either this validator or the <code>DictionaryValidator</code>, not both.
+    This is disabled by default.</li>
+</ul>
+<p>You can choose which validators are used in <code>Config\Auth::$passwordValidators</code>:</p>
+<pre class="highlight"><code class="language-php">public array $passwordValidators = [
+    CompositionValidator::class,
+    NothingPersonalValidator::class,
+    DictionaryValidator::class,
+    // PwnedValidator::class,
+];</code></pre>
+<p>You use <code>strong_password</code> rule for password validation explained above.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code>strong_password</code> rule only supports use cases to check the user's own password.
+It fetches the authenticated user's data for <strong>NothingPersonalValidator</strong>
+if the visitor is authenticated.
+If you want to have use cases that set and check another user's password,
+you can't use <code>strong_password</code>. You need to use <code>service('passwords')</code> directly
+to check the password.
+But remember, it is not good practice to set passwords for other users.
+This is because the password should be known only by that user.</p>
+</div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 13, 2023 00:42:58 UTC">October 13, 2023</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 1, 2021 06:05:42 UTC">February 1, 2021</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -1463,6 +1745,44 @@
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Home
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../install/" class="md-footer__link md-footer__link--next" aria-label="Next: Installation">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Installation
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">
@@ -1524,16 +1844,16 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/", "features": ["navigation.instant", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "/assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "content.code.copy", "navigation.footer", "content.action.edit", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/assets/javascripts/bundle.50899def.min.js"></script>
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
       
-        <script src="/assets/js/hljs.js"></script>
+        <script src="../../assets/js/hljs.js"></script>
       
-        <script src="/assets/js/curl.min.js"></script>
+        <script src="../../assets/js/curl.min.js"></script>
       
     
   </body>
