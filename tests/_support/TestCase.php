@@ -43,8 +43,11 @@ abstract class TestCase extends CIUnitTestCase
         setting('Email.fromName', 'John Smith');
 
         // Clear any actions
-        $config          = config('Auth');
-        $config->actions = ['login' => null, 'register' => null];
+        $config             = config('Auth');
+        $config->Mfa        = false;
+        $config->forceMfa   = true;
+        $config->actions    = ['register' => null];
+        $config->actionsMfa = ['email' => null];
         Factories::injectMock('config', 'Auth', $config);
 
         // Set Config\Security::$csrfProtection to 'session'

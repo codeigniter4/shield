@@ -69,6 +69,7 @@ class User extends Entity
     protected $casts = [
         'id'          => '?integer',
         'active'      => 'int-bool',
+        'mfa'         => 'bool',
         'permissions' => 'array',
         'groups'      => 'array',
     ];
@@ -298,5 +299,13 @@ class User extends Entity
         $logins = model(LoginModel::class);
 
         return $logins->lastLogin($this);
+    }
+
+    /**
+     * Returns if this user has Multifactor Authentication (MFA) active
+     */
+    public function isMfaActive(): bool
+    {
+        return $this->mfa;
     }
 }

@@ -166,10 +166,11 @@ class Session implements AuthenticatorInterface
         $user->touchIdentity($user->getEmailIdentity());
 
         // Set auth action from database.
-        $this->setAuthAction();
-
-        // If an action has been defined for login, start it up.
-        $this->startUpAction('login', $user);
+        if (! $this->setAuthAction()) {
+            // If no auth action from datadase,
+            // then run an action for login, start it up.
+            $this->startUpAction('login', $user);
+        }
 
         $this->startLogin($user);
 
@@ -193,21 +194,39 @@ class Session implements AuthenticatorInterface
      */
     public function startUpAction(string $type, User $user): bool
     {
-        $actionClass = setting('Auth.actions')[$type] ?? null;
+        $authActions = [];
 
-        if ($actionClass === null) {
-            return false;
+        switch ($type) {
+            case 'register':
+                $authActions[$type] = setting('Auth.actions')[$type];
+                break;
+
+            case 'login':
+                if (setting('Auth.Mfa')) {
+                    $authActions = $this->populateMfaActions();
+                }
+                break;
+
+            default:
+                return false;
         }
 
-        /** @var ActionInterface $action */
-        $action = Factories::actions($actionClass); // @phpstan-ignore-line
+        foreach ($authActions as $actionClass) {
+            if ($actionClass === null) {
+                continue;
+            }
 
-        // Create identity for the action.
-        $action->createIdentity($user);
+            /** @var ActionInterface $action */
+            $action = Factories::actions($actionClass); // @phpstan-ignore-line
 
-        $this->setAuthAction();
+            // Create identity for the action.
+            $action->createIdentity($user);
+            $this->setAuthAction();
 
-        return true;
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -469,8 +488,11 @@ class Session implements AuthenticatorInterface
         if ($this->user === null) {
             return false;
         }
-
         $authActions = setting('Auth.actions');
+        // if Mfa is enabled
+        if (setting('Auth.Mfa')) {
+            $authActions = array_merge($authActions, $this->populateMfaActions());
+        }
 
         foreach ($authActions as $actionClass) {
             if ($actionClass === null) {
@@ -486,7 +508,7 @@ class Session implements AuthenticatorInterface
                 $this->userState = self::STATE_PENDING;
 
                 $this->setSessionUserKey('auth_action', $actionClass);
-                $this->setSessionUserKey('auth_action_message', $identity->extra);
+                $this->setSessionUserKey('auth_action_message', $action->getActionMessage());
 
                 return true;
             }
@@ -974,5 +996,49 @@ class Session implements AuthenticatorInterface
         $rawToken = $token->selector . ':' . $validator;
 
         $this->setRememberMeCookie($rawToken);
+    }
+
+    private function populateMfaActions(): array
+    {
+        // add the register from actions
+        $authActions     = setting('Auth.actions');
+        $userGroupAction = setting('AuthGroups.defaultGroup');
+        // if Mfa is forced for all ou the user has mfa enabled, add the default mfa to authActions
+        if (setting('Auth.forceMfa') || $this->user->mfa) {
+            if (! $this->user->inGroup(setting('AuthGroups.defaultGroup')) && count($this->user->getGroups()) > 0) {
+                // The user isn't on the default group, but in a group, grab first group
+                $userGroupAction = $this->user->getGroups()[0];
+                $mfaAction       = setting('Auth.actionsMfa')[setting('Auth.matrixMfa')[$userGroupAction]];
+
+                // check if there is a custom action defined in the matrix for this user group
+                if (setting('Auth.matrixMfa')[$userGroupAction] !== null) {
+                    // set it up
+                    $authActions[setting('Auth.matrixMfa')[$userGroupAction]] = $mfaAction;
+                } else {
+                    // No custom action, fallback for default action
+                    $authActions[setting('Auth.defaultMfa')] = setting('Auth.actionsMfa')[setting('Auth.defaultMfa')];
+                }
+            } else {
+                // default mfa action for default group or user with no group
+                $authActions[setting('Auth.defaultMfa')] = setting('Auth.actionsMfa')[setting('Auth.defaultMfa')];
+            }
+            // Get all existing identities to match against Auth.actionsMfa
+            $identities = $this->user->getIdentities('all');
+
+            foreach ($identities as $item) {
+                if ($item->type !== setting('Auth.defaultMfa') && array_key_exists($item->type, setting('Auth.actionsMfa'))) {
+                    $authActions[$item->type] = setting('Auth.actionsMfa')[$item->type];
+
+                    // got a hit on a stored identity, removing defaults...
+                    unset($authActions[setting('Auth.defaultMfa')]);
+                    if (isset(setting('Auth.matrixMfa')[$userGroupAction])) {
+                        unset($authActions[setting('Auth.matrixMfa')[$userGroupAction]]);
+                    }
+                    break;
+                }
+            }
+        }
+
+        return $authActions;
     }
 }

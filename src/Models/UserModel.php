@@ -36,6 +36,7 @@ class UserModel extends BaseModel
         'status',
         'status_message',
         'active',
+        'mfa',
         'last_active',
     ];
     protected $useTimestamps = true;

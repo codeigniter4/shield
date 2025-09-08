@@ -64,4 +64,9 @@ interface ActionInterface
      * @return string secret
      */
     public function createIdentity(User $user): string;
+
+    /**
+     * Retrieves the action message for the user (e.g. extra)
+     */
+    public function getActionMessage(): string;
 }

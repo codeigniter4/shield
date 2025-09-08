@@ -185,4 +185,17 @@ class Email2FA implements ActionInterface
     {
         return $this->type;
     }
+
+    /**
+     * Retrieves the action message for the user (e.g. extra)
+     */
+    public function getActionMessage(): string
+    {
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+        $user          = $authenticator->getPendingUser();
+        $identity      = $this->getIdentity($user);
+
+        return $identity->extra;
+    }
 }

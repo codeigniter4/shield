@@ -53,23 +53,63 @@ By default, once a user registers they have an active account that can be used. 
 ```php
 public array $actions = [
     'register' => \CodeIgniter\Shield\Authentication\Actions\EmailActivator::class,
-    'login'    => null,
 ];
 ```
 
 ### Enable Two-Factor Authentication
 
+Turned off by default, Shield's 2FA can be enabled by setting `$Mfa` to `true` in the `Auth` config file. Shield allows you to force two-factor authentication for every login, or per user via the `$forceMfa` setting. 
+
+```php
+public bool $Mfa = true;
+
+public bool $forceMfa = true; // for every login
+public bool $forceMfa = false; // based on user preference
+```
+
+To enable Shield's Email-based 2FA can be enabled by configuring the `$actionsMfa` in the `Auth` config file.
+
 !!! note
 
     You need to configure **app/Config/Email.php** to allow Shield to send emails. See [Installation](../getting_started/install.md#initial-setup).
 
-Turned off by default, Shield's Email-based 2FA can be enabled by specifying the class to use in the `Auth` config file.
+```php
+public array $actionsMfa = [
+        'email' => \CodeIgniter\Shield\Authentication\Actions\Email2Fa::class,
+    ];
+```
+
+Custom 2FA actions can be implemented by implementing `\CodeIgniter\Shield\Authentication\Actions\ActionInterface` and added in `$actionsMfa`.
+
+Define the default action for the 2FA by setting the `$defaultMfa`.
 
 ```php
-public array $actions = [
-    'register' => null,
-    'login'    => \CodeIgniter\Shield\Authentication\Actions\Email2FA::class,
+public string $defaultMfa = "email";
+```
+
+Shield also allows to define custom 2FA actions on a user group basis by defining them the `$matrixMfa` matrix array. The default user group defined at `AuthGroups::$defaultGroup` config file, will use the value from `$defaultMfa` and can't be overridden by `$matrixMfa`.
+
+```php
+public array $matrixMfa = [
+    'admin'    => \CodeIgniter\Shield\Authentication\Actions\Email2FA::class,
 ];
+```
+
+To enable 2FA for a specific user, set the User field 'mfa' to true. It is possible to check if a user has 2FA activated with `isMfaActive()`
+
+```php
+// Get the User Provider (UserModel by default)
+$users = auth()->getProvider();
+$user = $users->findById(123);
+
+$user->isMfaActive(); // false
+
+$user->fill([
+    'mfa' => true
+]);
+$users->save($user);
+
+$user->isMfaActive(); // true
 ```
 
 ## Customizing Routes
