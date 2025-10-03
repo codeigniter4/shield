@@ -164,7 +164,7 @@ class User extends Entity
      */
     public function saveEmailIdentity(): bool
     {
-        if (empty($this->email) && empty($this->password) && empty($this->password_hash)) {
+        if (($this->email === null || $this->email === '') && ($this->password === null || $this->password === '') && ($this->password_hash === null || $this->password_hash === '')) {
             return true;
         }
 
@@ -181,15 +181,15 @@ class User extends Entity
             $identity = $this->getEmailIdentity();
         }
 
-        if (! empty($this->email)) {
+        if ($this->email !== null && $this->email !== '') {
             $identity->secret = $this->email;
         }
 
-        if (! empty($this->password)) {
+        if ($this->password !== null && $this->password !== '') {
             $identity->secret2 = service('passwords')->hash($this->password);
         }
 
-        if (! empty($this->password_hash) && empty($this->password)) {
+        if ($this->password_hash !== null && $this->password_hash !== '' && ($this->password === null || $this->password === '')) {
             $identity->secret2 = $this->password_hash;
         }
 
