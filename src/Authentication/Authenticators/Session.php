@@ -195,7 +195,7 @@ class Session implements AuthenticatorInterface
     {
         $actionClass = setting('Auth.actions')[$type] ?? null;
 
-        if ($actionClass === null) {
+        if ($actionClass === null || $actionClass === '') {
             return false;
         }
 
@@ -473,7 +473,7 @@ class Session implements AuthenticatorInterface
         $authActions = setting('Auth.actions');
 
         foreach ($authActions as $actionClass) {
-            if ($actionClass === null) {
+            if ($actionClass === null || $actionClass === '') {
                 continue;
             }
 
@@ -517,7 +517,7 @@ class Session implements AuthenticatorInterface
         $types   = [];
 
         foreach ($actions as $actionClass) {
-            if ($actionClass === null) {
+            if ($actionClass === null || $actionClass === '') {
                 continue;
             }
 
