@@ -20,4 +20,34 @@ on:
 
 jobs:
   phpunit:
+    strategy:
+      matrix:
+        php-version: ['8.1', '8.2', '8.3', '8.4']
+        db-platform: ['MySQLi', 'SQLite3']
+        mysql-version: ['8.0']
+        dependencies: ['highest']
+        include:
+          # MySQL 5.7
+          - php-version: '8.2'
+            db-platform: MySQLi
+            mysql-version: '5.7'
+          # Postgre
+          - php-version: '8.2'
+            db-platform: Postgre
+            mysql-version: '8.0'
+          # SQLSRV
+          - php-version: '8.2'
+            db-platform: SQLSRV
+            mysql-version: '8.0'
+          # OCI8
+          - php-version: '8.2'
+            db-platform: OCI8
+            mysql-version: '8.0'
+
     uses: codeigniter4/.github/.github/workflows/phpunit.yml@CI46
+    with:
+      php-version: ${{ matrix.php-version }}
+      db-platform: ${{ matrix.db-platform }}
+      mysql-version: ${{ matrix.mysql-version }}
+      dependencies: ${{ matrix.dependencies }}
+      coveralls-php: '8.2'
