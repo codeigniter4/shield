@@ -31,7 +31,7 @@ final class JWTManagerTest extends TestCase
         return new JWTManager($clock);
     }
 
-    public function testGenerateToken()
+    public function testGenerateToken(): array
     {
         /** @var User $user */
         $user = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
@@ -94,7 +94,7 @@ final class JWTManagerTest extends TestCase
         $this->assertStringStartsWith('admin@example.jp', $payload['email']);
     }
 
-    public function testIssue()
+    public function testIssue(): array
     {
         // Fix the current time for testing.
         Time::setTestNow('now');

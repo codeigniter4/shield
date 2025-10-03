@@ -55,9 +55,7 @@ final class PwnedValidatorTest extends CIUnitTestCase
         $response = new Response(new App());
         $response->setBody($body);
 
-        $curlrequest = $this->getMockBuilder('CodeIgniter\HTTP\CURLRequest')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $curlrequest = $this->createMock('CodeIgniter\HTTP\CURLRequest');
 
         $curlrequest->method('get')->willReturn($response);
 
@@ -77,9 +75,7 @@ final class PwnedValidatorTest extends CIUnitTestCase
         $response = new Response(new App());
         $response->setBody($body);
 
-        $curlrequest = $this->getMockBuilder('CodeIgniter\HTTP\CURLRequest')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $curlrequest = $this->createMock('CodeIgniter\HTTP\CURLRequest');
 
         $curlrequest->method('get')->willReturn($response);
 
@@ -109,9 +105,7 @@ final class PwnedValidatorTest extends CIUnitTestCase
         $response = new Response(new App());
         $response->setBody($body);
 
-        $curlrequest = $this->getMockBuilder('CodeIgniter\HTTP\CURLRequest')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $curlrequest = $this->createMock('CodeIgniter\HTTP\CURLRequest');
 
         $curlrequest->method('get')->willReturn($response);
 
@@ -126,9 +120,7 @@ final class PwnedValidatorTest extends CIUnitTestCase
 
     public function testCheckCatchesAndRethrowsCurlExceptionAsAuthException(): void
     {
-        $curlrequest = $this->getMockBuilder('CodeIgniter\HTTP\CURLRequest')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $curlrequest = $this->createMock('CodeIgniter\HTTP\CURLRequest');
 
         $curlrequest->method('get')
             ->willThrowException(HTTPException::forCurlError(
