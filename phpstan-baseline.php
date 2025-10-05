@@ -502,7 +502,7 @@ $ignoreErrors[] = [
 $ignoreErrors[] = [
 	'rawMessage' => 'Call to an undefined method CodeIgniter\\Shield\\Models\\UserModel::getLastQuery().',
 	'identifier' => 'method.notFound',
-	'count' => 7,
+	'count' => 9,
 	'path' => __DIR__ . '/tests/Unit/UserTest.php',
 ];
 $ignoreErrors[] = [

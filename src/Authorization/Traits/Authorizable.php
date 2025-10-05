@@ -117,7 +117,7 @@ trait Authorizable
      */
     public function setGroupsCache(array $groups): void
     {
-        $this->groupCache = $groups === [] ? null : $groups;
+        $this->groupCache = $groups;
     }
 
     /**
@@ -125,7 +125,7 @@ trait Authorizable
      */
     public function setPermissionsCache(array $permissions): void
     {
-        $this->permissionsCache = $permissions === [] ? null : $permissions;
+        $this->permissionsCache = $permissions;
     }
 
     /**
