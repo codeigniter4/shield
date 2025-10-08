@@ -188,6 +188,26 @@ final class UserTest extends DatabaseTestCase
         );
     }
 
+    public function testModelFindByIdWithGroupsWhenUserHasNoGroups(): void
+    {
+        // User has no groups in the database
+        $user = model(UserModel::class)->where('active', 1)->withGroups()->findById(1);
+
+        $this->assertInstanceOf(User::class, $user);
+
+        // Verify groups cache is set to empty array (not null)
+        $this->assertSame([], $user->getGroups());
+        $this->assertFalse($user->inGroup('admin'));
+
+        // Verify the last query was the one with WHERE IN
+        $query = (string) model(UserModel::class)->getLastQuery();
+        $this->assertMatchesRegularExpression(
+            '/WHERE\s+.*\s+IN\s+\([^)]+\)/i',
+            $query,
+            'Groups were not obtained with the single query (missing "WHERE ... IN" condition)',
+        );
+    }
+
     public function testModelFindAllWithPermissionsUserNotExists(): void
     {
         $users = model(UserModel::class)->where('active', 0)->withPermissions()->findAll();
@@ -241,6 +261,28 @@ final class UserTest extends DatabaseTestCase
             '/WHERE\s+.*\s+IN\s+\([^)]+\)/i',
             $query,
             'Permissions were not obtained with the single query (missing "WHERE ... IN" condition)',
+        );
+    }
+
+    public function testModelFindByIdWithPermissionsWhenUserHasNoPermissions(): void
+    {
+        // Load both groups and permissions to ensure can() doesn't trigger queries
+        $user = model(UserModel::class)->where('active', 1)->withGroups()->withPermissions()->findById(1);
+
+        $this->assertInstanceOf(User::class, $user);
+
+        // Verify permissions cache is set to empty array (not null)
+        $this->assertSame([], $user->getPermissions());
+        $this->assertSame([], $user->getGroups());
+        $this->assertFalse($user->hasPermission('users.delete'));
+        $this->assertFalse($user->can('users.delete'));
+
+        // Verify the last query was the one with WHERE IN
+        $query = (string) model(UserModel::class)->getLastQuery();
+        $this->assertMatchesRegularExpression(
+            '/WHERE\s+.*\s+IN\s+\([^)]+\)/i',
+            $query,
+            'Groups and Permissions were not obtained with the single query (missing "WHERE ... IN" condition)',
         );
     }
 

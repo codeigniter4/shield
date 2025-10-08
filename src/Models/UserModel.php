@@ -210,10 +210,6 @@ class UserModel extends BaseModel
         // Get our groups for all users
         $groups = $groupModel->getGroupsByUserIds($userIds);
 
-        if ($groups === []) {
-            return $data;
-        }
-
         $mappedUsers = $this->assignProperties($data, $groups, 'groups');
 
         $data['data'] = $data['singleton'] ? $mappedUsers[$data['id']] : $mappedUsers;
@@ -247,10 +243,6 @@ class UserModel extends BaseModel
 
         $permissions = $permissionModel->getPermissionsByUserIds($userIds);
 
-        if ($permissions === []) {
-            return $data;
-        }
-
         $mappedUsers = $this->assignProperties($data, $permissions, 'permissions');
 
         $data['data'] = $data['singleton'] ? $mappedUsers[$data['id']] : $mappedUsers;
@@ -281,9 +273,10 @@ class UserModel extends BaseModel
         // Build method name
         $method = 'set' . ucfirst($type) . 'Cache';
 
-        // Now assign the properties to the user
-        foreach ($properties as $userId => $propertyArray) {
-            $mappedUsers[$userId]->{$method}($propertyArray);
+        // Assign properties to all users (empty array if no properties found)
+        foreach ($mappedUsers as $userId => $user) {
+            $propertyArray = $properties[$userId] ?? [];
+            $user->{$method}($propertyArray);
         }
         unset($properties);
 
