@@ -481,6 +481,18 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/tests/Authentication/HasAccessTokensTest.php',
 ];
 $ignoreErrors[] = [
+	'rawMessage' => 'Accessing offset \'HTTP_USER_AGENT\' directly on $_SERVER is discouraged.',
+	'identifier' => 'codeigniter.superglobalAccess',
+	'count' => 1,
+	'path' => __DIR__ . '/tests/Controllers/MagicLinkTest.php',
+];
+$ignoreErrors[] = [
+	'rawMessage' => 'Assigning \'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)\' directly on offset \'HTTP_USER_AGENT\' of $_SERVER is discouraged.',
+	'identifier' => 'codeigniter.superglobalAccessAssign',
+	'count' => 1,
+	'path' => __DIR__ . '/tests/Controllers/MagicLinkTest.php',
+];
+$ignoreErrors[] = [
 	'rawMessage' => 'Only booleans are allowed in a ternary operator condition, string|null given.',
 	'identifier' => 'ternary.condNotBoolean',
 	'count' => 2,
