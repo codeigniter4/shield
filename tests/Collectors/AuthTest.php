@@ -52,7 +52,7 @@ final class AuthTest extends TestCase
     public function testDisplayLoggedIn(): void
     {
         $authenticator = service('auth')->getAuthenticator();
-        assert($authenticator instanceof Session);
+        $this->assertInstanceOf(Session::class, $authenticator);
         $authenticator->login($this->user);
         $this->user->addGroup('admin', 'beta');
         $this->user->addPermission('users.create', 'users.edit');
@@ -68,7 +68,7 @@ final class AuthTest extends TestCase
     public function testDisplayNotLoggedInAfterLogout(): void
     {
         $authenticator = service('auth')->getAuthenticator();
-        assert($authenticator instanceof Session);
+        $this->assertInstanceOf(Session::class, $authenticator);
         $authenticator->login($this->user);
 
         $authenticator->logout();
