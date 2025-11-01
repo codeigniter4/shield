@@ -23,6 +23,10 @@ in the **app/Config/Auth.php** file.
 public int $magicLinkLifetime = HOUR;
 ```
 
+### Bot Detection
+
+Some apps or devices may try to be "too helpful" by automatically visiting links - for example, to check if they're safe or to prepare for read-aloud features. Since this is a one-time magic link, such automated visits could invalidate it. To prevent this, Shield relies on the framework's `UserAgents::robots` config property (**app/Config/UserAgents.php**) to filter out requests that are likely initiated by non-human agents.
+
 ## Responding to Magic Link Logins
 
 !!! note
