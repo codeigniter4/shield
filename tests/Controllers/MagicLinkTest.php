@@ -206,7 +206,7 @@ final class MagicLinkTest extends TestCase
         ]);
 
         // Simulate a robot user agent
-        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)';
+        service('superglobals')->setServer('HTTP_USER_AGENT', 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
 
         $this->get(route_to('verify-magic-link') . '?token=validtoken123');
     }

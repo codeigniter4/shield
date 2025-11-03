@@ -484,11 +484,23 @@ $ignoreErrors[] = [
 	'rawMessage' => 'Accessing offset \'HTTP_USER_AGENT\' directly on $_SERVER is discouraged.',
 	'identifier' => 'codeigniter.superglobalAccess',
 	'count' => 1,
+	'path' => __DIR__ . '/tests/Controllers/ActionsTest.php',
+];
+$ignoreErrors[] = [
+	'rawMessage' => 'Call to method setServer() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
+	'identifier' => 'method.internalClass',
+	'count' => 2,
+	'path' => __DIR__ . '/tests/Controllers/ActionsTest.php',
+];
+$ignoreErrors[] = [
+	'rawMessage' => 'Accessing offset \'HTTP_USER_AGENT\' directly on $_SERVER is discouraged.',
+	'identifier' => 'codeigniter.superglobalAccess',
+	'count' => 1,
 	'path' => __DIR__ . '/tests/Controllers/MagicLinkTest.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Assigning \'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)\' directly on offset \'HTTP_USER_AGENT\' of $_SERVER is discouraged.',
-	'identifier' => 'codeigniter.superglobalAccessAssign',
+	'rawMessage' => 'Call to method setServer() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
+	'identifier' => 'method.internalClass',
 	'count' => 1,
 	'path' => __DIR__ . '/tests/Controllers/MagicLinkTest.php',
 ];

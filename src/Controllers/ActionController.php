@@ -82,6 +82,10 @@ class ActionController extends BaseController
      */
     public function verify()
     {
+        if ($this->request->getUserAgent()->isRobot()) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
         return $this->action->verify($this->request);
     }
 }

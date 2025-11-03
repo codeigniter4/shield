@@ -54,6 +54,14 @@ public $views = [
 ];
 ```
 
+### Bot Detection
+
+The `ActionController::verify()` method includes built-in protection against web crawlers and bots. When a bot (such as Googlebot, Bingbot, etc.) attempts to access verification links, the system will return a 404 error instead of processing the request.
+
+This security feature prevents bots from accidentally or intentionally consuming verification tokens or codes by following links in emails during their crawling activities.
+
+CodeIgniter automatically handles bot detection through its User Agent library. It checks the User-Agent string against the `UserAgents::robots` config defined in **app/Config/UserAgents.php** to identify known web crawlers.
+
 ## Defining New Actions
 
 While the provided email-based activation and 2FA will work for many sites, others will have different
