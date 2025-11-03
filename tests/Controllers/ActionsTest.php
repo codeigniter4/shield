@@ -58,6 +58,14 @@ final class ActionsTest extends DatabaseTestCase
         $this->user->createEmailIdentity(['email' => 'johnsmith@example.com', 'password' => 'secret123']);
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        // Clean up any robot user agent set in tests
+        unset($_SERVER['HTTP_USER_AGENT']);
+    }
+
     public function testActionShowNoneAvailable(): void
     {
         $this->expectException(PageNotFoundException::class);
@@ -315,5 +323,37 @@ final class ActionsTest extends DatabaseTestCase
 
         $result->assertRedirect();
         $this->assertSame(site_url('/auth/a/show'), $result->getRedirectUrl());
+    }
+
+    public function testEmail2FAVerifyReturns404ForRobotUserAgent(): void
+    {
+        $this->expectException(PageNotFoundException::class);
+
+        $this->insertIdentityEmal2FA();
+
+        // Simulate a robot user agent (Googlebot)
+        service('superglobals')->setServer('HTTP_USER_AGENT', 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
+
+        $this->actingAs($this->user, true)
+            ->withSession($this->getSessionUserInfo())
+            ->post('/auth/a/verify', [
+                'token' => '123456',
+            ]);
+    }
+
+    public function testEmailActivateVerifyReturns404ForRobotUserAgent(): void
+    {
+        $this->expectException(PageNotFoundException::class);
+
+        $this->insertIdentityEmailActivate();
+
+        // Simulate a robot user agent (Bingbot)
+        service('superglobals')->setServer('HTTP_USER_AGENT', 'Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)');
+
+        $this->actingAs($this->user, true)
+            ->withSession($this->getSessionUserInfo(EmailActivator::class))
+            ->post('/auth/a/verify', [
+                'token' => '123456',
+            ]);
     }
 }
