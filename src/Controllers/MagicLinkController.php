@@ -15,6 +15,7 @@ namespace CodeIgniter\Shield\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\Events\Events;
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
@@ -158,6 +159,10 @@ class MagicLinkController extends BaseController
     {
         if (! setting('Auth.allowMagicLinkLogins')) {
             return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
+        }
+
+        if ($this->request->getUserAgent()->isRobot()) {
+            throw PageNotFoundException::forPageNotFound();
         }
 
         $token = $this->request->getGet('token');

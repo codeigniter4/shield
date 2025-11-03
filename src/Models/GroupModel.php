@@ -98,7 +98,7 @@ class GroupModel extends BaseModel
             ->getResultArray();
 
         return array_map(
-            'array_keys',
+            array_keys(...),
             array_reduce($groups, static function ($carry, $item) {
                 $carry[$item['user_id']][$item['group']] = true;
 

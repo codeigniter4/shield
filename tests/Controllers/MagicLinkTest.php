@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Controllers;
 
 use CodeIgniter\Config\Factories;
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
@@ -45,6 +46,14 @@ final class MagicLinkTest extends TestCase
         $routes = service('routes');
         auth()->routes($routes);
         Services::injectMock('routes', $routes);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        // Clean up any robot user agent set in tests
+        unset($_SERVER['HTTP_USER_AGENT']);
     }
 
     public function testAfterLoggedInNotAllowDisplayMagicLink(): void
@@ -176,5 +185,29 @@ final class MagicLinkTest extends TestCase
             'error',
             lang('Auth.magicLinkDisabled'),
         );
+    }
+
+    public function testMagicLinkVerifyReturns404ForRobotUserAgent(): void
+    {
+        $this->expectException(PageNotFoundException::class);
+
+        /** @var User $user */
+        $user = fake(UserModel::class);
+        $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
+
+        $identities = model(UserIdentityModel::class);
+
+        // Insert User Identity for Magic link login
+        $identities->insert([
+            'user_id' => $user->id,
+            'type'    => Session::ID_TYPE_MAGIC_LINK,
+            'secret'  => 'validtoken123',
+            'expires' => Time::now()->addMinutes(60),
+        ]);
+
+        // Simulate a robot user agent
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)';
+
+        $this->get(route_to('verify-magic-link') . '?token=validtoken123');
     }
 }

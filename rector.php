@@ -37,6 +37,7 @@ use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\Cast\RecastingRemovalRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPromotedPropertyRector;
 use Rector\DeadCode\Rector\If_\UnwrapFutureCompatibleIfPhpVersionRector;
+use Rector\DeadCode\Rector\MethodCall\RemoveNullArgOnNullDefaultParamRector;
 use Rector\DeadCode\Rector\Property\RemoveUnusedPrivatePropertyRector;
 use Rector\EarlyReturn\Rector\Foreach_\ChangeNestedForeachIfsToEarlyContinueRector;
 use Rector\EarlyReturn\Rector\If_\ChangeIfElseValueAssignToEarlyReturnRector;
@@ -44,6 +45,7 @@ use Rector\EarlyReturn\Rector\If_\RemoveAlwaysElseRector;
 use Rector\EarlyReturn\Rector\Return_\PreparedValueToEarlyReturnRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Php73\Rector\FuncCall\StringifyStrNeedlesRector;
+use Rector\Php81\Rector\ClassMethod\NewInInitializerRector;
 use Rector\PHPUnit\AnnotationsToAttributes\Rector\Class_\AnnotationWithValueToAttributeRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\YieldDataProviderRector;
 use Rector\PHPUnit\CodeQuality\Rector\MethodCall\AssertEmptyNullableObjectToAssertInstanceofRector;
@@ -52,7 +54,6 @@ use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
-use Rector\Strict\Rector\If_\BooleanInIfConditionRuleFixerRector;
 use Rector\TypeDeclaration\Rector\Empty_\EmptyOnNullableObjectToInstanceOfRector;
 use Rector\ValueObject\PhpVersion;
 
@@ -135,6 +136,12 @@ return static function (RectorConfig $rectorConfig): void {
 
         // Ignore some PHPUnit rules
         AssertEmptyNullableObjectToAssertInstanceofRector::class,
+
+        // Ignore to prevent BC break
+        NewInInitializerRector::class,
+
+        // Ignore for readability
+        RemoveNullArgOnNullDefaultParamRector::class,
     ]);
 
     // auto import fully qualified class names
@@ -166,7 +173,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(StringClassNameToClassConstantRector::class);
     $rectorConfig->rule(PrivatizeFinalClassPropertyRector::class);
     $rectorConfig->rule(CompleteDynamicPropertiesRector::class);
-    $rectorConfig->rule(BooleanInIfConditionRuleFixerRector::class);
     $rectorConfig->rule(SingleInArrayToCompareRector::class);
     $rectorConfig->rule(VersionCompareFuncCallToConstantRector::class);
     $rectorConfig->rule(ExplicitBoolCompareRector::class);
