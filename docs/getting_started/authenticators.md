@@ -17,3 +17,5 @@ Shield provides the following Authenticators:
   [HMAC SHA256 Token Authenticator](../references/authentication/hmac.md) for usage.
 - **JWT** authenticator provides stateless authentication using JSON Web Token. To use this,
   you need additional setup. See [JWT Authentication](../addons/jwt.md).
+
+In addition to the default authenticators listed above, CodeIgniter Shield allows you to build and register Custom Authenticators by implementing the `AuthenticatorInterface`, enabling completely project-specific authentication strategies (external providers, hardware or device challenges, or any other custom logic), while remaining fully compatible with Shield’s authentication lifecycle and its login/logout event system. For full implementation steps, see [Custom Authenticator](../customization/custom_authenticators.md).
