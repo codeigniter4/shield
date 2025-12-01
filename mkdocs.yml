@@ -115,6 +115,7 @@ nav:
     - customization/extending_controllers.md
     - customization/integrating_custom_view_libs.md
     - customization/login_identifier.md
+    - Custom Authenticators : customization/custom_authenticators.md
   - User Management:
     - user_management/managing_users.md
     - user_management/forcing_password_reset.md
