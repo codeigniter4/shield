@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://shield.codeigniter.com/references/controller_filters/">
+        <link rel="canonical" href="https://shield.codeigniter.com/customization/custom_authenticators/">
       
       
-        <link rel="prev" href="../../guides/strengthen_password/">
+        <link rel="prev" href="../login_identifier/">
       
       
-        <link rel="next" href="../authentication/authentication/">
+        <link rel="next" href="../../user_management/managing_users/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Controller Filters - CodeIgniter Shield</title>
+        <title>Custom Authenticators - CodeIgniter Shield</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#controller-filters" class="md-skip">
+        <a href="#custom-authenticators" class="md-skip">
           Skip to content
         </a>
       
@@ -119,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Controller Filters
+              Custom Authenticators
             
           </span>
         </div>
@@ -571,18 +571,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
@@ -603,7 +605,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -621,7 +623,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../customization/table_names/" class="md-nav__link">
+      <a href="../table_names/" class="md-nav__link">
         
   
   
@@ -649,7 +651,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../customization/views/" class="md-nav__link">
+      <a href="../views/" class="md-nav__link">
         
   
   
@@ -677,7 +679,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../customization/route_config/" class="md-nav__link">
+      <a href="../route_config/" class="md-nav__link">
         
   
   
@@ -705,7 +707,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../customization/redirect_urls/" class="md-nav__link">
+      <a href="../redirect_urls/" class="md-nav__link">
         
   
   
@@ -733,7 +735,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../customization/validation_rules/" class="md-nav__link">
+      <a href="../validation_rules/" class="md-nav__link">
         
   
   
@@ -761,7 +763,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../customization/user_provider/" class="md-nav__link">
+      <a href="../user_provider/" class="md-nav__link">
         
   
   
@@ -789,7 +791,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../customization/adding_attributes_to_users/" class="md-nav__link">
+      <a href="../adding_attributes_to_users/" class="md-nav__link">
         
   
   
@@ -817,7 +819,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../customization/extending_controllers/" class="md-nav__link">
+      <a href="../extending_controllers/" class="md-nav__link">
         
   
   
@@ -845,7 +847,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../customization/integrating_custom_view_libs/" class="md-nav__link">
+      <a href="../integrating_custom_view_libs/" class="md-nav__link">
         
   
   
@@ -873,7 +875,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../customization/login_identifier/" class="md-nav__link">
+      <a href="../login_identifier/" class="md-nav__link">
         
   
   
@@ -898,10 +900,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../customization/custom_authenticators/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Authenticators
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -917,6 +946,70 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-custom-authenticators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Custom Authenticators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementing-a-custom-authenticator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementing a Custom Authenticator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#registering-the-authenticator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registering the Authenticator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-authenticator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the Authenticator
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1237,20 +1330,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -1271,7 +1362,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1286,37 +1377,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Controller Filters
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../references/controller_filters/" class="md-nav__link">
         
   
   
@@ -1332,87 +1396,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#provided-filters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Provided Filters
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configure-controller-filters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configure Controller Filters
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Configure Controller Filters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#protect-all-pages" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Protect All Pages
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rate-limiting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rate Limiting
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forcing-password-reset" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Forcing Password Reset
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1472,7 +1455,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../authentication/authentication/" class="md-nav__link">
+      <a href="../../references/authentication/authentication/" class="md-nav__link">
         
   
   
@@ -1500,7 +1483,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../authentication/session/" class="md-nav__link">
+      <a href="../../references/authentication/session/" class="md-nav__link">
         
   
   
@@ -1528,7 +1511,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../authentication/tokens/" class="md-nav__link">
+      <a href="../../references/authentication/tokens/" class="md-nav__link">
         
   
   
@@ -1556,7 +1539,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../authentication/hmac/" class="md-nav__link">
+      <a href="../../references/authentication/hmac/" class="md-nav__link">
         
   
   
@@ -1584,7 +1567,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../authentication/auth_actions/" class="md-nav__link">
+      <a href="../../references/authentication/auth_actions/" class="md-nav__link">
         
   
   
@@ -1620,7 +1603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../magic_link_login/" class="md-nav__link">
+      <a href="../../references/magic_link_login/" class="md-nav__link">
         
   
   
@@ -1648,7 +1631,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../authorization/" class="md-nav__link">
+      <a href="../../references/authorization/" class="md-nav__link">
         
   
   
@@ -1676,7 +1659,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../events/" class="md-nav__link">
+      <a href="../../references/events/" class="md-nav__link">
         
   
   
@@ -1704,7 +1687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../testing/" class="md-nav__link">
+      <a href="../../references/testing/" class="md-nav__link">
         
   
   
@@ -1841,10 +1824,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#provided-filters" class="md-nav__link">
+  <a href="#why-custom-authenticators" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Provided Filters
+        Why Custom Authenticators
       
     </span>
   </a>
@@ -1852,52 +1835,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configure-controller-filters" class="md-nav__link">
+  <a href="#implementing-a-custom-authenticator" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configure Controller Filters
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Configure Controller Filters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#protect-all-pages" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Protect All Pages
+        Implementing a Custom Authenticator
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#rate-limiting" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#registering-the-authenticator" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Rate Limiting
+        Registering the Authenticator
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#forcing-password-reset" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#using-the-authenticator" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Forcing Password Reset
+        Using the Authenticator
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1918,7 +1884,7 @@
 
 
   
-    <a href="https://github.com/codeigniter4/shield/edit/develop/docs/references/controller_filters.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/codeigniter4/shield/edit/develop/docs/customization/custom_authenticators.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1926,121 +1892,108 @@
   
 
 
-<h1 id="controller-filters">Controller Filters</h1>
-<h2 id="provided-filters">Provided Filters</h2>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The filter <code>$aliases</code> that Shield provides are automatically added for you by the
-<a href="https://codeigniter.com/user_guide/general/configuration.html#registrars">Registrar</a>
-class located at <strong>src/Config/Registrar.php</strong>. So you don't need to add in
-your <strong>app/Config/Filters.php</strong>.</p>
-</div>
-<p>The <a href="https://codeigniter.com/user_guide/incoming/filters.html">Controller Filters</a> you can use to protect your routes Shield provides are:</p>
-<pre class="highlight"><code class="language-php">$aliases = [
-    'session'     =&gt; \CodeIgniter\Shield\Filters\SessionAuth::class,
-    'tokens'      =&gt; \CodeIgniter\Shield\Filters\TokenAuth::class,
-    'hmac'        =&gt; \CodeIgniter\Shield\Filters\HmacAuth::class,
-    'chain'       =&gt; \CodeIgniter\Shield\Filters\ChainAuth::class,
-    'auth-rates'  =&gt; \CodeIgniter\Shield\Filters\AuthRates::class,
-    'group'       =&gt; \CodeIgniter\Shield\Filters\GroupFilter::class,
-    'permission'  =&gt; \CodeIgniter\Shield\Filters\PermissionFilter::class,
-    'force-reset' =&gt; \CodeIgniter\Shield\Filters\ForcePasswordResetFilter::class,
-    'jwt'         =&gt; \CodeIgniter\Shield\Filters\JWTAuth::class,
+<h1 id="custom-authenticators">Custom Authenticators</h1>
+<p>CodeIgniter Shield allows you to extend authentication by creating <strong>Custom Authenticators</strong>.<br />
+This is done by implementing the <code>CodeIgniter\Shield\Authentication\AuthenticatorInterface</code> contract, which ensures full compatibility with Shield’s authentication lifecycle, including <code>login</code> and <code>logout</code> events.</p>
+<p>Custom Authenticators enable project-specific authentication strategies such as:</p>
+<ul>
+<li>External identity providers (OAuth, SAML, OpenID Connect)  </li>
+<li>Hardware or device challenges (USB Security Key, FIDO2, TPM, device fingerprinting)  </li>
+<li>Hybrid authentication mechanisms  </li>
+</ul>
+<h2 id="why-custom-authenticators">Why Custom Authenticators</h2>
+<p>While Shield provides built-in authenticators such as <strong>Session</strong>, <strong>AccessTokens</strong>, <strong>HmacSha256</strong>, and <strong>JWT</strong>, custom authenticators allow you to:</p>
+<ul>
+<li>Enforce project-specific login logic  </li>
+<li>Integrate new or external authentication mechanisms  </li>
+<li>Keep full compatibility with Shield events and lifecycle  </li>
+</ul>
+<h2 id="implementing-a-custom-authenticator">Implementing a Custom Authenticator</h2>
+<ol>
+<li>Create a PHP class in your <code>App\Auth\Authentication</code> namespace.</li>
+<li>Implement the <code>CodeIgniter\Shield\Authentication\AuthenticatorInterface</code>.</li>
+<li>Implement the required methods:</li>
+</ol>
+<pre class="highlight"><code class="language-php">&lt;?php
+
+declare(strict_types=1);
+
+namespace App\Auth\Authentication;
+
+use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
+use CodeIgniter\Shield\Result;
+use CodeIgniter\Shield\Entities\User;
+
+class MyCustomAuthenticator implements AuthenticatorInterface
+{
+    public function attempt(array $credentials): Result
+    {
+        // Your login logic
+    }
+
+    public function check(array $credentials): Result
+    {
+        // Credential verification
+    }
+
+    public function loggedIn(): bool
+    {
+        // Return login state
+    }
+
+    public function login(User $user): void
+    {
+        // Store user session or token
+    }
+
+    public function loginById($userId): void
+    {
+        // Optional: login using user ID
+    }
+
+    public function logout(): void
+    {
+        // Remove session or token
+    }
+
+    public function getUser(): ?User
+    {
+        // Return the currently logged-in user
+    }
+
+    public function recordActiveDate(): void
+    {
+        // Optional: track user activity
+    }
+}</code></pre>
+<h2 id="registering-the-authenticator">Registering the Authenticator</h2>
+<p>In CodeIgniter Shield, all authenticators-built-in or custom—are registered through the <strong>app/Config/Auth.php</strong> file. This ensures that Shield recognizes your authenticator and allows you to reference it using its alias in the <em>auth</em> helper.</p>
+<p>Open <strong>app/Config/Auth.php</strong> and add your custom authenticator to the <code>$authenticators</code> array:</p>
+<p><pre class="highlight"><code class="language-php">public array $authenticators = [
+    'session' =&gt; \CodeIgniter\Shield\Authentication\Session::class,
+    'tokens'  =&gt; \CodeIgniter\Shield\Authentication\AccessTokens::class,
+    'hmac'    =&gt; \CodeIgniter\Shield\Authentication\HmacSha256::class,
+    //  Register your custom authenticator
+    'custom'  =&gt; \App\Auth\Authentication\MyCustomAuthenticator::class,
 ];</code></pre>
-<table>
-<thead>
-<tr>
-<th>Filters</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>session</td>
-<td>Restricts access to users who are not authenticated by the <code>Session</code> authenticator.</td>
-</tr>
-<tr>
-<td>tokens</td>
-<td>Restricts access to users who are not authenticated by the <code>AccessTokens</code> authenticator.</td>
-</tr>
-<tr>
-<td>chain</td>
-<td>The filter will check authenticators in sequence to see if the user is logged in through either of authenticators, allowing a single API endpoint to work for both an SPA using session auth, and a mobile app using access tokens.</td>
-</tr>
-<tr>
-<td>jwt</td>
-<td>Restricts access to users who are not authenticated by the <code>JWT</code> authenticator. See <a href="../../addons/jwt/">JWT Authentication</a>.</td>
-</tr>
-<tr>
-<td>hmac</td>
-<td>Restricts access to users who are not authenticated by the <code>HMAC</code> authenticator. See <a href="../../guides/api_hmac_keys/">HMAC Authentication</a>.</td>
-</tr>
-<tr>
-<td>auth-rates</td>
-<td>Provides a good basis for rate limiting of auth-related routes.</td>
-</tr>
-<tr>
-<td>group</td>
-<td>Checks if the user is in one of the groups passed in.</td>
-</tr>
-<tr>
-<td>permission</td>
-<td>Checks if the user has the passed permissions.</td>
-</tr>
-<tr>
-<td>force-reset</td>
-<td>Checks if the user requires a password reset.</td>
-</tr>
-</tbody>
-</table>
-<p>These can be used in any of the <a href="https://codeigniter.com/user_guide/incoming/filters.html#globals">normal filter config settings</a>, or <a href="https://codeigniter.com/user_guide/incoming/routing.html#applying-filters">within the routes file</a>.</p>
-<h2 id="configure-controller-filters">Configure Controller Filters</h2>
-<h3 id="protect-all-pages">Protect All Pages</h3>
-<p>If you want to limit all routes (e.g. <code>localhost:8080/admin</code>, <code>localhost:8080/panel</code> and ...), you need to add the following code in the <strong>app/Config/Filters.php</strong> file.</p>
-<pre class="highlight"><code class="language-php">public $globals = [
-    'before' =&gt; [
-        // ...
-        'session' =&gt; ['except' =&gt; ['login*', 'register', 'auth/a/*', 'logout']],
-    ],
-    // ...
-];</code></pre>
-<h3 id="rate-limiting">Rate Limiting</h3>
-<p>To help protect your authentication forms from being spammed by bots, it is recommended that you use
-the <code>auth-rates</code> filter on all of your authentication routes. This can be done with the following
-filter setup:</p>
-<pre class="highlight"><code class="language-php">public $filters = [
-    'auth-rates' =&gt; [
-        'before' =&gt; [
-            'login*', 'register', 'auth/*'
-        ]
-    ]
-];</code></pre>
-<h3 id="forcing-password-reset">Forcing Password Reset</h3>
-<p>If your application requires a force password reset functionality, ensure that you exclude the auth pages and the actual password reset page from the <code>before</code> global. This will ensure that your users do not run into a <em>too many redirects</em> error. See:</p>
-<p><pre class="highlight"><code class="language-php">public $globals = [
-    'before' =&gt; [
-        //...
-        //...
-        'force-reset' =&gt; ['except' =&gt; ['login*', 'register', 'auth/a/*', 'change-password', 'logout']]
-    ]
-];</code></pre>
-In the example above, it is assumed that the page you have created for users to change their password after successful login is <strong>change-password</strong>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If you have grouped or changed the default format of the routes, ensure that your code matches the new format(s) in the <strong>app/Config/Filter.php</strong> file.</p>
-</div>
-<p>For example, if you configured your routes like so:</p>
-<pre class="highlight"><code class="language-php">$routes-&gt;group('accounts', static function($routes) {
-    service('auth')-&gt;routes($routes);
-});</code></pre>
-<p>Then the global <code>before</code> filter for <code>session</code> should look like so:</p>
-<pre class="highlight"><code class="language-php">public $globals = [
-    'before' =&gt; [
-        // ...
-        'session' =&gt; ['except' =&gt; ['accounts/login*', 'accounts/register', 'accounts/auth/a/*', 'accounts/logout']]
-    ]
-]</code></pre>
-<p>The same should apply for the Rate Limiting and Forcing Password Reset.</p>
+The array key <code>custom</code> is the alias you will use in the <code>auth('custom')</code> helper.</p>
+<h2 id="using-the-authenticator">Using the Authenticator</h2>
+<p>You can now use your authenticator anywhere in your application via the <code>auth('custom')</code> helper:</p>
+<pre class="highlight"><code class="language-php">$credentials = [
+    'email'    =&gt; $this-&gt;request-&gt;getPost('email'),
+    'password' =&gt; $this-&gt;request-&gt;getPost('password')
+];
+
+$result = auth('custom')-&gt;attempt($credentials );
+
+if ($result-&gt;isOK()) {
+    $user = $result-&gt;extraInfo();
+    echo "Login successful for: " . $user-&gt;email;
+} else {
+    echo "Login failed: " . $result-&gt;reason();
+}
+</code></pre>
+<p>Now all standard authentication methods—such as <code>attempt()</code>, <code>check()</code>, <code>loggedIn()</code>, <code>login()</code>, <code>loginById()</code>, <code>logout()</code>, <code>getUser()</code>, and <code>recordActiveDate()</code>—are fully available.</p>
 
 
 
@@ -2063,7 +2016,7 @@ In the example above, it is assumed that the page you have created for users to 
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 8, 2024 00:20:52 UTC">August 8, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 1, 2025 17:10:42 UTC">December 1, 2025</span>
   </span>
 
     
@@ -2073,7 +2026,7 @@ In the example above, it is assumed that the page you have created for users to 
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 17, 2023 21:42:46 UTC">September 17, 2023</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 1, 2025 17:10:42 UTC">December 1, 2025</span>
   </span>
 
     
@@ -2108,7 +2061,7 @@ In the example above, it is assumed that the page you have created for users to 
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../../guides/strengthen_password/" class="md-footer__link md-footer__link--prev" aria-label="Previous: How to Strengthen the Password">
+          <a href="../login_identifier/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Customizing Login Identifier">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2118,20 +2071,20 @@ In the example above, it is assumed that the page you have created for users to 
                 Previous
               </span>
               <div class="md-ellipsis">
-                How to Strengthen the Password
+                Customizing Login Identifier
               </div>
             </div>
           </a>
         
         
           
-          <a href="../authentication/authentication/" class="md-footer__link md-footer__link--next" aria-label="Next: Authentication">
+          <a href="../../user_management/managing_users/" class="md-footer__link md-footer__link--next" aria-label="Next: Managing Users">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Authentication
+                Managing Users
               </div>
             </div>
             <div class="md-footer__button md-icon">
