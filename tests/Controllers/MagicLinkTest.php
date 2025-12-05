@@ -275,7 +275,7 @@ final class MagicLinkTest extends TestCase
         // Should have sent an email with the link....
         $this->assertStringContainsString(
             lang('Auth.email2FAMailBody'),
-            $email,
+            (string) $email,
         );
 
         $this->assertMatchesRegularExpression(
@@ -301,7 +301,7 @@ final class MagicLinkTest extends TestCase
 
         // Extract sent email body & OTP code
         $email = service('email')->archive['body'];
-        preg_match('/[0-9]{6}/', $email, $match);
+        preg_match('/\d{6}/', (string) $email, $match);
         $code   = $match[0];
         $result = $this->post('/login/verify-magic-link', [
             'magicCode' => $code,
@@ -345,7 +345,7 @@ final class MagicLinkTest extends TestCase
         $this->assertSame('magic-link-message', $result['displayMessageView']);
         $this->assertSame('magic-link-email', $result['emailView']);
         $this->assertSame(lang('Auth.magicLinkSubject'), $result['emailSubject']);
-        $this->assertSame(20, strlen($result['token']));
+        $this->assertSame(20, strlen((string) $result['token']));
     }
 
     public function testNumericMode(): void
@@ -358,8 +358,8 @@ final class MagicLinkTest extends TestCase
 
         $this->assertSame('magic-link-code', $result['displayMessageView']);
         $this->assertSame('magic-link-email-code', $result['emailView']);
-        $this->assertSame(6, strlen($result['token']));
-        $this->assertMatchesRegularExpression('/^[0-9]{6}$/', $result['token']);
+        $this->assertSame(6, strlen((string) $result['token']));
+        $this->assertMatchesRegularExpression('/^\d{6}$/', $result['token']);
     }
 
     public function testAlnumMode(): void
@@ -370,7 +370,7 @@ final class MagicLinkTest extends TestCase
 
         $result = $this->callPrivateMethod();
 
-        $this->assertSame(8, strlen($result['token']));
+        $this->assertSame(8, strlen((string) $result['token']));
         $this->assertMatchesRegularExpression('/^[A-Za-z0-9]{8}$/', $result['token']);
     }
 
@@ -384,7 +384,7 @@ final class MagicLinkTest extends TestCase
 
         $token = $result['token'];
 
-        $this->assertSame(4, strlen($token));
+        $this->assertSame(4, strlen((string) $token));
 
         $tokens      = [];
         $uniqueCount = 0;
@@ -434,7 +434,6 @@ final class MagicLinkTest extends TestCase
         $controller = new MagicLinkController();
 
         $method = new ReflectionMethod($controller, 'resolveMode');
-        $method->setAccessible(true);
 
         return $method->invoke($controller, $mode);
     }
