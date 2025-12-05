@@ -126,7 +126,7 @@ The following is a list of Events and Logging for Session Authenticator.
     - Send remember-me cookie w/o session cookie
         - OK → no event
         - NG → no event
-- Magic-link
+- Magic-login
     1. Post email
         - OK → no event
         - NG → no event

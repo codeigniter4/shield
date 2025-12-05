@@ -47,7 +47,7 @@ Events::on('failedLogin', function($credentials) {
 // Outputs: ['email' => 'foo@example.com'];
 ```
 
-When the magic link login fails, the following array will be provided:
+When the magic login fails, the following array will be provided:
 
 ```php
 ['magicLinkToken' => 'the token value used']
@@ -59,7 +59,7 @@ Fired immediately after a successful logout. The only argument is the `User` ent
 
 #### magicLogin
 
-Fired when a user has been successfully logged in via a magic link. This event does not have any parameters passed in. The authenticated user can be discovered through the `auth()` helper.
+Fired when a user has been successfully logged in via a magic login. This event does not have any parameters passed in. The authenticated user can be discovered through the `auth()` helper.
 
 ```php
 Events::on('magicLogin', function() {

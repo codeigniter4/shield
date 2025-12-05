@@ -8,8 +8,7 @@ various parts of the authentication process:
 -   **ActionController** handles the after-login and after-registration actions, like Two Factor Authentication and Email Verification.
 -   **LoginController** handles the login process.
 -   **RegisterController** handles the registration process. Overriding this class allows you to customize the User Provider, the User Entity, and the validation rules.
--   **MagicLinkController** handles the "lost password" process that allows a user to login with a link sent to their email. This allows you to
-    override the message that is displayed to a user to describe what is happening, if you'd like to provide more information than simply swapping out the view used.
+-   **MagicLinkController** handles the password-recovery and password-less login flow. It can deliver authentication credentials as a one-time login link or a one-time code (OTP) via email, depending on configuration. Developers may extend this controller to customize user-facing messages, providing clear context about the selected magic login method instead of only swapping view templates.
 
 ## How to Extend
 

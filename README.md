@@ -54,7 +54,7 @@ and authorization purposes in web applications.
 * Stateless authentication using Personal Access Tokens
 * Optional Email verification on account registration
 * Optional Email-based Two-Factor Authentication after login
-* Magic Link Login when a user forgets their password
+* Magic Login when a user forgets their password
 * Flexible Groups-based access control (think Roles, but more flexible)
 * Users can be granted additional Permissions
 

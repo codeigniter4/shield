@@ -57,6 +57,7 @@ The above code registers the following routes:
 | POST   | {locale}/login/magic-link        | »                  | \CodeIgniter\Shield\Controllers\MagicLinkController::loginAction   |                | toolbar       |
 | POST   | {locale}/auth/a/handle           | auth-action-handle | \CodeIgniter\Shield\Controllers\ActionController::handle           |                | toolbar       |
 | POST   | {locale}/auth/a/verify           | auth-action-verify | \CodeIgniter\Shield\Controllers\ActionController::verify           |                | toolbar       |
+| POST   | {locale}/verify-magic-link       | verify-magic-link  | \CodeIgniter\Shield\Controllers\MagicLinkController::verify        |                | toolbar       |
 +--------+----------------------------------+--------------------+--------------------------------------------------------------------+----------------+---------------+
 ```
 

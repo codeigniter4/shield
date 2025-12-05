@@ -20,7 +20,7 @@ The primary goals for Shield are:
 -   **Stateless Authentication** using **Access Token**, **HMAC SHA256 Token**, or **JWT**
 -   Optional **Email verification** on account registration
 -   Optional **Email-based Two-Factor Authentication** after login
--   **Magic Link Login** when a user forgets their password
+-   **Magic Login** when a user forgets their password
 -   Flexible **Group-based Access Control** (think Roles, but more flexible), and users can be granted additional **Permissions**
 -   A simple **Auth Helper** that provides access to the most common auth actions
 -   Save initial settings in your code, so it can be in version control, but can also be updated in the database, thanks to our [Settings](https://github.com/codeigniter4/settings) library
