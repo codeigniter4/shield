@@ -51,11 +51,15 @@ return [
     'registerSuccess'  => 'أهلا بك!',
 
     // Login
-    'login'              => 'تسجيل دخول',
-    'needAccount'        => 'هل تحتاج الى حساب؟',
-    'rememberMe'         => 'تذكر دخولي؟',
-    'forgotPassword'     => 'نسيت كلمة المرور؟',
-    'useMagicLink'       => 'تسجيل دخول بواسطة رابط دخول',
+    'login'           => 'تسجيل دخول',
+    'needAccount'     => 'هل تحتاج الى حساب؟',
+    'rememberMe'      => 'تذكر دخولي؟',
+    'forgotPassword'  => 'نسيت كلمة المرور؟',
+    'verifyMagicCode' => '(To be translated) Verify Magic Code',
+    'useMagicLink'    => 'تسجيل دخول بواسطة رابط دخول',
+
+    'magicCodeSubject'   => '(To be translated) Your Login Magic Code',
+    'magicCodeText'      => '(To be translated) A {0}‑character code has been sent to your email. Please enter it.',
     'magicLinkSubject'   => 'رابط الدخول الخاص بك',
     'magicTokenNotFound' => 'تعذر التحقق من صحة الرابط.',
     'magicLinkExpired'   => 'عذرا ، لقد انتهت صلاحية الرابط.',

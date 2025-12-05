@@ -55,7 +55,10 @@ return [
     'needAccount'        => 'アカウントが必要な方', // 'Need an account?'
     'rememberMe'         => 'ログイン状態を保持する', // 'Remember me?'
     'forgotPassword'     => 'パスワードをお忘れの方', // 'Forgot your password?'
+    'verifyMagicCode'    => '(To be translated) Verify Magic Code',
     'useMagicLink'       => 'ログインリンクを使用する', // 'Use a Login Link'
+    'magicCodeSubject'   => '(To be translated) Your Login Magic Code',
+    'magicCodeText'      => '(To be translated) A {0}‑character code has been sent to your email. Please enter it.',
     'magicLinkSubject'   => 'あなたのログインリンク', // 'Your Login Link'
     'magicTokenNotFound' => 'リンクを確認できません。', // 'Unable to verify the link.'
     'magicLinkExpired'   => '申し訳ございません、リンクは切れています。', // 'Sorry, link has expired.'

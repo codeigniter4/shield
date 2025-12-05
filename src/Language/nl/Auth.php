@@ -51,11 +51,15 @@ return [
     'registerSuccess'  => 'Welkom!',
 
     // Login
-    'login'              => 'Inloggen',
-    'needAccount'        => 'Heb je nog geen account?',
-    'rememberMe'         => 'Ingelogd blijven',
-    'forgotPassword'     => 'Wachtwoord vergeten?',
-    'useMagicLink'       => 'Gebruik een Login Link',
+    'login'            => 'Inloggen',
+    'needAccount'      => 'Heb je nog geen account?',
+    'rememberMe'       => 'Ingelogd blijven',
+    'forgotPassword'   => 'Wachtwoord vergeten?',
+    'verifyMagicCode'  => '(To be translated) Verify Magic Code',
+    'useMagicLink'     => 'Gebruik een Login Link',
+    'magicCodeSubject' => '(To be translated) Your Login Magic Code',
+    'magicCodeText'    => '(To be translated) A {0}‑character code has been sent to your email. Please enter it.',
+
     'magicLinkSubject'   => 'Jou Login Link',
     'magicTokenNotFound' => 'Kan de link niet verifiëren.',
     'magicLinkExpired'   => 'Sorry, de Login Link verlopen. Vraag een nieuwe aan.',
