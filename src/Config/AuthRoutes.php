@@ -62,6 +62,12 @@ class AuthRoutes extends BaseConfig
                 'MagicLinkController::verify',
                 'verify-magic-link', // Route name
             ],
+            [
+                'post',
+                'login/verify-magic-link',
+                'MagicLinkController::verify',
+                'verify-magic-link', // Route name
+            ],
         ],
         'logout' => [
             [
