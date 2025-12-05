@@ -249,7 +249,7 @@ final class MagicLinkTest extends TestCase
             'email' => 'foo@example.com',
         ]);
 
-        $result->assertSee('15-character code');
+        $result->assertSee('A 15‑character code has been sent to your email. Please enter it.');
         // must contain a code input form
         $result->seeElement('#magicCode');
         $result->assertStatus(200);
