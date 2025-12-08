@@ -103,8 +103,9 @@ class MagicLinkController extends BaseController
         // Delete any previous magic-link identities
         $identityModel->deleteIdentitiesByType($user, Session::ID_TYPE_MAGIC_LINK);
 
-        // Generate the code and save it as an identity
-        $token = $this->resolveMode()['token'];
+        $mode = $this->resolveMode();
+
+        $token = $mode['token'];
 
         $identityModel->insert([
             'user_id' => $user->id,
@@ -126,12 +127,10 @@ class MagicLinkController extends BaseController
             ->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
         $email->setTo($user->email);
 
-        $email->setSubject($this->resolveMode()['emailSubject']);
-
-        $emailBodyViewFile = $this->resolveMode()['emailView'];
+        $email->setSubject($mode['emailSubject']);
 
         $email->setMessage($this->view(
-            config('Auth')->views[$emailBodyViewFile],
+            setting('Auth.views')[$mode['emailView']],
             ['token' => $token, 'user' => $user, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date],
             ['debug' => false],
         ));
