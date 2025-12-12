@@ -42,6 +42,13 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
+     * Use Settings
+     * --------------------------------------------------------------------
+     */
+    public bool $useSettings = true;
+
+    /**
+     * --------------------------------------------------------------------
      * View files
      * --------------------------------------------------------------------
      */
@@ -442,7 +449,7 @@ class Auth extends BaseConfig
     public function loginRedirect(): string
     {
         $session = session();
-        $url     = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
+        $url     = $session->getTempdata('beforeLoginUrl') ?? shieldSetting('Auth.redirects')['login'];
 
         return $this->getUrl($url);
     }
@@ -453,7 +460,7 @@ class Auth extends BaseConfig
      */
     public function logoutRedirect(): string
     {
-        $url = setting('Auth.redirects')['logout'];
+        $url = shieldSetting('Auth.redirects')['logout'];
 
         return $this->getUrl($url);
     }
@@ -464,7 +471,7 @@ class Auth extends BaseConfig
      */
     public function registerRedirect(): string
     {
-        $url = setting('Auth.redirects')['register'];
+        $url = shieldSetting('Auth.redirects')['register'];
 
         return $this->getUrl($url);
     }
@@ -475,7 +482,7 @@ class Auth extends BaseConfig
      */
     public function forcePasswordResetRedirect(): string
     {
-        $url = setting('Auth.redirects')['force_reset'];
+        $url = shieldSetting('Auth.redirects')['force_reset'];
 
         return $this->getUrl($url);
     }
@@ -486,7 +493,7 @@ class Auth extends BaseConfig
      */
     public function permissionDeniedRedirect(): string
     {
-        $url = setting('Auth.redirects')['permission_denied'];
+        $url = shieldSetting('Auth.redirects')['permission_denied'];
 
         return $this->getUrl($url);
     }
@@ -497,7 +504,7 @@ class Auth extends BaseConfig
      */
     public function groupDeniedRedirect(): string
     {
-        $url = setting('Auth.redirects')['group_denied'];
+        $url = shieldSetting('Auth.redirects')['group_denied'];
 
         return $this->getUrl($url);
     }

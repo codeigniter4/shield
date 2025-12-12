@@ -45,7 +45,7 @@ class MagicLinkController extends BaseController
     public function __construct()
     {
         /** @var class-string<UserModel> $providerClass */
-        $providerClass = setting('Auth.userProvider');
+        $providerClass = shieldSetting('Auth.userProvider');
 
         $this->provider = new $providerClass();
     }
@@ -58,7 +58,7 @@ class MagicLinkController extends BaseController
      */
     public function loginView()
     {
-        if (! setting('Auth.allowMagicLinkLogins')) {
+        if (! shieldSetting('Auth.allowMagicLinkLogins')) {
             return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
         }
 
@@ -66,7 +66,7 @@ class MagicLinkController extends BaseController
             return redirect()->to(config('Auth')->loginRedirect());
         }
 
-        return $this->view(setting('Auth.views')['magic-link-login']);
+        return $this->view(shieldSetting('Auth.views')['magic-link-login']);
     }
 
     /**
@@ -78,7 +78,7 @@ class MagicLinkController extends BaseController
      */
     public function loginAction()
     {
-        if (! setting('Auth.allowMagicLinkLogins')) {
+        if (! shieldSetting('Auth.allowMagicLinkLogins')) {
             return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
         }
 
@@ -110,7 +110,7 @@ class MagicLinkController extends BaseController
             'user_id' => $user->id,
             'type'    => Session::ID_TYPE_MAGIC_LINK,
             'secret'  => $token,
-            'expires' => Time::now()->addSeconds(setting('Auth.magicLinkLifetime')),
+            'expires' => Time::now()->addSeconds(shieldSetting('Auth.magicLinkLifetime')),
         ]);
 
         /** @var IncomingRequest $request */
@@ -123,11 +123,11 @@ class MagicLinkController extends BaseController
         // Send the user an email with the code
         helper('email');
         $email = emailer(['mailType' => 'html'])
-            ->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
+            ->setFrom(shieldSetting('Email.fromEmail'), shieldSetting('Email.fromName') ?? '');
         $email->setTo($user->email);
         $email->setSubject(lang('Auth.magicLinkSubject'));
         $email->setMessage($this->view(
-            setting('Auth.views')['magic-link-email'],
+            shieldSetting('Auth.views')['magic-link-email'],
             ['token' => $token, 'user' => $user, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date],
             ['debug' => false],
         ));
@@ -149,7 +149,7 @@ class MagicLinkController extends BaseController
      */
     protected function displayMessage(): string
     {
-        return $this->view(setting('Auth.views')['magic-link-message']);
+        return $this->view(shieldSetting('Auth.views')['magic-link-message']);
     }
 
     /**
@@ -157,7 +157,7 @@ class MagicLinkController extends BaseController
      */
     public function verify(): RedirectResponse
     {
-        if (! setting('Auth.allowMagicLinkLogins')) {
+        if (! shieldSetting('Auth.allowMagicLinkLogins')) {
             return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
         }
 
