@@ -1,4 +1,34 @@
 # Upgrade Guide
+## Version 1.2.0 to 1.3.0
+
+### Mandatory Config Changes
+
+A new configuration option has been introduced for controlling how Magic Login codes are generated and delivered.
+The following property must be added in **app/Config/Auth.php**.
+
+```php
+/**
+ * --------------------------------------------------------------------
+ * Magic Login Mode
+ * --------------------------------------------------------------------
+ * Determines how magic login works:
+ *
+ * - 'clickable'        => send an email with a clickable link (default)
+ * - '<length>-numeric' => send a numeric code with the specified length
+ * - '<length>-alpha'   => send an alphabetic code with the specified length
+ * - '<length>-alnum'   => send an alphanumeric code with the specified length
+ * - '<length>-oneof'   => send a code of the specified length; system chooses
+ *                         automatically one of: numeric, alpha, or alnum
+ *
+ * Examples:
+ *   'clickable'
+ *   '6-numeric'   // 6-digit numeric code
+ *   '8-alpha'     // 8-letter alphabetic code
+ *   '7-alnum'     // 7-character alphanumeric code
+ *   '6-oneof'     // 6-character code, chosen automatically
+ */
+public string $magicLoginMode = 'clickable';
+```
 
 ## Version 1.0.0-beta.8 to 1.0.0
 

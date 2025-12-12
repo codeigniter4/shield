@@ -20,6 +20,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
@@ -102,9 +103,9 @@ class MagicLinkController extends BaseController
         // Delete any previous magic-link identities
         $identityModel->deleteIdentitiesByType($user, Session::ID_TYPE_MAGIC_LINK);
 
-        // Generate the code and save it as an identity
-        helper('text');
-        $token = random_string('crypto', 20);
+        $mode = $this->resolveMode();
+
+        $token = $mode['token'];
 
         $identityModel->insert([
             'user_id' => $user->id,
@@ -125,9 +126,11 @@ class MagicLinkController extends BaseController
         $email = emailer(['mailType' => 'html'])
             ->setFrom(setting('Email.fromEmail'), setting('Email.fromName') ?? '');
         $email->setTo($user->email);
-        $email->setSubject(lang('Auth.magicLinkSubject'));
+
+        $email->setSubject($mode['emailSubject']);
+
         $email->setMessage($this->view(
-            setting('Auth.views')['magic-link-email'],
+            setting('Auth.views')[$mode['emailView']],
             ['token' => $token, 'user' => $user, 'ipAddress' => $ipAddress, 'userAgent' => $userAgent, 'date' => $date],
             ['debug' => false],
         ));
@@ -149,7 +152,9 @@ class MagicLinkController extends BaseController
      */
     protected function displayMessage(): string
     {
-        return $this->view(setting('Auth.views')['magic-link-message']);
+        $viewFile = $this->resolveMode()['displayMessageView'];
+
+        return $this->view(config('Auth')->views[$viewFile]);
     }
 
     /**
@@ -165,20 +170,24 @@ class MagicLinkController extends BaseController
             throw PageNotFoundException::forPageNotFound();
         }
 
-        $token = $this->request->getGet('token');
+        $identifier = $this->request->getGet('token');
+
+        if ($this->request->is('post')) {
+            $identifier = $this->request->getPost('magicCode');
+        }
 
         /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
-        $identity = $identityModel->getIdentityBySecret(Session::ID_TYPE_MAGIC_LINK, $token);
+        $identity = $identityModel->getIdentityBySecret(Session::ID_TYPE_MAGIC_LINK, $identifier);
 
-        $identifier = $token ?? '';
+        $identifier ??= '';
 
         // No token found?
         if ($identity === null) {
             $this->recordLoginAttempt($identifier, false);
 
-            $credentials = ['magicLinkToken' => $token];
+            $credentials = ['magicLinkToken' => $identifier];
             Events::trigger('failedLogin', $credentials);
 
             return redirect()->route('magic-link')->with('error', lang('Auth.magicTokenNotFound'));
@@ -191,7 +200,7 @@ class MagicLinkController extends BaseController
         if (Time::now()->isAfter($identity->expires)) {
             $this->recordLoginAttempt($identifier, false);
 
-            $credentials = ['magicLinkToken' => $token];
+            $credentials = ['magicLinkToken' => $identifier];
             Events::trigger('failedLogin', $credentials);
 
             return redirect()->route('magic-link')->with('error', lang('Auth.magicLinkExpired'));
@@ -253,5 +262,77 @@ class MagicLinkController extends BaseController
         return [
             'email' => config('Auth')->emailValidationRules,
         ];
+    }
+
+    /**
+     * resolveMode magic-login settings based on the configured mode.
+     *
+     * @param string $mode The selected magic login mode (e.g. "clickable", "6-numeric").
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function resolveMode(?string $mode = null): array
+    {
+        $mode ??= config('Auth')->magicLoginMode;
+
+        helper('text');
+
+        if ($mode === 'clickable') {
+            return [
+                'displayMessageView' => 'magic-link-message',
+                'emailView'          => 'magic-link-email',
+                'emailSubject'       => lang('Auth.magicLinkSubject'),
+                'token'              => random_string('crypto', 20),
+            ];
+        }
+
+        $parts = explode('-', $mode, 2);
+
+        if (count($parts) !== 2) {
+            throw new InvalidArgumentException(
+                "Invalid magic login mode format '{$mode}'. Expected format: '<length>-<numeric|alpha|alnum|oneof>' or 'clickable'.",
+            );
+        }
+
+        [$length, $type] = $parts;
+
+        if (! is_numeric($length) || (int) $length <= 0) {
+            throw new InvalidArgumentException(
+                "Invalid length '{$length}' in magic login mode '{$mode}'. Must be a positive integer.",
+            );
+        }
+
+        $length = (int) $length;
+
+        return match ($type) {
+            'numeric', 'alpha', 'alnum' => [
+                'displayMessageView' => 'magic-link-code',
+                'emailView'          => 'magic-link-email-code',
+                'emailSubject'       => lang('Auth.magicCodeSubject'),
+                'token'              => random_string($type, $length),
+            ],
+
+            'oneof' => [
+                'displayMessageView' => 'magic-link-code',
+                'emailView'          => 'magic-link-email-code',
+                'emailSubject'       => lang('Auth.magicCodeSubject'),
+                'token'              => $this->generateOneofToken($length),
+            ],
+
+            default => throw new InvalidArgumentException("Invalid magic login mode '{$mode}'. Expected format: '<length>-<numeric|alpha|alnum|oneof>'."),
+        };
+    }
+
+    /**
+     * Generate a token by picking ONE of the fixed patterns: numeric, alpha, alnum.
+     */
+    private function generateOneofToken(int $length): string
+    {
+        helper('text');
+
+        $patterns   = ['numeric', 'alpha', 'alnum'];
+        $chosenMode = $patterns[array_rand($patterns)];
+
+        return random_string($chosenMode, $length);
     }
 }

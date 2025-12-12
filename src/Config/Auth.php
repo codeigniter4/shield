@@ -56,7 +56,9 @@ class Auth extends BaseConfig
         'action_email_activate_email' => '\CodeIgniter\Shield\Views\Email\email_activate_email',
         'magic-link-login'            => '\CodeIgniter\Shield\Views\magic_link_form',
         'magic-link-message'          => '\CodeIgniter\Shield\Views\magic_link_message',
+        'magic-link-code'             => '\CodeIgniter\Shield\Views\magic_link_code', // (new)
         'magic-link-email'            => '\CodeIgniter\Shield\Views\Email\magic_link_email',
+        'magic-link-email-code'       => '\CodeIgniter\Shield\Views\Email\magic_link_email_code', // (new)
     ];
 
     /**
@@ -173,22 +175,45 @@ class Auth extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
-     * Allow Magic Link Logins
+     * Allow Magic Login
      * --------------------------------------------------------------------
-     * If true, will allow the use of "magic links" sent via the email
-     * as a way to log a user in without the need for a password.
-     * By default, this is used in place of a password reset flow, but
-     * could be modified as the only method of login once an account
-     * has been set up.
+     * If true, users may log in using a secure, one-time credential sent by email.
+     * 5 delivery modes are supported: clickable login **link**, or a one-time **code** for manual entry.
      */
     public bool $allowMagicLinkLogins = true;
 
     /**
      * --------------------------------------------------------------------
-     * Magic Link Lifetime
+     * Magic Login Mode
      * --------------------------------------------------------------------
-     * Specifies the amount of time, in seconds, that a magic link is valid.
-     * You can use Time Constants or any desired number.
+     * Determines how magic login works:
+     *
+     * - 'clickable'      => send an email with a clickable link (default)
+     * - '<length>-numeric' => send a numeric code with specified length
+     * - '<length>-alpha'   => send an alphabetic code with specified length
+     * - '<length>-alnum'   => send an alphanumeric code with specified length
+     * - '<length>-oneof'   => send a code of specified length; system chooses
+     *                         automatically one of: numeric, alpha, or alnum
+     *
+     * Examples:
+     *   'clickable'
+     *   '6-numeric'   // 6-digit numeric code
+     *   '8-alpha'     // 8-letter alphabetic code
+     *   '7-alnum'     // 7-character alphanumeric code
+     *   '6-oneof'     // 6-character code, type chosen automatically
+     */
+    public string $magicLoginMode = 'clickable';
+
+    /**
+     * --------------------------------------------------------------------
+     * Magic Login Lifetime
+     * --------------------------------------------------------------------
+     * Time in seconds that a magic login credential remains valid.
+     * Applies to both **clickable login links** and **one-time codes**.
+     *
+     * When using one-time code mode, it is strongly recommended to set
+     * the lifetime to only a few minutes (e.g., 120-300 seconds) to reduce
+     * the risk of guessing or brute-force attempts.
      */
     public int $magicLinkLifetime = HOUR;
 

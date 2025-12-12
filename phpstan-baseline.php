@@ -199,7 +199,7 @@ $ignoreErrors[] = [
 	'rawMessage' => 'Call to deprecated function random_string():
 The type \'basic\', \'md5\', and \'sha1\' are deprecated. They are not cryptographically secure.',
 	'identifier' => 'function.deprecated',
-	'count' => 1,
+	'count' => 3,
 	'path' => __DIR__ . '/src/Controllers/MagicLinkController.php',
 ];
 $ignoreErrors[] = [
