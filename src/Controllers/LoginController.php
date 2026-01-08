@@ -31,7 +31,7 @@ class LoginController extends BaseController
     public function loginView()
     {
         if (auth()->loggedIn()) {
-            return redirect()->to(config('Auth')->loginRedirect());
+            return redirect()->to(config('Auth')->loginRedirect())->withCookies();
         }
 
         /** @var Session $authenticator */
