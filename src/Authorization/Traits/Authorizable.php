@@ -274,7 +274,7 @@ trait Authorizable
             if (! str_contains($permission, '.')) {
                 throw new LogicException(
                     'A permission must be a string consisting of a scope and action, like `users.create`.'
-                    . ' Invalid permission: ' . $permission,
+                        . ' Invalid permission: ' . $permission,
                 );
             }
 
@@ -296,8 +296,14 @@ trait Authorizable
                 }
 
                 // Check wildcard match
-                $check = substr($permission, 0, strpos($permission, '.')) . '.*';
-                if (isset($matrix[$group]) && in_array($check, $matrix[$group], true)) {
+                $checks = [];
+                $parts  = explode('.', $permission);
+
+                for ($i = count($parts); $i > 0; $i--) {
+                    $check    = implode('.', array_slice($parts, 0, $i)) . '.*';
+                    $checks[] = $check;
+                }
+                if (isset($matrix[$group]) && array_intersect($checks, $matrix[$group]) !== []) {
                     return true;
                 }
             }

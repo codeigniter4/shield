@@ -36,8 +36,9 @@ public string $defaultGroup = 'user';
 ## Defining Available Permissions
 
 All permissions must be added to the `AuthGroups` config file, also. A permission is simply a string consisting of
-a scope and action, like `users.create`. The scope would be `users` and the action would be `create`. Each permission
-can have a description for display within UIs if needed.
+a scope and action, like `users.create`. The scope would be `users` and the action would be `create`. A scope can
+have sub-scopes, as in `forum.posts.delete`, where the scope is `forum`, the sub-scope is `posts`, and the action
+associated with this permission is `delete`. Each permission can have a description for display within UIs if needed.
 
 ```php
 public array $permissions = [
@@ -47,7 +48,10 @@ public array $permissions = [
     'users.create'        => 'Can create new non-admin users',
     'users.edit'          => 'Can edit existing non-admin users',
     'users.delete'        => 'Can delete existing non-admin users',
-    'beta.access'         => 'Can access beta-level features'
+    'beta.access'         => 'Can access beta-level features',
+    'forum.posts.create'  => 'Can create posts in the forum',
+    'forum.posts.edit'    => 'Can edit posts in the forum',
+    'forum.posts.delete'  => 'Can delete posts in the forum',
 ];
 ```
 
@@ -68,16 +72,19 @@ public array $matrix = [
     'admin' => [
         'admin.access',
         'users.create', 'users.edit', 'users.delete',
-        'beta.access'
+        'beta.access',
+        'forum.posts.create',
+        'forum.posts.edit',
+        'forum.posts.delete',
     ],
 ];
 ```
 
-You can use a wildcard within a scope to allow all actions within that scope, by using a `*` in place of the action.
+You can use a wildcard within a scope or sub-scope to allow all actions within that scope or sub-scope, by using a `*` in place of the action.
 
 ```php
 public array $matrix = [
-    'superadmin' => ['admin.*', 'users.*', 'beta.*'],
+    'superadmin' => ['admin.*', 'users.*', 'beta.*', 'forum.posts.*'],
 ];
 ```
 
@@ -87,9 +94,11 @@ The `Authorizable` trait on the `User` entity provides the following methods to 
 
 #### can()
 
-Allows you to check if a user is permitted to do a specific action or group or actions. The permission string(s) should be passed as the argument(s). Returns
+Allows you to check if a user is permitted to do a specific action or group of actions. The permission string(s) should be passed as the argument(s). Returns
 boolean `true`/`false`. Will check the user's direct permissions (**user-level permissions**) first, and then check against all of the user's groups
-permissions (**group-level permissions**) to determine if they are allowed.
+permissions (**group-level permissions**) to determine if they are allowed. When checking against group-level permissions, this includes evaluating
+hierarchical wildcard permissions. For example, if a user's group has the permission `forum.posts.*`, a check for `$user->can('forum.posts.create')`
+would return `true`.
 
 ```php
 if ($user->can('users.create')) {
@@ -100,7 +109,25 @@ if ($user->can('users.create')) {
 if ($user->can('users.create', 'users.edit')) {
     //
 }
+
+// Example with hierarchical wildcard check.
+// Assuming the $user is in a group with 'forum.posts.*' permission.
+if ($user->can('forum.posts.create')) {
+    // This will return true
+}
 ```
+
+When checking group-level permissions, Shield automatically creates a hierarchy check by examining parent permissions:
+
+- For permission `forum.posts.create`, it checks: `forum.posts.create`, `forum.posts.*`, and `forum.*`
+- For permission `admin.settings`, it checks: `admin.settings` and `admin.*`
+
+This allows for flexible permission management where broader permissions automatically grant access to more specific actions.
+
+!!! warning
+
+    Be cautious when granting wildcard permissions, especially at high levels like `admin.*`, as they will grant access to any future permissions added under that scope.
+
 
 #### inGroup()
 
