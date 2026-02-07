@@ -128,12 +128,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Authentication/Passwords/NothingPersonalValidator.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'PHPDoc tag @var with type string is not subtype of type uppercase-string.',
-	'identifier' => 'varTag.type',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Passwords/PwnedValidator.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Only booleans are allowed in &&, CodeIgniter\\Shield\\Entities\\User|null given on the right side.',
 	'identifier' => 'booleanAnd.rightNotBoolean',
 	'count' => 1,
@@ -425,6 +419,12 @@ $ignoreErrors[] = [
 	'rawMessage' => 'Call to method PHPUnit\\Framework\\Assert::assertInstanceOf() with \'CodeIgniter\\\\Shield\\\\Result\' and CodeIgniter\\Shield\\Result will always evaluate to true.',
 	'identifier' => 'method.alreadyNarrowedType',
 	'count' => 8,
+	'path' => __DIR__ . '/tests/Authentication/Authenticators/SessionAuthenticatorTest.php',
+];
+$ignoreErrors[] = [
+	'rawMessage' => 'Call to method setCookie() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
+	'identifier' => 'method.internalClass',
+	'count' => 1,
 	'path' => __DIR__ . '/tests/Authentication/Authenticators/SessionAuthenticatorTest.php',
 ];
 $ignoreErrors[] = [
