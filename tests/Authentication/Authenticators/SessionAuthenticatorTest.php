@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Authentication\Authenticators;
 
+use CodeIgniter\CodeIgniter;
 use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
@@ -105,7 +106,11 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
         // Set Cookie value for remember-me.
         $token      = $selector . ':' . $validator;
         $cookieName = $cookiePrefix . setting('Auth.sessionConfig')['rememberCookieName'];
-        service('superglobals')->setCookie($cookieName, $token);
+        if (version_compare(CodeIgniter::CI_VERSION, '4.7.0', '<')) {
+            $_COOKIE[$cookieName] = $token;
+        } else {
+            service('superglobals')->setCookie($cookieName, $token);
+        }
 
         $this->assertTrue($this->auth->loggedIn());
 
