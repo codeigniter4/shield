@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Models;
 
+use CodeIgniter\Database\RawSql;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
 use CodeIgniter\Shield\Authentication\Authenticators\HmacSha256;
@@ -567,8 +568,8 @@ class UserIdentityModel extends BaseModel
      * Override the Model's `update()` method.
      * Throws an Exception when it fails.
      *
-     * @param array|int|string|null $id
-     * @param array|object|null     $row
+     * @param int|list<int|string>|RawSql|string|null $id
+     * @param array|object|null                       $row
      *
      * @return true if the update is successful
      *
