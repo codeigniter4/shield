@@ -20,4 +20,4 @@ on:
 
 jobs:
   psalm:
-    uses: codeigniter4/.github/.github/workflows/psalm.yml@CI46
+    uses: codeigniter4/.github/.github/workflows/psalm.yml@CI47

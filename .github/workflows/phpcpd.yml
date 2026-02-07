@@ -16,7 +16,7 @@ on:
 
 jobs:
   phpcpd:
-    uses: codeigniter4/.github/.github/workflows/phpcpd.yml@CI46
+    uses: codeigniter4/.github/.github/workflows/phpcpd.yml@CI47
     with:
       dirs: "src/ tests/"
       options: "--exclude src/Database/Migrations/2020-12-28-223112_create_auth_tables.php --exclude src/Authentication/Authenticators/HmacSha256.php --exclude  tests/Authentication/Authenticators/AccessTokenAuthenticatorTest.php"

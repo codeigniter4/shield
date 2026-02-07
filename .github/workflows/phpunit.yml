@@ -44,7 +44,7 @@ jobs:
             db-platform: OCI8
             mysql-version: '8.0'
 
-    uses: codeigniter4/.github/.github/workflows/phpunit.yml@CI46
+    uses: codeigniter4/.github/.github/workflows/phpunit.yml@CI47
     with:
       php-version: ${{ matrix.php-version }}
       db-platform: ${{ matrix.db-platform }}

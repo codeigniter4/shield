@@ -18,4 +18,4 @@ on:
 
 jobs:
   unused:
-    uses: codeigniter4/.github/.github/workflows/unused.yml@CI46
+    uses: codeigniter4/.github/.github/workflows/unused.yml@CI47

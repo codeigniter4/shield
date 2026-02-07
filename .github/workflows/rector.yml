@@ -20,4 +20,4 @@ on:
 
 jobs:
   rector:
-    uses: codeigniter4/.github/.github/workflows/rector.yml@CI46
+    uses: codeigniter4/.github/.github/workflows/rector.yml@CI47

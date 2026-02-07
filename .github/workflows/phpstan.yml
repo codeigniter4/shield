@@ -20,4 +20,4 @@ on:
 
 jobs:
   phpstan:
-    uses: codeigniter4/.github/.github/workflows/phpstan.yml@CI46
+    uses: codeigniter4/.github/.github/workflows/phpstan.yml@CI47
