@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Models;
 
 use CodeIgniter\Database\Exceptions\DataException;
+use CodeIgniter\Database\RawSql;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
@@ -416,8 +417,8 @@ class UserModel extends BaseModel
      * Override the BaseModel's `update()` method.
      * If you pass User object, also updates Email Identity.
      *
-     * @param array|int|string|null $id
-     * @param array|User            $row
+     * @param int|list<int|string>|RawSql|string|null $id
+     * @param array|User                              $row
      *
      * @return true if the update is successful
      *

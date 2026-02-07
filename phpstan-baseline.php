@@ -2,13 +2,6 @@
 
 $ignoreErrors = [];
 $ignoreErrors[] = [
-	'rawMessage' => 'Call to deprecated function random_string():
-The type \'basic\', \'md5\', and \'sha1\' are deprecated. They are not cryptographically secure.',
-	'identifier' => 'function.deprecated',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Actions/Email2FA.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\UserIdentityModel::class is discouraged.',
 	'identifier' => 'codeigniter.factoriesClassConstFetch',
 	'count' => 2,
@@ -19,13 +12,6 @@ $ignoreErrors[] = [
 	'identifier' => 'empty.notAllowed',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Actions/Email2FA.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to deprecated function random_string():
-The type \'basic\', \'md5\', and \'sha1\' are deprecated. They are not cryptographically secure.',
-	'identifier' => 'function.deprecated',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Actions/EmailActivator.php',
 ];
 $ignoreErrors[] = [
 	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\UserIdentityModel::class is discouraged.',
@@ -142,12 +128,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Authentication/Passwords/NothingPersonalValidator.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'PHPDoc tag @var with type string is not subtype of type uppercase-string.',
-	'identifier' => 'varTag.type',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Passwords/PwnedValidator.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Only booleans are allowed in &&, CodeIgniter\\Shield\\Entities\\User|null given on the right side.',
 	'identifier' => 'booleanAnd.rightNotBoolean',
 	'count' => 1,
@@ -194,13 +174,6 @@ $ignoreErrors[] = [
 	'identifier' => 'codeigniter.factoriesClassConstFetch',
 	'count' => 9,
 	'path' => __DIR__ . '/src/Commands/User.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to deprecated function random_string():
-The type \'basic\', \'md5\', and \'sha1\' are deprecated. They are not cryptographically secure.',
-	'identifier' => 'function.deprecated',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Controllers/MagicLinkController.php',
 ];
 $ignoreErrors[] = [
 	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\LoginModel::class is discouraged.',
@@ -389,20 +362,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Filters/TokenAuth.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Call to deprecated function random_string():
-The type \'basic\', \'md5\', and \'sha1\' are deprecated. They are not cryptographically secure.',
-	'identifier' => 'function.deprecated',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/TokenLoginModel.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to deprecated function random_string():
-The type \'basic\', \'md5\', and \'sha1\' are deprecated. They are not cryptographically secure.',
-	'identifier' => 'function.deprecated',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/UserIdentityModel.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\GroupModel::class is discouraged.',
 	'identifier' => 'codeigniter.factoriesClassConstFetch',
 	'count' => 2,
@@ -461,6 +420,24 @@ $ignoreErrors[] = [
 	'identifier' => 'method.alreadyNarrowedType',
 	'count' => 8,
 	'path' => __DIR__ . '/tests/Authentication/Authenticators/SessionAuthenticatorTest.php',
+];
+$ignoreErrors[] = [
+	'rawMessage' => 'Call to method setCookie() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
+	'identifier' => 'method.internalClass',
+	'count' => 1,
+	'path' => __DIR__ . '/tests/Authentication/Authenticators/SessionAuthenticatorTest.php',
+];
+$ignoreErrors[] = [
+	'rawMessage' => 'Parameter #1 $headers of method Tests\\Authentication\\Filters\\AbstractFilterTestCase::withHeaders() expects array<string, CodeIgniter\\HTTP\\Header|list<CodeIgniter\\HTTP\\Header>>, array{Authorization: non-falsy-string} given.',
+	'identifier' => 'argument.type',
+	'count' => 7,
+	'path' => __DIR__ . '/tests/Authentication/Filters/HmacFilterTest.php',
+];
+$ignoreErrors[] = [
+	'rawMessage' => 'Parameter #1 $headers of method Tests\\Authentication\\Filters\\JWTFilterTest::withHeaders() expects array<string, CodeIgniter\\HTTP\\Header|list<CodeIgniter\\HTTP\\Header>>, array{Authorization: non-falsy-string} given.',
+	'identifier' => 'argument.type',
+	'count' => 1,
+	'path' => __DIR__ . '/tests/Authentication/Filters/JWTFilterTest.php',
 ];
 $ignoreErrors[] = [
 	'rawMessage' => 'Implicit array creation is not allowed - variable $users might not exist.',

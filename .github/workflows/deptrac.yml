@@ -20,4 +20,4 @@ on:
 
 jobs:
   deptrac:
-    uses: codeigniter4/.github/.github/workflows/deptrac.yml@CI46
+    uses: codeigniter4/.github/.github/workflows/deptrac.yml@CI47
