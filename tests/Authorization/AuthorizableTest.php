@@ -385,4 +385,26 @@ final class AuthorizableTest extends DatabaseTestCase
 
         $this->assertSame('You are banned', $this->user->getBanMessage());
     }
+
+    public function testCanNestedPerms(): void
+    {
+        $user = $this->user;
+
+        $user->addPermission('forum.posts.create');
+        $user->addPermission('forum.posts.edit');
+
+        $this->assertTrue($user->can('forum.posts.create'));
+        $this->assertFalse($user->can('forum.posts.delete'));
+    }
+
+    public function testCanMultipleNestedPerms(): void
+    {
+        $user = $this->user;
+
+        $user->addPermission('forum.posts.create');
+        $user->addPermission('forum.posts.edit');
+
+        $this->assertTrue($user->can('forum.posts.create', 'beta.access'));
+        $this->assertFalse($user->can('forum.posts.delete', 'beta.access'));
+    }
 }

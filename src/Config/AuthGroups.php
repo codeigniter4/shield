@@ -79,6 +79,9 @@ class AuthGroups extends BaseConfig
         'users.edit'          => 'Can edit existing non-admin users',
         'users.delete'        => 'Can delete existing non-admin users',
         'beta.access'         => 'Can access beta-level features',
+        'forum.posts.create'  => 'Can create forum posts',
+        'forum.posts.edit'    => 'Can edit forum posts',
+        'forum.posts.delete'  => 'Can delete forum posts',
     ];
 
     /**
