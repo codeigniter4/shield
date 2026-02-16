@@ -332,6 +332,40 @@ final class UserTest extends DatabaseTestCase
         );
     }
 
+    public function testModelFirstWithIdentities(): void
+    {
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
+
+        $user = model(UserModel::class)->where('active', 1)->withIdentities()->first();
+
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertCount(2, $user->identities);
+    }
+
+    public function testModelFirstWithGroups(): void
+    {
+        fake(GroupModel::class, ['user_id' => $this->user->id, 'group' => 'superadmin']);
+        fake(GroupModel::class, ['user_id' => $this->user->id, 'group' => 'admin']);
+
+        $user = model(UserModel::class)->where('active', 1)->withGroups()->first();
+
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertTrue($user->inGroup('admin'));
+    }
+
+    public function testModelFirstWithPermissions(): void
+    {
+        fake(PermissionModel::class, ['user_id' => $this->user->id, 'permission' => 'users.edit']);
+        fake(PermissionModel::class, ['user_id' => $this->user->id, 'permission' => 'users.delete']);
+
+        $user = model(UserModel::class)->where('active', 1)->withPermissions()->first();
+
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertTrue($user->hasPermission('users.delete'));
+        $this->assertFalse($user->hasPermission('users.add'));
+    }
+
     public function testLastLogin(): void
     {
         fake(

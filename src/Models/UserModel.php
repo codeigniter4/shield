@@ -143,6 +143,10 @@ class UserModel extends BaseModel
 
         $mappedUsers = $this->assignIdentities($data, $identities);
 
+        if ($data['singleton'] && ! isset($data['id'])) {
+            $data['id'] = $data['data']->id;
+        }
+
         $data['data'] = $data['singleton'] ? $mappedUsers[$data['id']] : $mappedUsers;
 
         return $data;
@@ -213,6 +217,10 @@ class UserModel extends BaseModel
 
         $mappedUsers = $this->assignProperties($data, $groups, 'groups');
 
+        if ($data['singleton'] && ! isset($data['id'])) {
+            $data['id'] = $data['data']->id;
+        }
+
         $data['data'] = $data['singleton'] ? $mappedUsers[$data['id']] : $mappedUsers;
 
         return $data;
@@ -245,6 +253,10 @@ class UserModel extends BaseModel
         $permissions = $permissionModel->getPermissionsByUserIds($userIds);
 
         $mappedUsers = $this->assignProperties($data, $permissions, 'permissions');
+
+        if ($data['singleton'] && ! isset($data['id'])) {
+            $data['id'] = $data['data']->id;
+        }
 
         $data['data'] = $data['singleton'] ? $mappedUsers[$data['id']] : $mappedUsers;
 
