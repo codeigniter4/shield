@@ -8,22 +8,16 @@ If you use the JWT authenticator with an HMAC algorithm (`HS256`, `HS384`, or
 `HS512`), the underlying `firebase/php-jwt` library was upgraded to v7, which
 now enforces minimum key lengths at runtime.
 
-| Algorithm | Minimum secret length |
-|-----------|-----------------------|
-| HS256     | 32 bytes (256 bits)   |
-| HS384     | 48 bytes (384 bits)   |
-| HS512     | 64 bytes (512 bits)   |
+| Algorithm | Minimum secret length | Command to generate                               |
+|-----------|-----------------------|---------------------------------------------------|
+| HS256     | 32 bytes (256 bits)   | `php -r 'echo base64_encode(random_bytes(32));'`  |
+| HS384     | 48 bytes (384 bits)   | `php -r 'echo base64_encode(random_bytes(48));'`  |
+| HS512     | 64 bytes (512 bits)   | `php -r 'echo base64_encode(random_bytes(64));'`  |
 
 If your secret is too short, every JWT encode **and** decode call will throw a
 `LogicException` with the message `Cannot encode/decode JWT: Provided key is too short`.
 
-To generate a valid secret, run:
-
-```console
-php -r 'echo base64_encode(random_bytes(32));'
-```
-
-Then update `$keys` in **app/Config/AuthJWT.php**:
+Run the command for your algorithm, then update `$keys` in **app/Config/AuthJWT.php**:
 
 ```php
 'secret' => '<output of the command above>',

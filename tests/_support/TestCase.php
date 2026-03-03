@@ -52,7 +52,7 @@ abstract class TestCase extends CIUnitTestCase
         $config->csrfProtection = 'session';
         Factories::injectMock('config', 'Security', $config);
 
-        // Set a valid JWT secret (≥ 256 bits for HS256) required by firebase/php-jwt v7
+        // Set a valid JWT secret (>= 256 bits for HS256) required by firebase/php-jwt v7
         $config                               = config('AuthJWT');
         $config->keys['default'][0]['secret'] = 'a-very-secure-secret-key-for-hs256-ok';
         Factories::injectMock('config', 'AuthJWT', $config);
