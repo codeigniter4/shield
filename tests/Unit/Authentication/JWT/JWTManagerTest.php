@@ -273,7 +273,7 @@ final class JWTManagerTest extends TestCase
             [
                 'kid'    => 'Key01',
                 'alg'    => 'HS256', // algorithm.
-                'secret' => 'Key01_Secret',
+                'secret' => 'Key01_Secret_at_least_256_bits!!',
             ],
         ];
 
@@ -289,12 +289,12 @@ final class JWTManagerTest extends TestCase
             [
                 'kid'    => 'Key02',
                 'alg'    => 'HS256', // algorithm.
-                'secret' => 'Key02_Secret',
+                'secret' => 'Key02_Secret_at_least_256_bits!!',
             ],
             [
                 'kid'    => 'Key01',
                 'alg'    => 'HS256', // algorithm.
-                'secret' => 'Key01_Secret',
+                'secret' => 'Key01_Secret_at_least_256_bits!!',
             ],
         ];
 
@@ -311,7 +311,7 @@ final class JWTManagerTest extends TestCase
             [
                 'kid'    => 'Key01',
                 'alg'    => 'HS256', // algorithm.
-                'secret' => 'Key01_Secret',
+                'secret' => 'Key01_Secret_at_least_256_bits!!',
             ],
         ];
 
