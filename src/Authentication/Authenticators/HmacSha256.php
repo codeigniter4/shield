@@ -19,6 +19,7 @@ use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\HMAC\HmacEncrypter;
 use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Config\AuthToken;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Models\TokenLoginModel;
@@ -32,6 +33,7 @@ class HmacSha256 implements AuthenticatorInterface
 
     protected ?User $user = null;
     protected TokenLoginModel $loginModel;
+    protected AuthToken $authTokenConfig;
 
     /**
      * @param UserModel $provider The persistence engine
@@ -39,7 +41,8 @@ class HmacSha256 implements AuthenticatorInterface
     public function __construct(
         protected UserModel $provider,
     ) {
-        $this->loginModel = model(TokenLoginModel::class);
+        $this->authTokenConfig = config('AuthToken');
+        $this->loginModel      = model(TokenLoginModel::class);
     }
 
     /**
@@ -50,8 +53,6 @@ class HmacSha256 implements AuthenticatorInterface
      */
     public function attempt(array $credentials): Result
     {
-        $config = config('AuthToken');
-
         /** @var IncomingRequest $request */
         $request = service('request');
 
@@ -61,7 +62,7 @@ class HmacSha256 implements AuthenticatorInterface
         $result = $this->check($credentials);
 
         if (! $result->isOK()) {
-            if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
+            if ($this->authTokenConfig->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
                 // Record all failed login attempts.
                 $this->loginModel->recordLoginAttempt(
                     self::ID_TYPE_HMAC_TOKEN,
@@ -79,7 +80,7 @@ class HmacSha256 implements AuthenticatorInterface
         $token = $user->getHmacToken($this->getHmacKeyFromToken());
 
         if ($user->isBanned()) {
-            if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
+            if ($this->authTokenConfig->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
                 // Record a banned login attempt.
                 $this->loginModel->recordLoginAttempt(
                     self::ID_TYPE_HMAC_TOKEN,
@@ -103,7 +104,7 @@ class HmacSha256 implements AuthenticatorInterface
 
         $this->login($user);
 
-        if ($config->recordLoginAttempt === Auth::RECORD_LOGIN_ATTEMPT_ALL) {
+        if ($this->authTokenConfig->recordLoginAttempt === Auth::RECORD_LOGIN_ATTEMPT_ALL) {
             // Record a successful login attempt.
             $this->loginModel->recordLoginAttempt(
                 self::ID_TYPE_HMAC_TOKEN,
@@ -132,7 +133,7 @@ class HmacSha256 implements AuthenticatorInterface
                 'success' => false,
                 'reason'  => lang(
                     'Auth.noToken',
-                    [config('AuthToken')->authenticatorHeader['hmac']],
+                    [$this->authTokenConfig->authenticatorHeader['hmac']],
                 ),
             ]);
         }
@@ -174,7 +175,7 @@ class HmacSha256 implements AuthenticatorInterface
         if (
             isset($token->last_used_at)
             && $token->last_used_at->isBefore(
-                Time::now()->subSeconds(config('AuthToken')->unusedTokenLifetime),
+                Time::now()->subSeconds($this->authTokenConfig->unusedTokenLifetime),
             )
         ) {
             return new Result([
@@ -215,7 +216,7 @@ class HmacSha256 implements AuthenticatorInterface
 
         return $this->attempt([
             'token' => $request->getHeaderLine(
-                config('AuthToken')->authenticatorHeader['hmac'],
+                $this->authTokenConfig->authenticatorHeader['hmac'],
             ),
         ])->isOK();
     }
@@ -276,7 +277,7 @@ class HmacSha256 implements AuthenticatorInterface
         /** @var IncomingRequest $request */
         $request = service('request');
 
-        $header = $request->getHeaderLine(config('AuthToken')->authenticatorHeader['hmac']);
+        $header = $request->getHeaderLine($this->authTokenConfig->authenticatorHeader['hmac']);
 
         if ($header === '') {
             return null;

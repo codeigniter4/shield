@@ -40,6 +40,7 @@ class JWT implements AuthenticatorInterface
      */
     public const ID_TYPE_JWT = 'jwt';
 
+    protected AuthJWT $authJWTConfig;
     protected ?User $user = null;
     protected JWTManager $jwtManager;
     protected TokenLoginModel $tokenLoginModel;
@@ -56,6 +57,7 @@ class JWT implements AuthenticatorInterface
     public function __construct(
         protected UserModel $provider,
     ) {
+        $this->authJWTConfig   = config('AuthJWT');
         $this->jwtManager      = service('jwtmanager');
         $this->tokenLoginModel = model(TokenLoginModel::class);
     }
@@ -68,9 +70,6 @@ class JWT implements AuthenticatorInterface
      */
     public function attempt(array $credentials): Result
     {
-        /** @var AuthJWT $config */
-        $config = config('AuthJWT');
-
         /** @var IncomingRequest $request */
         $request = service('request');
 
@@ -80,7 +79,7 @@ class JWT implements AuthenticatorInterface
         $result = $this->check($credentials);
 
         if (! $result->isOK()) {
-            if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
+            if ($this->authJWTConfig->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
                 // Record a failed login attempt.
                 $this->tokenLoginModel->recordLoginAttempt(
                     self::ID_TYPE_JWT,
@@ -97,7 +96,7 @@ class JWT implements AuthenticatorInterface
         $user = $result->extraInfo();
 
         if ($user->isBanned()) {
-            if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
+            if ($this->authJWTConfig->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
                 // Record a banned login attempt.
                 $this->tokenLoginModel->recordLoginAttempt(
                     self::ID_TYPE_JWT,
@@ -119,7 +118,7 @@ class JWT implements AuthenticatorInterface
 
         $this->login($user);
 
-        if ($config->recordLoginAttempt === Auth::RECORD_LOGIN_ATTEMPT_ALL) {
+        if ($this->authJWTConfig->recordLoginAttempt === Auth::RECORD_LOGIN_ATTEMPT_ALL) {
             // Record a successful login attempt.
             $this->tokenLoginModel->recordLoginAttempt(
                 self::ID_TYPE_JWT,
@@ -150,7 +149,7 @@ class JWT implements AuthenticatorInterface
                 'success' => false,
                 'reason'  => lang(
                     'Auth.noToken',
-                    [config('AuthJWT')->authenticatorHeader],
+                    [$this->authJWTConfig->authenticatorHeader],
                 ),
             ]);
         }
@@ -218,11 +217,8 @@ class JWT implements AuthenticatorInterface
     {
         assert($request instanceof IncomingRequest);
 
-        /** @var AuthJWT $config */
-        $config = config('AuthJWT');
-
         $tokenHeader = $request->getHeaderLine(
-            $config->authenticatorHeader ?? 'Authorization',
+            $this->authJWTConfig->authenticatorHeader ?? 'Authorization',
         );
 
         if (str_starts_with($tokenHeader, 'Bearer')) {
