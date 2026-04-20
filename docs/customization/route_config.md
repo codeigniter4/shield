@@ -29,6 +29,16 @@ service('auth')->routes($routes, ['namespace' => '\App\Controllers\Auth']);
 
 This will generate the routes with the specified namespace instead of the default Shield namespace. This can be combined with any other options, like `except`.
 
+## Change Prefix
+
+If you wish, you can prefix all defined authentication routes using the `prefix` option. This is particularly useful if you want all your routes to be under the same root (for example, `auth/login`, `auth/register`).
+
+```php
+service('auth')->routes($routes, ['prefix' => 'auth']);
+```
+
+This generates routes whose paths are all prefixed with `auth`.
+
 ## Use Locale Routes
 
 You can use the `{locale}` placeholder in your routes
