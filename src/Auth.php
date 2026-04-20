@@ -20,6 +20,7 @@ use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Config\Auth as AuthConfig;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
+use InvalidArgumentException;
 
 /**
  * Facade for Authentication
@@ -134,13 +135,27 @@ class Auth
      */
     public function routes(RouteCollection &$routes, array $config = []): void
     {
+        if (isset($config['only'], $config['except'])) {
+            throw new InvalidArgumentException(
+                'The "only" and "except" options cannot be used at the same time.',
+            );
+        }
+
         $authRoutes = config('AuthRoutes')->routes;
 
         $namespace = $config['namespace'] ?? 'CodeIgniter\Shield\Controllers';
 
         $routes->group('/', ['namespace' => $namespace], static function (RouteCollection $routes) use ($authRoutes, $config): void {
             foreach ($authRoutes as $name => $row) {
-                if (! isset($config['except']) || ! in_array($name, $config['except'], true)) {
+                $shouldInclude = true;
+
+                if (isset($config['only'])) {
+                    $shouldInclude = in_array($name, $config['only'], true);
+                } elseif (isset($config['except'])) {
+                    $shouldInclude = ! in_array($name, $config['except'], true);
+                }
+
+                if ($shouldInclude) {
                     foreach ($row as $params) {
                         $options = isset($params[3])
                             ? ['as' => $params[3]]
