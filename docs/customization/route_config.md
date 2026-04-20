@@ -17,6 +17,14 @@ $routes->get('login', '\App\Controllers\Auth\LoginController::loginView');
 $routes->get('register', '\App\Controllers\Auth\RegisterController::registerView');
 ```
 
+If you only need a specific route (or a small set of routes), you can use the `only` option instead
+
+```php
+service('auth')->routes($routes, ['only' => ['login']]);
+```
+
+In this case, you must manage all other routes manually.
+
 After customization, check your routes with the [spark routes](https://codeigniter.com/user_guide/incoming/routing.html#spark-routes) command.
 
 ## Change Namespace
