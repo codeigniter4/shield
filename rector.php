@@ -45,7 +45,6 @@ use Rector\EarlyReturn\Rector\If_\RemoveAlwaysElseRector;
 use Rector\EarlyReturn\Rector\Return_\PreparedValueToEarlyReturnRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Php73\Rector\FuncCall\StringifyStrNeedlesRector;
-use Rector\Php81\Rector\ClassMethod\NewInInitializerRector;
 use Rector\PHPUnit\AnnotationsToAttributes\Rector\Class_\AnnotationWithValueToAttributeRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\YieldDataProviderRector;
 use Rector\PHPUnit\CodeQuality\Rector\MethodCall\AssertEmptyNullableObjectToAssertInstanceofRector;
@@ -137,9 +136,6 @@ return static function (RectorConfig $rectorConfig): void {
 
         // Ignore some PHPUnit rules
         AssertEmptyNullableObjectToAssertInstanceofRector::class,
-
-        // Ignore to prevent BC break
-        NewInInitializerRector::class,
 
         // Ignore for readability
         RemoveNullArgOnNullDefaultParamRector::class,
