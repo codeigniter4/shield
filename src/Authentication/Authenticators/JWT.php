@@ -221,9 +221,7 @@ class JWT implements AuthenticatorInterface
         /** @var AuthJWT $config */
         $config = config('AuthJWT');
 
-        $tokenHeader = $request->getHeaderLine(
-            $config->authenticatorHeader ?? 'Authorization',
-        );
+        $tokenHeader = $request->getHeaderLine($config->authenticatorHeader);
 
         if (str_starts_with($tokenHeader, 'Bearer')) {
             return trim(substr($tokenHeader, 6));

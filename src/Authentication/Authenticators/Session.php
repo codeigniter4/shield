@@ -280,7 +280,7 @@ class Session implements AuthenticatorInterface
         // Determine the type of ID we're using.
         // Standard fields would be email, username,
         // but any column within config('Auth')->validFields can be used.
-        $field = array_intersect(config('Auth')->validFields ?? [], array_keys($credentials));
+        $field = array_intersect(config('Auth')->validFields, array_keys($credentials));
 
         if (count($field) !== 1) {
             throw new InvalidArgumentException('Invalid credentials passed to recordLoginAttempt.');

@@ -428,18 +428,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/tests/Authentication/Authenticators/SessionAuthenticatorTest.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Parameter #1 $headers of method Tests\\Authentication\\Filters\\AbstractFilterTestCase::withHeaders() expects array<string, CodeIgniter\\HTTP\\Header|list<CodeIgniter\\HTTP\\Header>>, array{Authorization: non-falsy-string} given.',
-	'identifier' => 'argument.type',
-	'count' => 7,
-	'path' => __DIR__ . '/tests/Authentication/Filters/HmacFilterTest.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Parameter #1 $headers of method Tests\\Authentication\\Filters\\JWTFilterTest::withHeaders() expects array<string, CodeIgniter\\HTTP\\Header|list<CodeIgniter\\HTTP\\Header>>, array{Authorization: non-falsy-string} given.',
-	'identifier' => 'argument.type',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/Authentication/Filters/JWTFilterTest.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Implicit array creation is not allowed - variable $users might not exist.',
 	'identifier' => 'variable.implicitArray',
 	'count' => 1,
