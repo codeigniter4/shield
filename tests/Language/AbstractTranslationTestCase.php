@@ -220,8 +220,7 @@ abstract class AbstractTranslationTestCase extends TestCase
     {
         // These keys are usually not translated because they contain either
         // universal abbreviations or simply combine parameters with signs.
-        static $excludedKeyTranslations = [
-        ];
+        static $excludedKeyTranslations = [];
 
         $excludedKeys  = array_unique(array_merge($excludedKeyTranslations, $this->excludedLocaleKeyTranslations));
         $availableSets = array_intersect($this->expectedSets(), $this->foundSets($locale));

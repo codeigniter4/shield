@@ -85,7 +85,6 @@ final class UserIdentityModelTest extends TestCase
 
     public function testForceMultiplePasswordReset(): void
     {
-        /** @var Fabricator $fabricator */
         $fabricator = new Fabricator(UserIdentityModel::class);
         $fabricator->create(10);
 
