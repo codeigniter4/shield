@@ -86,7 +86,7 @@ final class AuthRoutesTest extends TestCase
         $collection = single_service('routes');
         $auth       = service('auth');
 
-        $auth->routes($collection, ['prefix' => 'auth']);
+        $auth->routes($collection, ['group' => 'auth']);
 
         if (version_compare(CodeIgniter::CI_VERSION, '4.5') >= 0) {
             $routes = $collection->getRoutes('GET');

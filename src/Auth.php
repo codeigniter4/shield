@@ -131,16 +131,16 @@ class Auth
      * Usage (in Config/Routes.php):
      *      - auth()->routes($routes);
      *      - auth()->routes($routes, ['except' => ['login', 'register']])
-     *      - auth()->routes($routes, ['prefix' => 'auth'])
+     *      - auth()->routes($routes, ['group' => 'auth'])
      */
     public function routes(RouteCollection &$routes, array $config = []): void
     {
         $authRoutes = config('AuthRoutes')->routes;
 
         $namespace = $config['namespace'] ?? 'CodeIgniter\Shield\Controllers';
-        $prefix    = $config['prefix'] ?? '/';
+        $group     = $config['group'] ?? '/';
 
-        $routes->group($prefix, ['namespace' => $namespace], static function (RouteCollection $routes) use ($authRoutes, $config): void {
+        $routes->group($group, ['namespace' => $namespace], static function (RouteCollection $routes) use ($authRoutes, $config): void {
             foreach ($authRoutes as $name => $row) {
                 if (! isset($config['except']) || ! in_array($name, $config['except'], true)) {
                     foreach ($row as $params) {
