@@ -24,6 +24,7 @@ use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
+use Tests\Support\AdminEmailActivator;
 use Tests\Support\FakeUser;
 use Tests\Support\TestCase;
 
@@ -127,6 +128,47 @@ final class MagicLinkTest extends TestCase
             [
                 'id'                  => $user->id,
                 'auth_action'         => 'CodeIgniter\Shield\Authentication\Actions\EmailActivator',
+                'auth_action_message' => lang('Auth.needVerification'),
+            ],
+        );
+        $this->assertFalse(auth()->loggedIn());
+    }
+
+    public function testMagicLinkVerifyPendingConditionalRegistrationActivation(): void
+    {
+        $config                      = config('Auth');
+        $config->actions['register'] = AdminEmailActivator::class;
+        Factories::injectMock('config', 'Auth', $config);
+
+        /** @var User $user */
+        $user = fake(UserModel::class, ['active' => false]);
+        $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
+
+        $identities = model(UserIdentityModel::class);
+
+        $identities->insert([
+            'user_id' => $user->id,
+            'type'    => Session::ID_TYPE_EMAIL_ACTIVATE,
+            'secret'  => '123456',
+            'name'    => 'register',
+            'extra'   => lang('Auth.needVerification'),
+        ]);
+        $identities->insert([
+            'user_id' => $user->id,
+            'type'    => Session::ID_TYPE_MAGIC_LINK,
+            'secret'  => 'validtoken123',
+            'expires' => Time::now()->addMinutes(60),
+        ]);
+
+        $result = $this->get(route_to('verify-magic-link') . '?token=validtoken123');
+
+        $result->assertRedirectTo(route_to('auth-action-show'));
+        $result->assertSessionHas('error', lang('Auth.needActivate'));
+        $result->assertSessionHas(
+            'user',
+            [
+                'id'                  => $user->id,
+                'auth_action'         => AdminEmailActivator::class,
                 'auth_action_message' => lang('Auth.needVerification'),
             ],
         );

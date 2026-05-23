@@ -98,6 +98,7 @@ class Auth extends BaseConfig
      * Custom Actions and Requirements:
      *
      * - All actions must implement \CodeIgniter\Shield\Authentication\Actions\ActionInterface.
+     * - Actions may implement \CodeIgniter\Shield\Authentication\Actions\ConditionalActionInterface to apply only to certain users.
      * - Custom actions for "register" must have a class name that ends with the suffix "Activator" (e.g., `CustomSmsActivator`) ensure proper functionality.
      *
      * @var array<string, class-string<ActionInterface>|null>

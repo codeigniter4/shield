@@ -19,6 +19,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
+use CodeIgniter\Shield\Authentication\Actions\ConditionalActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Passwords;
@@ -185,11 +186,11 @@ class Session implements AuthenticatorInterface
     }
 
     /**
-     * If an action has been defined, start it up.
+     * If an action has been defined and applies to the user, start it up.
      *
      * @param string $type 'register', 'login'
      *
-     * @return bool If the action has been defined or not.
+     * @return bool If the action was started or not.
      */
     public function startUpAction(string $type, User $user): bool
     {
@@ -201,6 +202,10 @@ class Session implements AuthenticatorInterface
 
         /** @var ActionInterface $action */
         $action = Factories::actions($actionClass); // @phpstan-ignore-line
+
+        if (! $this->actionAppliesToUser($action, $user)) {
+            return false;
+        }
 
         // Create identity for the action.
         $action->createIdentity($user);
@@ -472,13 +477,20 @@ class Session implements AuthenticatorInterface
 
         $authActions = setting('Auth.actions');
 
-        foreach ($authActions as $actionClass) {
+        foreach ($authActions as $type => $actionClass) {
             if ($actionClass === null || $actionClass === '') {
                 continue;
             }
 
             /** @var ActionInterface $action */
             $action = Factories::actions($actionClass);  // @phpstan-ignore-line
+
+            if (
+                ! $this->actionAppliesToUser($action, $this->user)
+                && ! $this->inactiveUserNeedsRegisterAction($type, $this->user)
+            ) {
+                continue;
+            }
 
             $identity = $this->userIdentityModel->getIdentityByType($this->user, $action->getType());
 
@@ -504,29 +516,47 @@ class Session implements AuthenticatorInterface
     {
         return $this->userIdentityModel->getIdentitiesByTypes(
             $user,
-            $this->getActionTypes(),
+            $this->getActionTypes($user),
         );
     }
 
     /**
      * @return list<string>
      */
-    private function getActionTypes(): array
+    private function getActionTypes(User $user): array
     {
         $actions = setting('Auth.actions');
         $types   = [];
 
-        foreach ($actions as $actionClass) {
+        foreach ($actions as $type => $actionClass) {
             if ($actionClass === null || $actionClass === '') {
                 continue;
             }
 
             /** @var ActionInterface $action */
-            $action  = Factories::actions($actionClass);  // @phpstan-ignore-line
+            $action = Factories::actions($actionClass);  // @phpstan-ignore-line
+
+            if (
+                ! $this->actionAppliesToUser($action, $user)
+                && ! $this->inactiveUserNeedsRegisterAction($type, $user)
+            ) {
+                continue;
+            }
+
             $types[] = $action->getType();
         }
 
         return $types;
+    }
+
+    private function actionAppliesToUser(ActionInterface $action, User $user): bool
+    {
+        return ! $action instanceof ConditionalActionInterface || $action->appliesTo($user);
+    }
+
+    private function inactiveUserNeedsRegisterAction(int|string $type, User $user): bool
+    {
+        return $type === 'register' && ! $user->active;
     }
 
     /**
