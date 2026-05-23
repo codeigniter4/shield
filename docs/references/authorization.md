@@ -35,9 +35,9 @@ public string $defaultGroup = 'user';
 
 ## Defining Available Permissions
 
-All permissions must be added to the `AuthGroups` config file, also. A permission is simply a string consisting of
-a scope and action, like `users.create`. The scope would be `users` and the action would be `create`. Each permission
-can have a description for display within UIs if needed.
+Permissions that can be assigned directly to users must be added to the `AuthGroups` config file.
+A permission is a string consisting of dot-separated segments, like `users.create` or
+`forum.posts.create`. Each permission can have a description for display within UIs if needed.
 
 ```php
 public array $permissions = [
@@ -58,7 +58,7 @@ config file, under the `$matrix` property.
 
 !!! note
 
-    This defines **group-level permissons**.
+    This defines **group-level permissions**.
 
 The matrix is an associative array with the group name as the key,
 and an array of permissions that should be applied to that group.
@@ -73,7 +73,9 @@ public array $matrix = [
 ];
 ```
 
-You can use a wildcard within a scope to allow all actions within that scope, by using a `*` in place of the action.
+You can use `*` as a wildcard segment to allow permissions under a scope. A wildcard matches one full segment.
+When the wildcard is trailing on a dotted scope, it also grants the parent scope itself and all descendant permissions.
+The first segment cannot be `*`, and a standalone `*` permission does not grant all permissions.
 
 ```php
 public array $matrix = [
@@ -81,15 +83,33 @@ public array $matrix = [
 ];
 ```
 
+For example, `forum.posts.*` matches `forum.posts`, `forum.posts.create`, and `forum.posts.comments.delete`.
+Wildcards can also appear between segments: `forum.*.create` matches `forum.posts.create` and
+`forum.comments.create`, but does not match `forum.create` or `forum.posts.comments.create`.
+Since `$user->can()` expects dot-separated permissions like `scope.action`, parent matching applies to dotted
+permission scopes like `forum.posts`, not to root labels like `forum`.
+
+Exact child permissions do not grant their parent permission. For example, `forum.posts.create` does not grant
+`forum.posts`.
+
+Wildcard matching is used by `$user->can()` and `$group->can()` for both user-level and group-level permissions.
+
+!!! warning
+
+    Wildcard permissions can grant access to the parent scope and to future child permissions added under the
+    same scope. Use broad wildcards like `admin.*` carefully, and prefer literal permissions for highly sensitive
+    access.
+
 ## Authorizing Users
 
 The `Authorizable` trait on the `User` entity provides the following methods to authorize your users.
 
 #### can()
 
-Allows you to check if a user is permitted to do a specific action or group or actions. The permission string(s) should be passed as the argument(s). Returns
+Allows you to check if a user has one or more permissions. The permission string(s) should be passed as the argument(s). Returns
 boolean `true`/`false`. Will check the user's direct permissions (**user-level permissions**) first, and then check against all of the user's groups
-permissions (**group-level permissions**) to determine if they are allowed.
+permissions (**group-level permissions**) to determine if they are allowed. Wildcard permissions are supported for both
+user-level and group-level permissions.
 
 ```php
 if ($user->can('users.create')) {
@@ -170,6 +190,17 @@ is thrown.
 
 ```php
 $user->addPermission('users.create', 'users.edit');
+```
+
+Wildcard permissions can also be assigned to a user, but they must be listed in `Config\AuthGroups::$permissions`
+before they can be assigned.
+
+```php
+public array $permissions = [
+    'forum.posts.*' => 'Can manage forum posts',
+];
+
+$user->addPermission('forum.posts.*');
 ```
 
 #### removePermission()

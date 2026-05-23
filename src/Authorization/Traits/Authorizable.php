@@ -15,6 +15,7 @@ namespace CodeIgniter\Shield\Authorization\Traits;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authorization\AuthorizationException;
+use CodeIgniter\Shield\Authorization\PermissionMatcher;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\GroupModel;
 use CodeIgniter\Shield\Models\PermissionModel;
@@ -253,10 +254,9 @@ trait Authorizable
 
     /**
      * Checks user permissions and their group permissions
-     * to see if the user has a specific permission or group
-     * of permissions.
+     * to see if the user has one or more permissions.
      *
-     * @param string $permissions string(s) consisting of a scope and action, like `users.create`
+     * @param string $permissions Dot-separated permission string(s), like `users.create`
      */
     public function can(string ...$permissions): bool
     {
@@ -270,10 +270,10 @@ trait Authorizable
         $matrix = setting('AuthGroups.matrix');
 
         foreach ($permissions as $permission) {
-            // Permission must contain a scope and action
+            // Permission must contain at least two dot-separated segments.
             if (! str_contains($permission, '.')) {
                 throw new LogicException(
-                    'A permission must be a string consisting of a scope and action, like `users.create`.'
+                    'A permission must be a dot-separated string, like `users.create`.'
                     . ' Invalid permission: ' . $permission,
                 );
             }
@@ -281,23 +281,12 @@ trait Authorizable
             $permission = strtolower($permission);
 
             // Check user's permissions
-            if (in_array($permission, $this->permissionsCache, true)) {
+            if (PermissionMatcher::matches($permission, $this->permissionsCache)) {
                 return true;
             }
 
-            if (count($this->groupCache) === 0) {
-                return false;
-            }
-
             foreach ($this->groupCache as $group) {
-                // Check exact match
-                if (isset($matrix[$group]) && in_array($permission, $matrix[$group], true)) {
-                    return true;
-                }
-
-                // Check wildcard match
-                $check = substr($permission, 0, strpos($permission, '.')) . '.*';
-                if (isset($matrix[$group]) && in_array($check, $matrix[$group], true)) {
+                if (isset($matrix[$group]) && PermissionMatcher::matches($permission, $matrix[$group])) {
                     return true;
                 }
             }

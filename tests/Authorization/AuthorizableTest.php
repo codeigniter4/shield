@@ -303,6 +303,56 @@ final class AuthorizableTest extends DatabaseTestCase
         $this->assertTrue($this->user->can('admin.access'));
     }
 
+    public function testCanCascadesToGroupsWithHierarchicalWildcards(): void
+    {
+        $this->setGroupPermissions('admin', [
+            'forum.posts.*',
+            'admin.*.create',
+            'reports.daily.*',
+        ]);
+
+        $this->user->addGroup('admin');
+
+        $this->assertTrue($this->user->can('forum.posts.create'));
+        $this->assertTrue($this->user->can('forum.posts.comments.delete'));
+        $this->assertTrue($this->user->can('admin.users.create'));
+        $this->assertTrue($this->user->can('reports.daily.view'));
+        $this->assertTrue($this->user->can('forum.posts'));
+        $this->assertTrue($this->user->can('reports.daily'));
+
+        $this->assertFalse($this->user->can('admin.create'));
+        $this->assertFalse($this->user->can('admin.users.roles.create'));
+        $this->assertFalse($this->user->can('admin.users.delete'));
+    }
+
+    public function testCanChecksUserLevelHierarchicalWildcards(): void
+    {
+        $this->addConfigPermissions([
+            'forum.posts.*' => 'Can manage forum posts',
+        ]);
+
+        $this->user->addPermission('forum.posts.*');
+
+        $this->assertTrue($this->user->can('forum.posts.create'));
+        $this->assertTrue($this->user->can('forum.posts.comments.delete'));
+        $this->assertTrue($this->user->can('forum.posts'));
+        $this->assertFalse($this->user->can('forum.users.create'));
+    }
+
+    public function testAddPermissionRejectsUnlistedWildcardPermission(): void
+    {
+        $this->expectException(AuthorizationException::class);
+
+        $this->user->addPermission('forum.posts.*');
+    }
+
+    public function testCanChecksLaterPermissionsWithoutGroups(): void
+    {
+        $this->user->addPermission('admin.access');
+
+        $this->assertTrue($this->user->can('beta.access', 'admin.access'));
+    }
+
     public function testCanGetsInvalidPermission(): void
     {
         $this->expectException(LogicException::class);
@@ -384,5 +434,24 @@ final class AuthorizableTest extends DatabaseTestCase
         $this->user->ban('You are banned');
 
         $this->assertSame('You are banned', $this->user->getBanMessage());
+    }
+
+    /**
+     * @param list<string> $permissions
+     */
+    private function setGroupPermissions(string $group, array $permissions): void
+    {
+        $matrix         = setting('AuthGroups.matrix');
+        $matrix[$group] = $permissions;
+
+        setting('AuthGroups.matrix', $matrix);
+    }
+
+    /**
+     * @param array<string, string> $permissions
+     */
+    private function addConfigPermissions(array $permissions): void
+    {
+        setting('AuthGroups.permissions', array_merge(setting('AuthGroups.permissions'), $permissions));
     }
 }

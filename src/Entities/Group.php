@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Entities;
 
 use CodeIgniter\Entity\Entity;
+use CodeIgniter\Shield\Authorization\PermissionMatcher;
 
 /**
  * Represents a single User Group
@@ -79,15 +80,9 @@ class Group extends Entity
     {
         $this->populatePermissions();
 
-        // Check exact match
-        if ($this->permissions !== null && $this->permissions !== [] && in_array($permission, $this->permissions, true)) {
-            return true;
-        }
-
-        // Check wildcard match
-        $check = substr($permission, 0, strpos($permission, '.')) . '.*';
-
-        return $this->permissions !== null && $this->permissions !== [] && in_array($check, $this->permissions, true);
+        return $this->permissions !== null
+            && $this->permissions !== []
+            && PermissionMatcher::matches($permission, $this->permissions);
     }
 
     /**
