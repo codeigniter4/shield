@@ -56,9 +56,9 @@ public array $matrix = [
 ];
 ```
 
-A trailing `*` wildcard on a dotted scope matches the scope itself and all child permission segments. For example, `forum.posts.*` matches `forum.posts`, `forum.posts.create`, and `forum.posts.comments.delete`.
+A trailing `*` wildcard matches descendant permission segments only. For example, `forum.posts.*` matches `forum.posts.create` and `forum.posts.comments.delete`, but not `forum.posts`.
 When `*` appears between segments, it matches exactly one segment. For example, `forum.*.create` matches `forum.posts.create`.
-Parent matching applies to dotted scopes like `forum.posts`, not root labels like `forum`. The first segment cannot be `*`, and a standalone `*` permission does not grant all permissions.
+The first segment cannot be `*`, and a standalone `*` permission does not grant all permissions.
 
 ## Assign Permissions to a User
 

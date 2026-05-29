@@ -74,7 +74,7 @@ public array $matrix = [
 ```
 
 You can use `*` as a wildcard segment to allow permissions under a scope. A wildcard matches one full segment.
-When the wildcard is trailing on a dotted scope, it also grants the parent scope itself and all descendant permissions.
+When the wildcard is trailing, it grants descendant permissions only.
 The first segment cannot be `*`, and a standalone `*` permission does not grant all permissions.
 
 ```php
@@ -83,11 +83,10 @@ public array $matrix = [
 ];
 ```
 
-For example, `forum.posts.*` matches `forum.posts`, `forum.posts.create`, and `forum.posts.comments.delete`.
+For example, `forum.posts.*` matches `forum.posts.create` and `forum.posts.comments.delete`, but not
+`forum.posts`.
 Wildcards can also appear between segments: `forum.*.create` matches `forum.posts.create` and
 `forum.comments.create`, but does not match `forum.create` or `forum.posts.comments.create`.
-Since `$user->can()` expects dot-separated permissions like `scope.action`, parent matching applies to dotted
-permission scopes like `forum.posts`, not to root labels like `forum`.
 
 Exact child permissions do not grant their parent permission. For example, `forum.posts.create` does not grant
 `forum.posts`.
@@ -96,9 +95,8 @@ Wildcard matching is used by `$user->can()` and `$group->can()` for both user-le
 
 !!! warning
 
-    Wildcard permissions can grant access to the parent scope and to future child permissions added under the
-    same scope. Use broad wildcards like `admin.*` carefully, and prefer literal permissions for highly sensitive
-    access.
+    Wildcard permissions can grant access to future child permissions added under the same scope. Use broad
+    wildcards like `admin.*` carefully, and prefer literal permissions for highly sensitive access.
 
 ## Authorizing Users
 

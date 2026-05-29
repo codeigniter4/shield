@@ -317,9 +317,9 @@ final class AuthorizableTest extends DatabaseTestCase
         $this->assertTrue($this->user->can('forum.posts.comments.delete'));
         $this->assertTrue($this->user->can('admin.users.create'));
         $this->assertTrue($this->user->can('reports.daily.view'));
-        $this->assertTrue($this->user->can('forum.posts'));
-        $this->assertTrue($this->user->can('reports.daily'));
 
+        $this->assertFalse($this->user->can('forum.posts'));
+        $this->assertFalse($this->user->can('reports.daily'));
         $this->assertFalse($this->user->can('admin.create'));
         $this->assertFalse($this->user->can('admin.users.roles.create'));
         $this->assertFalse($this->user->can('admin.users.delete'));
@@ -335,7 +335,7 @@ final class AuthorizableTest extends DatabaseTestCase
 
         $this->assertTrue($this->user->can('forum.posts.create'));
         $this->assertTrue($this->user->can('forum.posts.comments.delete'));
-        $this->assertTrue($this->user->can('forum.posts'));
+        $this->assertFalse($this->user->can('forum.posts'));
         $this->assertFalse($this->user->can('forum.users.create'));
     }
 

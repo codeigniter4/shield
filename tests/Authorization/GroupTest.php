@@ -98,8 +98,8 @@ final class GroupTest extends TestCase
         $this->assertTrue($group->can('forum.posts.create'));
         $this->assertTrue($group->can('forum.posts.comments.delete'));
         $this->assertTrue($group->can('admin.users.create'));
-        $this->assertTrue($group->can('forum.posts'));
 
+        $this->assertFalse($group->can('forum.posts'));
         $this->assertFalse($group->can('admin.create'));
         $this->assertFalse($group->can('admin.users.roles.create'));
         $this->assertFalse($group->can('admin.users.delete'));

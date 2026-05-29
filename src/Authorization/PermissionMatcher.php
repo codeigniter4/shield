@@ -52,12 +52,7 @@ final class PermissionMatcher
         if (end($grantSegments) === '*') {
             array_pop($grantSegments);
 
-            // Root labels like `admin` are not permission scopes, so `admin.*` should not grant `admin`.
-            if (count($grantSegments) === 1 && count($permissionSegments) === 1) {
-                return false;
-            }
-
-            return count($permissionSegments) >= count($grantSegments)
+            return count($permissionSegments) > count($grantSegments)
                 && self::segmentsMatch($grantSegments, array_slice($permissionSegments, 0, count($grantSegments)));
         }
 
