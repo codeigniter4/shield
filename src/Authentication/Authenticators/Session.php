@@ -57,6 +57,10 @@ class Session implements AuthenticatorInterface
     private const STATE_PENDING   = 2; // 2FA or Activation required.
     private const STATE_LOGGED_IN = 3;
 
+    // Magic-link session markers
+    private const MAGIC_LOGIN_TEMP_DATA    = 'magicLogin';
+    private const PENDING_MAGIC_LINK_LOGIN = 'auth_action_magic_login';
+
     /**
      * Authenticated or authenticating (pending login) User
      */
@@ -270,6 +274,29 @@ class Session implements AuthenticatorInterface
 
         // a successful login
         Events::trigger('login', $user);
+
+        // Complete the magic-link notification after any pending login action.
+        $this->completeMagicLinkLoginIfPending();
+    }
+
+    /**
+     * Marks the pending login action as originating from a magic-link login.
+     */
+    public function markPendingLoginAsMagicLink(): void
+    {
+        $this->setSessionUserKey(self::PENDING_MAGIC_LINK_LOGIN, self::MAGIC_LOGIN_TEMP_DATA);
+    }
+
+    private function completeMagicLinkLoginIfPending(): void
+    {
+        if ($this->getSessionUserKey(self::PENDING_MAGIC_LINK_LOGIN) !== self::MAGIC_LOGIN_TEMP_DATA) {
+            return;
+        }
+
+        $this->removeSessionUserKey(self::PENDING_MAGIC_LINK_LOGIN);
+        session()->setTempdata(self::MAGIC_LOGIN_TEMP_DATA, true);
+
+        Events::trigger('magicLogin');
     }
 
     /**

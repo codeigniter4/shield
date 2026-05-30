@@ -20,6 +20,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
@@ -205,7 +206,17 @@ class MagicLinkController extends BaseController
             return redirect()->route('auth-action-show')->with('error', lang('Auth.needActivate'));
         }
 
-        // Log the user in
+        $user = $this->provider->findById($identity->user_id);
+
+        // Start any login action that has been defined.
+        if ($user instanceof User && $authenticator->startUpAction('login', $user) && $authenticator->hasAction($user->id)) {
+            $this->recordLoginAttempt($identifier, true, $user->id);
+            $authenticator->markPendingLoginAsMagicLink();
+
+            return redirect()->route('auth-action-show');
+        }
+
+        // Log the user in.
         $authenticator->loginById($identity->user_id);
 
         $user = $authenticator->getUser();
