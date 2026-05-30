@@ -16,6 +16,7 @@ namespace Tests\Unit;
 use CodeIgniter\CodeIgniter;
 use CodeIgniter\Router\RouteCollection;
 use CodeIgniter\Shield\Auth;
+use InvalidArgumentException;
 use Tests\Support\TestCase;
 
 /**
@@ -63,6 +64,36 @@ final class AuthRoutesTest extends TestCase
         $this->assertArrayHasKey('login/magic-link', $routes);
         $this->assertArrayHasKey('logout', $routes);
         $this->assertArrayHasKey('auth/a/show', $routes);
+    }
+
+    public function testRoutesOnly(): void
+    {
+        $collection = single_service('routes');
+        $auth       = service('auth');
+
+        $auth->routes($collection, ['only' => ['login']]);
+
+        if (version_compare(CodeIgniter::CI_VERSION, '4.5') >= 0) {
+            $routes = $collection->getRoutes('GET');
+        } else {
+            $routes = $collection->getRoutes('get');
+        }
+
+        $this->assertArrayHasKey('login', $routes);
+        $this->assertArrayNotHasKey('register', $routes);
+        $this->assertArrayNotHasKey('login/magic-link', $routes);
+        $this->assertArrayNotHasKey('logout', $routes);
+        $this->assertArrayNotHasKey('auth/a/show', $routes);
+    }
+
+    public function testRoutesUseOnlyAndExceptOptionsSimultaneous(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $collection = single_service('routes');
+        $auth       = service('auth');
+
+        $auth->routes($collection, ['only' => ['login'], 'except' => ['register']]);
     }
 
     public function testRoutesCustomNamespace(): void
