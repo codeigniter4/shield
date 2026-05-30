@@ -17,9 +17,12 @@ use CodeIgniter\Config\Factories;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\Email2FA;
 use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Test\FeatureTestTrait;
+use CodeIgniter\Test\TestResponse;
 use Config\Services;
 use Config\Validation;
+use Tests\Support\AdminEmail2FA;
 use Tests\Support\DatabaseTestCase;
 use Tests\Support\FakeUser;
 
@@ -255,5 +258,91 @@ final class LoginTest extends DatabaseTestCase
         $result->assertSessionMissing('error');
         $result->assertSessionMissing('errors');
         $this->assertSame(site_url('auth/a/show'), $result->getRedirectUrl());
+    }
+
+    public function testLoginRedirectsToConditionalActionWhenItApplies(): void
+    {
+        $this->enableAdminEmail2FA();
+
+        $this->user->addGroup('admin');
+        $this->createUserEmailIdentity();
+
+        $result = $this->loginUser();
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $this->assertSame(site_url('auth/a/show'), $result->getRedirectUrl());
+    }
+
+    public function testLoginSkipsConditionalActionWhenItDoesNotApply(): void
+    {
+        $this->enableAdminEmail2FA();
+        $this->createUserEmailIdentity();
+
+        $result = $this->loginUser();
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $this->assertSame(site_url(), $result->getRedirectUrl());
+    }
+
+    public function testLoginIgnoresStoredConditionalActionIdentityWhenItDoesNotApply(): void
+    {
+        $this->enableAdminEmail2FA();
+        $this->createUserEmailIdentity();
+
+        model(UserIdentityModel::class)->insert([
+            'user_id' => $this->user->id,
+            'type'    => 'email_2fa',
+            'name'    => 'login',
+            'secret'  => '123456',
+            'extra'   => lang('Auth.need2FA'),
+        ]);
+
+        $result = $this->loginUser();
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $this->assertSame(site_url(), $result->getRedirectUrl());
+    }
+
+    public function testLoginKeepsExistingPendingConditionalActionInSession(): void
+    {
+        $this->enableAdminEmail2FA();
+        $this->createUserEmailIdentity();
+
+        $result = $this->withSession([
+            'user' => [
+                'id'          => $this->user->id,
+                'auth_action' => AdminEmail2FA::class,
+            ],
+        ])->get('/login');
+
+        $result->assertStatus(302);
+        $result->assertRedirect();
+        $this->assertSame(site_url('auth/a/show'), $result->getRedirectUrl());
+    }
+
+    private function enableAdminEmail2FA(): void
+    {
+        $config                   = config('Auth');
+        $config->actions['login'] = AdminEmail2FA::class;
+        Factories::injectMock('config', 'Auth', $config);
+    }
+
+    private function createUserEmailIdentity(): void
+    {
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+    }
+
+    private function loginUser(): TestResponse
+    {
+        return $this->post('/login', [
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
     }
 }

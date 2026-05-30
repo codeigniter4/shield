@@ -22,6 +22,7 @@ use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
+use Tests\Support\AdminEmailActivator;
 use Tests\Support\DatabaseTestCase;
 use Tests\Support\FakeUser;
 
@@ -199,6 +200,53 @@ final class RegisterTest extends DatabaseTestCase
         $result->assertRedirectTo('/auth/a/show');
 
         // Should NOT have activated the user
+        $this->seeInDatabase($this->tables['users'], [
+            'username' => 'foo',
+            'active'   => 0,
+        ]);
+    }
+
+    public function testRegisterSkipsConditionalActionWhenItDoesNotApply(): void
+    {
+        $config                      = config('Auth');
+        $config->actions['register'] = AdminEmailActivator::class;
+        Factories::injectMock('config', 'Auth', $config);
+
+        $result = $this->post('/register', [
+            'email'            => 'foo@example.com',
+            'username'         => 'foo',
+            'password'         => 'abkdhflkjsdflkjasd;lkjf',
+            'password_confirm' => 'abkdhflkjsdflkjasd;lkjf',
+        ]);
+
+        $result->assertRedirect();
+        $this->assertSame(site_url(), $result->getRedirectUrl());
+
+        $this->seeInDatabase($this->tables['users'], [
+            'username' => 'foo',
+            'active'   => 1,
+        ]);
+    }
+
+    public function testRegisterRedirectsToConditionalActionWhenItApplies(): void
+    {
+        $authConfig                      = config('Auth');
+        $authConfig->actions['register'] = AdminEmailActivator::class;
+        Factories::injectMock('config', 'Auth', $authConfig);
+
+        $groupsConfig               = config('AuthGroups');
+        $groupsConfig->defaultGroup = 'admin';
+        Factories::injectMock('config', 'AuthGroups', $groupsConfig);
+
+        $result = $this->post('/register', [
+            'email'            => 'foo@example.com',
+            'username'         => 'foo',
+            'password'         => 'abkdhflkjsdflkjasd;lkjf',
+            'password_confirm' => 'abkdhflkjsdflkjasd;lkjf',
+        ]);
+
+        $result->assertRedirectTo('/auth/a/show');
+
         $this->seeInDatabase($this->tables['users'], [
             'username' => 'foo',
             'active'   => 0,

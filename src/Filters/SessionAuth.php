@@ -74,6 +74,11 @@ class SessionAuth implements FilterInterface
                     return redirect()->route('auth-action-show')
                         ->with('error', lang('Auth.activationBlocked'));
                 }
+
+                $authenticator->logout();
+
+                return redirect()->to(config('Auth')->logoutRedirect())
+                    ->with('error', lang('Auth.activationBlocked'));
             }
 
             return;

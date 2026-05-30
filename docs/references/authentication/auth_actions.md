@@ -87,3 +87,51 @@ database and either sends them back to the previous form to try again or redirec
 page that a `login` task would have redirected them to anyway.
 
 All methods should return either a `Response` or a view string (e.g. using the `view()` function).
+
+## Conditional Actions
+
+Some applications only need an action for certain users. For example, you may
+want email-based 2FA for administrators, but not for every user.
+
+To make an action conditional, implement `ConditionalActionInterface`:
+
+```php
+<?php
+
+namespace App\Authentication\Actions;
+
+use CodeIgniter\Shield\Authentication\Actions\ConditionalActionInterface;
+use CodeIgniter\Shield\Authentication\Actions\Email2FA;
+use CodeIgniter\Shield\Entities\User;
+
+final class AdminEmail2FA extends Email2FA implements ConditionalActionInterface
+{
+    public function appliesTo(User $user): bool
+    {
+        return $user->inGroup('admin', 'superadmin');
+    }
+}
+```
+
+Then register your conditional action in **app/Config/Auth.php**:
+
+```php
+public array $actions = [
+    'register' => null,
+    'login'    => \App\Authentication\Actions\AdminEmail2FA::class,
+];
+```
+
+When `appliesTo()` returns `true`, Shield starts the action as usual and
+discovers any stored identity for that action. When it returns `false`, Shield
+does not start the action and ignores stored identities for that action while
+the condition remains false. The exception is activation: if a user is already
+inactive and has a stored activation identity, Shield continues to require that
+activation before login can complete.
+
+The `appliesTo()` method may be called more than once while Shield checks for
+actions, so keep it deterministic, free of side effects, and fail closed when
+the condition cannot be determined. It is not a replacement for authorization.
+
+Once an action is already pending in the session, Shield continues that pending
+action instead of rechecking the condition.

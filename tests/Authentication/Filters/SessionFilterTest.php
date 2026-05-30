@@ -14,9 +14,12 @@ declare(strict_types=1);
 namespace Tests\Authentication\Filters;
 
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Filters\SessionAuth;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
+use Tests\Support\AdminEmailActivator;
 
 /**
  * @internal
@@ -90,6 +93,47 @@ final class SessionFilterTest extends AbstractFilterTestCase
         $result->assertRedirectTo('/auth/a/show');
         // User should be logged out
         $this->assertNull(auth('session')->id());
+
+        setting('Auth.actions', ['register' => null]);
+    }
+
+    public function testBlocksInactiveUsersWhenConditionalActivatorDoesNotApply(): void
+    {
+        $user = fake(UserModel::class, ['active' => false]);
+
+        setting('Auth.actions', ['register' => AdminEmailActivator::class]);
+
+        $result = $this->actingAs($user)
+            ->get('protected-route');
+
+        $result->assertRedirectTo(config('Auth')->logoutRedirect());
+        $result->assertSessionHas('error', lang('Auth.activationBlocked'));
+        $this->assertNull(auth('session')->id());
+
+        setting('Auth.actions', ['register' => null]);
+    }
+
+    public function testRedirectsInactiveUsersToStoredConditionalActivationAction(): void
+    {
+        $user = fake(UserModel::class, ['active' => false]);
+
+        setting('Auth.actions', ['register' => AdminEmailActivator::class]);
+
+        model(UserIdentityModel::class)->insert([
+            'user_id' => $user->id,
+            'type'    => Session::ID_TYPE_EMAIL_ACTIVATE,
+            'secret'  => '123456',
+            'name'    => 'register',
+            'extra'   => lang('Auth.needVerification'),
+        ]);
+
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+        $this->assertTrue($authenticator->hasAction($user->id));
+
+        $result = $this->get('protected-route');
+
+        $result->assertRedirectTo('/auth/a/show');
 
         setting('Auth.actions', ['register' => null]);
     }
