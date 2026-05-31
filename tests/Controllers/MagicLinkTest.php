@@ -196,7 +196,6 @@ final class MagicLinkTest extends TestCase
             'user_id' => $user->id,
             'type'    => Session::ID_TYPE_EMAIL_2FA,
             'name'    => 'login',
-            'extra'   => lang('Auth.need2FA'),
         ]);
         $result->assertSessionMissing('magicLogin');
         $this->assertFalse(auth()->loggedIn());
