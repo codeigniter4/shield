@@ -57,9 +57,9 @@ class Session implements AuthenticatorInterface
     private const STATE_PENDING   = 2; // 2FA or Activation required.
     private const STATE_LOGGED_IN = 3;
 
-    // Magic-link session markers
-    private const MAGIC_LOGIN_TEMP_DATA    = 'magicLogin';
-    private const PENDING_MAGIC_LINK_LOGIN = 'auth_action_magic_login';
+    // Passwordless login session markers
+    private const MAGIC_LOGIN_TEMP_DATA = 'magicLogin';
+    private const PENDING_LOGIN_METHOD  = 'auth_action_login_method';
 
     /**
      * Authenticated or authenticating (pending login) User
@@ -275,28 +275,33 @@ class Session implements AuthenticatorInterface
         // a successful login
         Events::trigger('login', $user);
 
-        // Complete the magic-link notification after any pending login action.
-        $this->completeMagicLinkLoginIfPending();
+        // Complete the passwordless login notification after any pending login action.
+        $this->completePendingLoginMethod();
     }
 
     /**
-     * Marks the pending login action as originating from a magic-link login.
+     * Marks the pending login action as originating from a passwordless login method.
      */
-    public function markPendingLoginAsMagicLink(): void
+    public function setPendingLoginMethod(string $method): void
     {
-        $this->setSessionUserKey(self::PENDING_MAGIC_LINK_LOGIN, self::MAGIC_LOGIN_TEMP_DATA);
+        $this->setSessionUserKey(self::PENDING_LOGIN_METHOD, $method);
     }
 
-    private function completeMagicLinkLoginIfPending(): void
+    private function completePendingLoginMethod(): void
     {
-        if ($this->getSessionUserKey(self::PENDING_MAGIC_LINK_LOGIN) !== self::MAGIC_LOGIN_TEMP_DATA) {
+        $method = $this->getSessionUserKey(self::PENDING_LOGIN_METHOD);
+
+        if ($method === null) {
             return;
         }
 
-        $this->removeSessionUserKey(self::PENDING_MAGIC_LINK_LOGIN);
-        session()->setTempdata(self::MAGIC_LOGIN_TEMP_DATA, true);
+        $this->removeSessionUserKey(self::PENDING_LOGIN_METHOD);
 
-        Events::trigger('magicLogin');
+        if ($method === self::ID_TYPE_MAGIC_LINK) {
+            session()->setTempdata(self::MAGIC_LOGIN_TEMP_DATA, true);
+
+            Events::trigger('magicLogin');
+        }
     }
 
     /**

@@ -211,10 +211,12 @@ class MagicLinkController extends BaseController
         // Start any login action that has been defined.
         if ($user instanceof User && $authenticator->startUpAction('login', $user) && $authenticator->hasAction($user->id)) {
             $this->recordLoginAttempt($identifier, true, $user->id);
-            $authenticator->markPendingLoginAsMagicLink();
+            $authenticator->setPendingLoginMethod(Session::ID_TYPE_MAGIC_LINK);
 
             return redirect()->route('auth-action-show');
         }
+
+        $authenticator->setPendingLoginMethod(Session::ID_TYPE_MAGIC_LINK);
 
         // Log the user in.
         $authenticator->loginById($identity->user_id);
@@ -222,12 +224,6 @@ class MagicLinkController extends BaseController
         $user = $authenticator->getUser();
 
         $this->recordLoginAttempt($identifier, true, $user->id);
-
-        // Give the developer a way to know the user
-        // logged in via a magic link.
-        session()->setTempdata('magicLogin', true);
-
-        Events::trigger('magicLogin');
 
         // Get our login redirect url
         return redirect()->to(config('Auth')->loginRedirect());
