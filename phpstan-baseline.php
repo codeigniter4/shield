@@ -68,13 +68,13 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Authentication/Authenticators/JWT.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Parameter #1 $credentials (array{token?: string, ...}) of method CodeIgniter\\Shield\\Authentication\\Authenticators\\JWT::attempt() should be contravariant with parameter $credentials (array) of method CodeIgniter\\Shield\\Authentication\\AuthenticatorInterface::attempt()',
+	'rawMessage' => 'Parameter #1 $credentials (array{token?: string}) of method CodeIgniter\\Shield\\Authentication\\Authenticators\\JWT::attempt() should be contravariant with parameter $credentials (array) of method CodeIgniter\\Shield\\Authentication\\AuthenticatorInterface::attempt()',
 	'identifier' => 'method.childParameterType',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Authenticators/JWT.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Parameter #1 $credentials (array{token?: string, ...}) of method CodeIgniter\\Shield\\Authentication\\Authenticators\\JWT::check() should be contravariant with parameter $credentials (array) of method CodeIgniter\\Shield\\Authentication\\AuthenticatorInterface::check()',
+	'rawMessage' => 'Parameter #1 $credentials (array{token?: string}) of method CodeIgniter\\Shield\\Authentication\\Authenticators\\JWT::check() should be contravariant with parameter $credentials (array) of method CodeIgniter\\Shield\\Authentication\\AuthenticatorInterface::check()',
 	'identifier' => 'method.childParameterType',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Authenticators/JWT.php',
@@ -110,13 +110,13 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Parameter #1 $credentials (array{email?: string, username?: string, password?: string, ...}) of method CodeIgniter\\Shield\\Authentication\\Authenticators\\Session::attempt() should be contravariant with parameter $credentials (array) of method CodeIgniter\\Shield\\Authentication\\AuthenticatorInterface::attempt()',
+	'rawMessage' => 'Parameter #1 $credentials (array{email?: string, username?: string, password?: string, ...<string, string>}) of method CodeIgniter\\Shield\\Authentication\\Authenticators\\Session::attempt() should be contravariant with parameter $credentials (array) of method CodeIgniter\\Shield\\Authentication\\AuthenticatorInterface::attempt()',
 	'identifier' => 'method.childParameterType',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Parameter #1 $credentials (array{email?: string, username?: string, password?: string, ...}) of method CodeIgniter\\Shield\\Authentication\\Authenticators\\Session::check() should be contravariant with parameter $credentials (array) of method CodeIgniter\\Shield\\Authentication\\AuthenticatorInterface::check()',
+	'rawMessage' => 'Parameter #1 $credentials (array{email?: string, username?: string, password?: string, ...<string, string>}) of method CodeIgniter\\Shield\\Authentication\\Authenticators\\Session::check() should be contravariant with parameter $credentials (array) of method CodeIgniter\\Shield\\Authentication\\AuthenticatorInterface::check()',
 	'identifier' => 'method.childParameterType',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
