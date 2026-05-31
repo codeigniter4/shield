@@ -23,20 +23,46 @@ final class PermissionMatcher
      */
     public static function matches(string $permission, array $grants): bool
     {
-        if (! self::isValid($permission)) {
+        $permissionSegments = self::splitIfValid($permission);
+
+        if ($permissionSegments === null) {
             return false;
         }
 
-        foreach ($grants as $grant) {
-            if (! self::isValid($grant)) {
-                continue;
-            }
+        $permissionSegmentCount = count($permissionSegments);
 
+        foreach ($grants as $grant) {
             if ($grant === $permission) {
                 return true;
             }
 
-            if (str_contains($grant, '*') && self::matchesWildcardGrant($grant, $permission)) {
+            $wildcardPosition = strpos($grant, '*');
+
+            if ($wildcardPosition === false) {
+                continue;
+            }
+
+            if (
+                $wildcardPosition > 0
+                && $wildcardPosition === strlen($grant) - 1
+                && $grant[$wildcardPosition - 1] === '.'
+            ) {
+                $prefix = substr($grant, 0, $wildcardPosition - 1);
+
+                if (self::isLiteral($prefix) && str_starts_with($permission, $prefix . '.')) {
+                    return true;
+                }
+
+                continue;
+            }
+
+            $grantSegments = self::splitIfValid($grant);
+
+            if ($grantSegments === null) {
+                continue;
+            }
+
+            if (self::matchesWildcardGrant($grantSegments, $permissionSegments, $permissionSegmentCount)) {
                 return true;
             }
         }
@@ -44,33 +70,33 @@ final class PermissionMatcher
         return false;
     }
 
-    private static function matchesWildcardGrant(string $grant, string $permission): bool
+    /**
+     * @param list<string> $grantSegments
+     * @param list<string> $permissionSegments
+     */
+    private static function matchesWildcardGrant(array $grantSegments, array $permissionSegments, int $permissionSegmentCount): bool
     {
-        $grantSegments      = explode('.', $grant);
-        $permissionSegments = explode('.', $permission);
+        $grantSegmentCount = count($grantSegments);
 
-        if (end($grantSegments) === '*') {
-            array_pop($grantSegments);
+        if ($grantSegments[$grantSegmentCount - 1] === '*') {
+            $grantSegmentCount--;
 
-            return count($permissionSegments) > count($grantSegments)
-                && self::segmentsMatch($grantSegments, array_slice($permissionSegments, 0, count($grantSegments)));
+            return $permissionSegmentCount > $grantSegmentCount
+                && self::segmentsMatch($grantSegments, $permissionSegments, $grantSegmentCount);
         }
 
-        return self::segmentsMatch($grantSegments, $permissionSegments);
+        return $permissionSegmentCount === $grantSegmentCount
+            && self::segmentsMatch($grantSegments, $permissionSegments, $grantSegmentCount);
     }
 
     /**
      * @param list<string> $grantSegments
      * @param list<string> $permissionSegments
      */
-    private static function segmentsMatch(array $grantSegments, array $permissionSegments): bool
+    private static function segmentsMatch(array $grantSegments, array $permissionSegments, int $segmentCount): bool
     {
-        if (count($grantSegments) !== count($permissionSegments)) {
-            return false;
-        }
-
-        foreach ($grantSegments as $index => $grantSegment) {
-            if ($grantSegment !== '*' && $grantSegment !== $permissionSegments[$index]) {
+        for ($index = 0; $index < $segmentCount; $index++) {
+            if ($grantSegments[$index] !== '*' && $grantSegments[$index] !== $permissionSegments[$index]) {
                 return false;
             }
         }
@@ -78,20 +104,32 @@ final class PermissionMatcher
         return true;
     }
 
-    private static function isValid(string $permission): bool
+    /**
+     * @return list<string>|null
+     */
+    private static function splitIfValid(string $permission): ?array
     {
-        $segments = explode('.', $permission);
-
-        if ($segments === ['*'] || $segments[0] === '*') {
-            return false;
+        if ($permission === '' || str_starts_with($permission, '*')) {
+            return null;
         }
+
+        $segments = explode('.', $permission);
 
         foreach ($segments as $segment) {
             if ($segment === '' || ($segment !== '*' && str_contains($segment, '*'))) {
-                return false;
+                return null;
             }
         }
 
-        return true;
+        return $segments;
+    }
+
+    private static function isLiteral(string $permission): bool
+    {
+        return $permission !== ''
+            && ! str_contains($permission, '*')
+            && ! str_contains($permission, '..')
+            && ! str_starts_with($permission, '.')
+            && ! str_ends_with($permission, '.');
     }
 }
