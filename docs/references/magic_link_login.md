@@ -35,6 +35,8 @@ Some apps or devices may try to be "too helpful" by automatically visiting links
 
 Magic Link logins allow a user that has forgotten their password to have an email sent with a unique, one-time login link. Once they've logged in you can decide how to respond. In some cases, you might want to redirect them to a special page where they must choose a new password. In other cases, you might simply want to display a one-time message prompting them to go to their account page and choose a new password.
 
+If a login auth action is configured, such as Email-based Two Factor Authentication, the user must complete that action before the magic link login is finished.
+
 ### Session Notification
 
 You can detect if a user has finished the magic link login by checking for a session value, `magicLogin`. If they have recently completed the flow, it will exist and have a value of `true`.

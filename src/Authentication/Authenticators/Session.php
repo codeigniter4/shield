@@ -57,6 +57,10 @@ class Session implements AuthenticatorInterface
     private const STATE_PENDING   = 2; // 2FA or Activation required.
     private const STATE_LOGGED_IN = 3;
 
+    // Passwordless login session markers
+    private const MAGIC_LOGIN_TEMP_DATA = 'magicLogin';
+    private const PENDING_LOGIN_METHOD  = 'auth_action_login_method';
+
     /**
      * Authenticated or authenticating (pending login) User
      */
@@ -270,6 +274,34 @@ class Session implements AuthenticatorInterface
 
         // a successful login
         Events::trigger('login', $user);
+
+        // Complete the passwordless login notification after any pending login action.
+        $this->completePendingLoginMethod();
+    }
+
+    /**
+     * Marks the pending login action as originating from a passwordless login method.
+     */
+    public function setPendingLoginMethod(string $method): void
+    {
+        $this->setSessionUserKey(self::PENDING_LOGIN_METHOD, $method);
+    }
+
+    private function completePendingLoginMethod(): void
+    {
+        $method = $this->getSessionUserKey(self::PENDING_LOGIN_METHOD);
+
+        if ($method === null) {
+            return;
+        }
+
+        $this->removeSessionUserKey(self::PENDING_LOGIN_METHOD);
+
+        if ($method === self::ID_TYPE_MAGIC_LINK) {
+            session()->setTempdata(self::MAGIC_LOGIN_TEMP_DATA, true);
+
+            Events::trigger('magicLogin');
+        }
     }
 
     /**
