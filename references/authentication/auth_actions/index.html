@@ -1587,6 +1587,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#gateway-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway Actions
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1881,6 +1892,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#gateway-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway Actions
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2002,6 +2024,45 @@ actions, so keep it deterministic, free of side effects, and fail closed when
 the condition cannot be determined. It is not a replacement for authorization.</p>
 <p>Once an action is already pending in the session, Shield continues that pending
 action instead of rechecking the condition.</p>
+<h2 id="gateway-actions">Gateway Actions</h2>
+<p>Shield allows one configured action for each authentication event, such as
+<code>login</code> or <code>register</code>. If your application needs to choose between multiple
+ways to complete that action, register one custom action as a gateway.
+Use this when users may have different verification methods enabled, but Shield
+should still treat them as one login action.</p>
+<p>A gateway action is a normal custom action. It can also be conditional, so it
+only runs for users who have at least one supported method available. For
+example, a login action can check whether the user has any two-factor methods
+enabled:</p>
+<pre class="highlight"><code class="language-php">public function appliesTo(User $user): bool
+{
+    return $user-&gt;getIdentity('mfa_email') !== null
+        || $user-&gt;getIdentity('mfa_sms') !== null;
+}</code></pre>
+<p>Then register the gateway action as the login action:</p>
+<pre class="highlight"><code class="language-php">public array $actions = [
+    'register' =&gt; null,
+    'login'    =&gt; \App\Authentication\Actions\TwoFactorGateway::class,
+];</code></pre>
+<p>The gateway action owns the choice between methods:</p>
+<ol>
+<li><code>show()</code> displays the available methods for the pending user.</li>
+<li><code>handle()</code> validates the selected method, sends the challenge, and remembers
+   the selected method.</li>
+<li><code>verify()</code> verifies the challenge and completes the action.</li>
+</ol>
+<p>Use one action identity type for the gateway, returned by <code>getType()</code>. For
+example, the gateway might return <code>mfa_gateway</code>. Do not create separate action
+identities for each method, such as <code>email_2fa</code> and <code>sms_2fa</code>, because Shield
+discovers the pending action through the configured action's type.</p>
+<p>Keep the action identity's <code>extra</code> value as the pending action message. If the
+gateway needs to remember internal state, such as the selected method, store it
+somewhere else, like <code>secret2</code> or an application-owned table. If the stored
+value is sensitive, prefer application-owned protected storage.</p>
+<p>This pattern is useful for application-owned flows, especially when the choices
+are code-delivery methods such as email or SMS. It does not make Shield provide
+built-in MFA. Your application is still responsible for enrollment, delivery,
+recovery, and method-specific security rules.</p>
 
 
 
@@ -2024,7 +2085,7 @@ action instead of rechecking the condition.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 23, 2026 16:45:53 UTC">May 23, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 30, 2026 07:19:18 UTC">May 30, 2026</span>
   </span>
 
     
