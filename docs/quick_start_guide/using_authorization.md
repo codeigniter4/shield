@@ -22,7 +22,7 @@ When a user registers on your site, they are assigned the group specified at `Co
 
 ### Change Available Permissions
 
-The permissions on the site are stored in the `AuthGroups` config file also. Each one is defined by a string with dot-separated segments, like `users.create` or `forum.posts.create`.
+The permissions on the site are stored in the `AuthGroups` config file also. Permissions are usually written with dot-separated segments, like `users.create` or `forum.posts.create`, but single-segment permissions are also allowed.
 
 ```php
 public array $permissions = [

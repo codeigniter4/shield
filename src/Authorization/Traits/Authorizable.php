@@ -16,7 +16,6 @@ namespace CodeIgniter\Shield\Authorization\Traits;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authorization\AuthorizationException;
 use CodeIgniter\Shield\Authorization\PermissionMatcher;
-use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\GroupModel;
 use CodeIgniter\Shield\Models\PermissionModel;
 
@@ -256,7 +255,7 @@ trait Authorizable
      * Checks user permissions and their group permissions
      * to see if the user has one or more permissions.
      *
-     * @param string $permissions Dot-separated permission string(s), like `users.create`
+     * @param string $permissions Permission string(s), usually dot-separated like `users.create`
      */
     public function can(string ...$permissions): bool
     {
@@ -270,14 +269,6 @@ trait Authorizable
         $matrix = setting('AuthGroups.matrix');
 
         foreach ($permissions as $permission) {
-            // Permission must contain at least two dot-separated segments.
-            if (! str_contains($permission, '.')) {
-                throw new LogicException(
-                    'A permission must be a dot-separated string, like `users.create`.'
-                    . ' Invalid permission: ' . $permission,
-                );
-            }
-
             $permission = strtolower($permission);
 
             // Check user's permissions

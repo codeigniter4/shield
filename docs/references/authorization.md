@@ -36,8 +36,8 @@ public string $defaultGroup = 'user';
 ## Defining Available Permissions
 
 Permissions that can be assigned directly to users must be added to the `AuthGroups` config file.
-A permission is a string consisting of dot-separated segments, like `users.create` or
-`forum.posts.create`. Each permission can have a description for display within UIs if needed.
+A permission is a string, usually written with dot-separated segments like `users.create` or
+`forum.posts.create`. Single-segment permissions are also allowed. Each permission can have a description for display within UIs if needed.
 
 ```php
 public array $permissions = [
