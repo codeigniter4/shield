@@ -1,8 +1,12 @@
 site_name: CodeIgniter Shield
 site_description: Documentation for the official Authentication and Authorization framework for CodeIgniter 4
 
+exclude_docs: |
+  overrides/
+
 theme:
   name: material
+  custom_dir: docs/overrides
   logo: assets/flame.svg
   favicon: assets/favicon.ico
   icon:
@@ -39,6 +43,8 @@ theme:
 extra:
   homepage: https://codeigniter.com
   generator: false
+  version:
+    provider: mike
 
   social:
     - icon: material/github

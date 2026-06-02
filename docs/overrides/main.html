@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block outdated %}
+  {% if config.site_url.rstrip("/").endswith("/dev") %}
+    You're viewing the development version.
+    Some features may not be available in a stable release yet.
+    <a href="{{ '../' ~ base_url }}">
+      <strong>Go to the latest stable version.</strong>
+    </a>
+  {% else %}
+    You're not viewing the latest version.
+    <a href="{{ '../' ~ base_url }}">
+      <strong>Click here to go to latest.</strong>
+    </a>
+  {% endif %}
+{% endblock %}
