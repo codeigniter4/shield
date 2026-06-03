@@ -22,7 +22,7 @@ When a user registers on your site, they are assigned the group specified at `Co
 
 ### Change Available Permissions
 
-The permissions on the site are stored in the `AuthGroups` config file also. Each one is defined by a string that represents a context and a permission, joined with a decimal point.
+The permissions on the site are stored in the `AuthGroups` config file also. Permissions are usually written with dot-separated segments, like `users.create` or `forum.posts.create`, but single-segment permissions are also allowed.
 
 ```php
 public array $permissions = [
@@ -42,18 +42,23 @@ public array $permissions = [
     
 ### Assign Permissions to a Group
 
-Each group can have its own specific set of permissions. These are defined in `Config\AuthGroups::$matrix`. You can specify each permission by it's full name, or using the context and an asterisk (*) to specify all permissions within that context.
+Each group can have its own specific set of permissions. These are defined in `Config\AuthGroups::$matrix`. You can specify each permission by its full name, or use `*` as a wildcard segment.
 
 ```php
 public array $matrix = [
     'superadmin' => [
         'admin.*',
+        'forum.posts.*',
         'users.*',
         'beta.access',
     ],
     //
 ];
 ```
+
+A trailing `*` wildcard matches descendant permission segments only. For example, `forum.posts.*` matches `forum.posts.create` and `forum.posts.comments.delete`, but not `forum.posts`.
+When `*` appears between segments, it matches exactly one segment. For example, `forum.*.create` matches `forum.posts.create`.
+The first segment cannot be `*`, and a standalone `*` permission does not grant all permissions.
 
 ## Assign Permissions to a User
 
@@ -63,6 +68,17 @@ Permissions can also be assigned directly to a user, regardless of what groups t
 $user = auth()->user();
 
 $user->addPermission('users.create', 'beta.access');
+```
+
+Wildcard permissions can also be assigned directly to a user, but they must be listed in `Config\AuthGroups::$permissions`
+before they can be assigned.
+
+```php
+public array $permissions = [
+    'forum.posts.*' => 'Can manage forum posts',
+];
+
+$user->addPermission('forum.posts.*');
 ```
 
 This will add all new permissions. You can also sync permissions so that the user ONLY has the given permissions directly assigned to them. Any not in the provided list are removed from the user.

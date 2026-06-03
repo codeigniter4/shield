@@ -85,6 +85,24 @@ final class GroupTest extends TestCase
 
         $this->assertTrue($group1->can('users.*'));
         $this->assertTrue($group2->can('users.edit'));
+        $this->assertFalse($group2->can('Users.Edit'));
         $this->assertFalse($group2->can('foo.bar'));
+    }
+
+    public function testCanWithHierarchicalWildcards(): void
+    {
+        $group = $this->groups->info('user');
+        $group->addPermission('forum.posts.*');
+        $group->addPermission('admin.*.create');
+
+        $this->assertTrue($group->can('forum.posts.create'));
+        $this->assertTrue($group->can('forum.posts.comments.delete'));
+        $this->assertTrue($group->can('admin.users.create'));
+
+        $this->assertFalse($group->can('forum.posts'));
+        $this->assertFalse($group->can('admin.create'));
+        $this->assertFalse($group->can('admin.users.roles.create'));
+        $this->assertFalse($group->can('admin.users.delete'));
+        $this->assertFalse($group->can('forum.users.create'));
     }
 }
