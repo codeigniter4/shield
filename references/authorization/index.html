@@ -2392,9 +2392,9 @@ group elsewhere, like checking if <code>$user-&gt;inGroup('superadmin')</code>. 
 <code>Config\AuthGroups::$defaultGroup</code>, and must match the name of one of the defined groups.</p>
 <pre class="highlight"><code class="language-php">public string $defaultGroup = 'user';</code></pre>
 <h2 id="defining-available-permissions">Defining Available Permissions</h2>
-<p>All permissions must be added to the <code>AuthGroups</code> config file, also. A permission is simply a string consisting of
-a scope and action, like <code>users.create</code>. The scope would be <code>users</code> and the action would be <code>create</code>. Each permission
-can have a description for display within UIs if needed.</p>
+<p>Permissions that can be assigned directly to users must be added to the <code>AuthGroups</code> config file.
+A permission is a string, usually written with dot-separated segments like <code>users.create</code> or
+<code>forum.posts.create</code>. Single-segment permissions are also allowed. Each permission can have a description for display within UIs if needed.</p>
 <pre class="highlight"><code class="language-php">public array $permissions = [
     'admin.access'        =&gt; 'Can access the sites admin area',
     'admin.settings'      =&gt; 'Can access the main site settings',
@@ -2409,7 +2409,7 @@ can have a description for display within UIs if needed.</p>
 config file, under the <code>$matrix</code> property.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This defines <strong>group-level permissons</strong>.</p>
+<p>This defines <strong>group-level permissions</strong>.</p>
 </div>
 <p>The matrix is an associative array with the group name as the key,
 and an array of permissions that should be applied to that group.</p>
@@ -2420,16 +2420,31 @@ and an array of permissions that should be applied to that group.</p>
         'beta.access'
     ],
 ];</code></pre>
-<p>You can use a wildcard within a scope to allow all actions within that scope, by using a <code>*</code> in place of the action.</p>
+<p>You can use <code>*</code> as a wildcard segment to allow permissions under a scope. A wildcard matches one full segment.
+When the wildcard is trailing, it grants descendant permissions only.
+The first segment cannot be <code>*</code>, and a standalone <code>*</code> permission does not grant all permissions.</p>
 <pre class="highlight"><code class="language-php">public array $matrix = [
     'superadmin' =&gt; ['admin.*', 'users.*', 'beta.*'],
 ];</code></pre>
+<p>For example, <code>forum.posts.*</code> matches <code>forum.posts.create</code> and <code>forum.posts.comments.delete</code>, but not
+<code>forum.posts</code>.
+Wildcards can also appear between segments: <code>forum.*.create</code> matches <code>forum.posts.create</code> and
+<code>forum.comments.create</code>, but does not match <code>forum.create</code> or <code>forum.posts.comments.create</code>.</p>
+<p>Exact child permissions do not grant their parent permission. For example, <code>forum.posts.create</code> does not grant
+<code>forum.posts</code>.</p>
+<p>Wildcard matching is used by <code>$user-&gt;can()</code> and <code>$group-&gt;can()</code> for both user-level and group-level permissions.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Wildcard permissions can grant access to future child permissions added under the same scope. Use broad
+wildcards like <code>admin.*</code> carefully, and prefer literal permissions for highly sensitive access.</p>
+</div>
 <h2 id="authorizing-users">Authorizing Users</h2>
 <p>The <code>Authorizable</code> trait on the <code>User</code> entity provides the following methods to authorize your users.</p>
 <h4 id="can">can()</h4>
-<p>Allows you to check if a user is permitted to do a specific action or group or actions. The permission string(s) should be passed as the argument(s). Returns
+<p>Allows you to check if a user has one or more permissions. The permission string(s) should be passed as the argument(s). Returns
 boolean <code>true</code>/<code>false</code>. Will check the user's direct permissions (<strong>user-level permissions</strong>) first, and then check against all of the user's groups
-permissions (<strong>group-level permissions</strong>) to determine if they are allowed.</p>
+permissions (<strong>group-level permissions</strong>) to determine if they are allowed. Wildcard permissions are supported for both
+user-level and group-level permissions.</p>
 <pre class="highlight"><code class="language-php">if ($user-&gt;can('users.create')) {
     //
 }
@@ -2483,6 +2498,13 @@ override the group, so it's possible that a user can perform an action that thei
 <p>Adds one or more <strong>user-level</strong> permissions to the user. If a permission doesn't exist, a <code>CodeIgniter\Shield\Authorization\AuthorizationException</code>
 is thrown.</p>
 <pre class="highlight"><code class="language-php">$user-&gt;addPermission('users.create', 'users.edit');</code></pre>
+<p>Wildcard permissions can also be assigned to a user, but they must be listed in <code>Config\AuthGroups::$permissions</code>
+before they can be assigned.</p>
+<pre class="highlight"><code class="language-php">public array $permissions = [
+    'forum.posts.*' =&gt; 'Can manage forum posts',
+];
+
+$user-&gt;addPermission('forum.posts.*');</code></pre>
 <h4 id="removepermission">removePermission()</h4>
 <p>Removes one or more <strong>user-level</strong> permissions from a user. If a permission doesn't exist, a <code>CodeIgniter\Shield\Authorization\AuthorizationException</code>
 is thrown.</p>
@@ -2558,7 +2580,7 @@ If a conditional activator does not apply during registration, the newly registe
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 23, 2026 16:45:53 UTC">May 23, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="June 1, 2026 10:22:41 UTC">June 1, 2026</span>
   </span>
 
     

@@ -2050,7 +2050,7 @@
 <h3 id="set-the-default-group">Set the Default Group</h3>
 <p>When a user registers on your site, they are assigned the group specified at <code>Config\AuthGroups::$defaultGroup</code>. Change this to one of the keys in the <code>$groups</code> array to update this.</p>
 <h3 id="change-available-permissions">Change Available Permissions</h3>
-<p>The permissions on the site are stored in the <code>AuthGroups</code> config file also. Each one is defined by a string that represents a context and a permission, joined with a decimal point.</p>
+<p>The permissions on the site are stored in the <code>AuthGroups</code> config file also. Permissions are usually written with dot-separated segments, like <code>users.create</code> or <code>forum.posts.create</code>, but single-segment permissions are also allowed.</p>
 <pre class="highlight"><code class="language-php">public array $permissions = [
     'admin.access'        =&gt; 'Can access the sites admin area',
     'admin.settings'      =&gt; 'Can access the main site settings',
@@ -2065,20 +2065,31 @@
 <p>Permissions should be written in lowercase letters. Some functions automatically convert the given permission parameter to lowercase letters, and using uppercase letters may cause compatibility problems.</p>
 </div>
 <h3 id="assign-permissions-to-a-group">Assign Permissions to a Group</h3>
-<p>Each group can have its own specific set of permissions. These are defined in <code>Config\AuthGroups::$matrix</code>. You can specify each permission by it's full name, or using the context and an asterisk (*) to specify all permissions within that context.</p>
+<p>Each group can have its own specific set of permissions. These are defined in <code>Config\AuthGroups::$matrix</code>. You can specify each permission by its full name, or use <code>*</code> as a wildcard segment.</p>
 <pre class="highlight"><code class="language-php">public array $matrix = [
     'superadmin' =&gt; [
         'admin.*',
+        'forum.posts.*',
         'users.*',
         'beta.access',
     ],
     //
 ];</code></pre>
+<p>A trailing <code>*</code> wildcard matches descendant permission segments only. For example, <code>forum.posts.*</code> matches <code>forum.posts.create</code> and <code>forum.posts.comments.delete</code>, but not <code>forum.posts</code>.
+When <code>*</code> appears between segments, it matches exactly one segment. For example, <code>forum.*.create</code> matches <code>forum.posts.create</code>.
+The first segment cannot be <code>*</code>, and a standalone <code>*</code> permission does not grant all permissions.</p>
 <h2 id="assign-permissions-to-a-user">Assign Permissions to a User</h2>
 <p>Permissions can also be assigned directly to a user, regardless of what groups they belong to. This is done programatically on the <code>User</code> Entity.</p>
 <pre class="highlight"><code class="language-php">$user = auth()-&gt;user();
 
 $user-&gt;addPermission('users.create', 'beta.access');</code></pre>
+<p>Wildcard permissions can also be assigned directly to a user, but they must be listed in <code>Config\AuthGroups::$permissions</code>
+before they can be assigned.</p>
+<pre class="highlight"><code class="language-php">public array $permissions = [
+    'forum.posts.*' =&gt; 'Can manage forum posts',
+];
+
+$user-&gt;addPermission('forum.posts.*');</code></pre>
 <p>This will add all new permissions. You can also sync permissions so that the user ONLY has the given permissions directly assigned to them. Any not in the provided list are removed from the user.</p>
 <pre class="highlight"><code class="language-php">$user = auth()-&gt;user();
 
@@ -2136,7 +2147,7 @@ if ($user-&gt;inGroup('admin', 'beta')) {
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 1, 2024 15:44:41 UTC">November 1, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="June 1, 2026 10:22:41 UTC">June 1, 2026</span>
   </span>
 
     
