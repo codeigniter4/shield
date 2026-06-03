@@ -153,11 +153,11 @@ $token = $this->user->generateAccessToken('foo', ['foo.bar'], $expiresAt);
 
 // Expiration date = 2024-11-15 00:00:00
 $expiresAt = Time::parse('2024-11-15 00:00:00');
-$user->updateAcessTokenExpiration($token->id, $expiresAt);
+$user->updateAccessTokenExpiration($token->id, $expiresAt);
 
 // Or Expiration date = 1 month + 15 days into the future
 $expiresAt = Time::now()->addMonths(1)->addDays(15);
-$user->updateAcessTokenExpiration($token->id, $expiresAt);
+$user->updateAccessTokenExpiration($token->id, $expiresAt);
 
 // Remove the expiration date
 $user->removeAccessTokenExpiration($token->id);
