@@ -7,7 +7,7 @@
 /.gitignore             export-ignore
 /.php-cs-fixer.dist.php export-ignore
 /composer-unused.php    export-ignore
-/deptrac.yml            export-ignore
+/structarmed.php        export-ignore
 /infection.json.dist    export-ignore
 /mkdocs.yml             export-ignore
 /phpstan-baseline.php   export-ignore
