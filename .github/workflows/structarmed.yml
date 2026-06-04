@@ -7,7 +7,7 @@ on:
     paths:
       - '**.php'
       - 'composer.*'
-      - 'structarmed.yaml'
+      - 'structarmed.php'
       - '.github/workflows/structarmed.yml'
   push:
     branches:
@@ -15,7 +15,7 @@ on:
     paths:
       - '**.php'
       - 'composer.*'
-      - 'structarmed.yaml'
+      - 'structarmed.php'
       - '.github/workflows/structarmed.yml'
   workflow_call:
     inputs:
