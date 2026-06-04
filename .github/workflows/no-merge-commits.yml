@@ -16,9 +16,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       - name: Run test
-        uses: NexusPHP/no-merge-commits@v2.4.1
+        uses: NexusPHP/no-merge-commits@109a3342781ddcf26b2fa739f29e8ee9f68b7d8e # v2.4.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
