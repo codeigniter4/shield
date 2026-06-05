@@ -5,7 +5,7 @@
 [![PHP-CS-Fixer](https://github.com/codeigniter4/shield/actions/workflows/phpcsfixer.yml/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/phpcsfixer.yml)
 [![Rector](https://github.com/codeigniter4/shield/actions/workflows/rector.yml/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/rector.yml)
 [![Psalm](https://github.com/codeigniter4/shield/actions/workflows/psalm.yml/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/psalm.yml)
-[![Architecture](https://github.com/codeigniter4/shield/workflows/Deptrac/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/deptrac.yml)
+[![Architecture](https://github.com/codeigniter4/shield/workflows/StructArmed/badge.svg)](https://github.com/codeigniter4/shield/actions/workflows/structarmed.yml)
 [![Coverage Status](https://coveralls.io/repos/github/codeigniter4/shield/badge.svg?branch=develop)](https://coveralls.io/github/codeigniter4/shield?branch=develop)
 
 Shield is the official authentication and authorization framework for CodeIgniter 4.
