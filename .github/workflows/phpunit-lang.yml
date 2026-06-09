@@ -33,7 +33,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2.37.1
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           tools: composer, phive, phpunit
           extensions: intl, json, mbstring, gd, xdebug, xml, sqlite3
           coverage: xdebug
