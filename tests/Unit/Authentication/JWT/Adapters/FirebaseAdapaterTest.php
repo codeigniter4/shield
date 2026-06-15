@@ -141,7 +141,7 @@ final class FirebaseAdapaterTest extends TestCase
         // Set unsupported algorithm.
         /** @var AuthJWT $config */
         $config                            = config('AuthJWT');
-        $config->keys['default'][0]['alg'] = 'PS256';
+        $config->keys['default'][0]['alg'] = 'Unsupported';
 
         $adapter = new FirebaseAdapter();
 
