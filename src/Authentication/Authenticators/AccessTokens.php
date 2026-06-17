@@ -140,7 +140,6 @@ class AccessTokens implements AuthenticatorInterface
             $credentials['token'] = trim(substr((string) $credentials['token'], 6));
         }
 
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         $token = $identityModel->getAccessTokenByRawToken($credentials['token']);

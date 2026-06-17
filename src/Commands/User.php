@@ -335,7 +335,6 @@ class User extends BaseCommand
 
     private function validateGroup(string $group): bool
     {
-        /** @var GroupModel $groupModel */
         $groupModel = model(GroupModel::class);
 
         return $groupModel->isValidGroup($group);

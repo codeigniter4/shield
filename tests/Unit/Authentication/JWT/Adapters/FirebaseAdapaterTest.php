@@ -18,7 +18,6 @@ use CodeIgniter\Shield\Authentication\JWT\Adapters\FirebaseAdapter;
 use CodeIgniter\Shield\Authentication\JWT\Exceptions\InvalidTokenException;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\AuthJWT;
-use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException as ShieldInvalidArgumentException;
 use CodeIgniter\Shield\Exceptions\LogicException as ShieldLogicException;
 use CodeIgniter\Shield\Models\UserModel;
@@ -51,7 +50,6 @@ final class FirebaseAdapaterTest extends TestCase
      */
     public static function generateJWT(?Time $clock = null): string
     {
-        /** @var User $user */
         $user = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
 
         $generator = new JWTManager($clock);

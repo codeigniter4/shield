@@ -96,7 +96,6 @@ final class MagicLinkTest extends TestCase
         $config->actions['register'] = EmailActivator::class;
         Factories::injectMock('config', 'Auth', $config);
 
-        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
 
@@ -142,7 +141,6 @@ final class MagicLinkTest extends TestCase
         $config->actions['register'] = AdminEmailActivator::class;
         Factories::injectMock('config', 'Auth', $config);
 
-        /** @var User $user */
         $user = fake(UserModel::class, ['active' => false]);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
 
@@ -181,7 +179,6 @@ final class MagicLinkTest extends TestCase
     {
         setting('Auth.actions', ['login' => Email2FA::class, 'register' => null]);
 
-        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
 
@@ -217,7 +214,6 @@ final class MagicLinkTest extends TestCase
     {
         setting('Auth.actions', ['login' => AdminEmail2FA::class, 'register' => null]);
 
-        /** @var User $user */
         $user = fake(UserModel::class);
         $user->addGroup('admin');
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
@@ -237,7 +233,6 @@ final class MagicLinkTest extends TestCase
     {
         setting('Auth.actions', ['login' => AdminEmail2FA::class, 'register' => null]);
 
-        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
 
@@ -313,7 +308,6 @@ final class MagicLinkTest extends TestCase
     {
         $this->expectException(PageNotFoundException::class);
 
-        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
 

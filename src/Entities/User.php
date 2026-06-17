@@ -93,7 +93,6 @@ class User extends Entity
     private function populateIdentities(): void
     {
         if ($this->identities === null) {
-            /** @var UserIdentityModel $identityModel */
             $identityModel = model(UserIdentityModel::class);
 
             $this->identities = $identityModel->getIdentities($this);
@@ -140,7 +139,6 @@ class User extends Entity
      */
     public function createEmailIdentity(array $credentials): void
     {
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         $identityModel->createEmailIdentity($this, $credentials);
@@ -193,7 +191,6 @@ class User extends Entity
             $identity->secret2 = $this->password_hash;
         }
 
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         try {
@@ -220,7 +217,6 @@ class User extends Entity
      */
     public function touchIdentity(UserIdentity $identity): void
     {
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         $identityModel->touchIdentity($identity);
@@ -283,7 +279,6 @@ class User extends Entity
      */
     public function previousLogin(): ?Login
     {
-        /** @var LoginModel $logins */
         $logins = model(LoginModel::class);
 
         return $logins->previousLogin($this);
@@ -294,7 +289,6 @@ class User extends Entity
      */
     public function lastLogin(): ?Login
     {
-        /** @var LoginModel $logins */
         $logins = model(LoginModel::class);
 
         return $logins->lastLogin($this);

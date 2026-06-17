@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Tests\Authentication;
 
-use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Test\AuthenticationTesting;
@@ -52,11 +51,9 @@ final class ForcePasswordResetTest extends TestCase
 
     public function testUserRequiresPasswordReset(): void
     {
-        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
 
-        /** @var UserIdentityModel $identity */
         $identity = model(UserIdentityModel::class);
         $identity->set('force_reset', 1);
         $identity->where('user_id', $user->id);
@@ -67,7 +64,6 @@ final class ForcePasswordResetTest extends TestCase
 
     public function testForcePasswordResetOnUser(): void
     {
-        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $user->forcePasswordReset();
@@ -77,7 +73,6 @@ final class ForcePasswordResetTest extends TestCase
 
     public function testUndoForcePasswordResetOnUser(): void
     {
-        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $user->forcePasswordReset();
@@ -88,7 +83,6 @@ final class ForcePasswordResetTest extends TestCase
 
     public function testRequiresPasswordResetRedirect(): void
     {
-        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $user->forcePasswordReset();
@@ -103,7 +97,6 @@ final class ForcePasswordResetTest extends TestCase
     public function testForceGlobalPasswordReset(): void
     {
         for ($i = 0; $i < 3; $i++) {
-            /** @var User $user */
             $user = fake(UserModel::class);
             $user->createEmailIdentity([
                 'email' => 'foo' . $i . '@example.com', 'password' => $i . 'secret123',
@@ -112,7 +105,6 @@ final class ForcePasswordResetTest extends TestCase
             $users[$i] = $user;
         }
 
-        /** @var UserIdentityModel $identities */
         $identities = model(UserIdentityModel::class);
         $identities->forceGlobalPasswordReset();
 

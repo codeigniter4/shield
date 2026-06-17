@@ -95,7 +95,6 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
         // Insert remember-me token.
-        /** @var RememberModel $rememberModel */
         $rememberModel = model(RememberModel::class);
         $selector      = 'selector';
         $validator     = 'validator';
@@ -125,7 +124,6 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
         $this->user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret']);
 
         // Insert remember-me token.
-        /** @var RememberModel $rememberModel */
         $rememberModel = model(RememberModel::class);
         $selector      = 'selector';
         $validator     = 'validator';
@@ -416,7 +414,6 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
         $config->validFields = ['email', 'username'];
         Factories::injectMock('config', 'Auth', $config);
 
-        /** @var User $user */
         $user = fake(UserModel::class, ['username' => 'foorog']);
         $user->createEmailIdentity([
             'email'    => 'FOO@example.com',

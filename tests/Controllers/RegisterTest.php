@@ -74,7 +74,6 @@ final class RegisterTest extends DatabaseTestCase
         ]);
 
         // User has email/password identity
-        /** @var User $user */
         $user = model(UserModel::class)->where('username', 'JohnDoe')->first();
 
         $this->seeInDatabase($this->tables['identities'], [
@@ -82,6 +81,7 @@ final class RegisterTest extends DatabaseTestCase
             'type'    => Session::ID_TYPE_EMAIL_PASSWORD,
             'secret'  => 'john.doe@example.com',
         ]);
+        $this->assertInstanceOf(User::class, $user);
 
         // User added to default group
         $this->assertTrue($user->inGroup(config('AuthGroups')->defaultGroup));

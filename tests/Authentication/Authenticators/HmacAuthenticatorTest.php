@@ -52,7 +52,6 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
 
     public function testLogin(): void
     {
-        /** @var User $user */
         $user = fake(UserModel::class);
 
         $this->auth->login($user);
@@ -76,7 +75,6 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
 
     public function testLoginByIdNoToken(): void
     {
-        /** @var User $user */
         $user = fake(UserModel::class);
 
         $this->assertFalse($this->auth->loggedIn());
@@ -159,9 +157,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
 
     public function testCheckOldToken(): void
     {
-        /** @var User $user */
-        $user = fake(UserModel::class);
-        /** @var UserIdentityModel $identities */
+        $user       = fake(UserModel::class);
         $identities = model(UserIdentityModel::class);
         $token      = $user->generateHmacToken('foo');
         // CI 4.2 uses the Chicago timezone that has Daylight Saving Time,
@@ -289,7 +285,6 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
 
     public function testAttemptBanned(): void
     {
-        /** @var User $user */
         $user = fake(UserModel::class);
         $user->ban('Test ban.');
 

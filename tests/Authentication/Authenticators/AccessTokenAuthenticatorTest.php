@@ -135,9 +135,7 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
 
     public function testCheckOldToken(): void
     {
-        /** @var User $user */
-        $user = fake(UserModel::class);
-        /** @var UserIdentityModel $identities */
+        $user       = fake(UserModel::class);
         $identities = model(UserIdentityModel::class);
         $token      = $user->generateAccessToken('foo');
         // CI 4.2 uses the Chicago timezone that has Daylight Saving Time,

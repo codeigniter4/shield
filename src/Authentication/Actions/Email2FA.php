@@ -145,7 +145,6 @@ class Email2FA implements ActionInterface
      */
     public function createIdentity(User $user): string
     {
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         // Delete any previous identities for action
@@ -169,7 +168,6 @@ class Email2FA implements ActionInterface
      */
     private function getIdentity(User $user): ?UserIdentity
     {
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         return $identityModel->getIdentityByType(

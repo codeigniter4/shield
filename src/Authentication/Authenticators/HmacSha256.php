@@ -144,7 +144,6 @@ class HmacSha256 implements AuthenticatorInterface
         // Extract UserToken and HMACSHA256 Signature from Authorization token
         [$userToken, $signature] = $this->getHmacAuthTokens($credentials['token']);
 
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         $token = $identityModel->getHmacTokenByKey($userToken);

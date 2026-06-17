@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Tests\Authentication\Filters;
 
-use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Filters\PermissionFilter;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Test\DatabaseTestTrait;
@@ -52,7 +51,6 @@ final class PermissionFilterTest extends AbstractFilterTestCase
 
     public function testFilterSuccess(): void
     {
-        /** @var User $user */
         $user = fake(UserModel::class);
         $user->addPermission('admin.access');
 
@@ -69,7 +67,6 @@ final class PermissionFilterTest extends AbstractFilterTestCase
 
     public function testFilterIncorrectGroupNoPrevious(): void
     {
-        /** @var User $user */
         $user = fake(UserModel::class);
         $user->addPermission('beta.access');
 
