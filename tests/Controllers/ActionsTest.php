@@ -63,7 +63,7 @@ final class ActionsTest extends DatabaseTestCase
         parent::tearDown();
 
         // Clean up any robot user agent set in tests
-        unset($_SERVER['HTTP_USER_AGENT']);
+        service('superglobals')->unsetServer('HTTP_USER_AGENT');
     }
 
     public function testActionShowNoneAvailable(): void

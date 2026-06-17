@@ -168,8 +168,6 @@ class HmacSha256 implements AuthenticatorInterface
             ]);
         }
 
-        assert($token->last_used_at instanceof Time || $token->last_used_at === null);
-
         // Hasn't been used in a long time
         if (
             isset($token->last_used_at)

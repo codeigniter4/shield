@@ -2,40 +2,16 @@
 
 $ignoreErrors = [];
 $ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\UserIdentityModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 2,
-	'path' => __DIR__ . '/src/Authentication/Actions/Email2FA.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
 	'identifier' => 'empty.notAllowed',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Actions/Email2FA.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\UserIdentityModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 2,
-	'path' => __DIR__ . '/src/Authentication/Actions/EmailActivator.php',
 ];
 $ignoreErrors[] = [
 	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
 	'identifier' => 'empty.notAllowed',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Authentication.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\TokenLoginModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/AccessTokens.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\UserIdentityModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/AccessTokens.php',
 ];
 $ignoreErrors[] = [
 	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
@@ -50,24 +26,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Authentication/Authenticators/AccessTokens.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\TokenLoginModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/HmacSha256.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\UserIdentityModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/HmacSha256.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\TokenLoginModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/JWT.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Parameter #1 $credentials (array{token?: string}) of method CodeIgniter\\Shield\\Authentication\\Authenticators\\JWT::attempt() should be contravariant with parameter $credentials (array) of method CodeIgniter\\Shield\\Authentication\\AuthenticatorInterface::attempt()',
 	'identifier' => 'method.childParameterType',
 	'count' => 1,
@@ -78,24 +36,6 @@ $ignoreErrors[] = [
 	'identifier' => 'method.childParameterType',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Authenticators/JWT.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\LoginModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\RememberModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\UserIdentityModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
 ];
 $ignoreErrors[] = [
 	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
@@ -164,30 +104,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Commands/Hmac.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\GroupModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Commands/User.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\UserModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 9,
-	'path' => __DIR__ . '/src/Commands/User.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\LoginModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Controllers/MagicLinkController.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\UserIdentityModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 2,
-	'path' => __DIR__ . '/src/Controllers/MagicLinkController.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Call to function assert() with false and \'Config Auth…\' will always evaluate to false.',
 	'identifier' => 'function.impossibleType',
 	'count' => 1,
@@ -216,30 +132,6 @@ $ignoreErrors[] = [
 	'identifier' => 'method.notFound',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Database/Migrations/2020-12-28-223112_create_auth_tables.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\GroupModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 4,
-	'path' => __DIR__ . '/src/Entities/User.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\LoginModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 2,
-	'path' => __DIR__ . '/src/Entities/User.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\PermissionModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 2,
-	'path' => __DIR__ . '/src/Entities/User.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\UserIdentityModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 23,
-	'path' => __DIR__ . '/src/Entities/User.php',
 ];
 $ignoreErrors[] = [
 	'rawMessage' => 'Only booleans are allowed in a ternary operator condition, int<0, max> given.',
@@ -362,24 +254,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Filters/TokenAuth.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\GroupModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 2,
-	'path' => __DIR__ . '/src/Models/UserModel.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\PermissionModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/UserModel.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to function model with CodeIgniter\\Shield\\Models\\UserIdentityModel::class is discouraged.',
-	'identifier' => 'codeigniter.factoriesClassConstFetch',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Models/UserModel.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
 	'identifier' => 'empty.notAllowed',
 	'count' => 2,
@@ -424,7 +298,7 @@ $ignoreErrors[] = [
 $ignoreErrors[] = [
 	'rawMessage' => 'Call to method setCookie() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
 	'identifier' => 'method.internalClass',
-	'count' => 1,
+	'count' => 2,
 	'path' => __DIR__ . '/tests/Authentication/Authenticators/SessionAuthenticatorTest.php',
 ];
 $ignoreErrors[] = [
@@ -446,25 +320,25 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/tests/Authentication/HasAccessTokensTest.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Accessing offset \'HTTP_USER_AGENT\' directly on $_SERVER is discouraged.',
-	'identifier' => 'codeigniter.superglobalAccess',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/Controllers/ActionsTest.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Call to method setServer() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
 	'identifier' => 'method.internalClass',
 	'count' => 2,
 	'path' => __DIR__ . '/tests/Controllers/ActionsTest.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Accessing offset \'HTTP_USER_AGENT\' directly on $_SERVER is discouraged.',
-	'identifier' => 'codeigniter.superglobalAccess',
+	'rawMessage' => 'Call to method unsetServer() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
+	'identifier' => 'method.internalClass',
+	'count' => 1,
+	'path' => __DIR__ . '/tests/Controllers/ActionsTest.php',
+];
+$ignoreErrors[] = [
+	'rawMessage' => 'Call to method setServer() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
+	'identifier' => 'method.internalClass',
 	'count' => 1,
 	'path' => __DIR__ . '/tests/Controllers/MagicLinkTest.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Call to method setServer() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
+	'rawMessage' => 'Call to method unsetServer() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
 	'identifier' => 'method.internalClass',
 	'count' => 1,
 	'path' => __DIR__ . '/tests/Controllers/MagicLinkTest.php',

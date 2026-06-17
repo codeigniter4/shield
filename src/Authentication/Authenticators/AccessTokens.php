@@ -152,8 +152,6 @@ class AccessTokens implements AuthenticatorInterface
             ]);
         }
 
-        assert($token->last_used_at instanceof Time || $token->last_used_at === null);
-
         // Is expired ?
         if (
             $token->expires instanceof Time
