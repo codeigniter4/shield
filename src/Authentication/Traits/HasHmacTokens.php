@@ -46,7 +46,6 @@ trait HasHmacTokens
      */
     public function generateHmacToken(string $name, array $scopes = ['*'], ?Time $expiresAt = null): AccessToken
     {
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         return $identityModel->generateHmacToken($this, $name, $scopes, $expiresAt);
@@ -57,7 +56,6 @@ trait HasHmacTokens
      */
     public function revokeHmacToken(string $key): void
     {
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         $identityModel->revokeHmacToken($this, $key);
@@ -68,7 +66,6 @@ trait HasHmacTokens
      */
     public function revokeAllHmacTokens(): void
     {
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         $identityModel->revokeAllHmacTokens($this);
@@ -81,7 +78,6 @@ trait HasHmacTokens
      */
     public function hmacTokens(): array
     {
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         return $identityModel->getAllHmacTokens($this);
@@ -96,7 +92,6 @@ trait HasHmacTokens
             return null;
         }
 
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         return $identityModel->getHmacToken($this, $key);
@@ -107,7 +102,6 @@ trait HasHmacTokens
      */
     public function getHmacTokenById(int $id): ?AccessToken
     {
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         return $identityModel->getHmacTokenById($id, $this);
@@ -179,7 +173,6 @@ trait HasHmacTokens
      */
     public function updateHmacTokenExpiration(int $id, Time $expiresAt): bool
     {
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
         $result        = $identityModel->setIdentityExpirationById($id, $this, $expiresAt);
 
@@ -200,7 +193,6 @@ trait HasHmacTokens
      */
     public function removeHmacTokenExpiration(int $id): bool
     {
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
         $result        = $identityModel->setIdentityExpirationById($id, $this);
 

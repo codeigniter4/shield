@@ -126,8 +126,7 @@ final class MagicLinkTest extends DatabaseTestCase
     public function testMagicLinkVerifySuccess(): void
     {
         $identities = new UserIdentityModel();
-        /** @var User $user */
-        $user = fake(UserModel::class);
+        $user       = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $identities->insert([
             'user_id' => $user->id,

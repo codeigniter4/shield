@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
-use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\DatabaseException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
@@ -64,7 +63,6 @@ final class UserIdentityModelTest extends TestCase
     {
         $this->expectException(DatabaseException::class);
 
-        /** @var User $user */
         $user = fake(UserModel::class, ['id' => '1']);
         fake(UserIdentityModel::class, ['user_id' => 2, 'type' => Session::ID_TYPE_EMAIL_ACTIVATE, 'secret' => '666666']);
 
@@ -88,7 +86,6 @@ final class UserIdentityModelTest extends TestCase
         $fabricator = new Fabricator(UserIdentityModel::class);
         $fabricator->create(10);
 
-        /** @var UserIdentityModel $identities */
         $identities = model(UserIdentityModel::class);
         $result     = $identities->select('user_id')->findAll();
         $userIds    = [];

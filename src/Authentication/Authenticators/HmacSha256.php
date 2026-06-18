@@ -144,7 +144,6 @@ class HmacSha256 implements AuthenticatorInterface
         // Extract UserToken and HMACSHA256 Signature from Authorization token
         [$userToken, $signature] = $this->getHmacAuthTokens($credentials['token']);
 
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         $token = $identityModel->getHmacTokenByKey($userToken);
@@ -167,8 +166,6 @@ class HmacSha256 implements AuthenticatorInterface
                 'reason'  => lang('Auth.badToken'),
             ]);
         }
-
-        assert($token->last_used_at instanceof Time || $token->last_used_at === null);
 
         // Hasn't been used in a long time
         if (

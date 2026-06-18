@@ -120,7 +120,9 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__ . '/tests/Authentication/Authenticators/SessionAuthenticatorTest.php',
             __DIR__ . '/tests/Commands/SetupTest.php',
             __DIR__ . '/tests/Commands/UserModelGeneratorTest.php',
+            __DIR__ . '/tests/Controllers/ActionsTest.php',
             __DIR__ . '/tests/Controllers/LoginTest.php',
+            __DIR__ . '/tests/Controllers/MagicLinkTest.php',
         ],
         RemoveUnusedPrivatePropertyRector::class => [
             __DIR__ . '/src/Test/MockInputOutput.php',

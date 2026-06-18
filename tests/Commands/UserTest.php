@@ -212,7 +212,6 @@ final class UserTest extends DatabaseTestCase
      */
     private function createUser(array $userData): UserEntity
     {
-        /** @var UserEntity $user */
         $user = fake(UserModel::class, ['username' => $userData['username']]);
         $user->createEmailIdentity([
             'email'    => $userData['email'],

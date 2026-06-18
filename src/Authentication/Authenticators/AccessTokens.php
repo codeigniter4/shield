@@ -140,7 +140,6 @@ class AccessTokens implements AuthenticatorInterface
             $credentials['token'] = trim(substr((string) $credentials['token'], 6));
         }
 
-        /** @var UserIdentityModel $identityModel */
         $identityModel = model(UserIdentityModel::class);
 
         $token = $identityModel->getAccessTokenByRawToken($credentials['token']);
@@ -151,8 +150,6 @@ class AccessTokens implements AuthenticatorInterface
                 'reason'  => lang('Auth.badToken'),
             ]);
         }
-
-        assert($token->last_used_at instanceof Time || $token->last_used_at === null);
 
         // Is expired ?
         if (

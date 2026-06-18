@@ -16,7 +16,6 @@ namespace Tests\Unit\Authentication\JWT;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\AuthJWT;
-use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
 use PHPUnit\Framework\Attributes\Depends;
 use Tests\Support\TestCase;
@@ -33,7 +32,6 @@ final class JWTManagerTest extends TestCase
 
     public function testGenerateToken(): array
     {
-        /** @var User $user */
         $user = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
 
         // Fix the current time for testing.
@@ -76,7 +74,6 @@ final class JWTManagerTest extends TestCase
 
     public function testGenerateTokenAddClaims(): void
     {
-        /** @var User $user */
         $user = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
 
         $manager = $this->createJWTManager();

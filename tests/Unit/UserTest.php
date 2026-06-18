@@ -590,13 +590,11 @@ final class UserTest extends DatabaseTestCase
         $user = $this->user;
 
         $user->deactivate();
-        /** @var User $user */
         $user = model(UserModel::class)->find($user->id);
 
         $this->assertFalse($user->isActivated());
 
         $user->activate();
-        /** @var User $user */
         $user = model(UserModel::class)->find($user->id);
 
         $this->assertTrue($user->isActivated());
@@ -610,7 +608,6 @@ final class UserTest extends DatabaseTestCase
         $user->active = false;
         model(UserModel::class)->save($user);
 
-        /** @var User $user */
         $user = model(UserModel::class)->find($user->id);
 
         $this->assertFalse($user->isActivated());

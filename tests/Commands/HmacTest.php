@@ -149,7 +149,6 @@ final class HmacTest extends DatabaseTestCase
     {
         $tokenExpiration = Time::parse('2024-11-03 12:00:00');
 
-        /** @var User $user */
         $user = fake(UserModel::class);
         $user->generateHmacToken('foo', ['*'], $tokenExpiration);
         $user->generateHmacToken('bar');

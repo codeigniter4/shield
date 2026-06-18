@@ -43,7 +43,6 @@ trait Authorizable
                 continue;
             }
 
-            /** @var GroupModel $groupModel */
             $groupModel = model(GroupModel::class);
 
             // make sure it's a valid group
@@ -97,7 +96,6 @@ trait Authorizable
     {
         $this->populateGroups();
 
-        /** @var GroupModel $groupModel */
         $groupModel = model(GroupModel::class);
 
         foreach ($groups as $group) {
@@ -313,7 +311,6 @@ trait Authorizable
             return;
         }
 
-        /** @var GroupModel $groupModel */
         $groupModel = model(GroupModel::class);
 
         $this->groupCache = $groupModel->getForUser($this);
@@ -329,7 +326,6 @@ trait Authorizable
             return;
         }
 
-        /** @var PermissionModel $permissionModel */
         $permissionModel = model(PermissionModel::class);
 
         $this->permissionsCache = $permissionModel->getForUser($this);
@@ -340,7 +336,6 @@ trait Authorizable
      */
     private function saveGroups(): void
     {
-        /** @var GroupModel $model */
         $model = model(GroupModel::class);
 
         $cache = $this->groupCache;
@@ -353,7 +348,6 @@ trait Authorizable
      */
     private function savePermissions(): void
     {
-        /** @var PermissionModel $model */
         $model = model(PermissionModel::class);
 
         $cache = $this->permissionsCache;
