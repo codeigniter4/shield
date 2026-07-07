@@ -26,8 +26,6 @@ trait Authorizable
 
     /**
      * Adds one or more groups to the current User.
-     *
-     * @return $this
      */
     public function addGroup(string ...$groups): self
     {
@@ -63,8 +61,6 @@ trait Authorizable
 
     /**
      * Removes one or more groups from the user.
-     *
-     * @return $this
      */
     public function removeGroup(string ...$groups): self
     {
@@ -87,8 +83,6 @@ trait Authorizable
      * Given an array of groups, will update the database
      * so only those groups are valid for this user, removing
      * all groups not in this list.
-     *
-     * @return $this
      *
      * @throws AuthorizationException
      */
@@ -150,8 +144,6 @@ trait Authorizable
     /**
      * Adds one or more permissions to the current user.
      *
-     * @return $this
-     *
      * @throws AuthorizationException
      */
     public function addPermission(string ...$permissions): self
@@ -188,8 +180,6 @@ trait Authorizable
 
     /**
      * Removes one or more permissions from the current user.
-     *
-     * @return $this
      */
     public function removePermission(string ...$permissions): self
     {
@@ -212,8 +202,6 @@ trait Authorizable
      * Given an array of permissions, will update the database
      * so only those permissions are valid for this user, removing
      * all permissions not in this list.
-     *
-     * @return $this
      *
      * @throws AuthorizationException
      */

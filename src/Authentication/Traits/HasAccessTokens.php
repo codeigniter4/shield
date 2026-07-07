@@ -155,8 +155,6 @@ trait HasAccessTokens
 
     /**
      * Sets the current active token for this user.
-     *
-     * @return $this
      */
     public function setAccessToken(?AccessToken $accessToken): self
     {

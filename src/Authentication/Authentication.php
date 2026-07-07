@@ -69,8 +69,6 @@ class Authentication
 
     /**
      * Sets the User Provider to use.
-     *
-     * @return $this
      */
     public function setProvider(UserModel $provider): self
     {

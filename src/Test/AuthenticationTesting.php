@@ -27,8 +27,6 @@ trait AuthenticationTesting
      * Logs the user for testing purposes.
      *
      * @param bool $pending Whether pending login state or not.
-     *
-     * @return $this
      */
     public function actingAs(User $user, bool $pending = false): self
     {

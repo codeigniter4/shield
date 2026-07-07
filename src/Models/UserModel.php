@@ -76,8 +76,6 @@ class UserModel extends BaseModel
 
     /**
      * Mark the next find* query to include identities
-     *
-     * @return $this
      */
     public function withIdentities(): self
     {
@@ -88,8 +86,6 @@ class UserModel extends BaseModel
 
     /**
      * Mark the next find* query to include groups
-     *
-     * @return $this
      */
     public function withGroups(): self
     {
@@ -100,8 +96,6 @@ class UserModel extends BaseModel
 
     /**
      * Mark the next find* query to include permissions
-     *
-     * @return $this
      */
     public function withPermissions(): self
     {
