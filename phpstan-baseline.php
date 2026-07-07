@@ -260,19 +260,19 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Parameter #1 $row (array|CodeIgniter\\Shield\\Entities\\User) of method CodeIgniter\\Shield\\Models\\UserModel::insert() should be contravariant with parameter $row (array<int|string, bool|float|int|object|string|null>|object|null) of method CodeIgniter\\Model::insert()',
+	'rawMessage' => 'Parameter #1 $row (array|CodeIgniter\\Shield\\Entities\\User) of method CodeIgniter\\Shield\\Models\\UserModel::insert() should be contravariant with parameter $row (array<mixed>|object|null) of method CodeIgniter\\Model::insert()',
 	'identifier' => 'method.childParameterType',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Parameter #1 $row (array|CodeIgniter\\Shield\\Entities\\User) of method CodeIgniter\\Shield\\Models\\UserModel::save() should be contravariant with parameter $row (array<int|string, bool|float|int|object|string|null>|object) of method CodeIgniter\\BaseModel::save()',
+	'rawMessage' => 'Parameter #1 $row (array|CodeIgniter\\Shield\\Entities\\User) of method CodeIgniter\\Shield\\Models\\UserModel::save() should be contravariant with parameter $row (array<mixed>|object) of method CodeIgniter\\BaseModel::save()',
 	'identifier' => 'method.childParameterType',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Parameter #2 $row (array|CodeIgniter\\Shield\\Entities\\User) of method CodeIgniter\\Shield\\Models\\UserModel::update() should be contravariant with parameter $row (array<int|string, bool|float|int|object|string|null>|object|null) of method CodeIgniter\\Model::update()',
+	'rawMessage' => 'Parameter #2 $row (array|CodeIgniter\\Shield\\Entities\\User) of method CodeIgniter\\Shield\\Models\\UserModel::update() should be contravariant with parameter $row (array<mixed>|object|null) of method CodeIgniter\\Model::update()',
 	'identifier' => 'method.childParameterType',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Models/UserModel.php',

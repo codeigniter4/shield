@@ -145,8 +145,6 @@ trait HasHmacTokens
 
     /**
      * Sets the current active token for this user.
-     *
-     * @return $this
      */
     public function setHmacToken(?AccessToken $accessToken): self
     {

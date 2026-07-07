@@ -25,8 +25,6 @@ trait Bannable
 
     /**
      * Ban the user from logging in.
-     *
-     * @return $this
      */
     public function ban(?string $message = null): self
     {
@@ -42,8 +40,6 @@ trait Bannable
 
     /**
      * Unban the user and allow them to login
-     *
-     * @return $this
      */
     public function unBan(): self
     {

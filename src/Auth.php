@@ -71,8 +71,6 @@ class Auth
 
     /**
      * Sets the Authenticator alias that should be used for this request.
-     *
-     * @return $this
      */
     public function setAuthenticator(?string $alias = null): self
     {
