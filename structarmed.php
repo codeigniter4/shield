@@ -9,7 +9,7 @@ use Boundwize\StructArmed\Rule\Rules\Class_\MustBeFinalRule;
 
 return Architecture::define()
     ->rule(
-        'source.must_be_final',
+        'tests.must_be_final',
         new MustBeFinalRule(layer: 'tests'),
     )
     ->skip([
