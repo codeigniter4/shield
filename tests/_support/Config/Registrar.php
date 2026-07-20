@@ -18,7 +18,7 @@ namespace Tests\Support\Config;
  *
  * Provides a basic registrar class for testing BaseConfig registration functions.
  */
-class Registrar
+final class Registrar
 {
     /**
      * DB config array for testing purposes.
@@ -27,7 +27,7 @@ class Registrar
      *
      * @psalm-suppress RedundantCondition
      */
-    protected static $dbConfig = [
+    private static $dbConfig = [
         'MySQLi' => [
             'DSN'      => '',
             'hostname' => '127.0.0.1',
