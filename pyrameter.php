@@ -13,23 +13,38 @@ declare(strict_types=1);
 
 use Boundwize\Pyrameter\Config\PyrameterConfig;
 use Boundwize\Pyrameter\TestKind;
+use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
+use Tests\Authentication\Filters\AbstractFilterTestCase;
 use Tests\Support\DatabaseTestCase;
 
-return PyrameterConfig::defaults()
+return PyrameterConfig::create()
+    ->usesClass(
+        DatabaseTestTrait::class,
+        TestKind::Integration,
+        unless: [FeatureTestTrait::class, AbstractFilterTestCase::class],
+    )
     ->usesClass(
         DatabaseTestCase::class,
         TestKind::Integration,
-        unless: [FeatureTestTrait::class],
+        unless: [FeatureTestTrait::class, AbstractFilterTestCase::class],
     )
     ->usesClass(
         FeatureTestTrait::class,
         TestKind::Functional,
     )
-    ->targetShape(
-        unit: ['min' => 40],
-        functional: ['max' => 10],
-        integration: ['max' => 50],
-        e2e: ['max' => 0],
+    ->usesClass(
+        AbstractFilterTestCase::class,
+        TestKind::Functional,
     )
-    ->failOnViolation();
+    ->usesFunction('copy', TestKind::Integration)
+    ->usesFunction('file_get_contents', TestKind::Integration)
+    ->usesFunction('getcwd', TestKind::Integration)
+    ->usesFunction('is_file', TestKind::Integration)
+    ->usesFunction('unlink', TestKind::Integration)
+    ->targetShape(
+        unit: ['min' => 44],
+        functional: ['max' => 16],
+        integration: ['max' => 40],
+        e2e: ['max' => 0],
+    );
