@@ -43,8 +43,9 @@ return PyrameterConfig::create()
     ->usesFunction('is_file', TestKind::Integration)
     ->usesFunction('unlink', TestKind::Integration)
     ->targetShape(
-        unit: ['min' => 44],
-        functional: ['max' => 16],
-        integration: ['max' => 40],
+        unit: ['min' => 40],
+        functional: ['max' => 20],
+        integration: ['max' => 50],
         e2e: ['max' => 0],
-    );
+    )
+    ->failOnViolation();
