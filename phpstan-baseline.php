@@ -332,6 +332,12 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/tests/Controllers/ActionsTest.php',
 ];
 $ignoreErrors[] = [
+	'rawMessage' => 'Call to method setCookie() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
+	'identifier' => 'method.internalClass',
+	'count' => 1,
+	'path' => __DIR__ . '/tests/Controllers/LoginTest.php',
+];
+$ignoreErrors[] = [
 	'rawMessage' => 'Call to method setServer() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
 	'identifier' => 'method.internalClass',
 	'count' => 1,
