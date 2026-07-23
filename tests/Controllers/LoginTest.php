@@ -17,6 +17,7 @@ use CodeIgniter\Config\Factories;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Actions\Email2FA;
 use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Models\RememberModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Test\FeatureTestTrait;
 use CodeIgniter\Test\TestResponse;
@@ -167,6 +168,35 @@ final class LoginTest extends DatabaseTestCase
 
         $result = $this->get('/login');
         $result->assertRedirectTo(config('Auth')->loginRedirect());
+    }
+
+    public function testAfterLoggedInWithRememberCookieReturnsRefreshedCookie(): void
+    {
+        $this->user->createEmailIdentity([
+            'email'    => 'foo@example.com',
+            'password' => 'secret123',
+        ]);
+
+        $selector  = 'selector';
+        $validator = 'validator';
+        $expires   = Time::now()
+            ->addSeconds(setting('Auth.sessionConfig')['rememberLength'])
+            ->format('Y-m-d H:i:s');
+
+        model(RememberModel::class)->rememberUser(
+            $this->user,
+            $selector,
+            hash('sha256', $validator),
+            $expires,
+        );
+
+        $cookieName = setting('Auth.sessionConfig')['rememberCookieName'];
+        service('superglobals')->setCookie($cookieName, $selector . ':' . $validator);
+
+        $result = $this->get('/login');
+
+        $result->assertRedirectTo(config('Auth')->loginRedirect());
+        $result->assertCookie($cookieName);
     }
 
     public function testLoginActionUsernameSuccess(): void
