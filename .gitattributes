@@ -13,6 +13,7 @@
 /phpstan-baseline.php   export-ignore
 /phpstan.neon.dist      export-ignore
 /phpunit.xml.dist       export-ignore
+/pyrameter.php          export-ignore
 /psalm_autoload.php     export-ignore
 /psalm-baseline.xml     export-ignore
 /psalm.xml              export-ignore

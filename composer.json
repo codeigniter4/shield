@@ -29,6 +29,7 @@
         "codeigniter4/settings": "^2.1"
     },
     "require-dev": {
+        "boundwize/pyrameter": "^0.5",
         "boundwize/structarmed": "0.15.2",
         "codeigniter/phpstan-codeigniter": "^2.0",
         "codeigniter4/devkit": "^1.3",

@@ -34,6 +34,7 @@
             <parameter name="report-count" value="30"/>
             <parameter name="format" value="table"/>
         </bootstrap>
+        <bootstrap class="Boundwize\Pyrameter\Extension"/>
     </extensions>
     <logging>
         <testdoxHtml outputFile="build/phpunit/testdox.html"/>
