@@ -28,11 +28,6 @@ final class AuthHelperTest extends TestCase
     protected $refresh = true;
     protected $namespace;
 
-    public static function setUpBeforeClass(): void
-    {
-        parent::setUpBeforeClass();
-    }
-
     protected function setUp(): void
     {
         parent::setUp();

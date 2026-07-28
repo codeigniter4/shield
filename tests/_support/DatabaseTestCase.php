@@ -38,9 +38,4 @@ abstract class DatabaseTestCase extends TestCase
         $authConfig   = config('Auth');
         $this->tables = $authConfig->tables;
     }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-    }
 }
