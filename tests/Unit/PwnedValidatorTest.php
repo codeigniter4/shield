@@ -55,13 +55,19 @@ final class PwnedValidatorTest extends CIUnitTestCase
         $response = new Response(new App());
         $response->setBody($body);
 
+        $password = 'admin123';
+
         $curlrequest = $this->createMock('CodeIgniter\HTTP\CURLRequest');
 
-        $curlrequest->method('get')->willReturn($response);
+        $curlrequest->expects($this->once())
+            ->method('get')
+            ->with(
+                'https://api.pwnedpasswords.com/range/' . $this->rangeHash($password),
+                ['headers' => ['Accept' => 'text/plain']],
+            )
+            ->willReturn($response);
 
         Services::injectMock('curlrequest', $curlrequest);
-
-        $password = 'admin123';
 
         $result = $this->validator->check($password);
 
@@ -75,13 +81,19 @@ final class PwnedValidatorTest extends CIUnitTestCase
         $response = new Response(new App());
         $response->setBody($body);
 
+        $password = 'ziplock';
+
         $curlrequest = $this->createMock('CodeIgniter\HTTP\CURLRequest');
 
-        $curlrequest->method('get')->willReturn($response);
+        $curlrequest->expects($this->once())
+            ->method('get')
+            ->with(
+                'https://api.pwnedpasswords.com/range/' . $this->rangeHash($password),
+                ['headers' => ['Accept' => 'text/plain']],
+            )
+            ->willReturn($response);
 
         Services::injectMock('curlrequest', $curlrequest);
-
-        $password = 'ziplock';
 
         $result = $this->validator->check($password);
 
@@ -105,13 +117,19 @@ final class PwnedValidatorTest extends CIUnitTestCase
         $response = new Response(new App());
         $response->setBody($body);
 
+        $password = '!!!gerard!!!abootylicious';
+
         $curlrequest = $this->createMock('CodeIgniter\HTTP\CURLRequest');
 
-        $curlrequest->method('get')->willReturn($response);
+        $curlrequest->expects($this->once())
+            ->method('get')
+            ->with(
+                'https://api.pwnedpasswords.com/range/' . $this->rangeHash($password),
+                ['headers' => ['Accept' => 'text/plain']],
+            )
+            ->willReturn($response);
 
         Services::injectMock('curlrequest', $curlrequest);
-
-        $password = '!!!gerard!!!abootylicious';
 
         $result = $this->validator->check($password);
 
@@ -131,5 +149,14 @@ final class PwnedValidatorTest extends CIUnitTestCase
 
         $this->expectException(AuthenticationException::class);
         $this->validator->check('opensesame');
+    }
+
+    /**
+     * The first 5 characters of the uppercased SHA-1 hash, as sent
+     * to the HIBP range endpoint.
+     */
+    private function rangeHash(string $password): string
+    {
+        return substr(strtoupper(sha1($password)), 0, 5);
     }
 }

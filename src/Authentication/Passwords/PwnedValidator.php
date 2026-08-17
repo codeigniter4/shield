@@ -32,6 +32,8 @@ use CodeIgniter\Shield\Result;
  */
 class PwnedValidator extends BaseValidator implements ValidatorInterface
 {
+    private const API_URL = 'https://api.pwnedpasswords.com/range/';
+
     /**
      * Checks the password against the online database and
      * returns false if a match is found. Returns true if no match is found.
@@ -47,12 +49,10 @@ class PwnedValidator extends BaseValidator implements ValidatorInterface
         $searchHash  = substr($hashedPword, 5);
 
         try {
-            $client = Services::curlrequest([
-                'base_uri' => 'https://api.pwnedpasswords.com/',
-            ]);
+            $client = Services::curlrequest();
 
             $response = $client->get(
-                'range/' . $rangeHash,
+                self::API_URL . $rangeHash,
                 ['headers' => ['Accept' => 'text/plain']],
             );
         } catch (HTTPException $e) {
