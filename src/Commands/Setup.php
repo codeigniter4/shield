@@ -14,12 +14,10 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Commands;
 
 use CodeIgniter\CLI\CLI;
-use CodeIgniter\Commands\Database\Migrate;
 use CodeIgniter\Shield\Commands\Setup\ContentReplacer;
 use CodeIgniter\Test\Filters\CITestStreamFilter;
 use Config\Autoload as AutoloadConfig;
 use Config\Email as EmailConfig;
-use Config\Services;
 
 class Setup extends BaseCommand
 {
@@ -419,15 +417,13 @@ class Setup extends BaseCommand
             return;
         }
 
-        $command = new Migrate(Services::logger(), Services::commands());
-
         // This is a hack for testing.
         // @TODO Remove CITestStreamFilter and refactor when CI 4.5.0 or later is supported.
         CITestStreamFilter::registration();
         CITestStreamFilter::addOutputFilter();
         CITestStreamFilter::addErrorFilter();
 
-        $command->run(['all' => null]);
+        command('migrate --all');
 
         CITestStreamFilter::removeOutputFilter();
         CITestStreamFilter::removeErrorFilter();
