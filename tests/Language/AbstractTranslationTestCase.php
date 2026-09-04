@@ -407,9 +407,7 @@ abstract class AbstractTranslationTestCase extends TestCase
     {
         static $expected;
 
-        if (null === $expected) {
-            $expected = $this->translationSets();
-        }
+        $expected ??= $this->translationSets();
 
         return $expected;
     }
