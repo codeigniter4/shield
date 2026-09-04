@@ -18,7 +18,7 @@ return Architecture::define()
         ],
     ])
     ->cacheDirectory(is_dir('/tmp') ? '/tmp/structarmed' : null)
-    ->withPreset(Preset::PSR4())
+    ->withPresets(Preset::PSR4(), Preset::CODEQUALITY())
     ->layer('tests', __DIR__ . '/tests')
     ->layerPattern('Model', '/^CodeIgniter\\\\Shield\\\\.*Model$/')
     ->layerPattern('Controller', '/^CodeIgniter\\\\Shield\\\\Controllers\\\\.*$/')

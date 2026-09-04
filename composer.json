@@ -30,7 +30,7 @@
     },
     "require-dev": {
         "boundwize/pyrameter": "^0.5",
-        "boundwize/structarmed": "^0.16",
+        "boundwize/structarmed": "^0.17",
         "codeigniter/phpstan-codeigniter": "^2.0",
         "codeigniter4/devkit": "^1.3",
         "codeigniter4/framework": ">=4.3.5 <4.5.0 || ^4.5.1",
