@@ -291,9 +291,7 @@ class HmacSha256 implements AuthenticatorInterface
      */
     public function getHmacAuthTokens(?string $fullToken = null): ?array
     {
-        if (! isset($fullToken)) {
-            $fullToken = $this->getFullHmacToken();
-        }
+        $fullToken ??= $this->getFullHmacToken();
 
         if (isset($fullToken)) {
             return preg_split('/:/', $fullToken, -1, PREG_SPLIT_NO_EMPTY);

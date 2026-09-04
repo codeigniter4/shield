@@ -75,9 +75,7 @@ abstract class BaseCommand extends FrameworkBaseCommand
 
     protected function ensureInputOutput(): void
     {
-        if (self::$io === null) {
-            self::$io = new InputOutput();
-        }
+        self::$io ??= new InputOutput();
     }
 
     /**
