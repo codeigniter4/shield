@@ -21,7 +21,7 @@ return Architecture::define()
     ->cacheDirectory(is_dir('/tmp') ? '/tmp/structarmed' : null)
     ->withPresets(Preset::PSR4(), Preset::CODEQUALITY())
 
-    ->rule('base_classes.must_be_abstract', new ExtendedClassMustBeAbstractOrInstantiatedRule('Source', '/^CodeIgniter\\\\.*Base.*$/'))
+    ->rule('base_classes.must_be_abstract', new ExtendedClassMustBeAbstractOrInstantiatedRule('Source', '/^CodeIgniter\\\\Shield\\\\.*Base.*$/'))
 
     ->layer('tests', __DIR__ . '/tests')
     ->layerPattern('Model', '/^CodeIgniter\\\\Shield\\\\.*Model$/')
