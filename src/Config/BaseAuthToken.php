@@ -15,7 +15,7 @@ namespace CodeIgniter\Shield\Config;
 
 use CodeIgniter\Config\BaseConfig;
 
-class BaseAuthToken extends BaseConfig
+abstract class BaseAuthToken extends BaseConfig
 {
     /**
      * List of HMAC Encryption Keys

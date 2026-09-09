@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Boundwize\StructArmed\Architecture;
 use Boundwize\StructArmed\Preset\Preset;
 use Boundwize\StructArmed\Preset\Presets\Psr4Preset;
+use Boundwize\StructArmed\Rule\Rules\Class_\ExtendedClassMustBeAbstractOrInstantiatedRule;
 use Boundwize\StructArmed\Rule\Rules\Class_\MustBeFinalRule;
 
 return Architecture::define()
@@ -19,6 +20,9 @@ return Architecture::define()
     ])
     ->cacheDirectory(is_dir('/tmp') ? '/tmp/structarmed' : null)
     ->withPresets(Preset::PSR4(), Preset::CODEQUALITY())
+
+    ->rule('base_classes.must_be_abstract', new ExtendedClassMustBeAbstractOrInstantiatedRule('Source', '/^CodeIgniter\\\\.*Base.*$/'))
+
     ->layer('tests', __DIR__ . '/tests')
     ->layerPattern('Model', '/^CodeIgniter\\\\Shield\\\\.*Model$/')
     ->layerPattern('Controller', '/^CodeIgniter\\\\Shield\\\\Controllers\\\\.*$/')
