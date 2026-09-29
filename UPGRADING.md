@@ -1,5 +1,15 @@
 # Upgrade Guide
 
+## Version 1.4 to 1.5
+
+### Base Classes Are Now Abstract
+
+- `CodeIgniter\Shield\Authentication\Passwords\BaseValidator` is now `abstract`.
+  Code that instantiated it directly with `new BaseValidator()` will now throw
+  an `Error`.
+- `CodeIgniter\Shield\Config\BaseAuthToken` is now `abstract`. Code that
+  instantiated it directly with `new BaseAuthToken()` will now throw an `Error`.
+
 ## Version 1.2 to 1.3
 
 ### JWT: Minimum Key Length Now Enforced
