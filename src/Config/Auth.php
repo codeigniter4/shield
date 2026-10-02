@@ -379,6 +379,15 @@ class Auth extends BaseConfig
      */
     public int $hashCost = 12;
 
+    /**
+     * Hash used when a login identifier does not match an account. It must use
+     * the same password algorithm and cost as real accounts so that failed
+     * logins take comparable time. Override this when changing hash settings.
+     * Run `php spark shield:generate-dummy-hash` to generate a matching hash.
+     * The corresponding plaintext password is never accepted.
+     */
+    public string $dummyPasswordHash = '$2y$12$lGwEWbbJHNlNehaFdwrcH.e7c0S3L2sMFVZr6LX/IHjU0ONwWzogq';
+
     /*
      * ////////////////////////////////////////////////////////////////////
      * OTHER SETTINGS
