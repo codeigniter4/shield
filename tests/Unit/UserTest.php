@@ -65,6 +65,17 @@ final class UserTest extends DatabaseTestCase
         $this->assertEmpty($this->user->getIdentities('foo'));
     }
 
+    public function testSetIdentitiesNullReloadsIdentities(): void
+    {
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'password']);
+        $this->assertCount(1, $this->user->identities);
+
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
+        $this->user->identities = null;
+
+        $this->assertCount(2, $this->user->getIdentities());
+    }
+
     public function testModelFindAllWithIdentities(): void
     {
         fake(UserModel::class);
