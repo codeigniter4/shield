@@ -245,7 +245,7 @@ class Session implements AuthenticatorInterface
             throw new LogicException('Cannot get the User.');
         }
 
-        if ($token === '' || $token !== $identity->secret) {
+        if ($token === '' || ! hash_equals((string) $identity->secret, $token)) {
             return false;
         }
 
@@ -365,21 +365,25 @@ class Session implements AuthenticatorInterface
         // Find the existing user
         $user = $this->provider->findByCredentials($credentials);
 
+        /** @var Passwords $passwords */
+        $passwords = service('passwords');
+
         if ($user === null) {
+            // Verify against a fixed hash so an unknown identifier still does
+            // the expensive password check. The result is never accepted.
+            $passwords->verify($givenPassword, config('Auth')->dummyPasswordHash);
+
             return new Result([
                 'success' => false,
                 'reason'  => lang('Auth.badAttempt'),
             ]);
         }
 
-        /** @var Passwords $passwords */
-        $passwords = service('passwords');
-
         // Now, try matching the passwords.
         if (! $passwords->verify($givenPassword, $user->password_hash)) {
             return new Result([
                 'success' => false,
-                'reason'  => lang('Auth.invalidPassword'),
+                'reason'  => lang('Auth.badAttempt'),
             ]);
         }
 
