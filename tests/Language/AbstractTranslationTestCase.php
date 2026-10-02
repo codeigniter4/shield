@@ -113,7 +113,7 @@ abstract class AbstractTranslationTestCase extends TestCase
         sort($filesNotTranslated);
         $count = count($filesNotTranslated);
 
-        $this->assertEmpty($filesNotTranslated, sprintf(
+        $this->assertSame([], $filesNotTranslated, sprintf(
             'Failed asserting that language %s "%s" in the main repository %s translated in "%s" locale.',
             $count > 1 ? 'files' : 'file',
             implode('", "', $filesNotTranslated),
@@ -137,7 +137,7 @@ abstract class AbstractTranslationTestCase extends TestCase
         sort($filesNotConfigured);
         $count = count($filesNotConfigured);
 
-        $this->assertEmpty($filesNotConfigured, sprintf(
+        $this->assertSame([], $filesNotConfigured, sprintf(
             'Failed asserting that translated language %s "%s" in "%s" locale %s configured in the main repository.',
             $count > 1 ? 'files' : 'file',
             implode('", "', $filesNotConfigured),
@@ -169,7 +169,7 @@ abstract class AbstractTranslationTestCase extends TestCase
         sort($keysNotIncluded);
         $count = count($keysNotIncluded);
 
-        $this->assertEmpty($keysNotIncluded, sprintf(
+        $this->assertSame([], $keysNotIncluded, sprintf(
             'Failed asserting that the language %s "%s" in the main repository %s included for translation in "%s" locale.',
             $count > 1 ? 'keys' : 'key',
             implode('", "', $keysNotIncluded),
@@ -201,7 +201,7 @@ abstract class AbstractTranslationTestCase extends TestCase
         sort($keysNotConfigured);
         $count = count($keysNotConfigured);
 
-        $this->assertEmpty($keysNotConfigured, sprintf(
+        $this->assertSame([], $keysNotConfigured, sprintf(
             'Failed asserting that the translated language %s "%s" in "%s" locale %s configured in the main repository.',
             $count > 1 ? 'keys' : 'key',
             implode('", "', $keysNotConfigured),
@@ -246,7 +246,7 @@ abstract class AbstractTranslationTestCase extends TestCase
         sort($keysNotTranslated);
         $count = count($keysNotTranslated);
 
-        $this->assertEmpty($keysNotTranslated, sprintf(
+        $this->assertSame([], $keysNotTranslated, sprintf(
             'Failed asserting that the translated language %s "%s" in "%s" locale %s from the original keys in the main repository.',
             $count > 1 ? 'keys' : 'key',
             implode('", "', $keysNotTranslated),
@@ -289,7 +289,7 @@ abstract class AbstractTranslationTestCase extends TestCase
             }
         }
 
-        $this->assertEmpty($diffs, sprintf(
+        $this->assertSame([], $diffs, sprintf(
             "Failed asserting that the translated language keys in \"%s\" locale are ordered correctly.\n%s\n%s",
             $locale,
             CLI::color('--- Original', 'red') . "\n" . CLI::color('+++ Translated', 'green'),
@@ -341,7 +341,7 @@ abstract class AbstractTranslationTestCase extends TestCase
 
         ksort($diffs);
 
-        $this->assertEmpty($diffs, sprintf(
+        $this->assertSame([], $diffs, sprintf(
             "Failed asserting that parameters of translation keys are not translated:\n%s",
             implode("\n", array_map(
                 static fn (string $key, array $values): string => sprintf('  * %s => %s', $key, implode(', ', $values)),

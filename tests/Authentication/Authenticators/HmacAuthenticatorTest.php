@@ -209,7 +209,7 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
         $this->assertSame($user->id, $result->extraInfo()->id);
 
         $updatedToken = $result->extraInfo()->currentHmacToken();
-        $this->assertNotEmpty($updatedToken->last_used_at);
+        $this->assertInstanceOf(Time::class, $updatedToken->last_used_at);
 
         // Checking token in the same second does not throw "DataException : There is no data to update."
         $this->auth->check(['token' => $rawToken, 'body' => 'bar']);
