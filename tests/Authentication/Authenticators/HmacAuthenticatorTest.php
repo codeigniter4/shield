@@ -155,6 +155,17 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
         $this->assertSame(lang('Auth.badToken'), $result->reason());
     }
 
+    public function testCheckMalformedToken(): void
+    {
+        $result = $this->auth->check([
+            'token' => 'abc123',
+            'body'  => 'bar',
+        ]);
+
+        $this->assertFalse($result->isOK());
+        $this->assertSame(lang('Auth.badToken'), $result->reason());
+    }
+
     public function testCheckOldToken(): void
     {
         $user       = fake(UserModel::class);
