@@ -45,7 +45,6 @@ final class GroupFilterTest extends AbstractFilterTestCase
 
         $result->assertRedirectTo('/login');
 
-        $this->assertNotEmpty(session()->getTempdata('beforeLoginUrl'));
         $this->assertSame(site_url('protected-route'), session()->getTempdata('beforeLoginUrl'));
     }
 
