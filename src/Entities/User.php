@@ -126,7 +126,7 @@ class User extends Entity
         return $identities;
     }
 
-    public function setIdentities(array $identities): void
+    public function setIdentities(?array $identities): void
     {
         $this->identities = $identities;
     }
