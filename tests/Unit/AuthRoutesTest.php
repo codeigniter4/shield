@@ -111,4 +111,24 @@ final class AuthRoutesTest extends TestCase
 
         $this->assertSame('\Auth\RegisterController::registerView', $routes['register']);
     }
+
+    public function testRoutesCustomPrefix(): void
+    {
+        $collection = single_service('routes');
+        $auth       = service('auth');
+
+        $auth->routes($collection, ['group' => 'auth']);
+
+        if (version_compare(CodeIgniter::CI_VERSION, '4.5') >= 0) {
+            $routes = $collection->getRoutes('GET');
+        } else {
+            $routes = $collection->getRoutes('get');
+        }
+
+        $this->assertArrayHasKey('auth/register', $routes);
+        $this->assertArrayHasKey('auth/login', $routes);
+        $this->assertArrayHasKey('auth/login/magic-link', $routes);
+        $this->assertArrayHasKey('auth/logout', $routes);
+        $this->assertArrayHasKey('auth/auth/a/show', $routes);
+    }
 }
