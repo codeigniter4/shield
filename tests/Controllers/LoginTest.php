@@ -68,7 +68,6 @@ final class LoginTest extends DatabaseTestCase
             'success'    => 0,
         ]);
 
-        $this->assertNotEmpty(session('error'));
         $this->assertSame(lang('Auth.badAttempt'), session('error'));
     }
 

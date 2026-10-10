@@ -121,7 +121,7 @@ final class AuthorizableTest extends DatabaseTestCase
         ]);
 
         $this->user->removeGroup('admin');
-        $this->assertEmpty($this->user->getGroups());
+        $this->assertSame([], $this->user->getGroups());
         $this->dontSeeInDatabase($this->tables['groups_users'], [
             'user_id' => $this->user->id,
             'group'   => 'admin',
@@ -242,7 +242,7 @@ final class AuthorizableTest extends DatabaseTestCase
         ]);
 
         $this->user->removePermission('admin.access');
-        $this->assertEmpty($this->user->getPermissions());
+        $this->assertSame([], $this->user->getPermissions());
         $this->dontSeeInDatabase($this->tables['permissions_users'], [
             'user_id'    => $this->user->id,
             'permission' => 'admin.access',
