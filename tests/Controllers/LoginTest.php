@@ -160,7 +160,7 @@ final class LoginTest extends DatabaseTestCase
             'password' => 'secret123',
         ]);
 
-        $result = $this->post('/login', [
+        $this->post('/login', [
             'email'    => 'foo@example.com',
             'password' => 'secret123',
         ]);

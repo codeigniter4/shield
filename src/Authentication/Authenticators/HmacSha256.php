@@ -316,7 +316,7 @@ class HmacSha256 implements AuthenticatorInterface
      */
     public function getHmacKeyFromToken(): ?string
     {
-        [$key, $secretKey] = $this->getHmacAuthTokens();
+        [$key] = $this->getHmacAuthTokens();
 
         return $key;
     }
@@ -328,7 +328,7 @@ class HmacSha256 implements AuthenticatorInterface
      */
     public function getHmacHashFromToken(): ?string
     {
-        [$key, $hash] = $this->getHmacAuthTokens();
+        [, $hash] = $this->getHmacAuthTokens();
 
         return $hash;
     }
