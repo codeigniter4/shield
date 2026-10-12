@@ -141,7 +141,6 @@ class HmacSha256 implements AuthenticatorInterface
             $credentials['token'] = trim(substr((string) $credentials['token'], 11)); // HMAC-SHA256
         }
 
-        // Extract UserToken and HMACSHA256 Signature from Authorization token
         $authTokens = $this->getHmacAuthTokens($credentials['token']);
 
         if ($authTokens === null || count($authTokens) !== 2) {
@@ -150,7 +149,8 @@ class HmacSha256 implements AuthenticatorInterface
                 'reason'  => lang('Auth.badToken'),
             ]);
         }
-
+        
+        // Extract UserToken and HMACSHA256 Signature from Authorization token
         [$userToken, $signature] = $authTokens;
 
         $identityModel = model(UserIdentityModel::class);
