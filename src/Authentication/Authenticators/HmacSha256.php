@@ -149,7 +149,7 @@ class HmacSha256 implements AuthenticatorInterface
                 'reason'  => lang('Auth.badToken'),
             ]);
         }
-        
+
         // Extract UserToken and HMACSHA256 Signature from Authorization token
         [$userToken, $signature] = $authTokens;
 
