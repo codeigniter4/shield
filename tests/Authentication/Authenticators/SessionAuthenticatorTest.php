@@ -17,6 +17,7 @@ use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Authentication\Authentication;
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
@@ -272,6 +273,29 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
         $this->assertSame(lang('Auth.badAttempt'), $result->reason());
     }
 
+    public function testCheckUnknownUserStillVerifiesPassword(): void
+    {
+        $passwords = new class (new Auth()) extends Passwords {
+            public array $checks = [];
+
+            public function verify(string $password, string $hash): bool
+            {
+                $this->checks[] = [$password, $hash];
+
+                return false;
+            }
+        };
+        Services::injectMock('passwords', $passwords);
+
+        $result = $this->auth->check([
+            'email'    => 'unknown@example.com',
+            'password' => 'secret',
+        ]);
+
+        $this->assertFalse($result->isOK());
+        $this->assertSame([['secret', config('Auth')->dummyPasswordHash]], $passwords->checks);
+    }
+
     public function testCheckBadPassword(): void
     {
         $this->user->createEmailIdentity([
@@ -286,7 +310,7 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
 
         $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
-        $this->assertSame(lang('Auth.invalidPassword'), $result->reason());
+        $this->assertSame(lang('Auth.badAttempt'), $result->reason());
     }
 
     public function testCheckSuccess(): void

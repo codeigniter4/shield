@@ -99,6 +99,31 @@ public int $hashTimeCost = PASSWORD_ARGON2_DEFAULT_TIME_COST;
 public int $hashThreads  = PASSWORD_ARGON2_DEFAULT_THREADS;
 ```
 
+### Update the Dummy Password Hash
+
+When you change the password hashing algorithm or its cost settings, update
+`Auth::$dummyPasswordHash` as well. Shield uses this hash to
+verify a password when the login identifier does not match an account, reducing
+timing differences between failed login attempts. The default dummy hash uses
+bcrypt with cost 12.
+
+After applying the new hash settings in the target environment, run:
+
+```sh
+php spark shield:generate-dummy-hash
+```
+
+Copy the printed property declaration into `app/Config/Auth.php`, or put only the
+generated hash in your `.env` file:
+
+```ini
+auth.dummyPasswordHash = '<generated hash>'
+```
+
+The command reads the current hash settings and does not edit either file.
+Existing user hashes may still use older settings until they are rehashed after
+a successful login.
+
 ## Maximum Password Length
 
 By default, Shield has the validation rules for maximum password length.

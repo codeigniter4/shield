@@ -10,6 +10,22 @@
 - `CodeIgniter\Shield\Config\BaseAuthToken` is now `abstract`. Code that
   instantiated it directly with `new BaseAuthToken()` will now throw an `Error`.
 
+### Login Timing Hardening
+
+Failed password logins now return `Auth.badAttempt` for both unknown users and
+incorrect passwords. `Auth.invalidPassword` remains in the language files for
+application code that uses it, so no new translations are required. Update any
+custom views or tests that expect the old incorrect-password message.
+
+Unknown-user logins now verify against `Auth::$dummyPasswordHash`. The default
+hash uses bcrypt cost 12. If your application changes the password algorithm or
+cost, run `php spark shield:generate-dummy-hash` with its current configuration.
+Copy the printed property declaration into **app/Config/Auth.php**, or set
+`auth.dummyPasswordHash = '<generated hash>'` in **.env** using only the hash
+value. The command does not modify either file. Accounts with older password
+hash settings can still have different verification times until their hashes
+are upgraded.
+
 ## Version 1.2 to 1.3
 
 ### JWT: Minimum Key Length Now Enforced

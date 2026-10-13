@@ -68,7 +68,6 @@ final class LoginTest extends DatabaseTestCase
             'success'    => 0,
         ]);
 
-        $this->assertNotEmpty(session('error'));
         $this->assertSame(lang('Auth.badAttempt'), session('error'));
     }
 
@@ -161,7 +160,7 @@ final class LoginTest extends DatabaseTestCase
             'password' => 'secret123',
         ]);
 
-        $result = $this->post('/login', [
+        $this->post('/login', [
             'email'    => 'foo@example.com',
             'password' => 'secret123',
         ]);

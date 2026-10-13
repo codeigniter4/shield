@@ -155,7 +155,7 @@ final class UserTest extends DatabaseTestCase
 
     public function testCreateNotUniqueName(): void
     {
-        $user = $this->createUser([
+        $this->createUser([
             'username' => 'user1',
             'email'    => 'user1@example.com',
             'password' => 'secret123',
@@ -184,7 +184,7 @@ final class UserTest extends DatabaseTestCase
 
     public function testCreatePasswordNotMatch(): void
     {
-        $user = $this->createUser([
+        $this->createUser([
             'username' => 'user1',
             'email'    => 'user1@example.com',
             'password' => 'secret123',

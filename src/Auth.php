@@ -111,7 +111,7 @@ class Auth
     {
         $user = $this->user();
 
-        return ($user !== null) ? $user->id : null;
+        return $user?->id;
     }
 
     public function authenticate(array $credentials): Result
