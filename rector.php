@@ -11,13 +11,10 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\CodeQuality\Rector\BooleanAnd\SimplifyEmptyArrayCheckRector;
-use Rector\CodeQuality\Rector\Class_\CompleteDynamicPropertiesRector;
 use Rector\CodeQuality\Rector\Empty_\SimplifyEmptyCheckOnEmptyArrayRector;
 use Rector\CodeQuality\Rector\Expression\InlineIfToExplicitIfRector;
 use Rector\CodeQuality\Rector\FuncCall\ChangeArrayPushToArrayAssignRector;
-use Rector\CodeQuality\Rector\FuncCall\SimplifyStrposLowerRector;
 use Rector\CodeQuality\Rector\FuncCall\SingleInArrayToCompareRector;
 use Rector\CodeQuality\Rector\FunctionLike\SimplifyUselessVariableRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
@@ -44,7 +41,6 @@ use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
-use Rector\TypeDeclaration\Rector\Empty_\EmptyOnNullableObjectToInstanceOfRector;
 use Rector\ValueObject\PhpVersion;
 
 return static function (RectorConfig $rectorConfig): void {
@@ -58,7 +54,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->parallel();
 
     // Github action cache
-    $rectorConfig->cacheClass(FileCacheStorage::class);
     if (is_dir('/tmp')) {
         $rectorConfig->cacheDirectory('/tmp/rector');
     }
@@ -140,7 +135,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(SimplifyUselessVariableRector::class);
     $rectorConfig->rule(RemoveAlwaysElseRector::class);
     $rectorConfig->rule(ChangeIfElseValueAssignToEarlyReturnRector::class);
-    $rectorConfig->rule(SimplifyStrposLowerRector::class);
     $rectorConfig->rule(SimplifyIfReturnBoolRector::class);
     $rectorConfig->rule(InlineIfToExplicitIfRector::class);
     $rectorConfig->rule(PreparedValueToEarlyReturnRector::class);
@@ -151,10 +145,8 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(SimplifyEmptyArrayCheckRector::class);
     $rectorConfig->rule(SimplifyEmptyCheckOnEmptyArrayRector::class);
     $rectorConfig->rule(TernaryEmptyArrayArrayDimFetchToCoalesceRector::class);
-    $rectorConfig->rule(EmptyOnNullableObjectToInstanceOfRector::class);
     $rectorConfig->rule(StringClassNameToClassConstantRector::class);
     $rectorConfig->rule(PrivatizeFinalClassPropertyRector::class);
-    $rectorConfig->rule(CompleteDynamicPropertiesRector::class);
     $rectorConfig->rule(SingleInArrayToCompareRector::class);
     $rectorConfig->rule(VersionCompareFuncCallToConstantRector::class);
 };
