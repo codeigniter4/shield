@@ -294,7 +294,7 @@ final class ActionsTest extends DatabaseTestCase
         // Identity should have been removed
         $this->dontSeeInDatabase($this->tables['identities'], [
             'user_id' => $this->user->id,
-            'type'    => Session::ID_TYPE_EMAIL_2FA,
+            'type'    => Session::ID_TYPE_EMAIL_ACTIVATE,
         ]);
 
         // Session should have been cleared
