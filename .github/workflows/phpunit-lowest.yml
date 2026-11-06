@@ -6,16 +6,16 @@ on:
       - develop
     paths:
       - '**.php'
-      - 'composer.*'
-      - 'phpunit*'
+      - 'composer.json'
+      - 'phpunit.dist.xml'
       - '.github/workflows/phpunit-lowest.yml'
   push:
     branches:
       - develop
     paths:
       - '**.php'
-      - 'composer.*'
-      - 'phpunit*'
+      - 'composer.json'
+      - 'phpunit.dist.xml'
       - '.github/workflows/phpunit-lowest.yml'
 
 jobs:
