@@ -66,6 +66,8 @@
         "allow-plugins": {
             "phpstan/extension-installer": true
         },
+        "preferred-install": "dist",
+        "optimize-autoloader": true,
         "sort-packages": true
     },
     "scripts": {
@@ -89,7 +91,7 @@
         "cs-fix": "php-cs-fixer fix --ansi --verbose --diff",
         "deduplicate": "phpcpd app/ src/ --exclude src/Database/Migrations/2020-12-28-223112_create_auth_tables.php --exclude src/Authentication/Authenticators/HmacSha256.php",
         "inspect": "vendor/bin/structarmed analyze",
-        "mutate": "infection --threads=2 --skip-initial-tests --coverage=build/phpunit",
+        "mutate": "infection --threads=2 --skip-initial-tests",
         "sa": "@analyze",
         "style": "@cs-fix",
         "test": "phpunit"

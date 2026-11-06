@@ -106,7 +106,7 @@ nb-configuration.xml
 .vscode/
 
 /results/
-/phpunit*.xml
+/phpunit.xml
 /.phpunit.*.cache
 
 /.php-cs-fixer.php
