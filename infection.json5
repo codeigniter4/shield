@@ -1,0 +1,28 @@
+{
+    "$schema": "./vendor/infection/infection/resources/schema.json",
+	"source": {
+		"directories": [
+			"src/"
+		],
+		"excludes": [
+			"Config",
+			"Database/Migrations",
+			"Views"
+		]
+	},
+    "timeout": 30,
+    "threads": "max",
+    "dotsPerRow": "max",
+	"logs": {
+		"text": "build/infection.log"
+	},
+    "tmpDir": "build",
+    "minMsi": 72,
+    "minCoveredMsi": 79,
+    "ignoreMsiWithNoMutations": true,
+	"mutators": {
+		"@default": true
+	},
+	"bootstrap": "vendor/codeigniter4/framework/system/Test/bootstrap.php",
+    "testFramework": "phpunit"
+}

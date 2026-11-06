@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+cd "$(dirname "$0")/.." || exit 1
+
+untracked=$(git ls-files --others --exclude-standard src tests)
+
+restore() {
+    if [ -n "$untracked" ]; then
+        git reset --quiet -- $untracked
+    fi
+}
+
+trap restore EXIT
+
+if [ -n "$untracked" ]; then
+    git add --intent-to-add -- $untracked
+fi
+
+vendor/bin/infection \
+    --static-analysis-tool=phpstan \
+    --with-uncovered \
+    --git-diff-lines \
+    --git-diff-base=origin/develop \
+    "$@"
