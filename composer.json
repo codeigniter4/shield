@@ -68,6 +68,8 @@
             "infection/extension-installer": true,
             "phpstan/extension-installer": true
         },
+        "preferred-install": "dist",
+        "optimize-autoloader": true,
         "sort-packages": true
     },
     "scripts": {
