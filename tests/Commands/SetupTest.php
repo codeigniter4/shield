@@ -17,7 +17,10 @@ use CodeIgniter\Shield\Commands\Setup;
 use CodeIgniter\Shield\Test\MockInputOutput;
 use Config\Email as EmailConfig;
 use Config\Services;
+use FilesystemIterator;
 use org\bovigo\vfs\vfsStream;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use Tests\Support\TestCase;
 
 /**
@@ -25,13 +28,34 @@ use Tests\Support\TestCase;
  */
 final class SetupTest extends TestCase
 {
-    private ?MockInputOutput $io = null;
+    private ?MockInputOutput $io             = null;
+    private string $originalWorkingDirectory = '';
+    private string $workingDirectory         = '';
 
     protected function tearDown(): void
     {
+        if ($this->workingDirectory !== '') {
+            chdir($this->originalWorkingDirectory);
+            $this->removeDirectory($this->workingDirectory);
+        }
+
         parent::tearDown();
 
         Setup::resetInputOutput();
+    }
+
+    private function removeDirectory(string $directory): void
+    {
+        $entries = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST,
+        );
+
+        foreach ($entries as $entry) {
+            $entry->isDir() && ! $entry->isLink() ? rmdir($entry->getPathname()) : unlink($entry->getPathname());
+        }
+
+        rmdir($directory);
     }
 
     /**
@@ -175,6 +199,12 @@ final class SetupTest extends TestCase
      */
     private function createFilesystem(): string
     {
+        $this->originalWorkingDirectory = (string) getcwd();
+        $this->workingDirectory         = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'shield_setup_' . bin2hex(random_bytes(8));
+
+        mkdir($this->workingDirectory);
+        chdir($this->workingDirectory);
+
         $root = vfsStream::setup('root');
         vfsStream::copyFromFileSystem(
             APPPATH,

@@ -1,0 +1,74 @@
+name: Mutation Testing
+
+on:
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - 'src/**.php'
+      - 'tests/**.php'
+      - 'composer.json'
+      - 'infection.json5'
+      - 'phpunit.dist.xml'
+      - 'phpstan.neon.dist'
+      - '.github/workflows/mutation.yml'
+  push:
+    branches:
+      - develop
+    paths:
+      - 'src/**.php'
+      - 'tests/**.php'
+      - 'composer.json'
+      - 'infection.json5'
+      - 'phpunit.dist.xml'
+      - 'phpstan.neon.dist'
+      - '.github/workflows/mutation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  mutation:
+    name: Infection
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
+        with:
+          php-version: '8.5'
+          extensions: sqlite3
+          coverage: xdebug
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: composer-8.5-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            composer-8.5-
+            composer-
+
+      - name: Install dependencies
+        run: composer update --ansi
+
+      - name: Run mutation tests on changed lines
+        if: github.event_name == 'pull_request'
+        run: composer mutation:filter -- --ansi
+
+      - name: Run full mutation tests
+        if: github.event_name == 'push'
+        run: composer mutation:check -- --ansi

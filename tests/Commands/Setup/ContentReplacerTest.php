@@ -118,6 +118,15 @@ final class ContentReplacerTest extends TestCase
         $this->assertSame($expected, $output);
     }
 
+    public function testAddReturnsTrueWhenTextWithRegexCharactersIsAlreadyPresent(): void
+    {
+        $replacer = new ContentReplacer();
+        $text     = 'service(\'auth\')->routes($routes);';
+        $content  = "<?php\n\n" . $text . "\n";
+
+        $this->assertTrue($replacer->add($content, $text, '/(.*)/su', '$1'));
+    }
+
     public function testAddBefore(): void
     {
         $replacer = new ContentReplacer();

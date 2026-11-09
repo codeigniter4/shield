@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace Tests\Commands;
 
+use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Commands\GenerateDummyPasswordHash;
 use CodeIgniter\Shield\Test\MockInputOutput;
+use Config\Services;
 use Tests\Support\TestCase;
 
 /**
@@ -60,6 +62,21 @@ final class GenerateDummyPasswordHashTest extends TestCase
         $this->assertSame(8192, $info['options']['memory_cost']);
         $this->assertSame(2, $info['options']['time_cost']);
         $this->assertFalse(service('passwords')->needsRehash($hash));
+    }
+
+    public function testHashesThirtyTwoRandomBytesAsHex(): void
+    {
+        $passwords = $this->createMock(Passwords::class);
+        $passwords->expects($this->once())
+            ->method('hash')
+            ->with($this->matchesRegularExpression('/\A[0-9a-f]{64}\z/'))
+            ->willReturn('$2y$04$hash');
+        Services::injectMock('passwords', $passwords);
+
+        $io = new MockInputOutput();
+        GenerateDummyPasswordHash::setInputOutput($io);
+
+        $this->assertNotFalse(command('shield:generate-dummy-hash'));
     }
 
     private function generateHash(): string

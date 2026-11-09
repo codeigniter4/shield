@@ -8,7 +8,7 @@
 /.php-cs-fixer.dist.php export-ignore
 /composer-unused.php    export-ignore
 /structarmed.php        export-ignore
-/infection.json.dist    export-ignore
+/infection.json5        export-ignore
 /mkdocs.yml             export-ignore
 /phpstan-baseline.php   export-ignore
 /phpstan.neon.dist      export-ignore
