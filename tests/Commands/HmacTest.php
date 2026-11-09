@@ -21,6 +21,7 @@ use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Test\MockInputOutput;
+use Config\Services;
 use Tests\Support\DatabaseTestCase;
 
 /**
@@ -49,6 +50,8 @@ final class HmacTest extends DatabaseTestCase
         $this->setMockIo([]);
         $this->assertNotFalse(command('shield:hmac encrypt'));
 
+        $this->assertSame('id: 1, encrypted.', trim($this->io->getOutputs()));
+
         $tokenCheck = $idModel->find($token->id);
 
         $encrypter    = new HmacEncrypter();
@@ -62,6 +65,56 @@ final class HmacTest extends DatabaseTestCase
 
         $resultsString = trim($this->io->getOutputs());
         $this->assertSame('id: 1, already encrypted, skipped.', $resultsString);
+    }
+
+    public function testEncryptReportsKeysThatAreTooLong(): void
+    {
+        $idModel = new UserIdentityModel();
+
+        /** @var User $user */
+        $user  = fake(UserModel::class);
+        $token = $user->generateHmacToken('foo');
+
+        $rawSecretKey   = $token->rawSecretKey;
+        $token->secret2 = $rawSecretKey;
+        $idModel->save($token);
+
+        config('AuthToken')->secret2StorageLimit = 10;
+
+        $this->setMockIo([]);
+        $this->assertNotFalse(command('shield:hmac encrypt'));
+
+        $this->assertStringContainsString(
+            'id: 1, Encrypted key too long. Unable to store value.',
+            $this->io->getOutputs(),
+        );
+        $this->assertSame($rawSecretKey, $idModel->find($token->id)->secret2);
+    }
+
+    public function testDecryptRestoresRawSecretKey(): void
+    {
+        $idModel = new UserIdentityModel();
+
+        /** @var User $user */
+        $user  = fake(UserModel::class);
+        $token = $user->generateHmacToken('foo');
+
+        $this->assertTrue((new HmacEncrypter())->isEncrypted($idModel->find($token->id)->secret2));
+
+        $this->setMockIo([]);
+        $this->assertNotFalse(command('shield:hmac decrypt'));
+
+        $this->assertSame('id: 1, decrypted.', trim($this->io->getOutputs()));
+        $this->assertSame($token->rawSecretKey, $idModel->find($token->id)->secret2);
+    }
+
+    public function testRunReturnsExitCodes(): void
+    {
+        $this->setMockIo([]);
+        $command = new Hmac(Services::logger(), Services::commands());
+
+        $this->assertSame(EXIT_ERROR, $command->run(['badcommand']));
+        $this->assertSame(EXIT_SUCCESS, $command->run(['encrypt']));
     }
 
     public function testDecrypt(): void
@@ -126,6 +179,7 @@ final class HmacTest extends DatabaseTestCase
         $tokenCheck1        = $idModel->find($token1->id);
         $descryptSecretKey1 = $encrypter->decrypt($tokenCheck1->secret2);
         $this->assertSame($token1->rawSecretKey, $descryptSecretKey1);
+        $this->assertTrue($encrypter->isEncryptedWithCurrentKey($tokenCheck1->secret2));
 
         $tokenCheck2        = $idModel->find($token2->id);
         $descryptSecretKey2 = $encrypter->decrypt($tokenCheck2->secret2);
@@ -162,6 +216,10 @@ final class HmacTest extends DatabaseTestCase
         $this->assertCount(2, $results);
         $this->assertSame('HMAC Token ID: 1, already expired, skipped.', trim($results[0]));
         $this->assertSame('HMAC Token ID: 2, set as expired.', trim($results[1]));
+
+        $idModel = new UserIdentityModel();
+        $this->assertSame('2024-11-03 12:00:00', $idModel->find(1)->expires->format('Y-m-d H:i:s'));
+        $this->assertNotNull($idModel->find(2)->expires);
     }
 
     /**
