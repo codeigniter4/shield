@@ -6,6 +6,13 @@ on:
       - develop
     paths:
       - 'src/**.php'
+      # Directories excluded from the PHPUnit coverage source filter. Changing
+      # only these makes Infection build an empty coverage filter, which aborts
+      # the initial test run ("No tests executed!" is not a test failure).
+      - '!src/Config/**.php'
+      - '!src/Views/**.php'
+      - '!src/Language/**.php'
+      - '!src/Database/Migrations/**.php'
       - 'tests/**.php'
       - 'composer.json'
       - 'infection.json5'
@@ -17,6 +24,13 @@ on:
       - develop
     paths:
       - 'src/**.php'
+      # Directories excluded from the PHPUnit coverage source filter. Changing
+      # only these makes Infection build an empty coverage filter, which aborts
+      # the initial test run ("No tests executed!" is not a test failure).
+      - '!src/Config/**.php'
+      - '!src/Views/**.php'
+      - '!src/Language/**.php'
+      - '!src/Database/Migrations/**.php'
       - 'tests/**.php'
       - 'composer.json'
       - 'infection.json5'
