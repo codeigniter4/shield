@@ -136,6 +136,65 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $this->assertTrue($result->isOK());
     }
 
+    public function testFalseWhenPasswordPartIsExactlyThreeCharactersLong(): void
+    {
+        $user = new User([
+            'email'    => 'zzzz@example.com',
+            'username' => 'bobby',
+        ]);
+
+        $result = $this->validator->check('bob!qzxwv7', $user);
+
+        $this->assertFalse($result->isOK());
+    }
+
+    public function testTrueWhenPasswordIsTwoMultibyteCharacters(): void
+    {
+        $user = new User([
+            'email'    => 'éé1@example.com',
+            'username' => null,
+        ]);
+
+        $result = $this->validator->check('éé', $user);
+
+        $this->assertTrue($result->isOK());
+    }
+
+    public function testTrueWhenPersonalNeedleIsTwoMultibyteCharacters(): void
+    {
+        $user = new User([
+            'email'    => 'éé@example.com',
+            'username' => null,
+        ]);
+
+        $result = $this->validator->check('éé1', $user);
+
+        $this->assertTrue($result->isOK());
+    }
+
+    public function testChecksAreOverridableByExtendingClasses(): void
+    {
+        $validator = new class (new Auth()) extends NothingPersonalValidator {
+            public function personal(string $password, ?User $user): bool
+            {
+                return $this->isNotPersonal($password, $user);
+            }
+
+            public function similar(string $password, ?User $user): bool
+            {
+                return $this->isNotSimilar($password, $user);
+            }
+        };
+
+        $user = new User([
+            'email'    => 'zzzz@example.com',
+            'username' => 'bobby',
+        ]);
+
+        $this->assertTrue($validator->personal('opensesame', $user));
+        $this->assertTrue($validator->similar('opensesame', $user));
+    }
+
     public function testFalseForSensibleMatch(): void
     {
         $user = new User([

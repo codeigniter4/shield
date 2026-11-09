@@ -2,30 +2,6 @@
 
 $ignoreErrors = [];
 $ignoreErrors[] = [
-	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
-	'identifier' => 'empty.notAllowed',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Actions/Email2FA.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
-	'identifier' => 'empty.notAllowed',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Authentication.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
-	'identifier' => 'empty.notAllowed',
-	'count' => 2,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/AccessTokens.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Only booleans are allowed in &&, CodeIgniter\\I18n\\Time|null given on the left side.',
-	'identifier' => 'booleanAnd.leftNotBoolean',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/AccessTokens.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Parameter #1 $credentials (array{token?: string}) of method CodeIgniter\\Shield\\Authentication\\Authenticators\\JWT::attempt() should be contravariant with parameter $credentials (array) of method CodeIgniter\\Shield\\Authentication\\AuthenticatorInterface::attempt()',
 	'identifier' => 'method.childParameterType',
 	'count' => 1,
@@ -38,18 +14,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Authentication/Authenticators/JWT.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
-	'identifier' => 'empty.notAllowed',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Only booleans are allowed in an if condition, int|string|null given.',
-	'identifier' => 'if.condNotBoolean',
-	'count' => 3,
-	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Parameter #1 $credentials (array{email?: string, username?: string, password?: string, ...<string, string>}) of method CodeIgniter\\Shield\\Authentication\\Authenticators\\Session::attempt() should be contravariant with parameter $credentials (array) of method CodeIgniter\\Shield\\Authentication\\AuthenticatorInterface::attempt()',
 	'identifier' => 'method.childParameterType',
 	'count' => 1,
@@ -60,24 +24,6 @@ $ignoreErrors[] = [
 	'identifier' => 'method.childParameterType',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Authentication/Authenticators/Session.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
-	'identifier' => 'empty.notAllowed',
-	'count' => 4,
-	'path' => __DIR__ . '/src/Authentication/Passwords/NothingPersonalValidator.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Only booleans are allowed in &&, CodeIgniter\\Shield\\Entities\\User|null given on the right side.',
-	'identifier' => 'booleanAnd.rightNotBoolean',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Authentication/Passwords/ValidationRules.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
-	'identifier' => 'empty.notAllowed',
-	'count' => 3,
-	'path' => __DIR__ . '/src/Authorization/Groups.php',
 ];
 $ignoreErrors[] = [
 	'rawMessage' => 'Return type (int|string|null) of method CodeIgniter\\Shield\\Collectors\\Auth::getBadgeValue() should be covariant with return type (int|null) of method CodeIgniter\\Debug\\Toolbar\\Collectors\\BaseCollector::getBadgeValue()',
@@ -132,18 +78,6 @@ $ignoreErrors[] = [
 	'identifier' => 'method.notFound',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Database/Migrations/2020-12-28-223112_create_auth_tables.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Only booleans are allowed in a ternary operator condition, int<0, max> given.',
-	'identifier' => 'ternary.condNotBoolean',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Entities/User.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
-	'identifier' => 'empty.notAllowed',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Filters/AbstractAuthFilter.php',
 ];
 $ignoreErrors[] = [
 	'rawMessage' => 'Return type (CodeIgniter\\HTTP\\RedirectResponse|void) of method CodeIgniter\\Shield\\Filters\\AbstractAuthFilter::before() should be covariant with return type (CodeIgniter\\HTTP\\RequestInterface|CodeIgniter\\HTTP\\ResponseInterface|string|null) of method CodeIgniter\\Filters\\FilterInterface::before()',
@@ -230,12 +164,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Filters/SessionAuth.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
-	'identifier' => 'empty.notAllowed',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Filters/TokenAuth.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Method CodeIgniter\\Shield\\Filters\\TokenAuth::before() should return CodeIgniter\\HTTP\\RedirectResponse|void but returns CodeIgniter\\HTTP\\ResponseInterface.',
 	'identifier' => 'return.type',
 	'count' => 2,
@@ -252,12 +180,6 @@ $ignoreErrors[] = [
 	'identifier' => 'method.childReturnType',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Filters/TokenAuth.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Construct empty() is not allowed. Use more strict comparison.',
-	'identifier' => 'empty.notAllowed',
-	'count' => 2,
-	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
 $ignoreErrors[] = [
 	'rawMessage' => 'Parameter #1 $row (array|CodeIgniter\\Shield\\Entities\\User) of method CodeIgniter\\Shield\\Models\\UserModel::insert() should be contravariant with parameter $row (array<mixed>|object|null) of method CodeIgniter\\Model::insert()',
@@ -284,40 +206,10 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Call to method PHPUnit\\Framework\\Assert::assertInstanceOf() with \'CodeIgniter\\\\Shield\\\\Result\' and CodeIgniter\\Shield\\Result will always evaluate to true.',
-	'identifier' => 'method.alreadyNarrowedType',
-	'count' => 3,
-	'path' => __DIR__ . '/tests/Authentication/Authenticators/JWTAuthenticatorTest.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to method PHPUnit\\Framework\\Assert::assertInstanceOf() with \'CodeIgniter\\\\Shield\\\\Result\' and CodeIgniter\\Shield\\Result will always evaluate to true.',
-	'identifier' => 'method.alreadyNarrowedType',
-	'count' => 8,
-	'path' => __DIR__ . '/tests/Authentication/Authenticators/SessionAuthenticatorTest.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Call to method setCookie() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
 	'identifier' => 'method.internalClass',
 	'count' => 2,
 	'path' => __DIR__ . '/tests/Authentication/Authenticators/SessionAuthenticatorTest.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Implicit array creation is not allowed - variable $users might not exist.',
-	'identifier' => 'variable.implicitArray',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/Authentication/ForcePasswordResetTest.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Variable $users might not be defined.',
-	'identifier' => 'variable.undefined',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/Authentication/ForcePasswordResetTest.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to method PHPUnit\\Framework\\Assert::assertInstanceOf() with \'CodeIgniter\\\\Shield\\\\Entities\\\\AccessToken\' and CodeIgniter\\Shield\\Entities\\AccessToken will always evaluate to true.',
-	'identifier' => 'method.alreadyNarrowedType',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/Authentication/HasAccessTokensTest.php',
 ];
 $ignoreErrors[] = [
 	'rawMessage' => 'Call to method setServer() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
@@ -350,18 +242,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/tests/Controllers/MagicLinkTest.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Only booleans are allowed in a ternary operator condition, string|null given.',
-	'identifier' => 'ternary.condNotBoolean',
-	'count' => 2,
-	'path' => __DIR__ . '/tests/Language/AbstractTranslationTestCase.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to method PHPUnit\\Framework\\Assert::assertIsString() with string will always evaluate to true.',
-	'identifier' => 'method.alreadyNarrowedType',
-	'count' => 6,
-	'path' => __DIR__ . '/tests/Unit/Authentication/JWT/JWTManagerTest.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Call to deprecated method __construct() of class CodeIgniter\\HTTP\\Response:
 4.5.0 The param $config is no longer used.',
 	'identifier' => 'method.deprecated',
@@ -372,12 +252,6 @@ $ignoreErrors[] = [
 	'rawMessage' => 'Call to an undefined method CodeIgniter\\Shield\\Models\\UserModel::getLastQuery().',
 	'identifier' => 'method.notFound',
 	'count' => 9,
-	'path' => __DIR__ . '/tests/Unit/UserTest.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to method PHPUnit\\Framework\\Assert::assertInstanceOf() with \'CodeIgniter\\\\Shield\\\\Entities\\\\UserIdentity\' and CodeIgniter\\Shield\\Entities\\UserIdentity will always evaluate to true.',
-	'identifier' => 'method.alreadyNarrowedType',
-	'count' => 1,
 	'path' => __DIR__ . '/tests/Unit/UserTest.php',
 ];
 $ignoreErrors[] = [

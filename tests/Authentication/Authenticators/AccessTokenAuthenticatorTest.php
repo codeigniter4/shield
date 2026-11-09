@@ -48,6 +48,18 @@ final class AccessTokenAuthenticatorTest extends DatabaseTestCase
         Services::injectMock('events', new MockEvents());
     }
 
+    public function testGetBearerToken(): void
+    {
+        service('request')->setHeader('Authorization', 'Bearer abc123');
+
+        $this->assertSame('abc123', $this->auth->getBearerToken());
+    }
+
+    public function testGetBearerTokenWithoutHeader(): void
+    {
+        $this->assertNull($this->auth->getBearerToken());
+    }
+
     public function testLogin(): void
     {
         $user = fake(UserModel::class);

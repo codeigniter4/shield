@@ -83,7 +83,7 @@ class User extends Entity
     {
         $identities = $this->getIdentities($type);
 
-        return count($identities) ? array_shift($identities) : null;
+        return $identities !== [] ? array_shift($identities) : null;
     }
 
     /**

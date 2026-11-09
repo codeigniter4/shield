@@ -350,7 +350,7 @@ class Session implements AuthenticatorInterface
     public function check(array $credentials): Result
     {
         // Can't validate without a password.
-        if (empty($credentials['password']) || count($credentials) < 2) {
+        if (($credentials['password'] ?? '') === '' || count($credentials) < 2) {
             return new Result([
                 'success' => false,
                 'reason'  => lang('Auth.badAttempt'),
@@ -440,7 +440,7 @@ class Session implements AuthenticatorInterface
             }
 
             // If having `auth_action`, it is pending.
-            if ($this->getSessionUserKey('auth_action')) {
+            if ($this->getSessionUserKey('auth_action') !== null) {
                 $this->userState = self::STATE_PENDING;
 
                 return;
@@ -489,7 +489,7 @@ class Session implements AuthenticatorInterface
         }
 
         // Check the Session
-        if ($this->getSessionUserKey('auth_action')) {
+        if ($this->getSessionUserKey('auth_action') !== null) {
             return true;
         }
 
@@ -805,7 +805,7 @@ class Session implements AuthenticatorInterface
             );
         }
         // Check auth_action in Session
-        if ($this->getSessionUserKey('auth_action')) {
+        if ($this->getSessionUserKey('auth_action') !== null) {
             throw new LogicException(
                 'The user has auth action in session, so cannot complete login.'
                     . ' If you want to start to login with auth action, use startLogin() instead.'

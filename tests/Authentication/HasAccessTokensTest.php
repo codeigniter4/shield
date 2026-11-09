@@ -47,7 +47,6 @@ final class HasAccessTokensTest extends DatabaseTestCase
     {
         $token = $this->user->generateAccessToken('foo');
 
-        $this->assertInstanceOf(AccessToken::class, $token);
         $this->assertSame('foo', $token->name);
         $this->assertNull($token->expires);
 

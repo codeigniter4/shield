@@ -55,7 +55,7 @@ class TokenAuth implements FilterInterface
             'token' => $request->getHeaderLine(setting('AuthToken.authenticatorHeader')['tokens'] ?? 'Authorization'),
         ]);
 
-        if (! $result->isOK() || (! empty($arguments) && $result->extraInfo()->tokenCant($arguments[0]))) {
+        if (! $result->isOK() || (($arguments ?? []) !== [] && $result->extraInfo()->tokenCant($arguments[0]))) {
             return service('response')
                 ->setStatusCode(Response::HTTP_UNAUTHORIZED)
                 ->setJSON(['message' => lang('Auth.badToken')]);
