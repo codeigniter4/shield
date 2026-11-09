@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     bootstrap="vendor/codeigniter4/framework/system/Test/bootstrap.php"
-    backupGlobals="false"
     beStrictAboutOutputDuringTests="true"
     colors="true"
+    columns="max"
     executionOrder="random"
     failOnRisky="true"
     failOnWarning="true"
-    stopOnError="false"
-    stopOnFailure="false"
-    stopOnIncomplete="false"
-    stopOnSkipped="false"
     cacheDirectory="build/.phpunit.cache"
-    beStrictAboutCoverageMetadata="true">
+    beStrictAboutCoverageMetadata="true"
+>
+    <source>
+        <include>
+            <directory suffix=".php">./src/</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">./src/Config</directory>
+            <directory suffix=".php">./src/Views</directory>
+            <directory suffix=".php">./src/Language</directory>
+        </exclude>
+    </source>
     <coverage includeUncoveredFiles="true">
         <report>
             <clover outputFile="build/phpunit/clover.xml"/>
-            <html outputDirectory="build/phpunit/html"/>
-            <php outputFile="build/phpunit/coverage.serialized"/>
-            <text outputFile="php://stdout" showUncoveredFiles="false"/>
-            <xml outputDirectory="build/phpunit/xml-coverage"/>
         </report>
     </coverage>
     <testsuites>
@@ -36,11 +39,6 @@
         </bootstrap>
         <bootstrap class="Boundwize\Pyrameter\Extension"/>
     </extensions>
-    <logging>
-        <testdoxHtml outputFile="build/phpunit/testdox.html"/>
-        <testdoxText outputFile="build/phpunit/testdox.txt"/>
-        <junit outputFile="build/phpunit/junit.xml"/>
-    </logging>
     <php>
         <env name="XDEBUG_MODE" value="coverage"/>
         <!-- Set hashCost for improving the speed of running tests -->
@@ -52,8 +50,6 @@
         <const name="CONFIGPATH" value="vendor/codeigniter4/framework/app/Config/"/>
         <!-- Directory containing the front controller (index.php) -->
         <const name="PUBLICPATH" value="./public/"/>
-        <!-- https://getcomposer.org/xdebug -->
-        <env name="COMPOSER_DISABLE_XDEBUG_WARN" value="1"/>
         <!-- Default HMAC encryption key -->
         <env name="authtoken.hmacEncryptionKeys" value="{&quot;k1&quot;:{&quot;key&quot;:&quot;hex2bin:178ed94fd0b6d57dd31dd6b22fc601fab8ad191efac165a5f3f30a8ac09d813d&quot;},&quot;k2&quot;:{&quot;key&quot;:&quot;hex2bin:b0ab85bd0320824c496db2f40eb47c8712a6dfcfdf99b805988e22bdea6b9203&quot;}}"/>
         <!-- Database configuration -->
@@ -67,14 +63,4 @@
         <env name="database.tests.DBPrefix" value="db_"/>
         -->
     </php>
-    <source>
-        <include>
-            <directory suffix=".php">./src/</directory>
-        </include>
-        <exclude>
-            <directory suffix=".php">./src/Config</directory>
-            <directory suffix=".php">./src/Views</directory>
-            <directory suffix=".php">./src/Language</directory>
-        </exclude>
-    </source>
 </phpunit>
