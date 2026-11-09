@@ -71,9 +71,6 @@
         "sort-packages": true
     },
     "scripts": {
-        "post-update-cmd": [
-            "bash admin/setup.sh"
-        ],
         "analyze": [
             "phpstan analyze",
             "psalm",
