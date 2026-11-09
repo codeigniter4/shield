@@ -120,7 +120,7 @@ class Hmac extends BaseCommand
      *
      * @throws ReflectionException
      */
-    public function encrypt(): void
+    private function encrypt(): void
     {
         (new UserIdentityModel())->where('type', 'hmac_sha256')->orderBy('id')->chunk(
             self::CHUNK_SIZE,
@@ -148,7 +148,7 @@ class Hmac extends BaseCommand
      *
      * @throws ReflectionException
      */
-    public function decrypt(): void
+    private function decrypt(): void
     {
         (new UserIdentityModel())->where('type', 'hmac_sha256')->orderBy('id')->chunk(
             self::CHUNK_SIZE,
@@ -173,7 +173,7 @@ class Hmac extends BaseCommand
      *
      * @throws ReflectionException
      */
-    public function reEncrypt(): void
+    private function reEncrypt(): void
     {
         (new UserIdentityModel())->where('type', 'hmac_sha256')->orderBy('id')->chunk(
             self::CHUNK_SIZE,
@@ -196,7 +196,7 @@ class Hmac extends BaseCommand
     /**
      * Invalidates all HMAC Keys/Tokens for every user.
      */
-    public function invalidateAll(): void
+    private function invalidateAll(): void
     {
         (new UserIdentityModel())->where('type', 'hmac_sha256')->orderBy('id')->chunk(
             self::CHUNK_SIZE,
