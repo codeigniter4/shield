@@ -85,6 +85,7 @@ final class Registrar
             'failover'    => [],
             'port'        => 3306,
             'foreignKeys' => true,
+            'synchronous' => '0',
         ],
         'SQLSRV' => [
             'DSN'      => '',
