@@ -22,7 +22,6 @@ use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Shield\Result;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
 use Firebase\JWT\JWT as FirebaseJWT;
@@ -197,7 +196,6 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
             'token' => self::BAD_JWT,
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
         $this->assertSame(lang('Auth.invalidJWT'), $result->reason());
 
@@ -219,7 +217,6 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
             'token' => $token,
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
         $this->assertSame(lang('Auth.bannedUser'), $result->reason());
 
@@ -245,7 +242,6 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
             'token' => $token,
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertTrue($result->isOK());
 
         $foundUser = $result->extraInfo();

@@ -47,7 +47,6 @@ final class JWTManagerTest extends TestCase
         // Reset the current time.
         Time::setTestNow();
 
-        $this->assertIsString($token);
         $this->assertStringStartsWith('eyJ', $token);
 
         return [$token, $currentTime];
@@ -83,8 +82,6 @@ final class JWTManagerTest extends TestCase
         ];
         $token = $manager->generateToken($user, $claims);
 
-        $this->assertIsString($token);
-
         $payload = $this->decodeJWT($token, 'payload');
 
         $this->assertStringStartsWith('1', $payload['sub']);
@@ -111,7 +108,6 @@ final class JWTManagerTest extends TestCase
         // Reset the current time.
         Time::setTestNow();
 
-        $this->assertIsString($token);
         $this->assertStringStartsWith('eyJ', $token);
 
         return [$token, $currentTime];
@@ -151,8 +147,6 @@ final class JWTManagerTest extends TestCase
         ];
         $token = $manager->issue($payload, DAY);
 
-        $this->assertIsString($token);
-
         $headers = $this->decodeJWT($token, 'header');
         $this->assertSame([
             'typ' => 'JWT',
@@ -172,8 +166,6 @@ final class JWTManagerTest extends TestCase
             'extra_key' => 'extra_value',
         ];
         $token = $manager->issue($payload, DAY, 'default', $headers);
-
-        $this->assertIsString($token);
 
         $headers = $this->decodeJWT($token, 'header');
         $this->assertEqualsCanonicalizing([
@@ -227,8 +219,6 @@ final class JWTManagerTest extends TestCase
             'user_id' => '1',
         ];
         $token = $manager->issue($payload, DAY);
-
-        $this->assertIsString($token);
 
         $headers = $this->decodeJWT($token, 'header');
         $this->assertSame([

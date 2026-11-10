@@ -60,9 +60,19 @@ final class UserTest extends DatabaseTestCase
         $identities = $this->user->getIdentities('access_token');
 
         $this->assertCount(1, $identities);
-        $this->assertInstanceOf(UserIdentity::class, $identities[0]);
         $this->assertSame('access_token', $identities[0]->type);
         $this->assertSame([], $this->user->getIdentities('foo'));
+    }
+
+    public function testGetIdentity(): void
+    {
+        fake(UserIdentityModel::class, ['user_id' => $this->user->id, 'type' => 'access_token']);
+
+        $identity = $this->user->getIdentity('access_token');
+
+        $this->assertInstanceOf(UserIdentity::class, $identity);
+        $this->assertSame('access_token', $identity->type);
+        $this->assertNull($this->user->getIdentity('foo'));
     }
 
     public function testSetIdentitiesNullReloadsIdentities(): void

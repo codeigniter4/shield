@@ -94,7 +94,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
             $personalFields = $this->config->personalFields;
 
             foreach ($personalFields as $value) {
-                if (! empty($user->{$value})) {
+                if (($user->{$value} ?? '') !== '') {
                     $needles[] = strtolower($user->{$value});
                 }
             }
@@ -121,12 +121,12 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
             $haystacks = $this->strip_explode($password);
 
             foreach ($haystacks as $haystack) {
-                if (empty($haystack) || in_array($haystack, $trivial, true) || mb_strlen($haystack, 'UTF-8') < 3) {
+                if (in_array($haystack, $trivial, true) || mb_strlen($haystack, 'UTF-8') < 3) {
                     continue;  // ignore trivial words
                 }
 
                 foreach ($needles as $needle) {
-                    if (empty($needle) || in_array($needle, $trivial, true) || mb_strlen($needle, 'UTF-8') < 3) {
+                    if (in_array($needle, $trivial, true) || mb_strlen($needle, 'UTF-8') < 3) {
                         continue;
                     }
 
@@ -172,7 +172,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
             $maxSimilarity = 100;
         }
 
-        if (! empty($maxSimilarity)) {
+        if ($maxSimilarity > 0) {
             $userName = strtolower($user->username);
 
             similar_text($password, $userName, $similarity);

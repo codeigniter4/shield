@@ -427,7 +427,7 @@ abstract class AbstractTranslationTestCase extends TestCase
      */
     final public function loadFile(string $file, ?string $locale = null): array
     {
-        $folder = $locale
+        $folder = $locale !== null
             ? getcwd() . self::LANGUAGE_DIR . "{$locale}/"
             : getcwd() . self::MAIN_LANGUAGE_REPO;
 
@@ -445,7 +445,7 @@ abstract class AbstractTranslationTestCase extends TestCase
     {
         helper('filesystem');
 
-        $location = $locale
+        $location = $locale !== null
             ? getcwd() . self::LANGUAGE_DIR . "{$locale}/"
             : getcwd() . self::MAIN_LANGUAGE_REPO;
 

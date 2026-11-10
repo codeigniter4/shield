@@ -130,7 +130,7 @@ class UserModel extends BaseModel
         // Get our identities for all users
         $identities = $identityModel->getIdentitiesByUserIds($userIds);
 
-        if (empty($identities)) {
+        if ($identities === []) {
             return $data;
         }
 
@@ -297,7 +297,7 @@ class UserModel extends BaseModel
 
         $groupModel = model(GroupModel::class);
 
-        if (empty($defaultGroup) || ! $groupModel->isValidGroup($defaultGroup)) {
+        if ($defaultGroup === null || $defaultGroup === '' || ! $groupModel->isValidGroup($defaultGroup)) {
             throw new InvalidArgumentException(lang('Auth.unknownGroup', [$defaultGroup ?? '--not found--']));
         }
 

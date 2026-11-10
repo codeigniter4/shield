@@ -33,7 +33,7 @@ abstract class AbstractAuthFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (empty($arguments)) {
+        if (($arguments ?? []) === []) {
             return;
         }
 

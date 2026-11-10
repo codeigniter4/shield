@@ -11,7 +11,7 @@
 /infection.json5        export-ignore
 /mkdocs.yml             export-ignore
 /phpstan-baseline.php   export-ignore
-/phpstan.neon.dist      export-ignore
+/phpstan.dist.neon      export-ignore
 /phpunit.dist.xml       export-ignore
 /pyrameter.php          export-ignore
 /psalm_autoload.php     export-ignore

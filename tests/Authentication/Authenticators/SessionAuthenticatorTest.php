@@ -23,9 +23,9 @@ use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\LogicException;
 use CodeIgniter\Shield\Models\RememberModel;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Shield\Result;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Support\DatabaseTestCase;
 use Tests\Support\FakeUser;
 
@@ -256,9 +256,40 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
             'email' => 'johnsmith@example.com',
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
         $this->assertSame(lang('Auth.badAttempt'), $result->reason());
+    }
+
+    /**
+     * @param array<string, string> $credentials
+     */
+    #[DataProvider('provideCheckWithoutUsablePasswordDoesNotVerify')]
+    public function testCheckWithoutUsablePasswordDoesNotVerify(array $credentials): void
+    {
+        $passwords = new class (new Auth()) extends Passwords {
+            public array $checks = [];
+
+            public function verify(string $password, string $hash): bool
+            {
+                $this->checks[] = [$password, $hash];
+
+                return false;
+            }
+        };
+        Services::injectMock('passwords', $passwords);
+
+        $result = $this->auth->check($credentials);
+
+        $this->assertFalse($result->isOK());
+        $this->assertSame(lang('Auth.badAttempt'), $result->reason());
+        $this->assertSame([], $passwords->checks);
+    }
+
+    public static function provideCheckWithoutUsablePasswordDoesNotVerify(): iterable
+    {
+        yield 'empty password' => [['email' => 'johnsmith@example.com', 'password' => '']];
+
+        yield 'password only' => [['password' => 'secret']];
     }
 
     public function testCheckCannotFindUser(): void
@@ -268,7 +299,6 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
             'password' => 'secret',
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
         $this->assertSame(lang('Auth.badAttempt'), $result->reason());
     }
@@ -308,7 +338,6 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
             'password' => 'secret',
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
         $this->assertSame(lang('Auth.badAttempt'), $result->reason());
     }
@@ -325,7 +354,6 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
             'password' => 'secret123',
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertTrue($result->isOK());
 
         $foundUser = $result->extraInfo();
@@ -339,7 +367,6 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
             'password' => 'secret',
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertFalse($result->isOK());
         $this->assertSame(lang('Auth.badAttempt'), $result->reason());
 
@@ -364,7 +391,6 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
             'password' => 'secret123',
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertTrue($result->isOK());
 
         $foundUser = $result->extraInfo();
@@ -414,7 +440,6 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
             'password' => 'secret123',
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertTrue($result->isOK());
 
         $foundUser = $result->extraInfo();
@@ -451,7 +476,6 @@ final class SessionAuthenticatorTest extends DatabaseTestCase
             'password' => 'secret123',
         ]);
 
-        $this->assertInstanceOf(Result::class, $result);
         $this->assertTrue($result->isOK());
 
         $foundUser = $result->extraInfo();

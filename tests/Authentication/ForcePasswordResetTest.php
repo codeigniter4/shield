@@ -96,6 +96,8 @@ final class ForcePasswordResetTest extends TestCase
 
     public function testForceGlobalPasswordReset(): void
     {
+        $users = [];
+
         for ($i = 0; $i < 3; $i++) {
             $user = fake(UserModel::class);
             $user->createEmailIdentity([

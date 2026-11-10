@@ -6,17 +6,20 @@ on:
       - develop
     paths:
       - '**.php'
-      - 'composer.*'
-      - 'phpstan*'
+      - 'composer.json'
+      - 'phpstan.dist.neon'
       - '.github/workflows/phpstan.yml'
   push:
     branches:
       - develop
     paths:
       - '**.php'
-      - 'composer.*'
-      - 'phpstan*'
+      - 'composer.json'
+      - 'phpstan.dist.neon'
       - '.github/workflows/phpstan.yml'
+
+permissions:
+  contents: read
 
 jobs:
   phpstan:

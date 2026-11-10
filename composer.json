@@ -74,7 +74,7 @@
     },
     "scripts": {
         "analyze": [
-            "phpstan analyze",
+            "@phpstan:check",
             "psalm",
             "rector process --dry-run"
         ],
@@ -100,7 +100,8 @@
             "@putenv PYRAMETER_DISABLED=1",
             "bin/mutation-filter"
         ],
-        "sa": "@analyze",
+        "phpstan:baseline": "@phpstan:check --generate-baseline=phpstan-baseline.php",
+        "phpstan:check": "phpstan analyse --ansi --verbose",
         "style": "@cs-fix",
         "test": "phpunit"
     }

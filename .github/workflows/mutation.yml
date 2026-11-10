@@ -10,7 +10,7 @@ on:
       - 'composer.json'
       - 'infection.json5'
       - 'phpunit.dist.xml'
-      - 'phpstan.neon.dist'
+      - 'phpstan.dist.neon'
       - '.github/workflows/mutation.yml'
   push:
     branches:
@@ -21,7 +21,7 @@ on:
       - 'composer.json'
       - 'infection.json5'
       - 'phpunit.dist.xml'
-      - 'phpstan.neon.dist'
+      - 'phpstan.dist.neon'
       - '.github/workflows/mutation.yml'
 
 permissions:
