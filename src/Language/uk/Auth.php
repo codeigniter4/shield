@@ -29,6 +29,8 @@ return [
     'unableSendEmailToUser' => 'Вибачте, під час надсилання електронного листа виникла проблема. Не вдалося надіслати електронний лист на "{0}".',
     'throttled'             => 'Із цієї IP-адреси зроблено забагато запитів. Ви можете спробувати ще раз через {0} секунд.',
     'notEnoughPrivilege'    => 'У вас немає необхідного дозволу для виконання потрібної операції.',
+    'unsetPasswordLength'   => '(To be translated) The minimum password length is not specified in the configuration.',
+
     // JWT Exceptions
     'invalidJWT'     => 'Токен недійсний.',
     'expiredJWT'     => 'Термін дії токена минув.',

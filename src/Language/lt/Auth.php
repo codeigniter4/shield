@@ -29,6 +29,8 @@ return [
     'unableSendEmailToUser' => 'Atsiprašome, įvyko klaida siunčiant el. laišką. Nepavyko išsiųsti laiško adresu „{0}“.',
     'throttled'             => 'Per daug užklausų iš šio IP adreso. Galite pamėginti iš naujo po {0} sekundžių.',
     'notEnoughPrivilege'    => 'Neturite pakankamų teisių šiai operacijai atlikti.',
+    'unsetPasswordLength'   => '(To be translated) The minimum password length is not specified in the configuration.',
+
     // JWT Exceptions
     'invalidJWT'     => 'Raktas neteisingai suformuotas.',
     'expiredJWT'     => 'Rakto galiojimas pasibaigęs.',

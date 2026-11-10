@@ -29,6 +29,8 @@ return [
     'unableSendEmailToUser' => 'Sorry, er is een probleem opgetreden bij het verzenden van de e-mail. We konden geen e-mail versturen naar "{0}".',
     'throttled'             => 'Te veel inlogpogingen van dit IP adres. Probeer het over {0} seconden opnieuw.',
     'notEnoughPrivilege'    => 'U hebt niet de nodige rechten om de gewenste bewerking uit te voeren.',
+    'unsetPasswordLength'   => '(To be translated) The minimum password length is not specified in the configuration.',
+
     // JWT Exceptions
     'invalidJWT'     => 'De token ongeldig.',
     'expiredJWT'     => 'De token is verlopen.',
