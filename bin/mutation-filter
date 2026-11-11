@@ -16,6 +16,16 @@ if [ -n "$untracked" ]; then
     git add --intent-to-add -- $untracked
 fi
 
+# Infection narrows the PHPUnit coverage filter to the changed files. When the
+# only changes are in paths excluded by `<source><exclude>` in phpunit.dist.xml,
+# that filter matches nothing and PHPUnit aborts the initial run with
+# "No tests executed!" (a configuration problem, not a failing test suite).
+if ! git diff --name-only origin/develop -- src tests |
+    grep -qvE '^src/(Config|Views|Language|Database/Migrations)/'; then
+    echo 'No changes to tested source code detected, skipping mutation testing.'
+    exit 0
+fi
+
 vendor/bin/infection \
     --static-analysis-tool=phpstan \
     --with-uncovered \
