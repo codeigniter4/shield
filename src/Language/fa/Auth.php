@@ -29,7 +29,7 @@ return [
     'unableSendEmailToUser' => 'متاسفانه, در ارسال ایمیل مشکلی پیش آمد. ما نتوانستیم ایمیلی را به "{0}" ارسال کنیم.',
     'throttled'             => 'درخواست های بسیار زیادی از این آدرس IP انجام شده است. می توانید بعد از {0} ثانیه دوباره امتحان کنید.',
     'notEnoughPrivilege'    => 'شما مجوز لازم برای انجام عملیات مورد نظر را ندارید.',
-    'unsetPasswordLength'   => '(To be translated) The minimum password length is not specified in the configuration.',
+    'unsetPasswordLength'   => 'حداقل طول رمز عبور در پیکربندی مشخص نشده است.',
 
     // JWT Exceptions
     'invalidJWT'     => 'توکن معتبر نمی باشد.',
