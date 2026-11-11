@@ -24,14 +24,18 @@ use stdClass;
  */
 class JWTManager
 {
+    protected Time $clock;
     protected JWSEncoder $jwsEncoder;
+    protected JWSDecoder $jwsDecoder;
 
     public function __construct(
-        protected Time $clock = new Time(),
+        ?Time $clock = null,
         ?JWSEncoder $jwsEncoder = null,
-        protected JWSDecoder $jwsDecoder = new JWSDecoder(),
+        ?JWSDecoder $jwsDecoder = null,
     ) {
-        $this->jwsEncoder = $jwsEncoder ?? new JWSEncoder(clock: $this->clock);
+        $this->clock      = $clock ?? new Time();
+        $this->jwsEncoder = $jwsEncoder ?? new JWSEncoder(null, $this->clock);
+        $this->jwsDecoder = $jwsDecoder ?? new JWSDecoder();
     }
 
     /**
