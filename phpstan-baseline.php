@@ -32,24 +32,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Collectors/Auth.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Cannot access property $expires on array<string, string>|object.',
-	'identifier' => 'property.nonObject',
-	'count' => 3,
-	'path' => __DIR__ . '/src/Commands/Hmac.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Cannot access property $id on array<string, string>|object.',
-	'identifier' => 'property.nonObject',
-	'count' => 9,
-	'path' => __DIR__ . '/src/Commands/Hmac.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Cannot access property $secret2 on array<string, string>|object.',
-	'identifier' => 'property.nonObject',
-	'count' => 11,
-	'path' => __DIR__ . '/src/Commands/Hmac.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Call to function assert() with false and \'Config Auth…\' will always evaluate to false.',
 	'identifier' => 'function.impossibleType',
 	'count' => 1,
