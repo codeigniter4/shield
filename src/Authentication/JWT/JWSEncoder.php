@@ -19,10 +19,10 @@ use CodeIgniter\Shield\Config\AuthJWT;
 
 class JWSEncoder
 {
-    public function __construct(protected ?JWSAdapterInterface $jwsAdapter = null, protected ?Time $clock = null)
-    {
-        $this->jwsAdapter = $jwsAdapter ?? new FirebaseAdapter();
-        $this->clock      = $clock ?? new Time();
+    public function __construct(
+        protected JWSAdapterInterface $jwsAdapter = new FirebaseAdapter(),
+        protected Time $clock = new Time(),
+    ) {
     }
 
     /**
@@ -54,7 +54,7 @@ class JWSEncoder
         );
 
         if (! array_key_exists('iat', $claims)) {
-            $payload['iat'] = $this->clock->now()->getTimestamp();
+            $payload['iat'] = $this->clock::now()->getTimestamp();
         }
 
         if (! array_key_exists('exp', $claims)) {

@@ -32,7 +32,7 @@ final class AuthHelperTest extends TestCase
     {
         parent::setUp();
 
-        $this->setPrivateProperty(auth(), 'alias', null);
+        self::setPrivateProperty(auth(), 'alias', null);
     }
 
     public function testAuthReturnsDefaultAuthenticator(): void
@@ -66,7 +66,7 @@ final class AuthHelperTest extends TestCase
     public function testUserIdReturnsId(): void
     {
         $user = fake(UserModel::class, ['id' => 1]);
-        $this->setPrivateProperty(auth()->getAuthenticator(), 'user', $user);
+        self::setPrivateProperty(auth()->getAuthenticator(), 'user', $user);
         $_SESSION['user']['id'] = $user->id;
 
         $this->assertTrue(auth()->loggedIn());

@@ -365,8 +365,8 @@ class Setup extends BaseCommand
         }
 
         $config    = config(EmailConfig::class);
-        $fromEmail = (string) $config->fromEmail; // Old Config may return null.
-        $fromName  = (string) $config->fromName;
+        $fromEmail = $config->fromEmail;
+        $fromName  = $config->fromName;
 
         if ($fromEmail !== '' && $fromName !== '') {
             $this->write(CLI::color('  Email Setup: ', 'green') . 'Everything is fine.');

@@ -75,7 +75,7 @@ final class MagicLinkTest extends DatabaseTestCase
 
     public function testMagicLinkSubmitSuccess(): void
     {
-        /** @phpstan-var User $user */
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
 
@@ -104,7 +104,7 @@ final class MagicLinkTest extends DatabaseTestCase
     {
         $identities = new UserIdentityModel();
 
-        /** @phpstan-var User $user */
+        /** @var User $user */
         $user = fake(UserModel::class);
         $user->createEmailIdentity(['email' => 'foo@example.com', 'password' => 'secret123']);
         $identities->insert([

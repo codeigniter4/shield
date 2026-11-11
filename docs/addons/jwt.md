@@ -191,7 +191,7 @@ class LoginController extends BaseController
 
         // Get the credentials for login
         $credentials             = $this->request->getJsonVar(setting('Auth.validFields'));
-        $credentials             = array_filter($credentials);
+        $credentials             = array_filter($credentials, static fn ($value): bool => $value !== null && $value !== '');
         $credentials['password'] = $this->request->getJsonVar('password');
 
         /** @var Session $authenticator */
