@@ -29,6 +29,8 @@ return [
     'unableSendEmailToUser' => 'Omlouváme se, došlo k problému s odesláním e-mailu. E-mail se nám nepodařilo odeslat na adresu "{0}".',
     'throttled'             => 'Z této IP adresy bylo odesláno příliš mnoho požadavků. Můžete to zkusit znovu za {0} sekund.',
     'notEnoughPrivilege'    => 'Nemáte potřebné oprávnění k provedení požadované operace.',
+    'unsetPasswordLength'   => '(To be translated) The minimum password length is not specified in the configuration.',
+
     // JWT Exceptions
     'invalidJWT'     => 'Neplatný token.',
     'expiredJWT'     => 'Platnost tokenu vypršela.',

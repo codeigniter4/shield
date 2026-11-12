@@ -29,6 +29,8 @@ return [
     'unableSendEmailToUser' => '申し訳ありませんが、メールの送信に問題がありました。 "{0}"にメールを送信できませんでした。', // 'Sorry, there was a problem sending the email. We could not send an email to "{0}".'
     'throttled'             => 'このIPアドレスからのリクエストが多すぎます。 {0}秒後に再試行できます。', // 'Too many requests made from this IP address. You may try again in {0} seconds.'
     'notEnoughPrivilege'    => '目的の操作を実行するために必要な権限がありません。', // 'You do not have the necessary permission to perform the desired operation.'
+    'unsetPasswordLength'   => '(To be translated) The minimum password length is not specified in the configuration.',
+
     // JWT Exceptions
     'invalidJWT'     => 'トークンが無効です。', // 'The token is invalid.'
     'expiredJWT'     => 'トークンの有効期限が切れています。', // 'The token has expired.'

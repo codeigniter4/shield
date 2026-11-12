@@ -29,6 +29,8 @@ return [
     'unableSendEmailToUser' => 'Съжаляваме, имаше проблем с изпращането на имейла. Не можем да изпратим имейл до "{0}".',
     'throttled'             => 'Твърде много заявки са направени от този IP адрес. Може да опитате отново след {0} секунди.',
     'notEnoughPrivilege'    => 'Нямате необходимите права за изпълнение на желаната операция.',
+    'unsetPasswordLength'   => '(To be translated) The minimum password length is not specified in the configuration.',
+
     // JWT Изключения
     'invalidJWT'     => 'Токенът е невалиден.',
     'expiredJWT'     => 'Токенът е изтекъл.',

@@ -29,6 +29,8 @@ return [
     'unableSendEmailToUser' => 'عذرا ، كانت هناك مشكلة في إرسال البريد الإلكتروني. لم نتمكن من إرسال بريد إلكتروني إلى "{0}".',
     'throttled'             => 'تم إجراء العديد من الطلبات من عنوان IP هذا. يمكنك المحاولة مرة أخرى في غضون {0} ثانية.',
     'notEnoughPrivilege'    => 'ليس لديك الإذن اللازم لإجراء العملية المطلوبة.',
+    'unsetPasswordLength'   => '(To be translated) The minimum password length is not specified in the configuration.',
+
     // JWT Exceptions
     'invalidJWT'     => 'الرمز غير صالح.',
     'expiredJWT'     => 'انتهت صلاحية الرمز.',

@@ -29,6 +29,8 @@ return [
     'unableSendEmailToUser' => 'Det var inte möjligt att skicka epost. Det gick inte att skicka till "{0}".',
     'throttled'             => 'För många anrop från denna IP-adress. Du kan försöka igen om {0} sekunder.',
     'notEnoughPrivilege'    => 'Du har inte nödvändiga rättigheter för detta kommando.',
+    'unsetPasswordLength'   => '(To be translated) The minimum password length is not specified in the configuration.',
+
     // JWT Exceptions
     'invalidJWT'     => '(To be translated) The token is invalid.',
     'expiredJWT'     => '(To be translated) The token has expired.',
