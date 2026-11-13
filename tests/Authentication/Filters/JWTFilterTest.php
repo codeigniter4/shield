@@ -11,7 +11,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Authentication\Filters;
+namespace CodeIgniter\Shield\Tests\Authentication\Filters;
 
 use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT;
@@ -20,9 +20,9 @@ use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Filters\JWTAuth;
 use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Tests\DatabaseTestCase;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
-use Tests\Support\DatabaseTestCase;
 
 /**
  * @internal

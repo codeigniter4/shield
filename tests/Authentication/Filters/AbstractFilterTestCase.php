@@ -11,13 +11,13 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Authentication\Filters;
+namespace CodeIgniter\Shield\Tests\Authentication\Filters;
 
 use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Test\AuthenticationTesting;
+use CodeIgniter\Shield\Tests\TestCase;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
-use Tests\Support\TestCase;
 
 /**
  * @internal

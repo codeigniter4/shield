@@ -11,7 +11,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Authentication\Authenticators;
+namespace CodeIgniter\Shield\Tests\Authentication\Authenticators;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authentication;
@@ -22,11 +22,11 @@ use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Tests\DatabaseTestCase;
 use CodeIgniter\Test\Mock\MockEvents;
 use Config\Services;
 use Firebase\JWT\JWT as FirebaseJWT;
 use InvalidArgumentException;
-use Tests\Support\DatabaseTestCase;
 
 /**
  * @internal

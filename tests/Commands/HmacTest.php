@@ -11,7 +11,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Commands;
+namespace CodeIgniter\Shield\Tests\Commands;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\HMAC\HmacEncrypter;
@@ -21,8 +21,8 @@ use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Test\MockInputOutput;
+use CodeIgniter\Shield\Tests\DatabaseTestCase;
 use Config\Services;
-use Tests\Support\DatabaseTestCase;
 
 /**
  * @internal

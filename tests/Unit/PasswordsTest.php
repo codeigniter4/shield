@@ -11,7 +11,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Unit;
+namespace CodeIgniter\Shield\Tests\Unit;
 
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Config\Auth as AuthConfig;

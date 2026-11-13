@@ -11,15 +11,15 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Authentication\Filters;
+namespace CodeIgniter\Shield\Tests\Authentication\Filters;
 
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Filters\AuthRates;
+use CodeIgniter\Shield\Tests\TestCase;
 use CodeIgniter\Throttle\Throttler;
 use Config\Services;
-use Tests\Support\TestCase;
 
 /**
  * @internal

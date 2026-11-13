@@ -11,7 +11,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Authentication\Filters;
+namespace CodeIgniter\Shield\Tests\Authentication\Filters;
 
 use CodeIgniter\Shield\Filters\PermissionFilter;
 use CodeIgniter\Shield\Models\UserModel;

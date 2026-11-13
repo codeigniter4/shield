@@ -11,12 +11,12 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Unit;
+namespace CodeIgniter\Shield\Tests\Unit;
 
 use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
+use CodeIgniter\Shield\Tests\TestCase;
 use Config\Services;
-use Tests\Support\TestCase;
 
 /**
  * @internal

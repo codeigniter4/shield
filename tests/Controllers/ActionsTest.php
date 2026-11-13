@@ -11,7 +11,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Controllers;
+namespace CodeIgniter\Shield\Tests\Controllers;
 
 use CodeIgniter\Config\Factories;
 use CodeIgniter\Exceptions\PageNotFoundException;
@@ -20,11 +20,11 @@ use CodeIgniter\Shield\Authentication\Actions\EmailActivator;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Test\AuthenticationTesting;
+use CodeIgniter\Shield\Tests\DatabaseTestCase;
+use CodeIgniter\Shield\Tests\FakeUser;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use Config\Services;
-use Tests\Support\DatabaseTestCase;
-use Tests\Support\FakeUser;
 
 /**
  * @internal

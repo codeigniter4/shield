@@ -188,42 +188,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Models/UserModel.php',
 ];
 $ignoreErrors[] = [
-	'rawMessage' => 'Call to method setCookie() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
-	'identifier' => 'method.internalClass',
-	'count' => 2,
-	'path' => __DIR__ . '/tests/Authentication/Authenticators/SessionAuthenticatorTest.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to method setServer() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
-	'identifier' => 'method.internalClass',
-	'count' => 2,
-	'path' => __DIR__ . '/tests/Controllers/ActionsTest.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to method unsetServer() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
-	'identifier' => 'method.internalClass',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/Controllers/ActionsTest.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to method setCookie() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
-	'identifier' => 'method.internalClass',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/Controllers/LoginTest.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to method setServer() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
-	'identifier' => 'method.internalClass',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/Controllers/MagicLinkTest.php',
-];
-$ignoreErrors[] = [
-	'rawMessage' => 'Call to method unsetServer() of internal class CodeIgniter\\Superglobals from outside its root namespace CodeIgniter.',
-	'identifier' => 'method.internalClass',
-	'count' => 1,
-	'path' => __DIR__ . '/tests/Controllers/MagicLinkTest.php',
-];
-$ignoreErrors[] = [
 	'rawMessage' => 'Call to deprecated method __construct() of class CodeIgniter\\HTTP\\Response:
 4.5.0 The param $config is no longer used.',
 	'identifier' => 'method.deprecated',

@@ -11,11 +11,11 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Unit;
+namespace CodeIgniter\Shield\Tests\Unit;
 
 use CodeIgniter\Shield\Authentication\Passwords\ValidationRules;
-use Tests\Support\DatabaseTestCase;
-use Tests\Support\FakeUser;
+use CodeIgniter\Shield\Tests\DatabaseTestCase;
+use CodeIgniter\Shield\Tests\FakeUser;
 
 /**
  * @internal

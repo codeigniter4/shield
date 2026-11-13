@@ -11,12 +11,12 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Authentication;
+namespace CodeIgniter\Shield\Tests\Authentication;
 
 use CodeIgniter\Shield\Authentication\AuthenticationException;
 use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Tests\TestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
-use Tests\Support\TestCase;
 
 /**
  * @internal

@@ -11,12 +11,12 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Authentication\Filters;
+namespace CodeIgniter\Shield\Tests\Authentication\Filters;
 
 use CodeIgniter\Shield\Entities\AccessToken;
 use CodeIgniter\Shield\Filters\ChainAuth;
+use CodeIgniter\Shield\Tests\FakeUser;
 use CodeIgniter\Test\DatabaseTestTrait;
-use Tests\Support\FakeUser;
 
 /**
  * @internal

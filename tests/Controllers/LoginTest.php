@@ -11,7 +11,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Controllers;
+namespace CodeIgniter\Shield\Tests\Controllers;
 
 use CodeIgniter\Config\Factories;
 use CodeIgniter\I18n\Time;
@@ -19,13 +19,13 @@ use CodeIgniter\Shield\Authentication\Actions\Email2FA;
 use CodeIgniter\Shield\Config\Auth;
 use CodeIgniter\Shield\Models\RememberModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Tests\DatabaseTestCase;
+use CodeIgniter\Shield\Tests\FakeUser;
 use CodeIgniter\Test\FeatureTestTrait;
 use CodeIgniter\Test\TestResponse;
 use Config\Services;
 use Config\Validation;
 use Tests\Support\AdminEmail2FA;
-use Tests\Support\DatabaseTestCase;
-use Tests\Support\FakeUser;
 
 /**
  * @internal

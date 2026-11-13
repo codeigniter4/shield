@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 use Boundwize\Pyrameter\Config\PyrameterConfig;
 use Boundwize\Pyrameter\TestKind;
+use CodeIgniter\Shield\Tests\Authentication\Filters\AbstractFilterTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
-use Tests\Authentication\Filters\AbstractFilterTestCase;
-use Tests\Support\DatabaseTestCase;
+use CodeIgniter\Shield\Tests\DatabaseTestCase;
 
 return PyrameterConfig::create()
     ->usesClass(

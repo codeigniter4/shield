@@ -11,14 +11,14 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Commands;
+namespace CodeIgniter\Shield\Tests\Commands;
 
 use CodeIgniter\Shield\Commands\User;
 use CodeIgniter\Shield\Config\AuthGroups;
 use CodeIgniter\Shield\Entities\User as UserEntity;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Test\MockInputOutput;
-use Tests\Support\DatabaseTestCase;
+use CodeIgniter\Shield\Tests\DatabaseTestCase;
 
 /**
  * @internal
