@@ -11,10 +11,10 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Commands\Setup;
+namespace CodeIgniter\Shield\Tests\Commands\Setup;
 
 use CodeIgniter\Shield\Commands\Setup\ContentReplacer;
-use Tests\Support\TestCase;
+use CodeIgniter\Shield\Tests\TestCase;
 
 /**
  * @internal

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Unit;
+namespace CodeIgniter\Shield\Tests\Unit;
 
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\CLIRequest;
@@ -19,8 +19,8 @@ use CodeIgniter\Shield\Filters\AuthRates;
 use CodeIgniter\Shield\Filters\ChainAuth;
 use CodeIgniter\Shield\Filters\SessionAuth;
 use CodeIgniter\Shield\Filters\TokenAuth;
+use CodeIgniter\Shield\Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\Support\TestCase;
 
 /**
  * @internal

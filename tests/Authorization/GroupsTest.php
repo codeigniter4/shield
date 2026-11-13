@@ -11,13 +11,13 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Authorization;
+namespace CodeIgniter\Shield\Tests\Authorization;
 
 use CodeIgniter\Shield\Authorization\Groups;
 use CodeIgniter\Shield\Entities\Group;
+use CodeIgniter\Shield\Tests\TestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use RuntimeException;
-use Tests\Support\TestCase;
 
 /**
  * @internal

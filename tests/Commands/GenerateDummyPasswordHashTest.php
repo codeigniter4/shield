@@ -11,13 +11,13 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Commands;
+namespace CodeIgniter\Shield\Tests\Commands;
 
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Commands\GenerateDummyPasswordHash;
 use CodeIgniter\Shield\Test\MockInputOutput;
+use CodeIgniter\Shield\Tests\TestCase;
 use Config\Services;
-use Tests\Support\TestCase;
 
 /**
  * @internal

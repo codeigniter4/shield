@@ -11,14 +11,14 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Authorization;
+namespace CodeIgniter\Shield\Tests\Authorization;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authorization\AuthorizationException;
 use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Tests\DatabaseTestCase;
+use CodeIgniter\Shield\Tests\FakeUser;
 use Locale;
-use Tests\Support\DatabaseTestCase;
-use Tests\Support\FakeUser;
 
 /**
  * @internal

@@ -11,10 +11,10 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Authentication;
+namespace CodeIgniter\Shield\Tests\Authentication;
 
 use CodeIgniter\Shield\Entities\AccessToken;
-use Tests\Support\DatabaseTestCase;
+use CodeIgniter\Shield\Tests\DatabaseTestCase;
 
 /**
  * @internal

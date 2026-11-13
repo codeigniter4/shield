@@ -11,15 +11,15 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Unit;
+namespace CodeIgniter\Shield\Tests\Unit;
 
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Models\DatabaseException;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Tests\TestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\Fabricator;
-use Tests\Support\TestCase;
 
 /**
  * @internal

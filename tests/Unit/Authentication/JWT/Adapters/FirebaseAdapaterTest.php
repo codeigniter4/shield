@@ -11,7 +11,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Unit\Authentication\JWT\Adapters;
+namespace CodeIgniter\Shield\Tests\Unit\Authentication\JWT\Adapters;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\JWT\Adapters\FirebaseAdapter;
@@ -21,7 +21,7 @@ use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException as ShieldInvalidArgumentException;
 use CodeIgniter\Shield\Exceptions\LogicException as ShieldLogicException;
 use CodeIgniter\Shield\Models\UserModel;
-use Tests\Support\TestCase;
+use CodeIgniter\Shield\Tests\TestCase;
 use UnexpectedValueException;
 
 /**

@@ -11,17 +11,17 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Commands;
+namespace CodeIgniter\Shield\Tests\Commands;
 
 use CodeIgniter\Shield\Commands\Setup;
 use CodeIgniter\Shield\Test\MockInputOutput;
+use CodeIgniter\Shield\Tests\TestCase;
 use Config\Email as EmailConfig;
 use Config\Services;
 use FilesystemIterator;
 use org\bovigo\vfs\vfsStream;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use Tests\Support\TestCase;
 
 /**
  * @internal

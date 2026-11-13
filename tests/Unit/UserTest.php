@@ -11,7 +11,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Unit;
+namespace CodeIgniter\Shield\Tests\Unit;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
@@ -23,8 +23,8 @@ use CodeIgniter\Shield\Models\LoginModel;
 use CodeIgniter\Shield\Models\PermissionModel;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
-use Tests\Support\DatabaseTestCase;
-use Tests\Support\FakeUser;
+use CodeIgniter\Shield\Tests\DatabaseTestCase;
+use CodeIgniter\Shield\Tests\FakeUser;
 
 /**
  * @internal

@@ -11,14 +11,14 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Tests\Unit\Authentication\JWT;
+namespace CodeIgniter\Shield\Tests\Unit\Authentication\JWT;
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Depends;
-use Tests\Support\TestCase;
 
 /**
  * @internal
