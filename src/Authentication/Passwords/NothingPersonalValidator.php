@@ -32,7 +32,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      */
     public function check(string $password, ?User $user = null): Result
     {
-        $password = strtolower($password);
+        $password = mb_strtolower($password);
 
         if ($valid = $this->isNotPersonal($password, $user)) {
             $valid = $this->isNotSimilar($password, $user);
@@ -46,8 +46,6 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
     }
 
     /**
-     * isNotPersonal()
-     *
      * Looks for personal information in a password. The personal info used
      * comes from CodeIgniter\Shield\Entities\User properties username and email.
      *
@@ -59,13 +57,12 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      *
      *      public $personalFields = ['firstname', 'lastname'];
      *
-     * isNotPersonal() returns true if no personal information can be found, or false
-     * if such info is found.
+     * @return bool `true` if no personal information can be found, or `false` if such info is found.
      */
     protected function isNotPersonal(string $password, ?User $user): bool
     {
-        $userName = strtolower($user->username ?? '');
-        $email    = strtolower($user->email);
+        $userName = mb_strtolower($user->username ?? '');
+        $email    = mb_strtolower($user->email ?? '');
         $valid    = true;
 
         // The most obvious transgressions
@@ -112,6 +109,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
                 }
             }
 
+            $needles = array_unique($needles, SORT_LOCALE_STRING);
             $trivial = [
                 'a',
                 'an',
@@ -134,12 +132,12 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
             $haystacks = $this->strip_explode($password);
 
             foreach ($haystacks as $haystack) {
-                if (in_array($haystack, $trivial, true) || mb_strlen($haystack, 'UTF-8') < 3) {
+                if (in_array($haystack, $trivial, true) || mb_strlen($haystack) < 3) {
                     continue;  // ignore trivial words
                 }
 
                 foreach ($needles as $needle) {
-                    if (in_array($needle, $trivial, true) || mb_strlen($needle, 'UTF-8') < 3) {
+                    if (in_array($needle, $trivial, true) || mb_strlen($needle) < 3) {
                         continue;
                     }
 
@@ -152,6 +150,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
                 }
             }
         }
+
         if ($valid) {
             return true;
         }
@@ -163,17 +162,19 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
     }
 
     /**
-     * notSimilar() uses $password and $userName to calculate a similarity value.
+     * Method uses password and username to calculate a similarity value.
      * Similarity values equal to, or greater than CodeIgniter\Shield\Config::maxSimilarity
      * are rejected for being too much alike and false is returned.
      * Otherwise, true is returned,
      *
      * A $maxSimilarity value of 0 (zero) returns true without making a comparison.
      * In other words, 0 (zero) turns off similarity testing.
+     *
+     * @return bool `true` if a similarity is found, or `false` if such info is found.
      */
     protected function isNotSimilar(string $password, ?User $user): bool
     {
-        if ($user->username === null) {
+        if (! $user instanceof User || $user->username === null) {
             return true;
         }
 
@@ -186,9 +187,10 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
         }
 
         if ($maxSimilarity > 0) {
-            $userName = strtolower($user->username);
+            $userName = mb_strtolower($user->username);
 
             similar_text($password, $userName, $similarity);
+
             if ($similarity >= $maxSimilarity) {
                 $this->error      = lang('Auth.errorPasswordTooSimilar');
                 $this->suggestion = lang('Auth.suggestPasswordTooSimilar');
@@ -201,8 +203,6 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
     }
 
     /**
-     * strip_explode($str)
-     *
      * Replaces all non-word characters and underscores in $str with a space.
      * Then it explodes that result using the space for a delimiter.
      *
@@ -210,7 +210,7 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
      */
     protected function strip_explode(string $str): array
     {
-        $stripped = preg_replace('/[\W_]+/', ' ', $str);
+        $stripped = preg_replace('/[\W_]+/u', ' ', $str);
         $parts    = explode(' ', trim((string) $stripped));
 
         // If it's not already there put the untouched input at the top of the array
