@@ -60,7 +60,7 @@ class LoginController extends BaseController
 
         /** @var array $credentials */
         $credentials             = $this->request->getPost(setting('Auth.validFields')) ?? [];
-        $credentials             = array_filter($credentials);
+        $credentials             = array_filter($credentials, static fn ($value): bool => $value !== null && $value !== '');
         $credentials['password'] = $this->request->getPost('password');
         $remember                = (bool) $this->request->getPost('remember');
 

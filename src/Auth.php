@@ -158,7 +158,7 @@ class Auth
                         $options = isset($params[3])
                             ? ['as' => $params[3]]
                             : null;
-                        $routes->{$params[0]}($params[1], $params[2], $options);
+                        $routes->{$params[0]}($params[1], $params[2], $options); // @phpstan-ignore method.dynamicName
                     }
                 }
             }
@@ -199,7 +199,7 @@ class Auth
         $authenticator = $this->authenticate->factory($this->alias);
 
         if (method_exists($authenticator, $method)) {
-            return $authenticator->{$method}(...$args);
+            return $authenticator->{$method}(...$args); // @phpstan-ignore method.dynamicName
         }
     }
 }

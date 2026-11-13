@@ -18,12 +18,14 @@ use stdClass;
 
 class JWSDecoder
 {
+    private readonly JWSAdapterInterface $jwsAdapter;
+
     /**
      * @var string The key group. The array key of Config\AuthJWT::$keys.
      */
     protected $keyset = 'default';
 
-    public function __construct(private ?JWSAdapterInterface $jwsAdapter = null)
+    public function __construct(?JWSAdapterInterface $jwsAdapter = null)
     {
         $this->jwsAdapter = $jwsAdapter ?? new FirebaseAdapter();
     }

@@ -274,7 +274,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
     {
         $this->user = \fake(UserModel::class, ['id' => 1, 'username' => 'John Smith']);
 
-        $generator = new JWTManager($clock);
+        $generator = $clock instanceof Time ? new JWTManager($clock) : new JWTManager();
 
         return $generator->generateToken($this->user);
     }

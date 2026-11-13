@@ -15,6 +15,7 @@ namespace CodeIgniter\Shield\Authentication\Passwords;
 
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Result;
+use Stringable;
 
 /**
  * Class NothingPersonalValidator
@@ -94,8 +95,20 @@ class NothingPersonalValidator extends BaseValidator implements ValidatorInterfa
             $personalFields = $this->config->personalFields;
 
             foreach ($personalFields as $value) {
-                if (($user->{$value} ?? '') !== '') {
-                    $needles[] = strtolower($user->{$value});
+                if (! isset($user->{$value})) {
+                    continue;
+                }
+
+                $personalData = $user->{$value};
+
+                if (! is_string($personalData) && ! $personalData instanceof Stringable) {
+                    continue;
+                }
+
+                $personalData = (string) $personalData;
+
+                if ($personalData !== '') {
+                    $needles[] = mb_strtolower($personalData);
                 }
             }
 

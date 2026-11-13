@@ -25,16 +25,10 @@ parameters:
       - CodeIgniter\Shield\Config
     additionalServices:
       - CodeIgniter\Shield\Config\Services
-  strictRules:
-    allRules: false
-    disallowedLooseComparison: true
-    booleansInConditions: true
-    disallowedBacktick: true
-    disallowedEmpty: true
-    disallowedImplicitArrayCreation: true
-    disallowedShortTernary: true
-    matchingInheritedMethodNames: true
   ignoreErrors:
     - identifier: function.internal
     - identifier: return.internalClass
     - identifier: staticMethod.internal
+    -
+        message: '#Dynamic call to static method PHPUnit\\#'
+        identifier: staticMethod.dynamicCall

@@ -34,8 +34,7 @@ class Result
     protected $extraInfo;
 
     /**
-     * @phpstan-param array{success: bool, reason?: string|null, extraInfo?: string|User} $details
-     * @psalm-param array{success: bool, reason?: string|null, extraInfo?: string|User} $details
+     * @param array{success: bool, reason?: string|null, extraInfo?: string|User} $details
      */
     public function __construct(array $details)
     {

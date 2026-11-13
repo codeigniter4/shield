@@ -27,7 +27,7 @@ final class JWTManagerTest extends TestCase
 {
     private function createJWTManager(?Time $clock = null): JWTManager
     {
-        return new JWTManager($clock);
+        return $clock instanceof Time ? new JWTManager($clock) : new JWTManager();
     }
 
     public function testGenerateToken(): array
@@ -40,7 +40,7 @@ final class JWTManagerTest extends TestCase
         $clock   = new Time();
         $manager = $this->createJWTManager($clock);
 
-        $currentTime = $clock->now();
+        $currentTime = $clock::now();
 
         $token = $manager->generateToken($user);
 
@@ -96,7 +96,7 @@ final class JWTManagerTest extends TestCase
         $clock   = new Time();
         $manager = $this->createJWTManager($clock);
 
-        $currentTime = $clock->now();
+        $currentTime = $clock::now();
 
         $payload = [
             'user_id' => '1',

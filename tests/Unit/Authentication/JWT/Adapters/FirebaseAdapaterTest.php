@@ -31,7 +31,7 @@ final class FirebaseAdapaterTest extends TestCase
 {
     public function testDecode(): void
     {
-        $token = $this->generateJWT();
+        $token = self::generateJWT();
 
         $adapter = new FirebaseAdapter();
 
@@ -52,7 +52,7 @@ final class FirebaseAdapaterTest extends TestCase
     {
         $user = fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'], false);
 
-        $generator = new JWTManager($clock);
+        $generator = $clock instanceof Time ? new JWTManager($clock) : new JWTManager();
 
         return $generator->generateToken($user);
     }
@@ -77,7 +77,7 @@ final class FirebaseAdapaterTest extends TestCase
         $adapter = new FirebaseAdapter();
 
         Time::setTestNow('-1 hour');
-        $token = $this->generateJWT();
+        $token = self::generateJWT();
         Time::setTestNow();
 
         $key = 'default';
@@ -86,7 +86,7 @@ final class FirebaseAdapaterTest extends TestCase
 
     public function testDecodeInvalidTokenExceptionUnexpectedValueException(): void
     {
-        $token = $this->generateJWT();
+        $token = self::generateJWT();
 
         // Change algorithm and it makes the key invalid.
         /** @var AuthJWT $config */
@@ -115,7 +115,7 @@ final class FirebaseAdapaterTest extends TestCase
         $this->expectException(ShieldInvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid Keyset: "default". Key material must not be empty');
 
-        $token = $this->generateJWT();
+        $token = self::generateJWT();
 
         // Set invalid key.
         /** @var AuthJWT $config */

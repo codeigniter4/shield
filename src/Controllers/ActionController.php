@@ -47,7 +47,7 @@ class ActionController extends BaseController
             throw new PageNotFoundException();
         }
 
-        return $this->{$method}(...$params);
+        return $this->{$method}(...$params); // @phpstan-ignore method.dynamicName
     }
 
     /**

@@ -61,8 +61,7 @@ final class SetupTest extends TestCase
     /**
      * Set MockInputOutput and user inputs.
      *
-     * @param         array<int, string> $inputs User inputs
-     * @phpstan-param list<string>       $inputs
+     * @param list<string> $inputs User inputs
      */
     private function setMockIo(array $inputs): void
     {
@@ -86,7 +85,7 @@ final class SetupTest extends TestCase
 
         $command = new Setup(Services::logger(), Services::commands());
 
-        $this->setPrivateProperty($command, 'distPath', $appFolder);
+        self::setPrivateProperty($command, 'distPath', $appFolder);
 
         $command->run([]);
 
@@ -142,7 +141,7 @@ final class SetupTest extends TestCase
 
         $command = new Setup(Services::logger(), Services::commands());
 
-        $this->setPrivateProperty($command, 'distPath', $appFolder);
+        self::setPrivateProperty($command, 'distPath', $appFolder);
 
         $command->run([]);
 
