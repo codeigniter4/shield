@@ -402,6 +402,26 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         $this->assertSame($input[2], $result);
     }
 
+    #[DataProvider('provideIsolatedMethodIsNotPersonal')]
+    public function testCheckMultibyteMethodIsNotPersonal(mixed ...$input): void
+    {
+        $user   = null;
+        $fields = [];
+
+        if (is_array($input[1])) {
+            $user   = new User($input[1]);
+            $fields = array_keys($input[1]);
+        }
+
+        $config                 = new Auth();
+        $config->personalFields = array_filter($fields, static fn ($val): bool => $val !== 'email' && $val !== 'username');
+        $validator              = new NothingPersonalValidator($config);
+
+        $result = $validator->check($input[0], $user);
+
+        $this->assertSame($input[2], $result->isOK());
+    }
+
     public static function provideIsolatedMethodIsNotPersonal(): iterable
     {
         // @todo: strrev() doesn’t work with Unicode
@@ -414,10 +434,12 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         //     false
         // ];
 
-        yield 'Empty password and username' => [
-            '',
+        yield 'Repeated words in the personal data' => [
+            'Никола',
             [
-                'email' => 'админ@сайт.ру',
+                'email'    => 'Никола@никола.ру',
+                'username' => 'Никола Никола',
+                'lastname' => 'Никола Никола',
             ],
             false,
         ];
@@ -521,6 +543,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         yield 'Same password and username (similar > 1%)' => [
             'ПёТр',
             [
+                'email'    => 'петя@caйт.ру',
                 'username' => 'ПёТр',
             ],
             1,
@@ -530,6 +553,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         yield 'Same password and username (similar > 100%)' => [
             'ПёТр',
             [
+                'email'    => 'петя@caйт.ру',
                 'username' => 'ПёТр',
             ],
             150,
@@ -539,6 +563,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         yield 'Empty password and username (similar < 1%)' => [
             '',
             [
+                'email'    => 'петя@caйт.ру',
                 'username' => '',
             ],
             0,
@@ -548,6 +573,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         yield 'Empty password and username (similar > 1%)' => [
             '',
             [
+                'email'    => 'петя@caйт.ру',
                 'username' => '',
             ],
             1,
@@ -557,6 +583,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         yield 'Empty password and specified username (similar > 1%)' => [
             '',
             [
+                'email'    => 'петя@caйт.ру',
                 'username' => 'ПёТр',
             ],
             1,
@@ -566,6 +593,7 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
         yield 'Empty username and specified password (similar > 1%)' => [
             'ПаРоЛь',
             [
+                'email'    => 'петя@caйт.ру',
                 'username' => '',
             ],
             1,
