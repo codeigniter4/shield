@@ -5,18 +5,23 @@ on:
     branches:
       - develop
     paths:
-      - '**.php'
-      - 'composer.*'
+      - 'src/**.php'
+      - 'tests/**.php'
+      - 'composer.json'
       - 'rector.php'
       - '.github/workflows/rector.yml'
   push:
     branches:
       - develop
     paths:
-      - '**.php'
-      - 'composer.*'
+      - 'src/**.php'
+      - 'tests/**.php'
+      - 'composer.json'
       - 'rector.php'
       - '.github/workflows/rector.yml'
+
+permissions:
+  contents: read
 
 jobs:
   rector:

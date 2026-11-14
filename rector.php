@@ -16,7 +16,6 @@ use Rector\CodeQuality\Rector\Empty_\SimplifyEmptyCheckOnEmptyArrayRector;
 use Rector\CodeQuality\Rector\Expression\InlineIfToExplicitIfRector;
 use Rector\CodeQuality\Rector\FuncCall\ChangeArrayPushToArrayAssignRector;
 use Rector\CodeQuality\Rector\FuncCall\SingleInArrayToCompareRector;
-use Rector\CodeQuality\Rector\FunctionLike\SimplifyUselessVariableRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
 use Rector\CodeQuality\Rector\Ternary\TernaryEmptyArrayArrayDimFetchToCoalesceRector;
 use Rector\CodeQuality\Rector\Ternary\UnnecessaryTernaryExpressionRector;
@@ -34,68 +33,43 @@ use Rector\EarlyReturn\Rector\If_\RemoveAlwaysElseRector;
 use Rector\EarlyReturn\Rector\Return_\PreparedValueToEarlyReturnRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Php73\Rector\FuncCall\StringifyStrNeedlesRector;
-use Rector\PHPUnit\AnnotationsToAttributes\Rector\Class_\AnnotationWithValueToAttributeRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\YieldDataProviderRector;
 use Rector\PHPUnit\CodeQuality\Rector\MethodCall\AssertEmptyNullableObjectToAssertInstanceofRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
-use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
-use Rector\ValueObject\PhpVersion;
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->sets([
-        SetList::DEAD_CODE,
-        LevelSetList::UP_TO_PHP_81,
-        PHPUnitSetList::PHPUNIT_CODE_QUALITY,
-        PHPUnitSetList::COMPOSER_BASED,
-    ]);
-
-    $rectorConfig->parallel();
-
-    // Github action cache
-    if (is_dir('/tmp')) {
-        $rectorConfig->cacheDirectory('/tmp/rector');
-    }
-
-    // The paths to refactor (can also be supplied with CLI arguments)
-    $rectorConfig->paths([
+return RectorConfig::configure()
+    ->withPaths([
         __DIR__ . '/src/',
         __DIR__ . '/tests/',
-    ]);
-
-    // Include Composer's autoload - required for global execution, remove if running locally
-    $rectorConfig->autoloadPaths([
+    ])
+    ->withAutoloadPaths([
         __DIR__ . '/vendor/autoload.php',
-    ]);
-
-    // Do you need to include constants, class aliases, or a custom autoloader?
-    $rectorConfig->bootstrapFiles([
+    ])
+    ->withBootstrapFiles([
         realpath(getcwd()) . '/vendor/codeigniter4/framework/system/Test/bootstrap.php',
-    ]);
-
-    $rectorConfig->phpstanConfigs([
+    ])
+    ->withPHPStanConfigs([
         __DIR__ . '/phpstan.dist.neon',
         __DIR__ . '/vendor/codeigniter/phpstan-codeigniter/extension.neon',
         __DIR__ . '/vendor/phpstan/phpstan-strict-rules/rules.neon',
-    ]);
-
-    // Set the target version for refactoring
-    $rectorConfig->phpVersion(PhpVersion::PHP_81);
-
-    // Auto-import fully qualified class names
-    $rectorConfig->importNames();
-
-    // Are there files or rules you need to skip?
-    $rectorConfig->skip([
+    ])
+    ->withCache(is_dir('/tmp') ? '/tmp/rector' : null)
+    ->withParallel()
+    ->withImportNames(removeUnusedImports: false)
+    ->withPhpSets(php82: true)
+    ->withSets([
+        SetList::DEAD_CODE,
+        PHPUnitSetList::PHPUNIT_CODE_QUALITY,
+    ])
+    ->withSkip([
         __DIR__ . '/src/Views',
 
         StringifyStrNeedlesRector::class,
         YieldDataProviderRector::class,
 
-        // Note: requires php 8
         RemoveUnusedPromotedPropertyRector::class,
-        AnnotationWithValueToAttributeRector::class,
 
         // May load view files directly when detecting classes
         StringClassNameToClassConstantRector::class,
@@ -127,26 +101,21 @@ return static function (RectorConfig $rectorConfig): void {
 
         // Ignore for readability
         RemoveNullArgOnNullDefaultParamRector::class,
+    ])
+    ->withRules([
+        RemoveAlwaysElseRector::class,
+        ChangeIfElseValueAssignToEarlyReturnRector::class,
+        SimplifyIfReturnBoolRector::class,
+        InlineIfToExplicitIfRector::class,
+        PreparedValueToEarlyReturnRector::class,
+        ChangeArrayPushToArrayAssignRector::class,
+        UnnecessaryTernaryExpressionRector::class,
+        FuncGetArgsToVariadicParamRector::class,
+        MakeInheritedMethodVisibilitySameAsParentRector::class,
+        SimplifyEmptyArrayCheckRector::class,
+        SimplifyEmptyCheckOnEmptyArrayRector::class,
+        TernaryEmptyArrayArrayDimFetchToCoalesceRector::class,
+        PrivatizeFinalClassPropertyRector::class,
+        SingleInArrayToCompareRector::class,
+        VersionCompareFuncCallToConstantRector::class,
     ]);
-
-    // auto import fully qualified class names
-    $rectorConfig->importNames();
-
-    $rectorConfig->rule(SimplifyUselessVariableRector::class);
-    $rectorConfig->rule(RemoveAlwaysElseRector::class);
-    $rectorConfig->rule(ChangeIfElseValueAssignToEarlyReturnRector::class);
-    $rectorConfig->rule(SimplifyIfReturnBoolRector::class);
-    $rectorConfig->rule(InlineIfToExplicitIfRector::class);
-    $rectorConfig->rule(PreparedValueToEarlyReturnRector::class);
-    $rectorConfig->rule(ChangeArrayPushToArrayAssignRector::class);
-    $rectorConfig->rule(UnnecessaryTernaryExpressionRector::class);
-    $rectorConfig->rule(FuncGetArgsToVariadicParamRector::class);
-    $rectorConfig->rule(MakeInheritedMethodVisibilitySameAsParentRector::class);
-    $rectorConfig->rule(SimplifyEmptyArrayCheckRector::class);
-    $rectorConfig->rule(SimplifyEmptyCheckOnEmptyArrayRector::class);
-    $rectorConfig->rule(TernaryEmptyArrayArrayDimFetchToCoalesceRector::class);
-    $rectorConfig->rule(StringClassNameToClassConstantRector::class);
-    $rectorConfig->rule(PrivatizeFinalClassPropertyRector::class);
-    $rectorConfig->rule(SingleInArrayToCompareRector::class);
-    $rectorConfig->rule(VersionCompareFuncCallToConstantRector::class);
-};
