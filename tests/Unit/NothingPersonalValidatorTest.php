@@ -607,4 +607,36 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
             true,
         ];
     }
+
+    public function testIsNotPersonalAcceptsWrongData(): void
+    {
+        $config                 = new Auth();
+        $config->personalFields = ['altName', 'job'];
+        $validator              = new NothingPersonalValidator($config);
+
+        $isNotPersonal = self::getPrivateMethodInvoker($validator, 'isNotPersonal');
+
+        /** @var bool */
+        $result = $isNotPersonal(
+            'Pa55w0rd',
+            new User([
+                'email'    => 'user@email.local',
+                'username' => 'John',
+            ]),
+        );
+
+        $this->assertTrue($result);
+
+        $result = $isNotPersonal(
+            'Pa55w0rd',
+            new User([
+                'email'    => 'user@email.local',
+                'username' => 'John',
+                'altName'  => [],
+                'job'      => new Auth(),
+            ]),
+        );
+
+        $this->assertTrue($result);
+    }
 }
