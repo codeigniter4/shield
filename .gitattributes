@@ -14,8 +14,8 @@
 /phpstan.dist.neon      export-ignore
 /phpunit.dist.xml       export-ignore
 /pyrameter.php          export-ignore
-/psalm_autoload.php     export-ignore
 /psalm-baseline.xml     export-ignore
+/psalm_autoload.php     export-ignore
 /psalm.xml              export-ignore
 /rector.php             export-ignore
 /roave-bc-check.yml     export-ignore

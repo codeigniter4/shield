@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Traits;
 
+/**
+ * @property bool|int $active
+ */
 trait Activatable
 {
     /**

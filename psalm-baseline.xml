@@ -1,17 +1,493 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.4.0@62db5d4f6a7ae0a20f7cc5a4952d730272fc0863">
-  <file src="src/Models/RememberModel.php">
-    <ReservedWord occurrences="1">
-      <code>$this-&gt;where(['user_id' =&gt; $user-&gt;id])-&gt;delete()</code>
-    </ReservedWord>
+<files psalm-version="6.20.10@7fc81490f861c801061836a9010603d2393bf8da">
+  <file src="src/Authentication/Actions/Email2FA.php">
+    <InvalidArgument>
+      <code><![CDATA[setting('Email.fromEmail')]]></code>
+      <code><![CDATA[setting('Email.fromName') ?? '']]></code>
+    </InvalidArgument>
   </file>
-  <file src="src/Models/UserIdentityModel.php">
-    <ReservedWord occurrences="1"/>
+  <file src="src/Authentication/Actions/EmailActivator.php">
+    <InvalidArgument>
+      <code><![CDATA[$postedToken]]></code>
+      <code><![CDATA[setting('Email.fromEmail')]]></code>
+      <code><![CDATA[setting('Email.fromName') ?? '']]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Authentication/Authenticators/AccessTokens.php">
+    <InvalidArgument>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => $user->getBanMessage() ?? lang('Auth.bannedUser'),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang(
+                    'Auth.noToken',
+                    [config('AuthToken')->authenticatorHeader['tokens']],
+                ),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang('Auth.badToken'),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang('Auth.oldToken'),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang('Auth.oldToken'),
+            ]]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Authentication/Authenticators/HmacSha256.php">
+    <InvalidArgument>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => $user->getBanMessage() ?? lang('Auth.bannedUser'),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang(
+                    'Auth.noToken',
+                    [config('AuthToken')->authenticatorHeader['hmac']],
+                ),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang('Auth.badToken'),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang('Auth.badToken'),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang('Auth.badToken'),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang('Auth.oldToken'),
+            ]]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Authentication/Authenticators/JWT.php">
+    <InvalidArgument>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => $user->getBanMessage() ?? lang('Auth.bannedUser'),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang(
+                    'Auth.noToken',
+                    [config('AuthJWT')->authenticatorHeader],
+                ),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang('Auth.invalidUser'),
+            ]]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Authentication/Authenticators/Session.php">
+    <InvalidArgument>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => $user->getBanMessage() ?? lang('Auth.bannedUser'),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang('Auth.badAttempt'),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang('Auth.badAttempt'),
+            ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang('Auth.badAttempt'),
+            ]]]></code>
+      <code><![CDATA[setting('Cookie.domain')]]></code>
+      <code><![CDATA[setting('Cookie.path')]]></code>
+      <code><![CDATA[setting('Cookie.prefix')]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Authentication/Passwords.php">
+    <InvalidArgument>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang('Auth.errorPasswordEmpty'),
+            ]]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Authentication/Passwords/CompositionValidator.php">
+    <InvalidArgument>
+      <code><![CDATA[[
+                'success'   => false,
+                'reason'    => lang('Auth.errorPasswordLength', [$this->config->minimumPasswordLength]),
+                'extraInfo' => lang('Auth.suggestPasswordLength'),
+            ]]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Authentication/Passwords/DictionaryValidator.php">
+    <InvalidArgument>
+      <code><![CDATA[[
+                        'success'   => false,
+                        'reason'    => lang('Auth.errorPasswordCommon'),
+                        'extraInfo' => lang('Auth.suggestPasswordCommon'),
+                    ]]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Authentication/Passwords/PwnedValidator.php">
+    <InvalidArgument>
+      <code><![CDATA[[
+            'success'   => false,
+            'reason'    => lang('Auth.errorPasswordPwned', [$password, $hits, $wording]),
+            'extraInfo' => lang('Auth.suggestPasswordPwned', [$password]),
+        ]]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Commands/Hmac.php">
+    <InvalidArgument>
+      <code><![CDATA[function (UserIdentity $identity): void {
+                $timeNow = Time::now();
+
+                if (null !== $identity->expires && $identity->expires->isBefore($timeNow)) {
+                    $this->write(sprintf('HMAC Token ID: %s, already expired, skipped.', $identity->id));
+
+                    return;
+                }
+
+                $identity->expires = $timeNow;
+                $this->saver->save($identity);
+
+                $this->write(sprintf('HMAC Token ID: %s, set as expired.', $identity->id));
+            }]]></code>
+      <code><![CDATA[function (UserIdentity $identity): void {
+                if (! $this->encrypter->isEncrypted($identity->secret2)) {
+                    $this->write(sprintf('id: %s, not encrypted, skipped.', $identity->id));
+
+                    return;
+                }
+
+                $identity->secret2 = $this->encrypter->decrypt($identity->secret2);
+                $this->saver->save($identity);
+
+                $this->write(sprintf('id: %s, decrypted.', $identity->id));
+            }]]></code>
+      <code><![CDATA[function (UserIdentity $identity): void {
+                if ($this->encrypter->isEncrypted($identity->secret2)) {
+                    $this->write(sprintf('id: %s, already encrypted, skipped.', $identity->id));
+
+                    return;
+                }
+
+                try {
+                    $identity->secret2 = $this->encrypter->encrypt($identity->secret2);
+                    $this->saver->save($identity);
+
+                    $this->write(sprintf('id: %s, encrypted.', $identity->id));
+                } catch (RuntimeException $e) {
+                    $this->error(sprintf('id: %s, %s', $identity->id, $e->getMessage()));
+                }
+            }]]></code>
+      <code><![CDATA[function (UserIdentity $identity): void {
+                if ($this->encrypter->isEncryptedWithCurrentKey($identity->secret2)) {
+                    $this->write(sprintf('id: %s, already encrypted with current key, skipped.', $identity->id));
+
+                    return;
+                }
+
+                $identity->secret2 = $this->encrypter->decrypt($identity->secret2);
+                $identity->secret2 = $this->encrypter->encrypt($identity->secret2);
+                $this->saver->save($identity);
+
+                $this->write(sprintf('id: %s, Re-encrypted.', $identity->id));
+            }]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Commands/User.php">
+    <InvalidArgument>
+      <code><![CDATA[$user]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Controllers/LoginController.php">
+    <InvalidArgument>
+      <code><![CDATA[setting('Auth.validFields')]]></code>
+    </InvalidArgument>
   </file>
   <file src="src/Controllers/MagicLinkController.php">
-    <ReservedWord occurrences="1"/>
+    <InvalidArgument>
+      <code><![CDATA[[$user->email]]]></code>
+      <code><![CDATA[setting('Auth.magicLinkLifetime')]]></code>
+      <code><![CDATA[setting('Email.fromEmail')]]></code>
+      <code><![CDATA[setting('Email.fromName') ?? '']]></code>
+    </InvalidArgument>
   </file>
-  <file src="src/Models/GroupModel.php">
-    <ReservedWord occurrences="1"/>
+  <file src="src/Controllers/RegisterController.php">
+    <InvalidArgument>
+      <code><![CDATA[setting('Auth.userProvider')]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Models/LoginModel.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->where('success', 1)
+            ->where('user_id', $user->id)
+            ->orderBy('id', 'desc')
+            ->first()]]></code>
+      <code><![CDATA[$this->where('success', 1)
+            ->where('user_id', $user->id)
+            ->orderBy('id', 'desc')
+            ->limit(1, 1)->first()]]></code>
+    </InvalidReturnStatement>
+  </file>
+  <file src="src/Models/UserIdentityModel.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$this
+            ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
+            ->where('secret', hash('sha256', $rawToken))
+            ->asObject(AccessToken::class)
+            ->first()]]></code>
+      <code><![CDATA[$this
+            ->where('type', HmacSha256::ID_TYPE_HMAC_TOKEN)
+            ->where('secret', $key)
+            ->asObject(AccessToken::class)
+            ->first()]]></code>
+      <code><![CDATA[$this
+            ->where('user_id', $user->id)
+            ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
+            ->orderBy($this->primaryKey)
+            ->asObject(AccessToken::class)
+            ->findAll()]]></code>
+      <code><![CDATA[$this
+            ->where('user_id', $user->id)
+            ->where('type', HmacSha256::ID_TYPE_HMAC_TOKEN)
+            ->orderBy($this->primaryKey)
+            ->asObject(AccessToken::class)
+            ->findAll()]]></code>
+      <code><![CDATA[$this->where('type', $type)
+            ->where('secret', $secret)
+            ->first()]]></code>
+      <code><![CDATA[$this->where('user_id', $user->id)
+            ->where('type', $type)
+            ->orderBy($this->primaryKey)
+            ->first()]]></code>
+      <code><![CDATA[$this->where('user_id', $user->id)
+            ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
+            ->where('id', $id)
+            ->asObject(AccessToken::class)
+            ->first()]]></code>
+      <code><![CDATA[$this->where('user_id', $user->id)
+            ->where('type', AccessTokens::ID_TYPE_ACCESS_TOKEN)
+            ->where('secret', hash('sha256', $rawToken))
+            ->asObject(AccessToken::class)
+            ->first()]]></code>
+      <code><![CDATA[$this->where('user_id', $user->id)
+            ->where('type', HmacSha256::ID_TYPE_HMAC_TOKEN)
+            ->where('id', $id)
+            ->asObject(AccessToken::class)
+            ->first()]]></code>
+      <code><![CDATA[$this->where('user_id', $user->id)
+            ->where('type', HmacSha256::ID_TYPE_HMAC_TOKEN)
+            ->where('secret', $key)
+            ->asObject(AccessToken::class)
+            ->first()]]></code>
+      <code><![CDATA[$this->where('user_id', $user->id)
+            ->whereIn('type', $types)
+            ->orderBy($this->primaryKey)
+            ->findAll()]]></code>
+      <code><![CDATA[$this->where('user_id', $user->id)->orderBy($this->primaryKey)->findAll()]]></code>
+      <code><![CDATA[$this->whereIn('user_id', $userIds)->orderBy($this->primaryKey)->findAll()]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[list<AccessToken>]]></code>
+      <code><![CDATA[list<AccessToken>]]></code>
+      <code><![CDATA[list<UserIdentity>]]></code>
+      <code><![CDATA[list<UserIdentity>]]></code>
+      <code><![CDATA[list<UserIdentity>]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="src/Models/UserModel.php">
+    <InvalidArgument>
+      <code><![CDATA[$defaultGroup]]></code>
+      <code><![CDATA[$defaultGroup]]></code>
+      <code><![CDATA[[$defaultGroup ?? '--not found--']]]></code>
+    </InvalidArgument>
+    <InvalidReturnStatement>
+      <code><![CDATA[$returnID ? $this->insertID : $result]]></code>
+      <code><![CDATA[$this->find($id)]]></code>
+      <code><![CDATA[$this->first()]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[int|string|true]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="src/Validation/ValidationRules.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$setting]]></code>
+      <code><![CDATA[setting('Validation.login') ?? [
+            // 'username' => $this->config->usernameValidationRules,
+            'email'    => $this->config->emailValidationRules,
+            'password' => $this->getPasswordRules(),
+        ]]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="tests/Authentication/Authenticators/AccessTokenAuthenticatorTest.php">
+    <InvalidArgument>
+      <code><![CDATA[$user]]></code>
+      <code><![CDATA[$user]]></code>
+    </InvalidArgument>
+    <InvalidPropertyFetch>
+      <code><![CDATA[$result->extraInfo()->id]]></code>
+    </InvalidPropertyFetch>
+  </file>
+  <file src="tests/Authentication/Authenticators/HmacAuthenticatorTest.php">
+    <InvalidArgument>
+      <code><![CDATA[$user]]></code>
+      <code><![CDATA[$user]]></code>
+    </InvalidArgument>
+    <InvalidPropertyFetch>
+      <code><![CDATA[$result->extraInfo()->id]]></code>
+    </InvalidPropertyFetch>
+  </file>
+  <file src="tests/Authentication/Authenticators/JWTAuthenticatorTest.php">
+    <InvalidArgument>
+      <code><![CDATA[$this->user]]></code>
+    </InvalidArgument>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[\fake(UserModel::class, ['id' => 1, 'username' => 'John Smith'])]]></code>
+    </InvalidPropertyAssignmentValue>
+    <InvalidPropertyFetch>
+      <code><![CDATA[$result->extraInfo()->id]]></code>
+    </InvalidPropertyFetch>
+    <InvalidReturnStatement>
+      <code><![CDATA[\fake(UserModel::class)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[User]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="tests/Authentication/Authenticators/SessionAuthenticatorTest.php">
+    <InvalidArgument>
+      <code><![CDATA[[
+            'email'    => $this->user->email,
+            'password' => 'secret',
+        ]]]></code>
+      <code><![CDATA[[
+            'email'    => $this->user->email,
+            'password' => 'secret123',
+        ]]]></code>
+      <code><![CDATA[[
+            'email'    => $this->user->email,
+            'password' => 'secret123',
+        ]]]></code>
+      <code><![CDATA[[
+            'email'    => $this->user->email,
+            'password' => 'secret123',
+        ]]]></code>
+    </InvalidArgument>
+    <InvalidPropertyFetch>
+      <code><![CDATA[$foundUser->id]]></code>
+      <code><![CDATA[$foundUser->id]]></code>
+      <code><![CDATA[$foundUser->id]]></code>
+      <code><![CDATA[$foundUser->id]]></code>
+    </InvalidPropertyFetch>
+  </file>
+  <file src="tests/Authentication/Filters/GroupFilterTest.php">
+    <InvalidArgument>
+      <code><![CDATA[$user]]></code>
+      <code><![CDATA[$user]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="tests/Authentication/Filters/PermissionFilterTest.php">
+    <InvalidArgument>
+      <code><![CDATA[$user]]></code>
+      <code><![CDATA[$user]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="tests/Authentication/Filters/SessionFilterTest.php">
+    <InvalidArgument>
+      <code><![CDATA[$user]]></code>
+      <code><![CDATA[$user]]></code>
+      <code><![CDATA[$user]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="tests/Authentication/ForcePasswordResetTest.php">
+    <InvalidArgument>
+      <code><![CDATA[$user]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="tests/Authentication/HasAccessTokensTest.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[fake(UserModel::class)]]></code>
+    </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="tests/Authentication/HasHmacTokensTest.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[fake(UserModel::class)]]></code>
+    </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="tests/Collectors/AuthTest.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[fake(UserModel::class, ['username' => 'John Smith'])]]></code>
+    </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="tests/Commands/UserTest.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$user]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[UserEntity]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="tests/Controllers/MagicLinkTest.php">
+    <InvalidArgument>
+      <code><![CDATA[$user]]></code>
+      <code><![CDATA[$user]]></code>
+      <code><![CDATA[$user]]></code>
+      <code><![CDATA[$user]]></code>
+      <code><![CDATA[$user]]></code>
+      <code><![CDATA[$user]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="tests/Language/AbstractTranslationTestCase.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$sets]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[array<string, string>]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="tests/Unit/Authentication/JWT/Adapters/FirebaseAdapaterTest.php">
+    <InvalidArgument>
+      <code><![CDATA[$user]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="tests/Unit/Authentication/JWT/JWTManagerTest.php">
+    <InvalidArgument>
+      <code><![CDATA[$user]]></code>
+      <code><![CDATA[$user]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="tests/Unit/UserIdentityModelTest.php">
+    <InvalidArgument>
+      <code><![CDATA[$user]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="tests/Unit/UserTest.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[model(UserModel::class)->find($this->user->id)]]></code>
+      <code><![CDATA[model(UserModel::class)->find($this->user->id)]]></code>
+    </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="tests/FakeUser.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[fake(UserModel::class)]]></code>
+    </InvalidPropertyAssignmentValue>
   </file>
 </files>
