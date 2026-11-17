@@ -14,50 +14,51 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Config;
 
 use CodeIgniter\Config\BaseConfig;
+use CodeIgniter\HTTP\Method;
 
 class AuthRoutes extends BaseConfig
 {
     public array $routes = [
         'register' => [
             [
-                'get',
+                Method::GET,
                 'register',
                 'RegisterController::registerView',
                 'register', // Route name
             ],
             [
-                'post',
+                Method::POST,
                 'register',
                 'RegisterController::registerAction',
             ],
         ],
         'login' => [
             [
-                'get',
+                Method::GET,
                 'login',
                 'LoginController::loginView',
                 'login', // Route name
             ],
             [
-                'post',
+                Method::POST,
                 'login',
                 'LoginController::loginAction',
             ],
         ],
         'magic-link' => [
             [
-                'get',
+                Method::GET,
                 'login/magic-link',
                 'MagicLinkController::loginView',
                 'magic-link',        // Route name
             ],
             [
-                'post',
+                Method::POST,
                 'login/magic-link',
                 'MagicLinkController::loginAction',
             ],
             [
-                'get',
+                Method::GET,
                 'login/verify-magic-link',
                 'MagicLinkController::verify',
                 'verify-magic-link', // Route name
@@ -65,7 +66,7 @@ class AuthRoutes extends BaseConfig
         ],
         'logout' => [
             [
-                'get',
+                Method::GET,
                 'logout',
                 'LoginController::logoutAction',
                 'logout', // Route name
@@ -73,19 +74,19 @@ class AuthRoutes extends BaseConfig
         ],
         'auth-actions' => [
             [
-                'get',
+                Method::GET,
                 'auth/a/show',
                 'ActionController::show',
                 'auth-action-show', // Route name
             ],
             [
-                'post',
+                Method::POST,
                 'auth/a/handle',
                 'ActionController::handle',
                 'auth-action-handle', // Route name
             ],
             [
-                'post',
+                Method::POST,
                 'auth/a/verify',
                 'ActionController::verify',
                 'auth-action-verify', // Route name
