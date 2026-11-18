@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Shield\Traits;
 
+/**
+ * @property string|null $status
+ * @property string|null $status_message
+ */
 trait Bannable
 {
     /**

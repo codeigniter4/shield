@@ -74,6 +74,7 @@ class AccessTokens implements AuthenticatorInterface
             return $result;
         }
 
+        /** @var User $user */
         $user  = $result->extraInfo();
         $token = $user->getAccessToken($this->getBearerToken());
 

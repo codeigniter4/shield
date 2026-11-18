@@ -5,18 +5,27 @@ on:
     branches:
       - develop
     paths:
-      - '**.php'
-      - 'composer.*'
-      - 'psalm*'
+      - 'src/**.php'
+      - 'tests/**.php'
+      - 'composer.json'
+      - 'psalm.xml'
+      - 'psalm-baseline.xml'
+      - 'psalm_autoload.php'
       - '.github/workflows/psalm.yml'
   push:
     branches:
       - develop
     paths:
-      - '**.php'
-      - 'composer.*'
-      - 'psalm*'
+      - 'src/**.php'
+      - 'tests/**.php'
+      - 'composer.json'
+      - 'psalm.xml'
+      - 'psalm-baseline.xml'
+      - 'psalm_autoload.php'
       - '.github/workflows/psalm.yml'
+
+permissions:
+  contents: read
 
 jobs:
   psalm:

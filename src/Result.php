@@ -34,7 +34,7 @@ class Result
     protected $extraInfo;
 
     /**
-     * @param array{success: bool, reason?: string|null, extraInfo?: string|User} $details
+     * @param array{success: bool, reason?: string|null, extraInfo?: string|User|null} $details
      */
     public function __construct(array $details)
     {

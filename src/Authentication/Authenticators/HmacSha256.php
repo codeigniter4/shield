@@ -75,6 +75,7 @@ class HmacSha256 implements AuthenticatorInterface
             return $result;
         }
 
+        /** @var User $user */
         $user  = $result->extraInfo();
         $token = $user->getHmacToken($this->getHmacKeyFromToken());
 

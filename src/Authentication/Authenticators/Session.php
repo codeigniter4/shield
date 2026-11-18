@@ -622,7 +622,7 @@ class Session implements AuthenticatorInterface
     {
         $this->checkUserState();
 
-        return $this->getSessionUserKey('auth_action_message') ?? '';
+        return (string) ($this->getSessionUserKey('auth_action_message') ?? '');
     }
 
     /**
