@@ -65,7 +65,7 @@ final class JWTFilterTest extends DatabaseTestCase
 
     public function testFilterNotAuthorized(): void
     {
-        $result = $this->call('get', 'protected-route');
+        $result = $this->get('protected-route');
 
         $result->assertStatus(401);
 
