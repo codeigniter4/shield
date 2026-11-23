@@ -195,6 +195,12 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/tests/Unit/PwnedValidatorTest.php',
 ];
 $ignoreErrors[] = [
+	'rawMessage' => 'Field "id" is not in CodeIgniter\\Shield\\Models\\UserModel::$allowedFields and is dropped by save().',
+	'identifier' => 'codeigniter.modelFieldNotAllowed',
+	'count' => 1,
+	'path' => __DIR__ . '/tests/Unit/UserModelTest.php',
+];
+$ignoreErrors[] = [
 	'rawMessage' => 'Call to an undefined method CodeIgniter\\Shield\\Models\\UserModel::getLastQuery().',
 	'identifier' => 'method.notFound',
 	'count' => 9,

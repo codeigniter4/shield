@@ -20,7 +20,7 @@ trait Bannable
      */
     public function isBanned(): bool
     {
-        return $this->status && $this->status === 'banned';
+        return $this->status === 'banned';
     }
 
     /**
