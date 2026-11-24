@@ -157,6 +157,9 @@ The store uses `Config\Auth::$DBGroup`. Every instance that verifies the same
 JWTs must use the same revocation database. Route requests to the logout
 endpoint once all servers that verify these JWTs have been upgraded.
 
+Each protected request with a JWT that has a `jti` adds one database lookup
+for revocation after the signature and revocation claims pass validation.
+
 `JWTManager::issue()` and `JWTManager::generateToken()` automatically add a
 random token ID (`jti`) when the caller omits it. Signed JWTs with a `jti`
 require a non-empty string issuer (`iss`), a non-empty string `jti` of at most
@@ -399,14 +402,51 @@ to end browser sessions or revoke refresh tokens.
 
 The database stores a digest of the issuer and token ID with the expiration
 timestamp. JWTs with a `jti` use the signed `exp` as a strict cutoff without
-expiration leeway. Keep the clocks of verifying servers synchronized, and run
-the following from a scheduled application task to remove expired records.
+expiration leeway. Keep the clocks of verifying servers synchronized.
+
+Expired revocation records remain in the table until the application removes
+them. Schedule `JWTManager::purgeExpiredRevocations()` to keep the table from
+growing indefinitely. For example, create
+**app/Commands/PurgeJWTRevocations.php**.
 
 ```php
-$removed = service('jwtmanager')->purgeExpiredRevocations();
+<?php
+
+declare(strict_types=1);
+
+namespace App\Commands;
+
+use CodeIgniter\CLI\BaseCommand;
+use CodeIgniter\CLI\CLI;
+
+class PurgeJWTRevocations extends BaseCommand
+{
+    protected $group       = 'Auth';
+    protected $name        = 'jwt:purge-revocations';
+    protected $description = 'Remove expired JWT revocations.';
+
+    public function run(array $params): int
+    {
+        $removed = service('jwtmanager')->purgeExpiredRevocations();
+        CLI::write(sprintf('Removed %d expired JWT revocation records.', $removed));
+
+        return EXIT_SUCCESS;
+    }
+}
 ```
 
-The method returns the number of records removed.
+Run the command manually to verify it.
+
+```console
+php spark jwt:purge-revocations
+```
+
+This example crontab entry runs cleanup daily at 03:00. Adjust the application
+and PHP paths for your deployment.
+
+```crontab
+0 3 * * * cd /path/to/app && /usr/bin/php spark jwt:purge-revocations
+```
 
 ## Method References
 
