@@ -415,6 +415,7 @@ class Auth extends BaseConfig
      * - auth_identities        Auth Identities Table, Used for storage of passwords, access tokens, social login identities, etc.
      * - auth_logins            Auth Login Attempts, Table records login attempts.
      * - auth_token_logins      Auth Token Login Attempts Table, Records Bearer Token type login attempts.
+     * - auth_jwt_revocations   Revoked JWTs Table.
      * - auth_remember_tokens   Auth Remember Tokens (remember-me) Table.
      * - auth_groups_users      Groups Users Table.
      * - auth_permissions_users Users Permissions Table.
@@ -426,6 +427,7 @@ class Auth extends BaseConfig
         'identities'        => 'auth_identities',
         'logins'            => 'auth_logins',
         'token_logins'      => 'auth_token_logins',
+        'jwt_revocations'   => 'auth_jwt_revocations',
         'remember_tokens'   => 'auth_remember_tokens',
         'groups_users'      => 'auth_groups_users',
         'permissions_users' => 'auth_permissions_users',

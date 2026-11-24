@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Tests\Unit;
 
 use Closure;
+use CodeIgniter\Database\Config as Database;
+use CodeIgniter\Shield\Database\Migrations\CreateJWTRevocations;
 use CodeIgniter\Shield\Exceptions\InvalidArgumentException;
 use CodeIgniter\Shield\Models\DatabaseException;
 use CodeIgniter\Shield\Models\JWTRevocationModel;
@@ -56,6 +58,42 @@ final class JWTRevocationModelTest extends DatabaseTestCase
         $this->assertFalse($revocations->isRevoked($identifier));
     }
 
+    public function testMigrationAndModelUseConfiguredTableName(): void
+    {
+        $config                            = config('Auth');
+        $table                             = 'custom_jwt_revocations';
+        $config->tables['jwt_revocations'] = $table;
+        $migration                         = new CreateJWTRevocations(Database::forge($this->db));
+        $identifier                        = hash('sha256', 'issuer and token identifier');
+
+        try {
+            $migration->up();
+            (new JWTRevocationModel())->revoke($identifier, 2_200_000_000);
+
+            $this->seeInDatabase($table, ['identifier' => $identifier]);
+            $this->dontSeeInDatabase($this->tables['jwt_revocations'], ['identifier' => $identifier]);
+        } finally {
+            $config->tables = $this->tables;
+            $migration->down();
+        }
+    }
+
+    public function testModelUsesDefaultTableWhenLegacyConfigOmitsTheKey(): void
+    {
+        $config     = config('Auth');
+        $identifier = hash('sha256', 'issuer and token identifier');
+
+        try {
+            unset($config->tables['jwt_revocations']);
+
+            (new JWTRevocationModel())->revoke($identifier, 2_200_000_000);
+
+            $this->seeInDatabase($this->tables['jwt_revocations'], ['identifier' => $identifier]);
+        } finally {
+            $config->tables = $this->tables;
+        }
+    }
+
     public function testRawTokenIdentifiersAreRejected(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -69,20 +107,19 @@ final class JWTRevocationModelTest extends DatabaseTestCase
     #[DataProvider('provideDatabaseFailureThrowsWithDebugDisabled')]
     public function testDatabaseFailureThrowsWithDebugDisabled(Closure $query): void
     {
-        $config    = config('AuthJWT');
-        $table     = $config->revocationTable;
+        $config    = config('Auth');
         $dbDebug   = new ReflectionProperty($this->db, 'DBDebug');
         $debugMode = $dbDebug->getValue($this->db);
 
         $this->expectException(DatabaseException::class);
 
         try {
-            $config->revocationTable = 'missing_jwt_revocations';
+            $config->tables['jwt_revocations'] = 'missing_jwt_revocations';
             $dbDebug->setValue($this->db, false);
 
             $query(new JWTRevocationModel());
         } finally {
-            $config->revocationTable = $table;
+            $config->tables = $this->tables;
             $dbDebug->setValue($this->db, $debugMode);
         }
     }

@@ -15,6 +15,7 @@ namespace CodeIgniter\Shield\Database\Migrations;
 
 use CodeIgniter\Database\Forge;
 use CodeIgniter\Database\Migration;
+use CodeIgniter\Shield\Config\Auth;
 
 class CreateJWTRevocations extends Migration
 {
@@ -22,11 +23,17 @@ class CreateJWTRevocations extends Migration
 
     public function __construct(?Forge $forge = null)
     {
-        $this->DBGroup = config('Auth')->DBGroup;
+        /** @var Auth $authConfig */
+        $authConfig = config('Auth');
+
+        if ($authConfig->DBGroup !== null) {
+            $this->DBGroup = $authConfig->DBGroup;
+        }
 
         parent::__construct($forge);
 
-        $this->table = config('AuthJWT')->revocationTable;
+        // Older application configs may override the table map without this entry.
+        $this->table = $authConfig->tables['jwt_revocations'] ?? 'auth_jwt_revocations';
     }
 
     public function up(): void

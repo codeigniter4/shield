@@ -26,7 +26,7 @@ class JWTRevocationModel extends BaseModel
     {
         parent::initialize();
 
-        $this->table = config('AuthJWT')->revocationTable;
+        $this->table = $this->tables['jwt_revocations'] ?? 'auth_jwt_revocations';
     }
 
     public function revoke(string $identifier, int $expiresAt): void

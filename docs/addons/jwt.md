@@ -143,9 +143,9 @@ It means you log all requests.
 
 ### Configure JWT Revocation
 
-Shield stores JWT revocations in `auth_jwt_revocations`. Set
-`$revocationTable` in **app/Config/AuthJWT.php** before migrating if your
-application uses a different table name.
+Shield stores JWT revocations in `auth_jwt_revocations`. To use a different
+table name, set the `jwt_revocations` entry in `Config\Auth::$tables` in
+**app/Config/Auth.php** before running the migration.
 
 Run Shield's migrations from the new release before it starts verifying JWTs.
 

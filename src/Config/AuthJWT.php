@@ -82,14 +82,6 @@ class AuthJWT extends BaseConfig
 
     /**
      * --------------------------------------------------------------------
-     * Token Revocation
-     * --------------------------------------------------------------------
-     * The unprefixed revocation table name in the Auth database group.
-     */
-    public string $revocationTable = 'auth_jwt_revocations';
-
-    /**
-     * --------------------------------------------------------------------
      * Record Login Attempts
      * --------------------------------------------------------------------
      * Whether login attempts are recorded in the database.

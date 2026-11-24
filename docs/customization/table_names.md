@@ -9,6 +9,7 @@ public array $tables = [
     'identities'        => 'auth_identities',
     'logins'            => 'auth_logins',
     'token_logins'      => 'auth_token_logins',
+    'jwt_revocations'   => 'auth_jwt_revocations',
     'remember_tokens'   => 'auth_remember_tokens',
     'groups_users'      => 'auth_groups_users',
     'permissions_users' => 'auth_permissions_users',
