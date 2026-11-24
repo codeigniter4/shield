@@ -6,6 +6,7 @@
     colors="true"
     columns="max"
     executionOrder="random"
+    defaultTestSuite="main"
     failOnRisky="true"
     failOnWarning="true"
     cacheDirectory="build/.phpunit.cache"
@@ -29,6 +30,10 @@
     <testsuites>
         <testsuite name="main">
             <directory>./tests</directory>
+            <exclude>./tests/Authentication/LDAP/Integration</exclude>
+        </testsuite>
+        <testsuite name="ldap-integration">
+            <directory>./tests/Authentication/LDAP/Integration</directory>
         </testsuite>
     </testsuites>
     <extensions>

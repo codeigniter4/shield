@@ -53,4 +53,4 @@ LDAPTLS_CACERT="$tls_dir/ca.pem" LDAPTLS_REQCERT=demand LDAPTLS_REQSAN=demand \
   SHIELD_LDAP_TEST_PORT="${starttls##*:}" SHIELD_LDAP_TEST_LDAPS_PORT="${ldaps##*:}" \
   SHIELD_LDAP_TEST_WRONG_HOST=localhost SHIELD_LDAP_TEST_UNTRUSTED_CA="$tls_dir/untrusted-ca.pem" \
   vendor/bin/phpunit --no-extensions --no-coverage --fail-on-skipped --fail-on-empty-test-suite \
-  tests/Authentication/LDAP/NativeLDAPDirectoryIntegrationTest.php
+  --testsuite ldap-integration

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace CodeIgniter\Shield\Tests\Authentication\LDAP;
+namespace CodeIgniter\Shield\Tests\Authentication\LDAP\Integration;
 
 use CodeIgniter\Shield\Authentication\LDAP\LDAPConnection;
 use CodeIgniter\Shield\Authentication\LDAP\LDAPFilter;

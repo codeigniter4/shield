@@ -442,11 +442,12 @@ application group assignments, permissions, and revocation through the
 
 ## Testing Against OpenLDAP
 
-The **OpenLDAP Integration Tests** workflow runs
-`NativeLDAPDirectoryIntegrationTest` against the Docker fixture in
-`tests/_support/LDAP`. It uses test certificates and waits for the fixture to
-accept service-account binds over both LDAPS and StartTLS. The integration
-test run fails if any test is skipped.
+The **OpenLDAP Integration Tests** workflow runs the `ldap-integration`
+PHPUnit suite against the Docker fixture in `tests/_support/LDAP`. The suite
+automatically discovers `*Test.php` files in
+`tests/Authentication/LDAP/Integration/`. The workflow uses test certificates
+and waits for the fixture to accept service-account binds over both LDAPS and
+StartTLS. The integration test run fails if any test is skipped.
 
 To run the same checks locally, install the test dependencies and make sure
 Docker, OpenSSL, and PHP's `ldap` extension are available. Run the following
@@ -457,6 +458,6 @@ bash tests/_support/LDAP/run-integration-tests.sh
 ```
 
 The script publishes the fixture's ports on loopback and stops the container
-when the run finishes. The regular PHPUnit suite can run without the fixture.
+when the run finishes. The default `main` PHPUnit suite runs without Docker.
 Test AD-specific GUIDs, account filters, and transitive group membership
 separately against a disposable AD DS or Samba AD test domain.
