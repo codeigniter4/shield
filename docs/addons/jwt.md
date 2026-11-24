@@ -141,41 +141,34 @@ If you don't want any logs, set it to `Auth::RECORD_LOGIN_ATTEMPT_NONE`.
 If you want to log all login attempts, set it to `Auth::RECORD_LOGIN_ATTEMPT_ALL`.
 It means you log all requests.
 
-### Enable JWT Revocation
+### Configure JWT Revocation
 
-JWT revocation is disabled by default. To enable it, add these properties to
-`Config\AuthJWT` in **app/Config/AuthJWT.php**.
+Shield stores JWT revocations in `auth_jwt_revocations`. Set
+`$revocationTable` in **app/Config/AuthJWT.php** before migrating if your
+application uses a different table name.
 
-```php
-public bool $revocationEnabled = true;
-public string $revocationTable = 'auth_jwt_revocations';
-```
-
-Set the table name before applying Shield's migrations.
+Run Shield's migrations from the new release before it starts verifying JWTs.
 
 ```console
 php spark migrate --all
 ```
 
 The store uses `Config\Auth::$DBGroup`. Every instance that verifies the same
-JWTs must use the same revocation database and enable revocation. Coordinate
-the migration and configuration rollout across those instances. A server with
-revocation disabled can still accept a revoked JWT within its validity window.
+JWTs must use the same revocation database. Route requests to the logout
+endpoint once all servers that verify these JWTs have been upgraded.
 
-With revocation enabled, signed JWTs must contain a non-empty string issuer
-(`iss`), a non-empty string token ID (`jti`), and an integer expiration time
-(`exp`, in Unix seconds). Use a unique `jti` of at most 255 bytes for every
-token issued under the same issuer.
 `JWTManager::issue()` and `JWTManager::generateToken()` automatically add a
-random `jti` when the caller omits it. Set a stable issuer in `$defaultClaims`
-and let the manager set `exp` from the configured lifetime, or pass a valid
-integer expiration claim when issuing a token.
+random token ID (`jti`) when the caller omits it. Signed JWTs with a `jti`
+require a non-empty string issuer (`iss`), a non-empty string `jti` of at most
+255 bytes, and an integer expiration time (`exp`, in Unix seconds). If you
+supply a `jti`, use a unique value for every token issued under the same
+issuer. Set a stable issuer in `$defaultClaims` and let the manager set
+`exp` from the configured lifetime, or pass an integer expiration claim
+when issuing a token.
 
-Legacy tokens with missing or invalid revocation claims are rejected after
-revocation is enabled. To avoid interrupting existing clients, first issue
-tokens with the required claims and let older tokens expire before enabling
-revocation. Alternatively, enable revocation and require affected clients to
-sign in again.
+Legacy JWTs without a `jti` can still authenticate under the prior signature
+and time checks. Clients using these JWTs must obtain a newly issued JWT to
+use API logout.
 
 ## Issuing JWTs
 
@@ -395,8 +388,9 @@ curl -i -X POST https://api.example.com/api/logout \
 Success returns `204 No Content`, including repeat requests made before the
 same token expires. Subsequent requests with that token fail verification in
 the `jwt` filter or `JWTManager::parse()`. Missing, malformed, invalid, and
-expired bearer tokens receive `401 Unauthorized`. If Shield cannot store the
-revocation, the controller returns `503 Service Unavailable`.
+expired bearer tokens receive `401 Unauthorized`, as do signed JWTs without a
+`jti`. If Shield cannot store the revocation, the controller returns
+`503 Service Unavailable`.
 
 This operation revokes the presented JWT. Use the application's existing flows
 to end browser sessions or revoke refresh tokens.
@@ -404,7 +398,7 @@ to end browser sessions or revoke refresh tokens.
 ### Clean Up Expired Revocations
 
 The database stores a digest of the issuer and token ID with the expiration
-timestamp. JWT revocation uses the signed `exp` as a strict cutoff without
+timestamp. JWTs with a `jti` use the signed `exp` as a strict cutoff without
 expiration leeway. Keep the clocks of verifying servers synchronized, and run
 the following from a scheduled application task to remove expired records.
 

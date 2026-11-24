@@ -16,6 +16,7 @@ namespace CodeIgniter\Shield\Tests\Unit\Authentication\JWT;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Authentication\JWT\Exceptions\InvalidTokenException;
 use CodeIgniter\Shield\Authentication\JWT\JWSDecoder;
+use CodeIgniter\Shield\Authentication\JWT\JWSEncoder;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
@@ -33,7 +34,10 @@ final class JWTManagerTest extends TestCase
 {
     private function createJWTManager(?Time $clock = null): JWTManager
     {
-        return $clock instanceof Time ? new JWTManager($clock) : new JWTManager();
+        $store = $this->createStub(JWTRevocationModel::class);
+        $store->method('isRevoked')->willReturn(false);
+
+        return new JWTManager($clock, revocationModel: $store);
     }
 
     public function testGenerateToken(): array
@@ -66,11 +70,14 @@ final class JWTManagerTest extends TestCase
         $manager = $this->createJWTManager();
         $payload = $manager->parse($token);
 
+        $this->assertMatchesRegularExpression('/\A[a-f0-9]{32}\z/', $payload->jti);
+
         /** @var AuthJWT $config */
         $config   = config('AuthJWT');
         $expected = [
             'iss' => $config->defaultClaims['iss'],
             'sub' => '1',
+            'jti' => $payload->jti,
             'iat' => $currentTime->getTimestamp(),
             'exp' => $currentTime->getTimestamp() + $config->timeToLive,
         ];
@@ -127,12 +134,15 @@ final class JWTManagerTest extends TestCase
         $manager = $this->createJWTManager();
         $payload = $manager->parse($token);
 
+        $this->assertMatchesRegularExpression('/\A[a-f0-9]{32}\z/', $payload->jti);
+
         /** @var AuthJWT $config */
         $config   = config('AuthJWT');
         $expected = [
             'iss'     => $config->defaultClaims['iss'],
             'user_id' => '1',
             'email'   => 'admin@example.jp',
+            'jti'     => $payload->jti,
             'iat'     => $currentTime->getTimestamp(),
             'exp'     => $currentTime->getTimestamp() + DAY,
         ];
@@ -330,27 +340,29 @@ final class JWTManagerTest extends TestCase
         $this->assertSame('1', $payload->user_id);
     }
 
-    public function testDisabledRevocationDoesNotReadOrWriteTheStore(): void
+    public function testLegacyTokenWithoutIdentifierParsesWithoutStorageAndCannotBeRevoked(): void
     {
         $store = $this->createMock(JWTRevocationModel::class);
         $store->expects($this->never())->method('isRevoked');
         $store->expects($this->never())->method('revoke');
         $manager = new JWTManager(revocationModel: $store);
 
-        $token = $manager->issue(['sub' => '42']);
+        // Before JWTManager automatically added an identifier, it delegated directly to the encoder.
+        $token   = (new JWSEncoder())->encode(['sub' => '42']);
+        $payload = $manager->parse($token);
 
-        $this->assertObjectNotHasProperty('jti', $manager->parse($token));
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('JWT revocation is disabled.');
+        $this->assertObjectNotHasProperty('jti', $payload);
+        $this->assertSame('42', $payload->sub);
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage(lang('Auth.invalidJWT'));
 
         $manager->revokeToken($token);
     }
 
-    public function testEnabledIssuanceGeneratesDistinctIdentifiersAndPreservesExplicitValues(): void
+    public function testIssuanceGeneratesDistinctIdentifiersAndPreservesExplicitValues(): void
     {
-        config('AuthJWT')->revocationEnabled = true;
-        $manager                             = $this->createJWTManager();
-        $user                                = fake(UserModel::class, ['id' => 42], false);
+        $manager = $this->createJWTManager();
+        $user    = fake(UserModel::class, ['id' => 42], false);
 
         $first  = $this->decodeJWT($manager->issue(['sub' => '42']), 'payload');
         $second = $this->decodeJWT($manager->generateToken($user), 'payload');
@@ -364,11 +376,10 @@ final class JWTManagerTest extends TestCase
 
     public function testRevocationUsesOnlyVerifiedIssuerAndIdentifier(): void
     {
-        config('AuthJWT')->revocationEnabled = true;
-        $store                               = $this->createMock(JWTRevocationModel::class);
-        $manager                             = new JWTManager(revocationModel: $store);
-        $expiresAt                           = Time::now()->getTimestamp() + MINUTE;
-        $token                               = $manager->issue(['iss' => 'issuer', 'jti' => 'identifier', 'exp' => $expiresAt]);
+        $store     = $this->createMock(JWTRevocationModel::class);
+        $manager   = new JWTManager(revocationModel: $store);
+        $expiresAt = Time::now()->getTimestamp() + MINUTE;
+        $token     = $manager->issue(['iss' => 'issuer', 'jti' => 'identifier', 'exp' => $expiresAt]);
 
         $store->expects($this->exactly(2))->method('revoke')
             ->with(hash('sha256', '6:issueridentifier'), $expiresAt);
@@ -380,8 +391,7 @@ final class JWTManagerTest extends TestCase
 
     public function testRevocationDoesNotWriteForAnInvalidToken(): void
     {
-        config('AuthJWT')->revocationEnabled = true;
-        $store                               = $this->createMock(JWTRevocationModel::class);
+        $store = $this->createMock(JWTRevocationModel::class);
         $store->expects($this->never())->method('revoke');
         $manager = new JWTManager(revocationModel: $store);
 
@@ -392,8 +402,7 @@ final class JWTManagerTest extends TestCase
 
     public function testParseRejectsRevokedTokenAndAllowsSeparateIssuer(): void
     {
-        config('AuthJWT')->revocationEnabled = true;
-        $store                               = $this->createMock(JWTRevocationModel::class);
+        $store = $this->createMock(JWTRevocationModel::class);
         $store->expects($this->exactly(2))->method('isRevoked')
             ->willReturnMap([
                 [hash('sha256', '1:abc'), false],
@@ -415,8 +424,7 @@ final class JWTManagerTest extends TestCase
     #[DataProvider('provideParseRejectsInvalidRevocationClaimsBeforeCheckingStorage')]
     public function testParseRejectsInvalidRevocationClaimsBeforeCheckingStorage(array $claims): void
     {
-        config('AuthJWT')->revocationEnabled = true;
-        $store                               = $this->createMock(JWTRevocationModel::class);
+        $store = $this->createMock(JWTRevocationModel::class);
         $store->expects($this->never())->method('isRevoked');
         $decoder = $this->createMock(JWSDecoder::class);
         $decoder->expects($this->once())->method('decode')->willReturn((object) $claims);
@@ -435,7 +443,7 @@ final class JWTManagerTest extends TestCase
     {
         $claims = ['iss' => 'issuer', 'jti' => 'identifier', 'exp' => time() + DAY];
 
-        yield 'legacy token lacks jti' => [array_diff_key($claims, ['jti' => true])];
+        yield 'explicit null jti' => [['jti' => null] + $claims];
 
         yield 'empty jti' => [['jti' => ''] + $claims];
 
@@ -447,6 +455,8 @@ final class JWTManagerTest extends TestCase
 
         yield 'invalid issuer' => [['iss' => ['issuer']] + $claims];
 
+        yield 'issuer missing' => [array_diff_key($claims, ['iss' => true])];
+
         yield 'expiry missing' => [array_diff_key($claims, ['exp' => true])];
 
         yield 'expiry not integer' => [['exp' => (string) $claims['exp']] + $claims];
@@ -454,9 +464,8 @@ final class JWTManagerTest extends TestCase
 
     public function testManagedExpiryIsStrictEvenWhenDecoderAcceptsTheToken(): void
     {
-        config('AuthJWT')->revocationEnabled = true;
-        $clock                               = Time::parse('2026-06-13 12:00:00', 'UTC');
-        $store                               = $this->createMock(JWTRevocationModel::class);
+        $clock = Time::parse('2026-06-13 12:00:00', 'UTC');
+        $store = $this->createMock(JWTRevocationModel::class);
         $store->expects($this->never())->method('isRevoked');
         $decoder = $this->createMock(JWSDecoder::class);
         $decoder->expects($this->once())->method('decode')->willReturn((object) [
@@ -480,8 +489,7 @@ final class JWTManagerTest extends TestCase
 
     public function testRevocationStoreReadFailureDoesNotAuthenticate(): void
     {
-        config('AuthJWT')->revocationEnabled = true;
-        $store                               = $this->createMock(JWTRevocationModel::class);
+        $store = $this->createMock(JWTRevocationModel::class);
         $store->expects($this->once())->method('isRevoked')
             ->willThrowException(new DatabaseException('private database detail'));
         $manager = new JWTManager(revocationModel: $store);
@@ -497,10 +505,9 @@ final class JWTManagerTest extends TestCase
 
     public function testExpiryIsRecheckedWhenARevocationRecordCanBePurgedDuringLookup(): void
     {
-        config('AuthJWT')->revocationEnabled = true;
-        $clock                               = Time::parse('2026-06-13 12:00:00', 'UTC');
-        $expiry                              = $clock->addSeconds(1);
-        $store                               = $this->createMock(JWTRevocationModel::class);
+        $clock  = Time::parse('2026-06-13 12:00:00', 'UTC');
+        $expiry = $clock->addSeconds(1);
+        $store  = $this->createMock(JWTRevocationModel::class);
         $store->expects($this->once())->method('isRevoked')->willReturnCallback(static function () use ($expiry): bool {
             Time::setTestNow($expiry);
 
@@ -528,8 +535,7 @@ final class JWTManagerTest extends TestCase
 
     public function testRevocationStoreWriteFailureIsSanitized(): void
     {
-        config('AuthJWT')->revocationEnabled = true;
-        $store                               = $this->createMock(JWTRevocationModel::class);
+        $store = $this->createMock(JWTRevocationModel::class);
         $store->expects($this->once())->method('revoke')
             ->willThrowException(new DatabaseException('private database detail'));
         $manager = new JWTManager(revocationModel: $store);

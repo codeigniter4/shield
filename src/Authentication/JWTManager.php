@@ -84,7 +84,7 @@ class JWTManager
         $keyset = 'default',
         ?array $headers = null,
     ): string {
-        if (config('AuthJWT')->revocationEnabled && ! array_key_exists('jti', $claims)) {
+        if (! array_key_exists('jti', $claims)) {
             $claims['jti'] = bin2hex(random_bytes(16));
         }
 
@@ -100,7 +100,8 @@ class JWTManager
     {
         $payload = $this->jwsDecoder->decode($encodedToken, $keyset);
 
-        if (! config('AuthJWT')->revocationEnabled) {
+        // Keep signed JWTs issued before token IDs were added usable.
+        if (! property_exists($payload, 'jti')) {
             return $payload;
         }
 
@@ -124,17 +125,13 @@ class JWTManager
     }
 
     /**
-     * Revokes a verified, unexpired JWT when revocation is enabled.
+     * Revokes a verified, unexpired JWT with a token ID.
      *
      * @throws InvalidTokenException If the JWT is invalid or cannot be revoked.
-     * @throws RuntimeException      If revocation is disabled or storage fails.
+     * @throws RuntimeException      If storage fails.
      */
     public function revokeToken(string $encodedToken, string $keyset = 'default'): void
     {
-        if (! config('AuthJWT')->revocationEnabled) {
-            throw new RuntimeException('JWT revocation is disabled.');
-        }
-
         // Verify again without checking the revocation store so retries are safe.
         $payload                  = $this->jwsDecoder->decode($encodedToken, $keyset);
         [$identifier, $expiresAt] = $this->revocationIdentity($payload);

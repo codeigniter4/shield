@@ -17,7 +17,6 @@ use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\Auth;
-use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Filters\JWTAuth;
 use CodeIgniter\Shield\Models\UserModel;
@@ -96,10 +95,6 @@ final class JWTFilterTest extends DatabaseTestCase
 
     public function testFilterRejectsOnlyTheRevokedToken(): void
     {
-        /** @var AuthJWT $config */
-        $config                    = config('AuthJWT');
-        $config->revocationEnabled = true;
-
         /** @var User $user */
         $user = \fake(UserModel::class);
 

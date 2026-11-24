@@ -84,11 +84,6 @@ class AuthJWT extends BaseConfig
      * --------------------------------------------------------------------
      * Token Revocation
      * --------------------------------------------------------------------
-     * Check authenticated JWTs against the revocation table.
-     */
-    public bool $revocationEnabled = false;
-
-    /**
      * The unprefixed revocation table name in the Auth database group.
      */
     public string $revocationTable = 'auth_jwt_revocations';
