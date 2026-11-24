@@ -492,6 +492,8 @@ you don't pass them.
 Login attempts are recorded in the `auth_token_logins` table, according to the
 configuration above.
 
-For logged JWT attempts, the `identifier` column stores the SHA-256 digest of
-the presented token with a `sha256:` prefix. Requests that omit the token record
-an empty identifier if failure logging is enabled.
+When a failed login attempt is logged, the raw token value sent is saved in
+the `identifier` column.
+
+When a successful login attempt is logged, the SHA256 hash value of the token
+sent is saved in the `identifier` column.

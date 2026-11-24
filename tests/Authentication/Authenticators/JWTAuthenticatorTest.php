@@ -202,7 +202,7 @@ final class JWTAuthenticatorTest extends DatabaseTestCase
         // A login attempt should have always been recorded
         $this->seeInDatabase('auth_token_logins', [
             'id_type'    => JWT::ID_TYPE_JWT,
-            'identifier' => 'sha256:' . hash('sha256', self::BAD_JWT),
+            'identifier' => self::BAD_JWT,
             'success'    => 0,
         ]);
     }

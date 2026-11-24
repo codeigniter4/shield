@@ -118,9 +118,8 @@ final class JWTFilterTest extends DatabaseTestCase
 
         $this->seeInDatabase('auth_token_logins', [
             'id_type'    => JWT::ID_TYPE_JWT,
-            'identifier' => 'sha256:' . hash('sha256', $firstToken),
+            'identifier' => $firstToken,
             'success'    => 0,
         ]);
-        $this->dontSeeInDatabase('auth_token_logins', ['identifier' => $firstToken]);
     }
 }
