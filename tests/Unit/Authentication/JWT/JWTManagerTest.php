@@ -19,6 +19,7 @@ use CodeIgniter\Shield\Authentication\JWT\JWSDecoder;
 use CodeIgniter\Shield\Authentication\JWT\JWSEncoder;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\AuthJWT;
+use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\RuntimeException;
 use CodeIgniter\Shield\Models\DatabaseException;
 use CodeIgniter\Shield\Models\JWTRevocationModel;
@@ -362,7 +363,7 @@ final class JWTManagerTest extends TestCase
     public function testIssuanceGeneratesDistinctIdentifiersAndPreservesExplicitValues(): void
     {
         $manager = $this->createJWTManager();
-        $user    = fake(UserModel::class, ['id' => 42], false);
+        $user    = new User(['id' => 42]);
 
         $first  = $this->decodeJWT($manager->issue(['sub' => '42']), 'payload');
         $second = $this->decodeJWT($manager->generateToken($user), 'payload');
