@@ -14,6 +14,7 @@ declare(strict_types=1);
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} nėra galiojantis autentifikatorius.',
+    'ldapOperationFailed'   => 'LDAP operacija nepavyko ({0}).',
     'unknownUserProvider'   => 'Nepavyksta nustatyti, kokį naudotojų šaltinį naudoti.',
     'invalidUser'           => 'Nepavyksta rasti nurodyto naudotojo.',
     'bannedUser'            => 'Negalite prisijungti, nes esate užblokuotas.',

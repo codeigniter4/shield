@@ -14,6 +14,7 @@ declare(strict_types=1);
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} احراز هویت معتبری نمی باشد.',
+    'ldapOperationFailed'   => 'عملیات LDAP ناموفق بود ({0}).',
     'unknownUserProvider'   => 'قادر به تعیین ارائه دهنده کاربر برای استفاده نیست.',
     'invalidUser'           => 'قادر به پیداکردن کاربر مشخص شده نیست',
     'bannedUser'            => 'در حال حاضر نمی توانید وارد شوید، چون مسدود شده اید.',

@@ -14,6 +14,7 @@ declare(strict_types=1);
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} ist kein gültiger Authentifikator.',
+    'ldapOperationFailed'   => 'Der LDAP-Vorgang ist fehlgeschlagen ({0}).',
     'unknownUserProvider'   => 'Der zu verwendende User Provider konnte nicht ermittelt werden.',
     'invalidUser'           => 'Der angegebene Benutzer kann nicht gefunden werden.',
     'bannedUser'            => 'Anmelden nicht möglich da Ihr Benutzer derzeit gesperrt ist.',

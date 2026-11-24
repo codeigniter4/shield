@@ -14,6 +14,7 @@ declare(strict_types=1);
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} geçerli bir kimlik doğrulayıcı değil.',
+    'ldapOperationFailed'   => 'LDAP işlemi başarısız oldu ({0}).',
     'unknownUserProvider'   => 'Kullanılacak Kullanıcı Sağlayıcı belirlenemiyor.',
     'invalidUser'           => 'Belirtilen kullanıcı bulunamadı.',
     'bannedUser'            => 'Bu hesap yasaklandı. Şu anda giriş yapamazsınız.',

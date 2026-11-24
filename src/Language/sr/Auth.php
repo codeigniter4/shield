@@ -14,6 +14,7 @@ declare(strict_types=1);
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} nije validan autentikator.',
+    'ldapOperationFailed'   => 'LDAP operacija nije uspela ({0}).',
     'unknownUserProvider'   => 'Nemoguće je odlučiti koji User Provider koristiti.',
     'invalidUser'           => 'Nemoguće locirati specifičnog korisnika.',
     'bannedUser'            => 'Nije moguće pristupanje sistemu.Vaš nalog je banovan.',

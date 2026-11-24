@@ -14,6 +14,7 @@ declare(strict_types=1);
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} bukan otentikator yang sah.',
+    'ldapOperationFailed'   => 'Operasi LDAP gagal ({0}).',
     'unknownUserProvider'   => 'Tidak dapat menentukan Penyedia Pengguna yang akan digunakan.',
     'invalidUser'           => 'Tidak dapat menemukan pengguna yang spesifik.',
     'bannedUser'            => 'Anda tidak dapat masuk karena saat ini Anda diblokir.',

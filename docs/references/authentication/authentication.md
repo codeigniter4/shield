@@ -6,18 +6,20 @@ web apps and APIs.
 
 ## Available Authenticators
 
-Shield ships with 4 authenticators that will serve several typical situations within web app development.
-You can see the [Authenticator List](../../getting_started/authenticators.md).
+Shield ships with five authenticators. The default configuration registers Session,
+AccessTokens, and HmacSha256. See the [Authenticator List](../../getting_started/authenticators.md).
 
-The available authenticators are defined in `Config\Auth`:
+[JWT](../../addons/jwt.md) and [LDAP](../../addons/ldap.md) require additional setup.
+Register them in `Config\Auth` when you enable them.
 
 ```php
 public array $authenticators = [
     // alias  => classname
-    'session' => Session::class,
     'tokens'  => AccessTokens::class,
+    'session' => Session::class,
     'hmac'    => HmacSha256::class,
     // 'jwt'  => JWT::class,
+    // 'ldap' => LDAP::class,
 ];
 ```
 

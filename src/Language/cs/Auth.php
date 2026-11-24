@@ -14,6 +14,7 @@ declare(strict_types=1);
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} není platný autentifikátor.',
+    'ldapOperationFailed'   => 'Operace LDAP se nezdařila ({0}).',
     'unknownUserProvider'   => 'Není možné určit providera uživatele, který se má použít.',
     'invalidUser'           => 'Nelze najít požadovaného uživatele.',
     'bannedUser'            => 'Přihlášení se nezdařilo, protože jste byli zablokováni.',

@@ -14,6 +14,7 @@ declare(strict_types=1);
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} är inte en giltig autentiseringsmetod.',
+    'ldapOperationFailed'   => 'LDAP-åtgärden misslyckades ({0}).',
     'unknownUserProvider'   => 'Kunde inte bestämma vilken User Provider som skall användas.',
     'invalidUser'           => 'Kan inte hitta angiven användare.',
     'bannedUser'            => 'Kan inte logga in dig eftersom du är avstängd.',
