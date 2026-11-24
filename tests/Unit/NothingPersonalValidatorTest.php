@@ -376,4 +376,267 @@ final class NothingPersonalValidatorTest extends CIUnitTestCase
             ],
         ];
     }
+
+    #[DataProvider('provideIsolatedMethodIsNotPersonal')]
+    public function testIsolatedMethodIsNotPersonal(mixed ...$input): void
+    {
+        $user   = null;
+        $fields = [];
+        // Password removes spaces inside `check()`, so we’ll duplicate it here
+        $password = mb_strtolower($input[0]);
+
+        if (is_array($input[1])) {
+            $user   = new User($input[1]);
+            $fields = array_keys($input[1]);
+        }
+
+        $config                 = new Auth();
+        $config->personalFields = array_filter($fields, static fn ($val): bool => $val !== 'email' && $val !== 'username');
+        $validator              = new NothingPersonalValidator($config);
+
+        $isNotPersonal = self::getPrivateMethodInvoker($validator, 'isNotPersonal');
+
+        /** @var bool */
+        $result = $isNotPersonal($password, $user);
+
+        $this->assertSame($input[2], $result);
+    }
+
+    #[DataProvider('provideIsolatedMethodIsNotPersonal')]
+    public function testCheckMultibyteMethodIsNotPersonal(mixed ...$input): void
+    {
+        $user   = null;
+        $fields = [];
+
+        if (is_array($input[1])) {
+            $user   = new User($input[1]);
+            $fields = array_keys($input[1]);
+        }
+
+        $config                 = new Auth();
+        $config->personalFields = array_filter($fields, static fn ($val): bool => $val !== 'email' && $val !== 'username');
+        $validator              = new NothingPersonalValidator($config);
+
+        $result = $validator->check($input[0], $user);
+
+        $this->assertSame($input[2], $result->isOK());
+    }
+
+    public static function provideIsolatedMethodIsNotPersonal(): iterable
+    {
+        // @todo: strrev() doesn’t work with Unicode
+        // yield 'Password is equal to reversed username' => [
+        //     'ПеТьКа',
+        //     [
+        //         'email' => 'аДмИн@СаЙт.Ру',
+        //         'username' => 'аКьТеП'
+        //     ],
+        //     false
+        // ];
+
+        yield 'Repeated words in the personal data' => [
+            'Никола',
+            [
+                'email'    => 'Никола@никола.ру',
+                'username' => 'Никола Никола',
+                'lastname' => 'Никола Никола',
+            ],
+            false,
+        ];
+
+        yield 'Password is equal to username' => [
+            'ПаРоЛь',
+            [
+                'email'    => 'админ@сайт.ру',
+                'username' => 'пАрОлЬ',
+            ],
+            false,
+        ];
+
+        yield 'Password is equal to email' => [
+            'аДмИн@СаЙт.Ру',
+            [
+                'email'    => 'АдМиН@сАйТ.рУ',
+                'username' => 'Петя',
+            ],
+            false,
+        ];
+
+        yield 'Password contains the username' => [
+            'ПеТя-9000',
+            [
+                'email'    => 'админ@сайт.ру',
+                'username' => 'пЕтЯ',
+            ],
+            false,
+        ];
+
+        yield 'Password contains the email' => [
+            'ПеТя-9000',
+            [
+                'email'    => 'админ@петя.ру',
+                'username' => 'Пётр',
+            ],
+            false,
+        ];
+
+        yield 'Password contains the personal data' => [
+            '_ПеТр_9000',
+            [
+                'email'    => 'админ@caйт.ру',
+                'username' => 'Пётр',
+                'lastname' => 'Петров',
+            ],
+            false,
+        ];
+
+        yield 'Empty password' => [
+            '',
+            [
+                'email'    => 'админ@сайт.ру',
+                'username' => 'Петя',
+            ],
+            true,
+        ];
+
+        yield 'Only spaces in password' => [
+            '          ',
+            [
+                'email'    => 'админ@сайт.ру',
+                'username' => 'Петя',
+            ],
+            true,
+        ];
+
+        yield 'Password without user' => [
+            '_ПеТр_9000',
+            null,
+            true,
+        ];
+    }
+
+    #[DataProvider('provideIsolatedMethodIsNotSimilar')]
+    public function testIsolatedMethodIsNotSimilar(mixed ...$input): void
+    {
+        $user = null;
+        // Password removes spaces inside `check()`, so we’ll duplicate it here
+        $password = mb_strtolower($input[0]);
+
+        if (is_array($input[1])) {
+            $user = new User($input[1]);
+        }
+
+        $config                = new Auth();
+        $config->maxSimilarity = $input[2];
+        $validator             = new NothingPersonalValidator($config);
+
+        $isNotSimilar = self::getPrivateMethodInvoker($validator, 'isNotSimilar');
+
+        /** @var bool */
+        $result = $isNotSimilar($password, $user);
+
+        $this->assertSame($input[3], $result);
+    }
+
+    public static function provideIsolatedMethodIsNotSimilar(): iterable
+    {
+        yield 'Same password and username (similar > 1%)' => [
+            'ПёТр',
+            [
+                'email'    => 'петя@caйт.ру',
+                'username' => 'ПёТр',
+            ],
+            1,
+            false,
+        ];
+
+        yield 'Same password and username (similar > 100%)' => [
+            'ПёТр',
+            [
+                'email'    => 'петя@caйт.ру',
+                'username' => 'ПёТр',
+            ],
+            150,
+            false,
+        ];
+
+        yield 'Empty password and username (similar < 1%)' => [
+            '',
+            [
+                'email'    => 'петя@caйт.ру',
+                'username' => '',
+            ],
+            0,
+            true,
+        ];
+
+        yield 'Empty password and username (similar > 1%)' => [
+            '',
+            [
+                'email'    => 'петя@caйт.ру',
+                'username' => '',
+            ],
+            1,
+            true,
+        ];
+
+        yield 'Empty password and specified username (similar > 1%)' => [
+            '',
+            [
+                'email'    => 'петя@caйт.ру',
+                'username' => 'ПёТр',
+            ],
+            1,
+            true,
+        ];
+
+        yield 'Empty username and specified password (similar > 1%)' => [
+            'ПаРоЛь',
+            [
+                'email'    => 'петя@caйт.ру',
+                'username' => '',
+            ],
+            1,
+            true,
+        ];
+
+        yield 'Empty User and specified password (similar > 1%)' => [
+            'ПаРоЛь',
+            null,
+            1,
+            true,
+        ];
+    }
+
+    public function testIsNotPersonalAcceptsWrongData(): void
+    {
+        $config                 = new Auth();
+        $config->personalFields = ['altName', 'job'];
+        $validator              = new NothingPersonalValidator($config);
+
+        $isNotPersonal = self::getPrivateMethodInvoker($validator, 'isNotPersonal');
+
+        /** @var bool */
+        $result = $isNotPersonal(
+            'Pa55w0rd',
+            new User([
+                'email'    => 'user@email.local',
+                'username' => 'John',
+            ]),
+        );
+
+        $this->assertTrue($result);
+
+        $result = $isNotPersonal(
+            'Pa55w0rd',
+            new User([
+                'email'    => 'user@email.local',
+                'username' => 'John',
+                'altName'  => [],
+                'job'      => new Auth(),
+            ]),
+        );
+
+        $this->assertTrue($result);
+    }
 }
