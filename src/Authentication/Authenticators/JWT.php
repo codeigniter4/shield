@@ -82,9 +82,10 @@ class JWT implements AuthenticatorInterface
         if (! $result->isOK()) {
             if ($config->recordLoginAttempt >= Auth::RECORD_LOGIN_ATTEMPT_FAILURE) {
                 // Record a failed login attempt.
+                $token = $credentials['token'] ?? '';
                 $this->tokenLoginModel->recordLoginAttempt(
                     self::ID_TYPE_JWT,
-                    $credentials['token'] ?? '',
+                    $token === '' ? '' : 'sha256:' . hash('sha256', $token),
                     false,
                     $ipAddress,
                     $userAgent,

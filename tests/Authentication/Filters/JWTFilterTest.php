@@ -17,6 +17,7 @@ use CodeIgniter\Config\Factories;
 use CodeIgniter\Shield\Authentication\Authenticators\JWT;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\Auth;
+use CodeIgniter\Shield\Config\AuthJWT;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Filters\JWTAuth;
 use CodeIgniter\Shield\Models\UserModel;
@@ -91,5 +92,40 @@ final class JWTFilterTest extends DatabaseTestCase
 
         $this->assertSame($user->id, \auth('jwt')->id());
         $this->assertSame($user->id, \auth('jwt')->user()->id);
+    }
+
+    public function testFilterRejectsOnlyTheRevokedToken(): void
+    {
+        /** @var AuthJWT $config */
+        $config                    = config('AuthJWT');
+        $config->revocationEnabled = true;
+
+        /** @var User $user */
+        $user = \fake(UserModel::class);
+
+        $generator  = new JWTManager();
+        $firstToken = $generator->generateToken($user);
+        $otherToken = $generator->generateToken($user);
+
+        $this->withHeaders(['Authorization' => 'Bearer ' . $firstToken])
+            ->get('protected-route')
+            ->assertStatus(200);
+
+        $generator->revokeToken($firstToken);
+
+        $this->withHeaders(['Authorization' => 'Bearer ' . $firstToken])
+            ->get('protected-route')
+            ->assertStatus(401);
+
+        $this->withHeaders(['Authorization' => 'Bearer ' . $otherToken])
+            ->get('protected-route')
+            ->assertStatus(200);
+
+        $this->seeInDatabase('auth_token_logins', [
+            'id_type'    => JWT::ID_TYPE_JWT,
+            'identifier' => 'sha256:' . hash('sha256', $firstToken),
+            'success'    => 0,
+        ]);
+        $this->dontSeeInDatabase('auth_token_logins', ['identifier' => $firstToken]);
     }
 }
