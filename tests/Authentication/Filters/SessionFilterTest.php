@@ -33,7 +33,7 @@ final class SessionFilterTest extends AbstractFilterTestCase
 
     public function testFilterNotAuthorized(): void
     {
-        $result = $this->call('get', 'protected-route');
+        $result = $this->get('protected-route');
 
         $result->assertRedirectTo('/login');
 
@@ -140,7 +140,7 @@ final class SessionFilterTest extends AbstractFilterTestCase
 
     public function testStoreRedirectsToEntraceUrlIntoSession(): void
     {
-        $result = $this->call('get', 'protected-route');
+        $result = $this->get('protected-route');
 
         $result->assertRedirectTo('/login');
 
