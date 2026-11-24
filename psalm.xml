@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <psalm
-    phpVersion="8.1"
-    errorLevel="7"
+    phpVersion="8.2"
+    errorLevel="6"
     resolveFromConfigFile="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
@@ -9,7 +9,7 @@
     autoloader="psalm_autoload.php"
     cacheDirectory="build/psalm/"
     errorBaseline="psalm-baseline.xml"
-    findUnusedBaselineEntry="false"
+    findUnusedBaselineEntry="true"
     findUnusedCode="false"
     ensureOverrideAttribute="false"
 >
