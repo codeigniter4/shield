@@ -166,6 +166,83 @@ final class HmacAuthenticatorTest extends DatabaseTestCase
         $this->assertSame(lang('Auth.badToken'), $result->reason());
     }
 
+    public function testCheckExpiredToken(): void
+    {
+        /** @var User $user */
+        $user = fake(UserModel::class);
+
+        $token = $user->generateHmacToken(
+            'foo',
+            ['*'],
+            Time::now()->subMinutes(1),
+        );
+
+        $rawToken = $this->generateRawHeaderToken(
+            $token->secret,
+            $token->rawSecretKey,
+            'bar',
+        );
+
+        $result = $this->auth->check([
+            'token' => $rawToken,
+            'body'  => 'bar',
+        ]);
+
+        $this->assertFalse($result->isOK());
+        $this->assertSame(lang('Auth.oldToken'), $result->reason());
+    }
+
+    public function testCheckTokenWithFutureExpiration(): void
+    {
+        /** @var User $user */
+        $user = fake(UserModel::class);
+
+        $token = $user->generateHmacToken(
+            'foo',
+            ['*'],
+            Time::now()->addDays(1),
+        );
+
+        $rawToken = $this->generateRawHeaderToken(
+            $token->secret,
+            $token->rawSecretKey,
+            'bar',
+        );
+
+        $result = $this->auth->check([
+            'token' => $rawToken,
+            'body'  => 'bar',
+        ]);
+
+        $this->assertTrue($result->isOK());
+    }
+
+    public function testCheckTokenAfterExpirationIsUpdated(): void
+    {
+        /** @var User $user */
+        $user  = fake(UserModel::class);
+        $token = $user->generateHmacToken('foo');
+
+        $user->updateHmacTokenExpiration(
+            $token->id,
+            Time::now()->subMinutes(1),
+        );
+
+        $rawToken = $this->generateRawHeaderToken(
+            $token->secret,
+            $token->rawSecretKey,
+            'bar',
+        );
+
+        $result = $this->auth->check([
+            'token' => $rawToken,
+            'body'  => 'bar',
+        ]);
+
+        $this->assertFalse($result->isOK());
+        $this->assertSame(lang('Auth.oldToken'), $result->reason());
+    }
+
     public function testCheckOldToken(): void
     {
         $user       = fake(UserModel::class);

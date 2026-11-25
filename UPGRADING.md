@@ -26,6 +26,12 @@ value. The command does not modify either file. Accounts with older password
 hash settings can still have different verification times until their hashes
 are upgraded.
 
+### HMAC Token Expiration Enforcement
+
+HMAC tokens with an explicitly configured expiration date are now rejected during authentication once they have expired. Previously, the `HmacSha256` authenticator did not enforce the configured expiration date, allowing expired tokens to remain usable if their signatures were valid.
+
+HMAC tokens without an explicitly configured expiration date retain their existing behavior and remain subject to the configured `unusedTokenLifetime` restriction.
+
 ## Version 1.2 to 1.3
 
 ### JWT: Minimum Key Length Now Enforced

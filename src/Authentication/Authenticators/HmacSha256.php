@@ -177,6 +177,16 @@ class HmacSha256 implements AuthenticatorInterface
             ]);
         }
 
+        // Reject expired HMAC tokens
+        $user = $token->user();
+
+        if ($user->isHmacTokenExpired($token)) {
+            return new Result([
+                'success' => false,
+                'reason'  => lang('Auth.oldToken'),
+            ]);
+        }
+
         // Hasn't been used in a long time
         if (
             isset($token->last_used_at)
@@ -197,7 +207,6 @@ class HmacSha256 implements AuthenticatorInterface
         }
 
         // Ensure the token is set as the current token
-        $user = $token->user();
         $user->setHmacToken($token);
 
         return new Result([

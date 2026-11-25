@@ -99,7 +99,9 @@ $user->revokeAllHmacTokens();
 
 ## Expiring HMAC Keys
 
-By default, the HMAC keys don't expire unless they reach the HMAC keys' lifetime expiration after their last use date.
+By default, HMAC keys do not have a fixed expiration date. However, they will expire if they exceed the configured lifetime since their last use.
+
+You can also assign an explicit expiration date to an HMAC key. When an expiration date is set, Shield automatically checks it during authentication and rejects the key once it has expired.
 
 HMAC keys can be set to expire through the `generateHmacToken()` method. This takes the expiration date as the `$expiresAt` argument. To update an existing HMAC key expiration date, use `updateHmacTokenExpiration($hmacTokenID, $expiresAt)`. To remove it, use `removeHmacTokenExpiration($hmacTokenID)`.
 
@@ -287,7 +289,10 @@ public $unusedTokenLifetime = YEAR;
 
 ### HMAC Keys Expiration vs Lifetime
 
-Expiration and lifetime are two different concepts. The lifetime is the maximum time allowed for the HMAC Key to exist since its last use. HMAC Key expiration, on the other hand, is a set date in which the HMAC Key will cease to function.
+Expiration and lifetime are two different concepts.
+
+The lifetime is the maximum period of inactivity allowed for an HMAC key, measured from its last use. Once this period is exceeded, the key is rejected.
+Expiration, on the other hand, is a fixed date and time after which the HMAC key can no longer be used, regardless of its last use.
 
 ### Login Attempt Logging
 
