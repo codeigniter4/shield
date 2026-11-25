@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.2">
     
     
       
@@ -2186,7 +2186,8 @@ argument. Revoking simply deletes the record from the database.</p>
 <p>You can revoke all HMAC Keys with the <code>revokeAllHmacTokens()</code> method.</p>
 <pre class="highlight"><code class="language-php">$user-&gt;revokeAllHmacTokens();</code></pre>
 <h2 id="expiring-hmac-keys">Expiring HMAC Keys</h2>
-<p>By default, the HMAC keys don't expire unless they reach the HMAC keys' lifetime expiration after their last use date.</p>
+<p>By default, HMAC keys do not have a fixed expiration date. However, they will expire if they exceed the configured lifetime since their last use.</p>
+<p>You can also assign an explicit expiration date to an HMAC key. When an expiration date is set, Shield automatically checks it during authentication and rejects the key once it has expired.</p>
 <p>HMAC keys can be set to expire through the <code>generateHmacToken()</code> method. This takes the expiration date as the <code>$expiresAt</code> argument. To update an existing HMAC key expiration date, use <code>updateHmacTokenExpiration($hmacTokenID, $expiresAt)</code>. To remove it, use <code>removeHmacTokenExpiration($hmacTokenID)</code>.</p>
 <p><code>$expiresAt</code> <a href="https://codeigniter.com/user_guide/libraries/time.html">Time</a> object</p>
 <pre class="highlight"><code class="language-php">// Expiration date = 2024-11-03 12:00:00
@@ -2311,7 +2312,9 @@ value. This is in seconds so that you can use the
 that CodeIgniter provides.</p>
 <pre class="highlight"><code class="language-php">public $unusedTokenLifetime = YEAR;</code></pre>
 <h3 id="hmac-keys-expiration-vs-lifetime">HMAC Keys Expiration vs Lifetime</h3>
-<p>Expiration and lifetime are two different concepts. The lifetime is the maximum time allowed for the HMAC Key to exist since its last use. HMAC Key expiration, on the other hand, is a set date in which the HMAC Key will cease to function.</p>
+<p>Expiration and lifetime are two different concepts.</p>
+<p>The lifetime is the maximum period of inactivity allowed for an HMAC key, measured from its last use. Once this period is exceeded, the key is rejected.
+Expiration, on the other hand, is a fixed date and time after which the HMAC key can no longer be used, regardless of its last use.</p>
 <h3 id="login-attempt-logging">Login Attempt Logging</h3>
 <p>By default, only failed login attempts are recorded in the <code>auth_token_logins</code> table.
 This can be modified by changing the <code>$recordLoginAttempt</code> value.</p>
@@ -2348,7 +2351,7 @@ the <code>identifier</code> column.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 3, 2025 08:10:52 UTC">March 3, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 25, 2026 13:05:43 UTC">November 25, 2026</span>
   </span>
 
     
