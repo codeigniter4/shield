@@ -14,6 +14,7 @@ declare(strict_types=1);
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} не є дійсним автентифікатором.',
+    'ldapOperationFailed'   => 'Не вдалося виконати операцію LDAP ({0}).',
     'unknownUserProvider'   => 'Неможливо визначити постачальника користувача для використання.',
     'invalidUser'           => 'Неможливо знайти вказаного користувача.',
     'bannedUser'            => 'Неможливо увійти, оскільки ви зараз заблоковані.',

@@ -16,6 +16,8 @@ namespace CodeIgniter\Shield\Config;
 use CodeIgniter\Config\BaseService;
 use CodeIgniter\Shield\Auth;
 use CodeIgniter\Shield\Authentication\JWTManager;
+use CodeIgniter\Shield\Authentication\LDAP\LDAPDirectoryInterface;
+use CodeIgniter\Shield\Authentication\LDAP\NativeLDAPDirectory;
 use CodeIgniter\Shield\Authentication\Passwords;
 use CodeIgniter\Shield\Config\Auth as AuthConfig;
 
@@ -58,5 +60,17 @@ class Services extends BaseService
         }
 
         return new JWTManager();
+    }
+
+    /**
+     * Supplies the directory transport used for LDAP sign-in and diagnostics.
+     */
+    public static function ldapDirectory(bool $getShared = true): LDAPDirectoryInterface
+    {
+        if ($getShared) {
+            return self::getSharedInstance('ldapDirectory');
+        }
+
+        return new NativeLDAPDirectory();
     }
 }

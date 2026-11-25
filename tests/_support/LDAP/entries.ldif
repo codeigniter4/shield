@@ -1,0 +1,38 @@
+dn: dc=example,dc=test
+objectClass: dcObject
+objectClass: organization
+dc: example
+o: Shield LDAP test directory
+
+dn: cn=reader,dc=example,dc=test
+objectClass: organizationalRole
+objectClass: simpleSecurityObject
+cn: reader
+userPassword: readerPassword!
+
+dn: ou=people,dc=example,dc=test
+objectClass: organizationalUnit
+ou: people
+
+dn: uid=alice,ou=people,dc=example,dc=test
+objectClass: inetOrgPerson
+cn: Alice Shared
+sn: Shared
+uid: alice
+userPassword: alicePassword!
+
+dn: uid=bob,ou=people,dc=example,dc=test
+objectClass: inetOrgPerson
+cn: Bob Shared
+sn: Shared
+uid: bob
+userPassword: bobPassword!
+
+dn: ou=groups,dc=example,dc=test
+objectClass: organizationalUnit
+ou: groups
+
+dn: cn=shield-users,ou=groups,dc=example,dc=test
+objectClass: groupOfNames
+cn: shield-users
+member: uid=alice,ou=people,dc=example,dc=test

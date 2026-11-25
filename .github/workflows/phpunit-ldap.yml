@@ -1,0 +1,57 @@
+name: OpenLDAP Integration Tests
+
+on:
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - 'src/Authentication/LDAP/**'
+      - 'src/Exceptions/LDAPException.php'
+      - 'src/Language/en/Auth.php'
+      - 'tests/Authentication/LDAP/**'
+      - 'tests/_support/LDAP/**'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.dist.xml'
+      - '.github/workflows/phpunit-ldap.yml'
+  push:
+    branches:
+      - develop
+    paths:
+      - 'src/Authentication/LDAP/**'
+      - 'src/Exceptions/LDAPException.php'
+      - 'src/Language/en/Auth.php'
+      - 'tests/Authentication/LDAP/**'
+      - 'tests/_support/LDAP/**'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.dist.xml'
+      - '.github/workflows/phpunit-ldap.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  main:
+    name: OpenLDAP Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
+        with:
+          php-version: '8.2'
+          extensions: ldap, intl, mbstring
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Test with OpenLDAP
+        run: bash tests/_support/LDAP/run-integration-tests.sh

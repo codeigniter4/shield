@@ -14,6 +14,7 @@ declare(strict_types=1);
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} non è un autenticatore valido.',
+    'ldapOperationFailed'   => 'L’operazione LDAP non è riuscita ({0}).',
     'unknownUserProvider'   => 'Impossibile determinare lo User Provider da usare.',
     'invalidUser'           => 'Impossibile trovere l\'utente specificato.',
     'bannedUser'            => 'Impossibile effettuare il login, l\'account è stato disabilitato.',

@@ -148,3 +148,4 @@ nav:
       - references/testing.md
   - Addons:
     - JWT Authentication: addons/jwt.md
+    - LDAP Authentication: addons/ldap.md

@@ -14,6 +14,7 @@ declare(strict_types=1);
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} は有効なオーセンティケーターではありません。', // '{0} is not a valid authenticator.'
+    'ldapOperationFailed'   => 'LDAP 操作に失敗しました（{0}）。',
     'unknownUserProvider'   => '使用するユーザープロバイダーを決定できません。', // 'Unable to determine the User Provider to use.'
     'invalidUser'           => '指定されたユーザーを見つけることができません。', // 'Unable to locate the specified user.'
     'bannedUser'            => '現在あなたはアクセスが禁止されているため、ログインできません。', // 'Can not log you in as you are currently banned.'

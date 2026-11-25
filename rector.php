@@ -49,6 +49,8 @@ return RectorConfig::configure()
     ])
     ->withBootstrapFiles([
         realpath(getcwd()) . '/vendor/codeigniter4/framework/system/Test/bootstrap.php',
+        // Load Config\Migrations before PHPStan's reflection can intercept its autoload.
+        realpath(getcwd()) . '/vendor/codeigniter4/framework/app/Config/Migrations.php',
     ])
     ->withPHPStanConfigs([
         __DIR__ . '/phpstan.dist.neon',

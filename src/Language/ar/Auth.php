@@ -14,6 +14,7 @@ declare(strict_types=1);
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} ليس توثيق صحيح.',
+    'ldapOperationFailed'   => 'فشلت عملية LDAP ({0}).',
     'unknownUserProvider'   => 'تعذر تحديد موفر المستخدم الذي يجب استخدامه.',
     'invalidUser'           => 'تعذر تحديد المستخدم المدخل.',
     'bannedUser'            => 'لا يمكن تسجيل الدخول حيث أن حسابك موقوف حالياً.',

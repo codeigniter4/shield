@@ -14,6 +14,7 @@ declare(strict_types=1);
 return [
     // Exceptions
     'unknownAuthenticator'  => '{0} is geen geldige authenticator.',
+    'ldapOperationFailed'   => 'De LDAP-bewerking is mislukt ({0}).',
     'unknownUserProvider'   => 'Kan geen geldige gebruikersprovider bepalen.',
     'invalidUser'           => 'Kan de opgegeven gebruiker niet vinden.',
     'bannedUser'            => 'Je kan niet inloggen omdat je account geblokkeerd is.',
