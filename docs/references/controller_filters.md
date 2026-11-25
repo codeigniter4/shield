@@ -31,8 +31,8 @@ $aliases = [
 | tokens      | Restricts access to users who are not authenticated by the `AccessTokens` authenticator.                                                                                                                                            |
 | chain       | The filter will check authenticators in sequence to see if the user is logged in through either of authenticators, allowing a single API endpoint to work for both an SPA using session auth, and a mobile app using access tokens. |
 | jwt         | Restricts access to users who are not authenticated by the `JWT` authenticator. See [JWT Authentication](../addons/jwt.md).                                                                                                         |
-| hmac        | Restricts access to users who are not authenticated by the `HMAC` authenticator. See [HMAC Authentication](../guides/api_hmac_keys.md).                                                                                                                    |
-| auth-rates  | Provides a good basis for rate limiting of auth-related routes.                                                                                                                                                                     |
+| hmac        | Restricts access to users who are not authenticated by the `HMAC` authenticator. See [HMAC Authentication](../guides/api_hmac_keys.md).                                                                                             |
+| auth-rates  | Provides a good basis for rate limiting of auth-related routes. Automatically applied to Shield's authentication action routes (`auth/a/*`).                                                                                        |
 | group       | Checks if the user is in one of the groups passed in.                                                                                                                                                                               |
 | permission  | Checks if the user has the passed permissions.                                                                                                                                                                                      |
 | force-reset | Checks if the user requires a password reset.                                                                                                                                                                                       |
@@ -57,17 +57,20 @@ public $globals = [
 
 ### Rate Limiting
 
-To help protect your authentication forms from being spammed by bots, it is recommended that you use
-the `auth-rates` filter on all of your authentication routes. This can be done with the following
-filter setup:
+To help protect your authentication forms from being spammed by bots, it is recommended that you use the `auth-rates` filter on all of your authentication routes.
+
+Shield automatically applies this filter to its authentication action routes (`auth/a/*`) when registering routes using `auth()->routes()`. No additional configuration is required for these routes.
+
+For other authentication routes, such as login and registration, you can configure the filter in your application's `Config\Filters.php`:
 
 ```php
 public $filters = [
     'auth-rates' => [
         'before' => [
-            'login*', 'register', 'auth/*'
-        ]
-    ]
+            'login*',
+            'register',
+        ],
+    ],
 ];
 ```
 

@@ -77,18 +77,21 @@ class AuthRoutes extends BaseConfig
                 'auth/a/show',
                 'ActionController::show',
                 'auth-action-show', // Route name
+                ['filter' => 'auth-rates'],
             ],
             [
                 'POST',
                 'auth/a/handle',
                 'ActionController::handle',
                 'auth-action-handle', // Route name
+                ['filter' => 'auth-rates'],
             ],
             [
                 'POST',
                 'auth/a/verify',
                 'ActionController::verify',
                 'auth-action-verify', // Route name
+                ['filter' => 'auth-rates'],
             ],
         ],
     ];

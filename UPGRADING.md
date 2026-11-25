@@ -32,6 +32,14 @@ HMAC tokens with an explicitly configured expiration date are now rejected durin
 
 HMAC tokens without an explicitly configured expiration date retain their existing behavior and remain subject to the configured `unusedTokenLifetime` restriction.
 
+### Default Rate Limiting for Authentication Action Routes
+
+Shield now automatically applies the `auth-rates` filter to its built-in authentication action routes (`auth/a/*`) when routes are registered using `auth()->routes()`.
+
+Applications no longer need to configure the `auth-rates` filter manually for these routes.
+
+If your application previously included `auth/*` in its `auth-rates` filter configuration solely to protect Shield's built-in authentication action routes, you can remove that pattern. Keep it if you also need to protect custom authentication routes.
+
 ## Version 1.2 to 1.3
 
 ### JWT: Minimum Key Length Now Enforced

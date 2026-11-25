@@ -111,4 +111,26 @@ final class AuthRoutesTest extends TestCase
 
         $this->assertSame('\Auth\RegisterController::registerView', $routes['register']);
     }
+
+    public function testAuthActionRoutesUseAuthRatesFilter(): void
+    {
+        $collection = single_service('routes');
+
+        service('auth')->routes($collection);
+
+        $this->assertContains(
+            'auth-rates',
+            (array) ($collection->getRoutesOptions('auth/a/show', 'GET')['filter'] ?? []),
+        );
+
+        $this->assertContains(
+            'auth-rates',
+            (array) ($collection->getRoutesOptions('auth/a/handle', 'POST')['filter'] ?? []),
+        );
+
+        $this->assertContains(
+            'auth-rates',
+            (array) ($collection->getRoutesOptions('auth/a/verify', 'POST')['filter'] ?? []),
+        );
+    }
 }

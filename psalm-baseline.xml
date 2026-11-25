@@ -69,6 +69,10 @@
                 'success' => false,
                 'reason'  => lang('Auth.oldToken'),
             ]]]></code>
+      <code><![CDATA[[
+                'success' => false,
+                'reason'  => lang('Auth.oldToken'),
+            ]]]></code>
     </InvalidArgument>
   </file>
   <file src="src/Authentication/Authenticators/JWT.php">
