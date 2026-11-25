@@ -23,15 +23,15 @@ use CodeIgniter\Shield\Models\UserIdentityModel;
 trait Resettable
 {
     /**
-     * Returns true|false based on the value of the
-     * force reset column of the user's identity.
+     * Checks whether the user's email/password identity requires a password reset.
+     * A user without that identity does not require a Shield password reset.
      */
     public function requiresPasswordReset(): bool
     {
         $identityModel = model(UserIdentityModel::class);
         $identity      = $identityModel->getIdentityByType($this, Session::ID_TYPE_EMAIL_PASSWORD);
 
-        return $identity->force_reset;
+        return $identity->force_reset ?? false;
     }
 
     /**

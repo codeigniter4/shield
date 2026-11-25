@@ -28,7 +28,10 @@ the following methods to do so.
 
 ### Check if a User Requires Password Reset
 
-When you need to check if a user requires password reset, you can do so using the `requiresPasswordReset()` method on the `User` entity. Returns boolean `true`/`false`.
+Call `requiresPasswordReset()` on the `User` entity to check whether its
+email/password identity requires a password reset. The method returns `false`
+for users without an email/password identity. These users can continue through
+the `force-reset` filter.
 
 ```php
 if ($user->requiresPasswordReset()) {

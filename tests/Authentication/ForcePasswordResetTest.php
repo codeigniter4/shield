@@ -62,6 +62,23 @@ final class ForcePasswordResetTest extends TestCase
         $this->assertTrue($user->requiresPasswordReset());
     }
 
+    public function testUserWithoutEmailPasswordIdentityDoesNotRequirePasswordReset(): void
+    {
+        $user = fake(UserModel::class);
+
+        $this->assertFalse($user->requiresPasswordReset());
+    }
+
+    public function testForceResetFilterAllowsUserWithoutEmailPasswordIdentity(): void
+    {
+        $user = fake(UserModel::class);
+
+        $result = $this->actingAs($user)->get('profile');
+
+        $result->assertStatus(200);
+        $result->assertSee('Profile');
+    }
+
     public function testForcePasswordResetOnUser(): void
     {
         $user = fake(UserModel::class);
