@@ -2,13 +2,27 @@
 
 ## Version 1.4 to 1.5
 
-### Base Classes Are Now Abstract
+### Security Fixes
 
-- `CodeIgniter\Shield\Authentication\Passwords\BaseValidator` is now `abstract`.
-  Code that instantiated it directly with `new BaseValidator()` will now throw
-  an `Error`.
-- `CodeIgniter\Shield\Config\BaseAuthToken` is now `abstract`. Code that
-  instantiated it directly with `new BaseAuthToken()` will now throw an `Error`.
+This release fixes security vulnerabilities. Upgrading is strongly recommended.
+
+#### HMAC Token Expiration Enforcement
+
+See [GHSA-mq48-cjch-9gvp](https://github.com/codeigniter4/shield/security/advisories/GHSA-mq48-cjch-9gvp).
+
+HMAC tokens with an explicitly configured expiration date are now rejected during authentication once they have expired. Previously, the `HmacSha256` authenticator did not enforce the configured expiration date, allowing expired tokens to remain usable if their signatures were valid.
+
+HMAC tokens without an explicitly configured expiration date retain their existing behavior and remain subject to the configured `unusedTokenLifetime` restriction.
+
+#### Default Rate Limiting for Authentication Action Routes
+
+See [GHSA-5j45-j4v6-34wj](https://github.com/codeigniter4/shield/security/advisories/GHSA-5j45-j4v6-34wj).
+
+Shield now automatically applies the `auth-rates` filter to its built-in authentication action routes (`auth/a/*`) when routes are registered using `auth()->routes()`.
+
+Applications no longer need to configure the `auth-rates` filter manually for these routes.
+
+If your application previously included `auth/*` in its `auth-rates` filter configuration solely to protect Shield's built-in authentication action routes, you can remove that pattern. Keep it if you also need to protect custom authentication routes.
 
 ### Login Timing Hardening
 
@@ -26,19 +40,13 @@ value. The command does not modify either file. Accounts with older password
 hash settings can still have different verification times until their hashes
 are upgraded.
 
-### HMAC Token Expiration Enforcement
+### Base Classes Are Now Abstract
 
-HMAC tokens with an explicitly configured expiration date are now rejected during authentication once they have expired. Previously, the `HmacSha256` authenticator did not enforce the configured expiration date, allowing expired tokens to remain usable if their signatures were valid.
-
-HMAC tokens without an explicitly configured expiration date retain their existing behavior and remain subject to the configured `unusedTokenLifetime` restriction.
-
-### Default Rate Limiting for Authentication Action Routes
-
-Shield now automatically applies the `auth-rates` filter to its built-in authentication action routes (`auth/a/*`) when routes are registered using `auth()->routes()`.
-
-Applications no longer need to configure the `auth-rates` filter manually for these routes.
-
-If your application previously included `auth/*` in its `auth-rates` filter configuration solely to protect Shield's built-in authentication action routes, you can remove that pattern. Keep it if you also need to protect custom authentication routes.
+- `CodeIgniter\Shield\Authentication\Passwords\BaseValidator` is now `abstract`.
+  Code that instantiated it directly with `new BaseValidator()` will now throw
+  an `Error`.
+- `CodeIgniter\Shield\Config\BaseAuthToken` is now `abstract`. Code that
+  instantiated it directly with `new BaseAuthToken()` will now throw an `Error`.
 
 ## Version 1.2 to 1.3
 
