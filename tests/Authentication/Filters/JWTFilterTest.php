@@ -92,4 +92,34 @@ final class JWTFilterTest extends DatabaseTestCase
         $this->assertSame($user->id, \auth('jwt')->id());
         $this->assertSame($user->id, \auth('jwt')->user()->id);
     }
+
+    public function testFilterRejectsOnlyTheRevokedToken(): void
+    {
+        /** @var User $user */
+        $user = \fake(UserModel::class);
+
+        $generator  = new JWTManager();
+        $firstToken = $generator->generateToken($user);
+        $otherToken = $generator->generateToken($user);
+
+        $this->withHeaders(['Authorization' => 'Bearer ' . $firstToken])
+            ->get('protected-route')
+            ->assertStatus(200);
+
+        $generator->revokeToken($firstToken);
+
+        $this->withHeaders(['Authorization' => 'Bearer ' . $firstToken])
+            ->get('protected-route')
+            ->assertStatus(401);
+
+        $this->withHeaders(['Authorization' => 'Bearer ' . $otherToken])
+            ->get('protected-route')
+            ->assertStatus(200);
+
+        $this->seeInDatabase('auth_token_logins', [
+            'id_type'    => JWT::ID_TYPE_JWT,
+            'identifier' => $firstToken,
+            'success'    => 0,
+        ]);
+    }
 }

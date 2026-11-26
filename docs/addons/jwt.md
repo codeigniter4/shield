@@ -141,6 +141,38 @@ If you don't want any logs, set it to `Auth::RECORD_LOGIN_ATTEMPT_NONE`.
 If you want to log all login attempts, set it to `Auth::RECORD_LOGIN_ATTEMPT_ALL`.
 It means you log all requests.
 
+### Configure JWT Revocation
+
+Shield stores JWT revocations in `auth_jwt_revocations`. To use a different
+table name, set the `jwt_revocations` entry in `Config\Auth::$tables` in
+**app/Config/Auth.php** before running the migration.
+
+Run Shield's migrations from the new release before it starts verifying JWTs.
+
+```console
+php spark migrate --all
+```
+
+The store uses `Config\Auth::$DBGroup`. Every instance that verifies the same
+JWTs must use the same revocation database. Route requests to the logout
+endpoint once all servers that verify these JWTs have been upgraded.
+
+Each protected request with a JWT that has a `jti` adds one database lookup
+for revocation after the signature and revocation claims pass validation.
+
+`JWTManager::issue()` and `JWTManager::generateToken()` automatically add a
+random token ID (`jti`) when the caller omits it. Signed JWTs with a `jti`
+require a non-empty string issuer (`iss`), a non-empty string `jti` of at most
+255 bytes, and an integer expiration time (`exp`, in Unix seconds). If you
+supply a `jti`, use a unique value for every token issued under the same
+issuer. Set a stable issuer in `$defaultClaims` and let the manager set
+`exp` from the configured lifetime, or pass an integer expiration claim
+when issuing a token.
+
+Legacy JWTs without a `jti` can still authenticate under the prior signature
+and time checks. Clients using these JWTs must obtain a newly issued JWT to
+use API logout.
+
 ## Issuing JWTs
 
 To use JWT Authentication, you need a controller that issues JWTs.
@@ -285,6 +317,99 @@ When the filter runs, it checks the `Authorization` header for a `Bearer` value
 that has the JWT. It then validates the token. If the token is valid, it can
 determine the correct user, which will then be available through an `auth()->user()`
 call.
+
+## Revoking the Current API Token
+
+Register the application-owned POST route in **app/Config/Routes.php**.
+
+```php
+$routes->post('api/logout', '\App\Controllers\Auth\JwtLogoutController::logout');
+```
+
+Apply the `jwt` filter to your protected API routes and keep this route outside
+that filter. If you currently apply `jwt` to all `api/*` paths, move the filter
+to the protected routes or a group that excludes this route. The logout
+controller verifies the bearer token through `JWTManager::revokeToken()`, so
+a repeat request with the same unexpired token can complete successfully.
+
+Create **app/Controllers/Auth/JwtLogoutController.php**.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controllers\Auth;
+
+use App\Controllers\BaseController;
+use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Shield\Authentication\JWT\Exceptions\InvalidTokenException;
+use CodeIgniter\Shield\Authentication\JWTManager;
+use CodeIgniter\Shield\Exceptions\RuntimeException;
+
+class JwtLogoutController extends BaseController
+{
+    public function logout(): ResponseInterface
+    {
+        $header = $this->request->getHeaderLine(config('AuthJWT')->authenticatorHeader);
+        $bearer = '/\ABearer[ \t]+([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)\z/i';
+        if (preg_match($bearer, $header, $matches) !== 1) {
+            return $this->unauthorized();
+        }
+
+        /** @var JWTManager $manager */
+        $manager = service('jwtmanager');
+
+        try {
+            $manager->revokeToken($matches[1]);
+        } catch (InvalidTokenException) {
+            return $this->unauthorized();
+        } catch (RuntimeException) {
+            return $this->response->setStatusCode(ResponseInterface::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        return $this->response->setStatusCode(ResponseInterface::HTTP_NO_CONTENT)->setBody('');
+    }
+
+    private function unauthorized(): ResponseInterface
+    {
+        return $this->response
+            ->setHeader('WWW-Authenticate', 'Bearer')
+            ->setStatusCode(ResponseInterface::HTTP_UNAUTHORIZED);
+    }
+}
+```
+
+For tokens issued with a custom key group, pass the trusted key group name as
+the second argument to `revokeToken()`.
+
+```bash
+curl -i -X POST https://api.example.com/api/logout \
+  -H "Authorization: Bearer $JWT"
+```
+
+Success returns `204 No Content`, including repeat requests made before the
+same token expires. Subsequent requests with that token fail verification in
+the `jwt` filter or `JWTManager::parse()`. Missing, malformed, invalid, and
+expired bearer tokens receive `401 Unauthorized`, as do signed JWTs without a
+`jti`. If Shield cannot store the revocation, the controller returns
+`503 Service Unavailable`.
+
+This operation revokes the presented JWT. Use the application's existing flows
+to end browser sessions or revoke refresh tokens.
+
+### Clean Up Expired Revocations
+
+The database stores a digest of the issuer and token ID with the expiration
+timestamp. JWTs with a `jti` use the signed `exp` as a strict cutoff without
+expiration leeway. Keep the clocks of verifying servers synchronized, and run
+the following from a scheduled application task to remove expired records.
+
+```php
+$removed = service('jwtmanager')->purgeExpiredRevocations();
+```
+
+The method returns the number of records removed.
 
 ## Method References
 

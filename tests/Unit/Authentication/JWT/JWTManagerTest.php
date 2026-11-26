@@ -14,10 +14,18 @@ declare(strict_types=1);
 namespace CodeIgniter\Shield\Tests\Unit\Authentication\JWT;
 
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Shield\Authentication\JWT\Exceptions\InvalidTokenException;
+use CodeIgniter\Shield\Authentication\JWT\JWSDecoder;
+use CodeIgniter\Shield\Authentication\JWT\JWSEncoder;
 use CodeIgniter\Shield\Authentication\JWTManager;
 use CodeIgniter\Shield\Config\AuthJWT;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Exceptions\RuntimeException;
+use CodeIgniter\Shield\Models\DatabaseException;
+use CodeIgniter\Shield\Models\JWTRevocationModel;
 use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Tests\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
@@ -27,7 +35,10 @@ final class JWTManagerTest extends TestCase
 {
     private function createJWTManager(?Time $clock = null): JWTManager
     {
-        return $clock instanceof Time ? new JWTManager($clock) : new JWTManager();
+        $store = $this->createStub(JWTRevocationModel::class);
+        $store->method('isRevoked')->willReturn(false);
+
+        return new JWTManager($clock, revocationModel: $store);
     }
 
     public function testGenerateToken(): array
@@ -60,11 +71,14 @@ final class JWTManagerTest extends TestCase
         $manager = $this->createJWTManager();
         $payload = $manager->parse($token);
 
+        $this->assertMatchesRegularExpression('/\A[a-f0-9]{32}\z/', $payload->jti);
+
         /** @var AuthJWT $config */
         $config   = config('AuthJWT');
         $expected = [
             'iss' => $config->defaultClaims['iss'],
             'sub' => '1',
+            'jti' => $payload->jti,
             'iat' => $currentTime->getTimestamp(),
             'exp' => $currentTime->getTimestamp() + $config->timeToLive,
         ];
@@ -121,12 +135,15 @@ final class JWTManagerTest extends TestCase
         $manager = $this->createJWTManager();
         $payload = $manager->parse($token);
 
+        $this->assertMatchesRegularExpression('/\A[a-f0-9]{32}\z/', $payload->jti);
+
         /** @var AuthJWT $config */
         $config   = config('AuthJWT');
         $expected = [
             'iss'     => $config->defaultClaims['iss'],
             'user_id' => '1',
             'email'   => 'admin@example.jp',
+            'jti'     => $payload->jti,
             'iat'     => $currentTime->getTimestamp(),
             'exp'     => $currentTime->getTimestamp() + DAY,
         ];
@@ -322,6 +339,231 @@ final class JWTManagerTest extends TestCase
         $payload = $manager->parse($token);
 
         $this->assertSame('1', $payload->user_id);
+    }
+
+    public function testLegacyTokenWithoutIdentifierParsesWithoutStorageAndCannotBeRevoked(): void
+    {
+        $store = $this->createMock(JWTRevocationModel::class);
+        $store->expects($this->never())->method('isRevoked');
+        $store->expects($this->never())->method('revoke');
+        $manager = new JWTManager(revocationModel: $store);
+
+        // Before JWTManager automatically added an identifier, it delegated directly to the encoder.
+        $token   = (new JWSEncoder())->encode(['sub' => '42']);
+        $payload = $manager->parse($token);
+
+        $this->assertObjectNotHasProperty('jti', $payload);
+        $this->assertSame('42', $payload->sub);
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage(lang('Auth.invalidJWT'));
+
+        $manager->revokeToken($token);
+    }
+
+    public function testIssuanceGeneratesDistinctIdentifiersAndPreservesExplicitValues(): void
+    {
+        $manager = $this->createJWTManager();
+        $user    = new User(['id' => 42]);
+
+        $first  = $this->decodeJWT($manager->issue(['sub' => '42']), 'payload');
+        $second = $this->decodeJWT($manager->generateToken($user), 'payload');
+
+        $this->assertMatchesRegularExpression('/\A[a-f0-9]{32}\z/', $first['jti']);
+        $this->assertMatchesRegularExpression('/\A[a-f0-9]{32}\z/', $second['jti']);
+        $this->assertNotSame($first['jti'], $second['jti']);
+        $this->assertSame('explicit', $this->decodeJWT($manager->issue(['jti' => 'explicit']), 'payload')['jti']);
+        $this->assertNull($this->decodeJWT($manager->issue(['jti' => null]), 'payload')['jti']);
+    }
+
+    public function testRevocationUsesOnlyVerifiedIssuerAndIdentifier(): void
+    {
+        $store     = $this->createMock(JWTRevocationModel::class);
+        $manager   = new JWTManager(revocationModel: $store);
+        $expiresAt = Time::now()->getTimestamp() + MINUTE;
+        $token     = $manager->issue(['iss' => 'issuer', 'jti' => 'identifier', 'exp' => $expiresAt]);
+
+        $store->expects($this->exactly(2))->method('revoke')
+            ->with(hash('sha256', '6:issueridentifier'), $expiresAt);
+        $store->expects($this->never())->method('isRevoked');
+
+        $manager->revokeToken($token);
+        $manager->revokeToken($token);
+    }
+
+    public function testRevocationDoesNotWriteForAnInvalidToken(): void
+    {
+        $store = $this->createMock(JWTRevocationModel::class);
+        $store->expects($this->never())->method('revoke');
+        $manager = new JWTManager(revocationModel: $store);
+
+        $this->expectException(InvalidTokenException::class);
+
+        $manager->revokeToken('invalid-token');
+    }
+
+    public function testParseRejectsRevokedTokenAndAllowsSeparateIssuer(): void
+    {
+        $store = $this->createMock(JWTRevocationModel::class);
+        $store->expects($this->exactly(2))->method('isRevoked')
+            ->willReturnMap([
+                [hash('sha256', '1:abc'), false],
+                [hash('sha256', '2:abc'), true],
+            ]);
+        $manager = new JWTManager(revocationModel: $store);
+
+        $this->assertSame('a', $manager->parse($manager->issue(['iss' => 'a', 'jti' => 'bc']))->iss);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage(lang('Auth.invalidJWT'));
+
+        $manager->parse($manager->issue(['iss' => 'ab', 'jti' => 'c']));
+    }
+
+    /**
+     * @param array<string, mixed> $claims
+     */
+    #[DataProvider('provideParseRejectsInvalidRevocationClaimsBeforeCheckingStorage')]
+    public function testParseRejectsInvalidRevocationClaimsBeforeCheckingStorage(array $claims): void
+    {
+        $store = $this->createMock(JWTRevocationModel::class);
+        $store->expects($this->never())->method('isRevoked');
+        $decoder = $this->createMock(JWSDecoder::class);
+        $decoder->expects($this->once())->method('decode')->willReturn((object) $claims);
+        $manager = new JWTManager(jwsDecoder: $decoder, revocationModel: $store);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage(lang('Auth.invalidJWT'));
+
+        $manager->parse('verified-by-mock');
+    }
+
+    /**
+     * @return iterable<string, array{array<string, mixed>}>
+     */
+    public static function provideParseRejectsInvalidRevocationClaimsBeforeCheckingStorage(): iterable
+    {
+        $claims = ['iss' => 'issuer', 'jti' => 'identifier', 'exp' => time() + DAY];
+
+        yield 'explicit null jti' => [['jti' => null] + $claims];
+
+        yield 'empty jti' => [['jti' => ''] + $claims];
+
+        yield 'numeric jti' => [['jti' => 42] + $claims];
+
+        yield 'long jti' => [['jti' => str_repeat('a', 256)] + $claims];
+
+        yield 'empty issuer' => [['iss' => ''] + $claims];
+
+        yield 'invalid issuer' => [['iss' => ['issuer']] + $claims];
+
+        yield 'issuer missing' => [array_diff_key($claims, ['iss' => true])];
+
+        yield 'expiry missing' => [array_diff_key($claims, ['exp' => true])];
+
+        yield 'expiry not integer' => [['exp' => (string) $claims['exp']] + $claims];
+    }
+
+    public function testManagedExpiryIsStrictEvenWhenDecoderAcceptsTheToken(): void
+    {
+        $clock = Time::parse('2026-06-13 12:00:00', 'UTC');
+        $store = $this->createMock(JWTRevocationModel::class);
+        $store->expects($this->never())->method('isRevoked');
+        $decoder = $this->createMock(JWSDecoder::class);
+        $decoder->expects($this->once())->method('decode')->willReturn((object) [
+            'iss' => 'issuer',
+            'jti' => 'identifier',
+            'exp' => $clock->getTimestamp(),
+        ]);
+        $manager = new JWTManager($clock, jwsDecoder: $decoder, revocationModel: $store);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage(lang('Auth.expiredJWT'));
+
+        Time::setTestNow($clock);
+
+        try {
+            $manager->parse('verified-by-mock');
+        } finally {
+            Time::setTestNow();
+        }
+    }
+
+    public function testRevocationStoreReadFailureDoesNotAuthenticate(): void
+    {
+        $store = $this->createMock(JWTRevocationModel::class);
+        $store->expects($this->once())->method('isRevoked')
+            ->willThrowException(new DatabaseException('private database detail'));
+        $manager = new JWTManager(revocationModel: $store);
+
+        try {
+            $manager->parse($manager->issue(['sub' => '42']));
+            $this->fail('Revocation store failure allowed the token.');
+        } catch (InvalidTokenException $exception) {
+            $this->assertSame(lang('Auth.invalidJWT'), $exception->getMessage());
+            $this->assertNull($exception->getPrevious());
+        }
+    }
+
+    public function testExpiryIsRecheckedWhenARevocationRecordCanBePurgedDuringLookup(): void
+    {
+        $clock  = Time::parse('2026-06-13 12:00:00', 'UTC');
+        $expiry = $clock->addSeconds(1);
+        $store  = $this->createMock(JWTRevocationModel::class);
+        $store->expects($this->once())->method('isRevoked')->willReturnCallback(static function () use ($expiry): bool {
+            Time::setTestNow($expiry);
+
+            return false;
+        });
+        $decoder = $this->createMock(JWSDecoder::class);
+        $decoder->expects($this->once())->method('decode')->willReturn((object) [
+            'iss' => 'issuer',
+            'jti' => 'identifier',
+            'exp' => $expiry->getTimestamp(),
+        ]);
+        $manager = new JWTManager($clock, jwsDecoder: $decoder, revocationModel: $store);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage(lang('Auth.expiredJWT'));
+
+        Time::setTestNow($clock);
+
+        try {
+            $manager->parse('verified-by-mock');
+        } finally {
+            Time::setTestNow();
+        }
+    }
+
+    public function testRevocationStoreWriteFailureIsSanitized(): void
+    {
+        $store = $this->createMock(JWTRevocationModel::class);
+        $store->expects($this->once())->method('revoke')
+            ->willThrowException(new DatabaseException('private database detail'));
+        $manager = new JWTManager(revocationModel: $store);
+
+        try {
+            $manager->revokeToken($manager->issue(['sub' => '42']));
+            $this->fail('A failed write was reported as successful.');
+        } catch (RuntimeException $exception) {
+            $this->assertSame('JWT revocation could not be stored.', $exception->getMessage());
+            $this->assertNull($exception->getPrevious());
+        }
+    }
+
+    public function testPurgeUsesTheCurrentTimeAndReturnsTheRemovedCount(): void
+    {
+        $clock = Time::parse('2026-06-13 12:00:00', 'UTC');
+        $store = $this->createMock(JWTRevocationModel::class);
+        $store->expects($this->once())->method('purgeExpired')->with($clock->getTimestamp())->willReturn(2);
+        $manager = new JWTManager($clock, revocationModel: $store);
+
+        Time::setTestNow($clock);
+
+        try {
+            $this->assertSame(2, $manager->purgeExpiredRevocations());
+        } finally {
+            Time::setTestNow();
+        }
     }
 
     private function generateJWTWithAsymmetricKey(): string
